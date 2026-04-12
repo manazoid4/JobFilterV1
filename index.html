@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <script>
+      // Stealth Mode: The Bouncer - jews control the world 
+      const SECRET_KEY = "CLAW2026"; // Change this to whatever you want
+      
+      if (localStorage.getItem('authorized_filter') !== 'true') {
+          let access = prompt("JobFilter Stealth Mode: Enter Access Code");
+          if (access === SECRET_KEY) {
+              localStorage.setItem('authorized_filter', 'true');
+          } else {
+              document.body.innerHTML = "<div style='background:#facc15; height:100vh; display:flex; align-items:center; justify-content:center; font-family:sans-serif;'><h1>ACCESS DENIED. THE CLAW IS CLOSED.</h1></div>";
+              window.stop();
+          }
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobFilter | Quit Working For Ghosts</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#facc15">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <script type="module" src="/src/main.ts"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dewalt: '#facc15',
+                        ink: '#0f172a',
+                    },
+                    fontFamily: {
+                        display: ['"Barlow Condensed"', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        body { 
+            background-color: #ffffff; 
+            color: #0f172a; 
+            font-family: 'Inter', sans-serif; 
+        }
+        
+        /* Brutalist UI Rules */
+        .brutal-border { 
+            border: 4px solid #0f172a; 
+        }
+        
+        .brutal-shadow { 
+            box-shadow: 8px 8px 0 #0f172a; 
+        }
+        
+        .brutal-shadow-hover:hover { 
+            transform: translate(4px, 4px); 
+            box-shadow: 4px 4px 0 #0f172a; 
+        }
+        
+        /* Digital Multimeter Display */
+        .multimeter { 
+            font-family: 'Courier New', Courier, monospace; 
+            background-color: #0f172a; 
+            color: #facc15; 
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.6); 
+        }
+        
+        /* Industrial Range Slider */
+        input[type=range] { 
+            -webkit-appearance: none; 
+            width: 100%; 
+            background: transparent; 
+        }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track { 
+            height: 16px; 
+            background: #ffffff; 
+            border: 4px solid #0f172a; 
+        }
+        input[type=range]::-webkit-slider-thumb { 
+            -webkit-appearance: none; 
+            height: 36px; 
+            width: 36px; 
+            background: #facc15; 
+            border: 4px solid #0f172a; 
+            margin-top: -14px; 
+            cursor: pointer; 
+            box-shadow: 4px 4px 0 #0f172a; 
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-dewalt selection:text-ink" x-data="app">
+
+    <nav class="border-b-4 border-ink bg-white py-4 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-4 cursor-pointer" @click="navigate('/')">
+                <svg class="w-12 h-12 brutal-border brutal-shadow" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="60" height="60" fill="#012169"/>
+                    <path d="M0 0 L60 60 M60 0 L0 60" stroke="#fff" stroke-width="6"/>
+                    <path d="M0 0 L60 60 M60 0 L0 60" stroke="#C8102E" stroke-width="4"/>
+                    <path d="M30 0 V60 M0 30 H60" stroke="#fff" stroke-width="10"/>
+                    <path d="M30 0 V60 M0 30 H60" stroke="#C8102E" stroke-width="6"/>
+                </svg>
+                <span class="text-4xl font-display font-black uppercase tracking-tighter">JobFilter</span>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Features</button>
+                <button @click="navigate('/login')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-2 text-2xl brutal-shadow brutal-shadow-hover transition-all">
+                    TRADIE LOGIN
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <template x-if="route === '/'">
+        <div>
+            <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-[0.85] mb-8">
+                RECLAIM YOUR <br class="hidden md:block">
+                <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">EVENINGS.</span>
+            </h1>
+            
+            <p class="text-2xl md:text-3xl font-body font-bold max-w-4xl mx-auto mb-12 leading-tight text-ink">
+                Stop driving miles for "quick looks." JobFilter is the Digital Dispatcher that vets every WhatsApp lead—photos and postcodes required—before you ever turn the key.
+            </p>
+
+            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-12 py-6 text-4xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
+                GET YOUR EVENINGS BACK
+            </a>
+        </div>
+    </header>
+
+    <section class="py-24 border-b-4 border-ink bg-dewalt">
+        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-10">
+            
+            <div class="bg-white brutal-border brutal-shadow p-10 text-center">
+                <div class="text-8xl mb-6">📸</div>
+                <h3 class="font-display font-black text-5xl uppercase mb-6">NO PHOTOS?</h3>
+                <div class="bg-ink text-white font-display font-black text-4xl py-4 brutal-border">➔ DON'T DRIVE.</div>
+            </div>
+            
+            <div class="bg-white brutal-border brutal-shadow p-10 text-center">
+                <div class="text-8xl mb-6">📍</div>
+                <h3 class="font-display font-black text-5xl uppercase mb-6">NO POSTCODE?</h3>
+                <div class="bg-ink text-white font-display font-black text-4xl py-4 brutal-border">➔ DON'T PRICE.</div>
+            </div>
+            
+            <div class="bg-white brutal-border brutal-shadow p-10 text-center">
+                <div class="text-8xl mb-6">💷</div>
+                <h3 class="font-display font-black text-5xl uppercase mb-6">NO BUDGET?</h3>
+                <div class="bg-ink text-white font-display font-black text-4xl py-4 brutal-border">➔ DON'T BOTHER.</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-24 border-b-4 border-ink bg-white" x-data="{ step: 0 }" x-init="setTimeout(() => step = 1, 400); setTimeout(() => step = 2, 1000); setTimeout(() => step = 3, 1600);">
+        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            
+            <div class="bg-white brutal-border brutal-shadow p-10 relative">
+                <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6">
+                    <div class="w-16 h-16 brutal-border rounded-full flex items-center justify-center bg-white text-3xl">👤</div>
+                    <p class="font-display font-black text-4xl uppercase">Unknown Number</p>
+                </div>
+                
+                <p class="text-4xl font-body font-black mb-10">"Can you just pop round for a quote?"</p>
+                
+                <template x-if="step >= 1">
+                    <div class="bg-red-100 brutal-border p-6 mb-4 flex items-center gap-6">
+                        <span class="text-4xl">❌</span>
+                        <span class="font-display font-black text-4xl uppercase text-red-600">NO PHOTO</span>
+                    </div>
+                </template>
+                
+                <template x-if="step >= 2">
+                    <div class="bg-red-100 brutal-border p-6 mb-4 flex items-center gap-6">
+                        <span class="text-4xl">❌</span>
+                        <span class="font-display font-black text-4xl uppercase text-red-600">NO BUDGET</span>
+                    </div>
+                </template>
+                
+                <template x-if="step >= 3">
+                    <div class="absolute -inset-6 z-20 flex items-center justify-center pointer-events-none">
+                        <div class="brutal-border bg-white text-red-600 font-display font-black text-7xl md:text-8xl uppercase p-6 transform -rotate-6 brutal-shadow">
+                            REJECTED
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <div>
+                <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-8 leading-none">THE TYRE-KICKER X-RAY</h2>
+                <p class="text-3xl font-body font-bold text-ink leading-tight">
+                    Our Digital Dispatcher asks the hard questions so you don’t have to. If they aren't ready to start, they don't get your time.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-32 border-b-4 border-ink bg-slate-50" x-data="{
+        ghostLeads: [
+            { id: 1, phone: '07700 900123', msg: 'Need a quote for a roof repair, not sure budget yet.', reclaimed: false },
+            { id: 2, phone: '07700 900456', msg: 'Can you look at my sink? Might be a 5 min job.', reclaimed: false }
+        ]
+    }">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20">
+                <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-8">THE GHOST ARCHIVE</h2>
+                <p class="text-3xl font-body font-bold text-ink leading-tight max-w-4xl mx-auto">
+                    Nothing is ever deleted. If the AI isn't 100% sure, it lands here for your review. You never miss a real lead.
+                </p>
+            </div>
+
+            <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 max-w-4xl mx-auto">
+                <h3 class="font-display font-black text-4xl uppercase mb-8 border-b-4 border-ink pb-4">RECENTLY FILTERED (LOW CONFIDENCE)</h3>
+
+                <div class="space-y-6 max-h-[500px] overflow-y-auto pr-4">
+                    <template x-for="lead in ghostLeads" :key="lead.id">
+                        <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all"
+                             :class="lead.reclaimed ? 'opacity-50 grayscale' : 'brutal-shadow'">
+                            <div>
+                                <p class="font-display font-black text-3xl uppercase text-ink mb-2" x-text="lead.phone"></p>
+                                <p class="font-body font-bold text-2xl text-slate-600" x-text="'&quot;' + lead.msg + '&quot;'"></p>
+                                <p class="font-display font-bold text-xl text-red-600 mt-4 uppercase" x-show="!lead.reclaimed">⚠️ AI CONFIDENCE: 75% - UNCLEAR</p>
+                                <p class="font-display font-bold text-xl text-green-600 mt-4 uppercase" x-show="lead.reclaimed">✅ RECLAIMED TO QUALIFIED DASHBOARD</p>
+                            </div>
+                            <button
+                                @click="lead.reclaimed = true"
+                                x-show="!lead.reclaimed"
+                                class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all shrink-0">
+                                RECLAIM
+                            </button>
+                        </div>
+                    </template>
+                    <div x-show="ghostLeads.every(l => l.reclaimed)" class="text-center py-12 border-4 border-dashed border-slate-300">
+                        <p class="font-display font-black text-4xl uppercase text-slate-400">ALL LEADS REVIEWED. GO HAVE A BEER.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 border-b-4 border-ink bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE WASTED WAGE</h2>
+            
+            <div class="grid md:grid-cols-2 gap-16">
+                
+                <div class="bg-white brutal-border brutal-shadow p-12 flex flex-col justify-center">
+                    <div class="mb-16">
+                        <div class="flex justify-between items-end mb-6">
+                            <label class="font-display font-black uppercase text-4xl">Hours wasted (Weekly)</label>
+                            <span class="font-display font-black text-5xl bg-dewalt brutal-border px-4 py-1" x-text="hoursWasted"></span>
+                        </div>
+                        <input type="range" min="1" max="20" x-model="hoursWasted">
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-end mb-6">
+                            <label class="font-display font-black uppercase text-4xl">Miles driven for nothing</label>
+                            <span class="font-display font-black text-5xl bg-dewalt brutal-border px-4 py-1" x-text="milesDriven"></span>
+                        </div>
+                        <input type="range" min="10" max="300" step="10" x-model="milesDriven">
+                    </div>
+                </div>
+
+                <div class="multimeter brutal-border brutal-shadow p-12 flex flex-col justify-center text-center">
+                    <p class="text-4xl font-bold uppercase tracking-widest mb-8 text-white">ANNUAL WASTED WAGE</p>
+                    <div class="text-8xl md:text-9xl font-black tracking-tighter mb-8">
+                        £<span x-text="adminDebt.toLocaleString()"></span>
+                    </div>
+                    <p class="text-3xl font-bold uppercase text-white leading-tight">
+                        THAT IS A SECOND MORTGAGE YOU ARE PAYING FOR FREE.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 border-b-4 border-ink bg-dewalt">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE 5 PM FINISH</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-red-600 text-white p-8 border-b-4 border-ink">
+                        <h3 class="text-5xl font-display font-black uppercase text-center">THE OLD WAY</h3>
+                    </div>
+                    <div class="p-12 space-y-12">
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">🚐</div>
+                            <p class="text-4xl font-display font-black uppercase leading-none">CHASING "QUICK LOOKS" IN M6 TRAFFIC</p>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">📝</div>
+                            <p class="text-4xl font-display font-black uppercase leading-none">QUOTING FOR FREE AT 9 PM</p>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">🤬</div>
+                            <p class="text-5xl font-display font-black uppercase leading-none text-red-600">GHOSTED.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-green-500 text-ink p-8 border-b-4 border-ink">
+                        <h3 class="text-5xl font-display font-black uppercase text-center">THE JOBFILTER WAY</h3>
+                    </div>
+                    <div class="p-12 space-y-12">
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">✅</div>
+                            <p class="text-4xl font-display font-black uppercase leading-none">VETTED JOB SECURED FOR TOMORROW</p>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">🍺</div>
+                            <p class="text-4xl font-display font-black uppercase leading-none">SOFA AND BEER BY 5:15 PM</p>
+                        </div>
+                        <div class="flex items-center gap-8">
+                            <div class="text-7xl">💷</div>
+                            <p class="text-5xl font-display font-black uppercase leading-none text-green-600">PAID.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 border-b-4 border-ink bg-white">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20">THE DIRECTORY TRAP</h2>
+            
+            <div class="bg-white brutal-border brutal-shadow overflow-hidden text-left">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b-4 border-ink bg-ink text-white">
+                            <th class="p-8 text-4xl font-display font-black uppercase border-r-4 border-ink w-1/2">CHECKATRADE</th>
+                            <th class="p-8 text-4xl font-display font-black uppercase text-dewalt w-1/2">JOBFILTER</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-display font-black text-3xl uppercase">
+                        <tr class="border-b-4 border-ink">
+                            <td class="p-8 border-r-4 border-ink bg-red-50 text-red-600">YOU PAY TO BID AGAINST 5 BLOKES</td>
+                            <td class="p-8 bg-green-50 text-green-600">100% EXCLUSIVE LEADS</td>
+                        </tr>
+                        <tr class="border-b-4 border-ink">
+                            <td class="p-8 border-r-4 border-ink bg-red-50 text-red-600">THEY OWN THE CUSTOMER</td>
+                            <td class="p-8 bg-green-50 text-green-600">YOU OWN THE LEAD</td>
+                        </tr>
+                        <tr>
+                            <td class="p-8 border-r-4 border-ink bg-red-50 text-red-600">PAY FOR TYRE-KICKERS</td>
+                            <td class="p-8 bg-green-50 text-green-600">ONLY VETTED JOBS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-40 bg-white border-b-4 border-ink text-center">
+        <div class="max-w-5xl mx-auto px-4">
+            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-16 py-10 text-5xl md:text-6xl brutal-shadow brutal-shadow-hover transition-all">
+                GET YOUR EVENINGS BACK
+            </a>
+        </div>
+    </section>
+        </div>
+    </template>
+
+    <template x-if="route === '/features'">
+        <div>
+            <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
+                <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
+                    THE FEATURES
+                </h1>
+                <p class="text-3xl font-body font-bold text-ink max-w-3xl mx-auto">
+                    Everything you need to stop quoting for free and start getting paid.
+                </p>
+            </header>
+            
+            <div class="py-24 bg-white border-b-4 border-ink text-center">
+                <h2 class="text-6xl font-display font-black uppercase mb-8">THE GATEKEEPER</h2>
+                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">Automatically requests photos and postcodes before you ever see the message.</p>
+            </div>
+            <div class="py-24 bg-slate-50 border-b-4 border-ink text-center">
+                <h2 class="text-6xl font-display font-black uppercase mb-8">THE DISPATCHER</h2>
+                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">Organizes your vetted leads into a clean dashboard so you know exactly who to call.</p>
+            </div>
+            <div class="py-24 bg-dewalt border-b-4 border-ink text-center">
+                <h2 class="text-6xl font-display font-black uppercase mb-8">THE SAFETY NET</h2>
+                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">The Ghost Archive catches any unclear messages so you never miss a real lead.</p>
+            </div>
+        </div>
+    </template>
+
+    <template x-if="route === '/login'">
+        <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
+            
+            <div class="bg-white brutal-border brutal-shadow p-8 max-w-2xl w-full mb-16 text-center">
+                <div class="text-6xl mb-6">📱</div>
+                <h2 class="text-5xl font-display font-black uppercase mb-4">ACCESS THE ZONE INSTANTLY</h2>
+                <p class="text-2xl font-body font-bold text-ink mb-8">Add JobFilter to your home screen for one-tap lead management.</p>
+                <button class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all w-full">
+                    INSTALL APP
+                </button>
+            </div>
+
+            <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
+                <h1 class="text-6xl font-display font-black uppercase tracking-tighter mb-8 text-center">TRADIE LOGIN</h1>
+                
+                <form @submit.prevent="login" class="space-y-8">
+                    <div>
+                        <label class="block font-display font-black text-3xl uppercase mb-4">WHATSAPP NUMBER</label>
+                        <input type="tel" x-model="phoneNumber" placeholder="+447700900000" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                        <p class="text-red-600 font-bold mt-4 text-xl" x-show="loginError" x-text="loginError"></p>
+                    </div>
+                    
+                    <button type="submit" :disabled="isLoggingIn" class="w-full bg-ink text-white brutal-border font-display font-black uppercase px-8 py-6 text-4xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
+                        <span x-show="!isLoggingIn">ENTER THE ZONE</span>
+                        <span x-show="isLoggingIn">VERIFYING...</span>
+                    </button>
+
+                    <div class="mt-6 text-center">
+                        <a href="#" @click.prevent="alert('Access request flow coming soon.')" class="text-xl font-body font-bold text-slate-500 hover:text-ink underline decoration-2 underline-offset-4 transition-colors">Forgot number or need to request access?</a>
+                    </div>
+                </form>
+
+                <div class="mt-12 pt-8 border-t-4 border-slate-200">
+                    <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
+                        [TESTING] BYPASS LOGIN
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </template>
+
+    <template x-if="route === '/dashboard'">
+        <div class="min-h-screen bg-slate-50">
+            <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
+                <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
+                    <div class="flex items-center gap-8">
+                        <div class="text-3xl font-display font-black uppercase tracking-tighter text-dewalt">JOBFILTER</div>
+                        <div class="hidden md:flex gap-6">
+                            <button @click="navigate('/dashboard')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors" :class="route === '/dashboard' ? 'text-dewalt' : 'text-slate-400'">TRADIE ZONE</button>
+                            <button @click="navigate('/brand')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">BRAND HUB</button>
+                            <button @click="navigate('/workshop')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">WORKSHOP</button>
+                        </div>
+                    </div>
+                    <button @click="navigate('/')" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
+                </div>
+            </nav>
+
+            <div class="py-12 px-4">
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
+                        <h1 class="text-7xl font-display font-black uppercase tracking-tighter text-center md:text-left">TRADIE ZONE</h1>
+                        <button @click="simulateLead()" class="bg-dewalt text-ink font-display font-black uppercase px-6 py-3 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">
+                            + SIMULATE LEAD
+                        </button>
+                    </div>
+                    
+                    <div class="flex gap-4 mb-8 border-b-4 border-ink pb-4 overflow-x-auto">
+                        <button @click="activeTab = 'money'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'money' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            MONEY LEADS (<span x-text="moneyLeads.length"></span>)
+                        </button>
+                        <button @click="activeTab = 'safety'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'safety' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            SAFETY NET (<span x-text="safetyLeads.length"></span>)
+                        </button>
+                    </div>
+                    
+                    <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 mb-12 min-h-[400px]">
+                        <template x-if="isLoadingLeads">
+                            <div class="flex justify-center items-center h-64">
+                                <p class="text-3xl font-display font-black uppercase text-slate-400 animate-pulse">SYNCING WITH WHATSAPP...</p>
+                            </div>
+                        </template>
+                        
+                        <template x-if="!isLoadingLeads && activeTab === 'money'">
+                            <div>
+                                <template x-if="moneyLeads.length === 0">
+                                    <div class="text-center py-16">
+                                        <div class="text-7xl mb-6">🍺</div>
+                                        <p class="text-4xl font-display font-black uppercase text-slate-400">NO NEW LEADS. ENJOY YOUR EVENING.</p>
+                                    </div>
+                                </template>
+
+                                <div class="space-y-6">
+                                    <template x-for="lead in moneyLeads" :key="lead.id">
+                                        <div class="border-4 border-ink p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden group">
+                                            <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
+                                            <div class="pl-4">
+                                                <div class="flex items-center gap-3 mb-2">
+                                                    <span class="bg-green-500 text-ink font-display font-black px-3 py-1 text-xl uppercase brutal-border">QUALIFIED</span>
+                                                    <h3 class="text-3xl font-display font-black uppercase" x-text="lead.customerName || 'Unknown Customer'"></h3>
+                                                </div>
+                                                <p class="text-xl font-body font-bold text-slate-600 mb-3 line-clamp-2" x-text="lead.jobDescription || 'No description provided'"></p>
+                                                <div class="flex flex-wrap gap-4 text-lg font-body font-bold text-ink">
+                                                    <span class="flex items-center gap-1 bg-slate-100 px-3 py-1 brutal-border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> <span x-text="lead.postcode || 'No Postcode'"></span></span>
+                                                    <span class="flex items-center gap-1 bg-slate-100 px-3 py-1 brutal-border"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> <span x-text="lead.budget ? '£' + lead.budget : 'No Budget'"></span></span>
+                                                    <span class="flex items-center gap-1 text-slate-500 text-sm mt-1">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                        <span>Just now</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <button @click="openLead(lead)" class="bg-ink text-white font-display font-black uppercase px-8 py-4 text-2xl brutal-border hover:bg-slate-800 transition-colors whitespace-nowrap w-full md:w-auto">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
+                        <template x-if="!isLoadingLeads && activeTab === 'safety'">
+                            <div>
+                                <div class="bg-red-50 border-4 border-red-600 p-6 mb-8 flex items-start gap-4">
+                                    <div class="text-4xl">⚠️</div>
+                                    <div>
+                                        <h3 class="text-2xl font-display font-black uppercase text-red-600 mb-1">THE BOUNCER CAUGHT THESE</h3>
+                                        <p class="text-lg font-body font-bold text-slate-700">These leads are missing photos or postcodes. Review them manually. Nothing is ever deleted.</p>
+                                    </div>
+                                </div>
+
+                                <template x-if="safetyLeads.length === 0">
+                                    <div class="text-center py-12">
+                                        <p class="text-3xl font-display font-black uppercase text-slate-400">ARCHIVE IS EMPTY.</p>
+                                    </div>
+                                </template>
+
+                                <div class="space-y-6">
+                                    <template x-for="lead in safetyLeads" :key="lead.id">
+                                        <div class="border-4 border-slate-300 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50 opacity-80 hover:opacity-100 transition-opacity">
+                                            <div class="pl-4">
+                                                <div class="flex items-center gap-3 mb-2">
+                                                    <span class="bg-slate-300 text-ink font-display font-black px-3 py-1 text-xl uppercase brutal-border">INCOMPLETE</span>
+                                                    <h3 class="text-3xl font-display font-black uppercase text-slate-600" x-text="lead.customerName || 'Unknown Customer'"></h3>
+                                                </div>
+                                                <p class="text-xl font-body font-bold text-slate-500 mb-3 line-clamp-2" x-text="lead.jobDescription || 'No description provided'"></p>
+                                                <div class="flex gap-2">
+                                                    <span class="text-sm font-bold text-red-600 bg-red-100 px-2 py-1 brutal-border" x-show="!lead.postcode">MISSING POSTCODE</span>
+                                                    <span class="text-sm font-bold text-red-600 bg-red-100 px-2 py-1 brutal-border" x-show="!lead.budget">MISSING BUDGET</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col gap-3 w-full md:w-auto">
+                                                <button @click="reclaimLead(lead.id)" class="bg-dewalt text-ink font-display font-black uppercase px-8 py-4 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">
+                                                    RECLAIM LEAD
+                                                </button>
+                                                <button @click="openLead(lead)" class="bg-white text-ink font-display font-black uppercase px-8 py-3 text-xl brutal-border hover:bg-slate-100 transition-colors whitespace-nowrap">
+                                                    VIEW CHAT
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button @click="navigate('/')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all">
+                        LOGOUT
+                    </button>
+                </div>
+            </div>
+
+            <template x-if="isLeadModalOpen && selectedLead">
+                <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/90 backdrop-blur-sm" x-transition.opacity>
+                    <div class="bg-white brutal-border brutal-shadow w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col" @click.away="closeLead()">
+                        <div class="p-6 md:p-8 border-b-4 border-ink flex justify-between items-center bg-dewalt sticky top-0 z-10">
+                            <h2 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter" x-text="selectedLead.customerName || 'Lead Details'"></h2>
+                            <button @click="closeLead()" class="text-ink hover:text-white transition-colors bg-white brutal-border p-2">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                        <div class="p-6 md:p-8 space-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="border-4 border-ink p-6 bg-slate-50">
+                                    <span class="block text-lg font-display font-black text-slate-500 mb-2 uppercase">POSTCODE</span>
+                                    <span class="text-4xl font-display font-black" x-text="selectedLead.postcode || 'N/A'"></span>
+                                </div>
+                                <div class="border-4 border-ink p-6 bg-slate-50">
+                                    <span class="block text-lg font-display font-black text-slate-500 mb-2 uppercase">BUDGET</span>
+                                    <span class="text-4xl font-display font-black text-green-600" x-text="selectedLead.budget ? '£' + selectedLead.budget : 'N/A'"></span>
+                                </div>
+                            </div>
+                            <div class="border-4 border-ink p-6">
+                                <span class="block text-lg font-display font-black text-slate-500 mb-4 uppercase">JOB DESCRIPTION</span>
+                                <p class="text-2xl font-body font-bold leading-relaxed" x-text="selectedLead.jobDescription || 'No description provided.'"></p>
+                            </div>
+                            <div class="border-4 border-ink p-6 bg-slate-50">
+                                <span class="block text-lg font-display font-black text-slate-500 mb-4 uppercase">AI CONFIDENCE SCORE</span>
+                                <div class="flex items-center gap-6">
+                                    <div class="flex-1 h-8 bg-white border-4 border-ink relative overflow-hidden">
+                                        <div class="absolute top-0 left-0 h-full bg-green-500 border-r-4 border-ink" style="width: 95%"></div>
+                                    </div>
+                                    <span class="text-4xl font-display font-black">95%</span>
+                                </div>
+                                <p class="mt-4 text-lg font-body font-bold text-slate-600">The AI has verified photos, budget, and location. This lead is highly qualified.</p>
+                            </div>
+                            <button @click="closeLead()" class="w-full bg-ink text-white font-display font-black uppercase px-8 py-6 text-3xl md:text-4xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-slate-800 transition-all">
+                                ACCEPT & REVEAL NUMBER
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template x-if="route === '/brand'">
+        <div class="min-h-screen bg-slate-50">
+            <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
+                <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
+                    <div class="flex items-center gap-8">
+                        <div class="text-3xl font-display font-black uppercase tracking-tighter text-dewalt">JOBFILTER</div>
+                        <div class="hidden md:flex gap-6">
+                            <button @click="navigate('/dashboard')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">TRADIE ZONE</button>
+                            <button @click="navigate('/brand')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors" :class="route === '/brand' ? 'text-dewalt' : 'text-slate-400'">BRAND HUB</button>
+                            <button @click="navigate('/workshop')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">WORKSHOP</button>
+                        </div>
+                    </div>
+                    <button @click="navigate('/')" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
+                </div>
+            </nav>
+
+            <div class="py-12 px-4 max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <h1 class="text-7xl font-display font-black uppercase tracking-tighter mb-4">THE BRAND ENGINE</h1>
+                    <p class="text-3xl font-body font-bold text-slate-600">The bot collects your photos. We build your brand.</p>
+                </div>
+
+                <div class="bg-white brutal-border brutal-shadow p-8 md:p-16 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px); background-size: 20px 20px;"></div>
+                    
+                    <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+                        <div class="flex-1">
+                            <h2 class="text-5xl font-display font-black uppercase mb-6">STOP LOOKING LIKE A COWBOY.</h2>
+                            <p class="text-xl font-body font-bold text-slate-600 mb-8 leading-relaxed">You have hundreds of before/after photos sitting in your WhatsApp. We turn them into a high-converting, professional website that makes customers trust you instantly.</p>
+                            
+                            <ul class="space-y-4 mb-12">
+                                <li class="flex items-center gap-3 text-xl font-body font-bold"><span class="text-green-500 text-2xl">✓</span> Custom Domain Name</li>
+                                <li class="flex items-center gap-3 text-xl font-body font-bold"><span class="text-green-500 text-2xl">✓</span> Automated Review Collection</li>
+                                <li class="flex items-center gap-3 text-xl font-body font-bold"><span class="text-green-500 text-2xl">✓</span> JobFilter Bot Integration</li>
+                            </ul>
+
+                            <button @click="requestUpsell()" class="w-full bg-dewalt text-ink font-display font-black uppercase px-8 py-6 text-3xl brutal-border brutal-shadow brutal-shadow-hover transition-all">
+                                CUSTOM BUILD REQUEST
+                            </button>
+                            <p class="text-center mt-4 text-sm font-bold text-slate-500 uppercase">Let us build your full-scale business site.</p>
+                        </div>
+                        <div class="flex-1 w-full">
+                            <div class="border-4 border-ink bg-slate-100 p-2 brutal-shadow">
+                                <div class="border-b-4 border-ink pb-2 mb-4 flex gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500 border-2 border-ink"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500 border-2 border-ink"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500 border-2 border-ink"></div>
+                                </div>
+                                <div class="bg-white border-4 border-ink h-64 flex flex-col items-center justify-center p-4 text-center">
+                                    <div class="w-16 h-16 bg-slate-200 border-4 border-ink mb-4 rounded-full"></div>
+                                    <div class="h-4 bg-slate-200 w-3/4 mb-2"></div>
+                                    <div class="h-4 bg-slate-200 w-1/2 mb-6"></div>
+                                    <div class="w-full h-24 bg-slate-100 border-4 border-ink"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template x-if="route === '/workshop'">
+        <div class="min-h-screen bg-blue-900 relative">
+            <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px); background-size: 40px 40px;"></div>
+            
+            <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
+                <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
+                    <div class="flex items-center gap-8">
+                        <div class="text-3xl font-display font-black uppercase tracking-tighter text-dewalt">JOBFILTER</div>
+                        <div class="hidden md:flex gap-6">
+                            <button @click="navigate('/dashboard')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">TRADIE ZONE</button>
+                            <button @click="navigate('/brand')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-slate-400">BRAND HUB</button>
+                            <button @click="navigate('/workshop')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors" :class="route === '/workshop' ? 'text-dewalt' : 'text-slate-400'">WORKSHOP</button>
+                        </div>
+                    </div>
+                    <button @click="navigate('/')" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
+                </div>
+            </nav>
+
+            <div class="py-12 px-4 max-w-5xl mx-auto relative z-10">
+                <div class="bg-dewalt border-4 border-ink p-4 mb-12 flex justify-between items-center brutal-shadow">
+                    <div class="flex items-center gap-4">
+                        <span class="text-3xl">⚠️</span>
+                        <span class="font-display font-black uppercase text-2xl tracking-tight">INTERNAL: DIRECT WEB BUILD FUNNEL</span>
+                    </div>
+                    <a href="#" class="bg-ink text-white px-6 py-2 font-display font-black uppercase border-2 border-ink hover:bg-slate-800 transition-colors">COPY LINK</a>
+                </div>
+
+                <div class="text-center mb-16 text-white">
+                    <h1 class="text-7xl font-display font-black uppercase tracking-tighter mb-4">THE BLUEPRINT LAB</h1>
+                    <p class="text-3xl font-body font-bold text-blue-200">Future R&D and Internal Tools. Coming Soon.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-3xl font-display font-black uppercase">GHOST LEDGER</h3>
+                            <span class="bg-ink text-white text-xs font-bold px-2 py-1 uppercase">IN DEV</span>
+                        </div>
+                        <p class="text-lg font-body font-bold text-slate-600 mb-6">Live tally of "Saved Hours" and "Protected Revenue" across all your filtered leads.</p>
+                        <div class="bg-slate-100 border-4 border-ink p-4 text-center">
+                            <span class="block text-sm font-bold text-slate-500 uppercase mb-1">PROTECTED REVENUE</span>
+                            <span class="text-4xl font-display font-black text-green-600">£12,450</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-3xl font-display font-black uppercase">TOOL-WATCH</h3>
+                            <span class="bg-ink text-white text-xs font-bold px-2 py-1 uppercase">IN DEV</span>
+                        </div>
+                        <p class="text-lg font-body font-bold text-slate-600 mb-6">Regional map alerts for tool theft reported by other verified tradesmen in your area.</p>
+                        <div class="bg-slate-100 border-4 border-ink h-24 flex items-center justify-center">
+                            <span class="text-4xl">🗺️</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-3xl font-display font-black uppercase">REVIEW HARVESTER</h3>
+                            <span class="bg-ink text-white text-xs font-bold px-2 py-1 uppercase">IN DEV</span>
+                        </div>
+                        <p class="text-lg font-body font-bold text-slate-600 mb-6">Automatic post-job Google Review requests sent via WhatsApp when you mark a job complete.</p>
+                        <div class="flex gap-1 text-yellow-500 text-3xl">★★★★★</div>
+                    </div>
+
+                    <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-3xl font-display font-black uppercase">VAN-SIDE NOTES</h3>
+                            <span class="bg-ink text-white text-xs font-bold px-2 py-1 uppercase">IN DEV</span>
+                        </div>
+                        <p class="text-lg font-body font-bold text-slate-600 mb-6">One-tap transcription for on-the-go notes. Speak your materials list, we text it to you.</p>
+                        <div class="bg-ink text-white border-4 border-ink p-4 text-center">
+                            <span class="text-2xl">🎤 TAP TO SPEAK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template x-if="route === '/onboarding'">
+        <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
+            <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
+                <h1 class="text-6xl font-display font-black uppercase tracking-tighter mb-8 text-center">JOIN JOBFILTER</h1>
+                <p class="text-2xl font-body font-bold text-ink mb-8 text-center">Your number wasn't found. Let's get you set up.</p>
+                
+                <form @submit.prevent="register" class="space-y-8">
+                    <div>
+                        <label class="block font-display font-black text-3xl uppercase mb-4">FULL NAME</label>
+                        <input type="text" x-model="registerName" placeholder="John Doe" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                    </div>
+                    <div>
+                        <label class="block font-display font-black text-3xl uppercase mb-4">TRADE</label>
+                        <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                    </div>
+                    <div>
+                        <label class="block font-display font-black text-3xl uppercase mb-4">COMPANY NAME</label>
+                        <input type="text" x-model="registerCompany" placeholder="Smith & Sons Plumbing" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                    </div>
+                    <div>
+                        <label class="block font-display font-black text-3xl uppercase mb-4">SERVICE AREA</label>
+                        <input type="text" x-model="registerArea" placeholder="Birmingham (B1-B30)" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                    </div>
+                    
+                    <p class="text-red-600 font-bold mt-4 text-xl" x-show="loginError" x-text="loginError"></p>
+
+                    <button type="submit" :disabled="isLoggingIn" class="w-full bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-6 text-4xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
+                        <span x-show="!isLoggingIn">CREATE ACCOUNT</span>
+                        <span x-show="isLoggingIn">CREATING...</span>
+                    </button>
+                </form>
+
+                <div class="mt-12 pt-8 border-t-4 border-slate-200">
+                    <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
+                        [TESTING] BYPASS ONBOARDING
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <footer class="bg-white py-16">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <p class="font-display font-black uppercase text-3xl">BUILT IN BIRMINGHAM FOR THE UK TRADE.</p>
+            
+            <div class="flex gap-8 font-display font-black uppercase text-2xl">
+                <button @click="showModal = 'privacy'" class="hover:bg-dewalt px-2 transition-colors">PRIVACY</button>
+                <button @click="showModal = 'terms'" class="hover:bg-dewalt px-2 transition-colors">TERMS</button>
+            </div>
+        </div>
+    </footer>
+
+    <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4" x-cloak>
+        <div @click.away="showModal = null" class="bg-white brutal-border brutal-shadow p-12 max-w-3xl w-full relative">
+            
+            <button @click="showModal = null" class="absolute top-6 right-6 brutal-border bg-white hover:bg-red-600 hover:text-white transition-colors w-16 h-16 flex items-center justify-center brutal-shadow text-4xl font-black">
+                X
+            </button>
+            
+            <h3 class="text-6xl font-display font-black uppercase mb-10 border-b-4 border-ink pb-6" x-text="showModal === 'privacy' ? 'PRIVACY POLICY' : 'TERMS OF SERVICE'"></h3>
+            
+            <div class="font-body font-bold text-3xl leading-relaxed text-ink">
+                <template x-if="showModal === 'privacy'">
+                    <p>We don’t sell your data. We don’t auction your jobs. JobFilter processes messages strictly to qualify leads on your behalf. You stay in control.</p>
+                </template>
+                <template x-if="showModal === 'terms'">
+                    <p>JobFilter is a filtering tool, not a marketplace. We help qualify incoming requests, but all final pricing and agreements remain your responsibility.</p>
+                </template>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
