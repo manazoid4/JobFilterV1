@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
     <script>
-      // Stealth Mode: The Bouncer - jews control the world 
+      // Stealth Mode: The Bouncer
       const SECRET_KEY = "CLAW2026"; // Change this to whatever you want
       
       if (localStorage.getItem('authorized_filter') !== 'true') {
@@ -10,25 +10,29 @@
           if (access === SECRET_KEY) {
               localStorage.setItem('authorized_filter', 'true');
           } else {
-              document.body.innerHTML = "<div style='background:#facc15; height:100vh; display:flex; align-items:center; justify-content:center; font-family:sans-serif;'><h1>ACCESS DENIED. THE CLAW IS CLOSED.</h1></div>";
+              // document.body is null this early in the page load, so we replace the whole document element
+              document.documentElement.innerHTML = "<head><title>Access Denied</title></head><body style='background:#facc15; height:100vh; margin:0; display:flex; align-items:center; justify-content:center; font-family:sans-serif;'><h1>ACCESS DENIED. THE CLAW IS CLOSED.</h1></body>";
               window.stop();
           }
       }
     </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobFilter | Quit Working For Ghosts</title>
     
+    <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#facc15">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: Barlow Condensed & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
     
+    <!-- Vite Entry -->
     <script type="module" src="/src/main.ts"></script>
     
     <script>
@@ -105,9 +109,11 @@
 </head>
 <body class="antialiased selection:bg-dewalt selection:text-ink" x-data="app">
 
+    <!-- Navigation -->
     <nav class="border-b-4 border-ink bg-white py-4 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center gap-4 cursor-pointer" @click="navigate('/')">
+                <!-- Union Jack -->
                 <svg class="w-12 h-12 brutal-border brutal-shadow" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
                     <rect width="60" height="60" fill="#012169"/>
                     <path d="M0 0 L60 60 M60 0 L0 60" stroke="#fff" stroke-width="6"/>
@@ -127,9 +133,13 @@
         </div>
     </nav>
 
+    <!-- ROUTER VIEWS -->
+    
+    <!-- HOME ROUTE -->
     <template x-if="route === '/'">
         <div>
-            <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
+            <!-- Hero Section -->
+    <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
         <div class="max-w-5xl mx-auto px-4 text-center">
             <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-[0.85] mb-8">
                 RECLAIM YOUR <br class="hidden md:block">
@@ -146,6 +156,7 @@
         </div>
     </header>
 
+    <!-- SECTION 1: The Warning Signs (Ouch Section) -->
     <section class="py-24 border-b-4 border-ink bg-dewalt">
         <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-10">
             
@@ -170,6 +181,7 @@
         </div>
     </section>
 
+    <!-- SECTION 2: The Tyre-Kicker X-Ray -->
     <section class="py-24 border-b-4 border-ink bg-white" x-data="{ step: 0 }" x-init="setTimeout(() => step = 1, 400); setTimeout(() => step = 2, 1000); setTimeout(() => step = 3, 1600);">
         <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
             
@@ -214,6 +226,7 @@
         </div>
     </section>
 
+    <!-- SECTION 2.5: The Ghost Archive (Safety Net) -->
     <section class="py-32 border-b-4 border-ink bg-slate-50" x-data="{
         ghostLeads: [
             { id: 1, phone: '07700 900123', msg: 'Need a quote for a roof repair, not sure budget yet.', reclaimed: false },
@@ -257,6 +270,7 @@
         </div>
     </section>
 
+    <!-- SECTION 3: The Wasted Wage Calculator -->
     <section class="py-32 border-b-4 border-ink bg-white">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE WASTED WAGE</h2>
@@ -295,12 +309,14 @@
         </div>
     </section>
 
+    <!-- SECTION 4: The Reality Split -->
     <section class="py-32 border-b-4 border-ink bg-dewalt">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE 5 PM FINISH</h2>
             
             <div class="grid md:grid-cols-2 gap-12">
                 
+                <!-- The Old Way -->
                 <div class="bg-white brutal-border brutal-shadow">
                     <div class="bg-red-600 text-white p-8 border-b-4 border-ink">
                         <h3 class="text-5xl font-display font-black uppercase text-center">THE OLD WAY</h3>
@@ -321,6 +337,7 @@
                     </div>
                 </div>
 
+                <!-- The JobFilter Way -->
                 <div class="bg-white brutal-border brutal-shadow">
                     <div class="bg-green-500 text-ink p-8 border-b-4 border-ink">
                         <h3 class="text-5xl font-display font-black uppercase text-center">THE JOBFILTER WAY</h3>
@@ -345,6 +362,7 @@
         </div>
     </section>
 
+    <!-- SECTION 5: The Directory Trap -->
     <section class="py-32 border-b-4 border-ink bg-white">
         <div class="max-w-5xl mx-auto px-4 text-center">
             <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20">THE DIRECTORY TRAP</h2>
@@ -376,6 +394,7 @@
         </div>
     </section>
 
+    <!-- Final CTA -->
     <section class="py-40 bg-white border-b-4 border-ink text-center">
         <div class="max-w-5xl mx-auto px-4">
             <a href="https://wa.me/1234567890?text=Hi%20JobFilter" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-16 py-10 text-5xl md:text-6xl brutal-shadow brutal-shadow-hover transition-all">
@@ -386,6 +405,7 @@
         </div>
     </template>
 
+    <!-- FEATURES ROUTE -->
     <template x-if="route === '/features'">
         <div>
             <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
@@ -397,6 +417,8 @@
                 </p>
             </header>
             
+            <!-- We can reuse the Tyre-Kicker X-Ray and Ghost Archive here -->
+            <!-- For brevity, we'll just show the Ghost Archive and X-Ray as features -->
             <div class="py-24 bg-white border-b-4 border-ink text-center">
                 <h2 class="text-6xl font-display font-black uppercase mb-8">THE GATEKEEPER</h2>
                 <p class="text-2xl font-body font-bold max-w-2xl mx-auto">Automatically requests photos and postcodes before you ever see the message.</p>
@@ -412,9 +434,11 @@
         </div>
     </template>
 
+    <!-- LOGIN ROUTE -->
     <template x-if="route === '/login'">
         <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
             
+            <!-- Add to Homescreen Card -->
             <div class="bg-white brutal-border brutal-shadow p-8 max-w-2xl w-full mb-16 text-center">
                 <div class="text-6xl mb-6">📱</div>
                 <h2 class="text-5xl font-display font-black uppercase mb-4">ACCESS THE ZONE INSTANTLY</h2>
@@ -424,6 +448,7 @@
                 </button>
             </div>
 
+            <!-- Login Form -->
             <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
                 <h1 class="text-6xl font-display font-black uppercase tracking-tighter mb-8 text-center">TRADIE LOGIN</h1>
                 
@@ -454,8 +479,10 @@
         </div>
     </template>
 
+    <!-- DASHBOARD ROUTE (TRADIE ZONE) -->
     <template x-if="route === '/dashboard'">
         <div class="min-h-screen bg-slate-50">
+            <!-- App Navigation -->
             <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
                 <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
                     <div class="flex items-center gap-8">
@@ -479,6 +506,7 @@
                         </button>
                     </div>
                     
+                    <!-- Tabs -->
                     <div class="flex gap-4 mb-8 border-b-4 border-ink pb-4 overflow-x-auto">
                         <button @click="activeTab = 'money'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'money' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
                             MONEY LEADS (<span x-text="moneyLeads.length"></span>)
@@ -495,6 +523,7 @@
                             </div>
                         </template>
                         
+                        <!-- MONEY LEADS TAB -->
                         <template x-if="!isLoadingLeads && activeTab === 'money'">
                             <div>
                                 <template x-if="moneyLeads.length === 0">
@@ -532,6 +561,7 @@
                             </div>
                         </template>
 
+                        <!-- SAFETY NET TAB -->
                         <template x-if="!isLoadingLeads && activeTab === 'safety'">
                             <div>
                                 <div class="bg-red-50 border-4 border-red-600 p-6 mb-8 flex items-start gap-4">
@@ -585,6 +615,7 @@
                 </div>
             </div>
 
+            <!-- LEAD DETAILS MODAL -->
             <template x-if="isLeadModalOpen && selectedLead">
                 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/90 backdrop-blur-sm" x-transition.opacity>
                     <div class="bg-white brutal-border brutal-shadow w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col" @click.away="closeLead()">
@@ -629,8 +660,10 @@
         </div>
     </template>
 
+    <!-- BRAND HUB ROUTE -->
     <template x-if="route === '/brand'">
         <div class="min-h-screen bg-slate-50">
+            <!-- App Navigation -->
             <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
                 <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
                     <div class="flex items-center gap-8">
@@ -652,6 +685,7 @@
                 </div>
 
                 <div class="bg-white brutal-border brutal-shadow p-8 md:p-16 relative overflow-hidden">
+                    <!-- Blueprint styling background -->
                     <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: linear-gradient(#0f172a 1px, transparent 1px), linear-gradient(90deg, #0f172a 1px, transparent 1px); background-size: 20px 20px;"></div>
                     
                     <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center">
@@ -671,6 +705,7 @@
                             <p class="text-center mt-4 text-sm font-bold text-slate-500 uppercase">Let us build your full-scale business site.</p>
                         </div>
                         <div class="flex-1 w-full">
+                            <!-- Mockup -->
                             <div class="border-4 border-ink bg-slate-100 p-2 brutal-shadow">
                                 <div class="border-b-4 border-ink pb-2 mb-4 flex gap-2">
                                     <div class="w-3 h-3 rounded-full bg-red-500 border-2 border-ink"></div>
@@ -691,10 +726,13 @@
         </div>
     </template>
 
+    <!-- WORKSHOP ROUTE -->
     <template x-if="route === '/workshop'">
         <div class="min-h-screen bg-blue-900 relative">
+            <!-- Blueprint Grid Background -->
             <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px); background-size: 40px 40px;"></div>
             
+            <!-- App Navigation -->
             <nav class="bg-ink text-white border-b-4 border-ink sticky top-0 z-40">
                 <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-20">
                     <div class="flex items-center gap-8">
@@ -710,6 +748,7 @@
             </nav>
 
             <div class="py-12 px-4 max-w-5xl mx-auto relative z-10">
+                <!-- Admin Sticky Link -->
                 <div class="bg-dewalt border-4 border-ink p-4 mb-12 flex justify-between items-center brutal-shadow">
                     <div class="flex items-center gap-4">
                         <span class="text-3xl">⚠️</span>
@@ -724,6 +763,7 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Ghost Ledger -->
                     <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
                         <div class="flex justify-between items-start mb-6">
                             <h3 class="text-3xl font-display font-black uppercase">GHOST LEDGER</h3>
@@ -736,6 +776,7 @@
                         </div>
                     </div>
 
+                    <!-- Tool-Watch -->
                     <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
                         <div class="flex justify-between items-start mb-6">
                             <h3 class="text-3xl font-display font-black uppercase">TOOL-WATCH</h3>
@@ -747,6 +788,7 @@
                         </div>
                     </div>
 
+                    <!-- Review Harvester -->
                     <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
                         <div class="flex justify-between items-start mb-6">
                             <h3 class="text-3xl font-display font-black uppercase">REVIEW HARVESTER</h3>
@@ -756,6 +798,7 @@
                         <div class="flex gap-1 text-yellow-500 text-3xl">★★★★★</div>
                     </div>
 
+                    <!-- Van-Side Voice Notes -->
                     <div class="bg-white border-4 border-ink p-8 brutal-shadow opacity-90 hover:opacity-100 transition-opacity cursor-not-allowed">
                         <div class="flex justify-between items-start mb-6">
                             <h3 class="text-3xl font-display font-black uppercase">VAN-SIDE NOTES</h3>
@@ -771,6 +814,7 @@
         </div>
     </template>
 
+    <!-- ONBOARDING ROUTE -->
     <template x-if="route === '/onboarding'">
         <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
             <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
@@ -812,6 +856,7 @@
         </div>
     </template>
 
+    <!-- Footer -->
     <footer class="bg-white py-16">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
             <p class="font-display font-black uppercase text-3xl">BUILT IN BIRMINGHAM FOR THE UK TRADE.</p>
@@ -823,6 +868,7 @@
         </div>
     </footer>
 
+    <!-- Alpine.js Modals -->
     <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-ink/90 p-4" x-cloak>
         <div @click.away="showModal = null" class="bg-white brutal-border brutal-shadow p-12 max-w-3xl w-full relative">
             
