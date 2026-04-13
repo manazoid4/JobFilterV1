@@ -15,12 +15,28 @@ document.addEventListener('alpine:init', () => {
   Alpine.data('app', () => ({
     route: window.location.pathname,
     phoneNumber: '',
+    
+    // Onboarding State
+    onboardingStep: 1,
     registerName: '',
     registerTrade: '',
     registerCompany: '',
     registerArea: '',
+    calloutFee: 50,
+    filterStrictness: 3,
     loginError: '',
     isLoggingIn: false,
+    
+    // Vault State
+    newVaultIdea: '',
+    vaultIdeas: [],
+    unsubscribeVault: null,
+
+    // Simulator State
+    simState: 1,
+    simMessages: [],
+    simInput: '',
+    simFilterStrength: 3,
     
     // Calculator variables
     hoursWasted: 5,
@@ -31,7 +47,7 @@ document.addEventListener('alpine:init', () => {
     get adminDebt() { return Math.round((this.hoursWasted * this.hourlyRate + this.milesDriven * this.fuelCost) * 52); },
     
     // Dashboard variables
-    activeTab: 'money', // 'money' | 'safety'
+    activeTab: 'money', // 'money' | 'safety' | 'business'
     leads: [],
     isLoadingLeads: false,
     selectedLead: null,
@@ -49,16 +65,27 @@ document.addEventListener('alpine:init', () => {
     init() {
       window.addEventListener('popstate', () => {
         this.route = window.location.pathname;
-        if (this.route === '/dashboard') {
-          this.subscribeLeads();
-        } else {
-          this.unsubscribe();
-        }
+        this.handleRouteLogic();
       });
       
-      // Initial fetch if starting on dashboard
+      this.handleRouteLogic();
+    },
+
+    handleRouteLogic() {
       if (this.route === '/dashboard') {
         this.subscribeLeads();
+      } else {
+        this.unsubscribeLeadsListener();
+      }
+
+      if (this.route === '/vault') {
+        this.subscribeVault();
+      } else {
+        this.unsubscribeVaultListener();
+      }
+
+      if (this.route === '/') {
+        this.initSimulator();
       }
     },
     
@@ -66,17 +93,20 @@ document.addEventListener('alpine:init', () => {
       window.history.pushState({}, '', path);
       this.route = path;
       window.scrollTo(0, 0);
-      if (path === '/dashboard') {
-        this.subscribeLeads();
-      } else {
-        this.unsubscribe();
-      }
+      this.handleRouteLogic();
     },
 
-    unsubscribe() {
+    unsubscribeLeadsListener() {
         if (this.unsubscribeLeads) {
             this.unsubscribeLeads();
             this.unsubscribeLeads = null;
+        }
+    },
+
+    unsubscribeVaultListener() {
+        if (this.unsubscribeVault) {
+            this.unsubscribeVault();
+            this.unsubscribeVault = null;
         }
     },
     
@@ -84,7 +114,6 @@ document.addEventListener('alpine:init', () => {
       this.isLoadingLeads = true;
       try {
         const leadsRef = collection(db, 'leads');
-        // In a real app, we would filter by the logged-in tradesman's ID
         this.unsubscribeLeads = onSnapshot(leadsRef, (snapshot) => {
             this.leads = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             this.isLoadingLeads = false;
@@ -96,6 +125,31 @@ document.addEventListener('alpine:init', () => {
         console.error("Failed to setup leads listener:", err);
         this.isLoadingLeads = false;
       }
+    },
+
+    subscribeVault() {
+      try {
+        const vaultRef = collection(db, 'vault_ideas');
+        this.unsubscribeVault = onSnapshot(vaultRef, (snapshot) => {
+            this.vaultIdeas = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        });
+      } catch (err) {
+        console.error("Failed to setup vault listener:", err);
+      }
+    },
+
+    async addVaultIdea() {
+        if (!this.newVaultIdea.trim()) return;
+        try {
+            await addDoc(collection(db, 'vault_ideas'), {
+                text: this.newVaultIdea,
+                createdAt: new Date().toISOString()
+            });
+            this.newVaultIdea = '';
+        } catch (err) {
+            console.error("Failed to add idea:", err);
+        }
     },
 
     openLead(lead: any) {
@@ -138,13 +192,56 @@ document.addEventListener('alpine:init', () => {
             console.error("Failed to simulate lead:", err);
         }
     },
+
+    // Simulator Logic
+    initSimulator() {
+        this.simState = 1;
+        this.simMessages = [
+            { sender: 'bot', text: "Hi, I'm the automated assistant for this business. To get you a quote faster, I need a few details." }
+        ];
+    },
+
+    async sendSimMessage() {
+        if (!this.simInput.trim()) return;
+        
+        const userMsg = this.simInput;
+        this.simMessages.push({ sender: 'user', text: userMsg });
+        this.simInput = '';
+
+        // Call our backend webhook to simulate the AI
+        try {
+            const res = await fetch('/api/whatsapp/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: userMsg,
+                    tradie_id: 'sim_123',
+                    current_state: this.simState,
+                    filter_strength: this.simFilterStrength,
+                    has_media: userMsg.toLowerCase().includes('photo') || userMsg.toLowerCase().includes('pic')
+                })
+            });
+            const data = await res.json();
+            
+            setTimeout(() => {
+                this.simMessages.push({ sender: 'bot', text: data.reply });
+                this.simState = data.nextState;
+                
+                // Auto-scroll simulator
+                const simChat = document.getElementById('sim-chat');
+                if (simChat) simChat.scrollTop = simChat.scrollHeight;
+            }, 600);
+
+        } catch (err) {
+            console.error("Simulator error:", err);
+        }
+    },
     
     async login() {
       this.isLoggingIn = true;
       this.loginError = '';
       
       try {
-        // Basic E.164 validation (starts with + and has 10-15 digits)
         const phoneRegex = /^\+[1-9]\d{1,14}$/;
         if (!phoneRegex.test(this.phoneNumber)) {
           throw new Error('Please enter a valid phone number in E.164 format (e.g., +447700900000)');
@@ -155,10 +252,8 @@ document.addEventListener('alpine:init', () => {
         const querySnapshot = await getDocs(q);
         
         if (!querySnapshot.empty) {
-          // User exists, go to dashboard
           this.navigate('/dashboard');
         } else {
-          // User doesn't exist, redirect to onboarding
           this.navigate('/onboarding');
         }
       } catch (err: any) {
@@ -168,6 +263,12 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+    nextOnboardingStep() {
+        if (this.onboardingStep < 3) {
+            this.onboardingStep++;
+        }
+    },
+
     async register() {
       this.isLoggingIn = true;
       this.loginError = '';
@@ -175,11 +276,13 @@ document.addEventListener('alpine:init', () => {
       try {
         const tradesmenRef = collection(db, 'tradesmen');
         await addDoc(tradesmenRef, {
-          phoneNumber: this.phoneNumber,
+          phoneNumber: this.phoneNumber || '+447000000000',
           name: this.registerName,
           trade: this.registerTrade,
           companyName: this.registerCompany,
           serviceArea: this.registerArea,
+          calloutFee: this.calloutFee,
+          filterStrictness: this.filterStrictness,
           createdAt: new Date().toISOString()
         });
         

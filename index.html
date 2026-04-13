@@ -49,10 +49,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Barlow Condensed & Inter -->
+    <!-- Google Fonts: Oswald & Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <!-- Vite Entry -->
     <script type="module" src="/src/main.ts"></script>
@@ -62,12 +62,12 @@
             theme: {
                 extend: {
                     colors: {
-                        dewalt: '#facc15',
+                        dewalt: '#FFD700',
                         ink: '#0f172a',
                     },
                     fontFamily: {
-                        display: ['"Barlow Condensed"', 'sans-serif'],
-                        body: ['Inter', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
                     }
                 }
             }
@@ -159,367 +159,174 @@
     
     <!-- HOME ROUTE -->
     <template x-if="route === '/'">
-        <div>
+        <div class="bg-slate-50">
             <!-- Hero Section -->
-    <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-normal leading-none mb-8">
-                RECLAIM YOUR <br class="hidden md:block">
-                <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">EVENINGS.</span>
-            </h1>
-            
-            <p class="text-2xl md:text-3xl font-body font-bold max-w-4xl mx-auto mb-12 leading-tight text-ink">
-                Stop driving miles for "quick looks." JobFilter is the Digital Dispatcher that vets every WhatsApp lead—photos and postcodes required—before you ever turn the key.
-            </p>
-
-            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-4 md:px-12 md:py-6 text-3xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
-                Link is broken.
-            </a>
-        </div>
-    </header>
-
-    <!-- SECTION 1: The Warning Signs (Ouch Section) -->
-    <section class="py-24 border-b-4 border-ink bg-dewalt">
-        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-10">
-            
-            <div class="bg-white brutal-border brutal-shadow p-6 md:p-10 text-center">
-                <div class="text-6xl md:text-8xl mb-6">📸</div>
-                <h3 class="font-display font-black text-3xl md:text-5xl uppercase mb-6">NO PHOTOS?</h3>
-                <div class="bg-ink text-white font-display font-black text-2xl md:text-4xl py-4 brutal-border">➔ DON'T DRIVE.</div>
-            </div>
-            
-            <div class="bg-white brutal-border brutal-shadow p-6 md:p-10 text-center">
-                <div class="text-6xl md:text-8xl mb-6">📍</div>
-                <h3 class="font-display font-black text-3xl md:text-5xl uppercase mb-6">NO POSTCODE?</h3>
-                <div class="bg-ink text-white font-display font-black text-2xl md:text-4xl py-4 brutal-border">➔ DON'T PRICE.</div>
-            </div>
-            
-            <div class="bg-white brutal-border brutal-shadow p-6 md:p-10 text-center">
-                <div class="text-6xl md:text-8xl mb-6">💷</div>
-                <h3 class="font-display font-black text-3xl md:text-5xl uppercase mb-6">NO BUDGET?</h3>
-                <div class="bg-ink text-white font-display font-black text-2xl md:text-4xl py-4 brutal-border">➔ DON'T BOTHER.</div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SECTION 2: The Tyre-Kicker X-Ray -->
-    <section class="py-24 border-b-4 border-ink bg-white" x-data="{ step: 0 }" x-init="setTimeout(() => step = 1, 400); setTimeout(() => step = 2, 1000); setTimeout(() => step = 3, 1600);">
-        <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
-            
-            <div class="bg-white brutal-border brutal-shadow p-10 relative">
-                <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6">
-                    <div class="w-16 h-16 brutal-border rounded-full flex items-center justify-center bg-white text-3xl">👤</div>
-                    <p class="font-display font-black text-4xl uppercase">Unknown Number</p>
-                </div>
-                
-                <p class="text-4xl font-body font-black mb-10">"Can you just pop round for a quote?"</p>
-                
-                <template x-if="step >= 1">
-                    <div class="bg-red-100 brutal-border p-6 mb-4 flex items-center gap-6">
-                        <span class="text-4xl">❌</span>
-                        <span class="font-display font-black text-4xl uppercase text-red-600">NO PHOTO</span>
-                    </div>
-                </template>
-                
-                <template x-if="step >= 2">
-                    <div class="bg-red-100 brutal-border p-6 mb-4 flex items-center gap-6">
-                        <span class="text-4xl">❌</span>
-                        <span class="font-display font-black text-4xl uppercase text-red-600">NO BUDGET</span>
-                    </div>
-                </template>
-                
-                <template x-if="step >= 3">
-                    <div class="absolute -inset-6 z-20 flex items-center justify-center pointer-events-none">
-                        <div class="brutal-border bg-white text-red-600 font-display font-black text-5xl md:text-8xl uppercase p-4 md:p-6 transform -rotate-6 brutal-shadow">
-                            REJECTED
-                        </div>
-                    </div>
-                </template>
-            </div>
-
-            <div>
-                <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-8 leading-none">THE TYRE-KICKER X-RAY</h2>
-                <p class="text-3xl font-body font-bold text-ink leading-tight">
-                    Our Digital Dispatcher asks the hard questions so you don’t have to. If they aren't ready to start, they don't get your time.
-                </p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- SECTION 2.5: How It Works (User Flow) -->
-    <section class="py-24 border-b-4 border-ink bg-slate-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-5xl md:text-7xl font-display font-extrabold uppercase text-center mb-16">HOW THE FILTER WORKS</h2>
-            <div class="grid md:grid-cols-5 gap-4 md:gap-8">
-                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">1</div>
-                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">THE INTERCEPT</h4>
-                    <p class="font-body font-bold text-slate-600 text-sm">Customer clicks your WhatsApp link and asks for a quote.</p>
-                </div>
-                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">2</div>
-                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">THE FILTER</h4>
-                    <p class="font-body font-bold text-slate-600 text-sm">Bot demands postcode, photos, and budget. Tyre-kickers give up.</p>
-                </div>
-                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">3</div>
-                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">DASHBOARD</h4>
-                    <p class="font-body font-bold text-slate-600 text-sm">You open JobFilter and only see fully-vetted, high-intent leads.</p>
-                </div>
-                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">4</div>
-                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">1-TAP QUOTE</h4>
-                    <p class="font-body font-bold text-slate-600 text-sm">Record a 10-second voice note. AI generates a branded PDF quote.</p>
-                </div>
-                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">5</div>
-                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">ACCEPTANCE</h4>
-                    <p class="font-body font-bold text-slate-600 text-sm">Customer pays £50 deposit via Stripe. Job is secured.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 2.6: The Ghost Archive (Safety Net) -->
-    <section class="py-32 border-b-4 border-ink bg-slate-50" x-data="{
-        ghostLeads: [
-            { id: 1, phone: '07700 900123', msg: 'Need a quote for a roof repair, not sure budget yet.', reclaimed: false },
-            { id: 2, phone: '07700 900456', msg: 'Can you look at my sink? Might be a 5 min job.', reclaimed: false }
-        ]
-    }">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="text-center mb-20">
-                <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-8">THE GHOST ARCHIVE</h2>
-                <p class="text-3xl font-body font-bold text-ink leading-tight max-w-4xl mx-auto">
-                    Nothing is ever deleted. If the AI isn't 100% sure, it lands here for your review. You never miss a real lead.
-                </p>
-            </div>
-
-            <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 max-w-4xl mx-auto">
-                <h3 class="font-display font-black text-4xl uppercase mb-8 border-b-4 border-ink pb-4">RECENTLY FILTERED (LOW CONFIDENCE)</h3>
-
-                <div class="space-y-6 max-h-[500px] overflow-y-auto pr-4">
-                    <template x-for="lead in ghostLeads" :key="lead.id">
-                        <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 transition-all"
-                             :class="lead.reclaimed ? 'opacity-50 grayscale' : 'brutal-shadow'">
-                            <div>
-                                <p class="font-display font-black text-2xl md:text-3xl uppercase text-ink mb-2" x-text="lead.phone"></p>
-                                <p class="font-body font-bold text-xl md:text-2xl text-slate-600" x-text="'&quot;' + lead.msg + '&quot;'"></p>
-                                <p class="font-display font-bold text-lg md:text-xl text-red-600 mt-4 uppercase" x-show="!lead.reclaimed">⚠️ AI CONFIDENCE: 75% - UNCLEAR</p>
-                                <p class="font-display font-bold text-lg md:text-xl text-green-600 mt-4 uppercase" x-show="lead.reclaimed">✅ RECLAIMED TO QUALIFIED DASHBOARD</p>
-                            </div>
-                            <button
-                                @click="lead.reclaimed = true"
-                                x-show="!lead.reclaimed"
-                                class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-3 md:px-8 md:py-4 text-xl md:text-3xl brutal-shadow brutal-shadow-hover transition-all shrink-0 w-full md:w-auto">
-                                RECLAIM
-                            </button>
-                        </div>
-                    </template>
-                    <div x-show="ghostLeads.every(l => l.reclaimed)" class="text-center py-12 border-4 border-dashed border-slate-300">
-                        <p class="font-display font-black text-4xl uppercase text-slate-400">ALL LEADS REVIEWED. GO HAVE A BEER.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: The Wasted Wage Calculator -->
-    <section class="py-32 border-b-4 border-ink bg-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE WASTED WAGE</h2>
-            
-            <div class="grid md:grid-cols-2 gap-16">
-                
-                <div class="bg-white brutal-border brutal-shadow p-12 flex flex-col justify-center">
-                    <div class="mb-12 md:mb-16">
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-end mb-6 gap-2">
-                            <label class="font-display font-black uppercase text-2xl md:text-4xl">Hours wasted (Weekly)</label>
-                            <span class="font-display font-black text-4xl md:text-5xl bg-dewalt brutal-border px-4 py-1 self-start md:self-auto" x-text="hoursWasted"></span>
-                        </div>
-                        <input type="range" min="1" max="20" x-model="hoursWasted">
-                    </div>
+            <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
+                <div class="max-w-6xl mx-auto px-4 text-center">
+                    <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-normal leading-none mb-8">
+                        THE AI FOREMAN FOR <br class="hidden md:block">
+                        <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">UK TRADES.</span>
+                    </h1>
                     
-                    <div>
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-end mb-6 gap-2">
-                            <label class="font-display font-black uppercase text-2xl md:text-4xl">Miles driven for nothing</label>
-                            <span class="font-display font-black text-4xl md:text-5xl bg-dewalt brutal-border px-4 py-1 self-start md:self-auto" x-text="milesDriven"></span>
-                        </div>
-                        <input type="range" min="10" max="300" step="10" x-model="milesDriven">
-                    </div>
-                </div>
-
-                <div class="multimeter brutal-border brutal-shadow p-8 md:p-12 flex flex-col justify-center text-center">
-                    <p class="text-2xl md:text-4xl font-bold uppercase tracking-widest mb-8 text-white">ANNUAL WASTED WAGE</p>
-                    <div class="text-6xl md:text-9xl font-black tracking-tighter mb-8 break-words">
-                        £<span x-text="adminDebt.toLocaleString()"></span>
-                    </div>
-                    <p class="text-xl md:text-3xl font-bold uppercase text-white leading-tight">
-                        THAT IS A SECOND MORTGAGE YOU ARE PAYING FOR FREE.
+                    <p class="text-2xl md:text-3xl font-body font-bold max-w-4xl mx-auto mb-12 leading-tight text-ink">
+                        Stop quoting for free. JobFilter sits in front of your WhatsApp, demands photos and postcodes, and charges tyre-kickers a Priority Booking deposit before they ever reach your phone.
                     </p>
-                </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 4: The Reality Split -->
-    <section class="py-32 border-b-4 border-ink bg-dewalt">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20 text-center">THE 5 PM FINISH</h2>
-            
-            <div class="grid md:grid-cols-2 gap-12">
-                
-                <!-- The Old Way -->
-                <div class="bg-white brutal-border brutal-shadow">
-                    <div class="bg-red-600 text-white p-8 border-b-4 border-ink">
-                        <h3 class="text-5xl font-display font-black uppercase text-center">THE OLD WAY</h3>
-                    </div>
-                    <div class="p-12 space-y-12">
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">🚐</div>
-                            <p class="text-2xl md:text-4xl font-display font-black uppercase leading-none">CHASING "QUICK LOOKS" IN M6 TRAFFIC</p>
-                        </div>
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">📝</div>
-                            <p class="text-2xl md:text-4xl font-display font-black uppercase leading-none">QUOTING FOR FREE AT 9 PM</p>
-                        </div>
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">🤬</div>
-                            <p class="text-4xl md:text-5xl font-display font-black uppercase leading-none text-red-600">GHOSTED.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- The JobFilter Way -->
-                <div class="bg-white brutal-border brutal-shadow">
-                    <div class="bg-green-500 text-ink p-8 border-b-4 border-ink">
-                        <h3 class="text-5xl font-display font-black uppercase text-center">THE JOBFILTER WAY</h3>
-                    </div>
-                    <div class="p-12 space-y-12">
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">✅</div>
-                            <p class="text-2xl md:text-4xl font-display font-black uppercase leading-none">VETTED JOB SECURED FOR TOMORROW</p>
-                        </div>
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">🍺</div>
-                            <p class="text-2xl md:text-4xl font-display font-black uppercase leading-none">SOFA AND BEER BY 5:15 PM</p>
-                        </div>
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <div class="text-5xl md:text-7xl">💷</div>
-                            <p class="text-4xl md:text-5xl font-display font-black uppercase leading-none text-green-600">PAID.</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 5: Why JobFilter Wins -->
-    <section class="py-32 border-b-4 border-ink bg-white">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <h2 class="text-7xl md:text-8xl font-display font-extrabold uppercase tracking-normal mb-12">WHY JOBFILTER WINS</h2>
-            
-            <div class="bg-ink text-white brutal-border brutal-shadow p-8 md:p-16 text-left mb-16">
-                <p class="text-2xl md:text-4xl font-body font-bold leading-relaxed italic">
-                    "I don't need another heavy CRM that makes me do data entry at 9 PM, and I'm sick of paying Checkatrade to fight 5 other blokes for a £50 job. JobFilter wins because it acts like a ruthless receptionist. It sits in front of my WhatsApp, interrogates the tyre-kickers, and only hands me the golden leads—the ones with photos, a postcode, and actual money to spend. It gives me my evenings back and ensures I only turn the key in the ignition for a guaranteed payday."
-                </p>
-                <p class="mt-8 text-xl font-display font-extrabold text-dewalt uppercase">— The Tradesman's POV</p>
-            </div>
-
-            <div class="bg-white brutal-border brutal-shadow overflow-hidden text-left">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b-4 border-ink bg-slate-100 text-ink">
-                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-extrabold uppercase border-r-4 border-ink w-1/2">THE COMPETITION</th>
-                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-extrabold uppercase bg-dewalt w-1/2">JOBFILTER</th>
-                        </tr>
-                    </thead>
-                    <tbody class="font-display font-extrabold text-xl md:text-3xl uppercase">
-                        <tr class="border-b-4 border-ink">
-                            <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">YOU PAY TO BID AGAINST 5 BLOKES</td>
-                            <td class="p-4 md:p-8 bg-green-50 text-green-600">100% EXCLUSIVE LEADS</td>
-                        </tr>
-                        <tr class="border-b-4 border-ink">
-                            <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">HEAVY CRM DATA ENTRY AT 9 PM</td>
-                            <td class="p-4 md:p-8 bg-green-50 text-green-600">AI BUILDS THE PROFILE INSTANTLY</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">PAY FOR TYRE-KICKERS</td>
-                            <td class="p-4 md:p-8 bg-green-50 text-green-600">ONLY VETTED JOBS WITH DEPOSITS</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 6: Pricing -->
-    <section class="py-32 border-b-4 border-ink bg-slate-50">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <h2 class="text-7xl md:text-8xl font-display font-extrabold uppercase tracking-normal mb-6">SIMPLE PRICING. NO SURPRISES.</h2>
-            <p class="text-2xl font-body font-bold text-slate-600 mb-16">Flat monthly fee. No per-lead charges. Cancel any month.</p>
-            
-            <div class="bg-white brutal-border brutal-shadow max-w-3xl mx-auto overflow-hidden">
-                <div class="bg-ink text-white p-8 border-b-4 border-ink relative overflow-hidden">
-                    <div class="absolute top-4 right-4 bg-red-600 text-white font-display font-black px-4 py-1 text-xl uppercase brutal-border transform rotate-3">ONLY 30 SPOTS</div>
-                    <h3 class="text-4xl font-display font-extrabold uppercase mb-2 text-dewalt">PRO — FOUNDING 30</h3>
-                    <div class="flex items-baseline justify-center gap-2 mb-4">
-                        <span class="text-7xl font-black">£22</span>
-                        <span class="text-xl font-bold text-slate-400">/month + VAT</span>
-                    </div>
-                    <div class="bg-dewalt text-ink font-display font-black text-2xl py-2 px-4 inline-block brutal-border uppercase">
-                        PRICE LOCK FOR LIFE
-                    </div>
-                </div>
-                <div class="p-8 md:p-12 text-left space-y-6">
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">WhatsApp AI Dispatcher</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">Money Lead / Safety Net routing</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">Unlimited leads</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">AI Quote Generator</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">Business Tools (Receipts & Brand Hub)</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl text-green-500">✓</span>
-                        <span class="text-xl font-body font-bold">Priority support</span>
-                    </div>
-                    
-                    <div class="pt-8 text-center">
-                        <button @click="navigate('/onboarding')" class="w-full bg-dewalt text-ink font-display font-black uppercase px-8 py-6 text-3xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-yellow-300 transition-all">
-                            CLAIM FOUNDING SPOT
+                    <div class="flex flex-col md:flex-row justify-center gap-6">
+                        <button @click="navigate('/onboarding')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-6 text-3xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
+                            HIRE THE FOREMAN
                         </button>
-                        <p class="mt-4 text-sm font-bold text-red-600 uppercase">Hurry — spots are filling fast.</p>
+                        <button @click="document.getElementById('simulator').scrollIntoView({behavior: 'smooth'})" class="bg-white brutal-border text-ink font-display font-black uppercase px-8 py-6 text-3xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
+                            TRY SIMULATOR
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </header>
 
-    <!-- Final CTA -->
-    <section class="py-40 bg-white border-b-4 border-ink text-center">
-        <div class="max-w-5xl mx-auto px-4">
-            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-6 md:px-16 md:py-10 text-3xl md:text-6xl brutal-shadow brutal-shadow-hover transition-all">
-                GET YOUR EVENINGS BACK
-            </a>
-        </div>
-    </section>
+            <!-- Memory Pillar 1: The Workload Dial -->
+            <section class="py-24 border-b-4 border-ink bg-ink text-white">
+                <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-8">THE WORKLOAD DIAL</h2>
+                        <p class="text-2xl font-body font-bold text-slate-300 mb-8">
+                            Too busy? Turn up the strictness. The AI will demand more photos, higher budgets, and upfront deposits. Need work? Turn it down to let more leads through.
+                        </p>
+                    </div>
+                    <div class="bg-white text-ink brutal-border p-12 text-center">
+                        <h3 class="text-4xl font-display font-black uppercase mb-6">AI STRICTNESS LEVEL</h3>
+                        <div class="flex items-center gap-6 mb-8">
+                            <span class="text-3xl font-bold">1</span>
+                            <input type="range" min="1" max="5" value="4" class="w-full h-6 bg-slate-200 rounded-full appearance-none cursor-pointer accent-dewalt">
+                            <span class="text-3xl font-bold">5</span>
+                        </div>
+                        <div class="bg-red-100 border-4 border-red-600 p-6">
+                            <p class="text-2xl font-display font-black uppercase text-red-600">LEVEL 4: RUTHLESS</p>
+                            <p class="font-body font-bold mt-2">Demands 3 photos, full postcode, and a £50 deposit.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Pillar 2 & 3: Priority Pass & Van Sticker -->
+            <section class="py-24 border-b-4 border-ink bg-dewalt">
+                <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16">
+                    <!-- Priority Pass -->
+                    <div class="bg-white brutal-border brutal-shadow p-10">
+                        <div class="text-6xl mb-6">💳</div>
+                        <h2 class="text-5xl font-display font-black uppercase mb-6">THE PRIORITY PASS</h2>
+                        <p class="text-xl font-body font-bold text-slate-600 mb-8">
+                            We don't charge you for leads. We charge the customer a deductible deposit to guarantee your time. It filters out the time-wasters instantly.
+                        </p>
+                        <div class="bg-green-100 border-4 border-green-600 p-6 text-center">
+                            <span class="text-4xl font-display font-black text-green-600 uppercase">£50 SECURED VIA STRIPE</span>
+                        </div>
+                    </div>
+
+                    <!-- Van Sticker Hub -->
+                    <div class="bg-white brutal-border brutal-shadow p-10">
+                        <div class="text-6xl mb-6">🚐</div>
+                        <h2 class="text-5xl font-display font-black uppercase mb-6">VAN STICKER HUB</h2>
+                        <p class="text-xl font-body font-bold text-slate-600 mb-8">
+                            Generate a custom QR code for your van. Customers scan it, land in your AI WhatsApp funnel, and get vetted while you're driving.
+                        </p>
+                        <div class="flex justify-center">
+                            <div class="w-48 h-48 bg-slate-200 border-4 border-ink flex items-center justify-center">
+                                <span class="text-4xl font-display font-black text-slate-400">QR CODE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Pillar 4: 3-Day Pulse Report -->
+            <section class="py-24 border-b-4 border-ink bg-white">
+                <div class="max-w-4xl mx-auto px-4 text-center">
+                    <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-12">THE 3-DAY PULSE</h2>
+                    <p class="text-2xl font-body font-bold text-slate-600 mb-12">
+                        Every 3 days, your AI Foreman sends you a WhatsApp report. Know exactly how much time you saved.
+                    </p>
+                    
+                    <div class="bg-slate-100 brutal-border brutal-shadow p-8 max-w-md mx-auto text-left relative">
+                        <div class="absolute -top-6 -right-6 bg-green-500 text-white font-display font-black px-4 py-2 text-xl brutal-border transform rotate-6">NEW MESSAGE</div>
+                        <p class="font-body font-bold text-lg mb-4 text-slate-500">JobFilter Foreman <span class="text-sm">17:00</span></p>
+                        <div class="bg-white border-2 border-slate-300 p-4 rounded-lg rounded-tl-none font-body text-lg">
+                            <p class="mb-4"><strong>📊 3-Day Pulse Report</strong></p>
+                            <p>🛑 12 Tyre-kickers blocked.</p>
+                            <p>✅ 4 Priority Passes secured (£200).</p>
+                            <p>⏱️ <strong>Time Saved:</strong> Approx 6 hours.</p>
+                            <p class="mt-4">Go have a beer, boss. 🍺</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Pillar 5: Live Simulator -->
+            <section id="simulator" class="py-24 border-b-4 border-ink bg-slate-800 text-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6 text-dewalt">LIVE SIMULATOR</h2>
+                        <p class="text-2xl font-body font-bold">Try the 5-State Machine. See how the AI handles a lead.</p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <!-- Left: WhatsApp Mockup -->
+                        <div class="bg-slate-100 brutal-border brutal-shadow flex flex-col h-[600px] text-ink">
+                            <div class="bg-green-600 text-white p-4 font-display font-bold text-2xl flex items-center gap-4">
+                                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-600">🤖</div>
+                                AI Foreman
+                            </div>
+                            
+                            <div id="sim-chat" class="flex-1 p-6 overflow-y-auto space-y-4 bg-[#e5ddd5]">
+                                <template x-for="(msg, index) in simMessages" :key="index">
+                                    <div class="flex" :class="msg.sender === 'user' ? 'justify-end' : 'justify-start'">
+                                        <div class="max-w-[80%] p-3 rounded-lg font-body text-lg shadow-sm"
+                                             :class="msg.sender === 'user' ? 'bg-[#dcf8c6] rounded-tr-none' : 'bg-white rounded-tl-none'">
+                                            <span x-text="msg.text"></span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="p-4 bg-[#f0f0f0] border-t-2 border-slate-300">
+                                <form @submit.prevent="sendSimMessage" class="flex gap-2">
+                                    <input type="text" x-model="simInput" class="flex-1 p-3 rounded-full border-none focus:outline-none font-body text-lg" placeholder="Type a message...">
+                                    <button type="submit" class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">➤</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right: Dashboard Mockup -->
+                        <div class="bg-white text-ink brutal-border brutal-shadow p-8 h-[600px] flex flex-col">
+                            <h3 class="text-4xl font-display font-black uppercase mb-6 border-b-4 border-ink pb-4">TRADIE DASHBOARD</h3>
+                            
+                            <div class="flex-1 flex flex-col justify-center items-center text-center opacity-50 transition-opacity duration-500" :class="simState === 5 ? 'opacity-100' : ''">
+                                <template x-if="simState < 5">
+                                    <div>
+                                        <div class="text-6xl mb-4 animate-pulse">⏳</div>
+                                        <p class="text-2xl font-display font-black uppercase">VETTING IN PROGRESS...</p>
+                                        <p class="font-body font-bold text-slate-500 mt-2">The AI is currently interrogating the lead.</p>
+                                    </div>
+                                </template>
+                                
+                                <template x-if="simState === 5">
+                                    <div class="w-full text-left bg-green-50 border-4 border-green-600 p-6">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="bg-green-600 text-white font-display font-black px-3 py-1 uppercase text-sm">PRIORITY PASS PAID</span>
+                                            <span class="font-body font-bold text-slate-500">Just now</span>
+                                        </div>
+                                        <h4 class="text-3xl font-display font-black uppercase mb-2">NEW QUALIFIED LEAD</h4>
+                                        <p class="font-body font-bold text-xl mb-4">"Need a quote for this job..."</p>
+                                        <div class="flex gap-2">
+                                            <span class="bg-white border-2 border-ink px-2 py-1 text-sm font-bold">📸 Photos Attached</span>
+                                            <span class="bg-white border-2 border-ink px-2 py-1 text-sm font-bold">📍 Postcode Provided</span>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </template>
 
@@ -885,37 +692,163 @@
         </div>
     </template>
 
+    <!-- VAULT ROUTE -->
+    <template x-if="route === '/vault'">
+        <div class="min-h-screen bg-slate-50 py-12 px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-6xl font-display font-black uppercase tracking-tighter">THE VAULT</h1>
+                    <button @click="navigate('/')" class="bg-ink text-white px-6 py-3 font-display font-bold text-xl brutal-border hover:bg-slate-800 transition-colors">BACK TO SITE</button>
+                </div>
+                
+                <div class="bg-white brutal-border brutal-shadow p-8 mb-12">
+                    <h2 class="text-3xl font-display font-black uppercase mb-2">CEO SCRATCHPAD</h2>
+                    <p class="text-slate-500 font-body font-bold mb-6">Dump feature ideas here while on-site. No password required.</p>
+                    <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
+                        <input type="text" x-model="newVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
+                        <button type="submit" class="bg-dewalt text-ink font-display font-black uppercase px-8 py-4 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">LOG IDEA</button>
+                    </form>
+                </div>
+
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-display font-black uppercase border-b-4 border-ink pb-2">BACKLOG</h3>
+                    
+                    <!-- Hardcoded initial backlog as requested -->
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">The Review Loop</span>
+                            <span class="font-body font-bold text-slate-600">Automatic Google Review requests post-job.</span>
+                        </div>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                    </div>
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Material Fetcher</span>
+                            <span class="font-body font-bold text-slate-600">AI stock checks at Screwfix/B&Q via job photos.</span>
+                        </div>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                    </div>
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Subbie-Net</span>
+                            <span class="font-body font-bold text-slate-600">Referral button to pass busy work to mates for a fee.</span>
+                        </div>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                    </div>
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Tool Vault</span>
+                            <span class="font-body font-bold text-slate-600">Serial number/photo storage for insurance claims.</span>
+                        </div>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                    </div>
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Voice-Note Transcriber</span>
+                            <span class="font-body font-bold text-slate-600">Converting customer rants into structured data.</span>
+                        </div>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                    </div>
+
+                    <!-- Dynamic Ideas from Firestore -->
+                    <template x-for="idea in vaultIdeas" :key="idea.id">
+                        <div class="bg-dewalt brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                            <span class="font-body font-bold text-xl" x-text="idea.text"></span>
+                            <span class="text-sm text-ink font-bold font-body whitespace-nowrap" x-text="new Date(idea.createdAt).toLocaleDateString()"></span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <!-- ONBOARDING ROUTE -->
     <template x-if="route === '/onboarding'">
         <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
             <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
-                <h1 class="text-6xl font-display font-black uppercase tracking-tighter mb-8 text-center">JOIN JOBFILTER</h1>
-                <p class="text-2xl font-body font-bold text-ink mb-8 text-center">Your number wasn't found. Let's get you set up.</p>
+                <div class="flex justify-between items-center mb-8 border-b-4 border-ink pb-4">
+                    <h1 class="text-5xl font-display font-black uppercase tracking-tighter">JOIN JOBFILTER</h1>
+                    <span class="text-2xl font-display font-bold bg-dewalt px-3 py-1 brutal-border" x-text="'STEP ' + onboardingStep + '/3'"></span>
+                </div>
                 
-                <form @submit.prevent="register" class="space-y-8">
-                    <div>
-                        <label class="block font-display font-black text-3xl uppercase mb-4">FULL NAME</label>
-                        <input type="text" x-model="registerName" placeholder="John Doe" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+                <form @submit.prevent="onboardingStep === 3 ? register() : nextOnboardingStep()" class="space-y-8">
+                    
+                    <!-- STEP 1: PROFILE -->
+                    <div x-show="onboardingStep === 1">
+                        <p class="text-2xl font-body font-bold text-ink mb-8">Let's get your basic details.</p>
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">FULL NAME</label>
+                                <input type="text" x-model="registerName" placeholder="John Doe" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                            </div>
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">TRADE</label>
+                                <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                            </div>
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">COMPANY NAME</label>
+                                <input type="text" x-model="registerCompany" placeholder="Smith & Sons Plumbing" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                            </div>
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">SERVICE AREA</label>
+                                <input type="text" x-model="registerArea" placeholder="Birmingham (B1-B30)" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block font-display font-black text-3xl uppercase mb-4">TRADE</label>
-                        <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+
+                    <!-- STEP 2: LOGIC & FEES -->
+                    <div x-show="onboardingStep === 2" style="display: none;">
+                        <p class="text-2xl font-body font-bold text-ink mb-8">Set your AI Foreman's rules.</p>
+                        <div class="space-y-8">
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">PRIORITY BOOKING DEPOSIT (£)</label>
+                                <p class="text-slate-500 font-body font-bold mb-4">The deductible fee customers pay to lock in a slot.</p>
+                                <input type="number" x-model="calloutFee" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 2">
+                            </div>
+                            <div>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">AI STRICTNESS (1-5)</label>
+                                <p class="text-slate-500 font-body font-bold mb-4">1 = Let everyone through. 5 = Interrogate them like MI5.</p>
+                                <div class="flex items-center gap-4">
+                                    <input type="range" min="1" max="5" x-model="filterStrictness" class="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-ink">
+                                    <span class="text-3xl font-display font-black" x-text="filterStrictness"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block font-display font-black text-3xl uppercase mb-4">COMPANY NAME</label>
-                        <input type="text" x-model="registerCompany" placeholder="Smith & Sons Plumbing" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
-                    </div>
-                    <div>
-                        <label class="block font-display font-black text-3xl uppercase mb-4">SERVICE AREA</label>
-                        <input type="text" x-model="registerArea" placeholder="Birmingham (B1-B30)" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
+
+                    <!-- STEP 3: INTEGRATIONS -->
+                    <div x-show="onboardingStep === 3" style="display: none;">
+                        <p class="text-2xl font-body font-bold text-ink mb-8">Connect your tools to automate the busywork.</p>
+                        <div class="space-y-6">
+                            <div class="border-4 border-ink p-6 flex justify-between items-center bg-slate-50">
+                                <div>
+                                    <h3 class="font-display font-black text-2xl uppercase">STRIPE CONNECT</h3>
+                                    <p class="font-body font-bold text-slate-500">To collect Priority Pass deposits.</p>
+                                </div>
+                                <button type="button" class="bg-indigo-600 text-white font-display font-bold px-4 py-2 brutal-border hover:bg-indigo-700">CONNECT</button>
+                            </div>
+                            <div class="border-4 border-ink p-6 flex justify-between items-center bg-slate-50">
+                                <div>
+                                    <h3 class="font-display font-black text-2xl uppercase">GOOGLE CALENDAR</h3>
+                                    <p class="font-body font-bold text-slate-500">To offer real-time booking slots.</p>
+                                </div>
+                                <button type="button" class="bg-blue-500 text-white font-display font-bold px-4 py-2 brutal-border hover:bg-blue-600">CONNECT</button>
+                            </div>
+                        </div>
                     </div>
                     
                     <p class="text-red-600 font-bold mt-4 text-xl" x-show="loginError" x-text="loginError"></p>
 
-                    <button type="submit" :disabled="isLoggingIn" class="w-full bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-6 text-4xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
-                        <span x-show="!isLoggingIn">CREATE ACCOUNT</span>
-                        <span x-show="isLoggingIn">CREATING...</span>
-                    </button>
+                    <div class="flex gap-4 pt-8">
+                        <button type="button" x-show="onboardingStep > 1" @click="onboardingStep--" class="w-1/3 bg-slate-200 text-ink brutal-border font-display font-black uppercase px-4 py-4 text-2xl hover:bg-slate-300 transition-colors">
+                            BACK
+                        </button>
+                        <button type="submit" :disabled="isLoggingIn" class="flex-1 bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
+                            <span x-show="onboardingStep < 3">NEXT</span>
+                            <span x-show="onboardingStep === 3 && !isLoggingIn">FINISH & LAUNCH</span>
+                            <span x-show="isLoggingIn">CREATING...</span>
+                        </button>
+                    </div>
                 </form>
 
                 <div class="mt-12 pt-8 border-t-4 border-slate-200">
