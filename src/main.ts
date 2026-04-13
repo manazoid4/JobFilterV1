@@ -201,12 +201,11 @@ document.addEventListener('alpine:init', () => {
         ];
     },
 
-    async sendSimMessage() {
-        if (!this.simInput.trim()) return;
+    async sendSimMessage(text: string) {
+        if (!text || !text.trim()) return;
         
-        const userMsg = this.simInput;
+        const userMsg = text;
         this.simMessages.push({ sender: 'user', text: userMsg });
-        this.simInput = '';
 
         // Call our backend webhook to simulate the AI
         try {
@@ -284,6 +283,19 @@ document.addEventListener('alpine:init', () => {
           calloutFee: this.calloutFee,
           filterStrictness: this.filterStrictness,
           createdAt: new Date().toISOString()
+        });
+
+        // Send email via backend mock
+        await fetch('/api/onboarding/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: this.registerName,
+                trade: this.registerTrade,
+                phoneNumber: this.phoneNumber,
+                calloutFee: this.calloutFee,
+                filterStrictness: this.filterStrictness
+            })
         });
         
         this.navigate('/dashboard');

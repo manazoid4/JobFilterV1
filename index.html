@@ -148,6 +148,7 @@
             
             <div class="flex items-center gap-6">
                 <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Features</button>
+                <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Blueprint</button>
                 <button @click="navigate('/login')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-2 text-2xl brutal-shadow brutal-shadow-hover transition-all">
                     TRADIE LOGIN
                 </button>
@@ -288,10 +289,17 @@
                             </div>
 
                             <div class="p-4 bg-[#f0f0f0] border-t-2 border-slate-300">
-                                <form @submit.prevent="sendSimMessage" class="flex gap-2">
-                                    <input type="text" x-model="simInput" class="flex-1 p-3 rounded-full border-none focus:outline-none font-body text-lg" placeholder="Type a message...">
-                                    <button type="submit" class="bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">➤</button>
-                                </form>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <button @click="sendSimMessage('Can you just pop round and give me a price?')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
+                                        [TYRE-KICKER] "Can you just pop round?"
+                                    </button>
+                                    <button @click="sendSimMessage('I need a rewire. Postcode B14 7TE. Here are 3 photos.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
+                                        [PROFESSIONAL] "Rewire, B14 7TE, + Photos"
+                                    </button>
+                                    <button @click="sendSimMessage('Yes, I will pay the deposit.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
+                                        [LOCK-IN] "Yes, I will pay the deposit."
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -332,29 +340,70 @@
 
     <!-- FEATURES ROUTE -->
     <template x-if="route === '/features'">
-        <div>
+        <div class="bg-slate-50 min-h-screen">
             <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
                 <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
-                    THE FEATURES
+                    INDUSTRIAL SPEC-TABLE
                 </h1>
                 <p class="text-3xl font-body font-bold text-ink max-w-3xl mx-auto">
-                    Everything you need to stop quoting for free and start getting paid.
+                    The technical breakdown of the JobFilter system.
                 </p>
             </header>
             
-            <!-- We can reuse the Tyre-Kicker X-Ray and Ghost Archive here -->
-            <!-- For brevity, we'll just show the Ghost Archive and X-Ray as features -->
-            <div class="py-24 bg-white border-b-4 border-ink text-center">
-                <h2 class="text-6xl font-display font-black uppercase mb-8">THE GATEKEEPER</h2>
-                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">Automatically requests photos and postcodes before you ever see the message.</p>
-            </div>
-            <div class="py-24 bg-slate-50 border-b-4 border-ink text-center">
-                <h2 class="text-6xl font-display font-black uppercase mb-8">THE DISPATCHER</h2>
-                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">Organizes your vetted leads into a clean dashboard so you know exactly who to call.</p>
-            </div>
-            <div class="py-24 bg-dewalt border-b-4 border-ink text-center">
-                <h2 class="text-6xl font-display font-black uppercase mb-8">THE SAFETY NET</h2>
-                <p class="text-2xl font-body font-bold max-w-2xl mx-auto">The Ghost Archive catches any unclear messages so you never miss a real lead.</p>
+            <div class="max-w-7xl mx-auto py-24 px-4">
+                <div class="overflow-x-auto bg-white brutal-border brutal-shadow">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-4 border-ink bg-slate-800 text-white">
+                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3 border-r-4 border-ink">THE TOOL</th>
+                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3 border-r-4 border-ink">THE ACTION</th>
+                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3">THE PAYOFF</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-body font-bold text-xl">
+                            <tr class="border-b-4 border-ink">
+                                <td class="p-6 border-r-4 border-ink bg-slate-50">
+                                    <span class="bg-dewalt px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">AI Engine</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">THE FOREMAN</span>
+                                </td>
+                                <td class="p-6 border-r-4 border-ink">Intercepts WhatsApp messages, demands photos, postcodes, and a description.</td>
+                                <td class="p-6">Zero time wasted on tyre-kickers. You only see fully vetted jobs.</td>
+                            </tr>
+                            <tr class="border-b-4 border-ink">
+                                <td class="p-6 border-r-4 border-ink bg-slate-50">
+                                    <span class="bg-green-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Payments</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">PRIORITY PASS</span>
+                                </td>
+                                <td class="p-6 border-r-4 border-ink">Generates a Stripe Pay-Link for a deductible booking fee.</td>
+                                <td class="p-6">Guarantees the customer is serious and locks in revenue before you turn the ignition.</td>
+                            </tr>
+                            <tr class="border-b-4 border-ink">
+                                <td class="p-6 border-r-4 border-ink bg-slate-50">
+                                    <span class="bg-blue-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Scheduling</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">MANUAL PULSE</span>
+                                </td>
+                                <td class="p-6 border-r-4 border-ink">Pings you every 3 days for text-based availability. Shows clients your status.</td>
+                                <td class="p-6">Zero-API calendar management. You control the schedule without touching a calendar app.</td>
+                            </tr>
+                            <tr class="border-b-4 border-ink">
+                                <td class="p-6 border-r-4 border-ink bg-slate-50">
+                                    <span class="bg-red-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Analytics</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">ROI ENGINE</span>
+                                </td>
+                                <td class="p-6 border-r-4 border-ink">Calculates admin waste (15 mins/lead) and revenue reclaimed (£50/hr).</td>
+                                <td class="p-6">Hard data proving exactly how much time and money the system saves you.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-6 border-r-4 border-ink bg-slate-50">
+                                    <span class="bg-purple-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Safety Net</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">GHOST ARCHIVE</span>
+                                </td>
+                                <td class="p-6 border-r-4 border-ink">Catches unclear or incomplete messages that the AI couldn't process.</td>
+                                <td class="p-6">Nothing is ever deleted. You can manually review and reclaim any lead.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </template>
@@ -446,6 +495,32 @@
                         <template x-if="isLoadingLeads">
                             <div class="flex justify-center items-center h-64">
                                 <p class="text-3xl font-display font-black uppercase text-slate-400 animate-pulse">SYNCING WITH WHATSAPP...</p>
+                            </div>
+                        </template>
+
+                        <!-- MONEY LEAK ROI ENGINE -->
+                        <template x-if="!isLoadingLeads && activeTab === 'money'">
+                            <div class="mb-12 border-4 border-ink p-8 bg-slate-50">
+                                <h2 class="text-4xl font-display font-black uppercase mb-6">THE "MONEY LEAK" ROI ENGINE</h2>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                                    <div class="bg-white border-4 border-ink p-6 text-center">
+                                        <p class="text-xl font-body font-bold text-slate-500 uppercase mb-2">Tyre-Kickers Blocked</p>
+                                        <p class="text-6xl font-display font-black text-red-600" x-text="safetyLeads.length"></p>
+                                    </div>
+                                    <div class="bg-white border-4 border-ink p-6 text-center">
+                                        <p class="text-xl font-body font-bold text-slate-500 uppercase mb-2">Admin Waste Prevented</p>
+                                        <p class="text-6xl font-display font-black text-ink"><span x-text="safetyLeads.length * 15"></span> <span class="text-2xl">MINS</span></p>
+                                    </div>
+                                    <div class="bg-dewalt border-4 border-ink p-6 text-center brutal-shadow">
+                                        <p class="text-xl font-body font-bold text-ink uppercase mb-2">Revenue Reclaimed</p>
+                                        <p class="text-6xl font-display font-black text-ink">£<span x-text="(safetyLeads.length * 15 / 60) * 50"></span></p>
+                                    </div>
+                                </div>
+                                <div class="bg-green-100 border-l-8 border-green-600 p-4">
+                                    <p class="text-xl font-body font-bold text-green-800">
+                                        JobFilter prevented £<span x-text="(safetyLeads.length * 15 / 60) * 50"></span> in admin leakage this month. Your sub just paid for itself 5x over.
+                                    </p>
+                                </div>
                             </div>
                         </template>
                         
@@ -621,6 +696,22 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Manual Pulse Settings -->
+                                <div class="border-4 border-ink p-8 bg-white">
+                                    <h2 class="text-4xl font-display font-black uppercase mb-2">MANUAL PULSE (ZERO-API CALENDAR)</h2>
+                                    <p class="text-xl font-body font-bold text-slate-600 mb-8">The system pings you via WhatsApp every 3 days. Your status is shown to clients.</p>
+                                    
+                                    <div class="bg-slate-100 border-4 border-ink p-6 mb-6">
+                                        <label class="block font-display font-black text-2xl uppercase mb-2">CURRENT AVAILABILITY STATUS</label>
+                                        <input type="text" value="Booking for late next week." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt">
+                                    </div>
+                                    
+                                    <div class="bg-green-50 border-4 border-green-600 p-6">
+                                        <p class="font-body font-bold text-lg text-green-800 mb-2">What the client sees:</p>
+                                        <p class="text-2xl font-display font-black uppercase">"Boss is free: Booking for late next week. Which slot works?"</p>
+                                    </div>
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -692,18 +783,18 @@
         </div>
     </template>
 
-    <!-- VAULT ROUTE -->
-    <template x-if="route === '/vault'">
+    <!-- BLUEPRINT ROUTE -->
+    <template x-if="route === '/blueprint'">
         <div class="min-h-screen bg-slate-50 py-12 px-4">
             <div class="max-w-4xl mx-auto">
                 <div class="flex justify-between items-center mb-8">
-                    <h1 class="text-6xl font-display font-black uppercase tracking-tighter">THE VAULT</h1>
+                    <h1 class="text-6xl font-display font-black uppercase tracking-tighter">THE BLUEPRINT</h1>
                     <button @click="navigate('/')" class="bg-ink text-white px-6 py-3 font-display font-bold text-xl brutal-border hover:bg-slate-800 transition-colors">BACK TO SITE</button>
                 </div>
                 
                 <div class="bg-white brutal-border brutal-shadow p-8 mb-12">
-                    <h2 class="text-3xl font-display font-black uppercase mb-2">CEO SCRATCHPAD</h2>
-                    <p class="text-slate-500 font-body font-bold mb-6">Dump feature ideas here while on-site. No password required.</p>
+                    <h2 class="text-3xl font-display font-black uppercase mb-2">CEO VISION BOARD</h2>
+                    <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
                     <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
                         <input type="text" x-model="newVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
                         <button type="submit" class="bg-dewalt text-ink font-display font-black uppercase px-8 py-4 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">LOG IDEA</button>
@@ -711,43 +802,31 @@
                 </div>
 
                 <div class="space-y-6">
-                    <h3 class="text-2xl font-display font-black uppercase border-b-4 border-ink pb-2">BACKLOG</h3>
+                    <h3 class="text-4xl font-display font-black uppercase mb-6 border-b-4 border-ink pb-2">THE BACKLOG</h3>
                     
-                    <!-- Hardcoded initial backlog as requested -->
+                    <!-- AI Generated Features -->
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">The Review Loop</span>
-                            <span class="font-body font-bold text-slate-600">Automatic Google Review requests post-job.</span>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">VAT Sort</span>
+                            <span class="font-body font-bold text-slate-600">Automated receipt extraction and categorization for HMRC.</span>
                         </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                        <span class="bg-green-200 text-green-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
                     </div>
+                    
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Material Fetcher</span>
-                            <span class="font-body font-bold text-slate-600">AI stock checks at Screwfix/B&Q via job photos.</span>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Tool Tracker</span>
+                            <span class="font-body font-bold text-slate-600">Inventory management synced with van locations.</span>
                         </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                        <span class="bg-yellow-200 text-yellow-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
                     </div>
+                    
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
                             <span class="font-display font-black text-2xl uppercase block mb-1">Subbie-Net</span>
-                            <span class="font-body font-bold text-slate-600">Referral button to pass busy work to mates for a fee.</span>
+                            <span class="font-body font-bold text-slate-600">AI-matched subcontractor hiring for overflow work.</span>
                         </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
-                    </div>
-                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Tool Vault</span>
-                            <span class="font-body font-bold text-slate-600">Serial number/photo storage for insurance claims.</span>
-                        </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
-                    </div>
-                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Voice-Note Transcriber</span>
-                            <span class="font-body font-bold text-slate-600">Converting customer rants into structured data.</span>
-                        </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border">PLANNED</span>
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
                     </div>
 
                     <!-- Dynamic Ideas from Firestore -->
@@ -786,12 +865,8 @@
                                 <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
                             </div>
                             <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">COMPANY NAME</label>
-                                <input type="text" x-model="registerCompany" placeholder="Smith & Sons Plumbing" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
-                            </div>
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">SERVICE AREA</label>
-                                <input type="text" x-model="registerArea" placeholder="Birmingham (B1-B30)" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                <label class="block font-display font-black text-2xl uppercase mb-2">MOBILE NUMBER</label>
+                                <input type="tel" x-model="phoneNumber" placeholder="+447700900000" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
                             </div>
                         </div>
                     </div>
@@ -806,7 +881,7 @@
                                 <input type="number" x-model="calloutFee" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 2">
                             </div>
                             <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">AI STRICTNESS (1-5)</label>
+                                <label class="block font-display font-black text-2xl uppercase mb-2">WORKLOAD DIAL (1-5)</label>
                                 <p class="text-slate-500 font-body font-bold mb-4">1 = Let everyone through. 5 = Interrogate them like MI5.</p>
                                 <div class="flex items-center gap-4">
                                     <input type="range" min="1" max="5" x-model="filterStrictness" class="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-ink">
@@ -816,23 +891,25 @@
                         </div>
                     </div>
 
-                    <!-- STEP 3: INTEGRATIONS -->
+                    <!-- STEP 3: DEPLOYMENT -->
                     <div x-show="onboardingStep === 3" style="display: none;">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Connect your tools to automate the busywork.</p>
+                        <p class="text-2xl font-body font-bold text-ink mb-8">Deploy your Foreman.</p>
                         <div class="space-y-6">
-                            <div class="border-4 border-ink p-6 flex justify-between items-center bg-slate-50">
-                                <div>
-                                    <h3 class="font-display font-black text-2xl uppercase">STRIPE CONNECT</h3>
-                                    <p class="font-body font-bold text-slate-500">To collect Priority Pass deposits.</p>
+                            <div class="border-4 border-ink p-6 bg-slate-50 text-center">
+                                <h3 class="font-display font-black text-2xl uppercase mb-4">VAN STICKER QR PREVIEW</h3>
+                                <div class="w-48 h-48 bg-white border-4 border-ink mx-auto flex items-center justify-center mb-4">
+                                    <span class="text-4xl font-display font-black text-slate-400">QR</span>
                                 </div>
-                                <button type="button" class="bg-indigo-600 text-white font-display font-bold px-4 py-2 brutal-border hover:bg-indigo-700">CONNECT</button>
+                                <p class="font-body font-bold text-slate-500">Scan to enter the WhatsApp funnel.</p>
                             </div>
-                            <div class="border-4 border-ink p-6 flex justify-between items-center bg-slate-50">
-                                <div>
-                                    <h3 class="font-display font-black text-2xl uppercase">GOOGLE CALENDAR</h3>
-                                    <p class="font-body font-bold text-slate-500">To offer real-time booking slots.</p>
-                                </div>
-                                <button type="button" class="bg-blue-500 text-white font-display font-bold px-4 py-2 brutal-border hover:bg-blue-600">CONNECT</button>
+                            <div class="border-4 border-ink p-6 bg-slate-50">
+                                <h3 class="font-display font-black text-2xl uppercase mb-2">MANUAL PULSE SCHEDULE</h3>
+                                <p class="font-body font-bold text-slate-500 mb-4">The system will ping you via WhatsApp every 3 days for your availability.</p>
+                                <select class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt">
+                                    <option>Every 3 Days (Recommended)</option>
+                                    <option>Every Day</option>
+                                    <option>Weekly</option>
+                                </select>
                             </div>
                         </div>
                     </div>

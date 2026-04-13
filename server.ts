@@ -25,27 +25,37 @@ async function startServer() {
 
     switch (current_state) {
       case 1: // State 1: Handshake
-        reply = "Hi, I'm the automated assistant for this business. To get you a quote faster, I need a few details.";
-        nextState = 2;
+        if (filter_strength == 5) {
+          reply = "Hi, I'm the automated assistant. The boss is extremely busy. To even look at your job, we require a fully deductible Priority Booking deposit upfront. Do you agree to pay this?";
+          nextState = 4; // Skip straight to Priority Pass
+        } else {
+          reply = "Hi, I'm the automated assistant for this business. To get you a quote faster, I need a few details. What's the job and your postcode?";
+          nextState = 2;
+        }
         break;
       case 2: // State 2: The Vet
         if (message.length > 20 && message.match(/[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}/i)) {
-          reply = "Thanks. Boss's orders: I need 1-3 photos or a quick video of the issue before we can proceed. No photos, no quote.";
-          nextState = 3;
+          if (filter_strength <= 2) {
+             reply = "Thanks. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill.";
+             nextState = 4; // Skip photos for low strictness
+          } else {
+             reply = "Thanks. Boss's orders: I need 1-3 photos or a quick video of the issue before we can proceed. No photos, no quote.";
+             nextState = 3;
+          }
         } else {
           reply = "Please provide a detailed description of the job AND your full postcode.";
         }
         break;
       case 3: // State 3: Visual Proof
         if (req.body.has_media) {
-          reply = "Got the photos. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill.";
+          reply = "Got the photos. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
           nextState = 4;
         } else {
           reply = "I still need those photos. Boss won't look at it without visual proof.";
         }
         break;
       case 4: // State 4: The Priority Pass
-        if (message.toLowerCase().includes("yes") || message.toLowerCase().includes("ok")) {
+        if (message.toLowerCase().includes("yes") || message.toLowerCase().includes("ok") || message.toLowerCase().includes("deposit")) {
           // Generate Stripe Link
           reply = "Great. Here is your Priority Pass link: [STRIPE_LINK]. Once paid, we'll lock in a time.";
           nextState = 5;
@@ -54,7 +64,7 @@ async function startServer() {
         }
         break;
       case 5: // State 5: The Lock-In
-        reply = "Deposit confirmed. Here are the available slots for next week: [CALENDAR_LINK]. Reply with your preferred time.";
+        reply = "Deposit confirmed. Here are the available slots for next week. Reply with your preferred time.";
         break;
       default:
         reply = "How can we help you today?";
@@ -107,6 +117,16 @@ async function startServer() {
       status: "success", 
       authUrl: `https://accounts.google.com/o/oauth2/v2/auth?client_id=mock&redirect_uri=mock&response_type=code&scope=calendar` 
     });
+  });
+
+  // ==========================================
+  // ONBOARDING EMAIL (Mock)
+  // ==========================================
+  app.post("/api/onboarding/submit", (req, res) => {
+    const { name, trade, phoneNumber, calloutFee, filterStrictness } = req.body;
+    console.log(`[EMAIL MOCK] Sending onboarding data to info@jobfilter.uk:`);
+    console.log(`Name: ${name}, Trade: ${trade}, Phone: ${phoneNumber}, Fee: £${calloutFee}, Strictness: ${filterStrictness}`);
+    res.json({ status: "success", message: "Onboarding data received and email sent." });
   });
 
   // API routes FIRST
