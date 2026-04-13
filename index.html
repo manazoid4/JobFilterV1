@@ -458,7 +458,7 @@
             <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
                 <h1 class="text-6xl font-display font-black uppercase tracking-tighter mb-8 text-center">TRADIE LOGIN</h1>
                 
-                <form @submit.prevent="login" class="space-y-8">
+                <form @submit.prevent="login()" class="space-y-8">
                     <div>
                         <label class="block font-display font-black text-3xl uppercase mb-4">WHATSAPP NUMBER</label>
                         <input type="tel" x-model="phoneNumber" placeholder="+447700900000" class="w-full brutal-border p-6 text-2xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" required>
@@ -829,8 +829,8 @@
                 <div class="bg-white brutal-border brutal-shadow p-8 mb-12">
                     <h2 class="text-3xl font-display font-black uppercase mb-2">CEO VISION BOARD</h2>
                     <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
-                    <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
-                        <input type="text" x-model="newVaultIdea" @keydown.enter.prevent="addVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
+                    <form @submit.prevent="addVaultIdea()" class="flex flex-col md:flex-row gap-4">
+                        <input type="text" x-model="newVaultIdea" @keydown.enter.prevent="addVaultIdea()" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
                         <select x-model="newVaultPhase" class="brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt bg-white">
                             <option value="1">PHASE 1</option>
                             <option value="2">PHASE 2</option>

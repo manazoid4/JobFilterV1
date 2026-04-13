@@ -131,23 +131,25 @@ document.addEventListener('alpine:init', () => {
     },
 
     async addVaultIdea() {
-        if (!this.newVaultIdea.trim()) return;
+        if (!this.newVaultIdea || !this.newVaultIdea.trim()) return;
         try {
             const res = await fetch('/api/blueprint', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     text: this.newVaultIdea,
-                    phase: parseInt(this.newVaultPhase) || 3
+                    phase: Number(this.newVaultPhase) || 3
                 })
             });
             
             if (res.ok) {
                 const newIdea = await res.json();
-                // Optimistic UI update
-                this.vaultIdeas.unshift(newIdea);
+                // Optimistic UI update - create new array for guaranteed Alpine reactivity
+                this.vaultIdeas = [newIdea, ...this.vaultIdeas];
                 this.newVaultIdea = '';
                 this.newVaultPhase = 3;
+            } else {
+                console.error("Server returned error:", await res.text());
             }
         } catch (err) {
             console.error("Failed to add idea:", err);
