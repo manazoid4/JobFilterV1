@@ -335,6 +335,38 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Memory Pillar 6: Pricing -->
+            <section class="py-24 border-b-4 border-ink bg-white">
+                <div class="max-w-6xl mx-auto px-4">
+                    <div class="text-center mb-16">
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6">THE BOTTOM LINE</h2>
+                        <p class="text-2xl font-body font-bold text-slate-600">One flat fee. Unlimited leads. Cancel anytime.</p>
+                    </div>
+
+                    <div class="max-w-3xl mx-auto bg-slate-50 brutal-border brutal-shadow p-12 text-center">
+                        <div class="inline-block bg-dewalt brutal-border px-6 py-2 mb-8">
+                            <span class="font-display font-black text-2xl uppercase">PRO TIER</span>
+                        </div>
+                        <div class="mb-8">
+                            <span class="text-8xl font-display font-black uppercase">£29</span>
+                            <span class="text-2xl font-body font-bold text-slate-500">/month</span>
+                        </div>
+                        
+                        <ul class="text-xl font-body font-bold text-left space-y-4 mb-12 max-w-md mx-auto">
+                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Unlimited AI WhatsApp Vetting</li>
+                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Custom Van QR Code</li>
+                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Stripe Priority Pass Integration</li>
+                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> The "Money Leak" ROI Engine</li>
+                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> 3-Day Pulse Reports</li>
+                        </ul>
+
+                        <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase px-8 py-6 text-3xl brutal-border brutal-shadow brutal-shadow-hover transition-all">
+                            START YOUR ENGINE
+                        </button>
+                    </div>
+                </div>
+            </section>
         </div>
     </template>
 
@@ -513,12 +545,14 @@
                                     </div>
                                     <div class="bg-dewalt border-4 border-ink p-6 text-center brutal-shadow">
                                         <p class="text-xl font-body font-bold text-ink uppercase mb-2">Revenue Reclaimed</p>
-                                        <p class="text-6xl font-display font-black text-ink">£<span x-text="(safetyLeads.length * 15 / 60) * 50"></span></p>
+                                        <p class="text-6xl font-display font-black text-ink">£<span x-text="((safetyLeads.length * 15 / 60) * 50).toFixed(2)"></span></p>
                                     </div>
                                 </div>
                                 <div class="bg-green-100 border-l-8 border-green-600 p-4">
                                     <p class="text-xl font-body font-bold text-green-800">
-                                        JobFilter prevented £<span x-text="(safetyLeads.length * 15 / 60) * 50"></span> in admin leakage this month. Your sub just paid for itself 5x over.
+                                        JobFilter prevented £<span x-text="((safetyLeads.length * 15 / 60) * 50).toFixed(2)"></span> in admin leakage this month. 
+                                        <span x-show="((safetyLeads.length * 15 / 60) * 50) >= 29">Your £29 sub just paid for itself <span x-text="Math.floor(((safetyLeads.length * 15 / 60) * 50) / 29)"></span>x over.</span>
+                                        <span x-show="((safetyLeads.length * 15 / 60) * 50) < 29">You're £<span x-text="(29 - ((safetyLeads.length * 15 / 60) * 50)).toFixed(2)"></span> away from paying off your £29 sub.</span>
                                     </p>
                                 </div>
                             </div>
