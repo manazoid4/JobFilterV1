@@ -21,10 +21,86 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+import { Pool } from 'pg';
+
+// Initialize PostgreSQL Pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+// Initialize ideas table
+pool.query(`
+  CREATE TABLE IF NOT EXISTS ideas (
+    id SERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    phase INTEGER DEFAULT 3,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`).catch(err => console.warn("Postgres not connected. Set DATABASE_URL.", err.message));
+
+// Fallback memory array if DB is not connected
+let memoryIdeas: any[] = [];
+
 async function startServer() {
   const app = express();
   app.use(express.json());
   const PORT = 3000;
+
+  // ==========================================
+  // BLUEPRINT CRUD (No-Login)
+  // ==========================================
+  app.post("/api/blueprint", async (req, res) => {
+    const { text, phase = 3 } = req.body;
+    try {
+      if (process.env.DATABASE_URL) {
+        const result = await pool.query(
+          'INSERT INTO ideas (text, phase) VALUES ($1, $2) RETURNING *',
+          [text, phase]
+        );
+        res.json(result.rows[0]);
+      } else {
+        const newIdea = {
+          id: Date.now(),
+          text,
+          phase,
+          created_at: new Date().toISOString()
+        };
+        memoryIdeas.push(newIdea);
+        res.json(newIdea);
+      }
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get("/api/blueprint", async (req, res) => {
+    try {
+      if (process.env.DATABASE_URL) {
+        const result = await pool.query('SELECT * FROM ideas ORDER BY created_at DESC');
+        res.json(result.rows);
+      } else {
+        const sortedIdeas = [...memoryIdeas].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        res.json(sortedIdeas);
+      }
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.delete("/api/blueprint/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+      if (process.env.DATABASE_URL) {
+        await pool.query('DELETE FROM ideas WHERE id = $1', [id]);
+        res.json({ success: true });
+      } else {
+        memoryIdeas = memoryIdeas.filter(idea => idea.id.toString() !== id.toString());
+        res.json({ success: true });
+      }
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
 
   // ==========================================
   // I. THE CONVERSATIONAL ENGINE (Foreman AI)

@@ -815,7 +815,7 @@
                             <span class="font-display font-black text-2xl uppercase block mb-1">VAT Sort</span>
                             <span class="font-body font-bold text-slate-600">Automated receipt extraction and categorization for HMRC.</span>
                         </div>
-                        <span class="bg-green-200 text-green-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
+                        <span class="bg-black text-[#FFD700] font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
                     </div>
                     
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
@@ -823,7 +823,7 @@
                             <span class="font-display font-black text-2xl uppercase block mb-1">Tool Tracker</span>
                             <span class="font-body font-bold text-slate-600">Inventory management synced with van locations.</span>
                         </div>
-                        <span class="bg-yellow-200 text-yellow-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
+                        <span class="bg-[#FFD700] text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
                     </div>
                     
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
@@ -831,21 +831,26 @@
                             <span class="font-display font-black text-2xl uppercase block mb-1">Subbie-Net</span>
                             <span class="font-body font-bold text-slate-600">AI-matched subcontractor hiring for overflow work.</span>
                         </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
+                        <span class="bg-slate-200 text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
                     </div>
 
-                    <!-- Dynamic Ideas from Firestore -->
+                    <!-- Dynamic Ideas from PostgreSQL -->
                     <template x-for="idea in vaultIdeas" :key="idea.id">
                         <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                             <div>
                                 <span class="font-display font-black text-2xl uppercase block mb-1" x-text="idea.text"></span>
-                                <span class="font-body font-bold text-slate-600" x-text="new Date(idea.createdAt).toLocaleDateString()"></span>
+                                <span class="font-body font-bold text-slate-600" x-text="new Date(idea.created_at || idea.createdAt).toLocaleDateString()"></span>
                             </div>
-                            <span :class="{
-                                'bg-green-200 text-green-800': idea.phase == 1,
-                                'bg-yellow-200 text-yellow-800': idea.phase == 2,
-                                'bg-slate-200 text-slate-600': idea.phase == 3 || !idea.phase
-                            }" class="font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap" x-text="idea.phase == 1 ? '[PHASE 1: LIVE]' : idea.phase == 2 ? '[PHASE 2: NEAR-TERM]' : '[PHASE 3: FUTURE]'"></span>
+                            <div class="flex items-center gap-2">
+                                <span :class="{
+                                    'bg-black text-[#FFD700]': idea.phase == 1,
+                                    'bg-[#FFD700] text-black': idea.phase == 2,
+                                    'bg-slate-200 text-black': idea.phase == 3 || !idea.phase
+                                }" class="font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap" x-text="idea.phase == 1 ? '[PHASE 1: LIVE]' : idea.phase == 2 ? '[PHASE 2: NEAR-TERM]' : '[PHASE 3: FUTURE]'"></span>
+                                <button @click="deleteVaultIdea(idea.id)" class="bg-white text-black hover:bg-black hover:text-white font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap transition-colors">
+                                    REMOVE
+                                </button>
+                            </div>
                         </div>
                     </template>
                 </div>

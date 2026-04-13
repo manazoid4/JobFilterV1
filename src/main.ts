@@ -32,7 +32,6 @@ document.addEventListener('alpine:init', () => {
     newVaultIdea: '',
     newVaultPhase: 3,
     vaultIdeas: [],
-    unsubscribeVault: null,
 
     // Simulator State
     simState: 1,
@@ -80,10 +79,8 @@ document.addEventListener('alpine:init', () => {
         this.unsubscribeLeadsListener();
       }
 
-      if (this.route === '/vault') {
-        this.subscribeVault();
-      } else {
-        this.unsubscribeVaultListener();
+      if (this.route === '/blueprint') {
+        this.fetchBlueprintIdeas();
       }
 
       if (this.route === '/') {
@@ -104,13 +101,6 @@ document.addEventListener('alpine:init', () => {
             this.unsubscribeLeads = null;
         }
     },
-
-    unsubscribeVaultListener() {
-        if (this.unsubscribeVault) {
-            this.unsubscribeVault();
-            this.unsubscribeVault = null;
-        }
-    },
     
     subscribeLeads() {
       this.isLoadingLeads = true;
@@ -129,30 +119,58 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
-    subscribeVault() {
+    async fetchBlueprintIdeas() {
       try {
-        const vaultRef = collection(db, 'vault_ideas');
-        this.unsubscribeVault = onSnapshot(vaultRef, (snapshot) => {
-            this.vaultIdeas = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        });
+        const res = await fetch('/api/blueprint');
+        if (res.ok) {
+          this.vaultIdeas = await res.json();
+        }
       } catch (err) {
-        console.error("Failed to setup vault listener:", err);
+        console.error("Failed to fetch blueprint ideas:", err);
       }
     },
 
     async addVaultIdea() {
         if (!this.newVaultIdea.trim()) return;
         try {
-            await addDoc(collection(db, 'vault_ideas'), {
-                text: this.newVaultIdea,
-                phase: parseInt(this.newVaultPhase) || 3,
-                createdAt: new Date().toISOString()
+            const res = await fetch('/api/blueprint', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: this.newVaultIdea,
+                    phase: parseInt(this.newVaultPhase) || 3
+                })
             });
-            this.newVaultIdea = '';
-            this.newVaultPhase = 3;
+            
+            if (res.ok) {
+                const newIdea = await res.json();
+                // Optimistic UI update
+                this.vaultIdeas.unshift(newIdea);
+                this.newVaultIdea = '';
+                this.newVaultPhase = 3;
+            }
         } catch (err) {
             console.error("Failed to add idea:", err);
+        }
+    },
+
+    async deleteVaultIdea(id: any) {
+        // Optimistic UI update
+        const previousIdeas = [...this.vaultIdeas];
+        this.vaultIdeas = this.vaultIdeas.filter((idea: any) => idea.id !== id);
+        
+        try {
+            const res = await fetch(`/api/blueprint/${id}`, {
+                method: 'DELETE'
+            });
+            if (!res.ok) {
+                // Revert on failure
+                this.vaultIdeas = previousIdeas;
+                console.error("Failed to delete idea on server");
+            }
+        } catch (err) {
+            this.vaultIdeas = previousIdeas;
+            console.error("Failed to delete idea:", err);
         }
     },
 
