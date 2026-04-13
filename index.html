@@ -163,7 +163,7 @@
             <!-- Hero Section -->
     <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
         <div class="max-w-5xl mx-auto px-4 text-center">
-            <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-[0.85] mb-8">
+            <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-normal leading-none mb-8">
                 RECLAIM YOUR <br class="hidden md:block">
                 <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">EVENINGS.</span>
             </h1>
@@ -248,7 +248,41 @@
         </div>
     </section>
 
-    <!-- SECTION 2.5: The Ghost Archive (Safety Net) -->
+    <!-- SECTION 2.5: How It Works (User Flow) -->
+    <section class="py-24 border-b-4 border-ink bg-slate-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl md:text-7xl font-display font-extrabold uppercase text-center mb-16">HOW THE FILTER WORKS</h2>
+            <div class="grid md:grid-cols-5 gap-4 md:gap-8">
+                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">1</div>
+                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">THE INTERCEPT</h4>
+                    <p class="font-body font-bold text-slate-600 text-sm">Customer clicks your WhatsApp link and asks for a quote.</p>
+                </div>
+                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">2</div>
+                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">THE FILTER</h4>
+                    <p class="font-body font-bold text-slate-600 text-sm">Bot demands postcode, photos, and budget. Tyre-kickers give up.</p>
+                </div>
+                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">3</div>
+                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">DASHBOARD</h4>
+                    <p class="font-body font-bold text-slate-600 text-sm">You open JobFilter and only see fully-vetted, high-intent leads.</p>
+                </div>
+                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">4</div>
+                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">1-TAP QUOTE</h4>
+                    <p class="font-body font-bold text-slate-600 text-sm">Record a 10-second voice note. AI generates a branded PDF quote.</p>
+                </div>
+                <div class="bg-white brutal-border brutal-shadow p-6 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-dewalt brutal-border rounded-full flex items-center justify-center text-2xl font-black mb-4">5</div>
+                    <h4 class="font-display font-extrabold text-2xl uppercase mb-2">ACCEPTANCE</h4>
+                    <p class="font-body font-bold text-slate-600 text-sm">Customer pays £50 deposit via Stripe. Job is secured.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2.6: The Ghost Archive (Safety Net) -->
     <section class="py-32 border-b-4 border-ink bg-slate-50" x-data="{
         ghostLeads: [
             { id: 1, phone: '07700 900123', msg: 'Need a quote for a roof repair, not sure budget yet.', reclaimed: false },
@@ -384,31 +418,38 @@
         </div>
     </section>
 
-    <!-- SECTION 5: The Directory Trap -->
+    <!-- SECTION 5: Why JobFilter Wins -->
     <section class="py-32 border-b-4 border-ink bg-white">
         <div class="max-w-5xl mx-auto px-4 text-center">
-            <h2 class="text-7xl md:text-8xl font-display font-black uppercase tracking-tighter mb-20">THE DIRECTORY TRAP</h2>
+            <h2 class="text-7xl md:text-8xl font-display font-extrabold uppercase tracking-normal mb-12">WHY JOBFILTER WINS</h2>
             
+            <div class="bg-ink text-white brutal-border brutal-shadow p-8 md:p-16 text-left mb-16">
+                <p class="text-2xl md:text-4xl font-body font-bold leading-relaxed italic">
+                    "I don't need another heavy CRM that makes me do data entry at 9 PM, and I'm sick of paying Checkatrade to fight 5 other blokes for a £50 job. JobFilter wins because it acts like a ruthless receptionist. It sits in front of my WhatsApp, interrogates the tyre-kickers, and only hands me the golden leads—the ones with photos, a postcode, and actual money to spend. It gives me my evenings back and ensures I only turn the key in the ignition for a guaranteed payday."
+                </p>
+                <p class="mt-8 text-xl font-display font-extrabold text-dewalt uppercase">— The Tradesman's POV</p>
+            </div>
+
             <div class="bg-white brutal-border brutal-shadow overflow-hidden text-left">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b-4 border-ink bg-ink text-white">
-                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-black uppercase border-r-4 border-ink w-1/2">CHECKATRADE</th>
-                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-black uppercase text-dewalt w-1/2">JOBFILTER</th>
+                        <tr class="border-b-4 border-ink bg-slate-100 text-ink">
+                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-extrabold uppercase border-r-4 border-ink w-1/2">THE COMPETITION</th>
+                            <th class="p-4 md:p-8 text-2xl md:text-4xl font-display font-extrabold uppercase bg-dewalt w-1/2">JOBFILTER</th>
                         </tr>
                     </thead>
-                    <tbody class="font-display font-black text-xl md:text-3xl uppercase">
+                    <tbody class="font-display font-extrabold text-xl md:text-3xl uppercase">
                         <tr class="border-b-4 border-ink">
                             <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">YOU PAY TO BID AGAINST 5 BLOKES</td>
                             <td class="p-4 md:p-8 bg-green-50 text-green-600">100% EXCLUSIVE LEADS</td>
                         </tr>
                         <tr class="border-b-4 border-ink">
-                            <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">THEY OWN THE CUSTOMER</td>
-                            <td class="p-4 md:p-8 bg-green-50 text-green-600">YOU OWN THE LEAD</td>
+                            <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">HEAVY CRM DATA ENTRY AT 9 PM</td>
+                            <td class="p-4 md:p-8 bg-green-50 text-green-600">AI BUILDS THE PROFILE INSTANTLY</td>
                         </tr>
                         <tr>
                             <td class="p-4 md:p-8 border-r-4 border-ink bg-red-50 text-red-600">PAY FOR TYRE-KICKERS</td>
-                            <td class="p-4 md:p-8 bg-green-50 text-green-600">ONLY VETTED JOBS</td>
+                            <td class="p-4 md:p-8 bg-green-50 text-green-600">ONLY VETTED JOBS WITH DEPOSITS</td>
                         </tr>
                     </tbody>
                 </table>
@@ -663,16 +704,30 @@
                                 <p class="text-2xl font-body font-bold leading-relaxed" x-text="selectedLead.jobDescription || 'No description provided.'"></p>
                             </div>
                             <div class="border-4 border-ink p-6 bg-slate-50">
-                                <span class="block text-lg font-display font-black text-slate-500 mb-4 uppercase">AI CONFIDENCE SCORE</span>
+                                <span class="block text-lg font-display font-extrabold text-slate-500 mb-4 uppercase">AI CONFIDENCE SCORE</span>
                                 <div class="flex items-center gap-6">
                                     <div class="flex-1 h-8 bg-white border-4 border-ink relative overflow-hidden">
                                         <div class="absolute top-0 left-0 h-full bg-green-500 border-r-4 border-ink" style="width: 95%"></div>
                                     </div>
-                                    <span class="text-4xl font-display font-black">95%</span>
+                                    <span class="text-4xl font-display font-extrabold">95%</span>
                                 </div>
                                 <p class="mt-4 text-lg font-body font-bold text-slate-600">The AI has verified photos, budget, and location. This lead is highly qualified.</p>
                             </div>
-                            <button @click="closeLead()" class="w-full bg-ink text-white font-display font-black uppercase px-8 py-6 text-3xl md:text-4xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-slate-800 transition-all">
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="border-4 border-ink p-6 bg-green-50 flex flex-col justify-center items-center text-center">
+                                    <span class="block text-lg font-display font-extrabold text-green-700 mb-2 uppercase">SKIN IN THE GAME</span>
+                                    <span class="text-3xl font-display font-extrabold text-green-600 mb-2">£50 DEPOSIT SECURED</span>
+                                    <span class="text-sm font-body font-bold text-green-700">Via Stripe</span>
+                                </div>
+                                <div class="border-4 border-ink p-6 bg-dewalt flex flex-col justify-center items-center text-center cursor-pointer hover:bg-yellow-300 transition-colors">
+                                    <span class="text-4xl mb-2">🎤</span>
+                                    <span class="block text-xl font-display font-extrabold text-ink uppercase">VOICE-TO-PRO QUOTE</span>
+                                    <span class="text-sm font-body font-bold text-ink mt-2">Hold to record. AI generates PDF.</span>
+                                </div>
+                            </div>
+
+                            <button @click="closeLead()" class="w-full bg-ink text-white font-display font-extrabold uppercase px-8 py-6 text-3xl md:text-4xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-slate-800 transition-all">
                                 ACCEPT & REVEAL NUMBER
                             </button>
                         </div>
