@@ -6,13 +6,36 @@
       const SECRET_KEY = "mazmaz"; // Change this to whatever you want
       
       if (localStorage.getItem('authorized_filter') !== 'true') {
-          let access = prompt("JobFilter Stealth Mode: Enter Access Code");
-          if (access === SECRET_KEY) {
-              localStorage.setItem('authorized_filter', 'true');
-          } else {
-              document.write("<div style='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#facc15;z-index:999999;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;'><h1 style='font-size:2rem;font-weight:900;text-transform:uppercase;color:#0f172a;'>ACCESS DENIED. THE CLAW IS CLOSED.</h1></div>");
-              window.stop();
-          }
+          document.addEventListener("DOMContentLoaded", () => {
+              // Hide the main app content
+              document.body.style.display = 'none';
+              
+              // Create the bouncer overlay
+              const overlay = document.createElement('div');
+              overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#facc15;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;';
+              overlay.innerHTML = `
+                  <h1 style='font-size:2rem;font-weight:900;text-transform:uppercase;color:#0f172a;margin-bottom:20px;'>JobFilter Stealth Mode</h1>
+                  <input type='password' id='stealth-password' placeholder='Enter Access Code' style='padding:10px;font-size:1.2rem;border:4px solid #0f172a;margin-bottom:20px;text-align:center;outline:none;' />
+                  <button id='stealth-submit' style='background:#0f172a;color:#fff;padding:10px 20px;font-size:1.2rem;font-weight:bold;border:none;cursor:pointer;text-transform:uppercase;box-shadow:4px 4px 0 #fff;'>Enter</button>
+                  <p id='stealth-error' style='color:#d93025;font-weight:bold;margin-top:20px;display:none;font-size:1.5rem;text-transform:uppercase;'>ACCESS DENIED. THE CLAW IS CLOSED.</p>
+              `;
+              document.documentElement.appendChild(overlay);
+
+              const checkPassword = () => {
+                  if (document.getElementById('stealth-password').value === SECRET_KEY) {
+                      localStorage.setItem('authorized_filter', 'true');
+                      overlay.remove();
+                      document.body.style.display = '';
+                  } else {
+                      document.getElementById('stealth-error').style.display = 'block';
+                  }
+              };
+
+              document.getElementById('stealth-submit').addEventListener('click', checkPassword);
+              document.getElementById('stealth-password').addEventListener('keypress', (e) => {
+                  if (e.key === 'Enter') checkPassword();
+              });
+          });
       }
     </script>
     <meta charset="UTF-8">
