@@ -830,7 +830,7 @@
                     <h2 class="text-3xl font-display font-black uppercase mb-2">CEO VISION BOARD</h2>
                     <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
                     <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
-                        <input type="text" x-model="newVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
+                        <input type="text" x-model="newVaultIdea" @keydown.enter.prevent="addVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
                         <select x-model="newVaultPhase" class="brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt bg-white">
                             <option value="1">PHASE 1</option>
                             <option value="2">PHASE 2</option>
