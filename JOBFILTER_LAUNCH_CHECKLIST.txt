@@ -1,0 +1,50 @@
+=========================================================
+JOBFILTER: FINAL LAUNCH CHECKLIST
+=========================================================
+Print this out or copy it to your notes. These are the exact 
+keys you need to gather to make the site 100% real.
+
+[ ] STEP 1: THE DATABASE (For saving Blueprint ideas permanently)
+    1. Go to https://supabase.com and create a free account.
+    2. Create a new "Project".
+    3. Go to Project Settings -> Database.
+    4. Copy the "Connection string" (URI). 
+    -> Save this as your DATABASE_URL.
+
+[ ] STEP 2: THE EMAIL (For getting alerts when tradies sign up)
+    1. Set up info@jobfilter.uk (using Google Workspace, Zoho, or your domain host).
+    2. Find your "SMTP Settings" in your email provider's dashboard.
+    3. You need 4 things:
+       - SMTP Host (e.g., smtp.gmail.com)
+       - SMTP Port (usually 465 or 587)
+       - Email Address (info@jobfilter.uk)
+       - App Password (a special password generated for apps, NOT your normal login password).
+
+[ ] STEP 3: THE MONEY (For charging the £50 Priority Pass)
+    1. Go to https://stripe.com and create an account.
+    2. Go to the "Developers" tab -> "API keys".
+    3. Reveal and copy the "Secret key".
+    -> Save this as your STRIPE_SECRET_KEY.
+
+[ ] STEP 4: THE AI FOREMAN (For WhatsApp integration)
+    1. Go to https://developers.facebook.com and log in.
+    2. Create an App -> Select "Other" -> Select "Business".
+    3. Add the "WhatsApp" product to your app.
+    4. Follow the setup to get your temporary/permanent Access Token.
+    -> Save this as your WHATSAPP_API_TOKEN.
+
+[ ] STEP 5: PLUG IT ALL INTO GOOGLE CLOUD
+    1. Go to your Google Cloud Console (where you deployed the site).
+    2. Go to "Cloud Run" and click on your "jobfilter" service.
+    3. Click "Edit & Deploy New Revision".
+    4. Scroll down to "Variables & Secrets".
+    5. Add the variables you collected above:
+       - DATABASE_URL
+       - STRIPE_SECRET_KEY
+       - WHATSAPP_API_TOKEN
+       - SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+    6. Click "Deploy".
+
+=========================================================
+Once Step 5 is done, your app is fully alive and processing real data!
+=========================================================
