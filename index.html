@@ -797,6 +797,11 @@
                     <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
                     <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
                         <input type="text" x-model="newVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
+                        <select x-model="newVaultPhase" class="brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt bg-white">
+                            <option value="1">PHASE 1</option>
+                            <option value="2">PHASE 2</option>
+                            <option value="3">PHASE 3</option>
+                        </select>
                         <button type="submit" class="bg-dewalt text-ink font-display font-black uppercase px-8 py-4 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">LOG IDEA</button>
                     </form>
                 </div>
@@ -831,9 +836,16 @@
 
                     <!-- Dynamic Ideas from Firestore -->
                     <template x-for="idea in vaultIdeas" :key="idea.id">
-                        <div class="bg-dewalt brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                            <span class="font-body font-bold text-xl" x-text="idea.text"></span>
-                            <span class="text-sm text-ink font-bold font-body whitespace-nowrap" x-text="new Date(idea.createdAt).toLocaleDateString()"></span>
+                        <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                            <div>
+                                <span class="font-display font-black text-2xl uppercase block mb-1" x-text="idea.text"></span>
+                                <span class="font-body font-bold text-slate-600" x-text="new Date(idea.createdAt).toLocaleDateString()"></span>
+                            </div>
+                            <span :class="{
+                                'bg-green-200 text-green-800': idea.phase == 1,
+                                'bg-yellow-200 text-yellow-800': idea.phase == 2,
+                                'bg-slate-200 text-slate-600': idea.phase == 3 || !idea.phase
+                            }" class="font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap" x-text="idea.phase == 1 ? '[PHASE 1: LIVE]' : idea.phase == 2 ? '[PHASE 2: NEAR-TERM]' : '[PHASE 3: FUTURE]'"></span>
                         </div>
                     </template>
                 </div>

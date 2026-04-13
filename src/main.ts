@@ -29,6 +29,7 @@ document.addEventListener('alpine:init', () => {
     
     // Vault State
     newVaultIdea: '',
+    newVaultPhase: 3,
     vaultIdeas: [],
     unsubscribeVault: null,
 
@@ -144,9 +145,11 @@ document.addEventListener('alpine:init', () => {
         try {
             await addDoc(collection(db, 'vault_ideas'), {
                 text: this.newVaultIdea,
+                phase: parseInt(this.newVaultPhase) || 3,
                 createdAt: new Date().toISOString()
             });
             this.newVaultIdea = '';
+            this.newVaultPhase = 3;
         } catch (err) {
             console.error("Failed to add idea:", err);
         }
