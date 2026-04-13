@@ -138,11 +138,6 @@ document.addEventListener('alpine:init', () => {
             console.error("Failed to simulate lead:", err);
         }
     },
-
-    async requestUpsell() {
-        alert("Upsell request sent to admin! We will contact you shortly to build your brand.");
-        // In a real app, this would trigger an API call or write to a 'requests' collection
-    },
     
     async login() {
       this.isLoggingIn = true;
