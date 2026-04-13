@@ -24,6 +24,7 @@ document.addEventListener('alpine:init', () => {
     registerArea: '',
     calloutFee: 50,
     filterStrictness: 3,
+    pulseSchedule: '3days',
     loginError: '',
     isLoggingIn: false,
     
@@ -297,7 +298,8 @@ document.addEventListener('alpine:init', () => {
                 trade: this.registerTrade,
                 phoneNumber: this.phoneNumber,
                 calloutFee: this.calloutFee,
-                filterStrictness: this.filterStrictness
+                filterStrictness: this.filterStrictness,
+                pulseSchedule: this.pulseSchedule
             })
         });
         

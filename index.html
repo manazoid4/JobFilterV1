@@ -855,95 +855,152 @@
 
     <!-- ONBOARDING ROUTE -->
     <template x-if="route === '/onboarding'">
-        <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
-            <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
-                <div class="flex justify-between items-center mb-8 border-b-4 border-ink pb-4">
-                    <h1 class="text-5xl font-display font-black uppercase tracking-tighter">JOIN JOBFILTER</h1>
-                    <span class="text-2xl font-display font-bold bg-dewalt px-3 py-1 brutal-border" x-text="'STEP ' + onboardingStep + '/3'"></span>
-                </div>
+        <div class="min-h-screen bg-slate-50 py-12 px-4 flex justify-center items-start">
+            <div class="max-w-5xl w-full flex flex-col lg:flex-row gap-8 mt-8">
                 
-                <form @submit.prevent="onboardingStep === 3 ? register() : nextOnboardingStep()" class="space-y-8">
-                    
-                    <!-- STEP 1: PROFILE -->
-                    <div x-show="onboardingStep === 1">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Let's get your basic details.</p>
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">FULL NAME</label>
-                                <input type="text" x-model="registerName" placeholder="John Doe" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
-                            </div>
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">TRADE</label>
-                                <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
-                            </div>
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">MOBILE NUMBER</label>
-                                <input type="tel" x-model="phoneNumber" placeholder="+447700900000" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
-                            </div>
-                        </div>
+                <!-- Main Form Area -->
+                <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 flex-1">
+                    <div class="flex justify-between items-center mb-8 border-b-4 border-ink pb-4">
+                        <h1 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter">ACTIVATE YOUR SYSTEM</h1>
+                        <span class="text-xl font-display font-bold bg-dewalt px-3 py-1 brutal-border whitespace-nowrap" x-text="'STEP ' + onboardingStep + '/3'"></span>
                     </div>
-
-                    <!-- STEP 2: LOGIC & FEES -->
-                    <div x-show="onboardingStep === 2" style="display: none;">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Set your AI Foreman's rules.</p>
-                        <div class="space-y-8">
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">PRIORITY BOOKING DEPOSIT (£)</label>
-                                <p class="text-slate-500 font-body font-bold mb-4">The deductible fee customers pay to lock in a slot.</p>
-                                <input type="number" x-model="calloutFee" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 2">
-                            </div>
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">WORKLOAD DIAL (1-5)</label>
-                                <p class="text-slate-500 font-body font-bold mb-4">1 = Let everyone through. 5 = Interrogate them like MI5.</p>
-                                <div class="flex items-center gap-4">
-                                    <input type="range" min="1" max="5" x-model="filterStrictness" class="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-ink">
-                                    <span class="text-3xl font-display font-black" x-text="filterStrictness"></span>
+                    
+                    <form @submit.prevent="onboardingStep === 3 ? register() : nextOnboardingStep()" class="space-y-8">
+                        
+                        <!-- STEP 1: PROFILE -->
+                        <div x-show="onboardingStep === 1">
+                            <p class="text-2xl font-body font-bold text-ink mb-8">Let's get your basic details.</p>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">FULL NAME</label>
+                                    <input type="text" x-model="registerName" placeholder="John Doe" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                </div>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">TRADE</label>
+                                    <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                </div>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">MOBILE NUMBER</label>
+                                    <input type="tel" x-model="phoneNumber" pattern="^07\d{9}$" maxlength="11" title="Please enter a valid UK mobile number starting with 07" placeholder="07700900000" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1" @input="phoneNumber = phoneNumber.replace(/[^0-9]/g, '')">
+                                    <p class="text-sm text-slate-500 mt-2 font-bold">UK format starting with 07. No spaces.</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- STEP 3: DEPLOYMENT -->
-                    <div x-show="onboardingStep === 3" style="display: none;">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Deploy your Foreman.</p>
-                        <div class="space-y-6">
-                            <div class="border-4 border-ink p-6 bg-slate-50 text-center">
-                                <h3 class="font-display font-black text-2xl uppercase mb-4">VAN STICKER QR PREVIEW</h3>
-                                <div class="w-48 h-48 bg-white border-4 border-ink mx-auto flex items-center justify-center mb-4">
-                                    <span class="text-4xl font-display font-black text-slate-400">QR</span>
+                        <!-- STEP 2: LOGIC & FEES -->
+                        <div x-show="onboardingStep === 2" style="display: none;">
+                            <p class="text-2xl font-body font-bold text-ink mb-8">Set your AI Foreman's rules.</p>
+                            <div class="space-y-10">
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">PRIORITY BOOKING DEPOSIT (£)</label>
+                                    <p class="text-slate-600 font-body font-bold mb-4">We use a small, fully-deductible deposit to filter out time-wasters. What's a fair amount for your trade?</p>
+                                    <input type="number" x-model="calloutFee" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 2">
                                 </div>
-                                <p class="font-body font-bold text-slate-500">Scan to enter the WhatsApp funnel.</p>
-                            </div>
-                            <div class="border-4 border-ink p-6 bg-slate-50">
-                                <h3 class="font-display font-black text-2xl uppercase mb-2">MANUAL PULSE SCHEDULE</h3>
-                                <p class="font-body font-bold text-slate-500 mb-4">The system will ping you via WhatsApp every 3 days for your availability.</p>
-                                <select class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt">
-                                    <option>Every 3 Days (Recommended)</option>
-                                    <option>Every Day</option>
-                                    <option>Weekly</option>
-                                </select>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">AI FILTERING LEVEL</label>
+                                    <p class="text-slate-600 font-body font-bold mb-4">How aggressively should we filter your leads? You'll save hours, but we won't scare off good customers.</p>
+                                    <div class="flex items-center gap-4 mb-2">
+                                        <input type="range" min="1" max="5" x-model="filterStrictness" class="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-ink">
+                                        <span class="text-3xl font-display font-black w-8 text-center" x-text="filterStrictness"></span>
+                                    </div>
+                                    <div class="flex justify-between text-sm font-bold text-slate-500">
+                                        <span>Light Touch</span>
+                                        <span>Balanced</span>
+                                        <span>Maximum Shield</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <p class="text-red-600 font-bold mt-4 text-xl" x-show="loginError" x-text="loginError"></p>
 
-                    <div class="flex gap-4 pt-8">
-                        <button type="button" x-show="onboardingStep > 1" @click="onboardingStep--" class="w-1/3 bg-slate-200 text-ink brutal-border font-display font-black uppercase px-4 py-4 text-2xl hover:bg-slate-300 transition-colors">
-                            BACK
-                        </button>
-                        <button type="submit" :disabled="isLoggingIn" class="flex-1 bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
-                            <span x-show="onboardingStep < 3">NEXT</span>
-                            <span x-show="onboardingStep === 3 && !isLoggingIn">FINISH & LAUNCH</span>
-                            <span x-show="isLoggingIn">CREATING...</span>
+                        <!-- STEP 3: DEPLOYMENT -->
+                        <div x-show="onboardingStep === 3" style="display: none;">
+                            <p class="text-2xl font-body font-bold text-ink mb-8">Deploy your Foreman.</p>
+                            <div class="space-y-8">
+                                <div class="border-4 border-ink p-6 bg-slate-50 flex flex-col md:flex-row items-center gap-6">
+                                    <div class="flex-shrink-0 text-center">
+                                        <h3 class="font-display font-black text-xl uppercase mb-2">VAN STICKER QR</h3>
+                                        <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wa.me/447000000000?text=Hi%20I%20need%20a%20quote'" alt="QR Code" class="w-32 h-32 border-4 border-ink mx-auto mb-2">
+                                        <button type="button" class="text-sm font-bold underline hover:text-dewalt">Download Sticker</button>
+                                    </div>
+                                    <div>
+                                        <p class="font-body font-bold text-lg mb-2">Stick this on your van to get enquiries directly into your AI funnel.</p>
+                                        <p class="text-sm text-slate-500 font-bold">Customers scan it and answer a few questions via WhatsApp.</p>
+                                    </div>
+                                </div>
+                                <div class="border-4 border-ink p-6 bg-slate-50">
+                                    <h3 class="font-display font-black text-2xl uppercase mb-2">MANUAL PULSE SCHEDULE</h3>
+                                    <p class="font-body font-bold text-slate-600 mb-4">How often should we ping you via WhatsApp to check your availability? We only send jobs when you're free.</p>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <button type="button" @click="pulseSchedule = 'daily'" :class="pulseSchedule === 'daily' ? 'bg-ink text-white' : 'bg-white text-ink'" class="brutal-border py-3 font-bold uppercase transition-colors">Daily</button>
+                                        <button type="button" @click="pulseSchedule = '3days'" :class="pulseSchedule === '3days' ? 'bg-ink text-white' : 'bg-white text-ink'" class="brutal-border py-3 font-bold uppercase transition-colors">3 Days</button>
+                                        <button type="button" @click="pulseSchedule = 'weekly'" :class="pulseSchedule === 'weekly' ? 'bg-ink text-white' : 'bg-white text-ink'" class="brutal-border py-3 font-bold uppercase transition-colors">Weekly</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-red-600 font-bold mt-4 text-xl" x-show="loginError" x-text="loginError"></p>
+
+                        <div class="flex gap-4 pt-8">
+                            <button type="button" x-show="onboardingStep > 1" @click="onboardingStep--" class="w-1/3 bg-slate-200 text-ink brutal-border font-display font-black uppercase px-4 py-4 text-2xl hover:bg-slate-300 transition-colors">
+                                BACK
+                            </button>
+                            <div class="flex-1 flex flex-col">
+                                <button type="submit" :disabled="isLoggingIn" class="w-full bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
+                                    <span x-show="onboardingStep < 3">NEXT</span>
+                                    <span x-show="onboardingStep === 3 && !isLoggingIn">GO LIVE & START GETTING JOBS</span>
+                                    <span x-show="isLoggingIn">ACTIVATING...</span>
+                                </button>
+                                <span x-show="onboardingStep === 3" class="text-center text-sm font-bold text-slate-500 mt-2">Takes 10 seconds. You could get your first job today.</span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mt-12 pt-8 border-t-4 border-slate-200">
+                        <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
+                            [TESTING] BYPASS ONBOARDING
                         </button>
                     </div>
-                </form>
+                </div>
 
-                <div class="mt-12 pt-8 border-t-4 border-slate-200">
-                    <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
-                        [TESTING] BYPASS ONBOARDING
-                    </button>
+                <!-- Trust / Info Sidebar -->
+                <div class="w-full lg:w-80 space-y-6">
+                    <!-- Trust Badge -->
+                    <div class="bg-ink text-white brutal-border p-6">
+                        <h3 class="font-display font-black text-xl uppercase mb-3 text-dewalt">EARLY ACCESS</h3>
+                        <p class="font-body font-bold text-sm mb-2">New platform. Built properly from day one.</p>
+                        <p class="font-body font-bold text-sm mb-2">Limited to the first 50 trades.</p>
+                        <p class="font-body font-bold text-sm text-green-400">No subscriptions during early access.</p>
+                    </div>
+
+                    <!-- What happens next -->
+                    <div class="bg-white brutal-border p-6">
+                        <h3 class="font-display font-black text-xl uppercase mb-4 border-b-2 border-ink pb-2">WHAT HAPPENS NEXT?</h3>
+                        <ul class="space-y-3 font-body font-bold text-sm">
+                            <li class="flex gap-2"><span>1.</span> Your QR goes live instantly.</li>
+                            <li class="flex gap-2"><span>2.</span> Customers scan & answer questions.</li>
+                            <li class="flex gap-2"><span>3.</span> You only get serious job enquiries via WhatsApp.</li>
+                        </ul>
+                    </div>
+
+                    <!-- You stay in control -->
+                    <div class="bg-white brutal-border p-6">
+                        <h3 class="font-display font-black text-xl uppercase mb-4 border-b-2 border-ink pb-2">YOU STAY IN CONTROL</h3>
+                        <ul class="space-y-3 font-body font-bold text-sm">
+                            <li class="flex gap-2"><span>⏸️</span> Pause leads anytime from WhatsApp.</li>
+                            <li class="flex gap-2"><span>🗓️</span> Change availability whenever.</li>
+                            <li class="flex gap-2"><span>👁️</span> See exactly what the customer submits before replying.</li>
+                            <li class="flex gap-2"><span>📄</span> No contracts. No pressure.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Example Lead -->
+                    <div class="bg-slate-100 brutal-border p-4">
+                        <p class="text-xs font-bold text-slate-500 uppercase mb-2">Example WhatsApp Lead</p>
+                        <div class="bg-white p-3 rounded-lg rounded-tl-none border-2 border-slate-300 font-body text-sm">
+                            "John – Boiler repair – Budget £120 – Ready this week. 📸 2 photos attached."
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

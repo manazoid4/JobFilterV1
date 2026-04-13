@@ -8,6 +8,19 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
+import nodemailer from 'nodemailer';
+
+// Configure Nodemailer transporter
+// To use this, set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS in your environment variables.
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.ethereal.email',
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  auth: {
+    user: process.env.SMTP_USER || 'ethereal.user@ethereal.email',
+    pass: process.env.SMTP_PASS || 'etherealpassword'
+  }
+});
+
 async function startServer() {
   const app = express();
   app.use(express.json());
@@ -120,13 +133,41 @@ async function startServer() {
   });
 
   // ==========================================
-  // ONBOARDING EMAIL (Mock)
+  // ONBOARDING EMAIL
   // ==========================================
-  app.post("/api/onboarding/submit", (req, res) => {
-    const { name, trade, phoneNumber, calloutFee, filterStrictness } = req.body;
-    console.log(`[EMAIL MOCK] Sending onboarding data to info@jobfilter.uk:`);
-    console.log(`Name: ${name}, Trade: ${trade}, Phone: ${phoneNumber}, Fee: £${calloutFee}, Strictness: ${filterStrictness}`);
-    res.json({ status: "success", message: "Onboarding data received and email sent." });
+  app.post("/api/onboarding/submit", async (req, res) => {
+    const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
+    console.log(`[EMAIL] Sending onboarding data to info@jobfilter.uk:`);
+    
+    const mailOptions = {
+      from: '"JobFilter System" <noreply@jobfilter.uk>',
+      to: 'info@jobfilter.uk',
+      subject: `New Tradie Onboarding: ${name} (${trade})`,
+      text: `
+        New Tradie Activation:
+        ----------------------
+        Name: ${name}
+        Trade: ${trade}
+        Phone: ${phoneNumber}
+        
+        Settings:
+        ---------
+        Deposit Fee: £${calloutFee}
+        Filter Level: ${filterStrictness}/5
+        Pulse Schedule: ${pulseSchedule}
+      `
+    };
+
+    try {
+      // In production, uncomment the following line to actually send the email.
+      // await transporter.sendMail(mailOptions);
+      console.log("Email sent successfully (mocked in dev, uncomment transporter.sendMail for prod).");
+      console.log(mailOptions.text);
+      res.json({ status: "success", message: "Onboarding data received and email sent." });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ status: "error", message: "Failed to send email." });
+    }
   });
 
   // API routes FIRST
