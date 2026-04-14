@@ -37,14 +37,6 @@ document.addEventListener('alpine:init', () => {
     isEmailVerified: false,
     verificationMessage: '',
 
-    bypassEmailVerification() {
-        console.log("[TESTING] Bypassing email verification...");
-        localStorage.setItem('bypass_verification', 'true');
-        this.isEmailVerified = true;
-        this.verificationMessage = "Bypassed for testing.";
-        this.checkSubscription();
-    },
-
     handleFirestoreError(error: any, operationType: string, path: string | null) {
       const errInfo = {
         error: error instanceof Error ? error.message : String(error),
@@ -69,7 +61,7 @@ document.addEventListener('alpine:init', () => {
         try {
             await auth.currentUser.reload();
             this.user = auth.currentUser;
-            this.isEmailVerified = auth.currentUser.emailVerified || localStorage.getItem('bypass_verification') === 'true';
+            this.isEmailVerified = auth.currentUser.emailVerified;
             if (this.isEmailVerified) {
                 this.verificationMessage = "Success! Your email is verified.";
                 this.checkSubscription();
@@ -179,13 +171,20 @@ document.addEventListener('alpine:init', () => {
 
       onAuthStateChanged(auth, (user) => {
         this.user = user;
-        this.isEmailVerified = user?.emailVerified || localStorage.getItem('bypass_verification') === 'true';
+        this.isEmailVerified = user?.emailVerified || false;
         this.isAuthReady = true;
         console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
         if (user) {
             this.checkSubscription();
         }
         this.handleRouteLogic();
+      });
+
+      // Auto-refresh email status when user returns to the tab
+      window.addEventListener('focus', () => {
+          if (this.route === '/activation-pending' && this.user && !this.isEmailVerified) {
+              this.refreshEmailStatus();
+          }
       });
 
       this.handleRouteLogic();
@@ -406,7 +405,7 @@ document.addEventListener('alpine:init', () => {
         console.log("[AUTH] Attempting login...");
         const userCredential = await signInWithEmailAndPassword(auth, this.loginEmail, this.loginPassword);
         
-        if (!userCredential.user.emailVerified && localStorage.getItem('bypass_verification') !== 'true') {
+        if (!userCredential.user.emailVerified) {
             this.navigate('/activation-pending');
         } else {
             this.navigate('/dashboard');

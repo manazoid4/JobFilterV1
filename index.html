@@ -1208,9 +1208,6 @@
                             <button @click="resendVerification()" class="text-xs font-black uppercase underline hover:text-dewalt">
                                 RESEND LINK
                             </button>
-                            <button @click="bypassEmailVerification()" class="text-xs font-black uppercase text-slate-400 hover:text-ink underline">
-                                [TESTING] BYPASS
-                            </button>
                         </div>
                         <p x-show="verificationMessage" class="mt-3 text-xs font-bold text-ink uppercase" x-text="verificationMessage"></p>
                     </div>
@@ -1283,7 +1280,21 @@
             
             <div class="font-body font-bold text-3xl leading-relaxed text-ink">
                 <template x-if="showModal === 'privacy'">
-                    <p>We don’t sell your data. We don’t auction your jobs. JobFilter processes messages strictly to qualify leads on your behalf. You stay in control.</p>
+                    <p>JobFilter.uk (“we”, “our”, “us”) is committed to protecting your privacy. Our service is designed to process communications and job-related data on your behalf in order to qualify leads and filter opportunities. We do not act as a recruiter, employer, or decision-maker in any hiring process.
+
+We may process basic information such as contact details, message content, and interactions with the service. This data is used strictly to operate, improve, and deliver the core functionality of JobFilter.uk. We do not sell, rent, or trade your data, and we do not use it for advertising purposes.
+
+You remain the owner of your data at all times. JobFilter.uk acts solely as a processor, meaning we handle data only under your direction and for the purpose of delivering the service. You are in control of what is submitted and may request deletion at any time.
+
+We do not share data with third parties except where necessary to run the service (such as infrastructure providers) or where required by law. We take reasonable steps to protect data, but no system can be guaranteed to be completely secure.
+
+By using JobFilter.uk, you acknowledge that you are responsible for ensuring that any data you provide has been collected and processed in accordance with applicable laws, including data protection regulations where relevant.
+
+JobFilter.uk provides tools for filtering and automation only. We do not guarantee results, lead quality, or business outcomes, and we are not responsible for decisions made based on the use of our service or for any indirect or consequential losses.
+
+We may update this policy from time to time, and continued use of the service indicates acceptance of any changes.
+
+For any privacy-related requests, please contact: [Insert Email]</p>
                 </template>
                 <template x-if="showModal === 'terms'">
                     <p>JobFilter is a filtering tool, not a marketplace. We help qualify incoming requests, but all final pricing and agreements remain your responsibility.</p>
