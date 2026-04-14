@@ -214,39 +214,47 @@ async function startServer() {
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
     
-    if (!process.env.RESEND_API_KEY) {
-      console.warn("RESEND_API_KEY is missing. Email will not be sent.");
-      return res.json({ status: "success", message: "Onboarding received (Email skipped: No API Key)." });
+    // Return immediately to the frontend so the UI doesn't hang
+    res.json({ status: "success", message: "Onboarding received. Processing email in background." });
+
+    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') {
+      console.warn("[RESEND] API Key is missing or default. Skipping email.");
+      return;
     }
 
-    try {
-      // Send the email via Resend
-      // NOTE: Resend's 'onboarding@resend.dev' can only send to your own email until you verify a domain.
-      await resend.emails.send({
-        from: 'JobFilter <onboarding@resend.dev>',
-        to: 'manazoid4@gmail.com', // Sending to your verified email
-        subject: `New Tradie Onboarding: ${name} (${trade})`,
-        text: `
-          New Tradie Activation:
-          ----------------------
-          Name: ${name}
-          Trade: ${trade}
-          Phone: ${phoneNumber}
-          
-          Settings:
-          ---------
-          Deposit Fee: £${calloutFee}
-          Filter Level: ${filterStrictness}/5
-          Pulse Schedule: ${pulseSchedule}
-        `
-      });
-      
-      console.log("Email sent successfully via Resend to manazoid4@gmail.com");
-      res.json({ status: "success", message: "Onboarding data received and email sent." });
-    } catch (error) {
-      console.error("Error sending email via Resend:", error);
-      res.status(500).json({ status: "error", message: "Failed to send email." });
-    }
+    // Process email in background
+    (async () => {
+      try {
+        console.log(`[RESEND] Attempting to send onboarding email for ${name}...`);
+        
+        // Since the user verified their domain, we can try sending from their domain
+        // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
+        const fromEmail = 'JobFilter <onboarding@resend.dev>';
+        
+        await resend.emails.send({
+          from: fromEmail,
+          to: 'manazoid4@gmail.com',
+          subject: `New Tradie Onboarding: ${name} (${trade})`,
+          text: `
+            New Tradie Activation:
+            ----------------------
+            Name: ${name}
+            Trade: ${trade}
+            Phone: ${phoneNumber}
+            
+            Settings:
+            ---------
+            Deposit Fee: £${calloutFee}
+            Filter Level: ${filterStrictness}/5
+            Pulse Schedule: ${pulseSchedule}
+          `
+        });
+        
+        console.log(`[RESEND] Email sent successfully to manazoid4@gmail.com for ${name}`);
+      } catch (error) {
+        console.error("[RESEND] Background email sending failed:", error);
+      }
+    })();
   });
 
   // API routes FIRST

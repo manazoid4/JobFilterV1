@@ -293,10 +293,12 @@ document.addEventListener('alpine:init', () => {
     },
 
     async register() {
+      console.log("[ONBOARDING] Starting registration...");
       this.isLoggingIn = true;
       this.loginError = '';
       
       try {
+        console.log("[ONBOARDING] Saving to Firestore...");
         const tradesmenRef = collection(db, 'tradesmen');
         await addDoc(tradesmenRef, {
           phoneNumber: this.phoneNumber || '+447000000000',
@@ -308,28 +310,45 @@ document.addEventListener('alpine:init', () => {
           filterStrictness: this.filterStrictness,
           createdAt: new Date().toISOString()
         });
+        console.log("[ONBOARDING] Firestore save successful.");
 
         // Send email via backend
-        const emailRes = await fetch('/api/onboarding/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: this.registerName,
-                trade: this.registerTrade,
-                phoneNumber: this.phoneNumber,
-                calloutFee: this.calloutFee,
-                filterStrictness: this.filterStrictness,
-                pulseSchedule: this.pulseSchedule
-            })
-        });
+        console.log("[ONBOARDING] Triggering backend email...");
+        
+        // Use a timeout for the fetch to ensure we don't hang forever
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
-        if (!emailRes.ok) {
-            console.error("Email sending failed, but registration continued.");
+        try {
+            const emailRes = await fetch('/api/onboarding/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    name: this.registerName,
+                    trade: this.registerTrade,
+                    phoneNumber: this.phoneNumber,
+                    calloutFee: this.calloutFee,
+                    filterStrictness: this.filterStrictness,
+                    pulseSchedule: this.pulseSchedule
+                })
+            });
+            clearTimeout(timeoutId);
+
+            if (!emailRes.ok) {
+                console.error("[ONBOARDING] Email trigger failed (status " + emailRes.status + "), but registration continued.");
+            } else {
+                console.log("[ONBOARDING] Email trigger successful.");
+            }
+        } catch (fetchErr) {
+            console.warn("[ONBOARDING] Email trigger timed out or failed, proceeding to dashboard anyway.", fetchErr);
         }
         
+        console.log("[ONBOARDING] Navigating to dashboard...");
         this.navigate('/dashboard');
       } catch (err: any) {
-        this.loginError = err.message || 'Failed to register';
+        console.error("[ONBOARDING] Critical error during registration:", err);
+        this.loginError = err.message || 'Failed to register. Please check your connection.';
       } finally {
         this.isLoggingIn = false;
       }
