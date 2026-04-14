@@ -862,6 +862,20 @@
                                 <p class="mt-4 text-lg font-body font-bold text-slate-600">The AI has verified photos, budget, and location. This lead is highly qualified.</p>
                             </div>
 
+                            <!-- AI Insights (Gemini Extension Placeholder) -->
+                            <div class="mt-6 p-6 bg-purple-50 brutal-border border-purple-400">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                                    <h4 class="font-display font-black text-xl uppercase text-purple-700 tracking-tight">AI FOREMAN INSIGHTS</h4>
+                                </div>
+                                <p class="font-body font-bold text-lg text-purple-900 leading-snug" x-text="selectedLead.ai_summary || 'Analyzing job details and photos...'"></p>
+                                <div class="mt-4 flex flex-wrap gap-2" x-show="selectedLead.ai_tags">
+                                    <template x-for="tag in selectedLead.ai_tags" :key="tag">
+                                        <span class="bg-purple-200 text-purple-800 text-xs px-3 py-1 font-black uppercase brutal-border border-purple-400" x-text="tag"></span>
+                                    </template>
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="border-4 border-ink p-6 bg-green-50 flex flex-col justify-center items-center text-center">
                                     <span class="block text-lg font-display font-extrabold text-green-700 mb-2 uppercase">SKIN IN THE GAME</span>
@@ -1175,7 +1189,10 @@
                             <div class="bg-ink text-white w-8 h-8 flex items-center justify-center font-black flex-shrink-0">1</div>
                             <div>
                                 <h3 class="font-display font-black text-xl uppercase mb-1">VERIFY YOUR EMAIL</h3>
-                                <p class="font-body font-bold text-sm text-slate-500" x-show="!isEmailVerified">We've sent a verification link to <span class="text-ink" x-text="registerEmail || user?.email"></span>. Please click it to confirm your identity.</p>
+                                <p class="font-body font-bold text-sm text-slate-500" x-show="!isEmailVerified">
+                                    We've sent a verification link to <span class="text-ink underline" x-text="user?.email || registerEmail || 'your email'"></span>. 
+                                    Please click it to confirm your identity.
+                                </p>
                                 <p class="font-body font-bold text-sm text-green-600" x-show="isEmailVerified">Email successfully verified!</p>
                             </div>
                         </div>
@@ -1185,7 +1202,16 @@
                             </svg>
                             <span x-text="isEmailVerified ? 'Verified' : 'Waiting for verification...'"></span>
                         </div>
-                        <button x-show="!isEmailVerified" @click="window.location.reload()" class="mt-4 text-xs font-black uppercase underline hover:text-dewalt">I've verified, refresh status</button>
+                        
+                        <div x-show="!isEmailVerified" class="mt-6 flex flex-wrap gap-4">
+                            <button @click="refreshEmailStatus()" class="text-xs font-black uppercase bg-ink text-white px-4 py-2 brutal-border hover:bg-slate-800 transition-all">
+                                I'VE VERIFIED, REFRESH STATUS
+                            </button>
+                            <button @click="resendVerification()" class="text-xs font-black uppercase underline hover:text-dewalt">
+                                RESEND LINK
+                            </button>
+                        </div>
+                        <p x-show="verificationMessage" class="mt-3 text-xs font-bold text-ink uppercase" x-text="verificationMessage"></p>
                     </div>
 
                     <!-- Step 2: Subscription -->

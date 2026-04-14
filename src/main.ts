@@ -32,6 +32,38 @@ document.addEventListener('alpine:init', () => {
     isLoggingIn: false,
     user: null,
     isEmailVerified: false,
+    verificationMessage: '',
+
+    async refreshEmailStatus() {
+        if (!auth.currentUser) return;
+        console.log("[AUTH] Manually refreshing user status...");
+        try {
+            await auth.currentUser.reload();
+            this.user = auth.currentUser;
+            this.isEmailVerified = auth.currentUser.emailVerified;
+            if (this.isEmailVerified) {
+                this.verificationMessage = "Success! Your email is verified.";
+                this.checkSubscription();
+            } else {
+                this.verificationMessage = "Still waiting... make sure you clicked the link in your email.";
+            }
+        } catch (err: any) {
+            console.error("[AUTH] Reload error:", err);
+            this.verificationMessage = "Error checking status. Please try again.";
+        }
+    },
+
+    async resendVerification() {
+        if (!auth.currentUser) return;
+        console.log("[AUTH] Resending verification email...");
+        try {
+            await sendEmailVerification(auth.currentUser);
+            this.verificationMessage = "Verification email resent! Check your inbox.";
+        } catch (err: any) {
+            console.error("[AUTH] Resend error:", err);
+            this.verificationMessage = "Too many attempts. Please wait a few minutes.";
+        }
+    },
     
     // Vault State
     newVaultIdea: '',
@@ -59,6 +91,29 @@ document.addEventListener('alpine:init', () => {
     selectedLead: null,
     isLeadModalOpen: false,
     unsubscribeLeads: null,
+    subscriptionStatus: 'loading', // 'active' | 'past_due' | 'none' | 'loading'
+    
+    async checkSubscription() {
+        if (!this.user) return;
+        console.log("[STRIPE EXTENSION] Checking subscription status...");
+        // The Stripe extension stores subscriptions in /customers/{uid}/subscriptions
+        const subRef = collection(db, 'customers', this.user.uid, 'subscriptions');
+        const q = query(subRef, where('status', 'in', ['active', 'trialing']));
+        
+        try {
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+                this.subscriptionStatus = 'active';
+                console.log("[STRIPE EXTENSION] Active subscription found.");
+            } else {
+                this.subscriptionStatus = 'none';
+                console.log("[STRIPE EXTENSION] No active subscription.");
+            }
+        } catch (err) {
+            console.error("[STRIPE EXTENSION] Error checking sub:", err);
+            this.subscriptionStatus = 'none';
+        }
+    },
     
     get moneyLeads() {
         return this.leads.filter((l: any) => l.status === 'qualified');
@@ -93,6 +148,9 @@ document.addEventListener('alpine:init', () => {
         this.user = user;
         this.isEmailVerified = user?.emailVerified || false;
         console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
+        if (user) {
+            this.checkSubscription();
+        }
       });
 
       this.handleRouteLogic();
