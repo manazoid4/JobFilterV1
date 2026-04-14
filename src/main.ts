@@ -309,8 +309,8 @@ document.addEventListener('alpine:init', () => {
           createdAt: new Date().toISOString()
         });
 
-        // Send email via backend mock
-        await fetch('/api/onboarding/submit', {
+        // Send email via backend
+        const emailRes = await fetch('/api/onboarding/submit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -322,6 +322,10 @@ document.addEventListener('alpine:init', () => {
                 pulseSchedule: this.pulseSchedule
             })
         });
+
+        if (!emailRes.ok) {
+            console.error("Email sending failed, but registration continued.");
+        }
         
         this.navigate('/dashboard');
       } catch (err: any) {

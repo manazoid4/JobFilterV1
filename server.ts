@@ -213,32 +213,18 @@ async function startServer() {
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
-    console.log(`[EMAIL] Sending onboarding data to info@jobfilter.uk:`);
     
-    const mailOptions = {
-      from: '"JobFilter System" <noreply@jobfilter.uk>',
-      to: 'info@jobfilter.uk',
-      subject: `New Tradie Onboarding: ${name} (${trade})`,
-      text: `
-        New Tradie Activation:
-        ----------------------
-        Name: ${name}
-        Trade: ${trade}
-        Phone: ${phoneNumber}
-        
-        Settings:
-        ---------
-        Deposit Fee: £${calloutFee}
-        Filter Level: ${filterStrictness}/5
-        Pulse Schedule: ${pulseSchedule}
-      `
-    };
+    if (!process.env.RESEND_API_KEY) {
+      console.warn("RESEND_API_KEY is missing. Email will not be sent.");
+      return res.json({ status: "success", message: "Onboarding received (Email skipped: No API Key)." });
+    }
 
     try {
       // Send the email via Resend
+      // NOTE: Resend's 'onboarding@resend.dev' can only send to your own email until you verify a domain.
       await resend.emails.send({
-        from: 'JobFilter <onboarding@resend.dev>', // Resend provides this for testing
-        to: 'info@jobfilter.uk',
+        from: 'JobFilter <onboarding@resend.dev>',
+        to: 'manazoid4@gmail.com', // Sending to your verified email
         subject: `New Tradie Onboarding: ${name} (${trade})`,
         text: `
           New Tradie Activation:
@@ -255,7 +241,7 @@ async function startServer() {
         `
       });
       
-      console.log("Email sent successfully via Resend to info@jobfilter.uk");
+      console.log("Email sent successfully via Resend to manazoid4@gmail.com");
       res.json({ status: "success", message: "Onboarding data received and email sent." });
     } catch (error) {
       console.error("Error sending email via Resend:", error);
