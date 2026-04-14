@@ -34,6 +34,24 @@ document.addEventListener('alpine:init', () => {
     isEmailVerified: false,
     verificationMessage: '',
 
+    handleFirestoreError(error: any, operationType: string, path: string | null) {
+      const errInfo = {
+        error: error instanceof Error ? error.message : String(error),
+        authInfo: {
+          userId: auth.currentUser?.uid,
+          email: auth.currentUser?.email,
+          emailVerified: auth.currentUser?.emailVerified,
+          isAnonymous: auth.currentUser?.isAnonymous,
+        },
+        operationType,
+        path
+      };
+      console.error('Firestore Error: ', JSON.stringify(errInfo));
+      if (errInfo.error.includes('Missing or insufficient permissions')) {
+          this.loginError = "Permission denied. Please ensure you are logged in and have an active subscription.";
+      }
+    },
+
     async refreshEmailStatus() {
         if (!auth.currentUser) return;
         console.log("[AUTH] Manually refreshing user status...");
@@ -96,6 +114,7 @@ document.addEventListener('alpine:init', () => {
     async checkSubscription() {
         if (!this.user) return;
         console.log("[STRIPE EXTENSION] Checking subscription status...");
+        const path = `customers/${this.user.uid}/subscriptions`;
         // The Stripe extension stores subscriptions in /customers/{uid}/subscriptions
         const subRef = collection(db, 'customers', this.user.uid, 'subscriptions');
         const q = query(subRef, where('status', 'in', ['active', 'trialing']));
@@ -110,7 +129,7 @@ document.addEventListener('alpine:init', () => {
                 console.log("[STRIPE EXTENSION] No active subscription.");
             }
         } catch (err) {
-            console.error("[STRIPE EXTENSION] Error checking sub:", err);
+            this.handleFirestoreError(err, 'list', path);
             this.subscriptionStatus = 'none';
         }
     },
@@ -402,7 +421,8 @@ document.addEventListener('alpine:init', () => {
 
         // 3. Save to Firestore
         console.log("[ONBOARDING] Saving to Firestore...");
-        const tradesmenRef = collection(db, 'tradesmen');
+        const path = 'tradesmen';
+        const tradesmenRef = collection(db, path);
         
         // Wrap Firestore addDoc in a timeout
         const firestorePromise = addDoc(tradesmenRef, {
@@ -423,8 +443,13 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() => reject(new Error("Firestore timeout")), 12000)
         );
 
-        await Promise.race([firestorePromise, timeoutPromise]);
-        console.log("[ONBOARDING] Firestore save successful.");
+        try {
+            await Promise.race([firestorePromise, timeoutPromise]);
+            console.log("[ONBOARDING] Firestore save successful.");
+        } catch (err) {
+            this.handleFirestoreError(err, 'create', path);
+            throw err;
+        }
 
         // 4. Send email via backend
         console.log("[ONBOARDING] Triggering backend email...");

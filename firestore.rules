@@ -1,13 +1,108 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // For testing purposes, allowing open access as requested.
-    // TODO: Implement Firebase Auth and restrict these rules.
-    match /tradesmen/{document=**} {
-      allow read, write: if true;
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: tradesmen
+    // Document ID: auto-generated
+    // Fields:
+    //   - uid: string (required, immutable) - Firebase Auth UID
+    //   - email: string (required) - User email
+    //   - name: string (required) - Full name
+    //   - trade: string - Trade type
+    //   - phoneNumber: string - Mobile number
+    //   - isActive: bool - Account activation status
+    //   - ... settings (calloutFee, filterStrictness, etc.)
+    //
+    // Collection: customers/{uid}/subscriptions
+    // Document ID: Stripe subscription ID
+    // Fields:
+    //   - status: string - active, trialing, etc.
+    //   - role: string - user role
+    //
+    // Collection: leads
+    // Document ID: auto-generated
+    // Fields:
+    //   - status: string - qualified, archived
+    //   - customerName: string
+    //   - postcode: string
+    //   - ... job details
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
     }
-    match /leads/{document=**} {
-      allow read, write: if true;
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "manazoid4@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidTradesman(data) {
+      return data.uid is string && data.uid.size() > 0 &&
+             data.email is string && data.email.size() > 0 &&
+             data.name is string && data.name.size() > 0 &&
+             data.name.size() < 100;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    // Tradesmen Profiles
+    match /tradesmen/{docId} {
+      allow read: if isAuthenticated() && (request.auth.uid == resource.data.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidTradesman(request.resource.data) && (request.resource.data.uid == request.auth.uid || isAdmin());
+      allow update: if isAuthenticated() && isValidTradesman(request.resource.data) && 
+                    (request.auth.uid == resource.data.uid && request.resource.data.uid == resource.data.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Stripe Extension: Customers & Subscriptions
+    match /customers/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      
+      match /subscriptions/{subId} {
+        allow read: if isOwner(uid) || isAdmin();
+      }
+      
+      match /payments/{paymentId} {
+        allow read: if isOwner(uid) || isAdmin();
+      }
+    }
+
+    // Products & Prices (often used by Stripe extension)
+    match /products/{id} {
+      allow read: if true;
+      match /prices/{id} {
+        allow read: if true;
+      }
+    }
+
+    // Leads
+    match /leads/{leadId} {
+      // For now, allowing authenticated users to read leads. 
+      // In production, you might restrict this to only active subscribers.
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

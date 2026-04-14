@@ -1,0 +1,60 @@
+{
+  "entities": {
+    "Tradesman": {
+      "title": "Tradesman",
+      "description": "A tradesman profile and settings.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" },
+        "name": { "type": "string" },
+        "trade": { "type": "string" },
+        "companyName": { "type": "string" },
+        "serviceArea": { "type": "string" },
+        "calloutFee": { "type": "number" },
+        "filterStrictness": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["uid", "email", "name"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "A job lead for a tradesman.",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string" },
+        "postcode": { "type": "string" },
+        "budget": { "type": "number" },
+        "jobDescription": { "type": "string" },
+        "status": { "type": "string", "enum": ["qualified", "archived"] },
+        "ai_summary": { "type": "string" },
+        "ai_tags": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "Stripe subscription data synced by the extension.",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string", "enum": ["active", "trialing", "past_due", "canceled", "unpaid"] },
+        "role": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/tradesmen/{tradesmanId}": {
+      "schema": "Tradesman",
+      "description": "Tradesman profiles."
+    },
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Job leads."
+    },
+    "/customers/{uid}/subscriptions/{subId}": {
+      "schema": "Subscription",
+      "description": "Stripe subscriptions for a user."
+    }
+  }
+}
