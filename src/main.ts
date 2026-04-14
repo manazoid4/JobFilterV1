@@ -1,7 +1,7 @@
 import Alpine from 'alpinejs';
 import { db, auth } from './firebase';
 import { collection, query, where, getDocs, addDoc, onSnapshot, doc, updateDoc, getDocFromServer } from 'firebase/firestore';
-import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
 declare global {
   interface Window {
@@ -28,11 +28,22 @@ document.addEventListener('alpine:init', () => {
     calloutFee: 50,
     filterStrictness: 3,
     pulseSchedule: '3days',
+    loginEmail: '',
+    loginPassword: '',
     loginError: '',
     isLoggingIn: false,
     user: null,
+    isAuthReady: false,
     isEmailVerified: false,
     verificationMessage: '',
+
+    bypassEmailVerification() {
+        console.log("[TESTING] Bypassing email verification...");
+        localStorage.setItem('bypass_verification', 'true');
+        this.isEmailVerified = true;
+        this.verificationMessage = "Bypassed for testing.";
+        this.checkSubscription();
+    },
 
     handleFirestoreError(error: any, operationType: string, path: string | null) {
       const errInfo = {
@@ -58,7 +69,7 @@ document.addEventListener('alpine:init', () => {
         try {
             await auth.currentUser.reload();
             this.user = auth.currentUser;
-            this.isEmailVerified = auth.currentUser.emailVerified;
+            this.isEmailVerified = auth.currentUser.emailVerified || localStorage.getItem('bypass_verification') === 'true';
             if (this.isEmailVerified) {
                 this.verificationMessage = "Success! Your email is verified.";
                 this.checkSubscription();
@@ -124,6 +135,9 @@ document.addEventListener('alpine:init', () => {
             if (!snap.empty) {
                 this.subscriptionStatus = 'active';
                 console.log("[STRIPE EXTENSION] Active subscription found.");
+                if (this.route === '/activation-pending') {
+                    this.navigate('/dashboard');
+                }
             } else {
                 this.subscriptionStatus = 'none';
                 console.log("[STRIPE EXTENSION] No active subscription.");
@@ -165,17 +179,38 @@ document.addEventListener('alpine:init', () => {
 
       onAuthStateChanged(auth, (user) => {
         this.user = user;
-        this.isEmailVerified = user?.emailVerified || false;
+        this.isEmailVerified = user?.emailVerified || localStorage.getItem('bypass_verification') === 'true';
+        this.isAuthReady = true;
         console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
         if (user) {
             this.checkSubscription();
         }
+        this.handleRouteLogic();
       });
 
       this.handleRouteLogic();
     },
 
     handleRouteLogic() {
+      if (!this.isAuthReady) return;
+
+      // Redirect logged-in users away from public pages
+      if (this.user && (this.route === '/' || this.route === '/login' || this.route === '/onboarding')) {
+          if (!this.isEmailVerified) {
+              this.navigate('/activation-pending');
+              return;
+          } else {
+              this.navigate('/dashboard');
+              return;
+          }
+      }
+
+      // Protect private routes
+      if (!this.user && (this.route === '/dashboard' || this.route === '/activation-pending')) {
+          this.navigate('/login');
+          return;
+      }
+
       if (this.route === '/dashboard') {
         this.subscribeLeads();
       } else {
@@ -368,22 +403,17 @@ document.addEventListener('alpine:init', () => {
       this.loginError = '';
       
       try {
-        const phoneRegex = /^\+[1-9]\d{1,14}$/;
-        if (!phoneRegex.test(this.phoneNumber)) {
-          throw new Error('Please enter a valid phone number in E.164 format (e.g., +447700900000)');
-        }
-
-        const tradesmenRef = collection(db, 'tradesmen');
-        const q = query(tradesmenRef, where('phoneNumber', '==', this.phoneNumber));
-        const querySnapshot = await getDocs(q);
+        console.log("[AUTH] Attempting login...");
+        const userCredential = await signInWithEmailAndPassword(auth, this.loginEmail, this.loginPassword);
         
-        if (!querySnapshot.empty) {
-          this.navigate('/dashboard');
+        if (!userCredential.user.emailVerified && localStorage.getItem('bypass_verification') !== 'true') {
+            this.navigate('/activation-pending');
         } else {
-          this.navigate('/onboarding');
+            this.navigate('/dashboard');
         }
       } catch (err: any) {
-        this.loginError = err.message || 'Failed to login';
+        console.error("[AUTH] Login error:", err);
+        this.loginError = err.message || 'Failed to login. Check your credentials.';
       } finally {
         this.isLoggingIn = false;
       }
