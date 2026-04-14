@@ -288,16 +288,20 @@
                                 </template>
                             </div>
 
-                            <div class="p-4 bg-[#f0f0f0] border-t-2 border-slate-300">
+                            <div class="p-4 bg-[#f0f0f0] border-t-2 border-slate-300 flex flex-col gap-3">
+                                <form @submit.prevent="sendSimMessage(simInput); simInput = ''" class="flex gap-2">
+                                    <input type="text" x-model="simInput" placeholder="Type a message..." class="flex-1 p-3 rounded-lg border-2 border-slate-300 font-body focus:outline-none focus:border-green-500">
+                                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition-colors">Send</button>
+                                </form>
                                 <div class="grid grid-cols-1 gap-2">
-                                    <button @click="sendSimMessage('Can you just pop round and give me a price?')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
-                                        [TYRE-KICKER] "Can you just pop round?"
+                                    <button @click="sendSimMessage('Can you just pop round and give me a price?')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
+                                        ⚡ Quick Test: "Can you just pop round?"
                                     </button>
-                                    <button @click="sendSimMessage('I need a rewire. Postcode B14 7TE. Here are 3 photos.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
-                                        [PROFESSIONAL] "Rewire, B14 7TE, + Photos"
+                                    <button @click="sendSimMessage('I need a rewire. Postcode B14 7TE. Here are 3 photos.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
+                                        ⚡ Quick Test: "Rewire, B14 7TE, + Photos"
                                     </button>
-                                    <button @click="sendSimMessage('Yes, I will pay the deposit.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left">
-                                        [LOCK-IN] "Yes, I will pay the deposit."
+                                    <button @click="sendSimMessage('Yes, I will pay the deposit.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
+                                        ⚡ Quick Test: "Yes, I will pay the deposit."
                                     </button>
                                 </div>
                             </div>
@@ -305,29 +309,56 @@
 
                         <!-- Right: Dashboard Mockup -->
                         <div class="bg-white text-ink brutal-border brutal-shadow p-8 h-[600px] flex flex-col">
-                            <h3 class="text-4xl font-display font-black uppercase mb-6 border-b-4 border-ink pb-4">TRADIE DASHBOARD</h3>
+                            <h3 class="text-4xl font-display font-black uppercase mb-6 border-b-4 border-ink pb-4 flex justify-between items-center">
+                                TRADIE DASHBOARD
+                                <span class="text-sm bg-red-100 text-red-600 px-2 py-1 border-2 border-red-600" x-show="simState < 5">AWAITING LEAD</span>
+                                <span class="text-sm bg-green-100 text-green-600 px-2 py-1 border-2 border-green-600" x-show="simState === 5">LEAD SECURED</span>
+                            </h3>
                             
-                            <div class="flex-1 flex flex-col justify-center items-center text-center opacity-50 transition-opacity duration-500" :class="simState === 5 ? 'opacity-100' : ''">
+                            <div class="flex-1 flex flex-col justify-center items-center text-center transition-opacity duration-500">
                                 <template x-if="simState < 5">
-                                    <div>
+                                    <div class="w-full space-y-6">
                                         <div class="text-6xl mb-4 animate-pulse">⏳</div>
                                         <p class="text-2xl font-display font-black uppercase">VETTING IN PROGRESS...</p>
                                         <p class="font-body font-bold text-slate-500 mt-2">The AI is currently interrogating the lead.</p>
+                                        
+                                        <!-- Dynamic Checklist -->
+                                        <div class="bg-slate-50 border-2 border-slate-200 p-4 text-left mt-8">
+                                            <h4 class="font-display font-bold uppercase mb-4 text-slate-400">AI Collection Checklist</h4>
+                                            <ul class="space-y-3 font-body font-bold">
+                                                <li class="flex items-center gap-3" :class="simState >= 2 ? 'text-green-600' : 'text-slate-400'">
+                                                    <span x-text="simState >= 2 ? '✅' : '⬜'"></span> Job Description
+                                                </li>
+                                                <li class="flex items-center gap-3" :class="simState >= 3 ? 'text-green-600' : 'text-slate-400'">
+                                                    <span x-text="simState >= 3 ? '✅' : '⬜'"></span> Postcode / Location
+                                                </li>
+                                                <li class="flex items-center gap-3" :class="simState >= 4 ? 'text-green-600' : 'text-slate-400'">
+                                                    <span x-text="simState >= 4 ? '✅' : '⬜'"></span> Visual Proof (Photos/Video)
+                                                </li>
+                                                <li class="flex items-center gap-3 text-slate-400">
+                                                    <span>⬜</span> Priority Pass Deposit
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </template>
                                 
                                 <template x-if="simState === 5">
-                                    <div class="w-full text-left bg-green-50 border-4 border-green-600 p-6">
+                                    <div class="w-full text-left bg-green-50 border-4 border-green-600 p-6 shadow-lg transform hover:scale-105 transition-transform cursor-pointer">
                                         <div class="flex justify-between items-start mb-4">
-                                            <span class="bg-green-600 text-white font-display font-black px-3 py-1 uppercase text-sm">PRIORITY PASS PAID</span>
+                                            <span class="bg-green-600 text-white font-display font-black px-3 py-1 uppercase text-sm animate-pulse">PRIORITY PASS PAID (£50)</span>
                                             <span class="font-body font-bold text-slate-500">Just now</span>
                                         </div>
                                         <h4 class="text-3xl font-display font-black uppercase mb-2">NEW QUALIFIED LEAD</h4>
-                                        <p class="font-body font-bold text-xl mb-4">"Need a quote for this job..."</p>
-                                        <div class="flex gap-2">
+                                        <p class="font-body font-bold text-xl mb-4 text-slate-700">"Customer has agreed to terms, provided photos, and paid the deposit."</p>
+                                        <div class="flex flex-wrap gap-2">
                                             <span class="bg-white border-2 border-ink px-2 py-1 text-sm font-bold">📸 Photos Attached</span>
                                             <span class="bg-white border-2 border-ink px-2 py-1 text-sm font-bold">📍 Postcode Provided</span>
+                                            <span class="bg-white border-2 border-ink px-2 py-1 text-sm font-bold">✅ Pre-Vetted</span>
                                         </div>
+                                        <button class="mt-6 w-full bg-ink text-white font-display font-bold py-3 uppercase hover:bg-slate-800 transition-colors">
+                                            ACCEPT JOB & VIEW DETAILS
+                                        </button>
                                     </div>
                                 </template>
                             </div>
@@ -846,24 +877,40 @@
                     <!-- AI Generated Features -->
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">VAT Sort</span>
-                            <span class="font-body font-bold text-slate-600">Automated receipt extraction and categorization for HMRC.</span>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Smart Quoting Engine</span>
+                            <span class="font-body font-bold text-slate-600">Turn AI WhatsApp chats directly into professional, itemized quotes in 1 click. (Inspired by Tradify)</span>
                         </div>
                         <span class="bg-black text-[#FFD700] font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
                     </div>
                     
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Tool Tracker</span>
-                            <span class="font-body font-bold text-slate-600">Inventory management synced with van locations.</span>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Automated Payment Chaser</span>
+                            <span class="font-body font-bold text-slate-600">AI automatically follows up on unpaid invoices via WhatsApp until they pay. (Inspired by Heylo)</span>
                         </div>
                         <span class="bg-[#FFD700] text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
                     </div>
                     
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">Visual Job Scheduler</span>
+                            <span class="font-body font-bold text-slate-600">Drag-and-drop calendar that auto-syncs with Google/Apple Maps for route optimization.</span>
+                        </div>
+                        <span class="bg-[#FFD700] text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
+                    </div>
+
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
+                            <span class="font-display font-black text-2xl uppercase block mb-1">VAT Sort & Ledger</span>
+                            <span class="font-body font-bold text-slate-600">Automated receipt extraction and categorization for HMRC directly from van photos.</span>
+                        </div>
+                        <span class="bg-slate-200 text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
+                    </div>
+                    
+                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
+                        <div>
                             <span class="font-display font-black text-2xl uppercase block mb-1">Subbie-Net</span>
-                            <span class="font-body font-bold text-slate-600">AI-matched subcontractor hiring for overflow work.</span>
+                            <span class="font-body font-bold text-slate-600">AI-matched subcontractor hiring for overflow work when your schedule is full.</span>
                         </div>
                         <span class="bg-slate-200 text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
                     </div>

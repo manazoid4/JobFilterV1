@@ -123,33 +123,41 @@ async function startServer() {
         }
         break;
       case 2: // State 2: The Vet
-        if (message.length > 20 && message.match(/[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}/i)) {
+        const msgLower = message.toLowerCase();
+        const hasPostcode = message.match(/[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}/i) || msgLower.includes('postcode') || msgLower.includes('b14');
+        const hasDescription = message.length > 15;
+        
+        if (hasPostcode && hasDescription) {
           if (filter_strength <= 2) {
-             reply = "Thanks. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill.";
+             reply = "Thanks. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
              nextState = 4; // Skip photos for low strictness
           } else {
              reply = "Thanks. Boss's orders: I need 1-3 photos or a quick video of the issue before we can proceed. No photos, no quote.";
              nextState = 3;
           }
+        } else if (!hasPostcode) {
+          reply = "I need your full postcode to check if you're in our service area.";
         } else {
-          reply = "Please provide a detailed description of the job AND your full postcode.";
+          reply = "Please provide a bit more detail about the job.";
         }
         break;
       case 3: // State 3: Visual Proof
-        if (req.body.has_media) {
+        const msgLower3 = message.toLowerCase();
+        if (req.body.has_media || msgLower3.includes('photo') || msgLower3.includes('pic') || msgLower3.includes('video') || msgLower3.includes('here')) {
           reply = "Got the photos. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
           nextState = 4;
         } else {
-          reply = "I still need those photos. Boss won't look at it without visual proof.";
+          reply = "I still need those photos. Boss won't look at it without visual proof. (Tip: Type 'Here are the photos' to simulate an upload)";
         }
         break;
       case 4: // State 4: The Priority Pass
-        if (message.toLowerCase().includes("yes") || message.toLowerCase().includes("ok") || message.toLowerCase().includes("deposit")) {
+        const msgLower4 = message.toLowerCase();
+        if (msgLower4.includes("yes") || msgLower4.includes("ok") || msgLower4.includes("deposit") || msgLower4.includes("sure") || msgLower4.includes("pay")) {
           // Generate Stripe Link
-          reply = "Great. Here is your Priority Pass link: [STRIPE_LINK]. Once paid, we'll lock in a time.";
+          reply = "Great. Here is your Priority Pass link: https://buy.stripe.com/test_link. Once paid, we'll lock in a time.";
           nextState = 5;
         } else {
-          reply = "No problem. We'll add you to the standard waitlist, but we can't guarantee a timeframe.";
+          reply = "We require the Priority Pass deposit to proceed. It filters out time-wasters and guarantees your slot. Let me know if you're ready to proceed.";
         }
         break;
       case 5: // State 5: The Lock-In
