@@ -1,6 +1,6 @@
 import Alpine from 'alpinejs';
 import { db } from './firebase';
-import { collection, query, where, getDocs, addDoc, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, onSnapshot, doc, updateDoc, getDocFromServer } from 'firebase/firestore';
 
 declare global {
   interface Window {
@@ -63,12 +63,27 @@ document.addEventListener('alpine:init', () => {
         return this.leads.filter((l: any) => l.status === 'archived');
     },
 
-    init() {
+    async init() {
       window.addEventListener('popstate', () => {
         this.route = window.location.pathname;
         this.handleRouteLogic();
       });
       
+      // Test Firestore Connection
+      try {
+          console.log("[FIREBASE] Testing connection...");
+          await getDocFromServer(doc(db, '_connection_test_', 'ping'));
+          console.log("[FIREBASE] Connection successful.");
+      } catch (error: any) {
+          if (error.message && error.message.includes('the client is offline')) {
+              console.error("[FIREBASE] CRITICAL: Client is offline. Check your Firebase configuration.");
+              this.loginError = "Database is offline. Please check your internet or Firebase setup.";
+          } else {
+              // Ignore other errors (like document not found) as they still mean we're connected
+              console.log("[FIREBASE] Connection test completed (doc might not exist, but we are online).");
+          }
+      }
+
       this.handleRouteLogic();
     },
 
@@ -323,7 +338,7 @@ document.addEventListener('alpine:init', () => {
         });
 
         const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error("Firestore timeout")), 8000)
+            setTimeout(() => reject(new Error("Firestore timeout")), 12000)
         );
 
         await Promise.race([firestorePromise, timeoutPromise]);
