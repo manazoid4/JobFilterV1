@@ -1109,7 +1109,7 @@
                         <h3 class="font-display font-black text-xl uppercase mb-3 text-dewalt">EARLY ACCESS</h3>
                         <p class="font-body font-bold text-sm mb-2">New platform. Built properly from day one.</p>
                         <p class="font-body font-bold text-sm mb-2">Limited to the first 50 trades.</p>
-                        <p class="font-body font-bold text-sm text-green-400">No subscriptions during early access.</p>
+                        <p class="font-body font-bold text-sm text-green-400">Lock in early bird pricing today.</p>
                     </div>
 
                     <!-- What happens next -->
@@ -1140,6 +1140,79 @@
                             "John – Boiler repair – Budget £120 – Ready this week. 📸 2 photos attached."
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ACTIVATION PENDING ROUTE -->
+    <template x-if="route === '/activation-pending'">
+        <div class="min-h-screen bg-slate-50 py-12 px-4 flex justify-center items-center">
+            <div class="max-w-2xl w-full bg-white brutal-border brutal-shadow p-8 md:p-12 text-center">
+                <div class="mb-8">
+                    <div class="w-24 h-24 bg-dewalt brutal-border rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-ink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl font-display font-black uppercase tracking-tighter mb-4">ACTIVATION PENDING</h1>
+                    <p class="text-xl font-body font-bold text-slate-600">Your system is deployed, but we need to finalize your account setup.</p>
+                </div>
+
+                <div class="space-y-8 text-left">
+                    <!-- Step 1: Email -->
+                    <div class="p-6 brutal-border bg-slate-50 relative overflow-hidden">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-ink text-white w-8 h-8 flex items-center justify-center font-black flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="font-display font-black text-xl uppercase mb-1">VERIFY YOUR EMAIL</h3>
+                                <p class="font-body font-bold text-sm text-slate-500">We've sent a verification link to your email. Please click it to confirm your identity.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center gap-2 text-green-600 font-bold text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                            <span>Email sent to your inbox</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Subscription -->
+                    <div class="p-6 brutal-border bg-white relative">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-ink text-white w-8 h-8 flex items-center justify-center font-black flex-shrink-0">2</div>
+                            <div class="flex-1">
+                                <h3 class="font-display font-black text-xl uppercase mb-1">CHOOSE YOUR PLAN</h3>
+                                <p class="font-body font-bold text-sm text-slate-500 mb-4">Select a subscription to start receiving live job leads.</p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="brutal-border p-4 bg-dewalt/10 hover:bg-dewalt/20 cursor-pointer transition-colors relative group">
+                                        <div class="font-display font-black text-lg uppercase">PRO TRADIE</div>
+                                        <div class="text-2xl font-black">£29<span class="text-sm">/mo</span></div>
+                                        <ul class="text-xs font-bold mt-2 space-y-1">
+                                            <li>• Unlimited Leads</li>
+                                            <li>• WhatsApp Pulse</li>
+                                            <li>• Van Sticker QR</li>
+                                        </ul>
+                                        <div class="mt-4 bg-ink text-white text-center py-2 text-xs font-black uppercase brutal-border">SELECT PLAN</div>
+                                    </div>
+                                    <div class="brutal-border p-4 bg-slate-100 opacity-50 cursor-not-allowed">
+                                        <div class="font-display font-black text-lg uppercase">ENTERPRISE</div>
+                                        <div class="text-2xl font-black">£99<span class="text-sm">/mo</span></div>
+                                        <p class="text-[10px] font-bold mt-2">Multi-van teams & custom integrations.</p>
+                                        <div class="mt-4 bg-slate-300 text-slate-500 text-center py-2 text-xs font-black uppercase brutal-border">COMING SOON</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <button @click="navigate('/dashboard')" class="w-full bg-ink text-white brutal-border font-display font-black uppercase px-8 py-4 text-2xl brutal-shadow brutal-shadow-hover transition-all">
+                        COMPLETE ACTIVATION
+                    </button>
+                    <p class="text-xs font-bold text-slate-400 mt-4 uppercase">Secure payment via Stripe</p>
                 </div>
             </div>
         </div>

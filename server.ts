@@ -248,6 +248,10 @@ async function startServer() {
             Deposit Fee: £${calloutFee}
             Filter Level: ${filterStrictness}/5
             Pulse Schedule: ${pulseSchedule}
+
+            Next Steps:
+            -----------
+            The user has been directed to the activation pending page to verify their email and select a subscription plan.
           `
         });
         

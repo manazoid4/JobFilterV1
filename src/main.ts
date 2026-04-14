@@ -370,9 +370,9 @@ document.addEventListener('alpine:init', () => {
             console.warn("[ONBOARDING] Email trigger failed or timed out, proceeding anyway.", fetchErr);
         }
         
-        console.log("[ONBOARDING] Navigating to dashboard...");
+        console.log("[ONBOARDING] Navigating to activation pending...");
         clearTimeout(safetyTimeout);
-        this.navigate('/dashboard');
+        this.navigate('/activation-pending');
       } catch (err: any) {
         console.error("[ONBOARDING] Critical error during registration:", err);
         clearTimeout(safetyTimeout);
