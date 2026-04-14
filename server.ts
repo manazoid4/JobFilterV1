@@ -8,18 +8,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-// Configure Nodemailer transporter
-// To use this, set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS in your environment variables.
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-  port: parseInt(process.env.SMTP_PORT || '587'),
-  auth: {
-    user: process.env.SMTP_USER || 'ethereal.user@ethereal.email',
-    pass: process.env.SMTP_PASS || 'etherealpassword'
-  }
-});
+// Initialize Resend (Requires RESEND_API_KEY in secrets)
+const resend = new Resend(process.env.RESEND_API_KEY || 're_mock_key');
 
 import { Pool } from 'pg';
 
@@ -243,13 +235,30 @@ async function startServer() {
     };
 
     try {
-      // In production, uncomment the following line to actually send the email.
-      // await transporter.sendMail(mailOptions);
-      console.log("Email sent successfully (mocked in dev, uncomment transporter.sendMail for prod).");
-      console.log(mailOptions.text);
+      // Send the email via Resend
+      await resend.emails.send({
+        from: 'JobFilter <onboarding@resend.dev>', // Resend provides this for testing
+        to: 'info@jobfilter.uk',
+        subject: `New Tradie Onboarding: ${name} (${trade})`,
+        text: `
+          New Tradie Activation:
+          ----------------------
+          Name: ${name}
+          Trade: ${trade}
+          Phone: ${phoneNumber}
+          
+          Settings:
+          ---------
+          Deposit Fee: £${calloutFee}
+          Filter Level: ${filterStrictness}/5
+          Pulse Schedule: ${pulseSchedule}
+        `
+      });
+      
+      console.log("Email sent successfully via Resend to info@jobfilter.uk");
       res.json({ status: "success", message: "Onboarding data received and email sent." });
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Error sending email via Resend:", error);
       res.status(500).json({ status: "error", message: "Failed to send email." });
     }
   });
