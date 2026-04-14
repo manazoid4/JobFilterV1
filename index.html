@@ -1019,6 +1019,15 @@
                                     <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
                                 </div>
                                 <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">EMAIL ADDRESS</label>
+                                    <input type="email" x-model="registerEmail" placeholder="john@example.com" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                </div>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">PASSWORD</label>
+                                    <input type="password" x-model="registerPassword" placeholder="••••••••" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                    <p class="text-sm text-slate-500 mt-2 font-bold">Minimum 6 characters for security.</p>
+                                </div>
+                                <div>
                                     <label class="block font-display font-black text-2xl uppercase mb-2">MOBILE NUMBER</label>
                                     <input type="tel" x-model="phoneNumber" pattern="^07\d{9}$" maxlength="11" title="Please enter a valid UK mobile number starting with 07" placeholder="07700900000" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1" @input="phoneNumber = phoneNumber.replace(/[^0-9]/g, '')">
                                     <p class="text-sm text-slate-500 mt-2 font-bold">UK format starting with 07. No spaces.</p>
@@ -1161,20 +1170,22 @@
 
                 <div class="space-y-8 text-left">
                     <!-- Step 1: Email -->
-                    <div class="p-6 brutal-border bg-slate-50 relative overflow-hidden">
+                    <div class="p-6 brutal-border relative overflow-hidden" :class="isEmailVerified ? 'bg-green-50' : 'bg-slate-50'">
                         <div class="flex items-start gap-4">
                             <div class="bg-ink text-white w-8 h-8 flex items-center justify-center font-black flex-shrink-0">1</div>
                             <div>
                                 <h3 class="font-display font-black text-xl uppercase mb-1">VERIFY YOUR EMAIL</h3>
-                                <p class="font-body font-bold text-sm text-slate-500">We've sent a verification link to your email. Please click it to confirm your identity.</p>
+                                <p class="font-body font-bold text-sm text-slate-500" x-show="!isEmailVerified">We've sent a verification link to <span class="text-ink" x-text="registerEmail || user?.email"></span>. Please click it to confirm your identity.</p>
+                                <p class="font-body font-bold text-sm text-green-600" x-show="isEmailVerified">Email successfully verified!</p>
                             </div>
                         </div>
-                        <div class="mt-4 flex items-center gap-2 text-green-600 font-bold text-sm">
+                        <div class="mt-4 flex items-center gap-2 font-bold text-sm" :class="isEmailVerified ? 'text-green-600' : 'text-amber-600'">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                             </svg>
-                            <span>Email sent to your inbox</span>
+                            <span x-text="isEmailVerified ? 'Verified' : 'Waiting for verification...'"></span>
                         </div>
+                        <button x-show="!isEmailVerified" @click="window.location.reload()" class="mt-4 text-xs font-black uppercase underline hover:text-dewalt">I've verified, refresh status</button>
                     </div>
 
                     <!-- Step 2: Subscription -->
@@ -1186,7 +1197,7 @@
                                 <p class="font-body font-bold text-sm text-slate-500 mb-4">Select a subscription to start receiving live job leads.</p>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="brutal-border p-4 bg-dewalt/10 hover:bg-dewalt/20 cursor-pointer transition-colors relative group">
+                                    <div @click="startSubscription()" class="brutal-border p-4 bg-dewalt/10 hover:bg-dewalt/20 cursor-pointer transition-colors relative group">
                                         <div class="font-display font-black text-lg uppercase">PRO TRADIE</div>
                                         <div class="text-2xl font-black">£29<span class="text-sm">/mo</span></div>
                                         <ul class="text-xs font-bold mt-2 space-y-1">
@@ -1194,7 +1205,10 @@
                                             <li>• WhatsApp Pulse</li>
                                             <li>• Van Sticker QR</li>
                                         </ul>
-                                        <div class="mt-4 bg-ink text-white text-center py-2 text-xs font-black uppercase brutal-border">SELECT PLAN</div>
+                                        <div class="mt-4 bg-ink text-white text-center py-2 text-xs font-black uppercase brutal-border group-hover:bg-dewalt group-hover:text-ink transition-colors">
+                                            <span x-show="!isLoggingIn">SELECT PLAN</span>
+                                            <span x-show="isLoggingIn">REDIRECTING...</span>
+                                        </div>
                                     </div>
                                     <div class="brutal-border p-4 bg-slate-100 opacity-50 cursor-not-allowed">
                                         <div class="font-display font-black text-lg uppercase">ENTERPRISE</div>

@@ -209,6 +209,47 @@ async function startServer() {
   });
 
   // ==========================================
+  // STRIPE CHECKOUT
+  // ==========================================
+  app.post("/api/create-checkout-session", async (req, res) => {
+    const { email, uid } = req.body;
+    
+    try {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'gbp',
+              product_data: {
+                name: 'JobFilter Pro Tradie Subscription',
+                description: 'Unlimited leads, WhatsApp Pulse, and Van Sticker QR.',
+              },
+              unit_amount: 2900, // £29.00
+              recurring: {
+                interval: 'month',
+              },
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+        success_url: `${req.headers.origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin}/activation-pending`,
+        customer_email: email,
+        metadata: {
+          uid: uid
+        }
+      });
+
+      res.json({ url: session.url });
+    } catch (error: any) {
+      console.error("[STRIPE] Error creating session:", error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // ==========================================
   // ONBOARDING EMAIL
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {

@@ -1,6 +1,7 @@
 import Alpine from 'alpinejs';
-import { db } from './firebase';
+import { db, auth } from './firebase';
 import { collection, query, where, getDocs, addDoc, onSnapshot, doc, updateDoc, getDocFromServer } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, sendEmailVerification, onAuthStateChanged } from 'firebase/auth';
 
 declare global {
   interface Window {
@@ -19,6 +20,8 @@ document.addEventListener('alpine:init', () => {
     // Onboarding State
     onboardingStep: 1,
     registerName: '',
+    registerEmail: '',
+    registerPassword: '',
     registerTrade: '',
     registerCompany: '',
     registerArea: '',
@@ -27,6 +30,8 @@ document.addEventListener('alpine:init', () => {
     pulseSchedule: '3days',
     loginError: '',
     isLoggingIn: false,
+    user: null,
+    isEmailVerified: false,
     
     // Vault State
     newVaultIdea: '',
@@ -83,6 +88,12 @@ document.addEventListener('alpine:init', () => {
               console.log("[FIREBASE] Connection test completed (doc might not exist, but we are online).");
           }
       }
+
+      onAuthStateChanged(auth, (user) => {
+        this.user = user;
+        this.isEmailVerified = user?.emailVerified || false;
+        console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
+      });
 
       this.handleRouteLogic();
     },
@@ -319,14 +330,26 @@ document.addEventListener('alpine:init', () => {
               this.isLoggingIn = false;
               this.loginError = "Connection is slow. We're still trying to activate your account in the background...";
           }
-      }, 15000);
+      }, 20000);
 
       try {
+        // 1. Create Firebase Auth Account
+        console.log("[AUTH] Creating account...");
+        const userCredential = await createUserWithEmailAndPassword(auth, this.registerEmail, this.registerPassword);
+        const user = userCredential.user;
+        
+        // 2. Send Verification Email
+        console.log("[AUTH] Sending verification email...");
+        await sendEmailVerification(user);
+
+        // 3. Save to Firestore
         console.log("[ONBOARDING] Saving to Firestore...");
         const tradesmenRef = collection(db, 'tradesmen');
         
         // Wrap Firestore addDoc in a timeout
         const firestorePromise = addDoc(tradesmenRef, {
+          uid: user.uid,
+          email: this.registerEmail,
           phoneNumber: this.phoneNumber || '+447000000000',
           name: this.registerName,
           trade: this.registerTrade,
@@ -334,7 +357,8 @@ document.addEventListener('alpine:init', () => {
           serviceArea: this.registerArea,
           calloutFee: this.calloutFee,
           filterStrictness: this.filterStrictness,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          isActive: false
         });
 
         const timeoutPromise = new Promise((_, reject) => 
@@ -344,7 +368,7 @@ document.addEventListener('alpine:init', () => {
         await Promise.race([firestorePromise, timeoutPromise]);
         console.log("[ONBOARDING] Firestore save successful.");
 
-        // Send email via backend
+        // 4. Send email via backend
         console.log("[ONBOARDING] Triggering backend email...");
         
         const controller = new AbortController();
@@ -359,6 +383,7 @@ document.addEventListener('alpine:init', () => {
                     name: this.registerName,
                     trade: this.registerTrade,
                     phoneNumber: this.phoneNumber,
+                    email: this.registerEmail,
                     calloutFee: this.calloutFee,
                     filterStrictness: this.filterStrictness,
                     pulseSchedule: this.pulseSchedule
@@ -382,6 +407,32 @@ document.addEventListener('alpine:init', () => {
       } finally {
         this.isLoggingIn = false;
       }
+    },
+
+    async startSubscription() {
+        console.log("[STRIPE] Starting checkout...");
+        this.isLoggingIn = true;
+        try {
+            const res = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: this.registerEmail || this.user?.email,
+                    uid: this.user?.uid
+                })
+            });
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("Failed to create checkout session");
+            }
+        } catch (err: any) {
+            console.error("[STRIPE] Error:", err);
+            this.loginError = "Payment system unavailable. Please try again later.";
+        } finally {
+            this.isLoggingIn = false;
+        }
     }
   }));
 });
