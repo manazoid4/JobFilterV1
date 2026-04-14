@@ -213,6 +213,7 @@ async function startServer() {
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
+    console.log(`[ONBOARDING] Received submission for ${name} (${trade})`);
     
     // Return immediately to the frontend so the UI doesn't hang
     res.json({ status: "success", message: "Onboarding received. Processing email in background." });

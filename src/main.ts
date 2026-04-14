@@ -297,10 +297,21 @@ document.addEventListener('alpine:init', () => {
       this.isLoggingIn = true;
       this.loginError = '';
       
+      // Safety timeout to reset the button if everything hangs
+      const safetyTimeout = setTimeout(() => {
+          if (this.isLoggingIn) {
+              console.warn("[ONBOARDING] Safety timeout reached. Forcing UI reset.");
+              this.isLoggingIn = false;
+              this.loginError = "Connection is slow. We're still trying to activate your account in the background...";
+          }
+      }, 15000);
+
       try {
         console.log("[ONBOARDING] Saving to Firestore...");
         const tradesmenRef = collection(db, 'tradesmen');
-        await addDoc(tradesmenRef, {
+        
+        // Wrap Firestore addDoc in a timeout
+        const firestorePromise = addDoc(tradesmenRef, {
           phoneNumber: this.phoneNumber || '+447000000000',
           name: this.registerName,
           trade: this.registerTrade,
@@ -310,17 +321,22 @@ document.addEventListener('alpine:init', () => {
           filterStrictness: this.filterStrictness,
           createdAt: new Date().toISOString()
         });
+
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error("Firestore timeout")), 8000)
+        );
+
+        await Promise.race([firestorePromise, timeoutPromise]);
         console.log("[ONBOARDING] Firestore save successful.");
 
         // Send email via backend
         console.log("[ONBOARDING] Triggering backend email...");
         
-        // Use a timeout for the fetch to ensure we don't hang forever
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        const fetchTimeoutId = setTimeout(() => controller.abort(), 4000);
 
         try {
-            const emailRes = await fetch('/api/onboarding/submit', {
+            await fetch('/api/onboarding/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 signal: controller.signal,
@@ -333,22 +349,21 @@ document.addEventListener('alpine:init', () => {
                     pulseSchedule: this.pulseSchedule
                 })
             });
-            clearTimeout(timeoutId);
-
-            if (!emailRes.ok) {
-                console.error("[ONBOARDING] Email trigger failed (status " + emailRes.status + "), but registration continued.");
-            } else {
-                console.log("[ONBOARDING] Email trigger successful.");
-            }
+            clearTimeout(fetchTimeoutId);
+            console.log("[ONBOARDING] Email trigger successful.");
         } catch (fetchErr) {
-            console.warn("[ONBOARDING] Email trigger timed out or failed, proceeding to dashboard anyway.", fetchErr);
+            console.warn("[ONBOARDING] Email trigger failed or timed out, proceeding anyway.", fetchErr);
         }
         
         console.log("[ONBOARDING] Navigating to dashboard...");
+        clearTimeout(safetyTimeout);
         this.navigate('/dashboard');
       } catch (err: any) {
         console.error("[ONBOARDING] Critical error during registration:", err);
-        this.loginError = err.message || 'Failed to register. Please check your connection.';
+        clearTimeout(safetyTimeout);
+        this.loginError = err.message === "Firestore timeout" 
+            ? "Database connection timed out. Please try again or use the bypass button."
+            : (err.message || 'Failed to register. Please check your connection.');
       } finally {
         this.isLoggingIn = false;
       }
