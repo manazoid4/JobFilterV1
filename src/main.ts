@@ -97,14 +97,6 @@ document.addEventListener('alpine:init', () => {
     simInput: '',
     simFilterStrength: 3,
     
-    // Calculator variables
-    hoursWasted: 5,
-    milesDriven: 50,
-    hourlyRate: 45,
-    fuelCost: 0.45,
-    showModal: null,
-    get adminDebt() { return Math.round((this.hoursWasted * this.hourlyRate + this.milesDriven * this.fuelCost) * 52); },
-    
     // Dashboard variables
     activeTab: 'money', // 'money' | 'safety' | 'business'
     leads: [],
