@@ -18,8 +18,10 @@ document.addEventListener('alpine:init', () => {
     phoneNumber: '',
     
     // Onboarding State
-    onboardingStep: 1,
-    onboardingTotalSteps: 4,
+    onboardingPostcode: '',
+    scanState: 'idle', // 'idle' | 'searching' | 'revealed'
+    scannedLeads: [],
+    
     registerName: '',
     registerEmail: '',
     registerPassword: '',
@@ -291,7 +293,28 @@ document.addEventListener('alpine:init', () => {
       window.history.pushState({}, '', path);
       this.route = path;
       window.scrollTo(0, 0);
+      
+      // Reset scan state when navigating to onboarding
+      if (path === '/onboarding') {
+        this.scanState = 'idle';
+        this.onboardingPostcode = '';
+        this.scannedLeads = [];
+      }
+      
       this.handleRouteLogic();
+    },
+
+    startScan() {
+      if (!this.onboardingPostcode) return;
+      this.scanState = 'searching';
+      setTimeout(() => {
+        this.scannedLeads = [
+          { id: 1, title: 'Single Storey Extension', addressSnippet: 'Walmley Road, Solihull', trade: 'GENERAL', value: '45,000' },
+          { id: 2, title: 'Dormer Loft Conversion', addressSnippet: 'Hagley Road, Edgbaston', trade: 'ROOFER', value: '38,000' },
+          { id: 3, title: 'Full Refurbishment', addressSnippet: 'Lichfield Road, Sutton Coldfield', trade: 'GENERAL', value: '110,000' }
+        ];
+        this.scanState = 'revealed';
+      }, 3000);
     },
 
     unsubscribeLeadsListener() {
