@@ -209,7 +209,7 @@
 
     <!-- TOP BANNER -->
     <div class="bg-dewalt text-ink font-display font-black text-center py-3 border-b-4 border-ink text-xl uppercase tracking-widest sticky top-0 z-[60]">
-        ⚡ <button @click="navigate('/onboarding')" class="hover:text-white transition-colors">ENTRANCE: THE INTAKE [LIVE]</button>
+        ⚡ THE INTAKE IS OPEN. START YOUR 7-DAY FREE TRIAL OF TRADE TOOLS. <button @click="navigate('/intake')" class="underline decoration-4 underline-offset-4 ml-4 hover:text-white transition-colors">VIEW LATEST LEADS</button>
     </div>
 
     <!-- Navigation -->
@@ -272,14 +272,20 @@
                             THE INTAKE: <br> <span class="bg-dewalt px-4 inline-block transform -rotate-2 brutal-border text-ink">PICK YOUR PLAY.</span>
                         </h1>
                     
-                        <p class="text-2xl md:text-3xl font-body font-semibold text-slate-600 mb-12 max-w-2xl leading-tight">
-                            Council-approved projects delivered to your WhatsApp. No bidding. No ghosts.
+                        <p class="text-2xl md:text-3xl font-body font-semibold text-slate-600 mb-12 max-w-2xl leading-tight uppercase">
+                            The only all-in-one platform built for the UK trade. Live leads, automated mailers, and the tools you need to quit working for ghosts.
                         </p>
                         <div class="flex flex-col sm:flex-row gap-6">
                             <button @click="navigate('/onboarding')" class="btn-y text-3xl py-6 px-12 brutal-shadow-lg">ACCESS THE INTAKE</button>
-                            <button @click="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-o text-3xl py-6 px-12">CALCULATE WASTE</button>
+                            <button @click="navigate('/trade-tools')" class="bg-white text-ink border-4 border-ink font-display font-black text-3xl py-6 px-12 brutal-shadow hover:bg-slate-100 transition-all uppercase">START 7-DAY FREE TRIAL</button>
                         </div>
-                </div>
+                        <div class="mt-12 p-8 border-4 border-ink bg-slate-50 relative">
+                             <div class="absolute -top-6 left-6 bg-ink text-white font-display font-black px-4 py-1 uppercase text-sm">TRADIE-FIRST LOGIC</div>
+                             <p class="font-body font-bold text-xl text-slate-600 leading-snug">
+                                We don't charge you a ton of money just to compete against 5 other blokes. This isn't some hard-cliché tech-bro business trying to squeeze you. <span class="text-ink">Use our free tools for as long as you'd like.</span> We only charge for the heavy lifting.
+                             </p>
+                        </div>
+                    </div>
             </header>
 
             <!-- Diesel Burn Calculator -->
@@ -514,7 +520,7 @@
                                         <div class="mt-auto pt-8">
                                             <div class="bg-ink text-dewalt p-3 font-mono text-[10px] text-left brutal-border">
                                                 <div class="flex gap-2 opacity-50"><span class="text-white">[SYSTEM]</span> Initializing vetting sequence...</div>
-                                                <div x-show="simState >= 2" class="flex gap-2"><span class="text-white">[AI]</span> Analyzing job description for keywords...</div>
+                                                <div x-show="simState >= 2" class="flex gap-2"><span class="text-white">[INTAKE]</span> Analyzing job description for keywords...</div>
                                                 <div x-show="simState >= 3" class="flex gap-2"><span class="text-white">[GEO]</span> Validating postcode against service area...</div>
                                                 <div x-show="simState >= 4" class="flex gap-2"><span class="text-white">[VISION]</span> Processing image metadata...</div>
                                             </div>
@@ -587,7 +593,7 @@
                             <p class="text-2xl font-body font-bold text-ink mb-8 leading-tight">"Full Strike." We handle the physical outreach for every lead.</p>
                             <ul class="space-y-4 mb-12 flex-1">
                                 <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✉️</span> Physical Letters Posted</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✍️</span> AI-Custom "Hammer Hooks"</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✍️</span> Tailored "Hammer Hooks"</li>
                                 <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🚀</span> Priority Lead Dispatch</li>
                                 <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🏆</span> Full Problem Solving</li>
                             </ul>
@@ -657,12 +663,12 @@
                             <p class="text-2xl font-body font-bold mb-8 leading-tight">For the biggest jobs, digital isn't enough. The Intake generates a custom letter, prints it, and posts it to the door.</p>
                             <div class="grid md:grid-cols-2 gap-8">
                                 <div class="bg-white/5 p-6 brutal-border border-white/20">
-                                    <span class="text-dewalt font-display font-black text-xl uppercase block mb-2">AI HOOKS</span>
-                                    <p class="text-lg font-body font-bold text-slate-400">Personalized opening lines that prove you've seen their specific blueprints.</p>
+                                    <span class="text-dewalt font-display font-black text-xl uppercase block mb-2">HAMMER HOOKS</span>
+                                    <p class="text-lg font-body font-bold text-slate-400">Personalized opening lines hand-crafted by our analysts during business weeks.</p>
                                 </div>
                                 <div class="bg-white/5 p-6 brutal-border border-white/20">
                                     <span class="text-dewalt font-display font-black text-xl uppercase block mb-2">PHYSICAL DISPATCH</span>
-                                    <p class="text-lg font-body font-bold text-slate-400">Automated printing and posting. No stamps, no envelopes, no wasted time.</p>
+                                    <p class="text-lg font-body font-bold text-slate-400">Automated printing and posting within 24 hours of approval.</p>
                                 </div>
                             </div>
                         </div>
@@ -685,7 +691,7 @@
                                         <span class="font-display font-black text-2xl uppercase">HAMMER</span>
                                         <span class="font-black">£99/mo</span>
                                     </div>
-                                    <p class="font-body font-bold text-ink">Full strike. Physical letters posted for every lead + AI custom hooks.</p>
+                                    <p class="font-body font-bold text-ink">Full strike. Physical letters posted for every lead + hand-crafted hooks.</p>
                                 </div>
                             </div>
                             <button @click="navigate('/onboarding')" class="btn-y w-full mt-8 py-4 text-2xl">ACCESS ENGINE</button>
@@ -715,7 +721,7 @@
                     TRADE TOOLS
                 </h1>
                 <p class="text-3xl font-body font-bold text-slate-600 max-w-3xl mx-auto">
-                    AI-powered modules built for your specific trade.
+                    Trade-specialist modules built for your specific trade.
                 </p>
             </header>
 
@@ -759,7 +765,7 @@
                         <div class="bg-white brutal-border brutal-shadow p-10">
                             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
                                 <div>
-                                    <span class="bg-blue-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">AI MODULE</span>
+                                    <span class="bg-blue-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
                                     <h2 class="text-5xl font-display font-black uppercase">CERTIFICATE AUTOMATOR</h2>
                                 </div>
                                 <div class="text-4xl">⚡</div>
@@ -770,7 +776,7 @@
                                     <div class="border-4 border-dashed border-slate-300 p-12 text-center bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors mb-6">
                                         <div class="text-5xl mb-4">📸</div>
                                         <p class="font-display font-black uppercase text-xl">UPLOAD SITE PHOTOS / NOTES</p>
-                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">Gemini AI will extract circuit data & observations</p>
+                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">The Intake Analyst will extract circuit data & observations</p>
                                     </div>
                                     <button class="w-full bg-ink text-white font-display font-black uppercase py-4 text-2xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">GENERATE DRAFT CERT</button>
                                 </div>
@@ -796,7 +802,7 @@
                         <div class="bg-white brutal-border brutal-shadow p-10">
                             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
                                 <div>
-                                    <span class="bg-orange-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">AI MODULE</span>
+                                    <span class="bg-orange-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
                                     <h2 class="text-5xl font-display font-black uppercase">CP12 MANAGER</h2>
                                 </div>
                                 <div class="text-4xl">🔥</div>
@@ -809,7 +815,7 @@
                                     </div>
                                     <div class="bg-white brutal-border p-6">
                                         <h3 class="font-display font-black uppercase text-xl mb-2">PRE-FILLED CERTS</h3>
-                                        <p class="font-body font-bold text-slate-600">AI pulls previous appliance data so you only update the new readings.</p>
+                                        <p class="font-body font-bold text-slate-600">Analyst pings previous appliance data so you only update the new readings.</p>
                                     </div>
                                     <button class="w-full bg-ink text-white font-display font-black uppercase py-4 text-2xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">VIEW EXPIRING CERTS</button>
                                 </div>
@@ -829,7 +835,7 @@
                         <div class="bg-white brutal-border brutal-shadow p-10">
                             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
                                 <div>
-                                    <span class="bg-red-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">AI MODULE</span>
+                                    <span class="bg-red-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
                                     <h2 class="text-5xl font-display font-black uppercase">VISUAL RAMS BUILDER</h2>
                                 </div>
                                 <div class="text-4xl">🏠</div>
@@ -858,7 +864,7 @@
                         <div class="bg-white brutal-border brutal-shadow p-10">
                             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
                                 <div>
-                                    <span class="bg-cyan-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">AI MODULE</span>
+                                    <span class="bg-cyan-600 text-white px-3 py-1 font-display font-black text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
                                     <h2 class="text-5xl font-display font-black uppercase">F-GAS LOG TRACKER</h2>
                                 </div>
                                 <div class="text-4xl">❄️</div>
@@ -911,11 +917,11 @@
                             </div>
                             <div class="grid md:grid-cols-2 gap-12">
                                 <div>
-                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">AI-driven Go/No-Go tender analyzer. Drop a 50-page PQQ or Tender doc, and get a 1-page summary of the risks, margins, and "gotchas".</p>
+                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">Specialist Go/No-Go tender analyzer. Drop a 50-page PQQ or Tender doc, and get a 1-page summary of the risks, margins, and "gotchas".</p>
                                     <div class="border-4 border-ink p-12 text-center bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all mb-6 group">
                                         <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📄</div>
                                         <p class="font-display font-black uppercase text-2xl">DROP TENDER DOCUMENT (PDF)</p>
-                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">Gemini AI will analyze clauses & requirements</p>
+                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">The Intake Analyst will analyze clauses & requirements</p>
                                     </div>
                                     <button class="w-full bg-ink text-white font-display font-black uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">ANALYZE TENDER</button>
                                 </div>
@@ -950,15 +956,65 @@
     <template x-if="route === '/features'">
         <div class="bg-slate-50 min-h-screen">
             <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
-                <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
-                    SYSTEM CAPABILITIES
+                <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-4">
+                    THE TOOLKIT
                 </h1>
-                <p class="text-3xl font-body font-bold text-ink max-w-3xl mx-auto">
-                    How the automated vetting system works.
+                <p class="text-3xl font-body font-bold text-ink max-w-3xl mx-auto uppercase">
+                    Build. Scale. Automate.
                 </p>
             </header>
             
-            <div class="max-w-7xl mx-auto py-24 px-4">
+            <div class="max-w-7xl mx-auto py-24 px-4 space-y-24">
+                <!-- Trade Tools Intro (Free Tier) -->
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <span class="bg-ink text-white font-display font-black px-4 py-1 text-xl uppercase mb-6 inline-block">THE FREE TIER</span>
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-8 leading-none">TRADE TOOLS</h2>
+                        <p class="text-2xl font-body font-bold text-slate-600 mb-8 leading-snug">
+                            Every tradie needs a solid foundation. Our core tools are free to use because we aren't here to nickel-and-dime your basic admin.
+                        </p>
+                        <ul class="space-y-4 font-body font-bold text-xl text-slate-700 mb-12">
+                            <li class="flex items-center gap-3">✅ <span class="uppercase">Waste & Diesel Calculators</span></li>
+                            <li class="flex items-center gap-3">✅ <span class="uppercase">Pro Invoice Templates</span></li>
+                            <li class="flex items-center gap-3">✅ <span class="uppercase">Receipt Vault & Ledger</span></li>
+                            <li class="flex items-center gap-3">✅ <span class="uppercase">7-Day Specialist Modules Trial</span></li>
+                        </ul>
+                        <button @click="navigate('/trade-tools')" class="btn-y text-3xl py-6 px-12">TRY THE TOOLS FREE</button>
+                    </div>
+                    <div class="bg-white brutal-border brutal-shadow p-8 rotate-1">
+                         <div class="space-y-4">
+                             <div class="h-12 bg-slate-100 brutal-border w-3/4"></div>
+                             <div class="h-12 bg-slate-100 brutal-border w-1/2"></div>
+                             <div class="h-12 bg-slate-100 brutal-border w-5/6"></div>
+                             <div class="h-48 bg-dewalt brutal-border p-6 flex flex-col justify-end">
+                                 <span class="font-display font-black text-4xl">PRO MODULES</span>
+                             </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- The Intake (Paid Tier) -->
+                <div class="grid lg:grid-cols-2 gap-16 items-center">
+                    <div class="order-2 lg:order-1 bg-ink text-white brutal-border brutal-shadow p-8 -rotate-1">
+                        <div class="inline-block bg-dewalt text-ink font-display font-black px-4 py-1 text-xl uppercase mb-6">PREMIUM UPGRADE</div>
+                        <h3 class="text-5xl font-display font-black uppercase mb-6 text-white leading-none">THE INTAKE [v1.0]</h3>
+                        <div class="space-y-4 font-mono text-dewalt text-lg">
+                            <p>> Scraping council portals...</p>
+                            <p>> Verifying homeowner addresses...</p>
+                            <p>> Generating trade-specific leads...</p>
+                            <p>> DELIVERING TO WHATSAPP.</p>
+                        </div>
+                    </div>
+                    <div class="order-1 lg:order-2">
+                        <span class="bg-red-600 text-white font-display font-black px-4 py-1 text-xl uppercase mb-6 inline-block">UPGRADE TRIGGER</span>
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-8 leading-none">THE INTAKE</h2>
+                        <p class="text-2xl font-body font-bold text-slate-600 mb-8 leading-snug">
+                            Ready to dominate? The Intake delivers verified projects to you before they even search for a builder. Stop fighting over crumbs on Checkatrade.
+                        </p>
+                        <button @click="navigate('/onboarding')" class="bg-red-600 text-white border-4 border-ink font-display font-black text-3xl py-6 px-12 brutal-shadow hover:bg-red-700 transition-all uppercase">SECURE YOUR AREA</button>
+                    </div>
+                </div>
+
                 <div class="overflow-x-auto bg-white brutal-border brutal-shadow">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -971,43 +1027,27 @@
                         <tbody class="font-body font-bold text-xl">
                             <tr class="border-b-4 border-ink">
                                 <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-dewalt px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Automated Vetting</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">LEAD QUALIFICATION</span>
+                                    <span class="bg-dewalt px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">The Intake</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">LIVE PLANNING DATA</span>
                                 </td>
-                                <td class="p-6 border-r-4 border-ink">Intercepts WhatsApp messages, demands photos, postcodes, and a description.</td>
-                                <td class="p-6">Zero time wasted on tyre-kickers. You only see fully vetted jobs.</td>
+                                <td class="p-6 border-r-4 border-ink">Scrapes council planning portals for every new extension, loft, or roof job in your postcode.</td>
+                                <td class="p-6 text-red-600">You find the work before the customer finds the internet. Zero competition.</td>
                             </tr>
                             <tr class="border-b-4 border-ink">
                                 <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-green-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Deposits</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">SECURE CALLOUTS</span>
+                                    <span class="bg-green-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">The Hammer</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">AUTOMATED MAILERS</span>
                                 </td>
-                                <td class="p-6 border-r-4 border-ink">Generates a Stripe Pay-Link for a deductible booking fee.</td>
-                                <td class="p-6">Guarantees the customer is serious and locks in revenue before you turn the ignition.</td>
+                                <td class="p-6 border-r-4 border-ink">We print and post a physical, personalized letter to the homeowner's door automatically.</td>
+                                <td class="p-6">The most powerful way to land big projects. No digital ghosting.</td>
                             </tr>
                             <tr class="border-b-4 border-ink">
                                 <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-blue-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Availability</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">STATUS UPDATES</span>
+                                    <span class="bg-blue-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Trade Tools</span><br>
+                                    <span class="text-3xl font-display font-black uppercase">HAND-CRAFTED COMPLIANCE</span>
                                 </td>
-                                <td class="p-6 border-r-4 border-ink">Pings you every 3 days for text-based availability. Shows clients your status.</td>
-                                <td class="p-6">Zero-API calendar management. You control the schedule without touching a calendar app.</td>
-                            </tr>
-                            <tr class="border-b-4 border-ink">
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-red-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Reporting</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">PERFORMANCE TRACKING</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Calculates admin waste (15 mins/lead) and revenue reclaimed (£50/hr).</td>
-                                <td class="p-6">Hard data proving exactly how much time and money the system saves you.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-purple-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Manual Review</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">UNQUALIFIED LEADS</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Catches unclear or incomplete messages that the system couldn't process.</td>
-                                <td class="p-6">Nothing is ever deleted. You can manually review and reclaim any lead.</td>
+                                <td class="p-6 border-r-4 border-ink">Certificate Automators, RAMS Builders, and F-Gas Trackers built for your trade. Reviewed by our team during business weeks.</td>
+                                <td class="p-6">Admin that used to take hours now takes 2 minutes. Focus on the tools, not the iPad.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1148,7 +1188,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="bg-slate-900 text-white p-8 brutal-border brutal-shadow flex flex-col justify-between">
                                         <div>
-                                            <h3 class="text-3xl font-display font-black uppercase mb-2 text-dewalt">AI RECEPTIONIST</h3>
+                                            <h3 class="text-3xl font-display font-black uppercase mb-2 text-dewalt">VIRTUAL ASSISTANT</h3>
                                             <p class="text-slate-400 font-body font-bold mb-6">Your automated gatekeeper is currently active and vetting leads.</p>
                                         </div>
                                         <div class="flex items-center gap-4">
@@ -1197,7 +1237,7 @@
                                         <div class="flex items-center gap-4 p-3 bg-slate-50 border-l-4 border-slate-400">
                                             <span class="text-xl">🤖</span>
                                             <div class="flex-1">
-                                                <p class="font-body font-bold text-ink">AI Receptionist updated greeting message.</p>
+                                                <p class="font-body font-bold text-ink">Virtual Assistant updated greeting message.</p>
                                                 <p class="text-xs text-slate-500 font-bold uppercase">2 hours ago</p>
                                             </div>
                                         </div>
@@ -1355,7 +1395,7 @@
                                                 <span class="bg-ink text-white px-3 py-1 text-xs font-black uppercase">Core Tool</span>
                                             </div>
                                             <h3 class="text-5xl font-display font-black uppercase mb-4 group-hover:underline">THE WORKSHOP</h3>
-                                            <p class="text-xl font-body font-bold text-ink mb-8 max-w-md">Configure AI Receptionist, generate instant quotes, and manage your automated scheduler.</p>
+                                            <p class="text-xl font-body font-bold text-ink mb-8 max-w-md">Configure Virtual Assistant, generate instant quotes, and manage your automated scheduler.</p>
                                         </div>
                                         <button class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border brutal-shadow transition-all">OPEN WORKSHOP</button>
                                     </div>
@@ -1484,7 +1524,7 @@
 
                             <template x-if="selectedLead.hammer_hook">
                                 <div class="border-4 border-ink p-6 bg-ink text-dewalt">
-                                    <span class="block text-lg font-display font-black text-dewalt/60 mb-4 uppercase">THE HAMMER HOOK (AI-GENERATED)</span>
+                                    <span class="block text-lg font-display font-black text-dewalt/60 mb-4 uppercase">THE HAMMER HOOK (HAND-CRAFTED DURING BUSINESS WEEKS)</span>
                                     <p class="text-2xl font-body font-bold leading-relaxed italic" x-text="'&quot;' + selectedLead.hammer_hook + '&quot;'"></p>
                                     <div class="mt-4 flex items-center gap-2">
                                         <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
@@ -1558,7 +1598,7 @@
                     <h2 class="text-3xl font-display font-black uppercase mb-2">CEO VISION BOARD</h2>
                     <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
                     <form @submit.prevent="addVaultIdea()" class="flex flex-col md:flex-row gap-4">
-                        <input type="text" x-model="newVaultIdea" @keydown.enter.prevent="addVaultIdea()" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
+                        <input type="text" x-model="newVaultIdea" @keydown.enter.prevent="addVaultIdea()" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher Tool...">
                         <select x-model="newVaultPhase" class="brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt bg-white">
                             <option value="1">PHASE 1</option>
                             <option value="2">PHASE 2</option>
@@ -1883,10 +1923,10 @@
                 <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-none mb-12">THE WORKSHOP</h1>
                 
                 <div class="grid lg:grid-cols-3 gap-12">
-                    <!-- AI Receptionist Config -->
+                    <!-- Virtual Assistant Config -->
                     <div class="lg:col-span-2 space-y-12">
                         <div class="bg-white brutal-border brutal-shadow p-8">
-                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">AI RECEPTIONIST CONFIG</h2>
+                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">VIRTUAL ASSISTANT CONFIG</h2>
                             
                             <div class="space-y-8">
                                 <div>
@@ -1906,7 +1946,7 @@
                                 <div class="flex items-center justify-between p-6 bg-slate-50 brutal-border">
                                     <div>
                                         <h3 class="font-display font-black text-xl uppercase">Auto-Reply Mode</h3>
-                                        <p class="text-sm font-bold text-slate-500">AI will automatically engage with new WhatsApp leads.</p>
+                                        <p class="text-sm font-bold text-slate-500">Virtual Assistant will automatically engage with new WhatsApp leads.</p>
                                     </div>
                                     <button @click="aiAutoReply = !aiAutoReply" :class="aiAutoReply ? 'bg-green-500' : 'bg-slate-300'" class="w-16 h-8 brutal-border relative transition-colors">
                                         <div :class="aiAutoReply ? 'translate-x-8' : 'translate-x-0'" class="absolute top-0 left-0 w-8 h-full bg-white brutal-border transition-transform"></div>
@@ -1915,9 +1955,9 @@
                             </div>
                         </div>
 
-                        <!-- AI Team -->
+                        <!-- Virtual Team -->
                         <div class="bg-white brutal-border brutal-shadow p-8">
-                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">YOUR AI WORKFORCE</h2>
+                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">YOUR VIRTUAL SQUAD</h2>
                             <div class="grid md:grid-cols-2 gap-6">
                                 <div class="brutal-border p-6 bg-slate-50 relative group">
                                     <div class="flex justify-between items-start mb-4">
@@ -1955,7 +1995,7 @@
                     <!-- Sidebar: Stats -->
                     <div class="space-y-8">
                         <div class="bg-dewalt brutal-border brutal-shadow p-8">
-                            <h3 class="font-display font-black text-2xl uppercase mb-4">AI PERFORMANCE</h3>
+                            <h3 class="font-display font-black text-2xl uppercase mb-4">SYSTEM PERFORMANCE</h3>
                             <div class="space-y-4">
                                 <div class="flex justify-between items-end">
                                     <span class="text-sm font-black uppercase">Leads Vetted</span>
