@@ -33,10 +33,11 @@ document.addEventListener('alpine:init', () => {
     loginPassword: '',
     loginError: '',
     isLoggingIn: false,
-    user: null,
-    isAuthReady: false,
-    isEmailVerified: false,
+    user: { uid: 'dev-user', email: 'dev@jobfilter.uk' },
+    isAuthReady: true,
+    isEmailVerified: true,
     verificationMessage: '',
+    subscriptionStatus: 'active',
 
     handleFirestoreError(error: any, operationType: string, path: string | null) {
       const errInfo = {
@@ -133,7 +134,6 @@ document.addEventListener('alpine:init', () => {
     selectedLead: null,
     isLeadModalOpen: false,
     unsubscribeLeads: null,
-    subscriptionStatus: 'loading', // 'active' | 'past_due' | 'none' | 'loading'
     
     // Workshop & AI Receptionist State
     aiPersonality: 'professional',
@@ -235,13 +235,15 @@ document.addEventListener('alpine:init', () => {
       }
 
       onAuthStateChanged(auth, (user) => {
-        this.user = user;
-        this.isEmailVerified = user?.emailVerified || false;
-        this.isAuthReady = true;
-        console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
+        // LOCK REMOVED: Preserving dev user if no real user is found
         if (user) {
+            this.user = user;
+            this.isEmailVerified = user.emailVerified;
             this.checkSubscription();
+        } else {
+            console.log("[AUTH] No user found, staying in DEV MODE");
         }
+        this.isAuthReady = true;
         this.handleRouteLogic();
       });
 
@@ -256,25 +258,8 @@ document.addEventListener('alpine:init', () => {
     },
 
     handleRouteLogic() {
-      if (!this.isAuthReady) return;
-
-      // Redirect logged-in users away from public pages
-      if (this.user && (this.route === '/' || this.route === '/login' || this.route === '/onboarding')) {
-          if (!this.isEmailVerified) {
-              this.navigate('/activation-pending');
-              return;
-          } else {
-              this.navigate('/dashboard');
-              return;
-          }
-      }
-
-      // Protect private routes
-      if (!this.user && (this.route === '/dashboard' || this.route === '/activation-pending')) {
-          this.navigate('/login');
-          return;
-      }
-
+      // LOCK REMOVED: Bypassing auth and verification redirects
+      
       if (this.route === '/dashboard') {
         this.subscribeLeads();
         this.subscribeJobs();
