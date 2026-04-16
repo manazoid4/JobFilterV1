@@ -209,7 +209,7 @@
 
     <!-- TOP BANNER -->
     <div class="bg-dewalt text-ink font-display font-black text-center py-3 border-b-4 border-ink text-xl uppercase tracking-widest sticky top-0 z-[60]">
-        ⚡ THE INTAKE IS OPEN. START YOUR 7-DAY FREE TRIAL OF TRADE TOOLS. <button @click="navigate('/intake')" class="underline decoration-4 underline-offset-4 ml-4 hover:text-white transition-colors">VIEW LATEST LEADS</button>
+        ⚡ THE INTAKE IS OPEN. START YOUR 7-DAY FREE TRIAL OF TRADE TOOLS. <button @click="navigate('/intake')" class="underline decoration-4 underline-offset-4 ml-4 hover:text-white transition-colors">ACCESS THE INTAKE</button>
     </div>
 
     <!-- Navigation -->
@@ -1113,7 +1113,7 @@
                             <button @click="navigate('/blueprint')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors">BLUEPRINT</button>
                         </div>
                     </div>
-                    <button @click="navigate('/')" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
+                    <button @click="logout()" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
                 </div>
             </nav>
 
@@ -1368,8 +1368,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex gap-4">
-                                                <button class="flex-1 bg-dewalt text-ink font-black uppercase py-3 brutal-border text-xs">MANAGE JOB</button>
-                                                <button class="flex-1 bg-white text-ink font-black uppercase py-3 brutal-border text-xs">SEND INVOICE</button>
+                                                <button @click="toast('Job management module loading...')" class="flex-1 bg-dewalt text-ink font-black uppercase py-3 brutal-border text-xs">MANAGE JOB</button>
+                                                <button @click="navigate('/workshop')" class="flex-1 bg-white text-ink font-black uppercase py-3 brutal-border text-xs">SEND INVOICE</button>
                                             </div>
                                         </div>
                                     </template>
@@ -1397,7 +1397,7 @@
                                             <h3 class="text-5xl font-display font-black uppercase mb-4 group-hover:underline">THE WORKSHOP</h3>
                                             <p class="text-xl font-body font-bold text-ink mb-8 max-w-md">Configure Virtual Assistant, generate instant quotes, and manage your automated scheduler.</p>
                                         </div>
-                                        <button class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border brutal-shadow transition-all">OPEN WORKSHOP</button>
+                                        <button @click.stop="navigate('/workshop')" class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border brutal-shadow transition-all">OPEN WORKSHOP</button>
                                     </div>
                                     
                                     <!-- Brand Hub -->
@@ -1407,28 +1407,28 @@
                                             <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">BRAND HUB</h3>
                                             <p class="text-lg font-body font-bold text-slate-600">Custom profile, reviews, and work showcase.</p>
                                         </div>
-                                        <button class="w-full bg-slate-100 text-ink font-display font-black uppercase py-3 brutal-border mt-6">MANAGE</button>
+                                        <button @click.stop="navigate('/brand')" class="w-full bg-slate-100 text-ink font-display font-black uppercase py-3 brutal-border mt-6">MANAGE</button>
                                     </div>
                                 </div>
 
                                     <!-- Marketing -->
-                                    <div class="bg-purple-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer">
+                                    <div class="bg-purple-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer" @click="toast('Marketing modules activating next week.')">
                                         <div>
                                             <span class="text-6xl mb-6 block">🚀</span>
                                             <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">MARKETING</h3>
                                             <p class="text-lg font-body font-bold text-purple-900">Automated Google Ads & SEO optimization.</p>
                                         </div>
-                                        <button class="w-full bg-purple-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">BOOST</button>
+                                        <button @click.stop="toast('Marketing modules activating next week.')" class="w-full bg-purple-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">BOOST</button>
                                     </div>
 
                                     <!-- Site Builder -->
-                                    <div class="bg-green-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer">
+                                    <div class="bg-green-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer" @click="toast('Site Builder is in private beta.')">
                                         <div>
                                             <span class="text-6xl mb-6 block">🌐</span>
                                             <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">SITE BUILDER</h3>
                                             <p class="text-lg font-body font-bold text-green-900">Turn Brand Hub into a full website.</p>
                                         </div>
-                                        <button class="w-full bg-green-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">GO LIVE</button>
+                                        <button @click.stop="toast('Site Builder is in private beta.')" class="w-full bg-green-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">GO LIVE</button>
                                     </div>
 
                                     <!-- Tax Vault (Wide) -->
@@ -2043,7 +2043,7 @@
                                 <textarea x-model="brandBio" class="w-full brutal-border p-4 font-body font-bold text-lg focus:ring-0 focus:border-dewalt" rows="4"></textarea>
                             </div>
 
-                            <button class="btn-y w-full text-2xl py-4 brutal-shadow">SAVE BRAND PROFILE</button>
+                            <button @click="toast('✓ Brand profile updated.'); navigate('/dashboard')" class="btn-y w-full text-2xl py-4 brutal-shadow">SAVE BRAND PROFILE</button>
                         </div>
                     </div>
 

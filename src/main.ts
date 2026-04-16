@@ -582,6 +582,17 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+    async logout() {
+      try {
+        await auth.signOut();
+        this.user = null;
+        this.navigate('/');
+        this.toast('✓ Logged out successfully.');
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+    },
+
     nextOnboardingStep() {
         if (this.onboardingStep < this.onboardingTotalSteps) {
             this.onboardingStep++;
