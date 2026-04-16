@@ -49,10 +49,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Oswald & Roboto -->
+    <!-- Google Fonts: Barlow Condensed & Barlow -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@500;600;700&display=swap" rel="stylesheet">
     
     <!-- Vite Entry -->
     <script type="module" src="/src/main.ts"></script>
@@ -62,12 +62,12 @@
             theme: {
                 extend: {
                     colors: {
-                        dewalt: '#FFD700',
+                        dewalt: '#FEE12B',
                         ink: '#0f172a',
                     },
                     fontFamily: {
-                        display: ['Oswald', 'sans-serif'],
-                        body: ['Roboto', 'sans-serif'],
+                        display: ['Barlow Condensed', 'sans-serif'],
+                        body: ['Barlow', 'sans-serif'],
                     }
                 }
             }
@@ -75,36 +75,97 @@
     </script>
 
     <style>
+        :root {
+            --y: #FEE12B;
+            --n: #0F172A;
+            --w: #FFFFFF;
+            --g: #F1F5F9;
+            --r: #DC2626;
+            --gr: #16A34A;
+            --or: #D97706;
+            --b: 4px solid #0F172A;
+            --sh: 4px 4px 0 0 #0F172A;
+            --shl: 6px 6px 0 0 #0F172A;
+        }
+
         [x-cloak] { display: none !important; }
         
         body { 
-            background-color: #ffffff; 
-            color: #0f172a; 
-            font-family: 'Inter', sans-serif; 
+            background-color: var(--g); 
+            color: var(--n); 
+            font-family: 'Barlow', sans-serif; 
         }
         
         /* Brutalist UI Rules */
-        .brutal-border { 
-            border: 4px solid #0f172a; 
-        }
-        
-        .brutal-shadow { 
-            box-shadow: 8px 8px 0 #0f172a; 
-        }
+        .brutal-border { border: var(--b); }
+        .brutal-shadow { box-shadow: var(--sh); }
+        .brutal-shadow-lg { box-shadow: var(--shl); }
         
         .brutal-shadow-hover:hover { 
-            transform: translate(4px, 4px); 
-            box-shadow: 4px 4px 0 #0f172a; 
+            transform: translate(-2px, -2px); 
+            box-shadow: var(--shl); 
+        }
+
+        .brutal-shadow-hover:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 0 #0F172A;
         }
         
-        /* Digital Multimeter Display */
-        .multimeter { 
-            font-family: 'Courier New', Courier, monospace; 
-            background-color: #0f172a; 
-            color: #facc15; 
-            text-shadow: 0 0 10px rgba(250, 204, 21, 0.6); 
+        /* Custom Components */
+        .btn-y {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--y);
+            color: var(--n);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border: var(--b);
+            box-shadow: var(--sh);
+            cursor: pointer;
+            transition: all 0.1s;
         }
-        
+
+        .btn-n {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--n);
+            color: var(--w);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border: var(--b);
+            box-shadow: var(--sh);
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .btn-o {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--w);
+            color: var(--n);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border: var(--b);
+            box-shadow: var(--sh);
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
         /* Industrial Range Slider */
         input[type=range] { 
             -webkit-appearance: none; 
@@ -113,45 +174,110 @@
         }
         input[type=range]:focus { outline: none; }
         input[type=range]::-webkit-slider-runnable-track { 
-            height: 16px; 
+            height: 12px; 
             background: #ffffff; 
-            border: 4px solid #0f172a; 
+            border: 3px solid #0f172a; 
         }
         input[type=range]::-webkit-slider-thumb { 
             -webkit-appearance: none; 
-            height: 36px; 
-            width: 36px; 
+            height: 32px; 
+            width: 32px; 
             background: #facc15; 
-            border: 4px solid #0f172a; 
-            margin-top: -14px; 
+            border: 3px solid #0f172a; 
+            margin-top: -12px; 
             cursor: pointer; 
             box-shadow: 4px 4px 0 #0f172a; 
         }
+
+        /* Master Switch Toggle */
+        .toggle {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            cursor: pointer;
+        }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: #374151;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: 0.2s;
+        }
+        .toggle input:checked ~ .toggle-track { background: var(--y); }
+        .toggle-thumb {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 16px;
+            height: 16px;
+            background: var(--w);
+            transition: 0.2s;
+        }
+        .toggle input:checked ~ .toggle-thumb {
+            transform: translateX(24px);
+            background: var(--n);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+        .animate-pulse-custom { animation: pulse 2s infinite; }
+
+        .quote-box {
+            background: #0F172A;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+            white-space: pre-wrap;
+            border: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            min-height: 200px;
+        }
+        .cursor-blink { animation: blink 0.8s infinite; display: inline; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body class="antialiased selection:bg-dewalt selection:text-ink" x-data="app">
 
     <!-- Navigation -->
-    <nav class="border-b-4 border-ink bg-white py-4 sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-4 cursor-pointer" @click="navigate('/')">
-                <!-- Union Jack -->
-                <svg class="w-12 h-12 brutal-border brutal-shadow" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="60" height="60" fill="#012169"/>
-                    <path d="M0 0 L60 60 M60 0 L0 60" stroke="#fff" stroke-width="6"/>
-                    <path d="M0 0 L60 60 M60 0 L0 60" stroke="#C8102E" stroke-width="4"/>
-                    <path d="M30 0 V60 M0 30 H60" stroke="#fff" stroke-width="10"/>
-                    <path d="M30 0 V60 M0 30 H60" stroke="#C8102E" stroke-width="6"/>
-                </svg>
-                <span class="text-4xl font-display font-extrabold uppercase tracking-normal">JobFilter</span>
+    <nav class="border-b-4 border-ink bg-white py-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-4 cursor-pointer group" @click="navigate('/')">
+                <div class="w-10 h-10 brutal-border brutal-shadow overflow-hidden flex items-center justify-center bg-white">
+                    <svg viewBox="0 0 32 32" class="w-full h-full">
+                        <rect width="32" height="32" fill="#012169"/>
+                        <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" stroke-width="4"/>
+                        <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" stroke-width="2.5"/>
+                        <path d="M16 0 V32 M0 16 H32" stroke="#fff" stroke-width="6"/>
+                        <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" stroke-width="4"/>
+                    </svg>
+                </div>
+                <span class="text-4xl font-display font-black uppercase tracking-tight">JobFilter</span>
             </div>
             
-            <div class="flex items-center gap-6">
-                <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Features</button>
-                <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Blueprint</button>
-                <button @click="navigate('/login')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-2 text-2xl brutal-shadow brutal-shadow-hover transition-all">
-                    TRADIE LOGIN
-                </button>
+            <div class="flex items-center gap-4 md:gap-8">
+                <template x-if="!user">
+                    <div class="flex items-center gap-4 md:gap-8">
+                        <button @click="navigate('/features')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Features</button>
+                        <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Blueprint</button>
+                        <button @click="navigate('/login')" class="btn-y text-lg">Tradie Login</button>
+                    </div>
+                </template>
+                <template x-if="user">
+                    <div class="flex items-center gap-4 md:gap-8">
+                        <button @click="navigate('/dashboard')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Dashboard</button>
+                        <button @click="navigate('/vault')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Vault</button>
+                        <button @click="navigate('/brand')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Brand</button>
+                        <div class="w-10 h-10 bg-ink rounded-full flex items-center justify-center text-white font-black brutal-border cursor-pointer" @click="navigate('/dashboard')">
+                            <span x-text="user.email[0].toUpperCase()"></span>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </nav>
@@ -161,81 +287,77 @@
     <!-- HOME ROUTE -->
     <template x-if="route === '/'">
         <div class="bg-slate-50">
-            <!-- Hero Section -->
-            <header class="py-24 md:py-32 border-b-4 border-ink bg-white">
-                <div class="max-w-6xl mx-auto px-4 text-center">
-                    <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-normal leading-none mb-8">
-                        STOP WASTING TIME ON <br class="hidden md:block">
-                        <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">DEAD-END LEADS.</span>
-                    </h1>
+            <!-- Hero -->
+            <header class="py-20 md:py-32 bg-white border-b-4 border-ink overflow-hidden relative">
+                <div class="absolute top-10 right-10 opacity-10 pointer-events-none transform rotate-12 hidden lg:block">
+                    <div class="w-96 h-96 border-8 border-ink flex items-center justify-center text-9xl font-black">VETTED</div>
+                </div>
+                
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="max-w-4xl">
+                        <div class="inline-block bg-ink text-white font-display font-black px-4 py-1 text-xl uppercase mb-6 brutal-shadow">UK TRADIES ONLY</div>
+                        <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-[0.9] mb-8 tracking-tighter">
+                            STOP WORKING <br> FOR <span class="bg-dewalt px-4 inline-block transform -rotate-2 brutal-border">GHOSTS.</span>
+                        </h1>
                     
-                    <p class="text-2xl md:text-3xl font-body font-bold max-w-4xl mx-auto mb-12 leading-tight text-ink">
-                        JobFilter is your automated vetting system. It sits in front of your WhatsApp, collects job details, demands photos, and secures a callout deposit before your phone even rings.
-                    </p>
-
-                    <div class="flex flex-col md:flex-row justify-center gap-6">
-                        <button @click="navigate('/onboarding')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-6 text-3xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
-                            START VETTING LEADS
-                        </button>
-                        <button @click="document.getElementById('simulator').scrollIntoView({behavior: 'smooth'})" class="bg-white brutal-border text-ink font-display font-black uppercase px-8 py-6 text-3xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
-                            TRY SIMULATOR
-                        </button>
-                    </div>
+                        <p class="text-2xl md:text-3xl font-body font-semibold text-slate-600 mb-12 max-w-2xl leading-tight">
+                            JobFilter is the automated gatekeeper for your WhatsApp. It vets leads, demands photos, and secures deposits before you even pick up your tools.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <button @click="navigate('/onboarding')" class="btn-y text-3xl py-6 px-12 brutal-shadow-lg">START VETTING LEADS</button>
+                            <button @click="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-o text-3xl py-6 px-12">CALCULATE WASTE</button>
+                        </div>
                 </div>
             </header>
 
-            <!-- Memory Pillar 1: Smart Lead Filtering -->
-            <section class="py-24 border-b-4 border-ink bg-ink text-white">
-                <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <!-- Diesel Burn Calculator -->
+            <section id="calculator" class="py-24 bg-ink text-white border-b-4 border-ink">
+                <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-20 items-center">
                     <div>
-                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-8">SMART LEAD FILTERING</h2>
-                        <p class="text-2xl font-body font-bold text-slate-300 mb-8">
-                            Control the flow of work. Too busy? Turn up the strictness to demand more photos and upfront deposits. Need more jobs? Turn it down to let more leads through.
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-8 leading-none">DIESEL BURN <br> CALCULATOR</h2>
+                        <p class="text-2xl font-body font-medium text-slate-400 mb-12">
+                            Driving to "ghost" quotes is killing your profit. See exactly how much admin leakage is draining from your business every year.
                         </p>
+                        
+                        <div class="space-y-12">
+                            <div>
+                                <div class="flex justify-between items-end mb-4">
+                                    <label class="font-display font-black text-2xl uppercase tracking-wider">Dead-End Quotes / Week</label>
+                                    <span class="text-4xl font-black text-dewalt" x-text="quotes"></span>
+                                </div>
+                                <input type="range" min="1" max="20" x-model="quotes" class="w-full">
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-end mb-4">
+                                    <label class="font-display font-black text-2xl uppercase tracking-wider">Avg. Miles Round Trip</label>
+                                    <span class="text-4xl font-black text-dewalt" x-text="miles"></span>
+                                </div>
+                                <input type="range" min="5" max="100" step="5" x-model="miles" class="w-full">
+                            </div>
+                        </div>
                     </div>
-                    <div class="bg-white text-ink brutal-border p-12 text-center">
-                        <h3 class="text-4xl font-display font-black uppercase mb-6">VETTING STRICTNESS</h3>
-                        <div class="flex items-center gap-6 mb-8">
-                            <span class="text-3xl font-bold">1</span>
-                            <input type="range" min="1" max="5" value="4" class="w-full h-6 bg-slate-200 rounded-full appearance-none cursor-pointer accent-dewalt">
-                            <span class="text-3xl font-bold">5</span>
+                    
+                    <div class="bg-white text-ink brutal-border brutal-shadow-lg p-10 md:p-16 text-center transform rotate-1">
+                        <p class="font-display font-black text-3xl uppercase mb-4 text-slate-400">ESTIMATED ANNUAL LEAKAGE</p>
+                        <div class="text-8xl md:text-[10rem] font-display font-black leading-none mb-6">
+                            £<span x-text="annualDebt.toLocaleString()"></span>
                         </div>
-                        <div class="bg-red-100 border-4 border-red-600 p-6">
-                            <p class="text-2xl font-display font-black uppercase text-red-600">LEVEL 4: RUTHLESS</p>
-                            <p class="font-body font-bold mt-2">Demands 3 photos, full postcode, and a £50 deposit.</p>
+                        <div class="bg-red-100 border-4 border-red-600 p-6 mb-8">
+                            <p class="text-2xl font-display font-black uppercase text-red-600">RECLAIMABLE WITH JOBFILTER:</p>
+                            <p class="text-5xl font-display font-black uppercase">£<span x-text="savings.toLocaleString()"></span></p>
                         </div>
+                        <button @click="navigate('/onboarding')" class="btn-y w-full text-3xl py-6">PLUG THE LEAK NOW</button>
                     </div>
                 </div>
             </section>
 
-            <!-- Memory Pillar 2 & 3: Priority Pass & Van Sticker -->
-            <section class="py-24 border-b-4 border-ink bg-dewalt">
-                <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16">
-                    <!-- Priority Pass -->
-                    <div class="bg-white brutal-border brutal-shadow p-10">
-                        <div class="text-6xl mb-6">💳</div>
-                        <h2 class="text-5xl font-display font-black uppercase mb-6">SECURE CALLOUT DEPOSITS</h2>
-                        <p class="text-xl font-body font-bold text-slate-600 mb-8">
-                            Stop driving to quotes for free. Automatically request a small, refundable deposit via Stripe before you commit your time. Time-wasters drop off instantly.
-                        </p>
-                        <div class="bg-green-100 border-4 border-green-600 p-6 text-center">
-                            <span class="text-4xl font-display font-black text-green-600 uppercase">£50 SECURED VIA STRIPE</span>
-                        </div>
-                    </div>
-
-                    <!-- Van Sticker Hub -->
-                    <div class="bg-white brutal-border brutal-shadow p-10">
-                        <div class="text-6xl mb-6">🚐</div>
-                        <h2 class="text-5xl font-display font-black uppercase mb-6">PROFESSIONAL QR CONTACT</h2>
-                        <p class="text-xl font-body font-bold text-slate-600 mb-8">
-                            Turn your van into a lead generation machine. Customers scan your custom QR code, land in your automated WhatsApp funnel, and get pre-qualified while you're driving.
-                        </p>
-                        <div class="flex justify-center">
-                            <div class="w-48 h-48 bg-slate-200 border-4 border-ink flex items-center justify-center">
-                                <span class="text-4xl font-display font-black text-slate-400">QR CODE</span>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Social Proof -->
+            <section class="py-12 bg-white border-b-4 border-ink">
+                <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center gap-12 opacity-50 grayscale">
+                    <div class="font-display font-black text-3xl">GAS SAFE</div>
+                    <div class="font-display font-black text-3xl">NICEIC</div>
+                    <div class="font-display font-black text-3xl">CHECKATRADE</div>
+                    <div class="font-display font-black text-3xl">TRUSTATRADER</div>
                 </div>
             </section>
 
@@ -300,8 +422,16 @@
 
             <!-- Memory Pillar 5: Live Simulator -->
             <section id="simulator" class="py-24 border-b-4 border-ink bg-slate-800 text-white">
-                <div class="max-w-7xl mx-auto px-4">
+                <div class="max-w-7xl mx-auto px-4 relative">
+                    <!-- Decorative background element -->
+                    <div class="absolute -top-12 -left-12 w-64 h-64 bg-dewalt/10 rounded-full blur-3xl -z-10"></div>
+                    <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-green-500/10 rounded-full blur-3xl -z-10"></div>
+                    
                     <div class="text-center mb-16">
+                        <div class="inline-flex items-center gap-2 bg-red-500/20 border border-red-500 px-3 py-1 rounded-full mb-6">
+                            <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                            <span class="text-xs font-black uppercase tracking-widest text-red-500">Live Interactive Demo</span>
+                        </div>
                         <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6 text-dewalt">TRY THE SIMULATOR</h2>
                         <p class="text-2xl font-body font-bold">See exactly how the automated vetting process handles a new customer inquiry.</p>
                     </div>
@@ -314,15 +444,22 @@
                                 Automated Assistant
                             </div>
                             
-                            <div id="sim-chat" class="flex-1 p-6 overflow-y-auto space-y-4 bg-[#e5ddd5]">
+                            <div id="sim-chat" class="flex-1 p-6 overflow-y-auto space-y-4 bg-white relative" style="background-image: radial-gradient(#e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
                                 <template x-for="(msg, index) in simMessages" :key="index">
                                     <div class="flex" :class="msg.sender === 'user' ? 'justify-end' : 'justify-start'">
-                                        <div class="max-w-[80%] p-3 rounded-lg font-body text-lg shadow-sm"
-                                             :class="msg.sender === 'user' ? 'bg-[#dcf8c6] rounded-tr-none' : 'bg-white rounded-tl-none'">
+                                        <div class="max-w-[85%] p-4 brutal-border font-body text-lg shadow-sm"
+                                             :class="msg.sender === 'user' ? 'bg-dewalt text-ink' : 'bg-white text-ink'">
                                             <span x-text="msg.text"></span>
                                         </div>
                                     </div>
                                 </template>
+                                <div x-show="isSimTyping" class="flex justify-start" x-transition>
+                                    <div class="bg-white brutal-border p-3 flex gap-1">
+                                        <span class="w-2 h-2 bg-ink rounded-full animate-bounce"></span>
+                                        <span class="w-2 h-2 bg-ink rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                                        <span class="w-2 h-2 bg-ink rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="p-4 bg-[#f0f0f0] border-t-2 border-slate-300 flex flex-col gap-3">
@@ -330,15 +467,21 @@
                                     <input type="text" x-model="simInput" placeholder="Type a message..." class="flex-1 p-3 rounded-lg border-2 border-slate-300 font-body focus:outline-none focus:border-green-500">
                                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-700 transition-colors">Send</button>
                                 </form>
-                                <div class="grid grid-cols-1 gap-2">
-                                    <button @click="sendSimMessage('Can you just pop round and give me a price?')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
-                                        ⚡ Quick Test: "Can you just pop round?"
+                                <div class="grid grid-cols-1 gap-3">
+                                    <button @click="sendSimMessage('Can you just pop round and give me a price?')" class="group bg-white border-2 border-ink p-3 font-body font-black text-sm hover:bg-dewalt transition-all text-left flex items-center gap-3 brutal-shadow-sm hover:brutal-shadow">
+                                        <span class="bg-ink text-white w-8 h-8 flex items-center justify-center text-xs group-hover:bg-white group-hover:text-ink transition-colors">01</span>
+                                        <span class="flex-1">"Can you just pop round?"</span>
+                                        <span class="text-slate-400 group-hover:text-ink">⚡</span>
                                     </button>
-                                    <button @click="sendSimMessage('I need a rewire. Postcode B14 7TE. Here are 3 photos.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
-                                        ⚡ Quick Test: "Rewire, B14 7TE, + Photos"
+                                    <button @click="sendSimMessage('I need a rewire. Postcode B14 7TE. Here are 3 photos.')" class="group bg-white border-2 border-ink p-3 font-body font-black text-sm hover:bg-dewalt transition-all text-left flex items-center gap-3 brutal-shadow-sm hover:brutal-shadow">
+                                        <span class="bg-ink text-white w-8 h-8 flex items-center justify-center text-xs group-hover:bg-white group-hover:text-ink transition-colors">02</span>
+                                        <span class="flex-1">"Rewire, B14 7TE, + Photos"</span>
+                                        <span class="text-slate-400 group-hover:text-ink">⚡</span>
                                     </button>
-                                    <button @click="sendSimMessage('Yes, I will pay the deposit.')" class="bg-white border-2 border-slate-300 p-2 font-body font-bold text-sm hover:bg-slate-100 text-left text-slate-600">
-                                        ⚡ Quick Test: "Yes, I will pay the deposit."
+                                    <button @click="sendSimMessage('Yes, I will pay the deposit.')" class="group bg-white border-2 border-ink p-3 font-body font-black text-sm hover:bg-dewalt transition-all text-left flex items-center gap-3 brutal-shadow-sm hover:brutal-shadow">
+                                        <span class="bg-ink text-white w-8 h-8 flex items-center justify-center text-xs group-hover:bg-white group-hover:text-ink transition-colors">03</span>
+                                        <span class="flex-1">"Yes, I will pay the deposit."</span>
+                                        <span class="text-slate-400 group-hover:text-ink">⚡</span>
                                     </button>
                                 </div>
                             </div>
@@ -352,30 +495,57 @@
                                 <span class="text-sm bg-green-100 text-green-600 px-2 py-1 border-2 border-green-600" x-show="simState === 5">LEAD SECURED</span>
                             </h3>
                             
-                            <div class="flex-1 flex flex-col justify-center items-center text-center transition-opacity duration-500">
+                            <div class="flex-1 flex flex-col transition-opacity duration-500">
                                 <template x-if="simState < 5">
                                     <div class="w-full space-y-6">
-                                        <div class="text-6xl mb-4 animate-pulse">⏳</div>
-                                        <p class="text-2xl font-display font-black uppercase">VETTING IN PROGRESS...</p>
-                                        <p class="font-body font-bold text-slate-500 mt-2">The system is currently collecting details from the lead.</p>
+                                        <div class="flex justify-between items-end mb-2">
+                                            <p class="text-xl font-display font-black uppercase">VETTING ENGINE</p>
+                                            <p class="text-sm font-mono font-bold" x-text="Math.round((simState/5)*100) + '%'"></p>
+                                        </div>
+                                        <div class="w-full h-4 bg-slate-100 brutal-border overflow-hidden">
+                                            <div class="h-full bg-dewalt transition-all duration-500" :style="'width: ' + (simState/5)*100 + '%'"></div>
+                                        </div>
+
+                                        <div class="text-4xl mb-2 animate-pulse mt-8">⏳</div>
+                                        <p class="text-xl font-display font-black uppercase">PROCESSING INCOMING DATA...</p>
                                         
                                         <!-- Dynamic Checklist -->
-                                        <div class="bg-slate-50 border-2 border-slate-200 p-4 text-left mt-8">
-                                            <h4 class="font-display font-bold uppercase mb-4 text-slate-400">Information Checklist</h4>
-                                            <ul class="space-y-3 font-body font-bold">
+                                        <div class="bg-slate-50 border-2 border-ink p-6 text-left mt-4">
+                                            <h4 class="font-display font-black uppercase mb-4 text-slate-400 text-xs tracking-widest">CRITICAL REQUIREMENTS</h4>
+                                            <ul class="space-y-4 font-body font-bold">
                                                 <li class="flex items-center gap-3" :class="simState >= 2 ? 'text-green-600' : 'text-slate-400'">
-                                                    <span x-text="simState >= 2 ? '✅' : '⬜'"></span> Job Description
+                                                    <span class="w-6 h-6 flex items-center justify-center brutal-border text-xs" :class="simState >= 2 ? 'bg-green-500 text-white' : 'bg-white'">
+                                                        <span x-show="simState >= 2">✓</span>
+                                                    </span>
+                                                    JOB SCOPE DEFINED
                                                 </li>
                                                 <li class="flex items-center gap-3" :class="simState >= 3 ? 'text-green-600' : 'text-slate-400'">
-                                                    <span x-text="simState >= 3 ? '✅' : '⬜'"></span> Postcode / Location
+                                                    <span class="w-6 h-6 flex items-center justify-center brutal-border text-xs" :class="simState >= 3 ? 'bg-green-500 text-white' : 'bg-white'">
+                                                        <span x-show="simState >= 3">✓</span>
+                                                    </span>
+                                                    LOCATION VERIFIED
                                                 </li>
                                                 <li class="flex items-center gap-3" :class="simState >= 4 ? 'text-green-600' : 'text-slate-400'">
-                                                    <span x-text="simState >= 4 ? '✅' : '⬜'"></span> Visual Proof (Photos/Video)
+                                                    <span class="w-6 h-6 flex items-center justify-center brutal-border text-xs" :class="simState >= 4 ? 'bg-green-500 text-white' : 'bg-white'">
+                                                        <span x-show="simState >= 4">✓</span>
+                                                    </span>
+                                                    VISUAL EVIDENCE (PHOTOS)
                                                 </li>
                                                 <li class="flex items-center gap-3 text-slate-400">
-                                                    <span>⬜</span> Priority Pass Deposit
+                                                    <span class="w-6 h-6 flex items-center justify-center brutal-border text-xs bg-white"></span>
+                                                    DEPOSIT SECURED
                                                 </li>
                                             </ul>
+                                        </div>
+
+                                        <!-- System Logs -->
+                                        <div class="mt-auto pt-8">
+                                            <div class="bg-ink text-dewalt p-3 font-mono text-[10px] text-left brutal-border">
+                                                <div class="flex gap-2 opacity-50"><span class="text-white">[SYSTEM]</span> Initializing vetting sequence...</div>
+                                                <div x-show="simState >= 2" class="flex gap-2"><span class="text-white">[AI]</span> Analyzing job description for keywords...</div>
+                                                <div x-show="simState >= 3" class="flex gap-2"><span class="text-white">[GEO]</span> Validating postcode against service area...</div>
+                                                <div x-show="simState >= 4" class="flex gap-2"><span class="text-white">[VISION]</span> Processing image metadata...</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </template>
@@ -542,8 +712,9 @@
                         <span x-show="isLoggingIn">VERIFYING...</span>
                     </button>
 
-                    <div class="mt-6 text-center">
-                        <a href="#" @click.prevent="alert('Password reset flow coming soon.')" class="text-xl font-body font-bold text-slate-500 hover:text-ink underline decoration-2 underline-offset-4 transition-colors">Forgot password?</a>
+                    <div class="mt-6 text-center space-y-4">
+                        <a href="#" @click.prevent="alert('Password reset flow coming soon.')" class="text-xl font-body font-bold text-slate-500 hover:text-ink underline decoration-2 underline-offset-4 transition-colors block">Forgot password?</a>
+                        <p class="font-bold text-slate-400 uppercase">Don't have an account? <a href="#" @click.prevent="navigate('/onboarding')" class="text-ink underline">Sign up here</a></p>
                     </div>
                 </form>
             </div>
@@ -577,56 +748,132 @@
                     </div>
                     
                     <!-- Tabs -->
-                    <div class="flex gap-4 mb-8 border-b-4 border-ink pb-4 overflow-x-auto">
-                        <button @click="activeTab = 'money'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'money' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
-                            QUALIFIED LEADS (<span x-text="moneyLeads.length"></span>)
+                    <div class="flex gap-2 mb-8 border-b-4 border-ink pb-4 overflow-x-auto no-scrollbar">
+                        <button @click="activeTab = 'overview'" class="flex items-center gap-2 text-2xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'overview' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            <span>🏠</span> OVERVIEW
                         </button>
-                        <button @click="activeTab = 'safety'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'safety' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
-                            MANUAL REVIEW (<span x-text="safetyLeads.length"></span>)
+                        <button @click="activeTab = 'money'" class="flex items-center gap-2 text-2xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'money' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            <span>🎯</span> LEADS (<span x-text="moneyLeads.length"></span>)
                         </button>
-                        <button @click="activeTab = 'business'" class="text-3xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'business' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
-                            BUSINESS TOOLS
+                        <button @click="activeTab = 'jobs'" class="flex items-center gap-2 text-2xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'jobs' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            <span>🏗️</span> JOBS (<span x-text="jobs.length"></span>)
+                        </button>
+                        <button @click="activeTab = 'safety'" class="flex items-center gap-2 text-2xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'safety' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            <span>⚠️</span> REVIEW (<span x-text="safetyLeads.length"></span>)
+                        </button>
+                        <button @click="activeTab = 'business'" class="flex items-center gap-2 text-2xl font-display font-black uppercase px-6 py-3 brutal-border transition-all whitespace-nowrap" :class="activeTab === 'business' ? 'bg-ink text-white brutal-shadow' : 'bg-white text-ink hover:bg-slate-100'">
+                            <span>🛠️</span> TOOLS
                         </button>
                     </div>
                     
-                    <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 mb-12 min-h-[400px]">
+                    <div class="bg-white brutal-border brutal-shadow p-6 md:p-10 mb-12 min-h-[500px]">
                         <template x-if="isLoadingLeads">
-                            <div class="flex justify-center items-center h-64">
-                                <p class="text-3xl font-display font-black uppercase text-slate-400 animate-pulse">SYNCING WITH WHATSAPP...</p>
+                            <div class="flex flex-col justify-center items-center h-64 gap-4">
+                                <div class="w-16 h-16 border-8 border-slate-200 border-t-dewalt rounded-full animate-spin"></div>
+                                <p class="text-3xl font-display font-black uppercase text-slate-400">SYNCING WITH WHATSAPP...</p>
                             </div>
                         </template>
 
-                        <!-- PERFORMANCE TRACKING -->
-                        <template x-if="!isLoadingLeads && activeTab === 'money'">
-                            <div class="mb-12 border-4 border-ink p-8 bg-slate-50">
-                                <h2 class="text-4xl font-display font-black uppercase mb-6">PERFORMANCE & ROI TRACKING</h2>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                                    <div class="bg-white border-4 border-ink p-6 text-center">
-                                        <p class="text-xl font-body font-bold text-slate-500 uppercase mb-2">Tyre-Kickers Blocked</p>
-                                        <p class="text-6xl font-display font-black text-red-600" x-text="safetyLeads.length"></p>
+                        <!-- OVERVIEW TAB -->
+                        <template x-if="!isLoadingLeads && activeTab === 'overview'">
+                            <div class="space-y-10">
+                                <!-- ROI Stats -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div class="bg-white border-4 border-ink p-6 brutal-shadow">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="text-4xl">🛡️</span>
+                                            <span class="bg-red-100 text-red-600 px-2 py-1 text-xs font-black uppercase">Blocked</span>
+                                        </div>
+                                        <p class="text-5xl font-display font-black" x-text="safetyLeads.length"></p>
+                                        <p class="text-sm font-body font-bold text-slate-500 uppercase">Tyre-Kickers Filtered</p>
                                     </div>
-                                    <div class="bg-white border-4 border-ink p-6 text-center">
-                                        <p class="text-xl font-body font-bold text-slate-500 uppercase mb-2">Admin Waste Prevented</p>
-                                        <p class="text-6xl font-display font-black text-ink"><span x-text="safetyLeads.length * 15"></span> <span class="text-2xl">MINS</span></p>
+                                    <div class="bg-white border-4 border-ink p-6 brutal-shadow">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="text-4xl">⚡</span>
+                                            <span class="bg-blue-100 text-blue-600 px-2 py-1 text-xs font-black uppercase">Saved</span>
+                                        </div>
+                                        <p class="text-5xl font-display font-black"><span x-text="safetyLeads.length * 15"></span> <span class="text-xl">MINS</span></p>
+                                        <p class="text-sm font-body font-bold text-slate-500 uppercase">Admin Waste Prevented</p>
                                     </div>
-                                    <div class="bg-dewalt border-4 border-ink p-6 text-center brutal-shadow">
-                                        <p class="text-xl font-body font-bold text-ink uppercase mb-2">Revenue Reclaimed</p>
-                                        <p class="text-6xl font-display font-black text-ink">£<span x-text="((safetyLeads.length * 15 / 60) * 50).toFixed(2)"></span></p>
+                                    <div class="bg-dewalt border-4 border-ink p-6 brutal-shadow">
+                                        <div class="flex justify-between items-start mb-4">
+                                            <span class="text-4xl">💰</span>
+                                            <span class="bg-ink text-white px-2 py-1 text-xs font-black uppercase">Earned</span>
+                                        </div>
+                                        <p class="text-5xl font-display font-black">£<span x-text="((safetyLeads.length * 15 / 60) * 50).toFixed(0)"></span></p>
+                                        <p class="text-sm font-body font-bold text-ink uppercase">Revenue Reclaimed</p>
                                     </div>
                                 </div>
-                                <div class="bg-green-100 border-l-8 border-green-600 p-4">
-                                    <p class="text-xl font-body font-bold text-green-800">
-                                        JobFilter prevented £<span x-text="((safetyLeads.length * 15 / 60) * 50).toFixed(2)"></span> in admin leakage this month. 
-                                        <span x-show="((safetyLeads.length * 15 / 60) * 50) >= 29">Your £29 sub just paid for itself <span x-text="Math.floor(((safetyLeads.length * 15 / 60) * 50) / 29)"></span>x over.</span>
-                                        <span x-show="((safetyLeads.length * 15 / 60) * 50) < 29">You're £<span x-text="(29 - ((safetyLeads.length * 15 / 60) * 50)).toFixed(2)"></span> away from paying off your £29 sub.</span>
-                                    </p>
+
+                                <!-- Quick Actions Bento -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-slate-900 text-white p-8 brutal-border brutal-shadow flex flex-col justify-between">
+                                        <div>
+                                            <h3 class="text-3xl font-display font-black uppercase mb-2 text-dewalt">AI RECEPTIONIST</h3>
+                                            <p class="text-slate-400 font-body font-bold mb-6">Your automated gatekeeper is currently active and vetting leads.</p>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                            <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                                <div class="h-full bg-green-500 w-full"></div>
+                                            </div>
+                                            <span class="text-xs font-black text-green-500 uppercase">ONLINE</span>
+                                        </div>
+                                        <button @click="navigate('/workshop')" class="mt-6 bg-white text-ink font-display font-black uppercase py-3 brutal-border hover:bg-dewalt transition-colors">CONFIGURE BOT</button>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <button @click="activeTab = 'money'" class="bg-white brutal-border brutal-shadow p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 transition-all">
+                                            <span class="text-4xl mb-2">🎯</span>
+                                            <span class="font-display font-black uppercase">VIEW LEADS</span>
+                                        </button>
+                                        <button @click="navigate('/vault')" class="bg-white brutal-border brutal-shadow p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 transition-all">
+                                            <span class="text-4xl mb-2">📸</span>
+                                            <span class="font-display font-black uppercase">OPEN VAULT</span>
+                                        </button>
+                                        <button @click="navigate('/brand')" class="bg-white brutal-border brutal-shadow p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 transition-all">
+                                            <span class="text-4xl mb-2">🌐</span>
+                                            <span class="font-display font-black uppercase">BRAND HUB</span>
+                                        </button>
+                                        <button @click="simulateLead()" class="bg-dewalt brutal-border brutal-shadow p-6 flex flex-col items-center justify-center text-center hover:bg-yellow-400 transition-all">
+                                            <span class="text-4xl mb-2">🧪</span>
+                                            <span class="font-display font-black uppercase">TEST BOT</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Recent Activity -->
+                                <div class="border-4 border-ink p-6">
+                                    <h3 class="text-2xl font-display font-black uppercase mb-4 border-b-2 border-ink pb-2">RECENT ACTIVITY</h3>
+                                    <div class="space-y-4">
+                                        <template x-if="moneyLeads.length > 0">
+                                            <div class="flex items-center gap-4 p-3 bg-green-50 border-l-4 border-green-500">
+                                                <span class="text-xl">✅</span>
+                                                <div class="flex-1">
+                                                    <p class="font-body font-bold text-ink">New Qualified Lead: <span x-text="moneyLeads[0].customerName"></span></p>
+                                                    <p class="text-xs text-slate-500 font-bold uppercase">Just now</p>
+                                                </div>
+                                                <button @click="openLead(moneyLeads[0])" class="text-xs font-black underline uppercase">View</button>
+                                            </div>
+                                        </template>
+                                        <div class="flex items-center gap-4 p-3 bg-slate-50 border-l-4 border-slate-400">
+                                            <span class="text-xl">🤖</span>
+                                            <div class="flex-1">
+                                                <p class="font-body font-bold text-ink">AI Receptionist updated greeting message.</p>
+                                                <p class="text-xs text-slate-500 font-bold uppercase">2 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </template>
-                        
+
                         <!-- QUALIFIED LEADS TAB -->
                         <template x-if="!isLoadingLeads && activeTab === 'money'">
                             <div>
+                                <div class="flex justify-between items-end mb-8 border-b-2 border-ink pb-4">
+                                    <h2 class="text-4xl font-display font-black uppercase">QUALIFIED LEADS</h2>
+                                    <p class="text-sm font-body font-bold text-slate-500 uppercase" x-text="moneyLeads.length + ' Active Leads'"></p>
+                                </div>
                                 <template x-if="moneyLeads.length === 0">
                                     <div class="text-center py-16">
                                         <div class="text-7xl mb-6">🍺</div>
@@ -706,96 +953,129 @@
                                 </div>
                             </div>
                         </template>
+                        <!-- JOBS TAB -->
+                        <template x-if="!isLoadingLeads && activeTab === 'jobs'">
+                            <div class="space-y-8">
+                                <template x-if="jobs.length === 0">
+                                    <div class="text-center py-20 bg-slate-50 brutal-border">
+                                        <div class="text-6xl mb-4">🏗️</div>
+                                        <h3 class="text-3xl font-display font-black uppercase">NO ACTIVE JOBS</h3>
+                                        <p class="text-xl font-body font-bold text-slate-500 mt-2">Convert a lead to start managing your first job.</p>
+                                    </div>
+                                </template>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <template x-for="job in jobs" :key="job.id">
+                                        <div class="bg-white brutal-border brutal-shadow p-8">
+                                            <div class="flex justify-between items-start mb-6">
+                                                <div>
+                                                    <h3 class="text-3xl font-display font-black uppercase" x-text="job.customerName"></h3>
+                                                    <p class="text-sm font-bold text-slate-500" x-text="job.customerAddress"></p>
+                                                </div>
+                                                <span class="bg-ink text-white px-3 py-1 text-xs font-black uppercase" x-text="job.status"></span>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-4 mb-8">
+                                                <div class="bg-slate-50 p-4 brutal-border">
+                                                    <p class="text-[10px] font-black uppercase text-slate-400">Budget</p>
+                                                    <p class="text-xl font-black" x-text="'£' + job.budget"></p>
+                                                </div>
+                                                <div class="bg-slate-50 p-4 brutal-border">
+                                                    <p class="text-[10px] font-black uppercase text-slate-400">Trade</p>
+                                                    <p class="text-xl font-black" x-text="job.trade"></p>
+                                                </div>
+                                            </div>
+                                            <div class="flex gap-4">
+                                                <button class="flex-1 bg-dewalt text-ink font-black uppercase py-3 brutal-border text-xs">MANAGE JOB</button>
+                                                <button class="flex-1 bg-white text-ink font-black uppercase py-3 brutal-border text-xs">SEND INVOICE</button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
                         <!-- BUSINESS TOOLS TAB -->
                         <template x-if="!isLoadingLeads && activeTab === 'business'">
-                            <div class="space-y-12">
-                                <!-- Receipt/Ledger Tool -->
-                                <div class="border-4 border-ink p-8 bg-slate-50">
-                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                            <div class="space-y-10">
+                                <div class="flex justify-between items-end mb-4 border-b-2 border-ink pb-4">
+                                    <h2 class="text-4xl font-display font-black uppercase">BUSINESS ENGINE</h2>
+                                    <p class="text-sm font-body font-bold text-slate-500 uppercase">Growth & Admin Tools</p>
+                                </div>
+
+                                <!-- Bento Grid for Tools -->
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <!-- Workshop (Large) -->
+                                    <div class="md:col-span-2 bg-dewalt brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer" @click="navigate('/workshop')">
                                         <div>
-                                            <h2 class="text-4xl font-display font-black uppercase mb-2">RECEIPT & LEDGER TOOL</h2>
-                                            <p class="text-xl font-body font-bold text-slate-600">Upload receipts. The system extracts Merchant, Total, and VAT. Export for your accountant.</p>
+                                            <div class="flex justify-between items-start mb-6">
+                                                <span class="text-6xl">🛠️</span>
+                                                <span class="bg-ink text-white px-3 py-1 text-xs font-black uppercase">Core Tool</span>
+                                            </div>
+                                            <h3 class="text-5xl font-display font-black uppercase mb-4 group-hover:underline">THE WORKSHOP</h3>
+                                            <p class="text-xl font-body font-bold text-ink mb-8 max-w-md">Configure AI Receptionist, generate instant quotes, and manage your automated scheduler.</p>
                                         </div>
-                                        <div class="flex gap-4">
-                                            <button class="bg-white text-ink font-display font-black uppercase px-6 py-3 text-xl brutal-border hover:bg-slate-100 transition-colors">EXPORT CSV</button>
-                                            <button class="bg-white text-ink font-display font-black uppercase px-6 py-3 text-xl brutal-border hover:bg-slate-100 transition-colors">EXPORT PDF</button>
-                                        </div>
+                                        <button class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border brutal-shadow transition-all">OPEN WORKSHOP</button>
                                     </div>
                                     
-                                    <div class="border-4 border-dashed border-ink p-12 text-center bg-white mb-8 cursor-pointer hover:bg-slate-50 transition-colors">
-                                        <div class="text-6xl mb-4">🧾</div>
-                                        <p class="text-2xl font-display font-black uppercase">DROP RECEIPT PHOTO HERE</p>
-                                        <p class="text-lg font-body font-bold text-slate-500 mt-2">or click to browse</p>
-                                    </div>
-                                    
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full text-left border-collapse">
-                                            <thead>
-                                                <tr class="border-b-4 border-ink bg-slate-200">
-                                                    <th class="p-4 font-display font-black uppercase text-xl">DATE</th>
-                                                    <th class="p-4 font-display font-black uppercase text-xl">MERCHANT</th>
-                                                    <th class="p-4 font-display font-black uppercase text-xl">TOTAL</th>
-                                                    <th class="p-4 font-display font-black uppercase text-xl">VAT</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="font-body font-bold text-lg">
-                                                <tr class="border-b-2 border-slate-300">
-                                                    <td class="p-4">12 Oct 2023</td>
-                                                    <td class="p-4">Screwfix</td>
-                                                    <td class="p-4">£145.20</td>
-                                                    <td class="p-4">£24.20</td>
-                                                </tr>
-                                                <tr class="border-b-2 border-slate-300">
-                                                    <td class="p-4">14 Oct 2023</td>
-                                                    <td class="p-4">B&Q</td>
-                                                    <td class="p-4">£89.99</td>
-                                                    <td class="p-4">£15.00</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <!-- Brand Hub -->
+                                    <div class="bg-white brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer" @click="navigate('/brand')">
+                                        <div>
+                                            <span class="text-6xl mb-6 block">🏗️</span>
+                                            <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">BRAND HUB</h3>
+                                            <p class="text-lg font-body font-bold text-slate-600">Custom profile, reviews, and work showcase.</p>
+                                        </div>
+                                        <button class="w-full bg-slate-100 text-ink font-display font-black uppercase py-3 brutal-border mt-6">MANAGE</button>
                                     </div>
                                 </div>
 
-                                <!-- Brand Page System -->
-                                <div class="border-4 border-ink p-8 bg-dewalt">
-                                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                                    <!-- Marketing -->
+                                    <div class="bg-purple-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer">
                                         <div>
-                                            <h2 class="text-4xl font-display font-black uppercase mb-2">BRAND PAGE SYSTEM</h2>
-                                            <p class="text-xl font-body font-bold text-ink">Your automated portfolio at <span class="bg-white px-2 py-1 brutal-border">jobfilter.uk/pro/yourname</span></p>
+                                            <span class="text-6xl mb-6 block">🚀</span>
+                                            <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">MARKETING</h3>
+                                            <p class="text-lg font-body font-bold text-purple-900">Automated Google Ads & SEO optimization.</p>
                                         </div>
-                                        <button class="bg-ink text-white font-display font-black uppercase px-6 py-3 text-xl brutal-border brutal-shadow brutal-shadow-hover transition-all">VIEW LIVE PAGE</button>
+                                        <button class="w-full bg-purple-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">BOOST</button>
                                     </div>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div class="bg-white border-4 border-ink p-6">
-                                            <h3 class="text-2xl font-display font-black uppercase mb-4 border-b-4 border-ink pb-2">COMPLETED JOBS</h3>
-                                            <div class="space-y-4">
-                                                <div class="flex gap-4 items-center border-2 border-slate-200 p-2">
-                                                    <div class="w-16 h-16 bg-slate-200 border-2 border-ink flex items-center justify-center text-xs font-bold text-slate-500">BEFORE</div>
-                                                    <div class="w-16 h-16 bg-slate-200 border-2 border-ink flex items-center justify-center text-xs font-bold text-slate-500">AFTER</div>
-                                                    <div>
-                                                        <p class="font-display font-black uppercase text-lg">Boiler Install</p>
-                                                        <p class="font-body font-bold text-sm text-slate-500">Birmingham • 5 Stars</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="mt-4 w-full bg-slate-100 text-ink font-display font-black uppercase px-4 py-2 text-lg brutal-border hover:bg-slate-200 transition-colors">+ ADD JOB MANUALLY</button>
+
+                                    <!-- Site Builder -->
+                                    <div class="bg-green-100 brutal-border brutal-shadow p-8 flex flex-col justify-between group cursor-pointer">
+                                        <div>
+                                            <span class="text-6xl mb-6 block">🌐</span>
+                                            <h3 class="text-3xl font-display font-black uppercase mb-4 group-hover:underline">SITE BUILDER</h3>
+                                            <p class="text-lg font-body font-bold text-green-900">Turn Brand Hub into a full website.</p>
                                         </div>
-                                        <div class="bg-white border-4 border-ink p-6">
-                                            <h3 class="text-2xl font-display font-black uppercase mb-4 border-b-4 border-ink pb-2">PAGE SETTINGS</h3>
-                                            <div class="space-y-4 font-body font-bold">
-                                                <div>
-                                                    <label class="block text-sm text-slate-500 uppercase mb-1">Business Name</label>
-                                                    <input type="text" value="Smith & Sons Plumbing" class="w-full border-2 border-ink p-2 focus:outline-none focus:border-dewalt">
-                                                </div>
-                                                <div>
-                                                    <label class="block text-sm text-slate-500 uppercase mb-1">Bio</label>
-                                                    <textarea class="w-full border-2 border-ink p-2 focus:outline-none focus:border-dewalt" rows="3">Reliable plumbing services in Birmingham with 15 years experience.</textarea>
-                                                </div>
+                                        <button class="w-full bg-green-600 text-white font-display font-black uppercase py-3 brutal-border mt-6">GO LIVE</button>
+                                    </div>
+
+                                    <!-- Tax Vault (Wide) -->
+                                    <div class="md:col-span-3 border-4 border-ink p-8 bg-slate-50 brutal-shadow">
+                                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                                            <div>
+                                                <h2 class="text-4xl font-display font-black uppercase mb-2">TAX VAULT & LEDGER</h2>
+                                                <p class="text-xl font-body font-bold text-slate-600">Snap receipts. We extract the data. Export for your accountant.</p>
+                                            </div>
+                                            <div class="flex gap-4 w-full md:w-auto">
+                                                <button @click="navigate('/vault')" class="flex-1 md:flex-none bg-ink text-white font-display font-black uppercase px-6 py-3 text-xl brutal-border brutal-shadow transition-colors">OPEN VAULT</button>
                                             </div>
                                         </div>
+                                        
+                                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                                            <div class="border-4 border-dashed border-ink p-10 text-center bg-white cursor-pointer hover:bg-slate-50 transition-colors">
+                                                <div class="text-5xl mb-4">🧾</div>
+                                                <p class="text-xl font-display font-black uppercase">DROP RECEIPT PHOTO</p>
+                                            </div>
+                                            <div class="bg-white brutal-border p-6">
+                                                <div class="flex justify-between mb-2">
+                                                    <span class="font-black uppercase text-slate-400 text-xs">Monthly Total</span>
+                                                    <span class="font-black text-xl" x-text="'£' + receiptTotal"></span>
+                                                </div>
+                                                <div class="flex justify-between">
+                                                    <span class="font-black uppercase text-slate-400 text-xs">VAT Reclaimable</span>
+                                                    <span class="font-black text-xl text-green-600" x-text="'£' + receiptVAT"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
 
                                 <!-- Manual Pulse Settings -->
                                 <div class="border-4 border-ink p-8 bg-white">
@@ -887,9 +1167,14 @@
                                 </div>
                             </div>
 
-                            <button @click="closeLead()" class="w-full bg-ink text-white font-display font-extrabold uppercase px-8 py-6 text-3xl md:text-4xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-slate-800 transition-all">
-                                ACCEPT & REVEAL NUMBER
-                            </button>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button @click="convertLeadToJob(selectedLead)" class="w-full bg-dewalt text-ink font-display font-extrabold uppercase px-8 py-6 text-2xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-yellow-300 transition-all" x-show="selectedLead.status !== 'converted'">
+                                    CONVERT TO JOB
+                                </button>
+                                <button @click="closeLead()" class="w-full bg-ink text-white font-display font-extrabold uppercase px-8 py-6 text-2xl brutal-border brutal-shadow brutal-shadow-hover hover:bg-slate-800 transition-all">
+                                    ACCEPT & REVEAL
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1013,10 +1298,10 @@
                 <div class="bg-white brutal-border brutal-shadow p-8 md:p-12 flex-1">
                     <div class="flex justify-between items-center mb-8 border-b-4 border-ink pb-4">
                         <h1 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter">ACTIVATE YOUR SYSTEM</h1>
-                        <span class="text-xl font-display font-bold bg-dewalt px-3 py-1 brutal-border whitespace-nowrap" x-text="'STEP ' + onboardingStep + '/3'"></span>
+                        <span class="text-xl font-display font-bold bg-dewalt px-3 py-1 brutal-border whitespace-nowrap" x-text="'STEP ' + onboardingStep + '/' + onboardingTotalSteps"></span>
                     </div>
                     
-                    <form @submit.prevent="onboardingStep === 3 ? register() : nextOnboardingStep()" class="space-y-8">
+                    <form @submit.prevent="onboardingStep === onboardingTotalSteps ? register() : nextOnboardingStep()" class="space-y-8">
                         
                         <!-- STEP 1: PROFILE -->
                         <div x-show="onboardingStep === 1">
@@ -1029,6 +1314,14 @@
                                 <div>
                                     <label class="block font-display font-black text-2xl uppercase mb-2">TRADE</label>
                                     <input type="text" x-model="registerTrade" placeholder="Plumber, Electrician, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                </div>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">COMPANY NAME</label>
+                                    <input type="text" x-model="registerCompany" placeholder="Smith & Sons Plumbing" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
+                                </div>
+                                <div>
+                                    <label class="block font-display font-black text-2xl uppercase mb-2">SERVICE AREA</label>
+                                    <input type="text" x-model="registerArea" placeholder="Birmingham, Solihull, etc." class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 1">
                                 </div>
                                 <div>
                                     <label class="block font-display font-black text-2xl uppercase mb-2">EMAIL ADDRESS</label>
@@ -1072,8 +1365,26 @@
                             </div>
                         </div>
 
-                        <!-- STEP 3: DEPLOYMENT -->
+                        <!-- STEP 3: SIMULATOR -->
                         <div x-show="onboardingStep === 3" style="display: none;">
+                            <p class="text-2xl font-body font-bold text-ink mb-8">See your system in action. Try to "ghost" your own AI.</p>
+                            
+                            <div class="bg-slate-100 brutal-border p-6 mb-8">
+                                <div class="bg-white brutal-border h-80 overflow-y-auto p-4 mb-4 flex flex-col gap-4" id="onboarding-chat">
+                                    <template x-for="msg in simMessages" :key="msg.id">
+                                        <div :class="msg.role === 'ai' ? 'self-start bg-slate-100' : 'self-end bg-dewalt'" class="max-w-[80%] p-3 brutal-border font-body font-bold text-sm" x-text="msg.text"></div>
+                                    </template>
+                                </div>
+                                <div class="flex gap-2">
+                                    <input type="text" x-model="simInput" @keydown.enter.prevent="sendSimMessage()" placeholder="Type a message..." class="flex-1 brutal-border p-3 font-body font-bold focus:outline-none">
+                                    <button type="button" @click="sendSimMessage()" class="bg-ink text-white px-6 py-3 font-black uppercase text-sm brutal-border">SEND</button>
+                                </div>
+                            </div>
+                            <p class="text-sm font-bold text-slate-500">This is exactly what your customers will experience when they message you.</p>
+                        </div>
+
+                        <!-- STEP 4: DEPLOYMENT -->
+                        <div x-show="onboardingStep === 4" style="display: none;">
                             <p class="text-2xl font-body font-bold text-ink mb-8">Deploy your automated assistant.</p>
                             <div class="space-y-8">
                                 <div class="border-4 border-ink p-6 bg-slate-50 flex flex-col md:flex-row items-center gap-6">
@@ -1107,19 +1418,20 @@
                             </button>
                             <div class="flex-1 flex flex-col">
                                 <button type="submit" :disabled="isLoggingIn" class="w-full bg-dewalt text-ink brutal-border font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all disabled:opacity-50">
-                                    <span x-show="onboardingStep < 3">NEXT</span>
-                                    <span x-show="onboardingStep === 3 && !isLoggingIn">GO LIVE & START GETTING JOBS</span>
+                                    <span x-show="onboardingStep < onboardingTotalSteps">NEXT</span>
+                                    <span x-show="onboardingStep === onboardingTotalSteps && !isLoggingIn">GO LIVE & START GETTING JOBS</span>
                                     <span x-show="isLoggingIn">ACTIVATING...</span>
                                 </button>
-                                <span x-show="onboardingStep === 3" class="text-center text-sm font-bold text-slate-500 mt-2">Takes 10 seconds. You could get your first job today.</span>
+                                <span x-show="onboardingStep === onboardingTotalSteps" class="text-center text-sm font-bold text-slate-500 mt-2">Takes 10 seconds. You could get your first job today.</span>
                             </div>
                         </div>
                     </form>
 
-                    <div class="mt-12 pt-8 border-t-4 border-slate-200">
-                        <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
-                            [TESTING] BYPASS ONBOARDING
+                    <div class="mt-12 pt-8 border-t-4 border-slate-200 flex justify-between items-center">
+                        <button type="button" @click="navigate('/dashboard')" class="bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-xl hover:bg-slate-300 hover:text-ink transition-colors">
+                            [TESTING] BYPASS
                         </button>
+                        <p class="font-bold text-slate-400 uppercase">Already have an account? <a href="#" @click.prevent="navigate('/login')" class="text-ink underline">Login here</a></p>
                     </div>
                 </div>
 
@@ -1251,6 +1563,202 @@
                         COMPLETE ACTIVATION
                     </button>
                     <p class="text-xs font-bold text-slate-400 mt-4 uppercase">Secure payment via Stripe</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- VAULT ROUTE -->
+    <template x-if="route === '/vault'">
+        <div class="min-h-screen bg-slate-50 pt-20">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-none">THE VAULT</h1>
+                        <p class="text-2xl font-body font-bold text-slate-500 mt-4">Your secure storage for high-value job photos and business assets.</p>
+                    </div>
+                    <button @click="showModal = 'upload'" class="btn-y text-2xl py-4 px-8 brutal-shadow">UPLOAD ASSET</button>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <template x-for="i in 6" :key="i">
+                        <div class="bg-white brutal-border brutal-shadow-sm overflow-hidden group">
+                            <div class="aspect-video bg-slate-200 relative">
+                                <img :src="`https://picsum.photos/seed/${i+40}/800/450`" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" referrerPolicy="no-referrer">
+                                <div class="absolute top-4 right-4 bg-ink text-white px-2 py-1 text-xs font-black uppercase">VETTED</div>
+                            </div>
+                            <div class="p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="font-display font-black text-xl uppercase">Project Alpha - Day 4</h3>
+                                    <span class="text-xs font-bold text-slate-400">12 APR 2025</span>
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="bg-slate-100 px-2 py-1 text-[10px] font-black uppercase">Plumbing</span>
+                                    <span class="bg-slate-100 px-2 py-1 text-[10px] font-black uppercase">High-Res</span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- WORKSHOP ROUTE -->
+    <template x-if="route === '/workshop'">
+        <div class="min-h-screen bg-slate-50 pt-20">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-none mb-12">THE WORKSHOP</h1>
+                
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <!-- AI Receptionist Config -->
+                    <div class="lg:col-span-2 space-y-12">
+                        <div class="bg-white brutal-border brutal-shadow p-8">
+                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">AI RECEPTIONIST CONFIG</h2>
+                            
+                            <div class="space-y-8">
+                                <div>
+                                    <label class="block text-xl font-display font-black uppercase mb-4">Personality Type</label>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <button @click="aiPersonality = 'professional'" :class="aiPersonality === 'professional' ? 'bg-dewalt' : 'bg-white'" class="brutal-border py-4 font-black uppercase text-sm transition-all">Professional</button>
+                                        <button @click="aiPersonality = 'friendly'" :class="aiPersonality === 'friendly' ? 'bg-dewalt' : 'bg-white'" class="brutal-border py-4 font-black uppercase text-sm transition-all">Friendly</button>
+                                        <button @click="aiPersonality = 'ruthless'" :class="aiPersonality === 'ruthless' ? 'bg-dewalt' : 'bg-white'" class="brutal-border py-4 font-black uppercase text-sm transition-all">Ruthless</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xl font-display font-black uppercase mb-4">Initial Greeting</label>
+                                    <textarea x-model="aiGreeting" class="w-full brutal-border p-4 font-body font-bold text-lg focus:ring-0 focus:border-dewalt" rows="3"></textarea>
+                                </div>
+
+                                <div class="flex items-center justify-between p-6 bg-slate-50 brutal-border">
+                                    <div>
+                                        <h3 class="font-display font-black text-xl uppercase">Auto-Reply Mode</h3>
+                                        <p class="text-sm font-bold text-slate-500">AI will automatically engage with new WhatsApp leads.</p>
+                                    </div>
+                                    <button @click="aiAutoReply = !aiAutoReply" :class="aiAutoReply ? 'bg-green-500' : 'bg-slate-300'" class="w-16 h-8 brutal-border relative transition-colors">
+                                        <div :class="aiAutoReply ? 'translate-x-8' : 'translate-x-0'" class="absolute top-0 left-0 w-8 h-full bg-white brutal-border transition-transform"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Team -->
+                        <div class="bg-white brutal-border brutal-shadow p-8">
+                            <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">YOUR AI WORKFORCE</h2>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="brutal-border p-6 bg-slate-50 relative group">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="text-3xl">🤖</div>
+                                        <span class="bg-green-500 text-white px-2 py-1 text-[10px] font-black uppercase">ACTIVE</span>
+                                    </div>
+                                    <h3 class="font-display font-black text-xl uppercase mb-1">RECEPTIONIST</h3>
+                                    <p class="text-xs font-bold text-slate-500 mb-4">Vets leads & books deposits.</p>
+                                    <button class="w-full py-2 bg-ink text-white font-black uppercase text-[10px] brutal-border">CONFIGURED</button>
+                                </div>
+                                <div class="brutal-border p-6 bg-slate-50 relative group opacity-50 grayscale">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <div class="text-3xl">📈</div>
+                                        <span class="bg-slate-400 text-white px-2 py-1 text-[10px] font-black uppercase">LOCKED</span>
+                                    </div>
+                                    <h3 class="font-display font-black text-xl uppercase mb-1">SALES AGENT</h3>
+                                    <p class="text-xs font-bold text-slate-500 mb-4">Follows up on cold leads.</p>
+                                    <button class="w-full py-2 bg-slate-300 text-slate-500 font-black uppercase text-[10px] brutal-border">HIRE AGENT</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <template x-for="tool in workshopTools" :key="tool.id">
+                                <div class="bg-white brutal-border brutal-shadow-sm p-6 hover:brutal-shadow transition-all cursor-pointer">
+                                    <div class="text-4xl mb-4" x-text="tool.icon"></div>
+                                    <h3 class="font-display font-black text-2xl uppercase mb-2" x-text="tool.name"></h3>
+                                    <p class="text-sm font-bold text-slate-500 mb-6" x-text="tool.desc"></p>
+                                    <button class="w-full py-3 bg-ink text-white font-black uppercase text-xs brutal-border hover:bg-dewalt hover:text-ink transition-colors">LAUNCH TOOL</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar: Stats -->
+                    <div class="space-y-8">
+                        <div class="bg-dewalt brutal-border brutal-shadow p-8">
+                            <h3 class="font-display font-black text-2xl uppercase mb-4">AI PERFORMANCE</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm font-black uppercase">Leads Vetted</span>
+                                    <span class="text-4xl font-black">142</span>
+                                </div>
+                                <div class="flex justify-between items-end">
+                                    <span class="text-sm font-black uppercase">Time Saved</span>
+                                    <span class="text-4xl font-black">18h</span>
+                                </div>
+                                <div class="w-full bg-white/30 h-4 brutal-border mt-4">
+                                    <div class="bg-ink h-full w-[85%]"></div>
+                                </div>
+                                <p class="text-[10px] font-black uppercase text-center">85% Efficiency Rating</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- BRAND HUB ROUTE -->
+    <template x-if="route === '/brand'">
+        <div class="min-h-screen bg-slate-50 pt-20">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-none mb-12">BRAND HUB</h1>
+                
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Editor -->
+                    <div class="bg-white brutal-border brutal-shadow p-8">
+                        <h2 class="text-4xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">PROFILE EDITOR</h2>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <label class="block text-xl font-display font-black uppercase mb-4">Brand Color</label>
+                                <div class="flex gap-4">
+                                    <template x-for="color in ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#a855f7', '#000000']">
+                                        <button @click="brandColor = color" :style="`background-color: ${color}`" :class="brandColor === color ? 'scale-110 brutal-border-4' : 'brutal-border'" class="w-12 h-12 transition-all"></button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xl font-display font-black uppercase mb-4">Business Bio</label>
+                                <textarea x-model="brandBio" class="w-full brutal-border p-4 font-body font-bold text-lg focus:ring-0 focus:border-dewalt" rows="4"></textarea>
+                            </div>
+
+                            <button class="btn-y w-full text-2xl py-4 brutal-shadow">SAVE BRAND PROFILE</button>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview -->
+                    <div>
+                        <h2 class="text-2xl font-display font-black uppercase mb-6 text-slate-400">LIVE PREVIEW (CUSTOMER VIEW)</h2>
+                        <div class="bg-white brutal-border brutal-shadow-lg overflow-hidden">
+                            <div :style="`background-color: ${brandColor}`" class="h-32 brutal-border-b flex items-center justify-center">
+                                <div class="w-20 h-20 bg-white brutal-border flex items-center justify-center text-4xl font-black">LOGO</div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-4xl font-display font-black uppercase mb-4" x-text="registerCompany || 'Your Company'"></h3>
+                                <div class="flex gap-1 mb-6">
+                                    <template x-for="i in 5">
+                                        <span class="text-dewalt text-2xl">★</span>
+                                    </template>
+                                    <span class="ml-2 font-black uppercase text-sm self-center">4.9 (142 Reviews)</span>
+                                </div>
+                                <p class="font-body font-bold text-xl text-slate-600 mb-8" x-text="brandBio"></p>
+                                
+                                <div class="space-y-4">
+                                    <button class="w-full py-4 text-white font-black uppercase text-xl brutal-border brutal-shadow-sm" :style="`background-color: ${brandColor === '#000000' ? '#333' : 'black'}`">BOOK A QUOTE</button>
+                                    <button class="w-full py-4 bg-white text-ink font-black uppercase text-xl brutal-border">VIEW GALLERY</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
