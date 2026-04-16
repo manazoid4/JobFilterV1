@@ -94,9 +94,10 @@ service cloud.firestore {
 
     // Leads
     match /leads/{leadId} {
-      // For now, allowing authenticated users to read leads. 
-      // In production, you might restrict this to only active subscribers.
+      // Allow authenticated users to read leads. 
       allow read: if isAuthenticated();
+      // Allow authenticated users to create a lead (used by simulator)
+      allow create: if isAuthenticated();
       // Allow update for status conversion
       allow update: if isAuthenticated() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
       allow write: if isAdmin();

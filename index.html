@@ -552,52 +552,54 @@
                 </div>
             </section>
 
-            <!-- Pricing -->
-            <section class="py-24 border-b-4 border-ink bg-white">
-                <div class="max-w-6xl mx-auto px-4">
+            <section class="py-24 border-b-4 border-ink bg-slate-50">
+                <div class="max-w-7xl mx-auto px-4">
                     <div class="text-center mb-16">
-                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6 tracking-tighter">MONTHLY SERVICE</h2>
-                        <p class="text-2xl font-body font-bold text-slate-600">Stop chasing ghosts. Start winning jobs. Pick your monthly tier.</p>
+                        <h2 class="text-6xl md:text-7xl font-display font-black uppercase mb-6 tracking-tighter">WIN MORE WORK.</h2>
+                        <p class="text-2xl font-body font-bold text-slate-600">Stop fighting for crumbs on Checkatrade. Get the intake.</p>
                     </div>
                     
-                    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        <!-- THE SCOUT -->
-                        <div class="bg-white brutal-border brutal-shadow p-10 flex flex-col">
-                            <div class="flex justify-between items-start mb-8">
-                                <h3 class="text-5xl font-display font-black uppercase">THE SCOUT</h3>
-                                <div class="text-right">
-                                    <span class="bg-ink text-white px-4 py-2 font-display font-black text-2xl brutal-border">£49</span>
-                                    <span class="block text-sm font-black uppercase mt-1">/month</span>
-                                </div>
-                            </div>
-                            <p class="text-2xl font-body font-bold text-slate-600 mb-8 leading-tight">"Digital Intelligence." Unlimited digital leads + verified addresses.</p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- FREE TIER -->
+                        <div class="bg-white brutal-border brutal-shadow-sm p-8 flex flex-col">
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">FREE</h3>
+                            <div class="text-4xl font-black mb-6">£0</div>
+                            <p class="font-body font-bold text-slate-600 mb-8">Try it properly.</p>
                             <ul class="space-y-4 mb-12 flex-1">
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">📍</span> Unlimited Verified Addresses</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">📄</span> Planning Blueprints Access</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">⚡</span> Instant WhatsApp Alerts</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🤖</span> Basic Lead Vetting</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Scan & Search Leads</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Use Trade Tools</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">⚠️ 3 Full Record Unlocks/mo</li>
                             </ul>
-                            <button @click="navigate('/onboarding')" class="w-full bg-white text-ink font-display font-black uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-50 transition-all">START SCOUTING</button>
+                            <button @click="navigate('/onboarding')" class="w-full bg-slate-200 text-ink font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-300 transition-all">TRY IT FREE</button>
                         </div>
 
-                        <!-- THE HAMMER -->
-                        <div class="bg-dewalt brutal-border brutal-shadow p-10 flex flex-col relative overflow-hidden">
-                            <div class="absolute top-4 right-4 bg-ink text-white px-3 py-1 text-xs font-black uppercase brutal-border -rotate-12">MOST POPULAR</div>
-                            <div class="flex justify-between items-start mb-8">
-                                <h3 class="text-5xl font-display font-black uppercase">THE HAMMER</h3>
-                                <div class="text-right">
-                                    <span class="bg-ink text-white px-4 py-2 font-display font-black text-2xl brutal-border">£99</span>
-                                    <span class="block text-sm font-black uppercase mt-1">/month</span>
-                                </div>
-                            </div>
-                            <p class="text-2xl font-body font-bold text-ink mb-8 leading-tight">"Full Strike." We handle the physical outreach for every lead.</p>
+                        <!-- SCOUT TIER -->
+                        <div class="bg-white brutal-border brutal-shadow p-8 flex flex-col">
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">SCOUT</h3>
+                            <div class="text-4xl font-black mb-6">£49<span class="text-lg font-normal">/mo</span></div>
+                            <p class="font-body font-bold text-slate-600 mb-8">Control the data.</p>
                             <ul class="space-y-4 mb-12 flex-1">
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✉️</span> Physical Letters Posted</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✍️</span> Tailored "Hammer Hooks"</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🚀</span> Priority Lead Dispatch</li>
-                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🏆</span> Full Problem Solving</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Unlimited Unlocks</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Verified Addresses</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Planning Blueprints</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ WhatsApp Alerts</li>
                             </ul>
-                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">GO FULL HAMMER</button>
+                            <button @click="navigate('/onboarding')" class="w-full bg-white text-ink font-display font-black uppercase py-4 text-xl brutal-border border-ink border-2 hover:bg-slate-50 transition-all">GET SCOUT</button>
+                        </div>
+
+                        <!-- HAMMER TIER -->
+                        <div class="bg-dewalt brutal-border brutal-shadow p-8 flex flex-col relative">
+                            <div class="absolute -top-4 right-4 bg-ink text-dewalt px-3 py-1 text-xs font-black uppercase brutal-border">BEST VALUE</div>
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">HAMMER</h3>
+                            <div class="text-4xl font-black mb-6">£99<span class="text-lg font-normal">/mo</span></div>
+                            <p class="font-body font-bold text-ink mb-8">Win more jobs.</p>
+                            <ul class="space-y-4 mb-12 flex-1">
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ EVERYTHING IN SCOUT</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Priority Dispatch</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Optimised Messaging</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Hammer Hooks</li>
+                            </ul>
+                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-800 transition-all">GO FULL HAMMER</button>
                         </div>
                     </div>
                 </div>
@@ -1617,7 +1619,10 @@
                             <span class="font-display font-black text-2xl uppercase block mb-1">Smart Quoting Engine</span>
                             <span class="font-body font-bold text-slate-600">Turn WhatsApp chats directly into professional, itemized quotes in 1 click.</span>
                         </div>
-                        <span class="bg-black text-[#FFD700] font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
+                        <div class="flex items-center gap-4">
+                            <span class="bg-black text-[#FFD700] font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
+                            <button @click="navigate('/workshop')" class="bg-dewalt text-ink font-display font-black px-4 py-1 text-xs uppercase brutal-border brutal-shadow-sm hover:translate-x-1 transition-all">TRY NOW</button>
+                        </div>
                     </div>
                     
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">

@@ -506,8 +506,13 @@ document.addEventListener('alpine:init', () => {
                 createdAt: new Date().toISOString(),
                 uid: this.user?.uid || 'dev-user'
             });
-        } catch (err) {
-            console.error("Failed to simulate lead:", err);
+        } catch (err: any) {
+            console.error("Failed to simulate lead. Error details:", {
+                message: err.message,
+                code: err.code,
+                path: 'leads',
+                user: this.user?.uid
+            });
         }
     },
 
