@@ -135,6 +135,9 @@ document.addEventListener('alpine:init', () => {
     isLeadModalOpen: false,
     unsubscribeLeads: null,
     
+    // Trade Tools State
+    selectedTradeTool: null,
+    
     // Workshop & AI Receptionist State
     aiPersonality: 'professional',
     aiGreeting: 'Hi, thanks for contacting [Company]. To give you an accurate quote, I need a few details first.',
@@ -277,6 +280,10 @@ document.addEventListener('alpine:init', () => {
 
       if (this.route === '/intake') {
         console.log("[INTAKE] Engine page loaded.");
+      }
+
+      if (this.route === '/trade-tools') {
+        console.log("[TRADE TOOLS] Page loaded.");
       }
     },
     
