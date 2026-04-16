@@ -274,6 +274,10 @@ document.addEventListener('alpine:init', () => {
       if (this.route === '/onboarding') {
         this.initSimulator();
       }
+
+      if (this.route === '/intake') {
+        console.log("[INTAKE] Engine page loaded.");
+      }
     },
     
     navigate(path: string) {
@@ -433,16 +437,44 @@ document.addEventListener('alpine:init', () => {
     async simulateLead() {
         try {
             const leadsRef = collection(db, 'leads');
-            const randomId = Math.floor(Math.random() * 1000);
+            const randomId = Math.floor(Math.random() * 9000) + 1000;
             const isQualified = Math.random() > 0.3; // 70% chance of being qualified
             
+            const projects = [
+                { type: 'Extension', desc: 'Large wrap-around kitchen extension with bi-fold doors.', size: 'large' },
+                { type: 'Loft Conversion', desc: 'Dormer loft conversion for a new master bedroom.', size: 'large' },
+                { type: 'New Build', desc: 'Single detached 3-bed dwelling on private plot.', size: 'large' },
+                { type: 'Refurbishment', desc: 'Full house refurbishment including new kitchen and bathroom.', size: 'medium' },
+                { type: 'Repair', desc: 'Small electrical repair and socket replacement.', size: 'small' },
+                { type: 'Maintenance', desc: 'Gutter cleaning and minor roof tile replacement.', size: 'small' }
+            ];
+            
+            const project = projects[Math.floor(Math.random() * projects.length)];
+            const tier = (project.size === 'large') ? 'HAMMER' : 'SCOUT';
+            const price = tier === 'HAMMER' ? '£60' : '£30';
+            
+            const areas = ['Birmingham', 'Solihull', 'Sutton Coldfield', 'Dudley', 'Walsall'];
+            const area = areas[Math.floor(Math.random() * areas.length)];
+            
+            let hammerHook = '';
+            if (tier === 'HAMMER') {
+                hammerHook = `I saw the approved plans for your new ${project.desc.toLowerCase()} in ${area} and would love to discuss the build with you.`;
+            }
+
             await addDoc(leadsRef, {
-                customerName: `Test Customer ${randomId}`,
-                jobDescription: isQualified ? 'Need a complete rewire of the kitchen. About 4 double sockets and 6 spotlights. Ready to start next week.' : 'Need some electrical work done, not sure what exactly.',
+                lead_id: `JF-${randomId}`,
+                customerName: `Customer ${randomId}`,
+                jobDescription: isQualified ? project.desc : 'Need some work done, not sure what exactly.',
                 postcode: isQualified ? 'B14 7TE' : '',
-                budget: isQualified ? '1500' : '',
+                budget: isQualified ? (project.size === 'large' ? '45000' : '1500') : '',
                 status: isQualified ? 'qualified' : 'archived',
-                createdAt: new Date().toISOString()
+                tier: isQualified ? tier : null,
+                price: isQualified ? price : null,
+                hammer_hook: hammerHook,
+                area: area,
+                project_type: project.type,
+                createdAt: new Date().toISOString(),
+                uid: this.user?.uid || 'dev-user'
             });
         } catch (err) {
             console.error("Failed to simulate lead:", err);

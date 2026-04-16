@@ -207,8 +207,14 @@
 </head>
 <body class="antialiased selection:bg-dewalt selection:text-ink" x-data="app">
 
+    <!-- TOP BANNER -->
+    <div class="bg-dewalt text-ink font-display font-black text-center py-3 border-b-4 border-ink text-xl uppercase tracking-widest sticky top-0 z-[60]">
+        ⚡ THE INTAKE IS OPEN. STOP CHASING GHOSTS. 
+        <button @click="navigate('/login')" class="underline decoration-4 underline-offset-4 ml-4 hover:text-white transition-colors">VIEW LATEST LEADS</button>
+    </div>
+
     <!-- Navigation -->
-    <nav class="border-b-4 border-ink bg-white py-4 sticky top-0 z-50">
+    <nav class="border-b-4 border-ink bg-white py-4 sticky top-[52px] z-50">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center gap-4 cursor-pointer group" @click="navigate('/')">
                 <div class="w-10 h-10 brutal-border brutal-shadow overflow-hidden flex items-center justify-center bg-white">
@@ -224,6 +230,7 @@
             </div>
             
             <div class="flex items-center gap-4 md:gap-8">
+                <button @click="navigate('/intake')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">The Intake</button>
                 <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Blueprint</button>
                 
                 <template x-if="!user">
@@ -254,21 +261,21 @@
             <!-- Hero -->
             <header class="py-20 md:py-32 bg-white border-b-4 border-ink overflow-hidden relative">
                 <div class="absolute top-10 right-10 opacity-10 pointer-events-none transform rotate-12 hidden lg:block">
-                    <div class="w-96 h-96 border-8 border-ink flex items-center justify-center text-9xl font-black">VETTED</div>
+                    <div class="w-96 h-96 border-8 border-ink flex items-center justify-center text-9xl font-black">INTAKE</div>
                 </div>
                 
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="max-w-4xl">
-                        <div class="inline-block bg-ink text-white font-display font-black px-4 py-1 text-xl uppercase mb-6 brutal-shadow">UK TRADIES ONLY</div>
+                        <div class="inline-block bg-ink text-white font-display font-black px-4 py-1 text-xl uppercase mb-6 brutal-shadow">BUILT IN BIRMINGHAM</div>
                         <h1 class="text-7xl md:text-9xl font-display font-black uppercase leading-[0.9] mb-8 tracking-tighter">
-                            STOP WORKING <br> FOR <span class="bg-dewalt px-4 inline-block transform -rotate-2 brutal-border">GHOSTS.</span>
+                            THE INTAKE: <br> <span class="bg-dewalt px-4 inline-block transform -rotate-2 brutal-border text-ink">PICK YOUR PLAY.</span>
                         </h1>
                     
                         <p class="text-2xl md:text-3xl font-body font-semibold text-slate-600 mb-12 max-w-2xl leading-tight">
-                            JobFilter is the automated gatekeeper for your WhatsApp. It vets leads, demands photos, and secures deposits before you even pick up your tools.
+                            Council-approved projects delivered to your WhatsApp. No bidding. No ghosts.
                         </p>
                         <div class="flex flex-col sm:flex-row gap-6">
-                            <button @click="navigate('/onboarding')" class="btn-y text-3xl py-6 px-12 brutal-shadow-lg">START VETTING LEADS</button>
+                            <button @click="navigate('/onboarding')" class="btn-y text-3xl py-6 px-12 brutal-shadow-lg">ACCESS THE INTAKE</button>
                             <button @click="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})" class="btn-o text-3xl py-6 px-12">CALCULATE WASTE</button>
                         </div>
                 </div>
@@ -538,37 +545,164 @@
                 </div>
             </section>
 
-            <!-- Memory Pillar 6: Pricing -->
+            <!-- Pricing -->
             <section class="py-24 border-b-4 border-ink bg-white">
                 <div class="max-w-6xl mx-auto px-4">
                     <div class="text-center mb-16">
-                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6">SIMPLE, FLAT PRICING</h2>
-                        <p class="text-2xl font-body font-bold text-slate-600">No per-lead charges. No hidden fees. Just a flat monthly rate to protect your time.</p>
+                        <h2 class="text-6xl md:text-8xl font-display font-black uppercase mb-6 tracking-tighter">MONTHLY SERVICE</h2>
+                        <p class="text-2xl font-body font-bold text-slate-600">Stop chasing ghosts. Start winning jobs. Pick your monthly tier.</p>
                     </div>
-
-                    <div class="max-w-3xl mx-auto bg-slate-50 brutal-border brutal-shadow p-12 text-center">
-                        <div class="inline-block bg-dewalt brutal-border px-6 py-2 mb-8">
-                            <span class="font-display font-black text-2xl uppercase">PRO TIER</span>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        <!-- THE SCOUT -->
+                        <div class="bg-white brutal-border brutal-shadow p-10 flex flex-col">
+                            <div class="flex justify-between items-start mb-8">
+                                <h3 class="text-5xl font-display font-black uppercase">THE SCOUT</h3>
+                                <div class="text-right">
+                                    <span class="bg-ink text-white px-4 py-2 font-display font-black text-2xl brutal-border">£49</span>
+                                    <span class="block text-sm font-black uppercase mt-1">/month</span>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-body font-bold text-slate-600 mb-8 leading-tight">"Digital Intelligence." Unlimited digital leads + verified addresses.</p>
+                            <ul class="space-y-4 mb-12 flex-1">
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">📍</span> Unlimited Verified Addresses</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">📄</span> Planning Blueprints Access</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">⚡</span> Instant WhatsApp Alerts</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🤖</span> Basic Lead Vetting</li>
+                            </ul>
+                            <button @click="navigate('/onboarding')" class="w-full bg-white text-ink font-display font-black uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-50 transition-all">START SCOUTING</button>
                         </div>
-                        <div class="mb-8">
-                            <span class="text-8xl font-display font-black uppercase">£29</span>
-                            <span class="text-2xl font-body font-bold text-slate-500">/month</span>
-                        </div>
-                        
-                        <ul class="text-xl font-body font-bold text-left space-y-4 mb-12 max-w-md mx-auto">
-                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Unlimited Automated Vetting</li>
-                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Custom QR Code Generation</li>
-                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Stripe Deposit Integration</li>
-                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Performance & ROI Tracking</li>
-                            <li class="flex items-center gap-4"><span class="text-green-600 text-2xl">✔</span> Weekly Summary Reports</li>
-                        </ul>
 
-                        <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase px-8 py-6 text-3xl brutal-border brutal-shadow brutal-shadow-hover transition-all">
-                            GET STARTED NOW
-                        </button>
+                        <!-- THE HAMMER -->
+                        <div class="bg-dewalt brutal-border brutal-shadow p-10 flex flex-col relative overflow-hidden">
+                            <div class="absolute top-4 right-4 bg-ink text-white px-3 py-1 text-xs font-black uppercase brutal-border -rotate-12">MOST POPULAR</div>
+                            <div class="flex justify-between items-start mb-8">
+                                <h3 class="text-5xl font-display font-black uppercase">THE HAMMER</h3>
+                                <div class="text-right">
+                                    <span class="bg-ink text-white px-4 py-2 font-display font-black text-2xl brutal-border">£99</span>
+                                    <span class="block text-sm font-black uppercase mt-1">/month</span>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-body font-bold text-ink mb-8 leading-tight">"Full Strike." We handle the physical outreach for every lead.</p>
+                            <ul class="space-y-4 mb-12 flex-1">
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✉️</span> Physical Letters Posted</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">✍️</span> AI-Custom "Hammer Hooks"</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🚀</span> Priority Lead Dispatch</li>
+                                <li class="flex items-center gap-3 font-body font-black uppercase text-lg"><span class="text-2xl">🏆</span> Full Problem Solving</li>
+                            </ul>
+                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">GO FULL HAMMER</button>
+                        </div>
                     </div>
                 </div>
             </section>
+        </div>
+    </template>
+
+    <!-- THE INTAKE ENGINE ROUTE -->
+    <template x-if="route === '/intake'">
+        <div class="bg-slate-50 min-h-screen">
+            <header class="py-24 border-b-4 border-ink bg-ink text-white text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 pointer-events-none">
+                    <div class="grid grid-cols-6 gap-4 p-4">
+                        <template x-for="i in 24">
+                            <div class="h-32 border-2 border-white/20 flex items-center justify-center font-display font-black text-4xl uppercase">INTAKE</div>
+                        </template>
+                    </div>
+                </div>
+                <div class="relative z-10">
+                    <div class="inline-block bg-dewalt text-ink font-display font-black px-4 py-1 text-xl uppercase mb-6 brutal-border">INDUSTRIAL GRADE</div>
+                    <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
+                        THE INTAKE ENGINE
+                    </h1>
+                    <p class="text-3xl font-body font-bold text-slate-300 max-w-3xl mx-auto">
+                        Birmingham-built intelligence for the UK trade.
+                    </p>
+                </div>
+            </header>
+
+            <div class="max-w-7xl mx-auto py-24 px-4">
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <!-- Column 1: Processing -->
+                    <div class="lg:col-span-2 space-y-12">
+                        <div class="bg-white brutal-border brutal-shadow p-10">
+                            <h2 class="text-5xl font-display font-black uppercase mb-8 border-b-4 border-ink pb-4">HOW IT WORKS</h2>
+                            <div class="space-y-12">
+                                <div class="flex gap-8">
+                                    <div class="w-20 h-20 bg-dewalt brutal-border flex items-center justify-center text-4xl font-black shrink-0">01</div>
+                                    <div>
+                                        <h3 class="text-3xl font-display font-black uppercase mb-2">RAW DATA INGESTION</h3>
+                                        <p class="text-xl font-body font-bold text-slate-600">We scrape and verify council planning data in real-time. Every extension, loft conversion, and new build is captured before the homeowner even looks for a builder.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-8">
+                                    <div class="w-20 h-20 bg-dewalt brutal-border flex items-center justify-center text-4xl font-black shrink-0">02</div>
+                                    <div>
+                                        <h3 class="text-3xl font-display font-black uppercase mb-2">TRADE VERIFICATION</h3>
+                                        <p class="text-xl font-body font-bold text-slate-600">The engine filters projects based on your specific trade. If you're an electrician, you don't see landscaping jobs. Precision only.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-8">
+                                    <div class="w-20 h-20 bg-dewalt brutal-border flex items-center justify-center text-4xl font-black shrink-0">03</div>
+                                    <div>
+                                        <h3 class="text-3xl font-display font-black uppercase mb-2">TIERED STRIKE</h3>
+                                        <p class="text-xl font-body font-bold text-slate-600">Jobs are categorized into SCOUT (Digital) or HAMMER (Physical). The engine decides the best play to win the job.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-ink text-white brutal-border brutal-shadow p-10">
+                            <h2 class="text-5xl font-display font-black uppercase mb-8 border-b-4 border-white/20 pb-4">THE HAMMER PROTOCOL</h2>
+                            <p class="text-2xl font-body font-bold mb-8 leading-tight">For the biggest jobs, digital isn't enough. The Intake generates a custom letter, prints it, and posts it to the door.</p>
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="bg-white/5 p-6 brutal-border border-white/20">
+                                    <span class="text-dewalt font-display font-black text-xl uppercase block mb-2">AI HOOKS</span>
+                                    <p class="text-lg font-body font-bold text-slate-400">Personalized opening lines that prove you've seen their specific blueprints.</p>
+                                </div>
+                                <div class="bg-white/5 p-6 brutal-border border-white/20">
+                                    <span class="text-dewalt font-display font-black text-xl uppercase block mb-2">PHYSICAL DISPATCH</span>
+                                    <p class="text-lg font-body font-bold text-slate-400">Automated printing and posting. No stamps, no envelopes, no wasted time.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Tiers -->
+                    <div class="space-y-8">
+                        <div class="bg-white brutal-border brutal-shadow p-8">
+                            <h3 class="text-3xl font-display font-black uppercase mb-6">INTAKE TIERS</h3>
+                            <div class="space-y-6">
+                                <div class="p-6 bg-slate-50 brutal-border">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-display font-black text-2xl uppercase">SCOUT</span>
+                                        <span class="font-black">£49/mo</span>
+                                    </div>
+                                    <p class="font-body font-bold text-slate-500">Digital intelligence. Verified addresses and blueprints delivered to WhatsApp.</p>
+                                </div>
+                                <div class="p-6 bg-dewalt brutal-border">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="font-display font-black text-2xl uppercase">HAMMER</span>
+                                        <span class="font-black">£99/mo</span>
+                                    </div>
+                                    <p class="font-body font-bold text-ink">Full strike. Physical letters posted for every lead + AI custom hooks.</p>
+                                </div>
+                            </div>
+                            <button @click="navigate('/onboarding')" class="btn-y w-full mt-8 py-4 text-2xl">ACCESS ENGINE</button>
+                        </div>
+
+                        <div class="bg-white brutal-border brutal-shadow p-8">
+                            <h3 class="text-3xl font-display font-black uppercase mb-4">GUARDRAILS</h3>
+                            <ul class="space-y-3 font-body font-bold text-slate-600">
+                                <li class="flex items-center gap-2"><span class="text-red-500">✖</span> No Clichés</li>
+                                <li class="flex items-center gap-2"><span class="text-red-500">✖</span> No "Potential"</li>
+                                <li class="flex items-center gap-2"><span class="text-red-500">✖</span> No Homeowner Phone Numbers</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✔</span> Verified Council Data</li>
+                                <li class="flex items-center gap-2"><span class="text-green-500">✔</span> Birmingham Built</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </template>
 
@@ -852,7 +986,12 @@
                                             <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
                                             <div class="pl-4">
                                                 <div class="flex items-center gap-3 mb-2">
-                                                    <span class="bg-green-500 text-ink font-display font-black px-3 py-1 text-xl uppercase brutal-border">QUALIFIED</span>
+                                                    <template x-if="lead.tier">
+                                                        <span :class="lead.tier === 'HAMMER' ? 'bg-ink text-white' : 'bg-dewalt text-ink'" class="font-display font-black px-3 py-1 text-xl uppercase brutal-border" x-text="lead.tier"></span>
+                                                    </template>
+                                                    <template x-if="!lead.tier">
+                                                        <span class="bg-green-500 text-ink font-display font-black px-3 py-1 text-xl uppercase brutal-border">QUALIFIED</span>
+                                                    </template>
                                                     <h3 class="text-3xl font-display font-black uppercase" x-text="lead.customerName || 'Unknown Customer'"></h3>
                                                 </div>
                                                 <p class="text-xl font-body font-bold text-slate-600 mb-3 line-clamp-2" x-text="lead.jobDescription || 'No description provided'"></p>
@@ -1074,10 +1213,18 @@
                 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/90 backdrop-blur-sm" x-transition.opacity>
                     <div class="bg-white brutal-border brutal-shadow w-full max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col" @click.away="closeLead()">
                         <div class="p-6 md:p-8 border-b-4 border-ink flex justify-between items-center bg-dewalt sticky top-0 z-10">
-                            <h2 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter" x-text="selectedLead.customerName || 'Lead Details'"></h2>
-                            <button @click="closeLead()" class="text-ink hover:text-white transition-colors bg-white brutal-border p-2">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-black uppercase text-ink/60" x-text="selectedLead.lead_id || 'JF-NEW'"></span>
+                                <h2 class="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter" x-text="selectedLead.customerName || 'Lead Details'"></h2>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <template x-if="selectedLead.tier">
+                                    <span :class="selectedLead.tier === 'HAMMER' ? 'bg-ink text-white' : 'bg-white text-ink'" class="font-display font-black px-4 py-2 text-2xl uppercase brutal-border" x-text="selectedLead.tier"></span>
+                                </template>
+                                <button @click="closeLead()" class="text-ink hover:text-white transition-colors bg-white brutal-border p-2">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="p-6 md:p-8 space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1090,10 +1237,21 @@
                                     <span class="text-4xl font-display font-black text-green-600" x-text="selectedLead.budget ? '£' + selectedLead.budget : 'N/A'"></span>
                                 </div>
                             </div>
-                            <div class="border-4 border-ink p-6">
+                             <div class="border-4 border-ink p-6">
                                 <span class="block text-lg font-display font-black text-slate-500 mb-4 uppercase">JOB DESCRIPTION</span>
                                 <p class="text-2xl font-body font-bold leading-relaxed" x-text="selectedLead.jobDescription || 'No description provided.'"></p>
                             </div>
+
+                            <template x-if="selectedLead.hammer_hook">
+                                <div class="border-4 border-ink p-6 bg-ink text-dewalt">
+                                    <span class="block text-lg font-display font-black text-dewalt/60 mb-4 uppercase">THE HAMMER HOOK (AI-GENERATED)</span>
+                                    <p class="text-2xl font-body font-bold leading-relaxed italic" x-text="'&quot;' + selectedLead.hammer_hook + '&quot;'"></p>
+                                    <div class="mt-4 flex items-center gap-2">
+                                        <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                                        <span class="text-xs font-black uppercase tracking-widest">READY FOR DISPATCH</span>
+                                    </div>
+                                </div>
+                            </template>
                             <div class="border-4 border-ink p-6 bg-slate-50">
                                 <span class="block text-lg font-display font-extrabold text-slate-500 mb-4 uppercase">LEAD QUALITY SCORE</span>
                                 <div class="flex items-center gap-6">
@@ -1177,7 +1335,7 @@
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
                             <span class="font-display font-black text-2xl uppercase block mb-1">Smart Quoting Engine</span>
-                            <span class="font-body font-bold text-slate-600">Turn WhatsApp chats directly into professional, itemized quotes in 1 click. (Inspired by Tradify)</span>
+                            <span class="font-body font-bold text-slate-600">Turn WhatsApp chats directly into professional, itemized quotes in 1 click.</span>
                         </div>
                         <span class="bg-black text-[#FFD700] font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
                     </div>
@@ -1185,7 +1343,7 @@
                     <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
                         <div>
                             <span class="font-display font-black text-2xl uppercase block mb-1">Automated Payment Chaser</span>
-                            <span class="font-body font-bold text-slate-600">System automatically follows up on unpaid invoices via WhatsApp until they pay. (Inspired by Heylo)</span>
+                            <span class="font-body font-bold text-slate-600">System automatically follows up on unpaid invoices via WhatsApp until they pay.</span>
                         </div>
                         <span class="bg-[#FFD700] text-black font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
                     </div>
