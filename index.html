@@ -555,53 +555,55 @@
             <section class="py-24 border-b-4 border-ink bg-slate-50">
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="text-center mb-16">
-                        <h2 class="text-6xl md:text-7xl font-display font-black uppercase mb-6 tracking-tighter">WIN MORE WORK.</h2>
-                        <p class="text-2xl font-body font-bold text-slate-600">Stop fighting for crumbs on Checkatrade. Get the intake.</p>
+                        <h2 class="text-6xl md:text-7xl font-display font-black uppercase mb-6 tracking-tighter">Simple pricing.</h2>
                     </div>
                     
                     <div class="grid md:grid-cols-3 gap-8">
                         <!-- FREE TIER -->
                         <div class="bg-white brutal-border brutal-shadow-sm p-8 flex flex-col">
-                            <h3 class="text-3xl font-display font-black uppercase mb-2">FREE</h3>
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">Starter</h3>
                             <div class="text-4xl font-black mb-6">£0</div>
-                            <p class="font-body font-bold text-slate-600 mb-8">Try it properly.</p>
-                            <ul class="space-y-4 mb-12 flex-1">
+                            <p class="font-body font-bold text-slate-600 mb-8">For testing the system.</p>
+                            <ul class="space-y-4 mb-4 flex-1">
                                 <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Scan & Search Leads</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Use Trade Tools</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">⚠️ 3 Full Record Unlocks/mo</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Access Trade Tools</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">⚠️ 3 Full Record Views/mo</li>
                             </ul>
-                            <button @click="navigate('/onboarding')" class="w-full bg-slate-200 text-ink font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-300 transition-all">TRY IT FREE</button>
+                            <p class="text-sm text-slate-500 mb-6 font-body italic">After 3, details lock. Upgrade to continue unlocking.</p>
+                            <button @click="navigate('/onboarding')" class="w-full bg-slate-200 text-ink font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-300 transition-all">Get Started</button>
                         </div>
 
                         <!-- SCOUT TIER -->
-                        <div class="bg-white brutal-border brutal-shadow p-8 flex flex-col">
-                            <h3 class="text-3xl font-display font-black uppercase mb-2">SCOUT</h3>
+                        <div class="bg-white brutal-border brutal-shadow p-8 flex flex-col border-4 border-ink">
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">Scout</h3>
                             <div class="text-4xl font-black mb-6">£49<span class="text-lg font-normal">/mo</span></div>
-                            <p class="font-body font-bold text-slate-600 mb-8">Control the data.</p>
-                            <ul class="space-y-4 mb-12 flex-1">
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Unlimited Unlocks</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Verified Addresses</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Planning Blueprints</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ WhatsApp Alerts</li>
+                            <p class="font-body font-bold text-slate-600 mb-8">For daily lead tracking.</p>
+                            <ul class="space-y-4 mb-4 flex-1">
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Unlimited Record Views</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Full Verified Addresses</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Full Planning Data</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Physical dispatch option</li>
                             </ul>
-                            <button @click="navigate('/onboarding')" class="w-full bg-white text-ink font-display font-black uppercase py-4 text-xl brutal-border border-ink border-2 hover:bg-slate-50 transition-all">GET SCOUT</button>
+                            <p class="text-sm text-slate-500 mb-6 font-body italic">£5 per physical dispatch.</p>
+                            <button @click="navigate('/onboarding')" class="w-full bg-white text-ink font-display font-black uppercase py-4 text-xl brutal-border border-ink border-2 hover:bg-slate-50 transition-all">Choose Scout</button>
                         </div>
 
                         <!-- HAMMER TIER -->
                         <div class="bg-dewalt brutal-border brutal-shadow p-8 flex flex-col relative">
-                            <div class="absolute -top-4 right-4 bg-ink text-dewalt px-3 py-1 text-xs font-black uppercase brutal-border">BEST VALUE</div>
-                            <h3 class="text-3xl font-display font-black uppercase mb-2">HAMMER</h3>
+                            <div class="absolute -top-4 right-4 bg-ink text-dewalt px-3 py-1 text-xs font-black uppercase brutal-border">CONCIERGE</div>
+                            <h3 class="text-3xl font-display font-black uppercase mb-2">Hammer</h3>
                             <div class="text-4xl font-black mb-6">£99<span class="text-lg font-normal">/mo</span></div>
-                            <p class="font-body font-bold text-ink mb-8">Win more jobs.</p>
-                            <ul class="space-y-4 mb-12 flex-1">
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ EVERYTHING IN SCOUT</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Priority Dispatch</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Optimised Messaging</li>
-                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Hammer Hooks</li>
+                            <p class="font-body font-bold text-ink mb-8">Full-service outreach management.</p>
+                            <ul class="space-y-4 mb-4 flex-1">
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Everything in Scout</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Expert-written hooks</li>
+                                <li class="flex items-center gap-3 font-body font-black text-sm uppercase">✅ Priority dispatch management</li>
                             </ul>
-                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-800 transition-all">GO FULL HAMMER</button>
+                            <p class="text-sm text-ink mb-6 font-body italic">£5 per physical dispatch.*</p>
+                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-white font-display font-black uppercase py-4 text-xl brutal-border hover:bg-slate-800 transition-all">Choose Hammer</button>
                         </div>
                     </div>
+                    <p class="text-center mt-12 text-sm text-slate-400 italic">*Fees for mailing include premium stationery, printing, and tracked delivery costs on your behalf.</p>
                 </div>
             </section>
         </div>
