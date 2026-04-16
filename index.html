@@ -224,10 +224,11 @@
             </div>
             
             <div class="flex items-center gap-4 md:gap-8">
+                <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Blueprint</button>
+                
                 <template x-if="!user">
                     <div class="flex items-center gap-4 md:gap-8">
                         <button @click="navigate('/features')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Features</button>
-                        <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-xl uppercase hover:text-dewalt">Blueprint</button>
                         <button @click="navigate('/login')" class="btn-y text-lg">Tradie Login</button>
                     </div>
                 </template>
@@ -695,6 +696,7 @@
                         <div class="text-3xl font-display font-black uppercase tracking-tighter text-dewalt">JOBFILTER</div>
                         <div class="hidden md:flex gap-6">
                             <button @click="navigate('/dashboard')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors text-dewalt">TRADIE ZONE</button>
+                            <button @click="navigate('/blueprint')" class="text-xl font-display font-black uppercase hover:text-dewalt transition-colors">BLUEPRINT</button>
                         </div>
                     </div>
                     <button @click="navigate('/')" class="text-lg font-display font-black uppercase bg-white text-ink px-4 py-2 brutal-border hover:bg-slate-200 transition-colors">LOGOUT</button>
