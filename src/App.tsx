@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
@@ -223,107 +223,38 @@ export default function App() {
         </div>
       </section>
 
-      {/* Reality Split (Chaos vs. Control) */}
-      <section className="py-32 px-6 bg-charcoal/30">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-8">
-              <h3 className="font-display text-4xl font-black uppercase italic text-red-500/80">The Chaos</h3>
-              <div className="bg-slate-900/50 p-6 rounded-sm border border-red-500/20 opacity-60">
-                <div className="space-y-4">
-                  {[1,2,3,4,5].map(i => (
-                    <div key={i} className="bg-slate-800 p-3 rounded-sm text-xs text-slate-500 italic">
-                      "Alright mate, can you just pop round to B14 and look at my tap? Should be 2 mins."
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest italic">5 tyre-kickers asking for free advice.</p>
-            </div>
-
-            <div className="space-y-8">
-              <h3 className="font-display text-4xl font-black uppercase italic text-green-500/80">The Control</h3>
-              <div className="bg-deep-slate p-6 rounded-sm border border-high-vis-orange glow-orange">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-10 h-10 bg-high-vis-orange rounded-full flex items-center justify-center text-deep-slate font-black">!</div>
-                  <p className="font-display text-xl font-black uppercase italic">Qualified Lead: B14 Area</p>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <p className="text-slate-300 flex items-center gap-2"><span className="text-green-500">✔</span> Leak confirmed via photo</p>
-                  <p className="text-slate-300 flex items-center gap-2"><span className="text-green-500">✔</span> Budget £300 approved</p>
-                  <p className="text-slate-300 flex items-center gap-2"><span className="text-green-500">✔</span> Postcode verified</p>
-                </div>
-              </div>
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest italic">One clean JobFilter notification.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Van-to-Sofa Reality (Timeline) */}
-      <section id="reality" className="py-32 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-20 uppercase italic">Van-to-Sofa <span className="text-high-vis-orange">Reality</span></h2>
-          
-          <div className="grid md:grid-cols-2 gap-20 relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>
-            
-            <div className="space-y-12">
-              <h3 className="font-display text-3xl font-black uppercase italic text-red-500 text-center mb-10">Running on Fumes</h3>
-              {[
-                'Finish on site at 4:30 PM',
-                'Sit in M6 traffic for 45 mins',
-                'Drive to a house to look at a job with no budget',
-                'Get home late at 7:30 PM',
-                'Eat cold dinner while typing up a free quote'
-              ].map((step, i) => (
-                <div key={i} className="flex items-center gap-6 group">
-                  <div className="w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-black text-slate-500 shrink-0">{i+1}</div>
-                  <p className="text-slate-400 font-medium">{step}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-12">
-              <h3 className="font-display text-3xl font-black uppercase italic text-green-500 text-center mb-10">The JobFilter Day</h3>
-              {[
-                'Finish on site at 4:30 PM',
-                'JobFilter has secured a vetted job for tomorrow',
-                'Drive straight home (Skip the M6 detour)',
-                'Tools down and on the sofa by 5:15 PM',
-                'Enjoy your evening. The AI handles the rest.'
-              ].map((step, i) => (
-                <div key={i} className="flex items-center gap-6 group">
-                  <div className="w-8 h-8 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center text-xs font-black text-green-500 shrink-0">{i+1}</div>
-                  <p className="text-slate-200 font-bold italic">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing */}
       <section id="pricing" className="py-32 px-6 bg-charcoal/30">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-6 uppercase italic">Choose Your <span className="text-high-vis-orange">Scout Plan</span></h2>
-          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-16">Start free. Upgrade when your 3 monthly full record views are used.</p>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-16 uppercase italic">Simple <span className="text-high-vis-orange">Pricing</span></h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Free</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Free */}
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Starter</p>
               <p className="text-4xl font-display font-black mt-2">£0</p>
-              <ul className="mt-6 space-y-2 text-slate-300 text-sm">
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>• Tools access</li>
                 <li>• Lead scanning</li>
                 <li>• 3 full record views / month</li>
               </ul>
             </div>
 
-            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl">
-              <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Scout Pro (Default)</p>
-              <p className="text-4xl font-display font-black mt-2">~£39</p>
-              <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold">
+            {/* Basic */}
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Scout Basic</p>
+              <p className="text-4xl font-display font-black mt-2">£19</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
+                <li>• Limited unlocks</li>
+              </ul>
+            </div>
+
+            {/* Pro - Popular */}
+            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative">
+              <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-black uppercase tracking-widest">Popular</div>
+              <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Scout Pro</p>
+              <p className="text-4xl font-display font-black mt-2">£39</p>
+              <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
                 <li>• Unlimited access</li>
                 <li>• Job alerts</li>
                 <li>• Full lead visibility</li>
@@ -331,43 +262,28 @@ export default function App() {
                 <li>• Payment Chaser</li>
                 <li>• Review Harvester</li>
               </ul>
-              <a href="https://wa.me/1234567890?text=Upgrade%20me%20to%20Scout%20Pro" className="mt-6 inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-black py-3 px-4 rounded-sm uppercase tracking-widest">Upgrade to Scout Pro</a>
             </div>
 
-            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">More Plans</p>
-              <p className="text-2xl font-display font-black mt-2">Scout Basic ~£19</p>
-              <p className="text-2xl font-display font-black mt-2">Scout Max ~£59</p>
-              <p className="text-2xl font-display font-black mt-2">Hammer ~£99</p>
-              <p className="mt-4 text-sm text-slate-300">Hammer includes everything in Scout, plus stronger homeowner-facing professional positioning.</p>
+            {/* Max */}
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Scout Max</p>
+              <p className="text-4xl font-display font-black mt-2">£59</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
+                <li>• Everything in Pro</li>
+                <li>• Priority lead access</li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Final Conversion Block */}
-      <section className="py-40 px-6 text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto relative z-10">
-          <h2 className="font-display text-6xl md:text-8xl font-black uppercase italic mb-8 leading-tight">Ready to Get Your <br /> <span className="text-high-vis-orange">Evenings Back?</span></h2>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block"
-          >
-            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" className="inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-4xl font-black py-8 px-16 rounded-sm shadow-2xl glow-orange transition-all uppercase italic">
-              Connect My WhatsApp
-            </a>
-          </motion.div>
-          <div className="mt-12 max-w-lg mx-auto">
-            <p className="text-slate-500 font-bold italic leading-relaxed">
-              "Built by a fellow tradesman who got sick of pricing jobs at 9 PM. We know the graft, we just want the results."
-            </p>
+          {/* Hammer */}
+          <div className="mt-8 bg-charcoal border border-white/10 p-10 rounded-sm flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="max-w-2xl">
+              <h3 className="text-3xl font-display font-black uppercase mb-2">Hammer Tier</h3>
+              <p className="font-body font-bold text-slate-200 mb-2">The Concierge Outreach Engine (£99/mo).</p>
+              <p className="text-sm font-body text-slate-400">Everything in Scout plus concierge physical outreach. We handle the expert-written hooks and print/post physical letters.</p>
+            </div>
+            <a href="https://wa.me/1234567890?text=I%20want%20to%20upgrade%20to%20Hammer" className="bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-black py-4 px-8 rounded-sm uppercase tracking-widest">Activate Concierge</a>
           </div>
-        </div>
-        
-        {/* Background Glow */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-amber-500 rounded-full blur-[200px]"></div>
         </div>
       </section>
 
@@ -381,48 +297,8 @@ export default function App() {
             </div>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic">Built to protect your time, your fuel, and your profit.</p>
           </div>
-          <div className="flex gap-10 text-slate-400 font-black uppercase tracking-widest text-[10px] italic">
-            <button onClick={() => setShowModal('privacy')} className="hover:text-high-vis-orange transition-colors">Privacy</button>
-            <button onClick={() => setShowModal('terms')} className="hover:text-high-vis-orange transition-colors">Terms</button>
-            <button onClick={() => setShowModal('cookies')} className="hover:text-high-vis-orange transition-colors">Cookies</button>
-          </div>
         </div>
       </footer>
-
-      {/* Modals */}
-      <AnimatePresence>
-        {showModal && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center px-6">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowModal(null)}
-              className="absolute inset-0 bg-deep-slate/90 backdrop-blur-sm"
-            ></motion.div>
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative bg-charcoal border border-white/10 p-10 max-w-2xl w-full rounded-sm shadow-2xl"
-            >
-              <button onClick={() => setShowModal(null)} className="absolute top-6 right-6 text-slate-500 hover:text-white transition-colors">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
-              </button>
-              <h4 className="font-display text-3xl font-black uppercase italic mb-6 text-high-vis-orange">
-                {showModal === 'privacy' && 'Privacy Policy'}
-                {showModal === 'terms' && 'Terms of Service'}
-                {showModal === 'cookies' && 'Cookie Notice'}
-              </h4>
-              <div className="text-slate-400 leading-relaxed font-medium">
-                {showModal === 'privacy' && 'We don’t sell your data. We don’t auction your jobs. JobFilter processes WhatsApp messages, images, and postcodes strictly to qualify and filter job requests on your behalf. This may involve automated AI analysis to assess job quality, location relevance, and intent. Your data is used only to improve your workflow and is never shared with third-party lead marketplaces. You stay in control. Always.'}
-                {showModal === 'terms' && 'JobFilter is a filtering tool — not a marketplace. We help qualify incoming job requests using automated systems, but we don’t guarantee job accuracy, customer intent, or final outcomes. All decisions, pricing, and agreements remain your responsibility. Use it as your gatekeeper — not your replacement.'}
-                {showModal === 'cookies' && 'We use minimal cookies to understand what’s working and what’s not — nothing invasive, nothing sold. Just enough to make JobFilter better.'}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
