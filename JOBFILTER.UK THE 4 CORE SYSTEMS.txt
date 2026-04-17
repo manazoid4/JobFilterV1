@@ -1,0 +1,57 @@
+1. The 60-Second Onboard
+
+Goal: Auto-fill the tradie’s profile so they don't have to type.
+
+    The Input: Tradie gives you their Website or Instagram.
+
+    The Action: A scraper pulls their photos and "About" text.
+
+    The AI: Vertex AI reads the data and identifies their niche (e.g., "Loft Specialist in Leeds").
+
+    The Result: A WhatsApp to the tradie: "We’ve built your profile. Does this look right?"
+
+2. The Planning Stealth-Listener
+
+Goal: Get the lead before the homeowner even starts Googling.
+
+    The Input: A script checks Local Council Portals for new planning apps.
+
+    The Action: It pulls the project description and PDF blueprints.
+
+    The AI: Gemini "reads" the drawings to see exactly what work is needed.
+
+    The Result: A WhatsApp to the tradie: "New extension approved in [Postcode]. Likely needs a full rewire. Tap to claim."
+
+3. The Visual Estimator
+
+Goal: Use AI to "pre-inspect" the job via photo.
+
+    The Input: Homeowner uploads a photo (e.g., an old fuse box).
+
+    The Action: The photo is sent to Gemini Vision.
+
+    The AI: Identifies the issue (e.g., "Outdated plastic unit, non-compliant").
+
+    The Result: A WhatsApp to the tradie: "Gold Lead: Visual check confirms old unit. Estimated 1-day job. See photo."
+
+4. The WhatsApp Gatekeeper
+
+Goal: Block timewasters while the tradie is on a ladder.
+
+    The Input: A new homeowner messages the tradie's WhatsApp.
+
+    The Action: An AI Bot asks for the postcode, photos, and budget.
+
+    The AI: Decides if the lead is "Gold" or a "Timewaster."
+
+    The Result: The tradie’s phone only pings if the lead is Qualified.
+
+THE TECH STACK (Low Cost)
+
+    Brain: Google Vertex AI (Paid by your £900 credits).
+
+    Worker: Google Cloud Functions (Paid by your £900 credits).
+
+    Glue: Make.com (Connects everything).
+
+    Phone: Green-API (Sends the WhatsApps).
