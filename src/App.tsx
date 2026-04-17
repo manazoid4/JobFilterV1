@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'motion/react';
 export default function App() {
   const [quotesPerWeek, setQuotesPerWeek] = useState(5);
   const [milesDriven, setMilesDriven] = useState(20);
+  const [postcode, setPostcode] = useState('');
   const [showModal, setShowModal] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
@@ -39,9 +40,9 @@ export default function App() {
             <span className="font-display text-2xl font-black uppercase tracking-tighter italic">JobFilter</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-400">
-            <a href="#demo" className="hover:text-electric-cyan transition-colors">The X-Ray</a>
+            <a href="#intake" className="hover:text-electric-cyan transition-colors">THE INTAKE</a>
             <a href="#roi" className="hover:text-electric-cyan transition-colors">ROI Calculator</a>
-            <a href="#reality" className="hover:text-electric-cyan transition-colors">The Timeline</a>
+            <a href="#pricing" className="hover:text-electric-cyan transition-colors">Pricing</a>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-electric-cyan rounded-full animate-pulse shadow-[0_0_8px_#22d3ee]"></span>
@@ -58,7 +59,7 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             className="font-display text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.8] uppercase italic"
           >
-            Stop Quoting <br /> <span className="text-high-vis-orange">For Free.</span>
+            UK Trade Leads, <br /> <span className="text-high-vis-orange">Filtered Fast.</span>
           </motion.h1>
           
           <motion.p 
@@ -67,7 +68,7 @@ export default function App() {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-3xl text-slate-400 max-w-3xl mx-auto mb-12 leading-tight font-medium"
           >
-            You don’t need more leads. You need better ones. JobFilter is the AI shield for your WhatsApp that forces customers to send photos and postcodes before your phone even rings.
+            JobFilter is a postcode-first intake for tradesmen. See real local jobs, filter out low-quality work, and use your 3 free full records each month before you upgrade.
           </motion.p>
 
           <motion.div
@@ -76,11 +77,11 @@ export default function App() {
             transition={{ delay: 0.4 }}
             className="flex flex-col items-center gap-6"
           >
-            <a href="https://wa.me/1234567890?text=Hi%20JobFilter" className="inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-2xl font-black py-6 px-12 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic">
-              Connect My WhatsApp
+            <a href="#intake" className="inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-2xl font-black py-6 px-12 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic">
+              Enter Your Postcode
             </a>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-widest italic">
-              No shared leads. No subscription traps. No fighting five blokes for the same job.
+              Free includes tools + scanning + 3 full records per month. Scout Pro is the default for full access.
             </p>
           </motion.div>
         </div>
@@ -92,22 +93,45 @@ export default function App() {
         </div>
       </header>
 
-      {/* The Tyre-Kicker X-Ray (Interactive Demo) */}
-      <section id="demo" className="py-32 px-6 bg-charcoal/30 border-y border-white/5">
+      {/* THE INTAKE */}
+      <section id="intake" className="py-32 px-6 bg-charcoal/30 border-y border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-6xl font-black uppercase italic mb-4">The Tyre-Kicker <span className="text-electric-cyan">X-Ray</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest">AI Foreman detecting bad leads in real-time.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-black uppercase italic mb-4">THE <span className="text-electric-cyan">INTAKE</span></h2>
+            <p className="text-slate-400 font-bold uppercase tracking-widest">Postcode input → see leads → unlock 3 full records free.</p>
           </div>
 
           <div className="bg-deep-slate p-8 rounded-sm border border-white/10 shadow-2xl relative overflow-hidden">
-            <div className="flex items-center gap-4 mb-8 border-b border-white/5 pb-4">
-              <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center text-slate-500">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08s5.97 1.09 6 3.08c-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-              </div>
+            <div className="grid md:grid-cols-[2fr_1fr] gap-4 mb-8 border-b border-white/5 pb-6">
               <div>
-                <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Incoming Message</p>
-                <p className="font-bold text-slate-300">"Alright mate, how much to just pop round and look at my boiler? Should be a 5-minute job."</p>
+                <label htmlFor="postcode" className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
+                <input
+                  id="postcode"
+                  value={postcode}
+                  onChange={(e) => setPostcode(e.target.value.toUpperCase())}
+                  placeholder="e.g. B14 7QH"
+                  className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-4 text-xl font-bold uppercase tracking-wide text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan"
+                />
+              </div>
+              <button
+                onClick={startScan}
+                disabled={isScanning || postcode.trim().length < 4}
+                className="bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-600 text-deep-slate font-black py-4 px-6 rounded-sm uppercase italic tracking-widest transition-all"
+              >
+                {isScanning ? 'Scanning...' : 'See Local Jobs'}
+              </button>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-3 mb-8 text-xs font-bold uppercase tracking-widest">
+              <div className="bg-slate-900/70 border border-white/10 p-3 rounded-sm text-slate-300">Step 1: Enter Postcode</div>
+              <div className="bg-slate-900/70 border border-white/10 p-3 rounded-sm text-slate-300">Step 2: Scan Leads</div>
+              <div className="bg-slate-900/70 border border-white/10 p-3 rounded-sm text-slate-300">Step 3: Unlock 3 Full Records Free</div>
+            </div>
+
+            <div className="flex items-center gap-4 mb-8 border-b border-white/5 pb-4">
+              <div>
+                <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Upgrade Trigger</p>
+                <p className="font-bold text-slate-300">Used your 3 free records? Move to <span className="text-high-vis-orange">Scout Pro</span> for unlimited access and alerts.</p>
               </div>
             </div>
 
@@ -122,27 +146,27 @@ export default function App() {
                 {scanComplete ? (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
                     <div className="flex items-center gap-3 text-red-500 font-bold uppercase italic text-sm">
-                      <span className="text-xl">🚩</span> Danger: Fishing for cheapest price
+                      <span className="text-xl">🚩</span> Low-quality job filtered out
                     </div>
                     <div className="flex items-center gap-3 text-red-500 font-bold uppercase italic text-sm">
-                      <span className="text-xl">🚩</span> Danger: Refusing to send a photo
+                      <span className="text-xl">🚩</span> Out-of-area postcode removed
                     </div>
-                    <div className="flex items-center gap-3 text-red-500 font-bold uppercase italic text-sm">
-                      <span className="text-xl">🚩</span> Danger: 'Just a 5-minute job' guy
+                    <div className="flex items-center gap-3 text-green-500 font-bold uppercase italic text-sm">
+                      <span className="text-xl">✔</span> Good local lead ready to open
                     </div>
                     <div className="mt-8 pt-6 border-t border-white/5 text-center">
-                      <p className="font-display text-2xl font-black text-electric-cyan uppercase italic">Lead Binned.</p>
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">You didn't even have to look at your phone.</p>
+                      <p className="font-display text-2xl font-black text-electric-cyan uppercase italic">2 filtered, 1 worth opening.</p>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Free account: 2 of 3 full record views remaining.</p>
                     </div>
                   </motion.div>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full py-10">
-                    <button 
+                    <button
                       onClick={startScan}
                       disabled={isScanning}
                       className="bg-slate-800 hover:bg-slate-700 text-electric-cyan font-black py-4 px-8 rounded-sm border border-electric-cyan/30 uppercase italic tracking-widest transition-all glow-cyan"
                     >
-                      {isScanning ? 'Analyzing Intent...' : 'Run AI Analysis'}
+                      {isScanning ? 'Scanning Leads...' : 'Run Intake Scan'}
                     </button>
                   </div>
                 )}
@@ -279,39 +303,44 @@ export default function App() {
         </div>
       </section>
 
-      {/* The Directory Trap (Comparison Table) */}
-      <section className="py-32 px-6 bg-charcoal/30">
+      {/* Pricing */}
+      <section id="pricing" className="py-32 px-6 bg-charcoal/30">
         <div className="max-w-5xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-20 uppercase italic">The Directory <span className="text-red-500">Trap</span></h2>
-          
-          <div className="overflow-hidden rounded-sm border border-white/10 shadow-2xl">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-900/50">
-                  <th className="p-8 text-slate-500 font-black uppercase tracking-widest text-xs">The Difference</th>
-                  <th className="p-8 text-slate-400 font-display text-2xl font-black uppercase italic">Directories</th>
-                  <th className="p-8 text-high-vis-orange font-display text-3xl font-black uppercase italic bg-amber-500/5 border-x-2 border-high-vis-orange">JobFilter</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {[
-                  { label: 'Competition', dir: 'Fighting 5 guys for scraps', jf: '100% Exclusive' },
-                  { label: 'Ownership', dir: 'Renting your profile', jf: 'Owning your customer list' },
-                  { label: 'Lead Quality', dir: 'Pay for every tyre-kicker', jf: 'Only see vetted jobs' },
-                  { label: 'Admin Work', dir: 'Manual chasing', jf: 'AI Gatekeeper' }
-                ].map((row, i) => (
-                  <tr key={i} className="hover:bg-white/5 transition-colors">
-                    <td className="p-8 font-bold text-slate-400 uppercase italic text-sm">{row.label}</td>
-                    <td className="p-8 text-slate-500 font-medium">{row.dir}</td>
-                    <td className="p-8 font-black text-white bg-amber-500/5 border-x-2 border-high-vis-orange uppercase italic">
-                      <div className="flex items-center gap-3">
-                        <span className="text-high-vis-orange">✔</span> {row.jf}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-6 uppercase italic">Choose Your <span className="text-high-vis-orange">Scout Plan</span></h2>
+          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-16">Start free. Upgrade when your 3 monthly full record views are used.</p>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm">
+              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Free</p>
+              <p className="text-4xl font-display font-black mt-2">£0</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm">
+                <li>• Tools access</li>
+                <li>• Lead scanning</li>
+                <li>• 3 full record views / month</li>
+              </ul>
+            </div>
+
+            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl">
+              <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Scout Pro (Default)</p>
+              <p className="text-4xl font-display font-black mt-2">~£39</p>
+              <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold">
+                <li>• Unlimited access</li>
+                <li>• Job alerts</li>
+                <li>• Full lead visibility</li>
+                <li>• Smart Quoting</li>
+                <li>• Payment Chaser</li>
+                <li>• Review Harvester</li>
+              </ul>
+              <a href="https://wa.me/1234567890?text=Upgrade%20me%20to%20Scout%20Pro" className="mt-6 inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-black py-3 px-4 rounded-sm uppercase tracking-widest">Upgrade to Scout Pro</a>
+            </div>
+
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm">
+              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">More Plans</p>
+              <p className="text-2xl font-display font-black mt-2">Scout Basic ~£19</p>
+              <p className="text-2xl font-display font-black mt-2">Scout Max ~£59</p>
+              <p className="text-2xl font-display font-black mt-2">Hammer ~£99</p>
+              <p className="mt-4 text-sm text-slate-300">Hammer includes everything in Scout, plus stronger homeowner-facing professional positioning.</p>
+            </div>
           </div>
         </div>
       </section>
