@@ -18,7 +18,10 @@ document.addEventListener('alpine:init', () => {
     phoneNumber: '',
     
     // Onboarding State
-    onboardingStep: 1,
+    onboardingPostcode: '',
+    scanState: 'idle', // 'idle' | 'searching' | 'revealed'
+    scannedLeads: [],
+    
     registerName: '',
     registerEmail: '',
     registerPassword: '',
@@ -32,10 +35,11 @@ document.addEventListener('alpine:init', () => {
     loginPassword: '',
     loginError: '',
     isLoggingIn: false,
-    user: null,
-    isAuthReady: false,
-    isEmailVerified: false,
+    user: { uid: 'dev-user', email: 'dev@jobfilter.uk' },
+    isAuthReady: true,
+    isEmailVerified: true,
     verificationMessage: '',
+    subscriptionStatus: 'active',
 
     handleFirestoreError(error: any, operationType: string, path: string | null) {
       const errInfo = {
@@ -94,17 +98,65 @@ document.addEventListener('alpine:init', () => {
     // Simulator State
     simState: 1,
     simMessages: [],
+    isSimTyping: false,
     simInput: '',
     simFilterStrength: 3,
     
     // Dashboard variables
-    activeTab: 'money', // 'money' | 'safety' | 'business'
+    activeTab: 'overview', // 'overview' | 'leads' | 'jobs' | 'safety' | 'business'
+    showModal: null,
+    tab: 'money',
+    detailLead: null,
+    showQuote: false,
+    quoteTarget: null,
+    quoteText: '',
+    quoteGenerating: false,
+    toastMsg: '',
+    toastShow: false,
+    dispatcherOn: true,
+    receiptProcessing: false,
+    receipts: [
+      {id:1, merchant:'Screwfix — Tools & Fixings', date:'12 Apr 2025', cat:'Tools', amount:'142.80', vat:'23.80'},
+      {id:2, merchant:'Shell Garage, Carlisle', date:'11 Apr 2025', cat:'Fuel', amount:'89.40', vat:'14.90'},
+      {id:3, merchant:'Travis Perkins, CA1', date:'10 Apr 2025', cat:'Materials', amount:'314.20', vat:'52.37'}
+    ],
+    get receiptTotal() { return this.receipts.reduce((s: number,r: any) => s + parseFloat(r.amount), 0).toFixed(2); },
+    get receiptVAT() { return this.receipts.reduce((s: number,r: any) => s + parseFloat(r.vat), 0).toFixed(2); },
+    quotes: 6,
+    miles: 30,
+    get annualDebt() {
+        return Math.round((this.quotes * 1.5 * 45 + this.miles * 0.20) * 52);
+    },
+    get savings() {
+        return Math.round(this.annualDebt * 0.85);
+    },
     leads: [],
+    jobs: [],
     isLoadingLeads: false,
     selectedLead: null,
     isLeadModalOpen: false,
     unsubscribeLeads: null,
-    subscriptionStatus: 'loading', // 'active' | 'past_due' | 'none' | 'loading'
+    
+    // Trade Tools State
+    selectedTradeTool: null,
+    
+    // Workshop & AI Receptionist State
+    aiPersonality: 'professional',
+    aiGreeting: 'Hi, thanks for contacting [Company]. To give you an accurate quote, I need a few details first.',
+    aiAutoReply: true,
+    workshopTools: [
+      { id: 'quote', name: 'Instant Quote Gen', icon: '📄', desc: 'Generate professional PDF quotes in seconds.' },
+      { id: 'invoice', name: 'Smart Invoicing', icon: '💰', desc: 'Send invoices that get paid faster.' },
+      { id: 'schedule', name: 'AI Scheduler', icon: '📅', desc: 'Let customers book into your free slots.' }
+    ],
+
+    // Brand Hub State
+    brandColor: '#facc15',
+    brandBio: 'Professional tradesperson serving the local area. Quality guaranteed.',
+    brandReviews: [
+      { author: 'John D.', rating: 5, text: 'Great service, very professional.' },
+      { author: 'Sarah M.', rating: 5, text: 'Highly recommend for any plumbing work.' }
+    ],
     
     async checkSubscription() {
         if (!this.user) return;
@@ -133,11 +185,37 @@ document.addEventListener('alpine:init', () => {
     },
     
     get moneyLeads() {
-        return this.leads.filter((l: any) => l.status === 'qualified');
+        return this.leads.filter((l: any) => l.status === 'qualified' && !l.completed);
     },
 
     get safetyLeads() {
         return this.leads.filter((l: any) => l.status === 'archived');
+    },
+
+    openDetail(lead: any) { this.detailLead = lead; },
+    closeDetail() { this.detailLead = null; },
+    completeLead(id: any) {
+      const l = this.leads.find((x: any) => x.id === id);
+      if(l) { l.completed = true; this.closeDetail(); this.toast('✓ Job marked complete. Brand Hub updating...'); }
+    },
+    toast(msg: string) { this.toastMsg = msg; this.toastShow = true; setTimeout(() => this.toastShow = false, 3500); },
+    genQuote(lead: any) {
+      this.quoteTarget = lead; this.showQuote = true; this.quoteGenerating = true; this.quoteText = '';
+      const lines = ['QUOTE REF: JF-2025-'+Math.floor(Math.random()*9000+1000)+'\n','Date: '+new Date().toLocaleDateString('en-GB')+'\n\n','To Whom It May Concern,\n\n','Thank you for your enquiry via JobFilter. Please find below our quote.\n\n','SCOPE OF WORKS\n','──────────────────────────────────\n',lead.summary+'\n\n','PRICING BREAKDOWN\n','──────────────────────────────────\n','Materials (estimated):    '+lead.budget+'\n','Labour:                   Included\n','Site protection & cleanup: Included\n\n','TOTAL (incl. VAT):        '+lead.budget+'\n\n','INCLUSIONS\n','──────────────────────────────────\n','✓ Full clean-up on completion\n','✓ 12-month workmanship guarantee\n','✓ Gas Safe / NICEIC certified work\n','✓ All waste disposal included\n\n','Valid for 14 days. To accept, reply YES.\n\n','Kind regards,\nScott — SR Trades, Carlisle\nwww.jobfilter.uk/sr-trades'];
+      let i=0; const iv=setInterval(()=>{if(i<lines.length){this.quoteText+=lines[i++];}else{clearInterval(iv);this.quoteGenerating=false;}},55);
+    },
+    logReceipt() {
+      this.receiptProcessing = true;
+      setTimeout(() => {
+        const merchants = ['Toolstation','Wickes','Jewson','HSS Hire','Dulux Decorator'];
+        const cats = ['Tools','Materials','Hire','Paint','Fixings'];
+        const idx = Math.floor(Math.random()*5);
+        const amt = (Math.random()*200+20).toFixed(2);
+        const vat = (parseFloat(amt)/6).toFixed(2);
+        this.receipts.unshift({id:Date.now(),merchant:merchants[idx]+', Carlisle',date:new Date().toLocaleDateString('en-GB'),cat:cats[idx],amount:amt,vat:vat});
+        this.receiptProcessing = false;
+        this.toast('✓ Receipt scanned. Merchant, VAT and total extracted.');
+      }, 2000);
     },
 
     async init() {
@@ -162,13 +240,15 @@ document.addEventListener('alpine:init', () => {
       }
 
       onAuthStateChanged(auth, (user) => {
-        this.user = user;
-        this.isEmailVerified = user?.emailVerified || false;
-        this.isAuthReady = true;
-        console.log("[AUTH] State changed:", user ? "Logged In" : "Logged Out", "Verified:", this.isEmailVerified);
+        // LOCK REMOVED: Preserving dev user if no real user is found
         if (user) {
+            this.user = user;
+            this.isEmailVerified = user.emailVerified;
             this.checkSubscription();
+        } else {
+            console.log("[AUTH] No user found, staying in DEV MODE");
         }
+        this.isAuthReady = true;
         this.handleRouteLogic();
       });
 
@@ -183,27 +263,11 @@ document.addEventListener('alpine:init', () => {
     },
 
     handleRouteLogic() {
-      if (!this.isAuthReady) return;
-
-      // Redirect logged-in users away from public pages
-      if (this.user && (this.route === '/' || this.route === '/login' || this.route === '/onboarding')) {
-          if (!this.isEmailVerified) {
-              this.navigate('/activation-pending');
-              return;
-          } else {
-              this.navigate('/dashboard');
-              return;
-          }
-      }
-
-      // Protect private routes
-      if (!this.user && (this.route === '/dashboard' || this.route === '/activation-pending')) {
-          this.navigate('/login');
-          return;
-      }
-
+      // LOCK REMOVED: Bypassing auth and verification redirects
+      
       if (this.route === '/dashboard') {
         this.subscribeLeads();
+        this.subscribeJobs();
       } else {
         this.unsubscribeLeadsListener();
       }
@@ -212,8 +276,16 @@ document.addEventListener('alpine:init', () => {
         this.fetchBlueprintIdeas();
       }
 
-      if (this.route === '/') {
+      if (this.route === '/onboarding') {
         this.initSimulator();
+      }
+
+      if (this.route === '/intake') {
+        console.log("[INTAKE] Engine page loaded.");
+      }
+
+      if (this.route === '/trade-tools') {
+        console.log("[TRADE TOOLS] Page loaded.");
       }
     },
     
@@ -221,7 +293,28 @@ document.addEventListener('alpine:init', () => {
       window.history.pushState({}, '', path);
       this.route = path;
       window.scrollTo(0, 0);
+      
+      // Reset scan state when navigating to onboarding
+      if (path === '/onboarding') {
+        this.scanState = 'idle';
+        this.onboardingPostcode = '';
+        this.scannedLeads = [];
+      }
+      
       this.handleRouteLogic();
+    },
+
+    startScan() {
+      if (!this.onboardingPostcode) return;
+      this.scanState = 'searching';
+      setTimeout(() => {
+        this.scannedLeads = [
+          { id: 1, title: 'Single Storey Extension', addressSnippet: 'Walmley Road, Solihull', trade: 'GENERAL', value: '45,000' },
+          { id: 2, title: 'Dormer Loft Conversion', addressSnippet: 'Hagley Road, Edgbaston', trade: 'ROOFER', value: '38,000' },
+          { id: 3, title: 'Full Refurbishment', addressSnippet: 'Lichfield Road, Sutton Coldfield', trade: 'GENERAL', value: '110,000' }
+        ];
+        this.scanState = 'revealed';
+      }, 3000);
     },
 
     unsubscribeLeadsListener() {
@@ -315,6 +408,50 @@ document.addEventListener('alpine:init', () => {
         setTimeout(() => { this.selectedLead = null; }, 300);
     },
 
+    async convertLeadToJob(lead: any) {
+        if (!lead) return;
+        console.log("[JOBS] Converting lead to job:", lead.id);
+        try {
+            const jobsRef = collection(db, 'jobs');
+            await addDoc(jobsRef, {
+                leadId: lead.id,
+                customerName: lead.customerName,
+                customerPhone: lead.customerPhone,
+                customerAddress: lead.customerAddress || 'No address provided',
+                trade: lead.trade,
+                budget: lead.budget,
+                description: lead.description,
+                status: 'pending',
+                createdAt: new Date().toISOString(),
+                uid: this.user.uid
+            });
+            
+            // Mark lead as converted
+            const leadRef = doc(db, 'leads', lead.id);
+            await updateDoc(leadRef, {
+                status: 'converted'
+            });
+            
+            this.closeLead();
+            alert("Job created! View it in the Jobs tab.");
+        } catch (err) {
+            console.error("[JOBS] Conversion error:", err);
+            alert("Failed to create job. Please try again.");
+        }
+    },
+
+    subscribeJobs() {
+        if (!this.user) return;
+        console.log("[JOBS] Subscribing to jobs...");
+        const jobsRef = collection(db, 'jobs');
+        const q = query(jobsRef, where('uid', '==', this.user.uid));
+        onSnapshot(q, (snapshot) => {
+            this.jobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        }, (err) => {
+            console.error("[JOBS] Subscription error:", err);
+        });
+    },
+
     async reclaimLead(leadId: string) {
         try {
             const leadRef = doc(db, 'leads', leadId);
@@ -330,19 +467,52 @@ document.addEventListener('alpine:init', () => {
     async simulateLead() {
         try {
             const leadsRef = collection(db, 'leads');
-            const randomId = Math.floor(Math.random() * 1000);
+            const randomId = Math.floor(Math.random() * 9000) + 1000;
             const isQualified = Math.random() > 0.3; // 70% chance of being qualified
             
+            const projects = [
+                { type: 'Extension', desc: 'Large wrap-around kitchen extension with bi-fold doors.', size: 'large' },
+                { type: 'Loft Conversion', desc: 'Dormer loft conversion for a new master bedroom.', size: 'large' },
+                { type: 'New Build', desc: 'Single detached 3-bed dwelling on private plot.', size: 'large' },
+                { type: 'Refurbishment', desc: 'Full house refurbishment including new kitchen and bathroom.', size: 'medium' },
+                { type: 'Repair', desc: 'Small electrical repair and socket replacement.', size: 'small' },
+                { type: 'Maintenance', desc: 'Gutter cleaning and minor roof tile replacement.', size: 'small' }
+            ];
+            
+            const project = projects[Math.floor(Math.random() * projects.length)];
+            const tier = (project.size === 'large') ? 'HAMMER' : 'SCOUT';
+            const price = tier === 'HAMMER' ? '£60' : '£30';
+            
+            const areas = ['Birmingham', 'Solihull', 'Sutton Coldfield', 'Dudley', 'Walsall'];
+            const area = areas[Math.floor(Math.random() * areas.length)];
+            
+            let hammerHook = '';
+            if (tier === 'HAMMER') {
+                hammerHook = `I saw the approved plans for your new ${project.desc.toLowerCase()} in ${area} and would love to discuss the build with you.`;
+            }
+
             await addDoc(leadsRef, {
-                customerName: `Test Customer ${randomId}`,
-                jobDescription: isQualified ? 'Need a complete rewire of the kitchen. About 4 double sockets and 6 spotlights. Ready to start next week.' : 'Need some electrical work done, not sure what exactly.',
+                lead_id: `JF-${randomId}`,
+                customerName: `Customer ${randomId}`,
+                jobDescription: isQualified ? project.desc : 'Need some work done, not sure what exactly.',
                 postcode: isQualified ? 'B14 7TE' : '',
-                budget: isQualified ? '1500' : '',
+                budget: isQualified ? (project.size === 'large' ? '45000' : '1500') : '',
                 status: isQualified ? 'qualified' : 'archived',
-                createdAt: new Date().toISOString()
+                tier: isQualified ? tier : null,
+                price: isQualified ? price : null,
+                hammer_hook: hammerHook,
+                area: area,
+                project_type: project.type,
+                createdAt: new Date().toISOString(),
+                uid: this.user?.uid || 'dev-user'
             });
-        } catch (err) {
-            console.error("Failed to simulate lead:", err);
+        } catch (err: any) {
+            console.error("Failed to simulate lead. Error details:", {
+                message: err.message,
+                code: err.code,
+                path: 'leads',
+                user: this.user?.uid
+            });
         }
     },
 
@@ -359,6 +529,7 @@ document.addEventListener('alpine:init', () => {
         
         const userMsg = text;
         this.simMessages.push({ sender: 'user', text: userMsg });
+        this.isSimTyping = true;
 
         // Call our backend webhook to simulate the AI
         try {
@@ -376,15 +547,21 @@ document.addEventListener('alpine:init', () => {
             const data = await res.json();
             
             setTimeout(() => {
+                this.isSimTyping = false;
                 this.simMessages.push({ sender: 'bot', text: data.reply });
                 this.simState = data.nextState;
                 
                 // Auto-scroll simulator
                 const simChat = document.getElementById('sim-chat');
-                if (simChat) simChat.scrollTop = simChat.scrollHeight;
-            }, 600);
+                if (simChat) {
+                    setTimeout(() => {
+                        simChat.scrollTop = simChat.scrollHeight;
+                    }, 50);
+                }
+            }, 1500);
 
         } catch (err) {
+            this.isSimTyping = false;
             console.error("Simulator error:", err);
         }
     },
@@ -410,8 +587,19 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+    async logout() {
+      try {
+        await auth.signOut();
+        this.user = null;
+        this.navigate('/');
+        this.toast('✓ Logged out successfully.');
+      } catch (err) {
+        console.error("Logout error:", err);
+      }
+    },
+
     nextOnboardingStep() {
-        if (this.onboardingStep < 3) {
+        if (this.onboardingStep < this.onboardingTotalSteps) {
             this.onboardingStep++;
         }
     },
