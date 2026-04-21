@@ -4,10 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobFilter | Quit Working For Ghosts</title>
-    
+    <meta name="description" content="Stop quoting ghosts. JobFilter filters out time-wasting leads so you only respond to jobs worth your time. Free to start, paid plans for unlimited access.">
+    <meta name="keywords" content="tradesman leads, job filter, electrician, plumber, builder, UK trades, lead generation">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="JobFilter | Quit Working For Ghosts">
+    <meta property="og:description" content="Filter tyre-kickers. Respond only to qualified local jobs. Built for UK tradesmen.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jobfilter.uk">
+    <meta property="og:image" content="https://jobfilter.uk/og-image.png">
+
     <!-- Web App Manifest -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#facc15">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -277,7 +289,7 @@
                         </p>
                         <div class="flex flex-col sm:flex-row gap-6">
                             <button @click="navigate('/onboarding')" class="btn-y text-3xl py-6 px-12 brutal-shadow-lg">ACCESS THE FILTER</button>
-                            <button @click="navigate('/trade-tools')" class="bg-white text-ink border-4 border-ink font-display font-extrabold text-3xl py-6 px-12 brutal-shadow hover:bg-slate-100 transition-all uppercase">START 7-DAY FREE TRIAL</button>
+                            <button @click="navigate('/onboarding')" class="bg-white text-ink border-4 border-ink font-display font-extrabold text-3xl py-6 px-12 brutal-shadow hover:bg-slate-100 transition-all uppercase">START 7-DAY FREE TRIAL</button>
                         </div>
                         <div class="mt-12 p-8 border-4 border-ink bg-slate-50 relative">
                              <div class="absolute -top-6 left-6 bg-ink text-white font-display font-extrabold px-4 py-1 uppercase text-sm">TRADIE-FIRST LOGIC</div>
@@ -1712,8 +1724,8 @@
                 <!-- THE HOOK -->
                 <template x-if="scanState === 'idle'">
                     <div class="bg-white brutal-border brutal-shadow p-12 text-center">
-                        <h1 class="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tighter mb-8 leading-none">THE CLAW IS OPEN</h1>
-                        <p class="text-3xl font-body font-bold text-slate-500 mb-12 uppercase">The Filter is currently processing Birmingham. Scan for your share.</p>
+                        <h1 class="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tighter mb-8 leading-none">FIND JOBS IN YOUR AREA</h1>
+                        <p class="text-3xl font-body font-bold text-slate-500 mb-12 uppercase">Enter your postcode. We'll scan for live local jobs and filter out the time-wasters.</p>
                         
                         <div class="max-w-xl mx-auto space-y-6">
                             <label class="block font-display font-extrabold text-3xl uppercase text-left mb-2">SCAN THE FILTER</label>
@@ -1785,14 +1797,14 @@
                                         <h4 class="text-3xl font-display font-extrabold uppercase text-dewalt mb-4">JOIN THE SCOUT</h4>
                                         <p class="text-xl font-body font-bold text-slate-300 mb-8">Unblur all leads, get direct access to blueprints and homeowner addresses. You drop the cards.</p>
                                     </div>
-                                    <button @click="navigate('/login')" class="w-full bg-dewalt text-ink font-display font-extrabold uppercase py-6 text-2xl brutal-border brutal-shadow hover:bg-yellow-300 transition-all">£29/MO ACCESS</button>
+                                    <button @click="$dispatch('open-waitlist', {plan: 'Scout Pro — £29/mo'})" class="w-full bg-dewalt text-ink font-display font-extrabold uppercase py-6 text-2xl brutal-border brutal-shadow hover:bg-yellow-300 transition-all">GET EARLY ACCESS</button>
                                 </div>
                                 <div class="bg-slate-800 p-8 brutal-border text-left flex flex-col justify-between">
                                     <div>
                                         <h4 class="text-3xl font-display font-extrabold uppercase text-red-500 mb-4">ACTIVATE THE HAMMER</h4>
                                         <p class="text-xl font-body font-bold text-slate-300 mb-8">We print and post a physical personalized letter to the homeowner automatically for you.</p>
                                     </div>
-                                    <button @click="navigate('/login')" class="w-full bg-red-600 text-white font-display font-extrabold uppercase py-6 text-2xl brutal-border brutal-shadow hover:bg-red-700 transition-all">£60/JOB STRIKE</button>
+                                    <button @click="$dispatch('open-waitlist', {plan: 'Hammer — £60/job'})" class="w-full bg-red-600 text-white font-display font-extrabold uppercase py-6 text-2xl brutal-border brutal-shadow hover:bg-red-700 transition-all">GET EARLY ACCESS</button>
                                 </div>
                             </div>
                         </div>
@@ -1801,6 +1813,51 @@
             </div>
         </div>
     </template>
+
+    <!-- WAITLIST MODAL (site-wide, listens for open-waitlist event) -->
+    <div
+        x-data="{
+            open: false,
+            plan: '',
+            email: '',
+            submitted: false,
+            async submit() {
+                if (!this.email.trim()) return;
+                await Promise.allSettled([
+                    fetch('/api/waitlist', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email: this.email.trim().toLowerCase(), plan: this.plan }) })
+                ]);
+                this.submitted = true;
+            }
+        }"
+        @open-waitlist.window="open = true; plan = $event.detail.plan; email = ''; submitted = false;"
+        x-show="open"
+        x-cloak
+        class="fixed inset-0 z-[200] flex items-center justify-center px-4 bg-black/70"
+        @click.self="open = false"
+    >
+        <div class="bg-white brutal-border brutal-shadow max-w-md w-full p-10" @click.stop>
+            <template x-if="!submitted">
+                <div>
+                    <p class="font-display font-extrabold text-xs uppercase tracking-widest text-slate-400 mb-1" x-text="'Early Access — ' + plan"></p>
+                    <h3 class="text-4xl font-display font-extrabold uppercase leading-tight mb-4">BE FIRST IN WHEN WE LAUNCH</h3>
+                    <p class="font-body font-bold text-slate-500 mb-8">Drop your email. We'll notify you the moment this plan goes live.</p>
+                    <form @submit.prevent="submit()" class="space-y-4">
+                        <input type="email" required x-model="email" placeholder="your@email.com" class="w-full brutal-border p-4 text-xl font-display font-extrabold focus:outline-none focus:ring-4 focus:ring-dewalt uppercase">
+                        <button type="submit" class="w-full bg-dewalt text-ink font-display font-extrabold uppercase py-5 text-2xl brutal-border brutal-shadow hover:bg-yellow-300 transition-all">SECURE MY SPOT</button>
+                    </form>
+                    <button @click="open = false" class="mt-4 w-full text-center font-display font-extrabold uppercase text-sm text-slate-400 hover:text-ink transition-colors">NOT NOW</button>
+                </div>
+            </template>
+            <template x-if="submitted">
+                <div class="text-center py-4">
+                    <div class="w-16 h-16 bg-dewalt brutal-border flex items-center justify-center mx-auto mb-6 text-3xl font-extrabold">✓</div>
+                    <h3 class="text-4xl font-display font-extrabold uppercase mb-3">YOU'RE ON THE LIST</h3>
+                    <p class="font-body font-bold text-slate-500 uppercase" x-text="'We\'ll hit you up when ' + plan + ' goes live.'"></p>
+                    <button @click="open = false" class="mt-8 font-display font-extrabold uppercase text-sm text-slate-400 hover:text-ink transition-colors">CLOSE</button>
+                </div>
+            </template>
+        </div>
+    </div>
 
     <!-- ACTIVATION PENDING ROUTE -->
     <template x-if="route === '/activation-pending'">
