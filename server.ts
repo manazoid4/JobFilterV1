@@ -8,15 +8,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
-import { Resend } from 'resend';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-
-// Initialize Resend (Requires RESEND_API_KEY in env)
-const resend = new Resend(process.env.RESEND_API_KEY || 're_mock_key');
-
-const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
-const ADMIN_EMAIL = 'manazoid4@gmail.com';
 
 // Initialize Firebase Admin — uses GOOGLE_APPLICATION_CREDENTIALS env var in prod,
 // falls back to no-op Firestore stub in dev when credentials aren't present
@@ -236,29 +229,20 @@ async function startServer() {
     const { email, plan } = req.body;
     if (!email || !plan) return res.status(400).json({ error: 'Missing email or plan' });
 
-    // Save to Firestore
     try {
-      if (adminDb) {
-        await adminDb.collection('waitlist').add({
-          email: email.trim().toLowerCase(),
-          plan,
-          createdAt: new Date(),
-        });
-      }
-    } catch (err: any) {
-      console.error('[Waitlist] Firestore write failed:', err.message);
-    }
+      if (!adminDb) throw new Error('DB not available');
 
-    res.json({ status: 'ok' });
+      // Save to waitlist collection
+      await adminDb.collection('waitlist').add({
+        email: email.trim().toLowerCase(),
+        plan,
+        createdAt: new Date(),
+      });
 
-    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') return;
-
-    (async () => {
-      try {
-        // Confirmation to the user
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: email,
+      // Write confirmation email to mail collection (Firebase extension will send)
+      await adminDb.collection('mail').add({
+        to: email.trim().toLowerCase(),
+        message: {
           subject: "You're on the JobFilter early access list",
           html: `
             <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f172a;color:#f1f5f9;border-radius:4px">
@@ -276,21 +260,14 @@ async function startServer() {
               </div>
             </div>
           `
-        });
+        }
+      });
 
-        // Admin notification
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: ADMIN_EMAIL,
-          subject: `New waitlist signup — ${plan}`,
-          text: `Email: ${email}\nPlan: ${plan}\nTime: ${new Date().toISOString()}`,
-        });
-
-        console.log(`[Waitlist] Emails sent for ${email} (${plan})`);
-      } catch (err: any) {
-        console.error('[Waitlist] Email failed:', err.message);
-      }
-    })();
+      res.json({ status: 'ok' });
+    } catch (err: any) {
+      console.error('[Waitlist] Error:', err.message);
+      res.status(500).json({ error: err.message });
+    }
   });
 
   // ==========================================
@@ -299,48 +276,45 @@ async function startServer() {
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
     console.log(`[ONBOARDING] Received submission for ${name} (${trade})`);
-    
+
     // Return immediately to the frontend so the UI doesn't hang
-    res.json({ status: "success", message: "Onboarding received. Processing email in background." });
+    res.json({ status: "success", message: "Onboarding received." });
 
-    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') {
-      console.warn("[RESEND] API Key is missing or default. Skipping email.");
-      return;
-    }
-
-    // Process email in background
+    // Send notification email via Firestore (Firebase extension handles sending)
     (async () => {
       try {
-        console.log(`[RESEND] Attempting to send onboarding email for ${name}...`);
-        
-        // Since the user verified their domain, we can try sending from their domain
-        // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
-        await resend.emails.send({
-          from: FROM_EMAIL,
-          to: ADMIN_EMAIL,
-          subject: `New Tradie Onboarding: ${name} (${trade})`,
-          text: `
-            New Tradie Activation:
-            ----------------------
-            Name: ${name}
-            Trade: ${trade}
-            Phone: ${phoneNumber}
-            
-            Settings:
-            ---------
-            Deposit Fee: £${calloutFee}
-            Filter Level: ${filterStrictness}/5
-            Pulse Schedule: ${pulseSchedule}
+        if (!adminDb) {
+          console.warn("[ONBOARDING] DB not available");
+          return;
+        }
 
-            Next Steps:
-            -----------
-            The user has been directed to the activation pending page to verify their email and select a subscription plan.
-          `
+        await adminDb.collection('mail').add({
+          to: 'manazoid4@gmail.com',
+          message: {
+            subject: `New Tradie Onboarding: ${name} (${trade})`,
+            text: `
+              New Tradie Activation:
+              ----------------------
+              Name: ${name}
+              Trade: ${trade}
+              Phone: ${phoneNumber}
+
+              Settings:
+              ---------
+              Deposit Fee: £${calloutFee}
+              Filter Level: ${filterStrictness}/5
+              Pulse Schedule: ${pulseSchedule}
+
+              Next Steps:
+              -----------
+              The user has been directed to the activation pending page to verify their email and select a subscription plan.
+            `
+          }
         });
-        
-        console.log(`[RESEND] Email sent successfully to manazoid4@gmail.com for ${name}`);
-      } catch (error) {
-        console.error("[RESEND] Background email sending failed:", error);
+
+        console.log(`[ONBOARDING] Email queued for ${name}`);
+      } catch (error: any) {
+        console.error("[ONBOARDING] Email queueing failed:", error.message);
       }
     })();
   });

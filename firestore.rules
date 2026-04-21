@@ -124,6 +124,12 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // Mail collection — backend server only (via Firebase Admin SDK)
+    // The Trigger Email extension reads from here and sends emails
+    match /mail/{docId} {
+      allow read, write: if false; // Controlled by backend only
+    }
+
     // Default deny
     match /{document=**} {
       allow read, write: if false;
