@@ -585,7 +585,7 @@ No account. No card. Just postcode in, bad leads out.
               <div className="w-8 h-8 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate italic">JF</div>
               <span className="font-display text-xl font-extrabold uppercase tracking-tighter italic">JobFilter</span>
             </div>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic">Built to protect your time, your fuel, and your profit.</p>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic">Built in Birmingham. Built for the trade. Built to filter.</p>
           </div>
         </div>
       </footer>
