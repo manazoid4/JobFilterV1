@@ -49,6 +49,13 @@ document.addEventListener('alpine:init', () => {
           email: auth.currentUser?.email,
           emailVerified: auth.currentUser?.emailVerified,
           isAnonymous: auth.currentUser?.isAnonymous,
+          tenantId: auth.currentUser?.tenantId,
+          providerInfo: auth.currentUser?.providerData.map(provider => ({
+            providerId: provider.providerId,
+            displayName: provider.displayName,
+            email: provider.email,
+            photoUrl: provider.photoURL
+          })) || []
         },
         operationType,
         path
@@ -57,6 +64,7 @@ document.addEventListener('alpine:init', () => {
       if (errInfo.error.includes('Missing or insufficient permissions')) {
           this.loginError = "Permission denied. Please ensure you are logged in and have an active subscription.";
       }
+      throw new Error(JSON.stringify(errInfo));
     },
 
     async refreshEmailStatus() {
@@ -259,10 +267,12 @@ document.addEventListener('alpine:init', () => {
           }
       });
 
-      this.handleRouteLogic();
+      // Removed synchronous this.handleRouteLogic() to prevent querying before auth resolves
     },
 
     handleRouteLogic() {
+      if (!this.isAuthReady) return; // Prevent logic before auth state is confirmed
+
       // LOCK REMOVED: Bypassing auth and verification redirects
       
       if (this.route === '/dashboard') {
@@ -326,13 +336,22 @@ document.addEventListener('alpine:init', () => {
     
     subscribeLeads() {
       this.isLoadingLeads = true;
+      if (!auth.currentUser) {
+          console.log("[DEV MODE] No authenticated user. Injecting mock leads instead of querying Firestore.");
+          this.leads = [
+              { id: 'mock1', customerName: 'John Smith', postcode: 'B14 7QH', description: 'Requires full house rewire. Has budget ready.', budget: '£3,500', status: 'qualified', createdAt: new Date().toISOString() },
+              { id: 'mock2', customerName: 'Sarah Jenkins', postcode: 'B13 8DD', description: 'Emergency boiler replacement. No heating currently.', budget: '£2,200', status: 'qualified', createdAt: new Date().toISOString() }
+          ];
+          this.isLoadingLeads = false;
+          return;
+      }
       try {
         const leadsRef = collection(db, 'leads');
         this.unsubscribeLeads = onSnapshot(leadsRef, (snapshot) => {
             this.leads = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             this.isLoadingLeads = false;
         }, (error) => {
-            console.error("Failed to fetch leads:", error);
+            this.handleFirestoreError(error, 'list', 'leads');
             this.isLoadingLeads = false;
         });
       } catch (err) {
@@ -441,6 +460,13 @@ document.addEventListener('alpine:init', () => {
     },
 
     subscribeJobs() {
+        if (!auth.currentUser) {
+            console.log("[DEV MODE] No authenticated user. Injecting mock jobs instead of querying Firestore.");
+            this.jobs = [
+                { id: 'job-mock1', customerName: 'John Smith', customerPhone: '07700 900123', status: 'pending', budget: '£3,500', description: 'Full house rewire.' }
+            ];
+            return;
+        }
         if (!this.user) return;
         console.log("[JOBS] Subscribing to jobs...");
         const jobsRef = collection(db, 'jobs');
@@ -448,7 +474,7 @@ document.addEventListener('alpine:init', () => {
         onSnapshot(q, (snapshot) => {
             this.jobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         }, (err) => {
-            console.error("[JOBS] Subscription error:", err);
+            this.handleFirestoreError(err, 'list', 'jobs');
         });
     },
 

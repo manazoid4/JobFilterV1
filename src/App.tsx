@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'motion/react';
 
 type AnalyticsEventName =
   | 'hero_cta_click'
-  | 'intake_scan_start'
-  | 'intake_scan_complete'
+  | 'filter_scan_start'
+  | 'filter_scan_complete'
   | 'pricing_plan_click'
   | 'upgrade_cta_click'
   | 'nav_cta_click';
@@ -55,15 +55,15 @@ export default function App() {
   const startScan = () => {
     setIsScanning(true);
     setScanComplete(false);
-    trackEvent('intake_scan_start', {
-      source: 'intake',
+    trackEvent('filter_scan_start', {
+      source: 'filter',
       postcode_present: postcode.trim().length >= 4,
     });
     setTimeout(() => {
       setIsScanning(false);
       setScanComplete(true);
-      trackEvent('intake_scan_complete', {
-        source: 'intake',
+      trackEvent('filter_scan_complete', {
+        source: 'filter',
       });
     }, 2000);
   };
@@ -76,55 +76,54 @@ export default function App() {
           <div className="bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
               <div className="group flex items-center gap-3 cursor-pointer">
-                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-black text-deep-slate italic group-hover:bg-white transition-colors">JF</div>
+                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-white transition-colors">JF</div>
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-black uppercase tracking-tighter italic leading-none">JobFilter</span>
-                  <span className="text-[8px] font-black uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Industrial Grade</span>
+                  <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
+                  <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
                 </div>
               </div>
             </div>
 
             <div className="hidden lg:flex items-center gap-10">
-              <div className="flex items-center gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
-                <a href="#intake" className="hover:text-electric-cyan transition-colors flex items-center gap-2">
+              <div className="flex items-center gap-8 text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400">
+                <a href="#filter" className="hover:text-electric-cyan transition-colors flex items-center gap-2">
                   <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                  THE GAUGE
+                  FILTER LEADS
                 </a>
                 <a href="#roi" className="hover:text-electric-cyan transition-colors flex items-center gap-2">
                   <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                  STOP THE DEBT
+                  ADMIN DEBT CALCULATOR
                 </a>
                 <a href="#pricing" className="hover:text-electric-cyan transition-colors flex items-center gap-2">
                   <span className="w-1 h-1 bg-slate-600 rounded-full"></span>
-                  SCOUT PRO
+                  PRICING
                 </a>
               </div>
               <div className="h-4 w-px bg-white/10"></div>
               <div className="flex items-center gap-4">
                 <a 
-                  href="https://wa.me/1234567890?text=Login%20to%20JobFilter" 
-                  className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors"
+                  href="/login" 
+                  className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 hover:text-white transition-colors"
                 >
                   Log In
                 </a>
                 <a 
-                  href="https://wa.me/1234567890?text=Connect%20Device" 
+                  href="#filter" 
                   onClick={() => trackEvent('nav_cta_click')}
-                  className="bg-electric-cyan text-deep-slate text-[10px] font-black px-4 py-2 rounded-sm uppercase tracking-widest hover:bg-white transition-all glow-cyan"
+                  className="bg-electric-cyan text-deep-slate text-[10px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest hover:bg-white transition-all glow-cyan"
                 >
-                  Connect WhatsApp
+                  Get Started
                 </a>
               </div>
             </div>
 
             {/* Status & Mobile Toggle */}
             <div className="flex items-center gap-6">
-              <div className="flex flex-col items-end">
+              <div className="flex flex-col items-end hidden sm:flex">
                 <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-electric-cyan rounded-full animate-pulse shadow-[0_0_8px_#22d3ee]"></span>
-                  <span className="text-[9px] font-black uppercase tracking-tighter text-electric-cyan">JF-SCANNER: READY</span>
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></span>
+                  <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">SYSTEM ONLINE</span>
                 </div>
-                <div className="text-[7px] font-medium text-slate-600 uppercase tracking-widest">v2.4.08</div>
               </div>
               
               {/* Simple Mobile Icon Placeholder */}
@@ -142,7 +141,7 @@ export default function App() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-display text-7xl md:text-9xl font-black tracking-tighter mb-8 leading-[0.8] uppercase italic"
+            className="font-display text-7xl md:text-9xl font-extrabold tracking-tighter mb-8 leading-[0.8] uppercase italic"
           >
             Control The Chaos. <br /> <span className="text-high-vis-orange">Run The Gauge.</span>
           </motion.h1>
@@ -153,7 +152,7 @@ export default function App() {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-3xl text-slate-400 max-w-3xl mx-auto mb-12 leading-tight font-medium"
           >
-            The Gauge gives you zero-friction intake control: postcode in, weak leads out, and only quote-ready jobs left. Run free with 3 full records each month, then keep momentum with Scout Pro.
+            JobFilter gives you zero-friction filter control: postcode in, weak leads out, and only quote-ready jobs left. Run free with 3 full records each month, then keep momentum with Scout Pro.
           </motion.p>
 
           <motion.div
@@ -163,11 +162,11 @@ export default function App() {
             className="flex flex-col items-center gap-6"
           >
             <a
-              href="#intake"
+              href="#filter"
               onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-2xl font-black py-6 px-12 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic"
+              className="inline-flex bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-2xl font-extrabold py-6 px-12 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic"
             >
-              Start The Intake
+              Start The Filter
             </a>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-widest italic">
               Zero-friction via postcode, WhatsApp, or voice. Free includes 3 full records/month. Scout Pro is the default for active quoting.
@@ -182,11 +181,11 @@ export default function App() {
         </div>
       </header>
 
-      {/* THE INTAKE */}
-      <section id="intake" className="py-32 px-6 bg-charcoal/30 border-y border-white/5">
+      {/* THE FILTER */}
+      <section id="filter" className="py-32 px-6 bg-charcoal/30 border-y border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-6xl font-black uppercase italic mb-4">THE <span className="text-electric-cyan">INTAKE</span></h2>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-4">THE <span className="text-electric-cyan">FILTER</span></h2>
             <p className="text-slate-400 font-bold uppercase tracking-widest">Postcode in. Local leads out. Filter first, then open full records.</p>
           </div>
 
@@ -194,7 +193,7 @@ export default function App() {
             <div className="grid md:grid-cols-[1.5fr_2fr_1fr] gap-4 mb-8 border-b border-white/5 pb-6">
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="tradeType" className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Trade Profile</label>
+                  <label htmlFor="tradeType" className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Trade Profile</label>
                   <select
                     id="tradeType"
                     value={tradeType}
@@ -210,7 +209,7 @@ export default function App() {
                 </div>
               </div>
               <div>
-                <label htmlFor="postcode" className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
+                <label htmlFor="postcode" className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
                 <input
                   id="postcode"
                   value={postcode}
@@ -223,7 +222,7 @@ export default function App() {
                 <button
                   onClick={startScan}
                   disabled={isScanning || postcode.trim().length < 4}
-                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-600 text-deep-slate font-black py-4 px-6 rounded-sm uppercase italic tracking-widest transition-all h-[60px]"
+                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-600 text-deep-slate font-extrabold py-4 px-6 rounded-sm uppercase italic tracking-widest transition-all h-[60px]"
                 >
                   {isScanning ? 'Scanning...' : 'See Local Jobs'}
                 </button>
@@ -238,14 +237,14 @@ export default function App() {
 
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 border-b border-white/5 pb-4">
               <div>
-                <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Upgrade Trigger</p>
+                <p className="text-xs font-extrabold text-slate-500 uppercase tracking-widest">Upgrade Trigger</p>
                 <p className="font-bold text-slate-300">You've used your 3 free full records. Upgrade to <span className="text-high-vis-orange">Scout Pro</span> to keep opening leads without limits.</p>
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-2">No workflow change — same intake, full access.</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-2">No workflow change — same filter, full access.</p>
               </div>
               <a
                 href="#pricing"
-                onClick={() => trackEvent('upgrade_cta_click', { source: 'intake' })}
-                className="inline-flex items-center justify-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-xs font-black py-3 px-5 rounded-sm uppercase tracking-widest"
+                onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
+                className="inline-flex items-center justify-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-xs font-extrabold py-3 px-5 rounded-sm uppercase tracking-widest"
               >
                 Continue with Scout Pro
               </a>
@@ -271,8 +270,8 @@ export default function App() {
                       <span className="text-xl">✔</span> Good local lead ready to open
                     </div>
                     <div className="bg-slate-800/80 border border-electric-cyan/30 p-4 rounded-sm">
-                      <p className="text-xs text-slate-400 font-black uppercase tracking-widest">Lead Quality Score</p>
-                      <p className="text-3xl font-display font-black text-electric-cyan mt-1">{leadQualityScore}/100</p>
+                      <p className="text-xs text-slate-400 font-extrabold uppercase tracking-widest">Lead Quality Score</p>
+                      <p className="text-3xl font-display font-extrabold text-electric-cyan mt-1">{leadQualityScore}/100</p>
                       <ul className="mt-3 space-y-1 text-xs text-slate-300 font-bold uppercase tracking-wide">
                         <li>• Distance fits your current service radius</li>
                         <li>• Scope aligns with {tradeType} profile</li>
@@ -280,17 +279,17 @@ export default function App() {
                       </ul>
                     </div>
                     <div className="mt-8 pt-6 border-t border-white/5 text-center">
-                      <p className="font-display text-2xl font-black text-electric-cyan uppercase italic mb-2">2 filtered, 1 worth opening.</p>
+                      <p className="font-display text-2xl font-extrabold text-electric-cyan uppercase italic mb-2">2 filtered, 1 worth opening.</p>
                       <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Free account: 2 of 3 full record views remaining.</p>
                       
                       <div className="my-8 p-6 bg-amber-500/10 border border-amber-500/30 rounded-sm">
-                        <p className="text-high-vis-orange font-black uppercase italic text-sm mb-2">Upgrade Trigger</p>
+                        <p className="text-high-vis-orange font-extrabold uppercase italic text-sm mb-2">Upgrade Trigger</p>
                         <p className="font-bold text-slate-300 mb-4">You've used your 3 free full records. Upgrade to Scout Pro to keep opening leads without limits.</p>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-6">No workflow change — same intake, full access.</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-6">No workflow change — same filter, full access.</p>
                         <a 
                           href="#pricing"
-                          onClick={() => trackEvent('upgrade_cta_click', { source: 'intake' })}
-                          className="inline-block bg-high-vis-orange hover:bg-amber-600 text-deep-slate font-black py-3 px-8 rounded-sm uppercase italic tracking-widest text-sm"
+                          onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
+                          className="inline-block bg-high-vis-orange hover:bg-amber-600 text-deep-slate font-extrabold py-3 px-8 rounded-sm uppercase italic tracking-widest text-sm"
                         >
                           Unlock Unlimited Access
                         </a>
@@ -302,7 +301,7 @@ export default function App() {
                     <button
                       onClick={startScan}
                       disabled={isScanning}
-                      className="bg-slate-800 hover:bg-slate-700 text-electric-cyan font-black py-4 px-8 rounded-sm border border-electric-cyan/30 uppercase italic tracking-widest transition-all glow-cyan"
+                      className="bg-slate-800 hover:bg-slate-700 text-electric-cyan font-extrabold py-4 px-8 rounded-sm border border-electric-cyan/30 uppercase italic tracking-widest transition-all glow-cyan"
                     >
                       {isScanning ? 'Scanning Leads...' : 'Run Intake Scan'}
                     </button>
@@ -318,7 +317,7 @@ export default function App() {
       <section id="roi" className="py-32 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="font-display text-4xl md:text-6xl font-black uppercase italic mb-4">The Diesel <span className="text-high-vis-orange">Burn</span> Calculator</h2>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-4">The Diesel <span className="text-high-vis-orange">Burn</span> Calculator</h2>
             <p className="text-slate-400 font-bold uppercase tracking-widest italic">This is what free quoting is actually costing your business.</p>
           </div>
 
@@ -327,8 +326,8 @@ export default function App() {
               <div className="space-y-10">
                 <div>
                   <div className="flex justify-between mb-4">
-                    <label className="text-xs font-black uppercase tracking-widest text-slate-400 italic">Unpaid quotes per week</label>
-                    <span className="text-high-vis-orange font-black">{quotesPerWeek}</span>
+                    <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 italic">Unpaid quotes per week</label>
+                    <span className="text-high-vis-orange font-extrabold">{quotesPerWeek}</span>
                   </div>
                   <input 
                     type="range" min="1" max="20" value={quotesPerWeek} 
@@ -338,8 +337,8 @@ export default function App() {
                 </div>
                 <div>
                   <div className="flex justify-between mb-4">
-                    <label className="text-xs font-black uppercase tracking-widest text-slate-400 italic">Miles driven for nothing</label>
-                    <span className="text-high-vis-orange font-black">{milesDriven}</span>
+                    <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 italic">Miles driven for nothing</label>
+                    <span className="text-high-vis-orange font-extrabold">{milesDriven}</span>
                   </div>
                   <input 
                     type="range" min="5" max="200" step="5" value={milesDriven} 
@@ -350,11 +349,11 @@ export default function App() {
               </div>
 
               <div className="bg-deep-slate p-8 rounded-sm border border-white/5 flex flex-col justify-center text-center">
-                <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">Annual Admin Debt</p>
-                <p className="text-5xl font-display font-black text-red-500 mb-8 italic">£{annualAdminDebt.toLocaleString()}</p>
+                <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Annual Admin Debt</p>
+                <p className="text-5xl font-display font-extrabold text-red-500 mb-8 italic">£{annualAdminDebt.toLocaleString()}</p>
                 
-                <p className="text-xs font-black uppercase tracking-widest text-slate-500 mb-2">JobFilter Savings</p>
-                <p className="text-6xl font-display font-black text-green-500 italic shadow-[0_0_20px_rgba(34,197,94,0.2)]">£{jobFilterSavings.toLocaleString()}</p>
+                <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">JobFilter Savings</p>
+                <p className="text-6xl font-display font-extrabold text-green-500 italic shadow-[0_0_20px_rgba(34,197,94,0.2)]">£{jobFilterSavings.toLocaleString()}</p>
               </div>
             </div>
           </div>
@@ -364,24 +363,24 @@ export default function App() {
       {/* Pricing */}
       <section id="pricing" className="py-32 px-6 bg-charcoal/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-black text-center mb-6 uppercase italic">Simple <span className="text-high-vis-orange">Pricing</span></h2>
+          <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-6 uppercase italic">Simple <span className="text-high-vis-orange">Pricing</span></h2>
           <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-16 italic text-sm">One job win pays for the sub. Keep your pipeline full.</p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Free */}
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Starter</p>
-              <p className="text-4xl font-display font-black mt-2">£0</p>
-              <p className="mt-4 text-[10px] font-black text-slate-500 uppercase italic tracking-widest leading-tight">Best for trying intake and opening up to 3 full records/month.</p>
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Starter</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£0</p>
+              <p className="mt-4 text-[10px] font-extrabold text-slate-500 uppercase italic tracking-widest leading-tight">Best for trying filter and opening up to 3 full records/month.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>• Tools access</li>
                 <li>• Lead scanning</li>
                 <li>• 3 full record views / month</li>
               </ul>
               <a 
-                href="#intake" 
+                href="#filter" 
                 onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })}
-                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-black py-4 rounded-sm uppercase italic tracking-widest transition-colors"
+                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
               >
                 Get Started
               </a>
@@ -389,9 +388,9 @@ export default function App() {
 
             {/* Basic */}
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Scout Basic</p>
-              <p className="text-4xl font-display font-black mt-2">£19</p>
-              <p className="mt-4 text-[10px] font-black text-slate-500 uppercase italic tracking-widest leading-tight">For occasional unlocks if your lead volume is low.</p>
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Basic</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£19</p>
+              <p className="mt-4 text-[10px] font-extrabold text-slate-500 uppercase italic tracking-widest leading-tight">For occasional unlocks if your lead volume is low.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>• 10 full record views / month</li>
                 <li>• Lead scanning</li>
@@ -399,7 +398,7 @@ export default function App() {
               <a 
                 href="https://wa.me/1234567890?text=I%20want%20Scout%20Basic" 
                 onClick={() => trackEvent('pricing_plan_click', { plan: 'basic' })}
-                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-black py-4 rounded-sm uppercase italic tracking-widest transition-colors"
+                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
               >
                 Select Basic
               </a>
@@ -407,10 +406,10 @@ export default function App() {
 
             {/* Pro - Popular */}
             <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
-              <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-black uppercase tracking-widest">Recommended</div>
-              <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Scout Pro</p>
-              <p className="text-4xl font-display font-black mt-2">£39</p>
-              <p className="mt-4 text-[10px] font-black text-high-vis-orange uppercase italic tracking-widest leading-tight">Default for active tradespeople who need full lead visibility and ongoing alerts.</p>
+              <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">Recommended</div>
+              <p className="text-high-vis-orange font-extrabold uppercase tracking-widest text-xs">Scout Pro</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£39</p>
+              <p className="mt-4 text-[10px] font-extrabold text-high-vis-orange uppercase italic tracking-widest leading-tight">Default for active tradespeople who need full lead visibility and ongoing alerts.</p>
               <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
                 <li>• Unlimited access</li>
                 <li>• WhatsApp job alerts</li>
@@ -423,7 +422,7 @@ export default function App() {
                   trackEvent('pricing_plan_click', { plan: 'pro' });
                   trackEvent('upgrade_cta_click', { source: 'pricing_pro' });
                 }}
-                className="mt-8 block text-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-[10px] font-black py-4 rounded-sm uppercase italic tracking-widest transition-all"
+                className="mt-8 block text-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all"
               >
                 Continue with Pro
               </button>
@@ -431,9 +430,9 @@ export default function App() {
 
             {/* Max */}
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-black uppercase tracking-widest text-xs">Scout Max</p>
-              <p className="text-4xl font-display font-black mt-2">£59</p>
-              <p className="mt-4 text-[10px] font-black text-slate-500 uppercase italic tracking-widest leading-tight">For teams that need Pro plus priority access.</p>
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Max</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£59</p>
+              <p className="mt-4 text-[10px] font-extrabold text-slate-500 uppercase italic tracking-widest leading-tight">For teams that need Pro plus priority access.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>• Everything in Pro</li>
                 <li>• Priority access to newest leads</li>
@@ -441,7 +440,7 @@ export default function App() {
               <a 
                 href="https://wa.me/1234567890?text=I%20want%20Scout%20Max" 
                 onClick={() => trackEvent('pricing_plan_click', { plan: 'max' })}
-                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-black py-4 rounded-sm uppercase italic tracking-widest transition-colors"
+                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
               >
                 Choose Max
               </a>
@@ -451,7 +450,7 @@ export default function App() {
           {/* Hammer */}
           <div className="mt-8 bg-charcoal border border-white/10 p-10 rounded-sm flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="max-w-2xl">
-              <h3 className="text-3xl font-display font-black uppercase mb-2">Hammer Tier</h3>
+              <h3 className="text-3xl font-display font-extrabold uppercase mb-2">Hammer Tier</h3>
               <p className="font-body font-bold text-slate-200 mb-2">The Concierge Outreach Engine (£99/mo).</p>
               <p className="text-sm font-body text-slate-400">Optional concierge outreach add-on for operators who want done-for-you physical outreach.</p>
             </div>
@@ -461,7 +460,7 @@ export default function App() {
                 trackEvent('pricing_plan_click', { plan: 'hammer' });
                 trackEvent('upgrade_cta_click', { source: 'pricing', plan: 'hammer' });
               }}
-              className="bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-black py-4 px-8 rounded-sm uppercase tracking-widest"
+              className="bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest"
             >
               Activate Concierge
             </a>
@@ -474,8 +473,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="text-center md:text-left">
             <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
-              <div className="w-8 h-8 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-black text-deep-slate italic">JF</div>
-              <span className="font-display text-xl font-black uppercase tracking-tighter italic">JobFilter</span>
+              <div className="w-8 h-8 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate italic">JF</div>
+              <span className="font-display text-xl font-extrabold uppercase tracking-tighter italic">JobFilter</span>
             </div>
             <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic">Built to protect your time, your fuel, and your profit.</p>
           </div>
