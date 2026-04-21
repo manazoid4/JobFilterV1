@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from './firebase';
 
 type AnalyticsEventName =
   | 'hero_cta_click'
@@ -28,6 +30,10 @@ export default function App() {
   const [showModal, setShowModal] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [waitlistPlan, setWaitlistPlan] = useState('');
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
 
   const trackEvent = (eventName: AnalyticsEventName, params: Record<string, unknown> = {}) => {
     const eventPayload = {
@@ -51,6 +57,29 @@ export default function App() {
   const postcodeStrength = postcode.replace(/\s/g, '').length;
   const tradeBoost = tradeType === 'electrical' || tradeType === 'plumbing' ? 6 : 3;
   const leadQualityScore = Math.max(42, Math.min(94, 55 + postcodeStrength * 4 + tradeBoost));
+
+  const openWaitlist = (plan: string) => {
+    setWaitlistPlan(plan);
+    setWaitlistEmail('');
+    setWaitlistSubmitted(false);
+    setShowModal('waitlist');
+  };
+
+  const submitWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail.trim()) return;
+    trackEvent('pricing_plan_click', { plan: waitlistPlan, source: 'waitlist_submit' });
+    try {
+      await addDoc(collection(db, 'waitlist'), {
+        email: waitlistEmail.trim().toLowerCase(),
+        plan: waitlistPlan,
+        createdAt: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error('[waitlist]', err);
+    }
+    setWaitlistSubmitted(true);
+  };
 
   const startScan = () => {
     setIsScanning(true);
@@ -126,12 +155,34 @@ export default function App() {
                 </div>
               </div>
               
-              {/* Simple Mobile Icon Placeholder */}
-              <button className="lg:hidden text-slate-400">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+              <button
+                className="lg:hidden text-slate-400 hover:text-white transition-colors"
+                onClick={() => setMobileMenuOpen(o => !o)}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen
+                  ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                  : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                }
               </button>
             </div>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden mt-2 bg-deep-slate/95 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-4 flex flex-col gap-4">
+              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Filter Leads</a>
+              <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Admin Debt Calculator</a>
+              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Pricing</a>
+              <a
+                href="#filter"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 text-center bg-electric-cyan text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest"
+              >
+                Get Started
+              </a>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -152,7 +203,7 @@ export default function App() {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-3xl text-slate-400 max-w-3xl mx-auto mb-12 leading-tight font-medium"
           >
-            JobFilter gives you zero-friction filter control: postcode in, weak leads out, and only quote-ready jobs left. Run free with 3 full records each month, then keep momentum with Scout Pro.
+Stop quoting ghosts. Enter your postcode, filter the noise, and only respond to jobs worth your time. Free to start — 3 full records a month, no card needed.
           </motion.p>
 
           <motion.div
@@ -169,7 +220,7 @@ export default function App() {
               Start The Filter
             </a>
             <p className="text-sm font-bold text-slate-500 uppercase tracking-widest italic">
-              Zero-friction via postcode, WhatsApp, or voice. Free includes 3 full records/month. Scout Pro is the default for active quoting.
+No account. No card. Just postcode in, bad leads out.
             </p>
           </motion.div>
         </div>
@@ -395,13 +446,12 @@ export default function App() {
                 <li>• 10 full record views / month</li>
                 <li>• Lead scanning</li>
               </ul>
-              <a 
-                href="https://wa.me/1234567890?text=I%20want%20Scout%20Basic" 
-                onClick={() => trackEvent('pricing_plan_click', { plan: 'basic' })}
-                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
+              <button
+                onClick={() => openWaitlist('Scout Basic')}
+                className="mt-8 block w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
               >
-                Select Basic
-              </a>
+                Join Early Access
+              </button>
             </div>
 
             {/* Pro - Popular */}
@@ -417,14 +467,11 @@ export default function App() {
                 <li>• Payment Chaser</li>
                 <li>• Review Harvester</li>
               </ul>
-              <button 
-                onClick={() => {
-                  trackEvent('pricing_plan_click', { plan: 'pro' });
-                  trackEvent('upgrade_cta_click', { source: 'pricing_pro' });
-                }}
-                className="mt-8 block text-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all"
+              <button
+                onClick={() => openWaitlist('Scout Pro')}
+                className="mt-8 block w-full text-center bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all"
               >
-                Continue with Pro
+                Join Early Access
               </button>
             </div>
 
@@ -437,13 +484,12 @@ export default function App() {
                 <li>• Everything in Pro</li>
                 <li>• Priority access to newest leads</li>
               </ul>
-              <a 
-                href="https://wa.me/1234567890?text=I%20want%20Scout%20Max" 
-                onClick={() => trackEvent('pricing_plan_click', { plan: 'max' })}
-                className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
+              <button
+                onClick={() => openWaitlist('Scout Max')}
+                className="mt-8 block w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors"
               >
-                Choose Max
-              </a>
+                Join Early Access
+              </button>
             </div>
           </div>
 
@@ -454,19 +500,82 @@ export default function App() {
               <p className="font-body font-bold text-slate-200 mb-2">The Concierge Outreach Engine (£99/mo).</p>
               <p className="text-sm font-body text-slate-400">Optional concierge outreach add-on for operators who want done-for-you physical outreach.</p>
             </div>
-            <a
-              href="https://wa.me/1234567890?text=I%20want%20to%20upgrade%20to%20Hammer"
-              onClick={() => {
-                trackEvent('pricing_plan_click', { plan: 'hammer' });
-                trackEvent('upgrade_cta_click', { source: 'pricing', plan: 'hammer' });
-              }}
+            <button
+              onClick={() => openWaitlist('Hammer')}
               className="bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest"
             >
-              Activate Concierge
-            </a>
+              Join Early Access
+            </button>
           </div>
         </div>
       </section>
+
+      {/* Waitlist Modal */}
+      <AnimatePresence>
+        {showModal === 'waitlist' && (
+          <motion.div
+            key="waitlist-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowModal(null)}
+          >
+            <motion.div
+              key="waitlist-panel"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-deep-slate border border-white/10 rounded-sm p-8 max-w-md w-full shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {waitlistSubmitted ? (
+                <div className="text-center py-4">
+                  <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center mx-auto mb-4 font-display text-2xl font-extrabold text-deep-slate italic">✓</div>
+                  <h3 className="font-display text-2xl font-extrabold uppercase italic mb-2">You're On The List</h3>
+                  <p className="text-slate-400 font-bold text-sm uppercase tracking-widest">We'll hit you up when {waitlistPlan} goes live.</p>
+                  <button
+                    onClick={() => setShowModal(null)}
+                    className="mt-6 text-[10px] font-extrabold uppercase tracking-widest text-slate-500 hover:text-white transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-high-vis-orange mb-1">Early Access — {waitlistPlan}</p>
+                    <h3 className="font-display text-2xl font-extrabold uppercase italic leading-tight">Be First In When We Launch</h3>
+                    <p className="text-slate-400 text-sm font-bold mt-2">Drop your email. We'll notify you the moment this plan goes live — no spam, no nonsense.</p>
+                  </div>
+                  <form onSubmit={submitWaitlist} className="space-y-4">
+                    <input
+                      type="email"
+                      required
+                      value={waitlistEmail}
+                      onChange={(e) => setWaitlistEmail(e.target.value)}
+                      placeholder="your@email.com"
+                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan"
+                    />
+                    <button
+                      type="submit"
+                      className="w-full bg-high-vis-orange hover:bg-amber-600 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all"
+                    >
+                      Secure My Spot
+                    </button>
+                  </form>
+                  <button
+                    onClick={() => setShowModal(null)}
+                    className="mt-4 w-full text-center text-[10px] font-extrabold uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors"
+                  >
+                    Not Now
+                  </button>
+                </>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Footer */}
       <footer className="py-20 px-6 border-t border-white/5 bg-slate-900/50">

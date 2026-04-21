@@ -111,6 +111,14 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Waitlist — public write, admin read only
+    match /waitlist/{docId} {
+      allow create: if request.resource.data.email is string &&
+                       request.resource.data.email.size() > 0 &&
+                       request.resource.data.email.size() < 254;
+      allow read: if isAdmin();
+    }
+
     // Default deny
     match /{document=**} {
       allow read, write: if false;
