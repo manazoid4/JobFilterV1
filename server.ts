@@ -9,29 +9,31 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
 });
 
 import { Resend } from 'resend';
+import { initializeApp, cert, getApps } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
 
-// Initialize Resend (Requires RESEND_API_KEY in secrets)
+// Initialize Resend (Requires RESEND_API_KEY in env)
 const resend = new Resend(process.env.RESEND_API_KEY || 're_mock_key');
 
-import { Pool } from 'pg';
+const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
+const ADMIN_EMAIL = 'manazoid4@gmail.com';
 
-// Initialize PostgreSQL Pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
-
-// Initialize ideas table
-pool.query(`
-  CREATE TABLE IF NOT EXISTS ideas (
-    id SERIAL PRIMARY KEY,
-    text TEXT NOT NULL,
-    phase INTEGER DEFAULT 3,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
-`).catch(err => console.warn("Postgres not connected. Set DATABASE_URL.", err.message));
-
-// Fallback memory array if DB is not connected
-let memoryIdeas: any[] = [];
+// Initialize Firebase Admin — uses GOOGLE_APPLICATION_CREDENTIALS env var in prod,
+// falls back to no-op Firestore stub in dev when credentials aren't present
+let adminDb: FirebaseFirestore.Firestore | null = null;
+try {
+  if (!getApps().length) {
+    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+      const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+      initializeApp({ credential: cert(serviceAccount) });
+    } else {
+      initializeApp({ projectId: 'jobfilter-uk' });
+    }
+  }
+  adminDb = getFirestore();
+} catch (err: any) {
+  console.warn('[Firebase Admin] Not initialised:', err.message);
+}
 
 async function startServer() {
   const app = express();
@@ -39,27 +41,14 @@ async function startServer() {
   const PORT = 3000;
 
   // ==========================================
-  // BLUEPRINT CRUD (No-Login)
+  // BLUEPRINT CRUD
   // ==========================================
   app.post("/api/blueprint", async (req, res) => {
     const { text, phase = 3 } = req.body;
     try {
-      if (process.env.DATABASE_URL) {
-        const result = await pool.query(
-          'INSERT INTO ideas (text, phase) VALUES ($1, $2) RETURNING *',
-          [text, phase]
-        );
-        res.json(result.rows[0]);
-      } else {
-        const newIdea = {
-          id: Date.now(),
-          text,
-          phase,
-          created_at: new Date().toISOString()
-        };
-        memoryIdeas.push(newIdea);
-        res.json(newIdea);
-      }
+      if (!adminDb) throw new Error('DB not available');
+      const ref = await adminDb.collection('blueprint').add({ text, phase, createdAt: new Date() });
+      res.json({ id: ref.id, text, phase });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
@@ -67,28 +56,19 @@ async function startServer() {
 
   app.get("/api/blueprint", async (req, res) => {
     try {
-      if (process.env.DATABASE_URL) {
-        const result = await pool.query('SELECT * FROM ideas ORDER BY created_at DESC');
-        res.json(result.rows);
-      } else {
-        const sortedIdeas = [...memoryIdeas].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-        res.json(sortedIdeas);
-      }
+      if (!adminDb) throw new Error('DB not available');
+      const snap = await adminDb.collection('blueprint').orderBy('createdAt', 'desc').get();
+      res.json(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
   });
 
   app.delete("/api/blueprint/:id", async (req, res) => {
-    const { id } = req.params;
     try {
-      if (process.env.DATABASE_URL) {
-        await pool.query('DELETE FROM ideas WHERE id = $1', [id]);
-        res.json({ success: true });
-      } else {
-        memoryIdeas = memoryIdeas.filter(idea => idea.id.toString() !== id.toString());
-        res.json({ success: true });
-      }
+      if (!adminDb) throw new Error('DB not available');
+      await adminDb.collection('blueprint').doc(req.params.id).delete();
+      res.json({ success: true });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }
@@ -250,6 +230,70 @@ async function startServer() {
   });
 
   // ==========================================
+  // WAITLIST
+  // ==========================================
+  app.post("/api/waitlist", async (req, res) => {
+    const { email, plan } = req.body;
+    if (!email || !plan) return res.status(400).json({ error: 'Missing email or plan' });
+
+    // Save to Firestore
+    try {
+      if (adminDb) {
+        await adminDb.collection('waitlist').add({
+          email: email.trim().toLowerCase(),
+          plan,
+          createdAt: new Date(),
+        });
+      }
+    } catch (err: any) {
+      console.error('[Waitlist] Firestore write failed:', err.message);
+    }
+
+    res.json({ status: 'ok' });
+
+    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') return;
+
+    (async () => {
+      try {
+        // Confirmation to the user
+        await resend.emails.send({
+          from: FROM_EMAIL,
+          to: email,
+          subject: "You're on the JobFilter early access list",
+          html: `
+            <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f172a;color:#f1f5f9;border-radius:4px">
+              <div style="font-size:24px;font-weight:900;text-transform:uppercase;font-style:italic;color:#f97316;margin-bottom:8px">JobFilter</div>
+              <h1 style="font-size:20px;font-weight:900;text-transform:uppercase;margin:0 0 16px">You're on the list.</h1>
+              <p style="color:#94a3b8;font-size:14px;line-height:1.6">
+                You've secured early access for <strong style="color:#f1f5f9">${plan}</strong>.
+                We'll hit you up the moment we go live — no spam, no fluff.
+              </p>
+              <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin-top:16px">
+                Built in Birmingham. Built for the trade. Built to filter.
+              </p>
+              <div style="margin-top:32px;padding-top:16px;border-top:1px solid #1e293b;font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:0.1em">
+                JobFilter · jobfilter.uk
+              </div>
+            </div>
+          `
+        });
+
+        // Admin notification
+        await resend.emails.send({
+          from: FROM_EMAIL,
+          to: ADMIN_EMAIL,
+          subject: `New waitlist signup — ${plan}`,
+          text: `Email: ${email}\nPlan: ${plan}\nTime: ${new Date().toISOString()}`,
+        });
+
+        console.log(`[Waitlist] Emails sent for ${email} (${plan})`);
+      } catch (err: any) {
+        console.error('[Waitlist] Email failed:', err.message);
+      }
+    })();
+  });
+
+  // ==========================================
   // ONBOARDING EMAIL
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {
@@ -271,11 +315,9 @@ async function startServer() {
         
         // Since the user verified their domain, we can try sending from their domain
         // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
-        const fromEmail = 'JobFilter <onboarding@resend.dev>';
-        
         await resend.emails.send({
-          from: fromEmail,
-          to: 'manazoid4@gmail.com',
+          from: FROM_EMAIL,
+          to: ADMIN_EMAIL,
           subject: `New Tradie Onboarding: ${name} (${trade})`,
           text: `
             New Tradie Activation:

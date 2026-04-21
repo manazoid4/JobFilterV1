@@ -119,6 +119,11 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // Blueprint ideas — admin only
+    match /blueprint/{docId} {
+      allow read, write: if isAdmin();
+    }
+
     // Default deny
     match /{document=**} {
       allow read, write: if false;

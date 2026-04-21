@@ -69,15 +69,16 @@ export default function App() {
     e.preventDefault();
     if (!waitlistEmail.trim()) return;
     trackEvent('pricing_plan_click', { plan: waitlistPlan, source: 'waitlist_submit' });
-    try {
-      await addDoc(collection(db, 'waitlist'), {
-        email: waitlistEmail.trim().toLowerCase(),
-        plan: waitlistPlan,
-        createdAt: serverTimestamp(),
-      });
-    } catch (err) {
-      console.error('[waitlist]', err);
-    }
+    const email = waitlistEmail.trim().toLowerCase();
+    // Write to Firestore + trigger confirmation email in parallel
+    await Promise.allSettled([
+      addDoc(collection(db, 'waitlist'), { email, plan: waitlistPlan, createdAt: serverTimestamp() }),
+      fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, plan: waitlistPlan }),
+      }),
+    ]);
     setWaitlistSubmitted(true);
   };
 
