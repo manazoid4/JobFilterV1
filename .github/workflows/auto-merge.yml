@@ -1,0 +1,24 @@
+name: Auto-merge and deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  auto_merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'manazoid4' || github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - name: Auto-merge PR
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --repo ${{ github.repository }} \
+            --squash \
+            --auto || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
