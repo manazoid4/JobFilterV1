@@ -275,25 +275,56 @@ export default function App() {
     setWaitlistSubmitted(true);
   };
 
-  const startScan = () => {
+  const startScan = async () => {
     setIsScanning(true); setScanComplete(false);
-    const region = resolveRegionFromPostcode(postcode);
-    const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
-    const tradeJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
-    const outwardPrefix = postcode.toUpperCase().replace(/\s+/g, '').match(/^[A-Z]{1,2}\d[A-Z\d]?/)?.[0] || '';
-    const rankedJobs = [...tradeJobs]
-      .map((job) => {
-        const locationMatch = outwardPrefix && job.location.startsWith(outwardPrefix.substring(0, 2)) ? 20 : 7;
-        const valueWeight = Math.min(35, Math.round(job.estimatedValue / 120));
-        return { ...job, sourceConfidence: Math.min(99, job.sourceConfidence + getUrgencyWeight(job.urgency) / 5), rankScore: valueWeight + getUrgencyWeight(job.urgency) + locationMatch + Math.round(job.sourceConfidence / 6) };
-      })
-      .sort((a, b) => b.rankScore - a.rankScore)
-      .map(({ rankScore: _rankScore, ...job }) => job);
+    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, trade: tradeType });
+
+    const urgencyMap: Record<string, JobUrgency> = { high: 'today', medium: 'this_week', low: 'planned' };
+    const startTime = Date.now();
+    let resolvedRegion = resolveRegionFromPostcode(postcode);
+    let rankedJobs: LeadJob[] = [];
+
+    try {
+      const res = await fetch(`/api/scan?postcode=${encodeURIComponent(postcode)}&trade=${tradeType}&tier=free`);
+      if (!res.ok) throw new Error('scan api error');
+      const data = await res.json();
+      rankedJobs = (data.leads ?? []).map((l: Record<string, unknown>) => ({
+        id: String(l.id),
+        title: String(l.title),
+        trade: String(l.trade),
+        location: String(l.location),
+        postcodeOutward: String(l.postcodeOutward ?? l.location),
+        estimatedValue: parseFloat(String(l.estimatedValue)) || 0,
+        urgency: urgencyMap[String(l.urgency)] ?? 'planned',
+        sourceConfidence: Number(l.sourceConfidence) || 70,
+        status: 'open' as const,
+      }));
+      resolvedRegion = String(data.region ?? resolvedRegion);
+    } catch {
+      // fallback to local mock data
+      const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
+      const tradeJobs = UK_JOB_DATA[resolvedRegion]?.[selectedTrade] || UK_JOB_DATA[resolvedRegion]?.general || [];
+      const outwardPrefix = postcode.toUpperCase().replace(/\s+/g, '').match(/^[A-Z]{1,2}\d[A-Z\d]?/)?.[0] || '';
+      rankedJobs = [...tradeJobs]
+        .map((job) => {
+          const locationMatch = outwardPrefix && job.location.startsWith(outwardPrefix.substring(0, 2)) ? 20 : 7;
+          const valueWeight = Math.min(35, Math.round(job.estimatedValue / 120));
+          return { ...job, sourceConfidence: Math.min(99, job.sourceConfidence + getUrgencyWeight(job.urgency) / 5), rankScore: valueWeight + getUrgencyWeight(job.urgency) + locationMatch + Math.round(job.sourceConfidence / 6) };
+        })
+        .sort((a, b) => b.rankScore - a.rankScore)
+        .map(({ rankScore: _rankScore, ...job }) => job);
+    }
+
     setLeadResults(rankedJobs);
-    setScanRegion(region);
+    setScanRegion(resolvedRegion);
     setFreeViewsUsed((v) => Math.min(3, v + 1));
-    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
-    setTimeout(() => { setIsScanning(false); setScanComplete(true); trackEvent('filter_scan_complete', { jobs_returned: rankedJobs.length }); }, 900);
+
+    const elapsed = Date.now() - startTime;
+    setTimeout(() => {
+      setIsScanning(false);
+      setScanComplete(true);
+      trackEvent('filter_scan_complete', { jobs_returned: rankedJobs.length });
+    }, Math.max(0, 900 - elapsed));
   };
 
   const tools = [
