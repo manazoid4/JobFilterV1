@@ -246,6 +246,7 @@
             <div class="flex items-center gap-4 md:gap-8">
                 <button @click="navigate('/filter')" class="hidden lg:block font-display font-extrabold text-xl uppercase hover:text-dewalt">Filter Leads</button>
                 <button @click="navigate('/trade-tools')" class="hidden md:block font-display font-extrabold text-xl uppercase hover:text-dewalt">Tools</button>
+                <button @click="navigate('/features')" class="hidden md:block font-display font-extrabold text-xl uppercase hover:text-dewalt">Features</button>
                 
                 <template x-if="!user">
                     <div class="flex items-center gap-4 md:gap-8">
@@ -737,237 +738,314 @@
     <!-- TRADE TOOLS ROUTE -->
     <template x-if="route === '/trade-tools'">
         <div class="bg-slate-50 min-h-screen">
-            <header class="py-24 border-b-4 border-ink bg-white text-center">
-                <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-tighter leading-none mb-8">
-                    TRADE TOOLS
+            <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
+                <h1 class="text-7xl md:text-9xl font-display font-extrabold uppercase tracking-tighter leading-none mb-4 text-ink">
+                    FREE TRADE TOOLS
                 </h1>
-                <p class="text-3xl font-body font-bold text-slate-600 max-w-3xl mx-auto">
-                    Trade-specialist modules built for your specific trade.
+                <p class="text-2xl font-body font-bold text-ink max-w-3xl mx-auto uppercase">
+                    10 tools. Zero backend. Built for tradesmen who want to make more money.
                 </p>
             </header>
 
             <div class="max-w-7xl mx-auto py-16 px-4">
-                <!-- Trade Selector -->
-                <div class="mb-16">
-                    <label class="block font-display font-extrabold text-3xl uppercase mb-6 text-center">SELECT YOUR TRADE</label>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                        <template x-for="t in [
-                            {id: 'electrician', name: 'Electrician', icon: '⚡'},
-                            {id: 'gas', name: 'Gas Engineer', icon: '🔥'},
-                            {id: 'roofer', name: 'Roofer', icon: '🏠'},
-                            {id: 'hvac', name: 'HVAC', icon: '❄️'},
-                            {id: 'contractor', name: 'Contractor', icon: '🏗️'},
-                            {id: 'other', name: 'Other', icon: '🛠️'}
-                        ]" :key="t.id">
-                            <button 
-                                @click="selectedTradeTool = t.id"
-                                :class="selectedTradeTool === t.id ? 'bg-dewalt brutal-shadow' : 'bg-white hover:bg-slate-50'"
-                                class="brutal-border p-6 flex flex-col items-center justify-center gap-3 transition-all"
-                            >
-                                <span class="text-4xl" x-text="t.icon"></span>
-                                <span class="font-display font-extrabold uppercase text-sm text-center" x-text="t.name"></span>
+                <!-- Tool Grid -->
+                                <div x-data="{
+                    activeTool: null,
+                    qtLabour: 6, qtRate: 35, qtMaterials: 120, qtMarkup: 20,
+                    get qtLabourCost() { return this.qtLabour*this.qtRate; },
+                    get qtMatCost() { return this.qtMaterials*(1+this.qtMarkup/100); },
+                    get qtTotal() { return this.qtLabourCost + this.qtMatCost; },
+                    drTarget: 40000, drDays: 220, drOverheads: 5000,
+                    get drRate() { return Math.ceil((parseInt(this.drTarget)+parseInt(this.drOverheads))/parseInt(this.drDays)); },
+                    lvBudget: 500, lvScope: 'medium', lvDist: 10, lvPay: 'card',
+                    get lvScore() {
+                        let s=50;
+                        if(this.lvBudget>=2000) s+=25; else if(this.lvBudget>=500) s+=15; else if(this.lvBudget>=200) s+=5;
+                        if(this.lvScope==='large') s+=15; else if(this.lvScope==='medium') s+=8;
+                        if(this.lvDist<=5) s+=10; else if(this.lvDist<=15) s+=5; else s-=10;
+                        if(this.lvPay==='card'||this.lvPay==='bank') s+=5;
+                        return Math.min(99,Math.max(20,s));
+                    },
+                    get lvLabel() { return this.lvScore>=75?'HIGH VALUE — QUOTE FAST':this.lvScore>=55?'WORTH QUOTING':'LOW VALUE — SKIP IT'; },
+                    mmCost: 200, mmMarkup: 25,
+                    get mmCharge() { return this.mmCost*(1+this.mmMarkup/100); },
+                    teScope: 'medium', teTrade: 'general', teAccess: 'easy',
+                    get teHours() {
+                        const b={small:2,medium:6,large:16,major:40};
+                        const tm={general:1,electrical:1.2,plumbing:1.1,heating:1.3,building:0.9};
+                        const am={easy:1,moderate:1.2,difficult:1.5};
+                        return Math.round((b[this.teScope]||6)*(tm[this.teTrade]||1)*(am[this.teAccess]||1));
+                    },
+                    fcMiles: 20, fcMpg: 35, fcPrice: 148, fcTrips: 1,
+                    get fcPerTrip() { return ((this.fcMiles/this.fcMpg)*4.546*(this.fcPrice/100)); },
+                    get fcTotal() { return this.fcPerTrip*this.fcTrips; },
+                    invClient:'', invJob:'', invLabour:0, invMaterials:0, invVat:false, invDone:false,
+                    get invSubtotal() { return parseFloat(this.invLabour||0)+parseFloat(this.invMaterials||0); },
+                    get invVatAmt() { return this.invVat ? this.invSubtotal*0.2 : 0; },
+                    get invTotal() { return this.invSubtotal+this.invVatAmt; },
+                    pmRevenue:500, pmCosts:300,
+                    get pmMargin() { return this.pmRevenue>0?(((this.pmRevenue-this.pmCosts)/this.pmRevenue)*100).toFixed(1):'0'; },
+                    get pmLabel() { return parseFloat(this.pmMargin)>=40?'HEALTHY':parseFloat(this.pmMargin)>=20?'TIGHT':'TOO LOW — WALK AWAY'; },
+                    cfIn:1200, cfOut:800,
+                    get cfNet() { return parseInt(this.cfIn)-parseInt(this.cfOut); },
+                    vtTurnover:60000,
+                    tools:[
+                        {id:'quote',icon:'📋',label:'QUOTE BUILDER',desc:'Build a quote in 30 seconds'},
+                        {id:'dayrate',icon:'💷',label:'DAY RATE CALC',desc:'Your minimum day rate to hit target'},
+                        {id:'leadvalue',icon:'🎯',label:'LEAD VALUE CHECKER',desc:'Is this job worth chasing?'},
+                        {id:'markup',icon:'📦',label:'MATERIAL MARKUP',desc:'Never undersell materials again'},
+                        {id:'timeestimate',icon:'⏱',label:'TIME ESTIMATOR',desc:'How long will it actually take?'},
+                        {id:'fuelcost',icon:'⛽',label:'FUEL COST CALC',desc:'True cost of every site visit'},
+                        {id:'invoice',icon:'🧾',label:'INVOICE GENERATOR',desc:'Instant printable invoice'},
+                        {id:'profit',icon:'📈',label:'PROFIT MARGIN',desc:'Is this job actually profitable?'},
+                        {id:'cashflow',icon:'💰',label:'CASH FLOW FORECAST',desc:'Predict your money 12 months out'},
+                        {id:'vatcheck',icon:'🔍',label:'VAT CHECKER',desc:'Are you close to the £90k limit?'}
+                    ]
+                }">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
+                        <template x-for="t in tools" :key="t.id">
+                            <button @click="activeTool = (activeTool === t.id ? null : t.id)"
+                                :class="activeTool === t.id ? 'bg-dewalt brutal-shadow-lg' : 'bg-white hover:bg-slate-100'"
+                                class="brutal-border p-5 flex flex-col items-start gap-2 transition-all text-left w-full">
+                                <span class="text-3xl" x-text="t.icon"></span>
+                                <span class="font-display font-extrabold uppercase text-sm leading-tight" x-text="t.label"></span>
+                                <span class="text-xs font-body font-bold text-slate-500 leading-tight" x-text="t.desc"></span>
                             </button>
                         </template>
                     </div>
-                </div>
 
-                <!-- Tool Display -->
-                <div class="min-h-[400px]">
-                    <!-- Placeholder -->
-                    <template x-if="!selectedTradeTool">
-                        <div class="bg-white brutal-border brutal-shadow p-20 text-center">
-                            <div class="text-8xl mb-8 opacity-20">🛠️</div>
-                            <h2 class="text-4xl font-display font-extrabold uppercase text-slate-300">SELECT A TRADE TO LOAD TOOLS</h2>
-                        </div>
-                    </template>
-
-                    <!-- Electrician: Certificate Automator -->
-                    <template x-if="selectedTradeTool === 'electrician'">
-                        <div class="bg-white brutal-border brutal-shadow p-10">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
-                                <div>
-                                    <span class="bg-blue-600 text-white px-3 py-1 font-display font-extrabold text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
-                                    <h2 class="text-5xl font-display font-extrabold uppercase">CERTIFICATE AUTOMATOR</h2>
+                    <template x-if="activeTool === 'quote'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">📋</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">QUOTE QUICK BUILDER</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Labour Hours</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="qtLabour + ' hrs'"></span></div><input type="range" min="1" max="40" x-model="qtLabour" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Hourly Rate</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + qtRate + '/hr'"></span></div><input type="range" min="15" max="120" x-model="qtRate" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Materials Cost</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + qtMaterials"></span></div><input type="range" min="0" max="5000" step="50" x-model="qtMaterials" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Materials Markup</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="qtMarkup + '%'"></span></div><input type="range" min="0" max="60" x-model="qtMarkup" class="w-full"></div>
                                 </div>
-                                <div class="text-4xl">⚡</div>
-                            </div>
-                            <div class="grid md:grid-cols-2 gap-12">
-                                <div>
-                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">Convert site notes, rough sketches, or photos of old boards into professional EICR or Minor Works digital forms instantly.</p>
-                                    <div class="border-4 border-dashed border-slate-300 p-12 text-center bg-slate-50 cursor-pointer hover:bg-slate-100 transition-colors mb-6">
-                                        <div class="text-5xl mb-4">📸</div>
-                                        <p class="font-display font-extrabold uppercase text-xl">UPLOAD SITE PHOTOS / NOTES</p>
-                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">The Filter Analyst will extract circuit data & observations</p>
+                                <div class="bg-ink text-white p-8 flex flex-col justify-between">
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between border-b border-white/10 pb-3"><span class="font-body font-bold uppercase text-slate-400">Labour</span><span class="font-display font-extrabold text-2xl" x-text="'£' + qtLabourCost.toFixed(0)"></span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-3"><span class="font-body font-bold uppercase text-slate-400">Materials (inc. markup)</span><span class="font-display font-extrabold text-2xl" x-text="'£' + qtMatCost.toFixed(0)"></span></div>
+                                        <div class="flex justify-between pt-2"><span class="font-display font-extrabold uppercase text-2xl text-dewalt">TOTAL</span><span class="font-display font-extrabold text-4xl text-dewalt" x-text="'£' + qtTotal.toFixed(0)"></span></div>
+                                        <div class="flex justify-between border-t border-white/10 pt-3"><span class="font-body text-sm text-slate-400">Inc. VAT (20%)</span><span class="font-display font-extrabold text-xl text-slate-400" x-text="'£' + (qtTotal*1.2).toFixed(0)"></span></div>
                                     </div>
-                                    <button class="w-full bg-ink text-white font-display font-extrabold uppercase py-4 text-2xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">GENERATE DRAFT CERT</button>
-                                </div>
-                                <div class="bg-slate-100 brutal-border p-8">
-                                    <h3 class="font-display font-extrabold uppercase text-xl mb-4">SYSTEM OUTPUT PREVIEW</h3>
-                                    <div class="space-y-4 opacity-40">
-                                        <div class="h-4 bg-slate-300 w-3/4"></div>
-                                        <div class="h-4 bg-slate-300 w-full"></div>
-                                        <div class="h-4 bg-slate-300 w-5/6"></div>
-                                        <div class="grid grid-cols-3 gap-2">
-                                            <div class="h-8 bg-slate-300"></div>
-                                            <div class="h-8 bg-slate-300"></div>
-                                            <div class="h-8 bg-slate-300"></div>
-                                        </div>
-                                    </div>
+                                    <div class="mt-6 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Better leads = bigger quotes. <button @click="navigate('/filter')" class="underline">Find higher-value jobs →</button></p></div>
                                 </div>
                             </div>
                         </div>
                     </template>
 
-                    <!-- Gas Engineer: CP12 Manager -->
-                    <template x-if="selectedTradeTool === 'gas'">
-                        <div class="bg-white brutal-border brutal-shadow p-10">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
-                                <div>
-                                    <span class="bg-orange-600 text-white px-3 py-1 font-display font-extrabold text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
-                                    <h2 class="text-5xl font-display font-extrabold uppercase">CP12 MANAGER</h2>
+                    <template x-if="activeTool === 'dayrate'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">💷</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">DAY RATE CALCULATOR</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Annual Income Target</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(drTarget).toLocaleString()"></span></div><input type="range" min="20000" max="150000" step="1000" x-model="drTarget" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Working Days / Year</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="drDays + ' days'"></span></div><input type="range" min="100" max="260" x-model="drDays" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Annual Overheads</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(drOverheads).toLocaleString()"></span></div><input type="range" min="0" max="30000" step="500" x-model="drOverheads" class="w-full"></div>
                                 </div>
-                                <div class="text-4xl">🔥</div>
+                                <div class="bg-ink text-white p-8 text-center flex flex-col justify-center">
+                                    <p class="font-display font-extrabold uppercase text-slate-400 text-xl mb-2">YOUR MINIMUM DAY RATE</p>
+                                    <p class="font-display font-extrabold text-9xl text-dewalt leading-none" x-text="'£' + drRate"></p>
+                                    <p class="font-display font-extrabold text-2xl text-white mt-4">= <span class="text-dewalt" x-text="'£' + Math.ceil(drRate/8) + '/hr'"></span> (8hr day)</p>
+                                    <div class="mt-6 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Charging less? You're subsidising clients. <button @click="navigate('/filter')" class="underline">Find better-paying jobs →</button></p></div>
+                                </div>
                             </div>
-                            <div class="grid md:grid-cols-2 gap-12">
+                        </div>
+                    </template>
+
+                    <template x-if="activeTool === 'leadvalue'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">🎯</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">LEAD VALUE CHECKER</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
                                 <div class="space-y-6">
-                                    <div class="bg-orange-50 brutal-border p-6">
-                                        <h3 class="font-display font-extrabold uppercase text-xl mb-2">AUTO-REMINDERS</h3>
-                                        <p class="font-body font-bold text-slate-600">System automatically pings landlords 30 days before expiry via WhatsApp.</p>
-                                    </div>
-                                    <div class="bg-white brutal-border p-6">
-                                        <h3 class="font-display font-extrabold uppercase text-xl mb-2">PRE-FILLED CERTS</h3>
-                                        <p class="font-body font-bold text-slate-600">Analyst pings previous appliance data so you only update the new readings.</p>
-                                    </div>
-                                    <button class="w-full bg-ink text-white font-display font-extrabold uppercase py-4 text-2xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">VIEW EXPIRING CERTS</button>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Client Budget (£)</label><input type="number" x-model="lvBudget" placeholder="e.g. 800" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"></div>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Job Scope</label><select x-model="lvScope" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"><option value="small">Small — half day</option><option value="medium">Medium — 1 to 3 days</option><option value="large">Large — 1 week+</option></select></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Distance</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="lvDist + ' miles'"></span></div><input type="range" min="1" max="50" x-model="lvDist" class="w-full"></div>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Payment Method</label><select x-model="lvPay" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"><option value="card">Card / Bank Transfer</option><option value="cash">Cash</option><option value="unknown">Not stated</option></select></div>
                                 </div>
-                                <div class="bg-slate-100 brutal-border p-8 flex items-center justify-center">
-                                    <div class="text-center">
-                                        <div class="text-6xl mb-4">📅</div>
-                                        <p class="font-display font-extrabold uppercase text-2xl">12 CERTS EXPIRING</p>
-                                        <p class="font-body font-bold text-slate-500">Next 30 days</p>
-                                    </div>
+                                <div class="bg-ink text-white p-8 flex flex-col justify-center text-center">
+                                    <p class="font-display font-extrabold uppercase text-slate-400 text-xl mb-2">LEAD SCORE</p>
+                                    <p class="font-display font-extrabold text-[8rem] leading-none" :class="lvScore>=75?'text-green-400':lvScore>=55?'text-dewalt':'text-red-400'" x-text="lvScore"></p>
+                                    <p class="font-display font-extrabold uppercase text-2xl" :class="lvScore>=75?'text-green-400':lvScore>=55?'text-dewalt':'text-red-400'" x-text="lvLabel"></p>
+                                    <div class="mt-4 w-full bg-slate-700 h-3"><div class="h-full transition-all" :class="lvScore>=75?'bg-green-400':lvScore>=55?'bg-dewalt':'bg-red-500'" :style="'width:' + lvScore + '%'"></div></div>
+                                    <div x-show="lvScore < 55" class="mt-4 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Low value. <button @click="navigate('/filter')" class="underline">Find better leads →</button></p></div>
                                 </div>
                             </div>
                         </div>
                     </template>
 
-                    <!-- Roofer: Visual RAMS Builder -->
-                    <template x-if="selectedTradeTool === 'roofer'">
-                        <div class="bg-white brutal-border brutal-shadow p-10">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
-                                <div>
-                                    <span class="bg-red-600 text-white px-3 py-1 font-display font-extrabold text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
-                                    <h2 class="text-5xl font-display font-extrabold uppercase">VISUAL RAMS BUILDER</h2>
+                    <template x-if="activeTool === 'markup'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">📦</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">MATERIAL MARKUP CALC</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Materials Cost (what you pay)</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + mmCost"></span></div><input type="range" min="10" max="10000" step="10" x-model="mmCost" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Your Markup</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="mmMarkup + '%'"></span></div><input type="range" min="5" max="100" x-model="mmMarkup" class="w-full"></div>
+                                    <div class="bg-slate-50 brutal-border p-4"><p class="font-bold text-sm uppercase text-slate-500">Standard: <strong class="text-ink">20–30%</strong> &nbsp;|&nbsp; Specialist: <strong class="text-ink">40–60%</strong></p></div>
                                 </div>
-                                <div class="text-4xl">🏠</div>
-                            </div>
-                            <div class="grid md:grid-cols-2 gap-12">
-                                <div>
-                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">Generate site-specific Risk Assessments and Method Statements just by taking photos of the site hazards.</p>
-                                    <div class="border-4 border-ink p-8 bg-slate-50 mb-6">
-                                        <ul class="space-y-4 font-body font-bold">
-                                            <li class="flex items-center gap-3">📸 Photo 1: Working at height</li>
-                                            <li class="flex items-center gap-3">📸 Photo 2: Overhead cables</li>
-                                            <li class="flex items-center gap-3">📸 Photo 3: Public access</li>
-                                        </ul>
-                                    </div>
-                                    <button class="w-full bg-red-600 text-white font-display font-extrabold uppercase py-4 text-2xl brutal-border brutal-shadow hover:bg-red-700 transition-all">GENERATE RAMS PDF</button>
-                                </div>
-                                <div class="bg-slate-100 brutal-border p-8">
-                                    <div class="aspect-video bg-slate-300 brutal-border flex items-center justify-center text-slate-500 font-extrabold uppercase">HAZARD ANALYSIS OVERLAY</div>
+                                <div class="bg-ink text-white p-8 space-y-4">
+                                    <div class="flex justify-between border-b border-white/10 pb-3"><span class="font-body font-bold uppercase text-slate-400">Your Cost</span><span class="font-display font-extrabold text-2xl" x-text="'£' + mmCost"></span></div>
+                                    <div class="flex justify-between border-b border-white/10 pb-3"><span class="font-body font-bold uppercase text-slate-400">Charge to Client</span><span class="font-display font-extrabold text-3xl text-dewalt" x-text="'£' + mmCharge.toFixed(0)"></span></div>
+                                    <div class="flex justify-between pt-2"><span class="font-display font-extrabold uppercase text-xl text-dewalt">YOUR PROFIT</span><span class="font-display font-extrabold text-4xl text-green-400" x-text="'£' + (mmCharge-mmCost).toFixed(0)"></span></div>
+                                    <div class="mt-4 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Most tradesmen undercharge on materials by 15–20%.</p></div>
                                 </div>
                             </div>
                         </div>
                     </template>
 
-                    <!-- HVAC: F-Gas Log -->
-                    <template x-if="selectedTradeTool === 'hvac'">
-                        <div class="bg-white brutal-border brutal-shadow p-10">
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
-                                <div>
-                                    <span class="bg-cyan-600 text-white px-3 py-1 font-display font-extrabold text-sm uppercase brutal-border mb-2 inline-block">SPEC MODULE</span>
-                                    <h2 class="text-5xl font-display font-extrabold uppercase">F-GAS LOG TRACKER</h2>
-                                </div>
-                                <div class="text-4xl">❄️</div>
-                            </div>
-                            <div class="grid md:grid-cols-2 gap-12">
-                                <div>
-                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">Scan refrigerant barcodes to automatically calculate CO₂ equivalents and update your F-Gas logs.</p>
-                                    <div class="bg-cyan-50 brutal-border p-8 text-center mb-6">
-                                        <div class="text-5xl mb-4">🤳</div>
-                                        <p class="font-display font-extrabold uppercase text-xl">SCAN REFRIGERANT CANISTER</p>
-                                    </div>
-                                    <div class="bg-white brutal-border p-6 space-y-4">
-                                        <div class="flex justify-between font-body font-bold">
-                                            <span>Refrigerant:</span>
-                                            <span class="text-cyan-700">R410A</span>
-                                        </div>
-                                        <div class="flex justify-between font-body font-bold">
-                                            <span>Charge:</span>
-                                            <span class="text-cyan-700">2.5kg</span>
-                                        </div>
-                                        <div class="flex justify-between font-display font-extrabold text-xl border-t-2 border-slate-200 pt-2">
-                                            <span>CO₂ EQUIV:</span>
-                                            <span class="text-red-600">5.22 Tonnes</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="bg-slate-100 brutal-border p-8">
-                                    <h3 class="font-display font-extrabold uppercase text-xl mb-4">COMPLIANCE DASHBOARD</h3>
-                                    <div class="h-48 bg-white brutal-border flex items-end gap-2 p-4">
-                                        <div class="bg-cyan-500 w-full" style="height: 40%"></div>
-                                        <div class="bg-cyan-500 w-full" style="height: 70%"></div>
-                                        <div class="bg-cyan-500 w-full" style="height: 55%"></div>
-                                        <div class="bg-cyan-500 w-full" style="height: 90%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Contractor: PQQ-Sieve -->
-                    <template x-if="selectedTradeTool === 'contractor'">
-                        <div class="bg-white brutal-border brutal-shadow p-10 relative overflow-hidden">
-                            <div class="absolute top-0 right-0 bg-dewalt text-ink font-display font-extrabold px-6 py-2 brutal-border border-t-0 border-r-0 uppercase">PRO FEATURE</div>
-                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b-4 border-ink pb-6">
-                                <div>
-                                    <span class="bg-slate-800 text-white px-3 py-1 font-display font-extrabold text-sm uppercase brutal-border mb-2 inline-block">CORE ENGINE</span>
-                                    <h2 class="text-5xl font-display font-extrabold uppercase">THE PQQ-SIEVE</h2>
-                                </div>
-                                <div class="text-4xl">🏗️</div>
-                            </div>
-                            <div class="grid md:grid-cols-2 gap-12">
-                                <div>
-                                    <p class="text-2xl font-body font-bold text-slate-600 mb-8">Specialist Go/No-Go tender analyzer. Drop a 50-page PQQ or Tender doc, and get a 1-page summary of the risks, margins, and "gotchas".</p>
-                                    <div class="border-4 border-ink p-12 text-center bg-slate-50 cursor-pointer hover:bg-slate-100 transition-all mb-6 group">
-                                        <div class="text-6xl mb-4 group-hover:scale-110 transition-transform">📄</div>
-                                        <p class="font-display font-extrabold uppercase text-2xl">DROP TENDER DOCUMENT (PDF)</p>
-                                        <p class="text-sm font-body font-bold text-slate-400 mt-2">The Filter Analyst will analyze clauses & requirements</p>
-                                    </div>
-                                    <button class="w-full bg-ink text-white font-display font-extrabold uppercase py-6 text-3xl brutal-border brutal-shadow hover:bg-slate-800 transition-all">ANALYZE TENDER</button>
-                                </div>
+                    <template x-if="activeTool === 'timeestimate'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">⏱</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">TIME ESTIMATOR</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
                                 <div class="space-y-6">
-                                    <div class="bg-green-50 brutal-border p-6 border-green-600">
-                                        <h3 class="font-display font-extrabold uppercase text-xl text-green-700 mb-2">PROFIT OPPORTUNITY</h3>
-                                        <p class="font-body font-bold text-green-900">High margin potential based on local material costs and project scope.</p>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Job Scope</label><select x-model="teScope" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"><option value="small">Small — half day</option><option value="medium">Medium — 1 to 3 days</option><option value="large">Large — 1 to 2 weeks</option><option value="major">Major — 2 weeks+</option></select></div>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Your Trade</label><select x-model="teTrade" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"><option value="general">General</option><option value="electrical">Electrical</option><option value="plumbing">Plumbing</option><option value="heating">Heating / Gas</option><option value="building">Building</option></select></div>
+                                    <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Site Access</label><select x-model="teAccess" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"><option value="easy">Easy — clear access</option><option value="moderate">Moderate</option><option value="difficult">Difficult — restricted</option></select></div>
+                                </div>
+                                <div class="bg-ink text-white p-8 text-center flex flex-col justify-center">
+                                    <p class="font-display font-extrabold uppercase text-slate-400 text-xl mb-2">ESTIMATED TIME</p>
+                                    <p class="font-display font-extrabold text-[9rem] text-dewalt leading-none" x-text="teHours"></p>
+                                    <p class="text-slate-400 font-bold uppercase text-xl mt-1">HOURS</p>
+                                    <div class="grid grid-cols-2 gap-4 mt-6">
+                                        <div class="bg-white/10 p-4"><p class="text-xs text-slate-400 font-bold uppercase">Days</p><p class="font-display font-extrabold text-3xl" x-text="(teHours/8).toFixed(1)"></p></div>
+                                        <div class="bg-white/10 p-4"><p class="text-xs text-slate-400 font-bold uppercase">Weeks</p><p class="font-display font-extrabold text-3xl" x-text="(teHours/40).toFixed(1)"></p></div>
                                     </div>
-                                    <div class="bg-red-50 brutal-border p-6 border-red-600">
-                                        <h3 class="font-display font-extrabold uppercase text-xl text-red-700 mb-2">HIDDEN RISKS</h3>
-                                        <p class="font-body font-bold text-red-900">Clause 14.2: Liquidated damages are set at £5k/day. Extremely high risk.</p>
-                                    </div>
-                                    <div class="bg-white brutal-border p-6">
-                                        <h3 class="font-display font-extrabold uppercase text-xl mb-2">GO/NO-GO SCORE</h3>
-                                        <div class="flex items-center gap-4">
-                                            <div class="flex-1 h-6 bg-slate-200 brutal-border overflow-hidden">
-                                                <div class="h-full bg-dewalt" style="width: 72%"></div>
-                                            </div>
-                                            <span class="font-display font-extrabold text-2xl">72%</span>
-                                        </div>
-                                    </div>
+                                    <div class="mt-4 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Always add 20% buffer for snagging + client changes.</p></div>
                                 </div>
                             </div>
                         </div>
                     </template>
+
+                    <template x-if="activeTool === 'fuelcost'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">⛽</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">FUEL COST CALCULATOR</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Round Trip Miles</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="fcMiles + ' mi'"></span></div><input type="range" min="2" max="200" x-model="fcMiles" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Van MPG</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="fcMpg + ' mpg'"></span></div><input type="range" min="15" max="60" x-model="fcMpg" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Fuel Price (p/litre)</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="fcPrice + 'p'"></span></div><input type="range" min="100" max="200" x-model="fcPrice" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Number of Trips</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="fcTrips + ' trips'"></span></div><input type="range" min="1" max="20" x-model="fcTrips" class="w-full"></div>
+                                </div>
+                                <div class="bg-ink text-white p-8 space-y-4">
+                                    <div class="flex justify-between border-b border-white/10 pb-3"><span class="font-body font-bold uppercase text-slate-400">Cost per Trip</span><span class="font-display font-extrabold text-2xl" x-text="'£' + fcPerTrip.toFixed(2)"></span></div>
+                                    <div class="flex justify-between pt-2"><span class="font-display font-extrabold uppercase text-dewalt text-2xl">TOTAL</span><span class="font-display font-extrabold text-4xl text-dewalt" x-text="'£' + fcTotal.toFixed(2)"></span></div>
+                                    <div class="grid grid-cols-3 gap-2 mt-4">
+                                        <div class="bg-white/10 p-3 text-center"><p class="text-xs text-slate-400 font-bold uppercase">At cost</p><p class="font-display font-extrabold text-xl" x-text="'£' + fcTotal.toFixed(2)"></p></div>
+                                        <div class="bg-dewalt/20 p-3 text-center"><p class="text-xs text-dewalt font-bold uppercase">+10%</p><p class="font-display font-extrabold text-xl text-dewalt" x-text="'£' + (fcTotal*1.1).toFixed(2)"></p></div>
+                                        <div class="bg-dewalt/30 p-3 text-center"><p class="text-xs text-dewalt font-bold uppercase">+20%</p><p class="font-display font-extrabold text-xl text-dewalt" x-text="'£' + (fcTotal*1.2).toFixed(2)"></p></div>
+                                    </div>
+                                    <div class="mt-2 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Always charge travel. Time in the van is your time.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="activeTool === 'invoice'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">🧾</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">INVOICE GENERATOR</h2></div></div>
+                            <template x-if="!invDone">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <div class="space-y-5">
+                                        <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Client Name</label><input type="text" x-model="invClient" placeholder="e.g. John Smith" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"></div>
+                                        <div><label class="font-display font-extrabold uppercase text-xl block mb-2">Job Description</label><input type="text" x-model="invJob" placeholder="e.g. Boiler service + thermostat" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"></div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div><label class="font-display font-extrabold uppercase block mb-2">Labour (£)</label><input type="number" x-model="invLabour" placeholder="0" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"></div>
+                                            <div><label class="font-display font-extrabold uppercase block mb-2">Materials (£)</label><input type="number" x-model="invMaterials" placeholder="0" class="w-full brutal-border p-4 text-xl font-bold focus:outline-none bg-slate-50"></div>
+                                        </div>
+                                        <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" x-model="invVat" class="w-6 h-6"><span class="font-display font-extrabold uppercase text-xl">Add VAT (20%)</span></label>
+                                        <button @click="invDone=true" :disabled="!invClient||!invJob" class="w-full btn-y text-2xl py-5 disabled:opacity-40">GENERATE INVOICE</button>
+                                    </div>
+                                    <div class="bg-ink text-white p-8 space-y-4">
+                                        <div class="flex justify-between border-b border-white/10 pb-3"><span class="text-slate-400 font-bold uppercase">Labour</span><span class="font-display font-extrabold text-2xl" x-text="'£' + parseFloat(invLabour||0).toFixed(2)"></span></div>
+                                        <div class="flex justify-between border-b border-white/10 pb-3"><span class="text-slate-400 font-bold uppercase">Materials</span><span class="font-display font-extrabold text-2xl" x-text="'£' + parseFloat(invMaterials||0).toFixed(2)"></span></div>
+                                        <template x-if="invVat"><div class="flex justify-between border-b border-white/10 pb-3"><span class="text-slate-400 font-bold uppercase">VAT</span><span class="font-display font-extrabold text-2xl" x-text="'£' + invVatAmt.toFixed(2)"></span></div></template>
+                                        <div class="flex justify-between pt-2"><span class="font-display font-extrabold uppercase text-dewalt text-2xl">TOTAL DUE</span><span class="font-display font-extrabold text-4xl text-dewalt" x-text="'£' + invTotal.toFixed(2)"></span></div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="invDone">
+                                <div>
+                                    <div class="border-4 border-ink p-8 mb-6">
+                                        <div class="flex justify-between items-start mb-8"><div><p class="font-display font-extrabold text-3xl uppercase text-dewalt bg-ink px-4 py-2 inline-block">JOBFILTER</p></div><div class="text-right"><p class="font-display font-extrabold text-3xl uppercase">INVOICE</p><p class="text-sm font-bold text-slate-500" x-text="new Date().toLocaleDateString('en-GB')"></p></div></div>
+                                        <div class="mb-6 border-b-2 border-slate-200 pb-4"><p class="text-xs font-bold uppercase text-slate-400 mb-1">Bill To</p><p class="font-display font-extrabold text-2xl uppercase" x-text="invClient"></p></div>
+                                        <div class="mb-6 border-b-2 border-slate-200 pb-4"><p class="text-xs font-bold uppercase text-slate-400 mb-1">Work Carried Out</p><p class="font-bold text-xl" x-text="invJob"></p></div>
+                                        <div class="space-y-2">
+                                            <div class="flex justify-between"><span class="font-bold uppercase text-slate-600">Labour</span><span class="font-display font-extrabold text-xl" x-text="'£' + parseFloat(invLabour||0).toFixed(2)"></span></div>
+                                            <div class="flex justify-between"><span class="font-bold uppercase text-slate-600">Materials</span><span class="font-display font-extrabold text-xl" x-text="'£' + parseFloat(invMaterials||0).toFixed(2)"></span></div>
+                                            <template x-if="invVat"><div class="flex justify-between"><span class="font-bold uppercase text-slate-600">VAT (20%)</span><span class="font-display font-extrabold text-xl" x-text="'£' + invVatAmt.toFixed(2)"></span></div></template>
+                                            <div class="flex justify-between border-t-4 border-ink pt-3 mt-2"><span class="font-display font-extrabold text-2xl uppercase">TOTAL DUE</span><span class="font-display font-extrabold text-3xl" x-text="'£' + invTotal.toFixed(2)"></span></div>
+                                        </div>
+                                        <p class="text-xs text-slate-400 font-bold mt-6">Payment due within 14 days. Bank transfer preferred.</p>
+                                    </div>
+                                    <div class="flex gap-4"><button onclick="window.print()" class="flex-1 btn-y text-2xl py-4">PRINT / SAVE PDF</button><button @click="invDone=false" class="flex-1 btn-n text-2xl py-4">EDIT</button></div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template x-if="activeTool === 'profit'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">📈</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">PROFIT MARGIN CALC</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Job Revenue</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(pmRevenue).toLocaleString()"></span></div><input type="range" min="100" max="20000" step="50" x-model="pmRevenue" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Total Job Costs</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(pmCosts).toLocaleString()"></span></div><input type="range" min="50" max="18000" step="50" x-model="pmCosts" class="w-full"></div>
+                                    <div class="bg-slate-50 brutal-border p-4"><p class="font-bold text-sm uppercase text-slate-500">Target: <strong class="text-ink">30–40%+</strong> &nbsp;|&nbsp; Below 20%: <strong class="text-red-600">walk away</strong></p></div>
+                                </div>
+                                <div class="bg-ink text-white p-8 text-center flex flex-col justify-center">
+                                    <p class="font-display font-extrabold uppercase text-slate-400 text-xl mb-2">PROFIT MARGIN</p>
+                                    <p class="font-display font-extrabold text-[8rem] leading-none" :class="parseFloat(pmMargin)>=40?'text-green-400':parseFloat(pmMargin)>=20?'text-dewalt':'text-red-400'" x-text="pmMargin + '%'"></p>
+                                    <p class="font-display font-extrabold uppercase text-2xl mt-1" :class="parseFloat(pmMargin)>=40?'text-green-400':parseFloat(pmMargin)>=20?'text-dewalt':'text-red-400'" x-text="pmLabel"></p>
+                                    <div class="flex justify-between mt-6 border-t border-white/10 pt-4"><span class="font-display font-extrabold uppercase text-xl text-slate-400">PROFIT</span><span class="font-display font-extrabold text-3xl text-green-400" x-text="'£' + (pmRevenue-pmCosts).toFixed(0)"></span></div>
+                                    <div x-show="parseFloat(pmMargin) < 30" class="mt-4 p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Low margin. <button @click="navigate('/filter')" class="underline">Find better-paying leads →</button></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="activeTool === 'cashflow'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">💰</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">CASH FLOW FORECAST</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Avg Weekly Income</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(cfIn).toLocaleString()"></span></div><input type="range" min="200" max="10000" step="100" x-model="cfIn" class="w-full"></div>
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Avg Weekly Outgoings</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(cfOut).toLocaleString()"></span></div><input type="range" min="100" max="8000" step="100" x-model="cfOut" class="w-full"></div>
+                                </div>
+                                <div class="bg-ink text-white p-8">
+                                    <div class="grid grid-cols-3 gap-3 mb-6">
+                                        <div class="bg-white/10 p-4 text-center"><p class="text-xs text-slate-400 font-bold uppercase mb-1">Weekly</p><p class="font-display font-extrabold text-2xl" :class="cfNet>=0?'text-green-400':'text-red-400'" x-text="'£' + cfNet.toLocaleString()"></p></div>
+                                        <div class="bg-white/10 p-4 text-center"><p class="text-xs text-slate-400 font-bold uppercase mb-1">Monthly</p><p class="font-display font-extrabold text-2xl" :class="cfNet>=0?'text-green-400':'text-red-400'" x-text="'£' + Math.round(cfNet*4.33).toLocaleString()"></p></div>
+                                        <div class="bg-white/10 p-4 text-center"><p class="text-xs text-slate-400 font-bold uppercase mb-1">Annual</p><p class="font-display font-extrabold text-2xl" :class="cfNet>=0?'text-green-400':'text-red-400'" x-text="'£' + Math.round(cfNet*52).toLocaleString()"></p></div>
+                                    </div>
+                                    <div x-show="cfNet < 200" class="p-3 bg-dewalt/20 border border-dewalt/40"><p class="text-xs font-bold text-dewalt uppercase">💡 Tight margins. More leads = steadier cash flow. <button @click="navigate('/filter')" class="underline">Find leads →</button></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="activeTool === 'vatcheck'">
+                        <div class="bg-white brutal-border brutal-shadow-lg p-8 mb-6">
+                            <div class="flex items-center gap-4 mb-8 border-b-4 border-ink pb-6"><span class="text-5xl">🔍</span><div><div class="bg-dewalt px-3 py-1 brutal-border inline-block text-xs font-display font-extrabold uppercase mb-1">FREE TOOL</div><h2 class="text-5xl font-display font-extrabold uppercase">VAT THRESHOLD CHECKER</h2></div></div>
+                            <div class="grid md:grid-cols-2 gap-10">
+                                <div class="space-y-8">
+                                    <div><div class="flex justify-between mb-2"><label class="font-display font-extrabold uppercase text-xl">Your Annual Turnover</label><span class="font-display font-extrabold text-2xl text-dewalt bg-ink px-3 py-1" x-text="'£' + parseInt(vtTurnover).toLocaleString()"></span></div><input type="range" min="10000" max="200000" step="1000" x-model="vtTurnover" class="w-full"></div>
+                                    <div class="bg-slate-50 brutal-border p-4 space-y-2"><p class="font-bold text-sm uppercase">Threshold: <strong>£90,000</strong></p><p class="font-bold text-sm uppercase text-slate-500">Must register within 30 days of exceeding it</p></div>
+                                </div>
+                                <div class="bg-ink text-white p-8 flex flex-col justify-center">
+                                    <div class="flex justify-between mb-2"><span class="text-xs font-bold text-slate-400 uppercase">£0</span><span class="text-xs font-bold text-dewalt uppercase">£90,000</span></div>
+                                    <div class="w-full bg-slate-700 h-5 mb-2"><div class="h-full transition-all" :class="vtTurnover>90000?'bg-red-500':vtTurnover>72000?'bg-dewalt':'bg-green-400'" :style="'width:' + Math.min(100,(vtTurnover/90000)*100) + '%'"></div></div>
+                                    <p class="text-xs text-slate-400 font-bold text-right mb-6" x-text="Math.min(100,(vtTurnover/90000)*100).toFixed(0) + '% of threshold'"></p>
+                                    <template x-if="vtTurnover > 90000"><div class="p-4 bg-red-500/20 border-2 border-red-500"><p class="font-display font-extrabold uppercase text-red-400 text-xl">⚠ OVER THRESHOLD</p><p class="text-sm font-bold text-slate-300 mt-1">You should be VAT registered. Speak to an accountant immediately.</p></div></template>
+                                    <template x-if="vtTurnover <= 90000 && vtTurnover > 72000"><div class="p-4 bg-dewalt/20 border-2 border-dewalt"><p class="font-display font-extrabold uppercase text-dewalt text-xl">⚡ GETTING CLOSE</p><p class="text-sm font-bold text-slate-300 mt-1" x-text="'£' + (90000-vtTurnover).toLocaleString() + ' below the threshold. Plan ahead now.'"></p></div></template>
+                                    <template x-if="vtTurnover <= 72000"><div class="p-4 bg-green-500/20 border-2 border-green-500"><p class="font-display font-extrabold uppercase text-green-400 text-xl">✔ BELOW THRESHOLD</p><p class="text-sm font-bold text-slate-300 mt-1" x-text="'£' + (90000-vtTurnover).toLocaleString() + ' below. Track monthly.'"></p></div></template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
                 </div>
             </div>
         </div>
