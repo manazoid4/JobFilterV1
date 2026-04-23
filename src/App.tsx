@@ -161,7 +161,7 @@ export default function App() {
   };
   const lvScore = getLvScore();
   const lvLabel = lvScore >= 75 ? 'High Value' : lvScore >= 55 ? 'Worth Quoting' : 'Low Value — Skip';
-  const lvColor = lvScore >= 75 ? 'text-green-400' : lvScore >= 55 ? 'text-amber-400' : 'text-red-400';
+  const lvColor = lvScore >= 75 ? 'text-green-400' : lvScore >= 55 ? 'text-high-vis-orange' : 'text-red-400';
 
   // ── Tool: Material Markup Calculator ────────────────────────────────────────
   const [mmCost, setMmCost] = useState(200);
@@ -209,7 +209,7 @@ export default function App() {
   const pmProfit = pmRevenue - pmCosts;
   const pmMargin = pmRevenue > 0 ? ((pmProfit / pmRevenue) * 100).toFixed(1) : '0';
   const pmLabel = parseFloat(pmMargin) >= 40 ? 'Healthy' : parseFloat(pmMargin) >= 20 ? 'Tight' : 'Too Low';
-  const pmColor = parseFloat(pmMargin) >= 40 ? 'text-green-400' : parseFloat(pmMargin) >= 20 ? 'text-amber-400' : 'text-red-400';
+  const pmColor = parseFloat(pmMargin) >= 40 ? 'text-green-400' : parseFloat(pmMargin) >= 20 ? 'text-high-vis-orange' : 'text-red-400';
 
   // ── Tool: Cash Flow Forecaster ───────────────────────────────────────────────
   const [cfWeeklyIn, setCfWeeklyIn] = useState(1200);
@@ -346,10 +346,10 @@ export default function App() {
       {/* ── NAV ── */}
       <nav className="fixed top-0 w-full z-50 px-4 py-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
+          <div className="bg-deep-slate/95 backdrop-blur-xl border border-high-vis-orange/20 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
               <div className="group flex items-center gap-3 cursor-pointer">
-                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-white transition-colors">JF</div>
+                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-yellow-300 transition-colors">JF</div>
                 <div className="flex flex-col">
                   <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
                   <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
@@ -366,7 +366,7 @@ export default function App() {
               <div className="h-4 w-px bg-white/10"></div>
               <div className="flex items-center gap-4">
                 <a href="/login" className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Log In</a>
-                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange text-deep-slate text-[10px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest hover:bg-amber-500 transition-all glow-orange">
+                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange text-deep-slate text-[10px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest hover:bg-yellow-300 transition-all glow-orange">
                   Find Jobs Near Me
                 </a>
               </div>
@@ -401,7 +401,7 @@ export default function App() {
       {/* ── HERO ── */}
       <header className="relative pt-40 pb-28 px-6 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-sm px-4 py-2 mb-8">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-high-vis-orange/10 border border-high-vis-orange/30 rounded-sm px-4 py-2 mb-8">
             <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-high-vis-orange">Free — No Card Needed</span>
           </motion.div>
@@ -426,7 +426,7 @@ export default function App() {
 
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="inline-flex items-center justify-center gap-3 bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic">
+              className="inline-flex items-center justify-center gap-3 bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic">
               Find Jobs Near Me →
             </a>
             <a href="#tools" className="inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
@@ -443,8 +443,8 @@ export default function App() {
         </div>
 
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-15 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-amber-500 rounded-full blur-[180px]"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-cyan-500 rounded-full blur-[180px]"></div>
+          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-high-vis-orange rounded-full blur-[180px]"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-high-vis-orange/40 rounded-full blur-[180px]"></div>
         </div>
       </header>
 
@@ -493,7 +493,7 @@ export default function App() {
               </div>
               <div className="flex items-end">
                 <button onClick={startScan} disabled={isScanning || postcode.trim().length < 4}
-                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-4 rounded-sm uppercase italic tracking-widest transition-all h-[52px] text-sm">
+                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-yellow-300 text-deep-slate font-extrabold py-3 px-4 rounded-sm uppercase italic tracking-widest transition-all h-[52px] text-sm">
                   {isScanning ? 'Scanning...' : 'Start Job Scan'}
                 </button>
               </div>
@@ -542,7 +542,7 @@ export default function App() {
                   <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4 justify-between">
                     <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">{Math.max(0, 3 - freeViewsUsed)} free views left this month.</span></p>
                     <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
-                      className="inline-block bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-2.5 px-6 rounded-sm uppercase italic tracking-widest text-xs whitespace-nowrap">
+                      className="inline-block bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-2.5 px-6 rounded-sm uppercase italic tracking-widest text-xs whitespace-nowrap">
                       Unlock Unlimited →
                     </a>
                   </div>
@@ -609,8 +609,8 @@ export default function App() {
                             <QuoteLine label="Inc. VAT (20%)" value={`£${(qtTotal * 1.2).toFixed(0)}`} small />
                           </div>
                         </div>
-                        <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Better leads = bigger quotes. <a href="#pricing" className="underline">Unlock unlimited access →</a></p>
+                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Better leads = bigger quotes. <a href="#pricing" className="underline">Unlock unlimited access →</a></p>
                         </div>
                       </div>
                     </div>
@@ -634,8 +634,8 @@ export default function App() {
                         <div className="mt-4 text-sm font-bold text-slate-300">
                           = <span className="text-electric-cyan">£{Math.ceil(drRequired / 8)}/hr</span> based on 8hr day
                         </div>
-                        <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
+                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
                         </div>
                       </div>
                     </div>
@@ -675,11 +675,11 @@ export default function App() {
                         <p className={`font-display text-8xl font-extrabold italic ${lvColor}`}>{lvScore}</p>
                         <p className={`text-lg font-extrabold uppercase italic mt-2 ${lvColor}`}>{lvLabel}</p>
                         <div className="mt-4 w-full bg-slate-800 rounded-sm h-2">
-                          <div className={`h-2 rounded-sm transition-all ${lvScore >= 75 ? 'bg-green-400' : lvScore >= 55 ? 'bg-amber-400' : 'bg-red-400'}`} style={{ width: `${lvScore}%` }}></div>
+                          <div className={`h-2 rounded-sm transition-all ${lvScore >= 75 ? 'bg-green-400' : lvScore >= 55 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${lvScore}%` }}></div>
                         </div>
                         {lvScore < 55 && (
-                          <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 This job is low value. <a href="#filter" className="underline">Find better leads near you →</a></p>
+                          <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 This job is low value. <a href="#filter" className="underline">Find better leads near you →</a></p>
                           </div>
                         )}
                         {lvScore >= 75 && (
@@ -711,8 +711,8 @@ export default function App() {
                         <div className="border-t border-white/10 pt-4">
                           <QuoteLine label="Your profit on materials" value={`£${mmProfit.toFixed(0)}`} />
                         </div>
-                        <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Most tradesmen undercharge on materials by 15–20%. Don't leave money on the bench.</p>
+                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Most tradesmen undercharge on materials by 15–20%. Don't leave money on the bench.</p>
                         </div>
                       </div>
                     </div>
@@ -752,8 +752,8 @@ export default function App() {
                             <p className="font-extrabold text-xl text-white">{(teHours / 40).toFixed(1)}</p>
                           </div>
                         </div>
-                        <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Always add 20% buffer for access, snagging, and client changes.</p>
+                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always add 20% buffer for access, snagging, and client changes.</p>
                         </div>
                       </div>
                     </div>
@@ -785,8 +785,8 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Always charge travel. Time sat in the van is still your time.</p>
+                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always charge travel. Time sat in the van is still your time.</p>
                         </div>
                       </div>
                     </div>
@@ -824,7 +824,7 @@ export default function App() {
                             </div>
                             <span className="text-sm font-bold text-slate-300">Add VAT (20%)</span>
                           </label>
-                          <button onClick={() => setInvGenerated(true)} disabled={!invClient || !invJob} className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">
+                          <button onClick={() => setInvGenerated(true)} disabled={!invClient || !invJob} className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-yellow-300 text-deep-slate font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">
                             Generate Invoice
                           </button>
                         </div>
@@ -842,7 +842,7 @@ export default function App() {
                         <div className="bg-white text-slate-900 p-8 rounded-sm mb-4">
                           <div className="flex justify-between items-start mb-8">
                             <div>
-                              <p className="font-display text-2xl font-extrabold uppercase italic text-amber-500">JobFilter</p>
+                              <p className="font-display text-2xl font-extrabold uppercase italic text-high-vis-orange">JobFilter</p>
                               <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Built For Trades</p>
                             </div>
                             <div className="text-right">
@@ -864,17 +864,17 @@ export default function App() {
                             <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">Materials</span><span className="font-bold">£{invMaterials.toFixed(2)}</span></div>
                             {invVat && <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">VAT (20%)</span><span className="font-bold">£{invVatAmt.toFixed(2)}</span></div>}
                             <div className="flex justify-between text-xl font-extrabold border-t border-slate-300 pt-2 mt-2">
-                              <span>Total Due</span><span className="text-amber-500">£{invTotal.toFixed(2)}</span>
+                              <span>Total Due</span><span className="text-high-vis-orange">£{invTotal.toFixed(2)}</span>
                             </div>
                           </div>
                           <div className="mt-6 text-xs text-slate-400">Payment due within 14 days. Bank transfer preferred.</div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
+                          <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
                           <button onClick={() => setInvGenerated(false)} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Edit Invoice</button>
                         </div>
-                        <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Getting paid slow? JobFilter Pro includes a Payment Chaser that auto-follows up. <a href="#pricing" className="underline">See plans →</a></p>
+                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Getting paid slow? JobFilter Pro includes a Payment Chaser that auto-follows up. <a href="#pricing" className="underline">See plans →</a></p>
                         </div>
                       </div>
                     )}
@@ -899,14 +899,14 @@ export default function App() {
                         <p className={`font-display text-7xl font-extrabold italic ${pmColor}`}>{pmMargin}%</p>
                         <p className={`text-lg font-extrabold uppercase italic mt-1 ${pmColor}`}>{pmLabel}</p>
                         <div className="mt-4 w-full bg-slate-800 rounded-sm h-3">
-                          <div className={`h-3 rounded-sm transition-all ${parseFloat(pmMargin) >= 40 ? 'bg-green-400' : parseFloat(pmMargin) >= 20 ? 'bg-amber-400' : 'bg-red-400'}`} style={{ width: `${Math.min(100, parseFloat(pmMargin) * 2.5)}%` }}></div>
+                          <div className={`h-3 rounded-sm transition-all ${parseFloat(pmMargin) >= 40 ? 'bg-green-400' : parseFloat(pmMargin) >= 20 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${Math.min(100, parseFloat(pmMargin) * 2.5)}%` }}></div>
                         </div>
                         <div className="mt-4 border-t border-white/10 pt-4">
                           <QuoteLine label="Profit on this job" value={`£${pmProfit.toFixed(0)}`} large orange />
                         </div>
                         {parseFloat(pmMargin) < 30 && (
-                          <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Low margin. You need better-paying leads. <a href="#filter" className="underline">Find them here →</a></p>
+                          <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Low margin. You need better-paying leads. <a href="#filter" className="underline">Find them here →</a></p>
                           </div>
                         )}
                       </div>
@@ -947,8 +947,8 @@ export default function App() {
                           </div>
                         </div>
                         {cfWeeklyNet < 200 && (
-                          <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Tight margins. More consistent leads = steadier cash flow. <a href="#filter" className="underline">Find leads →</a></p>
+                          <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Tight margins. More consistent leads = steadier cash flow. <a href="#filter" className="underline">Find leads →</a></p>
                           </div>
                         )}
                       </div>
@@ -965,7 +965,7 @@ export default function App() {
                         <SliderField label="Your annual turnover" value={vtTurnover} setValue={setVtTurnover} min={10000} max={200000} step={1000} prefix="£" />
                         <div className="p-4 bg-slate-900/50 border border-white/5 rounded-sm text-xs font-bold uppercase tracking-wide text-slate-400 space-y-1">
                           <p>VAT registration threshold: <span className="text-white">£{vtThreshold.toLocaleString()}</span></p>
-                          <p>Once over: <span className="text-amber-400">Must register within 30 days</span></p>
+                          <p>Once over: <span className="text-high-vis-orange">Must register within 30 days</span></p>
                           <p>Voluntary registration: <span className="text-white">Any turnover level</span></p>
                         </div>
                       </div>
@@ -973,10 +973,10 @@ export default function App() {
                         <div className="mb-4">
                           <div className="flex justify-between mb-2">
                             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">£0</span>
-                            <span className="text-xs font-bold uppercase tracking-widest text-amber-400">£{vtThreshold.toLocaleString()} threshold</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-high-vis-orange">£{vtThreshold.toLocaleString()} threshold</span>
                           </div>
                           <div className="w-full bg-slate-800 rounded-sm h-4">
-                            <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-amber-400' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
+                            <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-high-vis-orange' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
                           </div>
                           <p className="text-xs text-slate-500 font-bold mt-1 text-right">{vtPercent.toFixed(0)}% of threshold</p>
                         </div>
@@ -986,8 +986,8 @@ export default function App() {
                             <p className="text-xs text-slate-300 font-bold mt-1">You're £{Math.abs(vtGap).toLocaleString()} over the VAT threshold. You should be registered. Speak to an accountant immediately.</p>
                           </div>
                         ) : vtPercent > 80 ? (
-                          <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-sm">
-                            <p className="text-amber-400 font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
+                          <div className="p-4 bg-high-vis-orange/10 border border-high-vis-orange/30 rounded-sm">
+                            <p className="text-high-vis-orange font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
                             <p className="text-xs text-slate-300 font-bold mt-1">Only £{vtGap.toLocaleString()} below the threshold. Plan ahead — VAT registration can affect pricing.</p>
                           </div>
                         ) : (
@@ -1031,7 +1031,7 @@ export default function App() {
                   <p className="text-6xl font-display font-extrabold text-green-500 italic shadow-[0_0_20px_rgba(34,197,94,0.2)]">£{jobFilterSavings.toLocaleString()}</p>
                   <p className="text-xs text-slate-500 font-bold mt-1">Back in your pocket per year</p>
                 </div>
-                <a href="#pricing" className="inline-block bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-6 rounded-sm uppercase italic tracking-widest text-sm">
+                <a href="#pricing" className="inline-block bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-3 px-6 rounded-sm uppercase italic tracking-widest text-sm">
                   Start Saving Now →
                 </a>
               </div>
@@ -1072,11 +1072,11 @@ export default function App() {
               <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">Join Early Access</button>
             </div>
 
-            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
+            <div className="bg-high-vis-orange/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
               <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">Most Popular</div>
               <p className="text-high-vis-orange font-extrabold uppercase tracking-widest text-xs">Scout Pro</p>
-              <p className="text-4xl font-display font-extrabold mt-2">£39<span className="text-sm text-amber-500/60 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-amber-400/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. No limits. Built for active tradesmen.</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£39<span className="text-sm text-high-vis-orange/60 font-normal">/mo</span></p>
+              <p className="text-[10px] font-bold text-high-vis-orange/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. No limits. Built for active tradesmen.</p>
               <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
                 <li>✓ Unlimited lead access</li>
                 <li>✓ WhatsApp job alerts</li>
@@ -1084,7 +1084,7 @@ export default function App() {
                 <li>✓ Payment Chaser</li>
                 <li>✓ Review Harvester</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Join Early Access</button>
+              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Join Early Access</button>
             </div>
 
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
@@ -1105,7 +1105,7 @@ export default function App() {
               <h3 className="text-2xl font-display font-extrabold uppercase">Hammer Tier — £99/mo</h3>
               <p className="text-slate-400 font-bold text-sm mt-2">Done-for-you concierge outreach. We find, filter, and deliver qualified jobs to your inbox. You just quote.</p>
             </div>
-            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">Join Early Access</button>
+            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">Join Early Access</button>
           </div>
         </div>
       </section>
@@ -1134,7 +1134,7 @@ export default function App() {
                   <form onSubmit={submitWaitlist} className="space-y-4">
                     <input type="email" required value={waitlistEmail} onChange={e => setWaitlistEmail(e.target.value)} placeholder="your@email.com"
                       className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan" />
-                    <button type="submit" className="w-full bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
+                    <button type="submit" className="w-full bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
                   </form>
                   <button onClick={() => setShowModal(null)} className="mt-4 w-full text-center text-[10px] font-extrabold uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors">Not Now</button>
                 </>
