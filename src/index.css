@@ -1,26 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Oswald", sans-serif;
-  --color-high-vis-orange: #FFCD11;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Barlow Condensed", sans-serif;
+  --color-high-vis-orange: #FEE12B;
   --color-electric-cyan: #FFFFFF;
-  --color-deep-slate: #0D0D0D;
-  --color-charcoal: #1A1A1A;
+  --color-deep-slate: #0F172A;
+  --color-charcoal: #1E293B;
+}
+
+:root {
+  --y: #FEE12B;
+  --n: #0F172A;
+  --b: 4px solid #0F172A;
+  --sh: 4px 4px 0 0 #0F172A;
+  --shl: 6px 6px 0 0 #0F172A;
 }
 
 @layer utilities {
-  .glow-cyan {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-  }
-  .glow-orange {
-    box-shadow: 0 0 28px rgba(255, 205, 17, 0.55);
-  }
+  .brutal-border { border: var(--b); }
+  .brutal-shadow { box-shadow: var(--sh); }
+  .brutal-shadow-lg { box-shadow: var(--shl); }
+
+  .glow-cyan { box-shadow: var(--sh); }
+  .glow-orange { box-shadow: var(--shl); }
+
   .glass-nav {
-    background: rgba(13, 13, 13, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 2px solid rgba(255, 205, 17, 0.2);
+    background: var(--n);
+    border-bottom: 4px solid var(--y);
+  }
+
+  .brutal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--y);
+    color: var(--n);
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: var(--b);
+    box-shadow: var(--sh);
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+
+  .brutal-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shl);
+  }
+
+  .brutal-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 #0F172A;
   }
 }
 
@@ -29,6 +63,10 @@
   100% { top: 100%; }
 }
 
-.animate-scan {
-  animation: scan 2s linear infinite;
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(254,225,43,0.5); }
+  50% { box-shadow: 0 0 40px rgba(254,225,43,0.9); }
 }
+
+.animate-scan { animation: scan 2s linear infinite; }
+.founding-pulse { animation: pulse-glow 2s ease-in-out infinite; }
