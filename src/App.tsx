@@ -310,13 +310,13 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
-              <div className="group flex items-center gap-3 cursor-pointer">
-                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-white transition-colors">🇬🇧</div>
+              <a href="#features" className="group flex items-center gap-3" aria-label="Go to homepage top">
+                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
                 <div className="flex flex-col">
                   <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
                   <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
                 </div>
-              </div>
+              </a>
             </div>
             <div className="hidden lg:flex items-center gap-10">
               <div className="flex items-center gap-8 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
@@ -378,15 +378,14 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="font-display font-black text-6xl md:text-9xl uppercase leading-[0.85] mb-8"
           >
-            STOP CHASING<br />
-            <span className="inline-block bg-high-vis-orange px-4 py-1 brutal-border mt-2">BAD JOBS.</span>
+            ENTER THE INTAKE<br /><span className="text-high-vis-orange">CONTROL THE JOBS.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
             className="text-lg md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-medium"
           >
-            Enter your postcode. JobFilter scans local leads, kills the rubbish, and shows you only the jobs worth quoting.
+            Real leads by postcode. No chasing. No competing. You see the jobs worth quoting and stay in control of your diary.
           </motion.p>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-10">
@@ -505,7 +504,7 @@ export default function App() {
                     </ul>
                   </div>
                   <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4 justify-between">
-                    <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">2 free views left this month.</span></p>
+                  <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">2 free views left this month.</span></p>
                     <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
                       className="brutal-btn text-xs font-display font-black py-2.5 px-6 whitespace-nowrap">
                       UNLOCK UNLIMITED →
@@ -977,8 +976,8 @@ export default function App() {
       <section id="roi" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-white mb-3">THE <span className="text-high-vis-orange">DIESEL BURN</span> CALCULATOR</h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">See exactly what free quoting is costing you every year.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">NO CHASING</span> Calculator</h2>
+            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm italic">See what wasted quoting is costing and what you keep with a FAIR SYSTEM.</p>
           </div>
           <div className="bg-white brutal-border brutal-shadow-lg p-8">
             <div className="grid md:grid-cols-2 gap-12">
@@ -1009,69 +1008,69 @@ export default function App() {
       {/* ── PRICING ── */}
       <section id="pricing" className="py-24 px-6 bg-white border-b-4 border-deep-slate">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display font-black text-5xl md:text-7xl text-center mb-4 uppercase text-deep-slate">SIMPLE <span className="bg-high-vis-orange px-2">PRICING</span></h2>
-          <p className="text-center text-slate-500 font-bold uppercase tracking-widest mb-4 text-sm">One job win pays for a year's subscription.</p>
-          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-12 text-xs">Early access — join the list, launch price guaranteed.</p>
+          <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-4 uppercase italic">FAIR SYSTEM <span className="text-high-vis-orange">Pricing</span></h2>
+          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-4 italic text-sm">One decent job can cover the month. NO CONTRACTS.</p>
+          <p className="text-center text-slate-500 font-bold uppercase tracking-widest mb-12 text-xs">Built for trades. Pick your level and stay in control.</p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="brutal-border bg-white p-6 flex flex-col brutal-shadow">
-              <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Starter</p>
-              <p className="text-4xl font-display font-black mt-2 text-deep-slate">£0</p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 leading-tight">Free forever. Try the filter and open 3 full records/month.</p>
-              <ul className="mt-6 space-y-2 text-deep-slate text-sm font-bold flex-1">
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Starter</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£0</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">ENTER THE INTAKE. 3 full records/month. No risk.</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ All 10 free tools</li>
                 <li>✓ Lead scanning</li>
                 <li>✓ 3 full record views / month</li>
               </ul>
-              <a href="#filter" onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })} className="mt-8 block text-center brutal-border bg-deep-slate text-white text-[10px] font-black py-4 uppercase tracking-widest transition-colors hover:bg-charcoal">START FREE</a>
+              <a href="#filter" onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })} className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">ENTER THE INTAKE</a>
             </div>
 
-            <div className="brutal-border bg-white p-6 flex flex-col brutal-shadow">
-              <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Scout Basic</p>
-              <p className="text-4xl font-display font-black mt-2 text-deep-slate">£19<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 leading-tight">For occasional use — up to 10 full records/month.</p>
-              <ul className="mt-6 space-y-2 text-deep-slate text-sm font-bold flex-1">
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Basic</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£19<span className="text-sm text-slate-500 font-normal">/mo</span></p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For steady lads. 10 full records/month. NO CHASING.</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ 10 full record views / month</li>
                 <li>✓ Lead scanning</li>
                 <li>✓ All free tools</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center brutal-border bg-deep-slate text-white text-[10px] font-black py-4 uppercase tracking-widest">JOIN EARLY ACCESS</button>
+              <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">STAY IN CONTROL</button>
             </div>
 
-            <div className="brutal-border bg-high-vis-orange p-6 brutal-shadow-lg flex flex-col relative scale-105">
-              <div className="absolute -top-4 left-4 bg-deep-slate text-high-vis-orange px-3 py-1 text-[10px] font-black uppercase tracking-widest brutal-border">MOST POPULAR</div>
-              <p className="text-deep-slate font-black uppercase tracking-widest text-xs mt-2">Scout Pro</p>
-              <p className="text-4xl font-display font-black mt-2 text-deep-slate">£39<span className="text-sm font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-deep-slate/70 uppercase tracking-widest mt-2 leading-tight">Full access. No limits. Built for active tradesmen.</p>
-              <ul className="mt-6 space-y-2 text-deep-slate text-sm font-bold flex-1">
+            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
+              <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">Most Popular</div>
+              <p className="text-high-vis-orange font-extrabold uppercase tracking-widest text-xs">Scout Pro</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£39<span className="text-sm text-amber-500/60 font-normal">/mo</span></p>
+              <p className="text-[10px] font-bold text-amber-400/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. REAL LEADS. NO COMPETING.</p>
+              <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
                 <li>✓ Unlimited lead access</li>
                 <li>✓ WhatsApp job alerts</li>
                 <li>✓ Smart Quoting</li>
                 <li>✓ Payment Chaser</li>
                 <li>✓ Review Harvester</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center brutal-border bg-deep-slate text-high-vis-orange text-[10px] font-black py-4 uppercase tracking-widest">JOIN EARLY ACCESS</button>
+              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">CONTROL THE JOBS</button>
             </div>
 
-            <div className="brutal-border bg-white p-6 flex flex-col brutal-shadow">
-              <p className="text-slate-500 font-black uppercase tracking-widest text-xs">Scout Max</p>
-              <p className="text-4xl font-display font-black mt-2 text-deep-slate">£59<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2 leading-tight">For busy teams that need priority access and multi-user.</p>
-              <ul className="mt-6 space-y-2 text-deep-slate text-sm font-bold flex-1">
+            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
+              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Max</p>
+              <p className="text-4xl font-display font-extrabold mt-2">£59<span className="text-sm text-slate-500 font-normal">/mo</span></p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For busy teams that need priority access and more control.</p>
+              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ Everything in Pro</li>
                 <li>✓ Priority first access to leads</li>
                 <li>✓ Multi-user (up to 3)</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Max')} className="mt-8 w-full text-center brutal-border bg-deep-slate text-white text-[10px] font-black py-4 uppercase tracking-widest">JOIN EARLY ACCESS</button>
+              <button onClick={() => openWaitlist('Scout Max')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">NO CONTRACTS</button>
             </div>
           </div>
 
           <div className="mt-8 bg-deep-slate brutal-border p-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="max-w-2xl">
-              <h3 className="text-2xl font-display font-black uppercase text-white">HAMMER TIER — £99/mo</h3>
-              <p className="text-slate-400 font-bold text-sm mt-2">Done-for-you concierge outreach. We find, filter, and deliver qualified jobs to your inbox. You just quote.</p>
+              <h3 className="text-2xl font-display font-extrabold uppercase">Hammer Tier — £99/mo</h3>
+              <p className="text-slate-400 font-bold text-sm mt-2">Built for trades who want the lot handled. We filter, rank, and send real leads. You quote and get paid.</p>
             </div>
-            <button onClick={() => openWaitlist('Hammer')} className="brutal-btn font-display font-black text-sm py-4 px-8 whitespace-nowrap">JOIN EARLY ACCESS</button>
+            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">GET REAL LEADS</button>
           </div>
         </div>
       </section>
