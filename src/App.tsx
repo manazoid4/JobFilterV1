@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
 
 type AnalyticsEventName =
@@ -141,6 +141,13 @@ export default function App() {
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
   const [waitlistError, setWaitlistError] = useState('');
   const [activeToolId, setActiveToolId] = useState<ToolId | null>(null);
+  const [freeViewsUsed, setFreeViewsUsed] = useState(0);
+  const [invContractorName, setInvContractorName] = useState('');
+  const [invPhone, setInvPhone] = useState('');
+  const [invEmail, setInvEmail] = useState('');
+  const [blueprintIdeas, setBlueprintIdeas] = useState<Array<{ id: string; idea: string; phase: string; createdAt: any }>>([]);
+  const [newIdea, setNewIdea] = useState('');
+  const [selectedPhase, setSelectedPhase] = useState('Phase 1');
 
   // ── Tool: Quote Quick Builder ────────────────────────────────────────────────
   const [qtLabour, setQtLabour] = useState(6);
@@ -331,6 +338,7 @@ export default function App() {
       setScanRegion(region);
       setIsScanning(false);
       setScanComplete(true);
+      setFreeViewsUsed(v => Math.min(3, v + 1));
       trackEvent('filter_scan_complete', { jobs_returned: resultLeads.length, source: remoteLeads.length ? 'live' : 'seed' });
     } catch {
       const fallbackJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
@@ -342,6 +350,14 @@ export default function App() {
       trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length, source: 'seed' });
     }
   };
+
+  useEffect(() => {
+    const q = query(collection(db, "blueprint"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setBlueprintIdeas(snapshot.docs.map(doc => ({ id: doc.id, idea: doc.data().idea, phase: doc.data().phase, createdAt: doc.data().createdAt })));
+    });
+    return () => unsubscribe();
+  }, []);
 
   const tools = [
     { id: 'quote' as ToolId, icon: '📋', label: 'Quote Builder', desc: 'Build a quote in 30 seconds' },
@@ -381,6 +397,7 @@ export default function App() {
               <div className="flex items-center gap-7 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
                 <a href="#filter" className="hover:text-deep-slate transition-colors">Find Jobs</a>
                 <a href="#tools" className="hover:text-deep-slate transition-colors">Free Tools</a>
+                <a href="#blueprint" className="hover:text-deep-slate transition-colors">Blueprint</a>
                 <a href="#features" className="hover:text-deep-slate transition-colors">Features</a>
                 <a href="#roi" className="hover:text-deep-slate transition-colors">ROI</a>
                 <a href="#pricing" className="hover:text-deep-slate transition-colors">Pricing</a>
@@ -442,14 +459,14 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="font-display font-black text-6xl md:text-9xl uppercase leading-[0.85] mb-8"
           >
-            ENTER THE INTAKE<br /><span className="text-high-vis-orange">CONTROL THE JOBS.</span>
+            STOP QUOTING<br /><span className="text-high-vis-orange">FOR FREE.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
             className="text-lg md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-medium"
           >
-            Real leads by postcode. No chasing. No competing. You see the jobs worth quoting and stay in control of your diary.
+            JobFilter sits in front of your WhatsApp. Demands photos and postcodes. Charges tyre-kickers a Priority Booking deposit before they ever reach your phone.
           </motion.p>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-10">
@@ -462,7 +479,7 @@ export default function App() {
               Find Jobs Near Me →
             </a>
             <a href="#tools" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
-              Free Trade Tools
+              See How It Works
             </a>
           </motion.div>
 
@@ -497,7 +514,7 @@ export default function App() {
       <section id="filter" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">ENTER THE <span className="text-electric-cyan">INTAKE</span></h2>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">ENTER THE <span className="text-high-vis-orange">INTAKE</span></h2>
             <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">Real leads by postcode. No chasing. No competing.</p>
           </div>
 
@@ -548,11 +565,11 @@ export default function App() {
                             {job.source && <p className="text-[10px] font-bold text-slate-400 mt-1">{job.source}{job.sourceConfidence ? ` · ${job.sourceConfidence}%` : ''}</p>}
                           </div>
                         </div>
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-electric-cyan mt-2">{toDisplayUrgency(job.urgency)}</p>
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-300 mt-2">{toDisplayUrgency(job.urgency)}</p>
                       </div>
                     ))}
                   </div>
-                  <div className="bg-slate-800/80 border border-electric-cyan/30 p-4 rounded-sm mt-2">
+                  <div className="bg-slate-800/80 border border-high-vis-orange/30 p-4 rounded-sm mt-2">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs text-deep-slate font-black uppercase tracking-widest">Lead Quality Score</p>
@@ -663,7 +680,7 @@ export default function App() {
                         <p className="font-display text-7xl font-extrabold text-high-vis-orange italic">£{drRequired}</p>
                         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Per day to hit your target</p>
                         <div className="mt-4 text-sm font-bold text-slate-300">
-                          = <span className="text-electric-cyan">£{Math.ceil(drRequired / 8)}/hr</span> based on 8hr day
+                          = <span className="text-high-vis-orange">£{Math.ceil(drRequired / 8)}/hr</span> based on 8hr day
                         </div>
                         <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
                           <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
@@ -771,7 +788,7 @@ export default function App() {
                       </div>
                       <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
                         <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Estimated Time</p>
-                        <p className="font-display text-8xl font-extrabold text-electric-cyan italic">{teHours}</p>
+                        <p className="font-display text-8xl font-extrabold text-high-vis-orange italic">{teHours}</p>
                         <p className="text-lg font-bold uppercase tracking-widest text-slate-400 mt-1">hours</p>
                         <div className="mt-4 grid grid-cols-2 gap-3 text-center">
                           <div className="bg-slate-800/60 rounded-sm p-3">
@@ -831,6 +848,20 @@ export default function App() {
                     {!invGenerated ? (
                       <div className="grid md:grid-cols-2 gap-8">
                         <div className="space-y-4">
+                          <div className="space-y-4 mb-6 pb-6 border-b border-slate-700">
+                            <div>
+                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your name / company</label>
+                              <input value={invContractorName} onChange={e => setInvContractorName(e.target.value)} placeholder="e.g. John's Plumbing" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your phone</label>
+                              <input value={invPhone} onChange={e => setInvPhone(e.target.value)} placeholder="e.g. 07700 123456" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your email</label>
+                              <input type="email" value={invEmail} onChange={e => setInvEmail(e.target.value)} placeholder="e.g. john@example.com" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
+                            </div>
+                          </div>
                           <div>
                             <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Client name</label>
                             <input value={invClient} onChange={e => setInvClient(e.target.value)} placeholder="e.g. John Smith" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
@@ -870,18 +901,22 @@ export default function App() {
                       </div>
                     ) : (
                       <div>
-                        <div className="bg-white text-slate-900 p-8 rounded-sm mb-4">
-                          <div className="flex justify-between items-start mb-8">
-                            <div>
-                              <p className="font-display text-2xl font-extrabold uppercase italic text-high-vis-orange">JobFilter</p>
-                              <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Built For Trades</p>
+                        <div className="bg-white text-slate-900 rounded-sm mb-4 overflow-hidden">
+                          <div className="h-1 bg-high-vis-orange w-full"></div>
+                          <div className="p-8">
+                            <div className="flex justify-between items-start mb-8">
+                              <div>
+                                <p className="font-bold text-lg">{invContractorName || 'Your Company'}</p>
+                                <p className="text-sm text-slate-500 mt-1">{invPhone} | {invEmail}</p>
+                                <p className="text-xs font-medium text-high-vis-orange mt-2">JobFilter — Built For Trades</p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-2xl font-extrabold text-slate-900">INVOICE</p>
+                                <p className="text-xs text-slate-500 font-bold mt-1">{invNumber}</p>
+                                <p className="text-xs text-slate-500 font-bold">{invDate}</p>
+                                <p className="text-xs text-slate-500 font-bold mt-2">Due: {new Date(Date.now() + 12096e5).toLocaleDateString('en-GB')}</p>
+                              </div>
                             </div>
-                            <div className="text-right">
-                              <p className="text-2xl font-extrabold text-slate-900">INVOICE</p>
-                              <p className="text-xs text-slate-500 font-bold mt-1">{invNumber}</p>
-                              <p className="text-xs text-slate-500 font-bold">{invDate}</p>
-                            </div>
-                          </div>
                           <div className="mb-6">
                             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Bill To</p>
                             <p className="font-bold text-lg">{invClient || 'Client Name'}</p>
@@ -899,6 +934,7 @@ export default function App() {
                             </div>
                           </div>
                           <div className="mt-6 text-xs text-slate-400">Payment due within 14 days. Bank transfer preferred.</div>
+                          </div>
                         </div>
                         <div className="flex gap-3">
                           <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
@@ -1038,6 +1074,79 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── BLUEPRINT ── */}
+      <section id="blueprint" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">BLUEPRINT</span></h2>
+            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Public roadmap and feature dump. No password required.</p>
+          </div>
+
+          <div className="bg-white brutal-border brutal-shadow-lg p-8 mb-8">
+            <div className="grid md:grid-cols-[1fr_140px_120px] gap-4">
+              <input
+                type="text"
+                placeholder="e.g. Material Fetcher AI..."
+                className="brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange"
+                value={newIdea}
+                onChange={(e) => setNewIdea(e.target.value)}
+              />
+              <select
+                className="brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange"
+                value={selectedPhase}
+                onChange={(e) => setSelectedPhase(e.target.value)}
+              >
+                <option>Phase 1</option>
+                <option>Phase 2</option>
+                <option>Phase 3</option>
+              </select>
+              <button
+                onClick={async () => {
+                  if(!newIdea.trim()) return;
+                  await addDoc(collection(db, "blueprint"), {
+                    idea: newIdea,
+                    phase: selectedPhase,
+                    createdAt: serverTimestamp()
+                  });
+                  setNewIdea('');
+                }}
+                className="classic-btn text-deep-slate font-extrabold py-3 px-6 rounded-sm uppercase italic tracking-widest transition-all"
+              >
+                LOG IDEA
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-display text-2xl font-extrabold uppercase mb-6 text-high-vis-orange">THE BACKLOG</h3>
+            <div className="space-y-3">
+              {blueprintIdeas.length === 0 ? (
+                <div className="bg-slate-800/50 border border-white/10 rounded-sm p-6 text-center">
+                  <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">No ideas logged yet. Be the first.</p>
+                </div>
+              ) : (
+                blueprintIdeas.map((item) => (
+                  <div key={item.id} className="bg-slate-800/60 border border-white/10 rounded-sm p-4 flex justify-between items-center hover:bg-slate-800/80 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] font-extrabold uppercase px-3 py-1 bg-high-vis-orange/20 border border-high-vis-orange text-high-vis-orange rounded-sm">
+                        {item.phase}
+                      </span>
+                      <span className="text-slate-200 font-bold">{item.idea}</span>
+                    </div>
+                    <button
+                      onClick={() => deleteDoc(doc(db, "blueprint", item.id))}
+                      className="text-slate-500 hover:text-red-400 transition-colors font-bold text-lg"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── ROI CALCULATOR ── */}
       <section id="roi" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
         <div className="max-w-4xl mx-auto">
@@ -1128,7 +1237,7 @@ export default function App() {
                   </div>
                   <form onSubmit={submitWaitlist} className="space-y-4">
                     <input type="email" required value={waitlistEmail} onChange={e => setWaitlistEmail(e.target.value)} placeholder="your@email.com"
-                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan" />
+                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-high-vis-orange" />
                     <button type="submit" className="w-full bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
                     {waitlistError && <p className="text-red-400 text-xs font-bold uppercase tracking-wide">{waitlistError}</p>}
                   </form>
