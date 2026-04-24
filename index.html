@@ -8,10 +8,23 @@
       name="description"
       content="ENTER THE INTAKE. Find REAL LEADS by postcode. NO CHASING. NO COMPETING. BUILT FOR TRADES."
     />
-    <meta name="theme-color" content="#f59e0b" />
+    <meta name="theme-color" content="#f5d000" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main style="font-family: Inter, system-ui, sans-serif; background:#e5e7eb; color:#0f1933; min-height:100vh; padding:2rem;">
+        <h1 style="font-family: Oswald, Impact, sans-serif; text-transform:uppercase; font-size:clamp(2rem,6vw,4rem); margin:0 0 1rem;">ENTER THE INTAKE</h1>
+        <p style="font-weight:700; margin:0 0 1rem;">CONTROL THE JOBS. REAL LEADS. NO CHASING. NO COMPETING.</p>
+        <label for="postcode-fallback" style="display:block; font-weight:700; margin-bottom:.5rem;">Postcode</label>
+        <input id="postcode-fallback" type="text" value="" placeholder="e.g. B14 7QH" disabled style="padding:.75rem 1rem; border:2px solid #0f1933; width:min(100%, 28rem); background:#fff;" />
+        <p style="margin-top:1rem; font-weight:700;">Loading your intake… STAY IN CONTROL.</p>
+      </main>
+    </div>
+    <noscript>
+      <div style="font-family: Inter, system-ui, sans-serif; background:#e5e7eb; color:#0f1933; padding:1rem;">
+        JavaScript is required to scan live leads. Please enable JavaScript and reload.
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

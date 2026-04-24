@@ -303,7 +303,7 @@ export default function App() {
   ];
 
   return (
-    <div className="classic-theme min-h-screen bg-deep-slate text-slate-100 font-sans selection:bg-high-vis-orange selection:text-deep-slate">
+    <div className="classic-theme min-h-screen bg-deep-slate text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 w-full z-50 px-4 py-4 sm:px-6">
@@ -522,22 +522,22 @@ export default function App() {
       </section>
 
       {/* ── FREE TOOLS ── */}
-      <section id="tools" className="py-24 px-6">
+      <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
         <div id="blueprint" className="relative -top-28"></div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
             <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">Free <span className="text-high-vis-orange">Trade Tools</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
           </div>
 
           {/* Tool grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
             {tools.map(t => (
               <button key={t.id} onClick={() => { setActiveToolId(t.id === activeToolId ? null : t.id); trackEvent('tool_used', { tool: t.id }); }}
-                className={`p-4 rounded-sm border text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange/10 border-high-vis-orange text-white' : 'bg-slate-900/50 border-white/10 hover:border-white/20 text-slate-300'}`}>
+                className={`p-4 rounded-sm border-2 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-[#efefef] text-deep-slate'}`}>
                 <span className="text-2xl block mb-2">{t.icon}</span>
                 <p className="text-xs font-extrabold uppercase tracking-wide leading-tight">{t.label}</p>
-                <p className="text-[10px] text-slate-500 mt-1 leading-tight">{t.desc}</p>
+                <p className="text-[10px] text-slate-600 mt-1 leading-tight">{t.desc}</p>
               </button>
             ))}
           </div>
@@ -545,7 +545,7 @@ export default function App() {
           {/* Tool panels */}
           <AnimatePresence mode="wait">
             {activeToolId && (
-              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="bg-deep-slate border border-white/10 rounded-sm p-6 md:p-8">
+              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="classic-panel rounded-sm p-6 md:p-8 text-deep-slate">
 
                 {/* ── QUOTE BUILDER ── */}
                 {activeToolId === 'quote' && (
