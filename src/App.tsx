@@ -39,54 +39,66 @@ type ToolId =
 type JobUrgency = 'today' | 'this_week' | 'planned';
 
 type LeadJob = {
-  id: string;
   title: string;
   trade: string;
   location: string;
   estimatedValue: number;
   urgency: JobUrgency;
-  postcodeOutward: string;
-  sourceConfidence: number;
-  status: 'open' | 'quoted' | 'won' | 'lost';
 };
 
 type RegionTradeJobs = Record<string, Record<string, LeadJob[]>>;
 
-const makeJob = (
-  id: string,
-  title: string,
-  trade: string,
-  location: string,
-  estimatedValue: number,
-  urgency: JobUrgency,
-  sourceConfidence: number,
-): LeadJob => ({ id, title, trade, location, estimatedValue, urgency, postcodeOutward: location, sourceConfidence, status: 'open' });
-
 const UK_JOB_DATA: RegionTradeJobs = {
   birmingham: {
-    plumbing: [makeJob('b-pl-1', 'Emergency boiler pressure drop', 'plumbing', 'B14', 260, 'today', 92), makeJob('b-pl-2', 'Kitchen sink and trap replacement', 'plumbing', 'B30', 340, 'this_week', 84), makeJob('b-pl-3', 'Bathroom refit first fix', 'plumbing', 'B17', 1850, 'planned', 80)],
-    electrical: [makeJob('b-el-1', 'Consumer unit safety inspection', 'electrical', 'B42', 480, 'this_week', 91), makeJob('b-el-2', 'EV charger install', 'electrical', 'B23', 980, 'planned', 82), makeJob('b-el-3', 'Fault find on ring main', 'electrical', 'B33', 290, 'today', 88)],
-    general: [makeJob('b-ge-1', 'Fence repair after storm damage', 'general', 'B11', 520, 'this_week', 79), makeJob('b-ge-2', 'Garage conversion prep works', 'building', 'B36', 2100, 'planned', 76), makeJob('b-ge-3', 'Loft hatch and boarding upgrade', 'general', 'B74', 760, 'this_week', 86)],
+    plumbing: [
+      { title: 'Emergency boiler pressure drop', trade: 'plumbing', location: 'B14', estimatedValue: 260, urgency: 'today' },
+      { title: 'Kitchen sink and trap replacement', trade: 'plumbing', location: 'B30', estimatedValue: 340, urgency: 'this_week' },
+      { title: 'Full bathroom refit first fix', trade: 'plumbing', location: 'B17', estimatedValue: 1850, urgency: 'planned' },
+    ],
+    electrical: [
+      { title: 'Consumer unit safety inspection', trade: 'electrical', location: 'B42', estimatedValue: 480, urgency: 'this_week' },
+      { title: 'EV charger install', trade: 'electrical', location: 'B23', estimatedValue: 980, urgency: 'planned' },
+      { title: 'Fault find on ring main', trade: 'electrical', location: 'B33', estimatedValue: 290, urgency: 'today' },
+    ],
+    general: [
+      { title: 'Fence repair after storm damage', trade: 'general', location: 'B11', estimatedValue: 520, urgency: 'this_week' },
+      { title: 'Garage conversion prep works', trade: 'building', location: 'B36', estimatedValue: 2100, urgency: 'planned' },
+      { title: 'Loft hatch and boarding upgrade', trade: 'general', location: 'B74', estimatedValue: 760, urgency: 'this_week' },
+    ],
   },
   london: {
-    plumbing: [makeJob('l-pl-1', 'Flat leak trace and fix', 'plumbing', 'SW16', 420, 'today', 90), makeJob('l-pl-2', 'Combi boiler service and flush', 'plumbing', 'E17', 330, 'this_week', 81), makeJob('l-pl-3', 'Shower valve replacement', 'plumbing', 'SE9', 260, 'this_week', 84)],
-    electrical: [makeJob('l-el-1', 'Rewire 2-bed terrace', 'electrical', 'N17', 3800, 'planned', 74), makeJob('l-el-2', 'Hallway lighting upgrade', 'electrical', 'W5', 640, 'this_week', 89), makeJob('l-el-3', 'EICR for rental property', 'electrical', 'CR0', 240, 'today', 95)],
-    general: [makeJob('l-ge-1', 'Damp patch repair and skim', 'general', 'E10', 590, 'this_week', 83), makeJob('l-ge-2', 'Door frame replacement', 'building', 'SE15', 690, 'this_week', 82), makeJob('l-ge-3', 'Kitchen tiling and seal', 'general', 'NW9', 920, 'planned', 78)],
+    plumbing: [
+      { title: 'Flat leak trace and fix', trade: 'plumbing', location: 'SW16', estimatedValue: 420, urgency: 'today' },
+      { title: 'Combi boiler service + flush', trade: 'plumbing', location: 'E17', estimatedValue: 330, urgency: 'this_week' },
+      { title: 'Shower valve replacement', trade: 'plumbing', location: 'SE9', estimatedValue: 260, urgency: 'this_week' },
+    ],
+    electrical: [
+      { title: 'Rewire 2-bed terrace', trade: 'electrical', location: 'N17', estimatedValue: 3800, urgency: 'planned' },
+      { title: 'Lighting upgrade in hallway', trade: 'electrical', location: 'W5', estimatedValue: 640, urgency: 'this_week' },
+      { title: 'EICR for rental property', trade: 'electrical', location: 'CR0', estimatedValue: 240, urgency: 'today' },
+    ],
+    general: [
+      { title: 'Damp patch repair and skim', trade: 'general', location: 'E10', estimatedValue: 590, urgency: 'this_week' },
+      { title: 'Door frame replacement', trade: 'building', location: 'SE15', estimatedValue: 690, urgency: 'this_week' },
+      { title: 'Kitchen tiling and seal', trade: 'general', location: 'NW9', estimatedValue: 920, urgency: 'planned' },
+    ],
   },
   manchester: {
-    plumbing: [makeJob('m-pl-1', 'Radiator balance and valve swap', 'plumbing', 'M14', 280, 'this_week', 84), makeJob('m-pl-2', 'Leaking stop tap replacement', 'plumbing', 'M8', 220, 'today', 91), makeJob('m-pl-3', 'Soil pipe section repair', 'plumbing', 'M23', 740, 'this_week', 83)],
-    electrical: [makeJob('m-el-1', 'Extractor fan rewire', 'electrical', 'M9', 210, 'today', 89), makeJob('m-el-2', 'Garage power feed install', 'electrical', 'M20', 860, 'planned', 80), makeJob('m-el-3', 'Outdoor security lighting', 'electrical', 'M32', 560, 'this_week', 82)],
-    general: [makeJob('m-ge-1', 'Roofline repair and repaint', 'general', 'M22', 1450, 'planned', 75), makeJob('m-ge-2', 'Laminate floor install', 'general', 'M27', 870, 'this_week', 81), makeJob('m-ge-3', 'Brickwork repointing front wall', 'building', 'M34', 960, 'planned', 77)],
-  },
-  leeds: {
-    plumbing: [makeJob('ld-pl-1', 'Cylinder replacement and recommission', 'plumbing', 'LS11', 1250, 'this_week', 80), makeJob('ld-pl-2', 'Leak under bath and waste reset', 'plumbing', 'LS7', 310, 'today', 88), makeJob('ld-pl-3', 'Outside tap install', 'plumbing', 'LS16', 180, 'planned', 78)],
-    electrical: [makeJob('ld-el-1', 'Kitchen rewire phase 1', 'electrical', 'LS12', 2200, 'planned', 79), makeJob('ld-el-2', 'Consumer unit label and test', 'electrical', 'LS3', 280, 'today', 92), makeJob('ld-el-3', 'Garden office supply', 'electrical', 'LS26', 950, 'this_week', 84)],
-    general: [makeJob('ld-ge-1', 'Internal door hanging x6', 'general', 'LS10', 760, 'this_week', 81), makeJob('ld-ge-2', 'Kitchen subfloor repair', 'building', 'LS27', 690, 'this_week', 83), makeJob('ld-ge-3', 'Extension snag list', 'general', 'LS6', 520, 'today', 90)],
-  },
-  liverpool: {
-    plumbing: [makeJob('lp-pl-1', 'Boiler condensate reroute', 'plumbing', 'L15', 260, 'today', 89), makeJob('lp-pl-2', 'Radiator install x2', 'plumbing', 'L18', 540, 'this_week', 83), makeJob('lp-pl-3', 'Bathroom first fix package', 'plumbing', 'L25', 1500, 'planned', 77)],
-    electrical: [makeJob('lp-el-1', 'Fuse board upgrade', 'electrical', 'L8', 760, 'this_week', 87), makeJob('lp-el-2', 'Socket faults and testing', 'electrical', 'L13', 230, 'today', 91), makeJob('lp-el-3', 'EV charger and cable run', 'electrical', 'L37', 1120, 'planned', 79)],
-    general: [makeJob('lp-ge-1', 'Plaster patch and paint touch-up', 'general', 'L6', 390, 'today', 88), makeJob('lp-ge-2', 'Boundary wall repair', 'building', 'L19', 980, 'this_week', 82), makeJob('lp-ge-3', 'Loft insulation top-up', 'general', 'L12', 640, 'planned', 76)],
+    plumbing: [
+      { title: 'Radiator balance + valve swap', trade: 'plumbing', location: 'M14', estimatedValue: 280, urgency: 'this_week' },
+      { title: 'Leaking stop tap replacement', trade: 'plumbing', location: 'M8', estimatedValue: 220, urgency: 'today' },
+      { title: 'Soil pipe section repair', trade: 'plumbing', location: 'M23', estimatedValue: 740, urgency: 'this_week' },
+    ],
+    electrical: [
+      { title: 'Extractor fan rewire', trade: 'electrical', location: 'M9', estimatedValue: 210, urgency: 'today' },
+      { title: 'Garage power feed install', trade: 'electrical', location: 'M20', estimatedValue: 860, urgency: 'planned' },
+      { title: 'Outdoor security lighting', trade: 'electrical', location: 'M32', estimatedValue: 560, urgency: 'this_week' },
+    ],
+    general: [
+      { title: 'Roofline repair and repaint', trade: 'general', location: 'M22', estimatedValue: 1450, urgency: 'planned' },
+      { title: 'Laminate floor install', trade: 'general', location: 'M27', estimatedValue: 870, urgency: 'this_week' },
+      { title: 'Brickwork repointing front wall', trade: 'building', location: 'M34', estimatedValue: 960, urgency: 'planned' },
+    ],
   },
 };
 
@@ -107,9 +119,6 @@ const REGION_BY_POSTCODE_PREFIX: Record<string, keyof typeof UK_JOB_DATA> = {
   SK: 'manchester',
   OL: 'manchester',
   BL: 'manchester',
-  LS: 'leeds',
-  WF: 'leeds',
-  L: 'liverpool',
 };
 
 export default function App() {
@@ -123,7 +132,6 @@ export default function App() {
   const [scanComplete, setScanComplete] = useState(false);
   const [leadResults, setLeadResults] = useState<LeadJob[]>([]);
   const [scanRegion, setScanRegion] = useState('');
-  const [freeViewsUsed, setFreeViewsUsed] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [waitlistPlan, setWaitlistPlan] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
@@ -250,12 +258,6 @@ export default function App() {
     return 'Planned Work';
   };
 
-  const getUrgencyWeight = (urgency: JobUrgency) => {
-    if (urgency === 'today') return 35;
-    if (urgency === 'this_week') return 20;
-    return 8;
-  };
-
   const trackEvent = (eventName: AnalyticsEventName, params: Record<string, unknown> = {}) => {
     const eventPayload = { event: eventName, ...params, timestamp: new Date().toISOString() };
     if (typeof window !== 'undefined') { window.dataLayer = window.dataLayer || []; window.dataLayer.push(eventPayload); }
@@ -277,54 +279,14 @@ export default function App() {
 
   const startScan = async () => {
     setIsScanning(true); setScanComplete(false);
-    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, trade: tradeType });
-
-    const urgencyMap: Record<string, JobUrgency> = { high: 'today', medium: 'this_week', low: 'planned' };
-    const startTime = Date.now();
-    let resolvedRegion = resolveRegionFromPostcode(postcode);
-    let rankedJobs: LeadJob[] = [];
-
-    try {
-      const res = await fetch(`/api/scan?postcode=${encodeURIComponent(postcode)}&trade=${tradeType}&tier=free`);
-      if (!res.ok) throw new Error('scan api error');
-      const data = await res.json();
-      rankedJobs = (data.leads ?? []).map((l: Record<string, unknown>) => ({
-        id: String(l.id),
-        title: String(l.title),
-        trade: String(l.trade),
-        location: String(l.location),
-        postcodeOutward: String(l.postcodeOutward ?? l.location),
-        estimatedValue: parseFloat(String(l.estimatedValue)) || 0,
-        urgency: urgencyMap[String(l.urgency)] ?? 'planned',
-        sourceConfidence: Number(l.sourceConfidence) || 70,
-        status: 'open' as const,
-      }));
-      resolvedRegion = String(data.region ?? resolvedRegion);
-    } catch {
-      // fallback to local mock data
-      const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
-      const tradeJobs = UK_JOB_DATA[resolvedRegion]?.[selectedTrade] || UK_JOB_DATA[resolvedRegion]?.general || [];
-      const outwardPrefix = postcode.toUpperCase().replace(/\s+/g, '').match(/^[A-Z]{1,2}\d[A-Z\d]?/)?.[0] || '';
-      rankedJobs = [...tradeJobs]
-        .map((job) => {
-          const locationMatch = outwardPrefix && job.location.startsWith(outwardPrefix.substring(0, 2)) ? 20 : 7;
-          const valueWeight = Math.min(35, Math.round(job.estimatedValue / 120));
-          return { ...job, sourceConfidence: Math.min(99, job.sourceConfidence + getUrgencyWeight(job.urgency) / 5), rankScore: valueWeight + getUrgencyWeight(job.urgency) + locationMatch + Math.round(job.sourceConfidence / 6) };
-        })
-        .sort((a, b) => b.rankScore - a.rankScore)
-        .map(({ rankScore: _rankScore, ...job }) => job);
-    }
-
-    setLeadResults(rankedJobs);
-    setScanRegion(resolvedRegion);
-    setFreeViewsUsed((v) => Math.min(3, v + 1));
-
-    const elapsed = Date.now() - startTime;
-    setTimeout(() => {
-      setIsScanning(false);
-      setScanComplete(true);
-      trackEvent('filter_scan_complete', { jobs_returned: rankedJobs.length });
-    }, Math.max(0, 900 - elapsed));
+    const region = resolveRegionFromPostcode(postcode);
+    const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
+    const tradeJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+    const sortedByValue = [...tradeJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
+    setLeadResults(sortedByValue);
+    setScanRegion(region);
+    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
+    setTimeout(() => { setIsScanning(false); setScanComplete(true); trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length }); }, 900);
   };
 
   const tools = [
@@ -341,45 +303,57 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
-
-      {/* ── TOP BANNER ── */}
-      <div className="bg-high-vis-orange text-deep-slate font-display font-black text-center py-3 border-b-4 border-deep-slate text-base md:text-lg uppercase tracking-widest">
-        🏆 FOUNDING 30: £22/MO LOCKED FOREVER — <span className="underline">LIMITED SPOTS</span>
-      </div>
+    <div className="classic-theme min-h-screen bg-deep-slate text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
 
       {/* ── NAV ── */}
-      <nav className="sticky top-0 w-full z-50 bg-deep-slate border-b-4 border-high-vis-orange">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <svg viewBox="0 0 32 32" className="w-9 h-9 border-2 border-white shrink-0">
-              <rect width="32" height="32" fill="#012169"/>
-              <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" strokeWidth="4"/>
-              <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" strokeWidth="2.5"/>
-              <path d="M16 0 V32 M0 16 H32" stroke="#fff" strokeWidth="6"/>
-              <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" strokeWidth="4"/>
-            </svg>
-            <span className="font-display font-black text-3xl uppercase tracking-tighter text-white">JOBFILTER</span>
+      <nav className="fixed top-0 w-full z-50 px-4 py-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
+            <div className="flex items-center gap-4">
+              <div className="group flex items-center gap-3 cursor-pointer">
+                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-white transition-colors">🇬🇧</div>
+                <div className="flex flex-col">
+                  <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
+                  <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
+                </div>
+              </div>
+            </div>
+            <div className="hidden lg:flex items-center gap-10">
+              <div className="flex items-center gap-8 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
+                <a href="#features" className="hover:text-deep-slate transition-colors">Features</a>
+                <a href="#blueprint" className="hover:text-deep-slate transition-colors">Blueprint</a>
+              </div>
+              <div className="h-4 w-px bg-slate-400"></div>
+              <div className="flex items-center gap-4">
+                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
+                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="classic-btn text-deep-slate text-[11px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest transition-all">
+                  Find Jobs Near Me
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="hidden sm:flex flex-col items-end">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></span>
+                  <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">LIVE</span>
+                </div>
+              </div>
+              <button className="lg:hidden text-slate-700 hover:text-deep-slate transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
+                {mobileMenuOpen
+                  ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                  : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                }
+              </button>
+            </div>
           </div>
-          <div className="hidden lg:flex items-center gap-8 text-sm font-display font-black uppercase tracking-widest text-slate-300">
-            <a href="#filter" className="hover:text-high-vis-orange transition-colors">Find Jobs</a>
-            <a href="#tools" className="hover:text-high-vis-orange transition-colors">Free Tools</a>
-            <a href="#roi" className="hover:text-high-vis-orange transition-colors">ROI</a>
-            <a href="#pricing" className="hover:text-high-vis-orange transition-colors">Pricing</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="/login" className="hidden lg:block text-xs font-display font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Log In</a>
-            <a href="#filter" onClick={() => trackEvent('nav_cta_click')}
-              className="brutal-btn text-sm px-5 py-2 font-display font-black">
-              FIND JOBS NEAR ME
-            </a>
-            <button className="lg:hidden text-white" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
-              {mobileMenuOpen
-                ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-              }
-            </button>
-          </div>
+          {mobileMenuOpen && (
+            <div className="lg:hidden mt-2 classic-panel px-6 py-4 flex flex-col gap-4">
+              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Features</a>
+              <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Blueprint</a>
+              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
+              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="classic-btn mt-2 text-center text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest">Find Jobs Near Me</a>
+            </div>
+          )}
         </div>
         {mobileMenuOpen && (
           <div className="lg:hidden bg-deep-slate border-t-2 border-white/10 px-6 py-4 flex flex-col gap-4">
@@ -393,10 +367,11 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <header className="bg-white border-b-4 border-deep-slate pt-16 pb-20 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-block bg-deep-slate text-white font-display font-black px-5 py-2 text-sm uppercase tracking-widest mb-8">
-            BUILT IN BIRMINGHAM — FREE TO SCAN
+      <header id="features" className="relative pt-40 pb-28 px-6 overflow-hidden">
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-amber-500/10 border border-deep-slate rounded-sm px-4 py-2 mb-8">
+            <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-high-vis-orange">Free — No Card Needed</span>
           </motion.div>
 
           <motion.h1
@@ -409,26 +384,26 @@ export default function App() {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-bold uppercase"
+            className="text-lg md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-medium"
           >
             Enter your postcode. JobFilter scans local leads, kills the rubbish, and shows you only the jobs worth quoting.
           </motion.p>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-10">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-10">
             Electricians · Plumbers · Builders · Heating Engineers · General Trade
           </motion.p>
 
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="brutal-btn text-2xl font-display font-black py-5 px-10">
-              FIND JOBS NEAR ME →
+              className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
+              Find Jobs Near Me →
             </a>
-            <a href="#tools" className="inline-flex items-center justify-center gap-3 brutal-border bg-white text-deep-slate text-2xl font-display font-black py-5 px-10 brutal-shadow hover:brutal-shadow-lg transition-all uppercase">
-              FREE TRADE TOOLS
+            <a href="#tools" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
+              Free Trade Tools
             </a>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-sm font-bold uppercase tracking-widest text-slate-500">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-600">
             <span>✓ No account needed</span>
             <span>✓ 3 full records free / month</span>
             <span>✓ Postcode-accurate filtering</span>
@@ -439,7 +414,7 @@ export default function App() {
       </header>
 
       {/* ── SOCIAL PROOF STRIP ── */}
-      <div className="py-6 px-6 bg-high-vis-orange border-y-4 border-deep-slate">
+      <div className="py-6 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-10 text-center">
           {[
             { v: '2,400+', l: 'Leads Scanned' },
@@ -448,22 +423,22 @@ export default function App() {
             { v: '10', l: 'Free Trade Tools' },
           ].map(({ v, l }) => (
             <div key={l}>
-              <p className="font-display font-black text-3xl text-deep-slate">{v}</p>
-              <p className="text-[11px] font-bold uppercase tracking-widest text-deep-slate/70 mt-1">{l}</p>
+              <p className="font-display text-3xl font-extrabold text-high-vis-orange italic">{v}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-600 mt-1">{l}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── THE FILTER ── */}
-      <section id="filter" className="py-24 px-6 bg-deep-slate border-b-4 border-deep-slate">
+      <section id="filter" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-white mb-3">ENTER THE <span className="text-high-vis-orange">INTAKE</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Real leads by postcode. No chasing. No competing.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">ENTER THE <span className="text-electric-cyan">INTAKE</span></h2>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">Real leads by postcode. No chasing. No competing.</p>
           </div>
 
-          <div className="bg-white brutal-border brutal-shadow-lg p-6 md:p-8">
+          <div className="classic-panel p-6 md:p-8 rounded-sm shadow-2xl">
             <div className="grid md:grid-cols-[1.4fr_2fr_1fr] gap-4 mb-6">
               <div>
                 <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Trade</label>
@@ -483,8 +458,8 @@ export default function App() {
               </div>
               <div className="flex items-end">
                 <button onClick={startScan} disabled={isScanning || postcode.trim().length < 4}
-                  className="w-full brutal-btn disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:transform-none font-display font-black py-3 px-4 uppercase tracking-widest h-[52px] text-sm">
-                  {isScanning ? 'SCANNING...' : 'START JOB SCAN'}
+                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-4 rounded-sm uppercase italic tracking-widest transition-all h-[52px] text-sm">
+                  {isScanning ? 'Scanning...' : 'Start Job Scan'}
                 </button>
               </div>
             </div>
@@ -494,25 +469,25 @@ export default function App() {
 
               {scanComplete ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                  <div className="flex items-center gap-3 text-green-700 font-black uppercase text-sm"><span>✔</span> CONTROL THE JOBS — REAL LEADS ONLY</div>
+                  <div className="flex items-center gap-3 text-green-400 font-bold uppercase italic text-sm"><span>✔</span> CONTROL THE JOBS — REAL LEADS ONLY</div>
                   <div className="grid gap-2">
                     {leadResults.map((job, index) => (
-                      <div key={`${job.title}-${index}`} className="bg-white brutal-border brutal-shadow p-3">
+                      <div key={`${job.title}-${index}`} className="bg-slate-800/70 border border-white/10 rounded-sm p-3">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-sm font-black uppercase tracking-wide text-deep-slate">{job.title}</p>
-                            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-500 mt-1">{job.trade} • {job.location} • Confidence {job.sourceConfidence}%</p>
+                            <p className="text-sm font-extrabold uppercase tracking-wide text-slate-100">{job.title}</p>
+                            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">{job.trade} • {job.location}</p>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs font-black uppercase tracking-widest text-deep-slate">Est. Value</p>
-                            <p className="text-lg font-display font-black text-deep-slate">£{job.estimatedValue.toLocaleString('en-GB')}</p>
+                            <p className="text-xs font-extrabold uppercase tracking-widest text-high-vis-orange">Est. Value</p>
+                            <p className="text-lg font-display font-extrabold italic text-high-vis-orange">£{job.estimatedValue.toLocaleString('en-GB')}</p>
                           </div>
                         </div>
                         <p className="text-[11px] font-bold uppercase tracking-widest text-electric-cyan mt-2">{toDisplayUrgency(job.urgency)}</p>
                       </div>
                     ))}
                   </div>
-                  <div className="brutal-border bg-high-vis-orange p-4 mt-2">
+                  <div className="bg-slate-800/80 border border-electric-cyan/30 p-4 rounded-sm mt-2">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs text-deep-slate font-black uppercase tracking-widest">Lead Quality Score</p>
@@ -523,14 +498,14 @@ export default function App() {
                         <div className="flex gap-1 justify-end">{[0,1,2].map(i => <div key={i} className={`w-6 h-2 ${i < freeViewsUsed ? 'bg-deep-slate' : 'bg-deep-slate/20'}`}></div>)}</div>
                       </div>
                     </div>
-                    <ul className="mt-3 space-y-1 text-xs text-slate-600 font-bold uppercase tracking-wide">
+                    <ul className="mt-3 space-y-1 text-xs text-slate-300 font-bold uppercase tracking-wide">
                       <li>• Region locked: {scanRegion}</li>
                       <li>• Scope matches {tradeType} profile</li>
                       <li>• FAIR SYSTEM: no hidden lead mixing</li>
                     </ul>
                   </div>
-                  <div className="pt-3 border-t-2 border-deep-slate/10 flex flex-col sm:flex-row items-center gap-4 justify-between">
-                    <p className="text-sm font-bold text-slate-600 uppercase">NO CONTRACTS. <span className="text-deep-slate font-black">{Math.max(0, 3 - freeViewsUsed)} free views left.</span></p>
+                  <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4 justify-between">
+                    <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">2 free views left this month.</span></p>
                     <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
                       className="brutal-btn text-xs font-display font-black py-2.5 px-6 whitespace-nowrap">
                       UNLOCK UNLIMITED →
@@ -539,10 +514,10 @@ export default function App() {
                 </motion.div>
               ) : (
                 <div className="flex flex-col items-center justify-center h-full py-8">
-                  <p className="text-slate-500 font-black uppercase tracking-widest text-xs mb-4">ENTER POSTCODE. START JOB SCAN.</p>
+                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">ENTER POSTCODE. START JOB SCAN.</p>
                   <div className="flex gap-2">
                     {['REAL LEADS', 'NO CHASING', 'NO COMPETING'].map((s, i) => (
-                      <div key={i} className="brutal-border bg-white px-3 py-2 text-[10px] font-black uppercase tracking-wide text-deep-slate text-center">{s}</div>
+                      <div key={i} className="bg-slate-800/60 border border-white/5 px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-wide text-slate-500 text-center">{s}</div>
                     ))}
                   </div>
                 </div>
@@ -554,20 +529,21 @@ export default function App() {
 
       {/* ── FREE TOOLS ── */}
       <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
+        <div id="blueprint" className="relative -top-28"></div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
-            <h2 className="font-display font-black text-5xl md:text-7xl uppercase text-deep-slate mb-3">FREE <span className="bg-high-vis-orange px-2">TRADE TOOLS</span></h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">Free <span className="text-high-vis-orange">Trade Tools</span></h2>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
           </div>
 
           {/* Tool grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
             {tools.map(t => (
               <button key={t.id} onClick={() => { setActiveToolId(t.id === activeToolId ? null : t.id); trackEvent('tool_used', { tool: t.id }); }}
-                className={`p-4 brutal-border text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange brutal-shadow text-deep-slate' : 'bg-white brutal-shadow hover:translate-x-[-2px] hover:translate-y-[-2px] hover:brutal-shadow-lg text-deep-slate'}`}>
+                className={`p-4 rounded-sm border-2 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-[#efefef] text-deep-slate'}`}>
                 <span className="text-2xl block mb-2">{t.icon}</span>
-                <p className="text-xs font-black uppercase tracking-wide leading-tight">{t.label}</p>
-                <p className="text-[10px] text-slate-500 mt-1 leading-tight">{t.desc}</p>
+                <p className="text-xs font-extrabold uppercase tracking-wide leading-tight">{t.label}</p>
+                <p className="text-[10px] text-slate-600 mt-1 leading-tight">{t.desc}</p>
               </button>
             ))}
           </div>
@@ -575,7 +551,7 @@ export default function App() {
           {/* Tool panels */}
           <AnimatePresence mode="wait">
             {activeToolId && (
-              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="bg-white brutal-border brutal-shadow-lg p-6 md:p-8">
+              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="classic-panel rounded-sm p-6 md:p-8 text-deep-slate">
 
                 {/* ── QUOTE BUILDER ── */}
                 {activeToolId === 'quote' && (
@@ -1153,7 +1129,7 @@ export default function App() {
           </div>
           <div className="grid grid-cols-2 gap-10 text-[11px] font-black uppercase tracking-widest text-slate-500">
             <div className="space-y-3">
-              <p className="text-high-vis-orange">Product</p>
+              <p className="text-slate-300">Product</p>
               <a href="#filter" className="block hover:text-white transition-colors">Find Jobs Near You</a>
               <a href="#tools" className="block hover:text-white transition-colors">Free Tools</a>
               <a href="#pricing" className="block hover:text-white transition-colors">Pricing</a>
