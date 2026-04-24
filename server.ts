@@ -2,6 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import Stripe from "stripe";
+import { scan } from './leadEngine/scan.ts';
 
 // Initialize Stripe (Requires STRIPE_SECRET_KEY in .env)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
@@ -366,6 +367,20 @@ async function startServer() {
         console.error("[RESEND] Background email sending failed:", error);
       }
     })();
+  });
+
+  // ==========================================
+  // LEAD ENGINE SCAN
+  // ==========================================
+  app.get("/api/scan", async (req, res) => {
+    const { postcode, trade = 'all', tier = 'free' } = req.query as Record<string, string>;
+    if (!postcode) return res.status(400).json({ error: 'postcode required' });
+    try {
+      const result = await scan({ postcode, trade, tier: tier as 'free' | 'paid' });
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
   });
 
   // API routes FIRST
