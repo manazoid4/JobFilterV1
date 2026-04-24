@@ -36,6 +36,91 @@ type ToolId =
   | 'cashflow'
   | 'vatcheck';
 
+type JobUrgency = 'today' | 'this_week' | 'planned';
+
+type LeadJob = {
+  title: string;
+  trade: string;
+  location: string;
+  estimatedValue: number;
+  urgency: JobUrgency;
+};
+
+type RegionTradeJobs = Record<string, Record<string, LeadJob[]>>;
+
+const UK_JOB_DATA: RegionTradeJobs = {
+  birmingham: {
+    plumbing: [
+      { title: 'Emergency boiler pressure drop', trade: 'plumbing', location: 'B14', estimatedValue: 260, urgency: 'today' },
+      { title: 'Kitchen sink and trap replacement', trade: 'plumbing', location: 'B30', estimatedValue: 340, urgency: 'this_week' },
+      { title: 'Full bathroom refit first fix', trade: 'plumbing', location: 'B17', estimatedValue: 1850, urgency: 'planned' },
+    ],
+    electrical: [
+      { title: 'Consumer unit safety inspection', trade: 'electrical', location: 'B42', estimatedValue: 480, urgency: 'this_week' },
+      { title: 'EV charger install', trade: 'electrical', location: 'B23', estimatedValue: 980, urgency: 'planned' },
+      { title: 'Fault find on ring main', trade: 'electrical', location: 'B33', estimatedValue: 290, urgency: 'today' },
+    ],
+    general: [
+      { title: 'Fence repair after storm damage', trade: 'general', location: 'B11', estimatedValue: 520, urgency: 'this_week' },
+      { title: 'Garage conversion prep works', trade: 'building', location: 'B36', estimatedValue: 2100, urgency: 'planned' },
+      { title: 'Loft hatch and boarding upgrade', trade: 'general', location: 'B74', estimatedValue: 760, urgency: 'this_week' },
+    ],
+  },
+  london: {
+    plumbing: [
+      { title: 'Flat leak trace and fix', trade: 'plumbing', location: 'SW16', estimatedValue: 420, urgency: 'today' },
+      { title: 'Combi boiler service + flush', trade: 'plumbing', location: 'E17', estimatedValue: 330, urgency: 'this_week' },
+      { title: 'Shower valve replacement', trade: 'plumbing', location: 'SE9', estimatedValue: 260, urgency: 'this_week' },
+    ],
+    electrical: [
+      { title: 'Rewire 2-bed terrace', trade: 'electrical', location: 'N17', estimatedValue: 3800, urgency: 'planned' },
+      { title: 'Lighting upgrade in hallway', trade: 'electrical', location: 'W5', estimatedValue: 640, urgency: 'this_week' },
+      { title: 'EICR for rental property', trade: 'electrical', location: 'CR0', estimatedValue: 240, urgency: 'today' },
+    ],
+    general: [
+      { title: 'Damp patch repair and skim', trade: 'general', location: 'E10', estimatedValue: 590, urgency: 'this_week' },
+      { title: 'Door frame replacement', trade: 'building', location: 'SE15', estimatedValue: 690, urgency: 'this_week' },
+      { title: 'Kitchen tiling and seal', trade: 'general', location: 'NW9', estimatedValue: 920, urgency: 'planned' },
+    ],
+  },
+  manchester: {
+    plumbing: [
+      { title: 'Radiator balance + valve swap', trade: 'plumbing', location: 'M14', estimatedValue: 280, urgency: 'this_week' },
+      { title: 'Leaking stop tap replacement', trade: 'plumbing', location: 'M8', estimatedValue: 220, urgency: 'today' },
+      { title: 'Soil pipe section repair', trade: 'plumbing', location: 'M23', estimatedValue: 740, urgency: 'this_week' },
+    ],
+    electrical: [
+      { title: 'Extractor fan rewire', trade: 'electrical', location: 'M9', estimatedValue: 210, urgency: 'today' },
+      { title: 'Garage power feed install', trade: 'electrical', location: 'M20', estimatedValue: 860, urgency: 'planned' },
+      { title: 'Outdoor security lighting', trade: 'electrical', location: 'M32', estimatedValue: 560, urgency: 'this_week' },
+    ],
+    general: [
+      { title: 'Roofline repair and repaint', trade: 'general', location: 'M22', estimatedValue: 1450, urgency: 'planned' },
+      { title: 'Laminate floor install', trade: 'general', location: 'M27', estimatedValue: 870, urgency: 'this_week' },
+      { title: 'Brickwork repointing front wall', trade: 'building', location: 'M34', estimatedValue: 960, urgency: 'planned' },
+    ],
+  },
+};
+
+const REGION_BY_POSTCODE_PREFIX: Record<string, keyof typeof UK_JOB_DATA> = {
+  B: 'birmingham',
+  DY: 'birmingham',
+  WS: 'birmingham',
+  WV: 'birmingham',
+  E: 'london',
+  EC: 'london',
+  N: 'london',
+  NW: 'london',
+  SE: 'london',
+  SW: 'london',
+  W: 'london',
+  CR: 'london',
+  M: 'manchester',
+  SK: 'manchester',
+  OL: 'manchester',
+  BL: 'manchester',
+};
+
 export default function App() {
   // ── Filter state ────────────────────────────────────────────────────────────
   const [quotesPerWeek, setQuotesPerWeek] = useState(5);
@@ -45,6 +130,8 @@ export default function App() {
   const [showModal, setShowModal] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [scanComplete, setScanComplete] = useState(false);
+  const [leadResults, setLeadResults] = useState<LeadJob[]>([]);
+  const [scanRegion, setScanRegion] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [waitlistPlan, setWaitlistPlan] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
@@ -158,6 +245,19 @@ export default function App() {
   const tradeBoost = tradeType === 'electrical' || tradeType === 'plumbing' ? 6 : 3;
   const leadQualityScore = Math.max(42, Math.min(94, 55 + postcodeStrength * 4 + tradeBoost));
 
+  const resolveRegionFromPostcode = (rawPostcode: string) => {
+    const cleaned = rawPostcode.toUpperCase().replace(/\s+/g, '');
+    const twoLetterPrefix = cleaned.match(/^[A-Z]{2}/)?.[0] || '';
+    const oneLetterPrefix = cleaned.match(/^[A-Z]/)?.[0] || '';
+    return REGION_BY_POSTCODE_PREFIX[twoLetterPrefix] || REGION_BY_POSTCODE_PREFIX[oneLetterPrefix] || 'birmingham';
+  };
+
+  const toDisplayUrgency = (urgency: JobUrgency) => {
+    if (urgency === 'today') return 'Urgent Today';
+    if (urgency === 'this_week') return 'This Week';
+    return 'Planned Work';
+  };
+
   const trackEvent = (eventName: AnalyticsEventName, params: Record<string, unknown> = {}) => {
     const eventPayload = { event: eventName, ...params, timestamp: new Date().toISOString() };
     if (typeof window !== 'undefined') { window.dataLayer = window.dataLayer || []; window.dataLayer.push(eventPayload); }
@@ -179,8 +279,14 @@ export default function App() {
 
   const startScan = () => {
     setIsScanning(true); setScanComplete(false);
-    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4 });
-    setTimeout(() => { setIsScanning(false); setScanComplete(true); trackEvent('filter_scan_complete'); }, 2000);
+    const region = resolveRegionFromPostcode(postcode);
+    const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
+    const tradeJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+    const sortedByValue = [...tradeJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
+    setLeadResults(sortedByValue);
+    setScanRegion(region);
+    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
+    setTimeout(() => { setIsScanning(false); setScanComplete(true); trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length }); }, 900);
   };
 
   const tools = [
@@ -197,32 +303,30 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-deep-slate text-slate-100 font-sans selection:bg-high-vis-orange selection:text-deep-slate">
+    <div className="classic-theme min-h-screen bg-deep-slate text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
 
       {/* ── NAV ── */}
       <nav className="fixed top-0 w-full z-50 px-4 py-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
+          <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
-              <div className="group flex items-center gap-3 cursor-pointer">
-                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-extrabold text-deep-slate italic group-hover:bg-white transition-colors">JF</div>
+              <a href="#features" className="group flex items-center gap-3" aria-label="Go to homepage top">
+                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
                 <div className="flex flex-col">
                   <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
                   <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
                 </div>
-              </div>
+              </a>
             </div>
             <div className="hidden lg:flex items-center gap-10">
-              <div className="flex items-center gap-8 text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400">
-                <a href="#filter" className="hover:text-electric-cyan transition-colors">Filter Leads</a>
-                <a href="#tools" className="hover:text-electric-cyan transition-colors">Free Tools</a>
-                <a href="#roi" className="hover:text-electric-cyan transition-colors">ROI Calc</a>
-                <a href="#pricing" className="hover:text-electric-cyan transition-colors">Pricing</a>
+              <div className="flex items-center gap-8 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
+                <a href="#features" className="hover:text-deep-slate transition-colors">Features</a>
+                <a href="#blueprint" className="hover:text-deep-slate transition-colors">Blueprint</a>
               </div>
-              <div className="h-4 w-px bg-white/10"></div>
+              <div className="h-4 w-px bg-slate-400"></div>
               <div className="flex items-center gap-4">
-                <a href="/login" className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">Log In</a>
-                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange text-deep-slate text-[10px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest hover:bg-amber-500 transition-all glow-orange">
+                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
+                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="classic-btn text-deep-slate text-[11px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest transition-all">
                   Find Jobs Near Me
                 </a>
               </div>
@@ -234,7 +338,7 @@ export default function App() {
                   <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">LIVE</span>
                 </div>
               </div>
-              <button className="lg:hidden text-slate-400 hover:text-white transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
+              <button className="lg:hidden text-slate-700 hover:text-deep-slate transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
                 {mobileMenuOpen
                   ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
@@ -243,21 +347,20 @@ export default function App() {
             </div>
           </div>
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-2 bg-deep-slate/95 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-4 flex flex-col gap-4">
-              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Filter Leads</a>
-              <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Free Tools</a>
-              <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">ROI Calc</a>
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-electric-cyan transition-colors">Pricing</a>
-              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="mt-2 text-center bg-high-vis-orange text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest">Find Jobs Near Me</a>
+            <div className="lg:hidden mt-2 classic-panel px-6 py-4 flex flex-col gap-4">
+              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Features</a>
+              <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Blueprint</a>
+              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
+              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="classic-btn mt-2 text-center text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest">Find Jobs Near Me</a>
             </div>
           )}
         </div>
       </nav>
 
       {/* ── HERO ── */}
-      <header className="relative pt-40 pb-28 px-6 overflow-hidden">
+      <header id="features" className="relative pt-40 pb-28 px-6 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-sm px-4 py-2 mb-8">
+          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-amber-500/10 border border-deep-slate rounded-sm px-4 py-2 mb-8">
             <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
             <span className="text-[10px] font-extrabold uppercase tracking-widest text-high-vis-orange">Free — No Card Needed</span>
           </motion.div>
@@ -266,31 +369,31 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="font-display text-6xl md:text-9xl font-extrabold tracking-tighter mb-6 leading-[0.85] uppercase italic"
           >
-            Stop Wasting Time<br /><span className="text-high-vis-orange">On Bad Jobs.</span>
+            ENTER THE INTAKE<br /><span className="text-high-vis-orange">CONTROL THE JOBS.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto mb-4 leading-snug font-medium"
+            className="text-lg md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-medium"
           >
-            Enter your postcode. JobFilter scans local leads, kills the rubbish, and shows you only the jobs worth quoting. Free forever.
+            Real leads by postcode. No chasing. No competing. You see the jobs worth quoting and stay in control of your diary.
           </motion.p>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-10">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-10">
             Electricians · Plumbers · Builders · Heating Engineers · General Trade
           </motion.p>
 
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="inline-flex items-center justify-center gap-3 bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm shadow-2xl glow-orange transition-all transform hover:scale-105 active:scale-95 uppercase italic">
+              className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
               Find Jobs Near Me →
             </a>
-            <a href="#tools" className="inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
+            <a href="#tools" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
               Free Trade Tools
             </a>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-500">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-600">
             <span>✓ No account needed</span>
             <span>✓ 3 full records free / month</span>
             <span>✓ Postcode-accurate filtering</span>
@@ -305,7 +408,7 @@ export default function App() {
       </header>
 
       {/* ── SOCIAL PROOF STRIP ── */}
-      <div className="py-6 px-6 bg-charcoal/50 border-y border-white/5">
+      <div className="py-6 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-10 text-center">
           {[
             { v: '2,400+', l: 'Leads Scanned' },
@@ -315,21 +418,21 @@ export default function App() {
           ].map(({ v, l }) => (
             <div key={l}>
               <p className="font-display text-3xl font-extrabold text-high-vis-orange italic">{v}</p>
-              <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mt-1">{l}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-600 mt-1">{l}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── THE FILTER ── */}
-      <section id="filter" className="py-24 px-6 bg-charcoal/30 border-y border-white/5">
+      <section id="filter" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">THE <span className="text-electric-cyan">FILTER</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Enter postcode → see only the jobs worth your time</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">ENTER THE <span className="text-electric-cyan">INTAKE</span></h2>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">Real leads by postcode. No chasing. No competing.</p>
           </div>
 
-          <div className="bg-deep-slate p-6 md:p-8 rounded-sm border border-white/10 shadow-2xl">
+          <div className="classic-panel p-6 md:p-8 rounded-sm shadow-2xl">
             <div className="grid md:grid-cols-[1.4fr_2fr_1fr] gap-4 mb-6">
               <div>
                 <label className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Your Trade</label>
@@ -350,7 +453,7 @@ export default function App() {
               <div className="flex items-end">
                 <button onClick={startScan} disabled={isScanning || postcode.trim().length < 4}
                   className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-4 rounded-sm uppercase italic tracking-widest transition-all h-[52px] text-sm">
-                  {isScanning ? 'Scanning...' : 'Scan Jobs'}
+                  {isScanning ? 'Scanning...' : 'Start Job Scan'}
                 </button>
               </div>
             </div>
@@ -360,9 +463,24 @@ export default function App() {
 
               {scanComplete ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                  <div className="flex items-center gap-3 text-red-400 font-bold uppercase italic text-sm"><span>🚩</span> Tyre-kicker — no budget listed</div>
-                  <div className="flex items-center gap-3 text-red-400 font-bold uppercase italic text-sm"><span>🚩</span> 34 miles out — outside your radius</div>
-                  <div className="flex items-center gap-3 text-green-400 font-bold uppercase italic text-sm"><span>✔</span> Strong local lead — ready to open</div>
+                  <div className="flex items-center gap-3 text-green-400 font-bold uppercase italic text-sm"><span>✔</span> CONTROL THE JOBS — REAL LEADS ONLY</div>
+                  <div className="grid gap-2">
+                    {leadResults.map((job, index) => (
+                      <div key={`${job.title}-${index}`} className="bg-slate-800/70 border border-white/10 rounded-sm p-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <div>
+                            <p className="text-sm font-extrabold uppercase tracking-wide text-slate-100">{job.title}</p>
+                            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">{job.trade} • {job.location}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs font-extrabold uppercase tracking-widest text-high-vis-orange">Est. Value</p>
+                            <p className="text-lg font-display font-extrabold italic text-high-vis-orange">£{job.estimatedValue.toLocaleString('en-GB')}</p>
+                          </div>
+                        </div>
+                        <p className="text-[11px] font-bold uppercase tracking-widest text-electric-cyan mt-2">{toDisplayUrgency(job.urgency)}</p>
+                      </div>
+                    ))}
+                  </div>
                   <div className="bg-slate-800/80 border border-electric-cyan/30 p-4 rounded-sm mt-2">
                     <div className="flex items-center justify-between">
                       <div>
@@ -375,13 +493,13 @@ export default function App() {
                       </div>
                     </div>
                     <ul className="mt-3 space-y-1 text-xs text-slate-300 font-bold uppercase tracking-wide">
-                      <li>• Within your service area</li>
+                      <li>• Region locked: {scanRegion}</li>
                       <li>• Scope matches {tradeType} profile</li>
-                      <li>• Budget confirmed — worth quoting</li>
+                      <li>• FAIR SYSTEM: no hidden lead mixing</li>
                     </ul>
                   </div>
                   <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4 justify-between">
-                    <p className="text-sm font-bold text-slate-400">Want unlimited lead access? <span className="text-high-vis-orange">2 free views left this month.</span></p>
+                  <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">2 free views left this month.</span></p>
                     <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
                       className="inline-block bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-2.5 px-6 rounded-sm uppercase italic tracking-widest text-xs whitespace-nowrap">
                       Unlock Unlimited →
@@ -390,9 +508,9 @@ export default function App() {
                 </motion.div>
               ) : (
                 <div className="flex flex-col items-center justify-center h-full py-8">
-                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">Enter your postcode above and hit Scan</p>
+                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">ENTER POSTCODE. START JOB SCAN.</p>
                   <div className="flex gap-2">
-                    {['Step 1: Enter postcode', 'Step 2: Filter rubbish', 'Step 3: Open good leads'].map((s, i) => (
+                    {['REAL LEADS', 'NO CHASING', 'NO COMPETING'].map((s, i) => (
                       <div key={i} className="bg-slate-800/60 border border-white/5 px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-wide text-slate-500 text-center">{s}</div>
                     ))}
                   </div>
@@ -404,21 +522,22 @@ export default function App() {
       </section>
 
       {/* ── FREE TOOLS ── */}
-      <section id="tools" className="py-24 px-6">
+      <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
+        <div id="blueprint" className="relative -top-28"></div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
             <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">Free <span className="text-high-vis-orange">Trade Tools</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">10 tools. All free. Built for tradesmen who want to make more money.</p>
           </div>
 
           {/* Tool grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
             {tools.map(t => (
               <button key={t.id} onClick={() => { setActiveToolId(t.id === activeToolId ? null : t.id); trackEvent('tool_used', { tool: t.id }); }}
-                className={`p-4 rounded-sm border text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange/10 border-high-vis-orange text-white' : 'bg-slate-900/50 border-white/10 hover:border-white/20 text-slate-300'}`}>
+                className={`p-4 rounded-sm border-2 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-[#efefef] text-deep-slate'}`}>
                 <span className="text-2xl block mb-2">{t.icon}</span>
                 <p className="text-xs font-extrabold uppercase tracking-wide leading-tight">{t.label}</p>
-                <p className="text-[10px] text-slate-500 mt-1 leading-tight">{t.desc}</p>
+                <p className="text-[10px] text-slate-600 mt-1 leading-tight">{t.desc}</p>
               </button>
             ))}
           </div>
@@ -426,7 +545,7 @@ export default function App() {
           {/* Tool panels */}
           <AnimatePresence mode="wait">
             {activeToolId && (
-              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="bg-deep-slate border border-white/10 rounded-sm p-6 md:p-8">
+              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="classic-panel rounded-sm p-6 md:p-8 text-deep-slate">
 
                 {/* ── QUOTE BUILDER ── */}
                 {activeToolId === 'quote' && (
@@ -852,8 +971,8 @@ export default function App() {
       <section id="roi" className="py-24 px-6 bg-charcoal/30 border-y border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">Diesel Burn</span> Calculator</h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm italic">See exactly what free quoting is costing you every year.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">NO CHASING</span> Calculator</h2>
+            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm italic">See what wasted quoting is costing and what you keep with a FAIR SYSTEM.</p>
           </div>
           <div className="bg-charcoal p-8 rounded-sm border border-white/5 shadow-2xl">
             <div className="grid md:grid-cols-2 gap-12">
@@ -884,40 +1003,40 @@ export default function App() {
       {/* ── PRICING ── */}
       <section id="pricing" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-4 uppercase italic">Simple <span className="text-high-vis-orange">Pricing</span></h2>
-          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-4 italic text-sm">One job win pays for a year's subscription.</p>
-          <p className="text-center text-slate-500 font-bold uppercase tracking-widest mb-12 text-xs">Early access — join the list, launch price guaranteed.</p>
+          <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-4 uppercase italic">FAIR SYSTEM <span className="text-high-vis-orange">Pricing</span></h2>
+          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-4 italic text-sm">One decent job can cover the month. NO CONTRACTS.</p>
+          <p className="text-center text-slate-500 font-bold uppercase tracking-widest mb-12 text-xs">Built for trades. Pick your level and stay in control.</p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
               <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Starter</p>
               <p className="text-4xl font-display font-extrabold mt-2">£0</p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">Free forever. Try the filter and open 3 full records/month.</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">ENTER THE INTAKE. 3 full records/month. No risk.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ All 10 free tools</li>
                 <li>✓ Lead scanning</li>
                 <li>✓ 3 full record views / month</li>
               </ul>
-              <a href="#filter" onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })} className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">Start Free</a>
+              <a href="#filter" onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })} className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">ENTER THE INTAKE</a>
             </div>
 
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
               <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Basic</p>
               <p className="text-4xl font-display font-extrabold mt-2">£19<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For occasional use — up to 10 full records/month.</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For steady lads. 10 full records/month. NO CHASING.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ 10 full record views / month</li>
                 <li>✓ Lead scanning</li>
                 <li>✓ All free tools</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">Join Early Access</button>
+              <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">STAY IN CONTROL</button>
             </div>
 
             <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
               <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">Most Popular</div>
               <p className="text-high-vis-orange font-extrabold uppercase tracking-widest text-xs">Scout Pro</p>
               <p className="text-4xl font-display font-extrabold mt-2">£39<span className="text-sm text-amber-500/60 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-amber-400/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. No limits. Built for active tradesmen.</p>
+              <p className="text-[10px] font-bold text-amber-400/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. REAL LEADS. NO COMPETING.</p>
               <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
                 <li>✓ Unlimited lead access</li>
                 <li>✓ WhatsApp job alerts</li>
@@ -925,28 +1044,28 @@ export default function App() {
                 <li>✓ Payment Chaser</li>
                 <li>✓ Review Harvester</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Join Early Access</button>
+              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">CONTROL THE JOBS</button>
             </div>
 
             <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
               <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Max</p>
               <p className="text-4xl font-display font-extrabold mt-2">£59<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For busy teams that need priority access and multi-user.</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For busy teams that need priority access and more control.</p>
               <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
                 <li>✓ Everything in Pro</li>
                 <li>✓ Priority first access to leads</li>
                 <li>✓ Multi-user (up to 3)</li>
               </ul>
-              <button onClick={() => openWaitlist('Scout Max')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">Join Early Access</button>
+              <button onClick={() => openWaitlist('Scout Max')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">NO CONTRACTS</button>
             </div>
           </div>
 
           <div className="mt-8 bg-charcoal border border-white/10 p-8 rounded-sm flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="max-w-2xl">
               <h3 className="text-2xl font-display font-extrabold uppercase">Hammer Tier — £99/mo</h3>
-              <p className="text-slate-400 font-bold text-sm mt-2">Done-for-you concierge outreach. We find, filter, and deliver qualified jobs to your inbox. You just quote.</p>
+              <p className="text-slate-400 font-bold text-sm mt-2">Built for trades who want the lot handled. We filter, rank, and send real leads. You quote and get paid.</p>
             </div>
-            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">Join Early Access</button>
+            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">GET REAL LEADS</button>
           </div>
         </div>
       </section>
@@ -999,7 +1118,7 @@ export default function App() {
           <div className="grid grid-cols-2 gap-10 text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
             <div className="space-y-3">
               <p className="text-slate-300">Product</p>
-              <a href="#filter" className="block hover:text-white transition-colors">Filter Leads</a>
+              <a href="#filter" className="block hover:text-white transition-colors">Find Jobs Near You</a>
               <a href="#tools" className="block hover:text-white transition-colors">Free Tools</a>
               <a href="#pricing" className="block hover:text-white transition-colors">Pricing</a>
             </div>
