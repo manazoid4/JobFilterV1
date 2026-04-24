@@ -386,10 +386,10 @@ export default function App() {
           <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
               <a href="#features" className="group flex items-center gap-3" aria-label="Go to homepage top">
-                <div className="w-10 h-10 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
+                <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-black text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
                 <div className="flex flex-col">
-                  <span className="font-display text-2xl font-extrabold uppercase tracking-tighter italic leading-none">JobFilter</span>
-                  <span className="text-[8px] font-extrabold uppercase tracking-[0.3em] text-high-vis-orange leading-none mt-1">Built For Trades</span>
+                  <span className="font-display text-xl font-black uppercase tracking-tight italic leading-tight">JobFilter</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.25em] text-deep-slate leading-none mt-0.5">Built For Trades</span>
                 </div>
               </a>
             </div>
@@ -475,10 +475,10 @@ export default function App() {
 
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-xl font-extrabold py-5 px-10 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
+              className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-lg font-black py-4 px-12 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
               Find Jobs Near Me →
             </a>
-            <a href="#tools" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-xl font-extrabold py-5 px-10 rounded-sm transition-all uppercase italic">
+            <a href="#tools" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-lg font-black py-4 px-12 rounded-sm transition-all uppercase italic">
               See How It Works
             </a>
           </motion.div>
@@ -622,9 +622,9 @@ export default function App() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
             {tools.map(t => (
               <button key={t.id} onClick={() => { setActiveToolId(t.id === activeToolId ? null : t.id); trackEvent('tool_used', { tool: t.id }); }}
-                className={`p-4 rounded-sm border-2 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-[#efefef] text-deep-slate'}`}>
-                <span className="text-2xl block mb-2">{t.icon}</span>
-                <p className="text-xs font-extrabold uppercase tracking-wide leading-tight">{t.label}</p>
+                className={`p-4 rounded-sm border-3 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-high-vis-orange/10 text-deep-slate font-bold'}`}>
+                <span className="text-3xl block mb-2">{t.icon}</span>
+                <p className="text-xs font-black uppercase tracking-wide leading-tight">{t.label}</p>
                 <p className="text-[10px] text-slate-600 mt-1 leading-tight">{t.desc}</p>
               </button>
             ))}
