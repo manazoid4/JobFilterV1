@@ -163,6 +163,38 @@
   .classic-btn-secondary:hover {
     background: #172447;
   }
+
+  .classic-theme {
+    background: #e5e7eb;
+    color: #0f1933;
+  }
+
+  .classic-panel {
+    background: #f8f8f8;
+    border: 3px solid #0f1933;
+    box-shadow: 6px 6px 0 #0f1933;
+  }
+
+  .classic-btn {
+    background: #f5d000;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+  }
+
+  .classic-btn:hover {
+    filter: brightness(0.95);
+  }
+
+  .classic-btn-secondary {
+    background: #0f1933;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+    color: #f8f8f8;
+  }
+
+  .classic-btn-secondary:hover {
+    background: #172447;
+  }
 }
 
 @keyframes scan {

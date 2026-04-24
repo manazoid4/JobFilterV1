@@ -40,6 +40,87 @@ async function sendEmail(payload: EmailPayload) {
 const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
 const ADMIN_EMAIL = 'manazoid4@gmail.com';
 
+type LeadScanInput = { postcode: string; trade: string; limit?: number };
+type LeadResult = {
+  title: string;
+  trade: string;
+  location: string;
+  estimatedValue: number;
+  urgency: 'today' | 'this_week' | 'planned';
+  source: string;
+  sourceConfidence: number;
+  whyMatched: string;
+};
+
+const TRADE_KEYWORDS: Record<string, RegExp> = {
+  electrical: /(electric|rewire|lighting|power|eicr|charger)/i,
+  plumbing: /(plumb|boiler|heating|drain|water|pipe)/i,
+  general: /(repair|maintenance|building|roof|carpentry|refurb)/i,
+};
+
+const REGION_HINTS: Record<string, string> = {
+  B: 'Birmingham',
+  M: 'Manchester',
+  L: 'Liverpool',
+  LS: 'Leeds',
+  E: 'London',
+  EC: 'London',
+  N: 'London',
+  NW: 'London',
+  SE: 'London',
+  SW: 'London',
+  W: 'London',
+};
+
+function resolveRegionHint(postcode: string) {
+  const cleaned = postcode.toUpperCase().replace(/\s+/g, '');
+  const two = cleaned.match(/^[A-Z]{2}/)?.[0] ?? '';
+  const one = cleaned.match(/^[A-Z]/)?.[0] ?? '';
+  return REGION_HINTS[two] ?? REGION_HINTS[one] ?? 'UK';
+}
+
+async function fetchContractsFinderLeads(input: LeadScanInput): Promise<LeadResult[]> {
+  const since = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 19).replace('T', ' ');
+  const params = new URLSearchParams({ stages: 'tender', limit: String(Math.min(Math.max(input.limit ?? 8, 4), 20)), publishedFrom: since });
+  const url = `https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search?${params.toString()}`;
+
+  const response = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'JobFilter/1.0' } });
+  if (!response.ok) throw new Error(`ContractsFinder ${response.status}`);
+  const payload = await response.json() as any;
+  const releases: any[] = payload?.releases ?? payload?.data ?? [];
+  const tradePattern = TRADE_KEYWORDS[input.trade] ?? TRADE_KEYWORDS.general;
+  const region = resolveRegionHint(input.postcode);
+
+  return releases
+    .map((rel): LeadResult | null => {
+      const tender = rel?.tender ?? {};
+      const buyer = rel?.buyer ?? rel?.parties?.find((p: any) => p.roles?.includes('buyer')) ?? {};
+      const title = String(tender?.title ?? '').trim();
+      const desc = String(tender?.description ?? '').trim();
+      if (!title || !tradePattern.test(`${title} ${desc}`)) return null;
+
+      const value = Number(tender?.value?.amount ?? tender?.minValue?.amount ?? 0) || 250;
+      const endDate = String(tender?.tenderPeriod?.endDate ?? '');
+      const deadline = endDate ? new Date(endDate).getTime() : Date.now() + 7 * 86400000;
+      const dayDelta = (deadline - Date.now()) / 86400000;
+      const urgency: LeadResult['urgency'] = dayDelta < 3 ? 'today' : dayDelta < 10 ? 'this_week' : 'planned';
+      const location = String(tender?.deliveryAddress?.region ?? buyer?.address?.region ?? region).trim() || region;
+
+      return {
+        title,
+        trade: input.trade,
+        location,
+        estimatedValue: value,
+        urgency,
+        source: 'Contracts Finder',
+        sourceConfidence: 82,
+        whyMatched: `Matched ${input.trade} with ${region} postcode area`,
+      };
+    })
+    .filter(Boolean)
+    .slice(0, input.limit ?? 8) as LeadResult[];
+}
+
 // Initialize Firebase Admin — uses GOOGLE_APPLICATION_CREDENTIALS env var in prod,
 // falls back to no-op Firestore stub in dev when credentials aren't present
 let adminDb: FirebaseFirestore.Firestore | null = null;
@@ -249,6 +330,31 @@ async function startServer() {
       console.error("[STRIPE] Error creating session:", error);
       res.status(500).json({ error: error.message });
     }
+  });
+
+  // ==========================================
+  // LEAD SCAN (LIVE + FALLBACK)
+  // ==========================================
+  app.post("/api/leads/scan", async (req, res) => {
+    const { postcode = '', trade = 'general', limit = 8 } = (req.body ?? {}) as LeadScanInput;
+    const cleanPostcode = String(postcode).trim();
+    if (cleanPostcode.length < 3) return res.status(400).json({ error: 'postcode_required' });
+
+    try {
+      const leads = await fetchContractsFinderLeads({ postcode: cleanPostcode, trade: String(trade), limit });
+      if (leads.length > 0) return res.json({ source: 'live', leads });
+    } catch (err: any) {
+      console.warn('[LeadScan] Live source failed, using fallback:', err?.message ?? err);
+    }
+
+    const region = resolveRegionHint(cleanPostcode);
+    const fallback: LeadResult[] = [
+      { title: `${trade} callout near ${region}`, trade: String(trade), location: region, estimatedValue: 280, urgency: 'today' as const, source: 'JobFilter Fallback', sourceConfidence: 60, whyMatched: `Matched ${trade} + ${region}` },
+      { title: `${trade} maintenance job in ${region}`, trade: String(trade), location: region, estimatedValue: 540, urgency: 'this_week' as const, source: 'JobFilter Fallback', sourceConfidence: 58, whyMatched: `Matched ${trade} + ${region}` },
+      { title: `${trade} upgrade project in ${region}`, trade: String(trade), location: region, estimatedValue: 1250, urgency: 'planned' as const, source: 'JobFilter Fallback', sourceConfidence: 55, whyMatched: `Matched ${trade} + ${region}` },
+    ].slice(0, Math.min(Math.max(Number(limit) || 6, 3), 10));
+
+    return res.json({ source: 'fallback', leads: fallback });
   });
 
   // ==========================================

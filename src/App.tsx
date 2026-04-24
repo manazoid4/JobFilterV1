@@ -44,6 +44,9 @@ type LeadJob = {
   location: string;
   estimatedValue: number;
   urgency: JobUrgency;
+  source?: string;
+  sourceConfidence?: number;
+  whyMatched?: string;
 };
 
 type RegionTradeJobs = Record<string, Record<string, LeadJob[]>>;
@@ -291,12 +294,53 @@ export default function App() {
     setIsScanning(true); setScanComplete(false);
     const region = resolveRegionFromPostcode(postcode);
     const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
-    const tradeJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
-    const sortedByValue = [...tradeJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
-    setLeadResults(sortedByValue);
-    setScanRegion(region);
+
     trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
-    setTimeout(() => { setIsScanning(false); setScanComplete(true); trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length }); }, 900);
+
+    try {
+      const response = await fetch('/api/leads/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ postcode, trade: selectedTrade, limit: 6 }),
+      });
+
+      const payload = response.ok ? await response.json() : null;
+      const remoteLeads: LeadJob[] = Array.isArray(payload?.leads)
+        ? payload.leads.map((lead: any) => ({
+            title: String(lead.title ?? 'Local trade job'),
+            trade: String(lead.trade ?? selectedTrade),
+            location: String(lead.location ?? postcode.toUpperCase()),
+            estimatedValue: Number(lead.estimatedValue ?? 350),
+            urgency: (lead.urgency === 'today' || lead.urgency === 'this_week' || lead.urgency === 'planned') ? lead.urgency : 'this_week',
+            source: String(lead.source ?? 'JobFilter'),
+            sourceConfidence: Number(lead.sourceConfidence ?? 70),
+            whyMatched: String(lead.whyMatched ?? 'Postcode and trade match'),
+          }))
+        : [];
+
+      const fallbackJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+      const fallbackLeads = [...fallbackJobs].map(job => ({
+        ...job,
+        source: 'JobFilter Seed',
+        sourceConfidence: 62,
+        whyMatched: `Matched ${selectedTrade} within ${region}`,
+      }));
+
+      const resultLeads = (remoteLeads.length ? remoteLeads : fallbackLeads).sort((a, b) => b.estimatedValue - a.estimatedValue);
+      setLeadResults(resultLeads);
+      setScanRegion(region);
+      setIsScanning(false);
+      setScanComplete(true);
+      trackEvent('filter_scan_complete', { jobs_returned: resultLeads.length, source: remoteLeads.length ? 'live' : 'seed' });
+    } catch {
+      const fallbackJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+      const sortedByValue = [...fallbackJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
+      setLeadResults(sortedByValue);
+      setScanRegion(region);
+      setIsScanning(false);
+      setScanComplete(true);
+      trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length, source: 'seed' });
+    }
   };
 
   const tools = [
@@ -496,10 +540,12 @@ export default function App() {
                           <div>
                             <p className="text-sm font-extrabold uppercase tracking-wide text-slate-100">{job.title}</p>
                             <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">{job.trade} • {job.location}</p>
+                            {job.whyMatched && <p className="text-[10px] font-semibold text-slate-500 mt-1">{job.whyMatched}</p>}
                           </div>
                           <div className="text-right">
                             <p className="text-xs font-extrabold uppercase tracking-widest text-high-vis-orange">Est. Value</p>
                             <p className="text-lg font-display font-extrabold italic text-high-vis-orange">£{job.estimatedValue.toLocaleString('en-GB')}</p>
+                            {job.source && <p className="text-[10px] font-bold text-slate-400 mt-1">{job.source}{job.sourceConfidence ? ` · ${job.sourceConfidence}%` : ''}</p>}
                           </div>
                         </div>
                         <p className="text-[11px] font-bold uppercase tracking-widest text-electric-cyan mt-2">{toDisplayUrgency(job.urgency)}</p>
