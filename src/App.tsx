@@ -377,35 +377,34 @@ export default function App() {
 
       {/* ── TOP BANNER ── */}
       <div className="fixed top-0 w-full z-[60] bg-high-vis-orange border-b-2 border-deep-slate text-deep-slate text-center py-2 px-3">
-        <p className="font-display text-2xl uppercase tracking-wide">🏆 Founding 30: £22/mo locked forever — <span className="underline">Limited spots</span></p>
+        <p className="font-display text-2xl uppercase tracking-wide">🏆 Founding 30: £19/mo Pro tier locked forever — <span className="underline">Only 30 spots</span></p>
       </div>
 
       {/* ── NAV ── */}
       <nav className="fixed top-12 w-full z-50 px-4 py-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
+          <div className="bg-deep-slate backdrop-blur-xl border-2 border-high-vis-orange rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
               <a href="#features" className="group flex items-center gap-3" aria-label="Go to homepage top">
-                <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-2xl font-black text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
+                <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-3xl font-black text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
                 <div className="flex flex-col">
-                  <span className="font-display text-xl font-black uppercase tracking-tight italic leading-tight">JobFilter</span>
-                  <span className="text-[9px] font-black uppercase tracking-[0.25em] text-deep-slate leading-none mt-0.5">Built For Trades</span>
+                  <span className="font-display text-2xl font-black uppercase tracking-tight italic leading-tight text-white">JobFilter</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.25em] text-high-vis-orange leading-none mt-0.5">Built For Trades</span>
                 </div>
               </a>
             </div>
-            <div className="hidden lg:flex items-center gap-10">
-              <div className="flex items-center gap-7 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
-                <a href="#filter" className="hover:text-deep-slate transition-colors">Find Jobs</a>
-                <a href="#tools" className="hover:text-deep-slate transition-colors">Free Tools</a>
-                <a href="#blueprint" className="hover:text-deep-slate transition-colors">Blueprint</a>
-                <a href="#features" className="hover:text-deep-slate transition-colors">Features</a>
-                <a href="#roi" className="hover:text-deep-slate transition-colors">ROI</a>
-                <a href="#pricing" className="hover:text-deep-slate transition-colors">Pricing</a>
+            <div className="hidden lg:flex items-center gap-8">
+              <div className="flex items-center gap-6 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-300">
+                <a href="#filter" className="hover:text-high-vis-orange transition-colors">Find Jobs</a>
+                <a href="#tools" className="hover:text-high-vis-orange transition-colors">Free Tools</a>
+                <a href="#blueprint" className="hover:text-high-vis-orange transition-colors">Blueprint</a>
+                <a href="#roi" className="hover:text-high-vis-orange transition-colors">ROI</a>
+                <a href="#pricing" className="hover:text-high-vis-orange transition-colors">Pricing</a>
               </div>
-              <div className="h-4 w-px bg-slate-400"></div>
+              <div className="h-4 w-px bg-slate-600"></div>
               <div className="flex items-center gap-4">
-                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
-                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="classic-btn text-deep-slate text-[11px] font-extrabold px-4 py-2 rounded-sm uppercase tracking-widest transition-all">
+                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-high-vis-orange transition-colors">Tradie Login</a>
+                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-[11px] font-black px-4 py-2 rounded-sm uppercase tracking-widest transition-all border-2 border-deep-slate">
                   Find Jobs Near Me
                 </a>
               </div>
@@ -417,7 +416,7 @@ export default function App() {
                   <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">LIVE</span>
                 </div>
               </div>
-              <button className="lg:hidden text-slate-700 hover:text-deep-slate transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
+              <button className="lg:hidden text-white hover:text-high-vis-orange transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
                 {mobileMenuOpen
                   ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
@@ -425,21 +424,12 @@ export default function App() {
               </button>
             </div>
           </div>
-          {mobileMenuOpen && (
-            <div className="lg:hidden mt-2 classic-panel px-6 py-4 flex flex-col gap-4">
-              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Find Jobs</a>
-              <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Free Tools</a>
-              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Features</a>
-              <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">ROI</a>
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
-              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="classic-btn mt-2 text-center text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest">Find Jobs Near Me</a>
-            </div>
-          )}
         </div>
         {mobileMenuOpen && (
           <div className="lg:hidden bg-deep-slate border-t-2 border-white/10 px-6 py-4 flex flex-col gap-4">
             <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Find Jobs Near You</a>
             <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Free Tools</a>
+            <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Blueprint</a>
             <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">ROI Calc</a>
             <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Pricing</a>
             <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="brutal-btn text-sm px-4 py-3 font-display font-black text-center">FIND JOBS NEAR ME</a>
@@ -611,7 +601,6 @@ export default function App() {
 
       {/* ── FREE TOOLS ── */}
       <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
-        <div id="blueprint" className="relative -top-28"></div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-6">
             <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">Free <span className="text-high-vis-orange">Trade Tools</span></h2>
@@ -1181,35 +1170,71 @@ export default function App() {
       </section>
 
       {/* ── PRICING ── */}
-      <section id="pricing" className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-6xl md:text-8xl font-extrabold text-center uppercase leading-none tracking-wide">THE BOTTOM LINE</h2>
-          <p className="text-center text-slate-600 font-semibold mt-4 text-lg">One flat fee. Unlimited leads. Cancel anytime.</p>
+      <section id="pricing" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="font-display text-6xl md:text-8xl font-extrabold text-center uppercase leading-none tracking-wide text-deep-slate">PRICING THAT PAYS</h2>
+          <p className="text-center text-slate-600 font-semibold mt-4 text-lg">Simple. No contracts. Cancel anytime.</p>
 
-          <div className="mt-10 classic-panel rounded-sm p-6 md:p-10 max-w-2xl mx-auto">
-            <div className="inline-block bg-high-vis-orange text-deep-slate font-display text-3xl uppercase px-4 py-1 border-2 border-deep-slate">PRO TIER</div>
-
-            <div className="mt-5 flex items-end gap-2">
-              <p className="font-display text-8xl md:text-9xl leading-none">£29</p>
-              <p className="font-display text-3xl md:text-4xl leading-none mb-2">/month</p>
+          <div className="mt-12 grid md:grid-cols-3 gap-6">
+            {/* PRO */}
+            <div className="classic-panel rounded-sm p-8">
+              <div className="inline-block bg-slate-200 text-deep-slate font-display text-2xl uppercase px-3 py-1 border-2 border-deep-slate mb-6">PRO</div>
+              <div className="flex items-end gap-2 mb-4">
+                <p className="font-display text-6xl font-black leading-none text-deep-slate">£29</p>
+                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+              </div>
+              <p className="text-slate-700 font-bold text-sm mb-6">More paid jobs. Less dead time.</p>
+              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Unlimited lead access</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>AI WhatsApp vetting</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom van QR code</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>ROI calculator</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>3-day pulse reports</span></li>
+              </ul>
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro' }); openWaitlist('Pro'); }} className="w-full classic-btn text-deep-slate font-black py-3 rounded-sm uppercase tracking-widest">
+                Start Free Trial
+              </button>
             </div>
 
-            <p className="mt-3 text-slate-700 font-semibold">More paid jobs. Less dead time. Stay in control of your week.</p>
+            {/* PRO HAMMER */}
+            <div className="classic-panel rounded-sm p-8 border-4 border-high-vis-orange transform md:scale-105">
+              <div className="inline-block bg-high-vis-orange text-deep-slate font-display text-2xl font-black uppercase px-3 py-1 border-2 border-deep-slate mb-6">PRO HAMMER</div>
+              <div className="flex items-end gap-2 mb-4">
+                <p className="font-display text-6xl font-black leading-none text-deep-slate">£59</p>
+                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+              </div>
+              <p className="text-slate-700 font-bold text-sm mb-6">Everything in Pro, plus hands-on support.</p>
+              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Everything in Pro</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Concierge onboarding</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Priority email support</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Dedicated account manager</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Weekly strategy calls</span></li>
+              </ul>
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Hammer' }); openWaitlist('Pro Hammer'); }} className="w-full bg-deep-slate text-high-vis-orange font-black py-3 rounded-sm uppercase tracking-widest border-2 border-deep-slate shadow-[4px_4px_0_#0f1933] hover:brightness-110 transition-all">
+                Get Pro Hammer
+              </button>
+            </div>
 
-            <ul className="mt-6 space-y-4 text-base font-semibold text-slate-800">
-              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Unlimited AI WhatsApp Vetting</span></li>
-              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Custom Van QR Code</span></li>
-              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Stripe Priority Pass Integration</span></li>
-              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>"Money Leak" ROI Engine</span></li>
-              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>3-Day Pulse Reports</span></li>
-            </ul>
-
-            <button
-              onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Tier' }); openWaitlist('Pro Tier'); }}
-              className="mt-8 w-full bg-deep-slate text-white font-display text-3xl md:text-4xl py-4 md:py-5 uppercase border-2 border-deep-slate shadow-[4px_4px_0_#0f1933] hover:brightness-110 hover:scale-[1.01] active:scale-[0.99] transition-all"
-            >
-              START YOUR ENGINE
-            </button>
+            {/* PRO MAX */}
+            <div className="classic-panel rounded-sm p-8">
+              <div className="inline-block bg-slate-300 text-deep-slate font-display text-2xl font-black uppercase px-3 py-1 border-2 border-deep-slate mb-6">PRO MAX</div>
+              <div className="flex items-end gap-2 mb-4">
+                <p className="font-display text-6xl font-black leading-none text-deep-slate">£99</p>
+                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+              </div>
+              <p className="text-slate-700 font-bold text-sm mb-6">VIP. Custom everything. Lead guarantee.</p>
+              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Everything in Pro Hammer</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom lead preferences</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>VIP phone support</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Lead quality guarantee</span></li>
+                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom integrations</span></li>
+              </ul>
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Max' }); openWaitlist('Pro Max'); }} className="w-full classic-btn text-deep-slate font-black py-3 rounded-sm uppercase tracking-widest">
+                Contact Sales
+              </button>
+            </div>
           </div>
         </div>
       </section>
