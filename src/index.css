@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Oswald", sans-serif;
+  --font-display: "Bebas Neue", sans-serif;
   --color-high-vis-orange: #f5d000;
   --color-electric-cyan: #22d3ee;
   --color-deep-slate: #0f1933;
@@ -34,6 +34,38 @@
   .brutal-btn:active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 0 #0F172A;
+  }
+
+  .classic-theme {
+    background: #e5e7eb;
+    color: #0f1933;
+  }
+
+  .classic-panel {
+    background: #f8f8f8;
+    border: 3px solid #0f1933;
+    box-shadow: 6px 6px 0 #0f1933;
+  }
+
+  .classic-btn {
+    background: #f5d000;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+  }
+
+  .classic-btn:hover {
+    filter: brightness(0.95);
+  }
+
+  .classic-btn-secondary {
+    background: #0f1933;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+    color: #f8f8f8;
+  }
+
+  .classic-btn-secondary:hover {
+    background: #172447;
   }
 
   .classic-theme {

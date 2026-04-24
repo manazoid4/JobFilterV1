@@ -136,6 +136,7 @@ export default function App() {
   const [waitlistPlan, setWaitlistPlan] = useState('');
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const [waitlistError, setWaitlistError] = useState('');
   const [activeToolId, setActiveToolId] = useState<ToolId | null>(null);
 
   // ── Tool: Quote Quick Builder ────────────────────────────────────────────────
@@ -263,17 +264,26 @@ export default function App() {
     if (typeof window !== 'undefined') { window.dataLayer = window.dataLayer || []; window.dataLayer.push(eventPayload); }
   };
 
-  const openWaitlist = (plan: string) => { setWaitlistPlan(plan); setWaitlistEmail(''); setWaitlistSubmitted(false); setShowModal('waitlist'); };
+  const openWaitlist = (plan: string) => { setWaitlistPlan(plan); setWaitlistEmail(''); setWaitlistSubmitted(false); setWaitlistError(''); setShowModal('waitlist'); };
 
   const submitWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!waitlistEmail.trim()) return;
+    setWaitlistError('');
     trackEvent('pricing_plan_click', { plan: waitlistPlan, source: 'waitlist_submit' });
     const email = waitlistEmail.trim().toLowerCase();
-    await Promise.allSettled([
+    const [firestoreResult, apiResult] = await Promise.allSettled([
       addDoc(collection(db, 'waitlist'), { email, plan: waitlistPlan, createdAt: serverTimestamp() }),
       fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, plan: waitlistPlan }) }),
     ]);
+
+    const firestoreOk = firestoreResult.status === 'fulfilled';
+    const apiOk = apiResult.status === 'fulfilled' && apiResult.value.ok;
+    if (!firestoreOk && !apiOk) {
+      setWaitlistError('Could not save your spot right now. Try again in 30 seconds.');
+      return;
+    }
+
     setWaitlistSubmitted(true);
   };
 
@@ -305,8 +315,13 @@ export default function App() {
   return (
     <div className="classic-theme min-h-screen bg-deep-slate text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
 
+      {/* ── TOP BANNER ── */}
+      <div className="fixed top-0 w-full z-[60] bg-high-vis-orange border-b-2 border-deep-slate text-deep-slate text-center py-2 px-3">
+        <p className="font-display text-2xl uppercase tracking-wide">🏆 Founding 30: £22/mo locked forever — <span className="underline">Limited spots</span></p>
+      </div>
+
       {/* ── NAV ── */}
-      <nav className="fixed top-0 w-full z-50 px-4 py-4 sm:px-6">
+      <nav className="fixed top-12 w-full z-50 px-4 py-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="classic-panel bg-deep-slate/80 backdrop-blur-xl border border-white/10 rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
             <div className="flex items-center gap-4">
@@ -319,9 +334,12 @@ export default function App() {
               </a>
             </div>
             <div className="hidden lg:flex items-center gap-10">
-              <div className="flex items-center gap-8 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
+              <div className="flex items-center gap-7 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-700">
+                <a href="#filter" className="hover:text-deep-slate transition-colors">Find Jobs</a>
+                <a href="#tools" className="hover:text-deep-slate transition-colors">Free Tools</a>
                 <a href="#features" className="hover:text-deep-slate transition-colors">Features</a>
-                <a href="#blueprint" className="hover:text-deep-slate transition-colors">Blueprint</a>
+                <a href="#roi" className="hover:text-deep-slate transition-colors">ROI</a>
+                <a href="#pricing" className="hover:text-deep-slate transition-colors">Pricing</a>
               </div>
               <div className="h-4 w-px bg-slate-400"></div>
               <div className="flex items-center gap-4">
@@ -348,8 +366,10 @@ export default function App() {
           </div>
           {mobileMenuOpen && (
             <div className="lg:hidden mt-2 classic-panel px-6 py-4 flex flex-col gap-4">
+              <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Find Jobs</a>
+              <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Free Tools</a>
               <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Features</a>
-              <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Blueprint</a>
+              <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">ROI</a>
               <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-[11px] font-extrabold uppercase tracking-widest text-slate-700 hover:text-deep-slate transition-colors">Tradie Login</a>
               <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="classic-btn mt-2 text-center text-deep-slate text-[11px] font-extrabold py-3 rounded-sm uppercase tracking-widest">Find Jobs Near Me</a>
             </div>
@@ -367,7 +387,7 @@ export default function App() {
       </nav>
 
       {/* ── HERO ── */}
-      <header id="features" className="relative pt-40 pb-28 px-6 overflow-hidden">
+      <header id="features" className="relative pt-52 pb-28 px-6 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-amber-500/10 border border-deep-slate rounded-sm px-4 py-2 mb-8">
             <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
@@ -1006,71 +1026,35 @@ export default function App() {
       </section>
 
       {/* ── PRICING ── */}
-      <section id="pricing" className="py-24 px-6 bg-white border-b-4 border-deep-slate">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-4 uppercase italic">FAIR SYSTEM <span className="text-high-vis-orange">Pricing</span></h2>
-          <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-4 italic text-sm">One decent job can cover the month. NO CONTRACTS.</p>
-          <p className="text-center text-slate-500 font-bold uppercase tracking-widest mb-12 text-xs">Built for trades. Pick your level and stay in control.</p>
+      <section id="pricing" className="py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-display text-6xl md:text-8xl font-extrabold text-center uppercase leading-none tracking-wide">THE BOTTOM LINE</h2>
+          <p className="text-center text-slate-600 font-semibold mt-4 text-lg">One flat fee. Unlimited leads. Cancel anytime.</p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Starter</p>
-              <p className="text-4xl font-display font-extrabold mt-2">£0</p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">ENTER THE INTAKE. 3 full records/month. No risk.</p>
-              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
-                <li>✓ All 10 free tools</li>
-                <li>✓ Lead scanning</li>
-                <li>✓ 3 full record views / month</li>
-              </ul>
-              <a href="#filter" onClick={() => trackEvent('pricing_plan_click', { plan: 'starter' })} className="mt-8 block text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">ENTER THE INTAKE</a>
+          <div className="mt-10 classic-panel rounded-sm p-6 md:p-10 max-w-2xl mx-auto">
+            <div className="inline-block bg-high-vis-orange text-deep-slate font-display text-3xl uppercase px-4 py-1 border-2 border-deep-slate">PRO TIER</div>
+
+            <div className="mt-5 flex items-end gap-2">
+              <p className="font-display text-8xl md:text-9xl leading-none">£29</p>
+              <p className="font-display text-3xl md:text-4xl leading-none mb-2">/month</p>
             </div>
 
-            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Basic</p>
-              <p className="text-4xl font-display font-extrabold mt-2">£19<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For steady lads. 10 full records/month. NO CHASING.</p>
-              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
-                <li>✓ 10 full record views / month</li>
-                <li>✓ Lead scanning</li>
-                <li>✓ All free tools</li>
-              </ul>
-              <button onClick={() => openWaitlist('Scout Basic')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">STAY IN CONTROL</button>
-            </div>
+            <p className="mt-3 text-slate-700 font-semibold">More paid jobs. Less dead time. Stay in control of your week.</p>
 
-            <div className="bg-amber-500/5 border-2 border-high-vis-orange p-6 rounded-sm shadow-2xl flex flex-col relative scale-105">
-              <div className="absolute -top-3 left-4 bg-high-vis-orange text-deep-slate px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-widest">Most Popular</div>
-              <p className="text-high-vis-orange font-extrabold uppercase tracking-widest text-xs">Scout Pro</p>
-              <p className="text-4xl font-display font-extrabold mt-2">£39<span className="text-sm text-amber-500/60 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-amber-400/80 uppercase italic tracking-widest mt-2 leading-tight">Full access. REAL LEADS. NO COMPETING.</p>
-              <ul className="mt-6 space-y-2 text-slate-100 text-sm font-bold flex-1">
-                <li>✓ Unlimited lead access</li>
-                <li>✓ WhatsApp job alerts</li>
-                <li>✓ Smart Quoting</li>
-                <li>✓ Payment Chaser</li>
-                <li>✓ Review Harvester</li>
-              </ul>
-              <button onClick={() => openWaitlist('Scout Pro')} className="mt-8 w-full text-center bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">CONTROL THE JOBS</button>
-            </div>
+            <ul className="mt-6 space-y-4 text-base font-semibold text-slate-800">
+              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Unlimited AI WhatsApp Vetting</span></li>
+              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Custom Van QR Code</span></li>
+              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>Stripe Priority Pass Integration</span></li>
+              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>"Money Leak" ROI Engine</span></li>
+              <li className="flex items-start gap-3"><span className="text-green-600 text-xl leading-none">✓</span><span>3-Day Pulse Reports</span></li>
+            </ul>
 
-            <div className="bg-slate-900/50 border border-white/10 p-6 rounded-sm flex flex-col">
-              <p className="text-slate-400 font-extrabold uppercase tracking-widest text-xs">Scout Max</p>
-              <p className="text-4xl font-display font-extrabold mt-2">£59<span className="text-sm text-slate-500 font-normal">/mo</span></p>
-              <p className="text-[10px] font-bold text-slate-500 uppercase italic tracking-widest mt-2 leading-tight">For busy teams that need priority access and more control.</p>
-              <ul className="mt-6 space-y-2 text-slate-300 text-sm font-bold flex-1">
-                <li>✓ Everything in Pro</li>
-                <li>✓ Priority first access to leads</li>
-                <li>✓ Multi-user (up to 3)</li>
-              </ul>
-              <button onClick={() => openWaitlist('Scout Max')} className="mt-8 w-full text-center bg-slate-800 hover:bg-slate-700 text-white text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-colors">NO CONTRACTS</button>
-            </div>
-          </div>
-
-          <div className="mt-8 bg-deep-slate brutal-border p-8 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="max-w-2xl">
-              <h3 className="text-2xl font-display font-extrabold uppercase">Hammer Tier — £99/mo</h3>
-              <p className="text-slate-400 font-bold text-sm mt-2">Built for trades who want the lot handled. We filter, rank, and send real leads. You quote and get paid.</p>
-            </div>
-            <button onClick={() => openWaitlist('Hammer')} className="bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-sm font-extrabold py-4 px-8 rounded-sm uppercase tracking-widest whitespace-nowrap">GET REAL LEADS</button>
+            <button
+              onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Tier' }); openWaitlist('Pro Tier'); }}
+              className="mt-8 w-full bg-deep-slate text-white font-display text-3xl md:text-4xl py-4 md:py-5 uppercase border-2 border-deep-slate shadow-[4px_4px_0_#0f1933] hover:brightness-110 hover:scale-[1.01] active:scale-[0.99] transition-all"
+            >
+              START YOUR ENGINE
+            </button>
           </div>
         </div>
       </section>
@@ -1098,8 +1082,9 @@ export default function App() {
                   </div>
                   <form onSubmit={submitWaitlist} className="space-y-4">
                     <input type="email" required value={waitlistEmail} onChange={e => setWaitlistEmail(e.target.value)} placeholder="your@email.com"
-                      className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                    <button type="submit" className="w-full brutal-btn font-display font-black text-[10px] py-4 uppercase tracking-widest">SECURE MY SPOT</button>
+                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan" />
+                    <button type="submit" className="w-full bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
+                    {waitlistError && <p className="text-red-400 text-xs font-bold uppercase tracking-wide">{waitlistError}</p>}
                   </form>
                   <button onClick={() => setShowModal(null)} className="mt-4 w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">NOT NOW</button>
                 </>

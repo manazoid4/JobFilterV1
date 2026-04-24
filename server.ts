@@ -9,12 +9,33 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
-import { Resend } from 'resend';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
-// Initialize Resend (Requires RESEND_API_KEY in env)
-const resend = new Resend(process.env.RESEND_API_KEY || 're_mock_key');
+type EmailPayload = {
+  from: string;
+  to: string;
+  subject: string;
+  html?: string;
+  text?: string;
+};
+
+async function sendEmail(payload: EmailPayload) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || key === 're_mock_key') return;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Resend API ${res.status}: ${body.substring(0, 180)}`);
+  }
+}
 
 const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
 const ADMIN_EMAIL = 'manazoid4@gmail.com';
@@ -238,6 +259,7 @@ async function startServer() {
     if (!email || !plan) return res.status(400).json({ error: 'Missing email or plan' });
 
     // Save to Firestore
+    let stored = false;
     try {
       if (adminDb) {
         await adminDb.collection('waitlist').add({
@@ -245,19 +267,20 @@ async function startServer() {
           plan,
           createdAt: new Date(),
         });
+        stored = true;
       }
     } catch (err: any) {
       console.error('[Waitlist] Firestore write failed:', err.message);
     }
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', stored });
 
     if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') return;
 
     (async () => {
       try {
         // Confirmation to the user
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: email,
           subject: "You're on the JobFilter early access list",
@@ -280,14 +303,14 @@ async function startServer() {
         });
 
         // Admin notification
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `New waitlist signup — ${plan}`,
           text: `Email: ${email}\nPlan: ${plan}\nTime: ${new Date().toISOString()}`,
         });
 
-        console.log(`[Waitlist] Emails sent for ${email} (${plan})`);
+        console.log(`[Waitlist] Emails sent for plan=${plan}`);
       } catch (err: any) {
         console.error('[Waitlist] Email failed:', err.message);
       }
@@ -299,7 +322,7 @@ async function startServer() {
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
-    console.log(`[ONBOARDING] Received submission for ${name} (${trade})`);
+    console.log(`[ONBOARDING] Received submission for trade=${trade}`);
     
     // Return immediately to the frontend so the UI doesn't hang
     res.json({ status: "success", message: "Onboarding received. Processing email in background." });
@@ -312,11 +335,11 @@ async function startServer() {
     // Process email in background
     (async () => {
       try {
-        console.log(`[RESEND] Attempting to send onboarding email for ${name}...`);
+        console.log(`[RESEND] Attempting onboarding admin email send...`);
         
         // Since the user verified their domain, we can try sending from their domain
         // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `New Tradie Onboarding: ${name} (${trade})`,
@@ -339,7 +362,7 @@ async function startServer() {
           `
         });
         
-        console.log(`[RESEND] Email sent successfully to manazoid4@gmail.com for ${name}`);
+        console.log(`[RESEND] Onboarding email sent successfully to admin inbox`);
       } catch (error) {
         console.error("[RESEND] Background email sending failed:", error);
       }
