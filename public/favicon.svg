@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="JobFilter">
+  <rect width="64" height="64" rx="8" fill="#0f1933"/>
+  <rect x="6" y="6" width="52" height="52" rx="6" fill="#f5d000"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Oswald, Arial Black, sans-serif" font-size="28" font-weight="700" fill="#0f1933">JF</text>
+</svg>
