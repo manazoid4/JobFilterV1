@@ -8,15 +8,117 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
-import { Resend } from 'resend';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
-// Initialize Resend (Requires RESEND_API_KEY in env)
-const resend = new Resend(process.env.RESEND_API_KEY || 're_mock_key');
+type EmailPayload = {
+  from: string;
+  to: string;
+  subject: string;
+  html?: string;
+  text?: string;
+};
+
+async function sendEmail(payload: EmailPayload) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || key === 're_mock_key') return;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${key}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`Resend API ${res.status}: ${body.substring(0, 180)}`);
+  }
+}
 
 const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
 const ADMIN_EMAIL = 'manazoid4@gmail.com';
+
+type LeadScanInput = { postcode: string; trade: string; limit?: number };
+type LeadResult = {
+  title: string;
+  trade: string;
+  location: string;
+  estimatedValue: number;
+  urgency: 'today' | 'this_week' | 'planned';
+  source: string;
+  sourceConfidence: number;
+  whyMatched: string;
+};
+
+const TRADE_KEYWORDS: Record<string, RegExp> = {
+  electrical: /(electric|rewire|lighting|power|eicr|charger)/i,
+  plumbing: /(plumb|boiler|heating|drain|water|pipe)/i,
+  general: /(repair|maintenance|building|roof|carpentry|refurb)/i,
+};
+
+const REGION_HINTS: Record<string, string> = {
+  B: 'Birmingham',
+  M: 'Manchester',
+  L: 'Liverpool',
+  LS: 'Leeds',
+  E: 'London',
+  EC: 'London',
+  N: 'London',
+  NW: 'London',
+  SE: 'London',
+  SW: 'London',
+  W: 'London',
+};
+
+function resolveRegionHint(postcode: string) {
+  const cleaned = postcode.toUpperCase().replace(/\s+/g, '');
+  const two = cleaned.match(/^[A-Z]{2}/)?.[0] ?? '';
+  const one = cleaned.match(/^[A-Z]/)?.[0] ?? '';
+  return REGION_HINTS[two] ?? REGION_HINTS[one] ?? 'UK';
+}
+
+async function fetchContractsFinderLeads(input: LeadScanInput): Promise<LeadResult[]> {
+  const since = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 19).replace('T', ' ');
+  const params = new URLSearchParams({ stages: 'tender', limit: String(Math.min(Math.max(input.limit ?? 8, 4), 20)), publishedFrom: since });
+  const url = `https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search?${params.toString()}`;
+
+  const response = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'JobFilter/1.0' } });
+  if (!response.ok) throw new Error(`ContractsFinder ${response.status}`);
+  const payload = await response.json() as any;
+  const releases: any[] = payload?.releases ?? payload?.data ?? [];
+  const tradePattern = TRADE_KEYWORDS[input.trade] ?? TRADE_KEYWORDS.general;
+  const region = resolveRegionHint(input.postcode);
+
+  return releases
+    .map((rel): LeadResult | null => {
+      const tender = rel?.tender ?? {};
+      const buyer = rel?.buyer ?? rel?.parties?.find((p: any) => p.roles?.includes('buyer')) ?? {};
+      const title = String(tender?.title ?? '').trim();
+      const desc = String(tender?.description ?? '').trim();
+      if (!title || !tradePattern.test(`${title} ${desc}`)) return null;
+
+      const value = Number(tender?.value?.amount ?? tender?.minValue?.amount ?? 0) || 250;
+      const endDate = String(tender?.tenderPeriod?.endDate ?? '');
+      const deadline = endDate ? new Date(endDate).getTime() : Date.now() + 7 * 86400000;
+      const dayDelta = (deadline - Date.now()) / 86400000;
+      const urgency: LeadResult['urgency'] = dayDelta < 3 ? 'today' : dayDelta < 10 ? 'this_week' : 'planned';
+      const location = String(tender?.deliveryAddress?.region ?? buyer?.address?.region ?? region).trim() || region;
+
+      return {
+        title,
+        trade: input.trade,
+        location,
+        estimatedValue: value,
+        urgency,
+        source: 'Contracts Finder',
+        sourceConfidence: 82,
+        whyMatched: `Matched ${input.trade} with ${region} postcode area`,
+      };
+    })
+    .filter(Boolean)
+    .slice(0, input.limit ?? 8) as LeadResult[];
+}
 
 // Initialize Firebase Admin — uses GOOGLE_APPLICATION_CREDENTIALS env var in prod,
 // falls back to no-op Firestore stub in dev when credentials aren't present
@@ -230,6 +332,31 @@ async function startServer() {
   });
 
   // ==========================================
+  // LEAD SCAN (LIVE + FALLBACK)
+  // ==========================================
+  app.post("/api/leads/scan", async (req, res) => {
+    const { postcode = '', trade = 'general', limit = 8 } = (req.body ?? {}) as LeadScanInput;
+    const cleanPostcode = String(postcode).trim();
+    if (cleanPostcode.length < 3) return res.status(400).json({ error: 'postcode_required' });
+
+    try {
+      const leads = await fetchContractsFinderLeads({ postcode: cleanPostcode, trade: String(trade), limit });
+      if (leads.length > 0) return res.json({ source: 'live', leads });
+    } catch (err: any) {
+      console.warn('[LeadScan] Live source failed, using fallback:', err?.message ?? err);
+    }
+
+    const region = resolveRegionHint(cleanPostcode);
+    const fallback: LeadResult[] = [
+      { title: `${trade} callout near ${region}`, trade: String(trade), location: region, estimatedValue: 280, urgency: 'today' as const, source: 'JobFilter Fallback', sourceConfidence: 60, whyMatched: `Matched ${trade} + ${region}` },
+      { title: `${trade} maintenance job in ${region}`, trade: String(trade), location: region, estimatedValue: 540, urgency: 'this_week' as const, source: 'JobFilter Fallback', sourceConfidence: 58, whyMatched: `Matched ${trade} + ${region}` },
+      { title: `${trade} upgrade project in ${region}`, trade: String(trade), location: region, estimatedValue: 1250, urgency: 'planned' as const, source: 'JobFilter Fallback', sourceConfidence: 55, whyMatched: `Matched ${trade} + ${region}` },
+    ].slice(0, Math.min(Math.max(Number(limit) || 6, 3), 10));
+
+    return res.json({ source: 'fallback', leads: fallback });
+  });
+
+  // ==========================================
   // WAITLIST
   // ==========================================
   app.post("/api/waitlist", async (req, res) => {
@@ -237,6 +364,7 @@ async function startServer() {
     if (!email || !plan) return res.status(400).json({ error: 'Missing email or plan' });
 
     // Save to Firestore
+    let stored = false;
     try {
       if (adminDb) {
         await adminDb.collection('waitlist').add({
@@ -244,19 +372,20 @@ async function startServer() {
           plan,
           createdAt: new Date(),
         });
+        stored = true;
       }
     } catch (err: any) {
       console.error('[Waitlist] Firestore write failed:', err.message);
     }
 
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok', stored });
 
     if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') return;
 
     (async () => {
       try {
         // Confirmation to the user
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: email,
           subject: "You're on the JobFilter early access list",
@@ -279,14 +408,14 @@ async function startServer() {
         });
 
         // Admin notification
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `New waitlist signup — ${plan}`,
           text: `Email: ${email}\nPlan: ${plan}\nTime: ${new Date().toISOString()}`,
         });
 
-        console.log(`[Waitlist] Emails sent for ${email} (${plan})`);
+        console.log(`[Waitlist] Emails sent for plan=${plan}`);
       } catch (err: any) {
         console.error('[Waitlist] Email failed:', err.message);
       }
@@ -298,7 +427,7 @@ async function startServer() {
   // ==========================================
   app.post("/api/onboarding/submit", async (req, res) => {
     const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
-    console.log(`[ONBOARDING] Received submission for ${name} (${trade})`);
+    console.log(`[ONBOARDING] Received submission for trade=${trade}`);
     
     // Return immediately to the frontend so the UI doesn't hang
     res.json({ status: "success", message: "Onboarding received. Processing email in background." });
@@ -311,11 +440,11 @@ async function startServer() {
     // Process email in background
     (async () => {
       try {
-        console.log(`[RESEND] Attempting to send onboarding email for ${name}...`);
+        console.log(`[RESEND] Attempting onboarding admin email send...`);
         
         // Since the user verified their domain, we can try sending from their domain
         // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
-        await resend.emails.send({
+        await sendEmail({
           from: FROM_EMAIL,
           to: ADMIN_EMAIL,
           subject: `New Tradie Onboarding: ${name} (${trade})`,
@@ -338,7 +467,7 @@ async function startServer() {
           `
         });
         
-        console.log(`[RESEND] Email sent successfully to manazoid4@gmail.com for ${name}`);
+        console.log(`[RESEND] Onboarding email sent successfully to admin inbox`);
       } catch (error) {
         console.error("[RESEND] Background email sending failed:", error);
       }
