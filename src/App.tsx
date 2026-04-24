@@ -948,37 +948,37 @@ export default function App() {
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Your annual turnover" value={vtTurnover} setValue={setVtTurnover} min={10000} max={200000} step={1000} prefix="£" />
-                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
-                          <p>VAT registration threshold: <span className="text-white">£{vtThreshold.toLocaleString()}</span></p>
-                          <p>Once over: <span className="text-high-vis-orange">Must register within 30 days</span></p>
-                          <p>Voluntary registration: <span className="text-white">Any turnover level</span></p>
+                        <div className="p-4 bg-[#ece9d8] border-2 border-deep-slate rounded-sm text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
+                          <p>VAT registration threshold: <span className="text-slate-700">£{vtThreshold.toLocaleString()}</span></p>
+                          <p>Once over: <span className="text-amber-600">Must register within 30 days</span></p>
+                          <p>Voluntary registration: <span className="text-slate-700">Any turnover level</span></p>
                         </div>
                       </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center">
+                      <div className="bg-[#f2f4f8] rounded-sm p-6 border-2 border-deep-slate flex flex-col justify-center">
                         <div className="mb-4">
                           <div className="flex justify-between mb-2">
-                            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">£0</span>
-                            <span className="text-xs font-bold uppercase tracking-widest text-high-vis-orange">£{vtThreshold.toLocaleString()} threshold</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">£0</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-amber-600">£{vtThreshold.toLocaleString()} threshold</span>
                           </div>
                           <div className="w-full bg-slate-800 rounded-sm h-4">
                             <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-high-vis-orange' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
                           </div>
-                          <p className="text-xs text-slate-500 font-bold mt-1 text-right">{vtPercent.toFixed(0)}% of threshold</p>
+                          <p className="text-xs text-slate-600 font-bold mt-1 text-right">{vtPercent.toFixed(0)}% of threshold</p>
                         </div>
                         {vtOver ? (
                           <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-sm">
                             <p className="text-red-400 font-extrabold uppercase italic text-sm">⚠ Over Threshold</p>
-                            <p className="text-xs text-slate-300 font-bold mt-1">You're £{Math.abs(vtGap).toLocaleString()} over the VAT threshold. You should be registered. Speak to an accountant immediately.</p>
+                            <p className="text-xs text-slate-700 font-bold mt-1">You're £{Math.abs(vtGap).toLocaleString()} over the VAT threshold. You should be registered. Speak to an accountant immediately.</p>
                           </div>
                         ) : vtPercent > 80 ? (
-                          <div className="p-4 bg-high-vis-orange/10 border border-high-vis-orange/30 rounded-sm">
-                            <p className="text-high-vis-orange font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
-                            <p className="text-xs text-slate-300 font-bold mt-1">Only £{vtGap.toLocaleString()} below the threshold. Plan ahead — VAT registration can affect pricing.</p>
+                          <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-sm">
+                            <p className="text-amber-400 font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
+                            <p className="text-xs text-slate-700 font-bold mt-1">Only £{vtGap.toLocaleString()} below the threshold. Plan ahead — VAT registration can affect pricing.</p>
                           </div>
                         ) : (
                           <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-sm">
                             <p className="text-green-400 font-extrabold uppercase italic text-sm">✔ Below Threshold</p>
-                            <p className="text-xs text-slate-300 font-bold mt-1">£{vtGap.toLocaleString()} below the VAT threshold. You're clear — but track your turnover monthly.</p>
+                            <p className="text-xs text-slate-700 font-bold mt-1">£{vtGap.toLocaleString()} below the VAT threshold. You're clear — but track your turnover monthly.</p>
                           </div>
                         )}
                       </div>
