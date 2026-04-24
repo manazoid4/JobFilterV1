@@ -169,7 +169,7 @@ export default function App() {
   };
   const lvScore = getLvScore();
   const lvLabel = lvScore >= 75 ? 'High Value' : lvScore >= 55 ? 'Worth Quoting' : 'Low Value — Skip';
-  const lvColor = lvScore >= 75 ? 'text-green-400' : lvScore >= 55 ? 'text-amber-400' : 'text-red-400';
+  const lvColor = lvScore >= 75 ? 'text-green-400' : lvScore >= 55 ? 'text-high-vis-orange' : 'text-red-400';
 
   // ── Tool: Material Markup Calculator ────────────────────────────────────────
   const [mmCost, setMmCost] = useState(200);
@@ -217,7 +217,7 @@ export default function App() {
   const pmProfit = pmRevenue - pmCosts;
   const pmMargin = pmRevenue > 0 ? ((pmProfit / pmRevenue) * 100).toFixed(1) : '0';
   const pmLabel = parseFloat(pmMargin) >= 40 ? 'Healthy' : parseFloat(pmMargin) >= 20 ? 'Tight' : 'Too Low';
-  const pmColor = parseFloat(pmMargin) >= 40 ? 'text-green-400' : parseFloat(pmMargin) >= 20 ? 'text-amber-400' : 'text-red-400';
+  const pmColor = parseFloat(pmMargin) >= 40 ? 'text-green-400' : parseFloat(pmMargin) >= 20 ? 'text-high-vis-orange' : 'text-red-400';
 
   // ── Tool: Cash Flow Forecaster ───────────────────────────────────────────────
   const [cfWeeklyIn, setCfWeeklyIn] = useState(1200);
@@ -277,7 +277,7 @@ export default function App() {
     setWaitlistSubmitted(true);
   };
 
-  const startScan = () => {
+  const startScan = async () => {
     setIsScanning(true); setScanComplete(false);
     const region = resolveRegionFromPostcode(postcode);
     const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
@@ -355,6 +355,15 @@ export default function App() {
             </div>
           )}
         </div>
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-deep-slate border-t-2 border-white/10 px-6 py-4 flex flex-col gap-4">
+            <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Find Jobs Near You</a>
+            <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Free Tools</a>
+            <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">ROI Calc</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Pricing</a>
+            <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="brutal-btn text-sm px-4 py-3 font-display font-black text-center">FIND JOBS NEAR ME</a>
+          </div>
+        )}
       </nav>
 
       {/* ── HERO ── */}
@@ -367,7 +376,7 @@ export default function App() {
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="font-display text-6xl md:text-9xl font-extrabold tracking-tighter mb-6 leading-[0.85] uppercase italic"
+            className="font-display font-black text-6xl md:text-9xl uppercase leading-[0.85] mb-8"
           >
             ENTER THE INTAKE<br /><span className="text-high-vis-orange">CONTROL THE JOBS.</span>
           </motion.h1>
@@ -401,10 +410,6 @@ export default function App() {
           </motion.div>
         </div>
 
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-15 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-amber-500 rounded-full blur-[180px]"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-cyan-500 rounded-full blur-[180px]"></div>
-        </div>
       </header>
 
       {/* ── SOCIAL PROOF STRIP ── */}
@@ -435,9 +440,9 @@ export default function App() {
           <div className="classic-panel p-6 md:p-8 rounded-sm shadow-2xl">
             <div className="grid md:grid-cols-[1.4fr_2fr_1fr] gap-4 mb-6">
               <div>
-                <label className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Your Trade</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Trade</label>
                 <select value={tradeType} onChange={(e) => setTradeType(e.target.value)}
-                  className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold uppercase tracking-wide text-slate-100 focus:outline-none focus:border-electric-cyan">
+                  className="w-full brutal-border bg-white px-4 py-3 text-sm font-black uppercase tracking-wide text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
                   <option value="general">General Trade</option>
                   <option value="electrical">Electrical</option>
                   <option value="plumbing">Plumbing</option>
@@ -446,9 +451,9 @@ export default function App() {
                 </select>
               </div>
               <div>
-                <label className="text-xs font-extrabold text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
+                <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
                 <input value={postcode} onChange={(e) => setPostcode(e.target.value.toUpperCase())} placeholder="e.g. B14 7QH"
-                  className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-xl font-bold uppercase tracking-wide text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-electric-cyan" />
+                  className="w-full brutal-border bg-white px-4 py-3 text-xl font-black uppercase tracking-wide text-deep-slate placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
               </div>
               <div className="flex items-end">
                 <button onClick={startScan} disabled={isScanning || postcode.trim().length < 4}
@@ -458,8 +463,8 @@ export default function App() {
               </div>
             </div>
 
-            <div className="relative min-h-[180px] bg-slate-900/50 p-5 rounded-sm border border-white/5">
-              {isScanning && <div className="absolute inset-0 z-10 overflow-hidden rounded-sm"><div className="w-full h-0.5 bg-electric-cyan shadow-[0_0_15px_#22d3ee] absolute animate-scan"></div></div>}
+            <div className="relative min-h-[180px] bg-slate-50 brutal-border p-5">
+              {isScanning && <div className="absolute inset-0 z-10 overflow-hidden"><div className="w-full h-1 bg-high-vis-orange absolute animate-scan"></div></div>}
 
               {scanComplete ? (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
@@ -484,12 +489,12 @@ export default function App() {
                   <div className="bg-slate-800/80 border border-electric-cyan/30 p-4 rounded-sm mt-2">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs text-slate-400 font-extrabold uppercase tracking-widest">Lead Quality Score</p>
-                        <p className="text-4xl font-display font-extrabold text-electric-cyan mt-1">{leadQualityScore}<span className="text-xl text-slate-500">/100</span></p>
+                        <p className="text-xs text-deep-slate font-black uppercase tracking-widest">Lead Quality Score</p>
+                        <p className="text-4xl font-display font-black text-deep-slate mt-1">{leadQualityScore}<span className="text-xl text-deep-slate/50">/100</span></p>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-slate-400 font-extrabold uppercase tracking-widest mb-1">1 of 3 free views used</p>
-                        <div className="flex gap-1 justify-end">{[0,1,2].map(i => <div key={i} className={`w-6 h-2 rounded-sm ${i === 0 ? 'bg-high-vis-orange' : 'bg-slate-700'}`}></div>)}</div>
+                        <p className="text-xs text-deep-slate font-black uppercase tracking-widest mb-1">{freeViewsUsed} of 3 free views used</p>
+                        <div className="flex gap-1 justify-end">{[0,1,2].map(i => <div key={i} className={`w-6 h-2 ${i < freeViewsUsed ? 'bg-deep-slate' : 'bg-deep-slate/20'}`}></div>)}</div>
                       </div>
                     </div>
                     <ul className="mt-3 space-y-1 text-xs text-slate-300 font-bold uppercase tracking-wide">
@@ -501,8 +506,8 @@ export default function App() {
                   <div className="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center gap-4 justify-between">
                   <p className="text-sm font-bold text-slate-400">STAY IN CONTROL. NO CONTRACTS. <span className="text-high-vis-orange">2 free views left this month.</span></p>
                     <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
-                      className="inline-block bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-2.5 px-6 rounded-sm uppercase italic tracking-widest text-xs whitespace-nowrap">
-                      Unlock Unlimited →
+                      className="brutal-btn text-xs font-display font-black py-2.5 px-6 whitespace-nowrap">
+                      UNLOCK UNLIMITED →
                     </a>
                   </div>
                 </motion.div>
@@ -550,7 +555,7 @@ export default function App() {
                 {/* ── QUOTE BUILDER ── */}
                 {activeToolId === 'quote' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Quote Quick <span className="text-high-vis-orange">Builder</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase text-deep-slate mb-6">QUOTE QUICK <span className="bg-high-vis-orange px-1">BUILDER</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Labour hours" value={qtLabour} setValue={setQtLabour} min={1} max={40} unit="hrs" />
@@ -558,7 +563,7 @@ export default function App() {
                         <SliderField label="Materials cost" value={qtMaterials} setValue={setQtMaterials} min={0} max={5000} step={50} prefix="£" />
                         <SliderField label="Materials markup" value={qtMarkup} setValue={setQtMarkup} min={0} max={60} unit="%" />
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-between">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-between">
                         <div className="space-y-4">
                           <QuoteLine label="Labour" value={`£${qtLabourTotal.toFixed(0)}`} />
                           <QuoteLine label={`Materials (inc. ${qtMarkup}% markup)`} value={`£${qtMaterialsTotal.toFixed(0)}`} />
@@ -569,8 +574,8 @@ export default function App() {
                             <QuoteLine label="Inc. VAT (20%)" value={`£${(qtTotal * 1.2).toFixed(0)}`} small />
                           </div>
                         </div>
-                        <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Better leads = bigger quotes. <a href="#pricing" className="underline">Unlock unlimited access →</a></p>
+                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Better leads = bigger quotes. <a href="#pricing" className="underline">Unlock unlimited access →</a></p>
                         </div>
                       </div>
                     </div>
@@ -580,22 +585,22 @@ export default function App() {
                 {/* ── DAY RATE ── */}
                 {activeToolId === 'dayrate' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Day Rate <span className="text-high-vis-orange">Calculator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Day Rate <span className="text-high-vis-orange">Calculator</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Annual income target" value={drAnnualTarget} setValue={setDrAnnualTarget} min={20000} max={120000} step={1000} prefix="£" />
                         <SliderField label="Working days per year" value={drDaysWorked} setValue={setDrDaysWorked} min={100} max={260} unit="days" />
                         <SliderField label="Annual overheads (van, tools, insurance)" value={drOverheads} setValue={setDrOverheads} min={0} max={30000} step={500} prefix="£" />
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-center text-center">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
                         <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Your Minimum Day Rate</p>
                         <p className="font-display text-7xl font-extrabold text-high-vis-orange italic">£{drRequired}</p>
                         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Per day to hit your target</p>
                         <div className="mt-4 text-sm font-bold text-slate-300">
                           = <span className="text-electric-cyan">£{Math.ceil(drRequired / 8)}/hr</span> based on 8hr day
                         </div>
-                        <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
+                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
                         </div>
                       </div>
                     </div>
@@ -605,16 +610,16 @@ export default function App() {
                 {/* ── LEAD VALUE ── */}
                 {activeToolId === 'leadvalue' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Lead Value <span className="text-high-vis-orange">Checker</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Lead Value <span className="text-high-vis-orange">Checker</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <div>
-                          <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Client's budget (£)</label>
-                          <input type="number" value={lvBudget} onChange={e => setLvBudget(e.target.value)} placeholder="e.g. 800" className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-lg font-bold text-slate-100 focus:outline-none focus:border-electric-cyan" />
+                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Client's budget (£)</label>
+                          <input type="number" value={lvBudget} onChange={e => setLvBudget(e.target.value)} placeholder="e.g. 800" className="w-full brutal-border bg-white px-4 py-3 text-lg font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
                         </div>
                         <div>
-                          <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Job scope</label>
-                          <select value={lvScope} onChange={e => setLvScope(e.target.value)} className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan">
+                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Job scope</label>
+                          <select value={lvScope} onChange={e => setLvScope(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
                             <option value="small">Small (half day)</option>
                             <option value="medium">Medium (1–3 days)</option>
                             <option value="large">Large (week+)</option>
@@ -622,24 +627,24 @@ export default function App() {
                         </div>
                         <SliderField label="Distance from you" value={lvDistance} setValue={setLvDistance} min={1} max={50} unit="miles" />
                         <div>
-                          <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Payment method</label>
-                          <select value={lvPayType} onChange={e => setLvPayType(e.target.value)} className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan">
+                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Payment method</label>
+                          <select value={lvPayType} onChange={e => setLvPayType(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
                             <option value="card">Card / Bank Transfer</option>
                             <option value="cash">Cash</option>
                             <option value="unknown">Not stated</option>
                           </select>
                         </div>
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-center text-center">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
                         <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Lead Score</p>
                         <p className={`font-display text-8xl font-extrabold italic ${lvColor}`}>{lvScore}</p>
                         <p className={`text-lg font-extrabold uppercase italic mt-2 ${lvColor}`}>{lvLabel}</p>
                         <div className="mt-4 w-full bg-slate-800 rounded-sm h-2">
-                          <div className={`h-2 rounded-sm transition-all ${lvScore >= 75 ? 'bg-green-400' : lvScore >= 55 ? 'bg-amber-400' : 'bg-red-400'}`} style={{ width: `${lvScore}%` }}></div>
+                          <div className={`h-2 rounded-sm transition-all ${lvScore >= 75 ? 'bg-green-400' : lvScore >= 55 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${lvScore}%` }}></div>
                         </div>
                         {lvScore < 55 && (
-                          <div className="mt-6 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 This job is low value. <a href="#filter" className="underline">Find better leads near you →</a></p>
+                          <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 This job is low value. <a href="#filter" className="underline">Find better leads near you →</a></p>
                           </div>
                         )}
                         {lvScore >= 75 && (
@@ -655,24 +660,24 @@ export default function App() {
                 {/* ── MARKUP ── */}
                 {activeToolId === 'markup' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Material Markup <span className="text-high-vis-orange">Calculator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Material Markup <span className="text-high-vis-orange">Calculator</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Materials cost (what you pay)" value={mmCost} setValue={setMmCost} min={10} max={10000} step={10} prefix="£" />
                         <SliderField label="Your markup %" value={mmMarkup} setValue={setMmMarkup} min={5} max={100} unit="%" />
-                        <div className="p-4 bg-slate-900/50 border border-white/5 rounded-sm text-xs font-bold uppercase tracking-wide text-slate-400">
+                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate">
                           <p>Industry standard markup: <span className="text-white">20–30%</span></p>
                           <p className="mt-1">Premium materials (specialist): <span className="text-white">40–60%</span></p>
                         </div>
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 space-y-4">
+                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
                         <QuoteLine label="Your cost" value={`£${mmCost.toFixed(0)}`} />
                         <QuoteLine label={`Charge to client (+${mmMarkup}%)`} value={`£${mmCharge.toFixed(0)}`} large orange />
                         <div className="border-t border-white/10 pt-4">
                           <QuoteLine label="Your profit on materials" value={`£${mmProfit.toFixed(0)}`} />
                         </div>
-                        <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Most tradesmen undercharge on materials by 15–20%. Don't leave money on the bench.</p>
+                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Most tradesmen undercharge on materials by 15–20%. Don't leave money on the bench.</p>
                         </div>
                       </div>
                     </div>
@@ -682,7 +687,7 @@ export default function App() {
                 {/* ── TIME ESTIMATE ── */}
                 {activeToolId === 'timeestimate' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Time <span className="text-high-vis-orange">Estimator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Time <span className="text-high-vis-orange">Estimator</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-4">
                         {[
@@ -691,14 +696,14 @@ export default function App() {
                           { label: 'Site access', val: teAccess, set: setTeAccess, opts: [['easy','Easy — clear access'],['moderate','Moderate — some obstacles'],['difficult','Difficult — restricted access']] },
                         ].map(({ label, val, set, opts }) => (
                           <div key={label}>
-                            <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">{label}</label>
-                            <select value={val} onChange={e => set(e.target.value)} className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan">
+                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">{label}</label>
+                            <select value={val} onChange={e => set(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
                               {opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                             </select>
                           </div>
                         ))}
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-center text-center">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
                         <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Estimated Time</p>
                         <p className="font-display text-8xl font-extrabold text-electric-cyan italic">{teHours}</p>
                         <p className="text-lg font-bold uppercase tracking-widest text-slate-400 mt-1">hours</p>
@@ -712,8 +717,8 @@ export default function App() {
                             <p className="font-extrabold text-xl text-white">{(teHours / 40).toFixed(1)}</p>
                           </div>
                         </div>
-                        <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Always add 20% buffer for access, snagging, and client changes.</p>
+                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always add 20% buffer for access, snagging, and client changes.</p>
                         </div>
                       </div>
                     </div>
@@ -723,7 +728,7 @@ export default function App() {
                 {/* ── FUEL ── */}
                 {activeToolId === 'fuelcost' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Fuel Cost <span className="text-high-vis-orange">Calculator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Fuel Cost <span className="text-high-vis-orange">Calculator</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Round trip miles" value={fcMiles} setValue={setFcMiles} min={2} max={200} unit="miles" />
@@ -731,7 +736,7 @@ export default function App() {
                         <SliderField label="Fuel price (pence/litre)" value={fcPrice} setValue={setFcPrice} min={100} max={200} unit="p" />
                         <SliderField label="Number of trips to site" value={fcTrips} setValue={setFcTrips} min={1} max={20} unit="trips" />
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 space-y-4">
+                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
                         <QuoteLine label="Fuel per trip" value={`£${fcCostPerTrip.toFixed(2)}`} />
                         <QuoteLine label={`Total (${fcTrips} trips)`} value={`£${fcTotal.toFixed(2)}`} large orange />
                         <div className="border-t border-white/10 pt-4">
@@ -745,8 +750,8 @@ export default function App() {
                             ))}
                           </div>
                         </div>
-                        <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Always charge travel. Time sat in the van is still your time.</p>
+                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always charge travel. Time sat in the van is still your time.</p>
                         </div>
                       </div>
                     </div>
@@ -756,26 +761,26 @@ export default function App() {
                 {/* ── INVOICE ── */}
                 {activeToolId === 'invoice' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Invoice <span className="text-high-vis-orange">Generator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Invoice <span className="text-high-vis-orange">Generator</span></h3>
                     {!invGenerated ? (
                       <div className="grid md:grid-cols-2 gap-8">
                         <div className="space-y-4">
                           <div>
-                            <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Client name</label>
-                            <input value={invClient} onChange={e => setInvClient(e.target.value)} placeholder="e.g. John Smith" className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan" />
+                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Client name</label>
+                            <input value={invClient} onChange={e => setInvClient(e.target.value)} placeholder="e.g. John Smith" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
                           </div>
                           <div>
-                            <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Job description</label>
-                            <input value={invJob} onChange={e => setInvJob(e.target.value)} placeholder="e.g. Boiler service and thermostat replacement" className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan" />
+                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Job description</label>
+                            <input value={invJob} onChange={e => setInvJob(e.target.value)} placeholder="e.g. Boiler service and thermostat replacement" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Labour (£)</label>
-                              <input type="number" value={invLabour || ''} onChange={e => setInvLabour(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan" />
+                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Labour (£)</label>
+                              <input type="number" value={invLabour || ''} onChange={e => setInvLabour(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
                             </div>
                             <div>
-                              <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 block mb-2">Materials (£)</label>
-                              <input type="number" value={invMaterials || ''} onChange={e => setInvMaterials(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 focus:outline-none focus:border-electric-cyan" />
+                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Materials (£)</label>
+                              <input type="number" value={invMaterials || ''} onChange={e => setInvMaterials(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
                             </div>
                           </div>
                           <label className="flex items-center gap-3 cursor-pointer">
@@ -784,11 +789,11 @@ export default function App() {
                             </div>
                             <span className="text-sm font-bold text-slate-300">Add VAT (20%)</span>
                           </label>
-                          <button onClick={() => setInvGenerated(true)} disabled={!invClient || !invJob} className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">
+                          <button onClick={() => setInvGenerated(true)} disabled={!invClient || !invJob} className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-yellow-300 text-deep-slate font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">
                             Generate Invoice
                           </button>
                         </div>
-                        <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 space-y-3">
+                        <div className="bg-slate-50 brutal-border p-6 space-y-3">
                           <QuoteLine label="Labour" value={`£${invLabour.toFixed(2)}`} />
                           <QuoteLine label="Materials" value={`£${invMaterials.toFixed(2)}`} />
                           {invVat && <QuoteLine label="VAT (20%)" value={`£${invVatAmt.toFixed(2)}`} />}
@@ -802,7 +807,7 @@ export default function App() {
                         <div className="bg-white text-slate-900 p-8 rounded-sm mb-4">
                           <div className="flex justify-between items-start mb-8">
                             <div>
-                              <p className="font-display text-2xl font-extrabold uppercase italic text-amber-500">JobFilter</p>
+                              <p className="font-display text-2xl font-extrabold uppercase italic text-high-vis-orange">JobFilter</p>
                               <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Built For Trades</p>
                             </div>
                             <div className="text-right">
@@ -824,17 +829,17 @@ export default function App() {
                             <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">Materials</span><span className="font-bold">£{invMaterials.toFixed(2)}</span></div>
                             {invVat && <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">VAT (20%)</span><span className="font-bold">£{invVatAmt.toFixed(2)}</span></div>}
                             <div className="flex justify-between text-xl font-extrabold border-t border-slate-300 pt-2 mt-2">
-                              <span>Total Due</span><span className="text-amber-500">£{invTotal.toFixed(2)}</span>
+                              <span>Total Due</span><span className="text-high-vis-orange">£{invTotal.toFixed(2)}</span>
                             </div>
                           </div>
                           <div className="mt-6 text-xs text-slate-400">Payment due within 14 days. Bank transfer preferred.</div>
                         </div>
                         <div className="flex gap-3">
-                          <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
+                          <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
                           <button onClick={() => setInvGenerated(false)} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Edit Invoice</button>
                         </div>
-                        <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                          <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Getting paid slow? JobFilter Pro includes a Payment Chaser that auto-follows up. <a href="#pricing" className="underline">See plans →</a></p>
+                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Getting paid slow? JobFilter Pro includes a Payment Chaser that auto-follows up. <a href="#pricing" className="underline">See plans →</a></p>
                         </div>
                       </div>
                     )}
@@ -844,29 +849,29 @@ export default function App() {
                 {/* ── PROFIT MARGIN ── */}
                 {activeToolId === 'profit' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Profit Margin <span className="text-high-vis-orange">Calculator</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Profit Margin <span className="text-high-vis-orange">Calculator</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Job revenue (what you charge)" value={pmRevenue} setValue={setPmRevenue} min={100} max={20000} step={50} prefix="£" />
                         <SliderField label="Total job costs (labour + materials + fuel)" value={pmCosts} setValue={setPmCosts} min={50} max={18000} step={50} prefix="£" />
-                        <div className="p-4 bg-slate-900/50 border border-white/5 rounded-sm text-xs font-bold uppercase tracking-wide text-slate-400 space-y-1">
+                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
                           <p>Target margin: <span className="text-white">30–40%</span> minimum</p>
                           <p>Below 20%: <span className="text-red-400">You're working for free</span></p>
                         </div>
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-center text-center">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
                         <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Profit Margin</p>
                         <p className={`font-display text-7xl font-extrabold italic ${pmColor}`}>{pmMargin}%</p>
                         <p className={`text-lg font-extrabold uppercase italic mt-1 ${pmColor}`}>{pmLabel}</p>
                         <div className="mt-4 w-full bg-slate-800 rounded-sm h-3">
-                          <div className={`h-3 rounded-sm transition-all ${parseFloat(pmMargin) >= 40 ? 'bg-green-400' : parseFloat(pmMargin) >= 20 ? 'bg-amber-400' : 'bg-red-400'}`} style={{ width: `${Math.min(100, parseFloat(pmMargin) * 2.5)}%` }}></div>
+                          <div className={`h-3 rounded-sm transition-all ${parseFloat(pmMargin) >= 40 ? 'bg-green-400' : parseFloat(pmMargin) >= 20 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${Math.min(100, parseFloat(pmMargin) * 2.5)}%` }}></div>
                         </div>
                         <div className="mt-4 border-t border-white/10 pt-4">
                           <QuoteLine label="Profit on this job" value={`£${pmProfit.toFixed(0)}`} large orange />
                         </div>
                         {parseFloat(pmMargin) < 30 && (
-                          <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Low margin. You need better-paying leads. <a href="#filter" className="underline">Find them here →</a></p>
+                          <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Low margin. You need better-paying leads. <a href="#filter" className="underline">Find them here →</a></p>
                           </div>
                         )}
                       </div>
@@ -877,13 +882,13 @@ export default function App() {
                 {/* ── CASH FLOW ── */}
                 {activeToolId === 'cashflow' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">Cash Flow <span className="text-high-vis-orange">Forecast</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">Cash Flow <span className="text-high-vis-orange">Forecast</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Average weekly income" value={cfWeeklyIn} setValue={setCfWeeklyIn} min={200} max={10000} step={100} prefix="£" />
                         <SliderField label="Average weekly outgoings (fuel, materials, subs)" value={cfWeeklyOut} setValue={setCfWeeklyOut} min={100} max={8000} step={100} prefix="£" />
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 space-y-4">
+                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
                         <div className="grid grid-cols-3 gap-3 text-center">
                           {[
                             { label: 'Weekly Net', value: `£${cfWeeklyNet.toFixed(0)}`, color: cfWeeklyNet > 0 ? 'text-green-400' : 'text-red-400' },
@@ -907,8 +912,8 @@ export default function App() {
                           </div>
                         </div>
                         {cfWeeklyNet < 200 && (
-                          <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-sm">
-                            <p className="text-xs font-bold text-amber-400 uppercase tracking-wide">💡 Tight margins. More consistent leads = steadier cash flow. <a href="#filter" className="underline">Find leads →</a></p>
+                          <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
+                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Tight margins. More consistent leads = steadier cash flow. <a href="#filter" className="underline">Find leads →</a></p>
                           </div>
                         )}
                       </div>
@@ -919,24 +924,24 @@ export default function App() {
                 {/* ── VAT CHECKER ── */}
                 {activeToolId === 'vatcheck' && (
                   <div>
-                    <h3 className="font-display text-3xl font-extrabold uppercase italic mb-6">VAT Threshold <span className="text-high-vis-orange">Checker</span></h3>
+                    <h3 className="font-display font-black text-3xl uppercase mb-6">VAT Threshold <span className="text-high-vis-orange">Checker</span></h3>
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-6">
                         <SliderField label="Your annual turnover" value={vtTurnover} setValue={setVtTurnover} min={10000} max={200000} step={1000} prefix="£" />
-                        <div className="p-4 bg-slate-900/50 border border-white/5 rounded-sm text-xs font-bold uppercase tracking-wide text-slate-400 space-y-1">
+                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
                           <p>VAT registration threshold: <span className="text-white">£{vtThreshold.toLocaleString()}</span></p>
-                          <p>Once over: <span className="text-amber-400">Must register within 30 days</span></p>
+                          <p>Once over: <span className="text-high-vis-orange">Must register within 30 days</span></p>
                           <p>Voluntary registration: <span className="text-white">Any turnover level</span></p>
                         </div>
                       </div>
-                      <div className="bg-slate-900/60 rounded-sm p-6 border border-white/5 flex flex-col justify-center">
+                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center">
                         <div className="mb-4">
                           <div className="flex justify-between mb-2">
                             <span className="text-xs font-bold uppercase tracking-widest text-slate-400">£0</span>
-                            <span className="text-xs font-bold uppercase tracking-widest text-amber-400">£{vtThreshold.toLocaleString()} threshold</span>
+                            <span className="text-xs font-bold uppercase tracking-widest text-high-vis-orange">£{vtThreshold.toLocaleString()} threshold</span>
                           </div>
                           <div className="w-full bg-slate-800 rounded-sm h-4">
-                            <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-amber-400' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
+                            <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-high-vis-orange' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
                           </div>
                           <p className="text-xs text-slate-500 font-bold mt-1 text-right">{vtPercent.toFixed(0)}% of threshold</p>
                         </div>
@@ -946,8 +951,8 @@ export default function App() {
                             <p className="text-xs text-slate-300 font-bold mt-1">You're £{Math.abs(vtGap).toLocaleString()} over the VAT threshold. You should be registered. Speak to an accountant immediately.</p>
                           </div>
                         ) : vtPercent > 80 ? (
-                          <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-sm">
-                            <p className="text-amber-400 font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
+                          <div className="p-4 bg-high-vis-orange/10 border border-high-vis-orange/30 rounded-sm">
+                            <p className="text-high-vis-orange font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
                             <p className="text-xs text-slate-300 font-bold mt-1">Only £{vtGap.toLocaleString()} below the threshold. Plan ahead — VAT registration can affect pricing.</p>
                           </div>
                         ) : (
@@ -968,31 +973,31 @@ export default function App() {
       </section>
 
       {/* ── ROI CALCULATOR ── */}
-      <section id="roi" className="py-24 px-6 bg-charcoal/30 border-y border-white/5">
+      <section id="roi" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">NO CHASING</span> Calculator</h2>
             <p className="text-slate-400 font-bold uppercase tracking-widest text-sm italic">See what wasted quoting is costing and what you keep with a FAIR SYSTEM.</p>
           </div>
-          <div className="bg-charcoal p-8 rounded-sm border border-white/5 shadow-2xl">
+          <div className="bg-white brutal-border brutal-shadow-lg p-8">
             <div className="grid md:grid-cols-2 gap-12">
               <div className="space-y-8">
                 <SliderField label="Unpaid quotes per week" value={quotesPerWeek} setValue={setQuotesPerWeek} min={1} max={20} />
                 <SliderField label="Miles driven for wasted surveys" value={milesDriven} setValue={setMilesDriven} min={5} max={200} step={5} unit="mi" />
               </div>
-              <div className="bg-deep-slate p-8 rounded-sm border border-white/5 flex flex-col justify-center text-center gap-6">
+              <div className="bg-deep-slate p-8 brutal-border flex flex-col justify-center text-center gap-6">
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Annual Admin Debt</p>
-                  <p className="text-5xl font-display font-extrabold text-red-500 italic">£{annualAdminDebt.toLocaleString()}</p>
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Annual Admin Debt</p>
+                  <p className="text-5xl font-display font-black text-red-400">£{annualAdminDebt.toLocaleString()}</p>
                   <p className="text-xs text-slate-500 font-bold mt-1">Time + fuel wasted on bad leads</p>
                 </div>
-                <div className="border-t border-white/5 pt-6">
-                  <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">With JobFilter You Could Save</p>
-                  <p className="text-6xl font-display font-extrabold text-green-500 italic shadow-[0_0_20px_rgba(34,197,94,0.2)]">£{jobFilterSavings.toLocaleString()}</p>
+                <div className="border-t-2 border-white/10 pt-6">
+                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">With JobFilter You Could Save</p>
+                  <p className="text-6xl font-display font-black text-high-vis-orange">£{jobFilterSavings.toLocaleString()}</p>
                   <p className="text-xs text-slate-500 font-bold mt-1">Back in your pocket per year</p>
                 </div>
-                <a href="#pricing" className="inline-block bg-high-vis-orange hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-6 rounded-sm uppercase italic tracking-widest text-sm">
-                  Start Saving Now →
+                <a href="#pricing" className="brutal-btn font-display font-black py-3 px-6 text-sm">
+                  START SAVING NOW →
                 </a>
               </div>
             </div>
@@ -1001,7 +1006,7 @@ export default function App() {
       </section>
 
       {/* ── PRICING ── */}
-      <section id="pricing" className="py-24 px-6">
+      <section id="pricing" className="py-24 px-6 bg-white border-b-4 border-deep-slate">
         <div className="max-w-7xl mx-auto">
           <h2 className="font-display text-4xl md:text-6xl font-extrabold text-center mb-4 uppercase italic">FAIR SYSTEM <span className="text-high-vis-orange">Pricing</span></h2>
           <p className="text-center text-slate-400 font-bold uppercase tracking-widest mb-4 italic text-sm">One decent job can cover the month. NO CONTRACTS.</p>
@@ -1060,7 +1065,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mt-8 bg-charcoal border border-white/10 p-8 rounded-sm flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="mt-8 bg-deep-slate brutal-border p-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="max-w-2xl">
               <h3 className="text-2xl font-display font-extrabold uppercase">Hammer Tier — £99/mo</h3>
               <p className="text-slate-400 font-bold text-sm mt-2">Built for trades who want the lot handled. We filter, rank, and send real leads. You quote and get paid.</p>
@@ -1074,29 +1079,29 @@ export default function App() {
       <AnimatePresence>
         {showModal === 'waitlist' && (
           <motion.div key="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowModal(null)}>
+            className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/70" onClick={() => setShowModal(null)}>
             <motion.div key="panel" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-deep-slate border border-white/10 rounded-sm p-8 max-w-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+              className="bg-white brutal-border brutal-shadow-lg p-8 max-w-md w-full" onClick={e => e.stopPropagation()}>
               {waitlistSubmitted ? (
                 <div className="text-center py-4">
-                  <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center mx-auto mb-4 font-display text-2xl font-extrabold text-deep-slate">✓</div>
-                  <h3 className="font-display text-2xl font-extrabold uppercase italic mb-2">You're On The List</h3>
-                  <p className="text-slate-400 font-bold text-sm uppercase tracking-widest">We'll notify you when {waitlistPlan} goes live.</p>
-                  <button onClick={() => setShowModal(null)} className="mt-6 text-[10px] font-extrabold uppercase tracking-widest text-slate-500 hover:text-white transition-colors">Close</button>
+                  <div className="w-12 h-12 bg-high-vis-orange brutal-border flex items-center justify-center mx-auto mb-4 font-display text-2xl font-black text-deep-slate">✓</div>
+                  <h3 className="font-display text-2xl font-black uppercase mb-2 text-deep-slate">YOU'RE ON THE LIST</h3>
+                  <p className="text-slate-500 font-bold text-sm uppercase tracking-widest">We'll notify you when {waitlistPlan} goes live.</p>
+                  <button onClick={() => setShowModal(null)} className="mt-6 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-deep-slate transition-colors">CLOSE</button>
                 </div>
               ) : (
                 <>
                   <div className="mb-6">
-                    <p className="text-[10px] font-extrabold uppercase tracking-widest text-high-vis-orange mb-1">Early Access — {waitlistPlan}</p>
-                    <h3 className="font-display text-2xl font-extrabold uppercase italic leading-tight">Lock In Your Launch Price</h3>
-                    <p className="text-slate-400 text-sm font-bold mt-2">Be first when we go live. No spam. We only email when you have access.</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange mb-1 bg-high-vis-orange/10 inline-block px-2 py-0.5">EARLY ACCESS — {waitlistPlan}</p>
+                    <h3 className="font-display text-2xl font-black uppercase leading-tight text-deep-slate mt-2">LOCK IN YOUR LAUNCH PRICE</h3>
+                    <p className="text-slate-500 text-sm font-bold mt-2">Be first when we go live. No spam. We only email when you have access.</p>
                   </div>
                   <form onSubmit={submitWaitlist} className="space-y-4">
                     <input type="email" required value={waitlistEmail} onChange={e => setWaitlistEmail(e.target.value)} placeholder="your@email.com"
-                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-electric-cyan" />
-                    <button type="submit" className="w-full bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
+                      className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
+                    <button type="submit" className="w-full brutal-btn font-display font-black text-[10px] py-4 uppercase tracking-widest">SECURE MY SPOT</button>
                   </form>
-                  <button onClick={() => setShowModal(null)} className="mt-4 w-full text-center text-[10px] font-extrabold uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors">Not Now</button>
+                  <button onClick={() => setShowModal(null)} className="mt-4 w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">NOT NOW</button>
                 </>
               )}
             </motion.div>
@@ -1105,17 +1110,23 @@ export default function App() {
       </AnimatePresence>
 
       {/* ── FOOTER ── */}
-      <footer className="py-16 px-6 border-t border-white/5 bg-slate-900/50">
+      <footer className="py-16 px-6 bg-deep-slate border-t-4 border-high-vis-orange">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-xl font-extrabold text-deep-slate italic">JF</div>
-              <span className="font-display text-xl font-extrabold uppercase tracking-tighter italic">JobFilter</span>
+              <svg viewBox="0 0 32 32" className="w-8 h-8 border-2 border-white shrink-0">
+                <rect width="32" height="32" fill="#012169"/>
+                <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" strokeWidth="4"/>
+                <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" strokeWidth="2.5"/>
+                <path d="M16 0 V32 M0 16 H32" stroke="#fff" strokeWidth="6"/>
+                <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" strokeWidth="4"/>
+              </svg>
+              <span className="font-display font-black text-2xl uppercase tracking-tighter text-white">JOBFILTER</span>
             </div>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] italic mb-2">Built in Birmingham. Built for the trade.</p>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-2">Built in Birmingham. Built for the trade.</p>
             <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">© {new Date().getFullYear()} JobFilter. All rights reserved.</p>
           </div>
-          <div className="grid grid-cols-2 gap-10 text-[11px] font-extrabold uppercase tracking-widest text-slate-500">
+          <div className="grid grid-cols-2 gap-10 text-[11px] font-black uppercase tracking-widest text-slate-500">
             <div className="space-y-3">
               <p className="text-slate-300">Product</p>
               <a href="#filter" className="block hover:text-white transition-colors">Find Jobs Near You</a>
@@ -1123,7 +1134,7 @@ export default function App() {
               <a href="#pricing" className="block hover:text-white transition-colors">Pricing</a>
             </div>
             <div className="space-y-3">
-              <p className="text-slate-300">Legal</p>
+              <p className="text-high-vis-orange">Legal</p>
               <a href="/privacy" className="block hover:text-white transition-colors">Privacy</a>
               <a href="/terms" className="block hover:text-white transition-colors">Terms</a>
             </div>
@@ -1142,11 +1153,11 @@ function SliderField({ label, value, setValue, min, max, step = 1, unit, prefix 
   return (
     <div>
       <div className="flex justify-between mb-2">
-        <label className="text-xs font-extrabold uppercase tracking-widest text-slate-400 italic">{label}</label>
-        <span className="text-high-vis-orange font-extrabold text-sm">{prefix}{value.toLocaleString()}{unit}</span>
+        <label className="text-xs font-black uppercase tracking-widest text-slate-500">{label}</label>
+        <span className="text-deep-slate font-black text-sm">{prefix}{value.toLocaleString()}{unit}</span>
       </div>
       <input type="range" min={min} max={max} step={step} value={value} onChange={e => setValue(parseFloat(e.target.value))}
-        className="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-high-vis-orange" />
+        className="w-full h-2 bg-slate-200 rounded-none appearance-none cursor-pointer accent-deep-slate" />
     </div>
   );
 }
@@ -1154,8 +1165,8 @@ function SliderField({ label, value, setValue, min, max, step = 1, unit, prefix 
 function QuoteLine({ label, value, large, orange, small }: { label: string; value: string; large?: boolean; orange?: boolean; small?: boolean }) {
   return (
     <div className="flex justify-between items-center">
-      <span className={`font-bold uppercase tracking-wide ${small ? 'text-[10px] text-slate-500' : large ? 'text-sm text-slate-300' : 'text-xs text-slate-500'}`}>{label}</span>
-      <span className={`font-extrabold ${large ? 'text-2xl' : small ? 'text-sm text-slate-400' : 'text-sm text-slate-300'} ${orange ? 'text-high-vis-orange' : ''}`}>{value}</span>
+      <span className={`font-black uppercase tracking-wide ${small ? 'text-[10px] text-slate-400' : large ? 'text-sm text-slate-600' : 'text-xs text-slate-500'}`}>{label}</span>
+      <span className={`font-black ${large ? 'text-2xl' : small ? 'text-sm text-slate-500' : 'text-sm text-slate-600'} ${orange ? 'text-deep-slate bg-high-vis-orange px-1' : ''}`}>{value}</span>
     </div>
   );
 }

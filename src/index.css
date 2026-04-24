@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -11,16 +11,61 @@
 }
 
 @layer utilities {
-  .glow-cyan {
-    box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+  .brutal-border { border: var(--b); }
+  .brutal-shadow { box-shadow: var(--sh); }
+  .brutal-shadow-lg { box-shadow: var(--shl); }
+
+  .glow-cyan { box-shadow: var(--sh); }
+  .glow-orange { box-shadow: var(--shl); }
+
+  .glass-nav {
+    background: var(--n);
+    border-bottom: 4px solid var(--y);
   }
   .glow-orange {
     box-shadow: 0 0 20px rgba(245, 208, 0, 0.35);
   }
-  .glass-nav {
-    background: rgba(11, 18, 32, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .brutal-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shl);
+  }
+
+  .brutal-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 #0F172A;
+  }
+
+  .classic-theme {
+    background: #e5e7eb;
+    color: #0f1933;
+  }
+
+  .classic-panel {
+    background: #f8f8f8;
+    border: 3px solid #0f1933;
+    box-shadow: 6px 6px 0 #0f1933;
+  }
+
+  .classic-btn {
+    background: #f5d000;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+  }
+
+  .classic-btn:hover {
+    filter: brightness(0.95);
+  }
+
+  .classic-btn-secondary {
+    background: #0f1933;
+    border: 3px solid #0f1933;
+    box-shadow: 4px 4px 0 #0f1933;
+    color: #f8f8f8;
+  }
+
+  .classic-btn-secondary:hover {
+    background: #172447;
   }
 
   .classic-theme {
@@ -61,6 +106,10 @@
   100% { top: 100%; }
 }
 
-.animate-scan {
-  animation: scan 2s linear infinite;
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(254,225,43,0.5); }
+  50% { box-shadow: 0 0 40px rgba(254,225,43,0.9); }
 }
+
+.animate-scan { animation: scan 2s linear infinite; }
+.founding-pulse { animation: pulse-glow 2s ease-in-out infinite; }
