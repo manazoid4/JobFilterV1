@@ -1244,39 +1244,42 @@ export default function App() {
       <section className="py-20 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic">Supporting <span className="text-high-vis-orange">Engines</span></h2>
-            <p className="text-slate-600 font-bold uppercase tracking-widest text-xs mt-3">Use these after intake to win bigger work and close faster.</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic">After Intake, <span className="text-high-vis-orange">Win The Job</span></h2>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-xs mt-3">Optional add-ons. Not included in Intake Engine subscription.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
               <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vantage</p>
               <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop losing £1M bids to prettier firms</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Tier 1 visual authority for cheaper and better.</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Turn tender docs into visual bid decks that look top-tier and win trust fast.</p>
               <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
                 <li>• Bid decks</li>
                 <li>• 3D renders</li>
                 <li>• Infographics</li>
               </ul>
+              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Vantage →</p>
             </a>
             <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
               <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vicinity</p>
               <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop letting your best work rot in your camera roll</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">One-tap marketing agency for tradesmen.</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Turn finished jobs into posts and assets that bring in better local enquiries.</p>
               <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
                 <li>• Infographics</li>
                 <li>• WhatsApp-ready content</li>
                 <li>• Website assets</li>
               </ul>
+              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Vicinity →</p>
             </a>
             <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
               <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Codex</p>
               <h3 className="font-display text-2xl font-black uppercase italic mt-2">Turn complex technical content into high-conversion sales assets</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Convert detail into clear buyer confidence.</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Make specs easy for clients to understand so technical wins turn into signed jobs.</p>
               <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
                 <li>• How-it-works videos</li>
                 <li>• Sales carousels</li>
                 <li>• Competitor battlecards</li>
               </ul>
+              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Codex →</p>
             </a>
           </div>
         </div>
@@ -1348,28 +1351,6 @@ export default function App() {
               <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Dominance' }); openWaitlist('Dominance'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
                 Apply for priority access
               </button>
-            </div>
-          </div>
-
-          <div className="mt-16 border-t border-white/20 pt-10">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Supporting Products</p>
-            <h3 className="font-display text-3xl md:text-4xl font-extrabold uppercase italic text-white">Add-ons that help you win more from every lead</h3>
-            <div className="grid md:grid-cols-3 gap-5 mt-8 text-left">
-              <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white/5 border border-white/20 p-5 hover:border-high-vis-orange transition-colors">
-                <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Vantage</p>
-                <p className="text-white font-black mt-2">Stop losing £1M bids to prettier firms</p>
-                <p className="text-slate-300 text-sm mt-2">Tender docs into bid decks, 3D renders, and infographics.</p>
-              </a>
-              <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white/5 border border-white/20 p-5 hover:border-high-vis-orange transition-colors">
-                <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Vicinity</p>
-                <p className="text-white font-black mt-2">Stop letting your best work rot in your camera roll</p>
-                <p className="text-slate-300 text-sm mt-2">Turn completed jobs into content that gets more calls.</p>
-              </a>
-              <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white/5 border border-white/20 p-5 hover:border-high-vis-orange transition-colors">
-                <p className="text-high-vis-orange font-black uppercase tracking-widest text-xs">Codex</p>
-                <p className="text-white font-black mt-2">Turn complex technical content into high-conversion sales assets</p>
-                <p className="text-slate-300 text-sm mt-2">Manuals/schematics into videos, carousels, and battlecards.</p>
-              </a>
             </div>
           </div>
         </div>
