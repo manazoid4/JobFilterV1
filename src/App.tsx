@@ -407,8 +407,8 @@ export default function App() {
               <div className="h-4 w-px bg-slate-300"></div>
               <div className="flex items-center gap-4">
                 <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-deep-slate hover:text-amber-600 transition-colors">Tradie Login</a>
-                <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-[11px] font-black px-4 py-2 rounded-sm uppercase tracking-widest transition-all border-2 border-deep-slate">
-                  Find Jobs Near Me
+                <a href="/app" className="bg-deep-slate hover:bg-slate-700 text-high-vis-orange text-[11px] font-black px-4 py-2 uppercase tracking-widest transition-all border-2 border-deep-slate">
+                  Open App →
                 </a>
               </div>
             </div>
