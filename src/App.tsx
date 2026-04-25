@@ -95,7 +95,7 @@ function Shell({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-20 border-b-4 border-[#facc15] bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2 text-2xl font-black uppercase leading-none tracking-tight text-white">
-            <span className="inline-flex h-11 w-14 items-center justify-center border-4 border-[#facc15] bg-[#facc15] text-[10px] font-black text-black">UK</span>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-[#facc15] text-2xl">🇬🇧</span>
             JOBFILTER
           </Link>
           <nav className="flex flex-wrap items-center gap-4 text-[12px] font-black uppercase tracking-tight">
