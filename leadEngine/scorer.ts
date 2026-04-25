@@ -5,44 +5,45 @@ import { regionSimilarity } from './postcode.ts';
  * Score each lead 0–100.
  *
  * Factors:
- *  - source confidence        (0–30)
- *  - urgency                  (0–25)
- *  - region match             (0–20)
+ *  - source confidence        (0–20)
+ *  - urgency                  (0–20)
+ *  - proximity                (0–30)
  *  - contact signal           (0–15)
- *  - value bracket            (0–10)
+ *  - value bracket            (0–15)
  */
 export function scoreLead(lead: Lead, userRegion: string): number {
   return scoreLeadBreakdown(lead, userRegion).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string): { score: number; reasons: string[] } {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = ''): { score: number; reasons: string[] } {
   let score = 0;
   const reasons: string[] = [];
 
-  // Source confidence (max 30)
-  const sourcePts = Math.round((lead.sourceConfidence / 100) * 30);
+  // Source confidence (max 20)
+  const sourcePts = Math.round((lead.sourceConfidence / 100) * 20);
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
 
-  // Urgency (max 25)
+  // Urgency (max 20)
   if (lead.urgency === 'high') {
-    score += 25;
-    reasons.push('Urgent timeline (+25)');
+    score += 20;
+    reasons.push('Urgent timeline (+20)');
   }
   if (lead.urgency === 'medium') {
-    score += 15;
-    reasons.push('Medium urgency (+15)');
+    score += 12;
+    reasons.push('Medium urgency (+12)');
   }
   if (lead.urgency === 'low') {
-    score += 5;
-    reasons.push('Lower urgency (+5)');
+    score += 4;
+    reasons.push('Lower urgency (+4)');
   }
 
-  // Region match (max 20)
-  const sim = regionSimilarity(lead.location, userRegion);
-  const regionPts = Math.round(sim * 20);
-  score += regionPts;
-  reasons.push(`Region fit ${(sim * 100).toFixed(0)}% (+${regionPts})`);
+  // Proximity (max 30)
+  const exactOutward = Boolean(userOutward && lead.postcodeOutward && lead.postcodeOutward.toUpperCase() === userOutward.toUpperCase());
+  const sim = exactOutward ? 1 : regionSimilarity(`${lead.location} ${lead.postcodeOutward}`, userRegion);
+  const proximityPts = Math.round(sim * 30);
+  score += proximityPts;
+  reasons.push(`Proximity fit ${(sim * 100).toFixed(0)}% (+${proximityPts})`);
 
   // Contact signal (max 15)
   if (lead.contactSignal === 'strong') {
@@ -57,15 +58,15 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string): { score: num
     reasons.push('No contact signal (+0)');
   }
 
-  // Value bracket (max 10) — sweet spot £5k–£200k
+  // Value bracket (max 15) — sweet spot £2k–£150k for trades
   const raw = parseValueToMidpoint(lead.estimatedValue);
-  if (raw >= 5_000 && raw <= 200_000) {
-    score += 10;
-    reasons.push('Estimated value in sweet spot (+10)');
+  if (raw >= 2_000 && raw <= 150_000) {
+    score += 15;
+    reasons.push('Estimated value in sweet spot (+15)');
   } else if (raw >= 1_000 && raw < 5_000) {
-    score += 5;
-    reasons.push('Estimated value acceptable (+5)');
-  } else if (raw > 200_000) {
+    score += 8;
+    reasons.push('Estimated value acceptable (+8)');
+  } else if (raw > 150_000) {
     score += 3;
     reasons.push('Large contract, likely competitive (+3)');
   } else {

@@ -99,7 +99,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 6. Score, update stats.passed, rank
   const scored: Lead[] = unique.map(l => {
-    const { score, reasons } = scoreLeadBreakdown(l, region);
+    const { score, reasons } = scoreLeadBreakdown(l, region, outward);
     return { ...l, score, scoreReasons: reasons };
   });
   scored.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));

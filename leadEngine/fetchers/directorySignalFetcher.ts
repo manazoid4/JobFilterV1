@@ -117,6 +117,7 @@ const NATIONAL_LEADS: InternalLead[] = [
 ];
 
 function toRawLead(lead: InternalLead, region: string, outward: string, idx: number): RawLead {
+  const deadlineDays = lead.urgency === 'high' ? 3 : lead.urgency === 'medium' ? 14 : 45;
   return {
     rawId: `dir-${region.toLowerCase().replace(/\s+/g, '-')}-${idx}`,
     rawTitle: lead.title,
@@ -125,9 +126,14 @@ function toRawLead(lead: InternalLead, region: string, outward: string, idx: num
     rawValueMax: lead.valueHigh,
     rawLocation: lead.location,
     rawPostcode: outward,
-    rawDeadline: '',
+    rawDeadline: new Date(Date.now() + deadlineDays * 86_400_000).toISOString(),
     rawPublished: new Date(Date.now() - Math.random() * 7 * 86_400_000).toISOString(),
     rawBuyer: lead.buyer ?? '',
+    rawContact: lead.contactSignalLevel === 'strong'
+      ? { name: lead.buyer || 'Named buyer', phone: 'available' }
+      : lead.contactSignalLevel === 'weak'
+        ? { name: lead.buyer || 'Named buyer' }
+        : undefined,
     rawCpvCodes: [],
     sourceSystem: 'DirectorySignal',
   };
@@ -143,17 +149,10 @@ export function directorySignalFetcher(
     ? regionLeads
     : regionLeads.filter(l => l.trade === trade);
 
-  // If sparse region match, supplement with neighbouring regions
+  // If sparse region match, supplement with regional/national framework signals only.
+  // Do not borrow domestic jobs from far-away regions.
   let leads = [...tradeFiltered];
-  if (leads.length < 4) {
-    const extras = Object.values(LEADS_BY_REGION)
-      .flat()
-      .filter(l => trade === 'all' || l.trade === trade)
-      .slice(0, 8 - leads.length);
-    leads = [...leads, ...extras];
-  }
 
-  // Always add national leads
   const nationals = NATIONAL_LEADS.filter(l => trade === 'all' || l.trade === trade);
   leads = [...leads, ...nationals];
 
