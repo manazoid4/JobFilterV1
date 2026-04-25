@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 
 // ── Mock data ──────────────────────────────────────────────────────────────────
 const JOBS = [
@@ -131,7 +131,7 @@ function BoostMyJob({ useFeature }: { useFeature: () => boolean }) {
   const [copied, setCopied] = useState(false);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
 
-  function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleImage(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
