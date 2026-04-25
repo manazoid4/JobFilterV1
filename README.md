@@ -1,20 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🏗️ JobFilter V1: SPEC-STRIKE
+**Stop Chasing Ghosts. Start Striking Leads.**
 
-# Run and deploy your AI Studio app
+JobFilter is a high-performance, industrial-grade multi-agent system built to dominate the UK trades market. It replaces human staff by automating lead generation, blueprint analysis, and expert outreach.
 
-This contains everything you need to run your app locally.
+## 🚀 The Core Engine
+- **The Intake:** Real-time monitoring of 300+ UK Council portals.
+- **Spec-Strike AI:** Vertex AI-powered blueprint mining to find "Technical Hooks."
+- **The Hammer:** Automated high-intent outreach based on structural specs.
+- **The Toolbox:** Persistent free utility tools for daily builder retention.
 
-View your app in AI Studio: https://ai.studio/apps/a33d68a2-6566-4935-9e6a-6d37cb4e8a74
+## 🛠️ Tech Stack
+- **Frontend:** Next.js (Tailwind CSS) - Industrial "Dirty Hands" UX.
+- **Intelligence:** Google Vertex AI (Gemini 1.5 Flash) Agent Builder.
+- **Cloud:** Google Cloud Run (Serverless Scaling) & Cloud Firestore.
+- **Deployment:** Containerized via Docker.
 
-## Run Locally
+## 💰 The Business Advantage
+- **Staff Replacement:** Replaces a £2,500/mo admin with a £99/mo autonomous system.
+- **Market Scope:** Access to ~40,000 UK planning approvals every month.
+- **ROI:** A single extension win pays for the platform for 15+ years.
 
-**Prerequisites:**  Node.js
+## 📂 Project Structure
+- `/components`: Industrial React components (Hero, IntakeFeed).
+- `/api`: Backend proxy for Vertex AI & Google Cloud Search.
+- `/agents`: Configuration for the Scout, Sieve, and Hammer agents.
+- `/tools`: Logic for Waste and Brick calculators.
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+*Built in Birmingham. Engineered for Profit.*
