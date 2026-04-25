@@ -643,6 +643,33 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── SUPPORTING ENGINES PREVIEW ── */}
+      <section className="py-20 px-6 bg-slate-100 border-y-4 border-deep-slate">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Supporting Engines</p>
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mt-2">Win More From Every Good Lead</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vantage</p>
+              <p className="font-display text-2xl font-black uppercase italic mt-2">Stop losing £1M bids to prettier firms</p>
+              <p className="text-sm font-bold text-slate-600 mt-3">Tier 1 visual authority for cheaper and better. Turn tender docs into bid decks, 3D renders, and infographics.</p>
+            </a>
+            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vicinity</p>
+              <p className="font-display text-2xl font-black uppercase italic mt-2">Stop letting your best work rot in your camera roll</p>
+              <p className="text-sm font-bold text-slate-600 mt-3">Turn completed jobs into infographics, WhatsApp-ready content, and website assets in minutes.</p>
+            </a>
+            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Codex</p>
+              <p className="font-display text-2xl font-black uppercase italic mt-2">Turn complex technical content into high-conversion sales assets</p>
+              <p className="text-sm font-bold text-slate-600 mt-3">Upload manuals and schematics. Get how-it-works videos, sales carousels, and competitor battlecards.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ── FREE TOOLS ── */}
       <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
         <div className="max-w-6xl mx-auto">

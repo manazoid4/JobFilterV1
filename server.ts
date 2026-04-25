@@ -2,40 +2,14 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import Stripe from "stripe";
-import { scan } from './leadEngine/scan.ts';
 
-// Initialize Stripe (Requires STRIPE_SECRET_KEY in .env)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key', {
   apiVersion: '2023-10-16' as any,
 });
 
-import { initializeApp, cert, getApps } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
-
-type EmailPayload = {
-  from: string;
-  to: string;
-  subject: string;
-  html?: string;
-  text?: string;
-};
-
-async function sendEmail(payload: EmailPayload) {
-  const key = process.env.RESEND_API_KEY;
-  if (!key || key === 're_mock_key') return;
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`Resend API ${res.status}: ${body.substring(0, 180)}`);
-  }
-}
+// ==========================================
+// LEAD ENGINE TYPES
+// ==========================================
 
 const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
 const ADMIN_EMAIL = 'manazoid4@gmail.com';
@@ -46,38 +20,16 @@ type LeadResult = {
   title: string;
   trade: string;
   location: string;
-  estimatedValue: number;
-  urgency: 'today' | 'this_week' | 'planned';
+  postcodeOutward: string;
+  estimatedValue: string;
+  urgency: 'low' | 'medium' | 'high';
   source: string;
   sourceConfidence: number;
-  whyMatched: string;
-};
-
-const TRADE_KEYWORDS: Record<string, RegExp> = {
-  electrical: /(electric|rewire|lighting|power|eicr|charger)/i,
-  plumbing: /(plumb|boiler|heating|drain|water|pipe)/i,
-  general: /(repair|maintenance|building|roof|carpentry|refurb)/i,
-};
-
-const REGION_HINTS: Record<string, string> = {
-  B: 'Birmingham',
-  M: 'Manchester',
-  L: 'Liverpool',
-  LS: 'Leeds',
-  E: 'London',
-  EC: 'London',
-  N: 'London',
-  NW: 'London',
-  SE: 'London',
-  SW: 'London',
-  W: 'London',
-};
-
-function resolveRegionHint(postcode: string) {
-  const cleaned = postcode.toUpperCase().replace(/\s+/g, '');
-  const two = cleaned.match(/^[A-Z]{2}/)?.[0] ?? '';
-  const one = cleaned.match(/^[A-Z]/)?.[0] ?? '';
-  return REGION_HINTS[two] ?? REGION_HINTS[one] ?? 'UK';
+  contactInfo?: { name?: string; phone?: string; email?: string };
+  status: 'open';
+  score: number;
+  postedDate: string;
+  description: string;
 }
 
 function warnIfMissingReleaseEnv() {
@@ -138,37 +90,140 @@ async function fetchContractsFinderLeads(input: LeadScanInput): Promise<LeadResu
       const urgency: LeadResult['urgency'] = dayDelta < 3 ? 'today' : dayDelta < 10 ? 'this_week' : 'planned';
       const location = String(tender?.deliveryAddress?.region ?? buyer?.address?.region ?? region).trim() || region;
 
+async function fetchContractsFinder(trade: string, outward: string): Promise<Lead[]> {
+  const keywords: Record<string, string> = {
+    plumbing: 'plumbing heating boiler',
+    electrical: 'electrical installation wiring',
+    roofing: 'roofing flat roof tiles',
+    building: 'refurbishment construction building works',
+    carpentry: 'carpentry joinery timber',
+    painting: 'decorating painting redecoration',
+    landscaping: 'grounds maintenance landscaping',
+    hvac: 'HVAC ventilation air conditioning',
+    all: 'maintenance repair building works',
+  };
+  const keyword = keywords[trade] || keywords.all;
+  try {
+    const url = `https://www.contractsfinder.service.gov.uk/Published/Notices/PublicSearch/Search?NoticeType=0&Keyword=${encodeURIComponent(keyword)}&Page=1&PageSize=15&SortBy=0`;
+    const r = await fetch(url, {
+      headers: { 'Accept': 'application/json', 'User-Agent': 'JobFilter/1.0' },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!r.ok) return [];
+    const data = await r.json() as any;
+    const notices: any[] = data?.results || data?.Results || [];
+    return notices.slice(0, 8).map((n: any, i: number) => {
+      const rawVal = Number(n.valueLow || n.ValueLow || n.value || n.Value || 50000);
+      const urgency: Lead['urgency'] = rawVal > 100000 ? 'high' : rawVal > 20000 ? 'medium' : 'low';
       return {
-        title,
-        trade: input.trade,
-        location,
-        estimatedValue: value,
+        id: `cf-${n.id || n.Id || i}`,
+        title: (n.title || n.Title || 'Commercial Contract').substring(0, 80),
+        trade: trade === 'all' ? 'building' : trade,
+        location: n.organisationAddress?.town || n.Location || 'United Kingdom',
+        postcodeOutward: outward,
+        estimatedValue: formatValue(rawVal),
         urgency,
-        source: 'Contracts Finder',
-        sourceConfidence: 82,
-        whyMatched: `Matched ${input.trade} with ${region} postcode area`,
+        source: 'Contracts Finder (Gov.uk)',
+        sourceConfidence: 85,
+        contactInfo: { name: n.organisationName || n.OrganisationName },
+        status: 'open' as const,
+        score: 0,
+        postedDate: n.publishedDate || n.PublishedDate || new Date().toISOString(),
+        description: (n.description || n.Description || 'Government/public sector procurement opportunity.').substring(0, 200),
       };
-    })
-    .filter(Boolean)
-    .slice(0, input.limit ?? 8) as LeadResult[];
+    });
+  } catch {
+    return [];
+  }
 }
 
-// Initialize Firebase Admin — uses GOOGLE_APPLICATION_CREDENTIALS env var in prod,
-// falls back to no-op Firestore stub in dev when credentials aren't present
-let adminDb: FirebaseFirestore.Firestore | null = null;
-try {
-  if (!getApps().length) {
-    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-      const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-      initializeApp({ credential: cert(serviceAccount) });
-    } else {
-      initializeApp({ projectId: 'jobfilter-uk' });
-    }
-  }
-  adminDb = getFirestore();
-} catch (err: any) {
-  console.warn('[Firebase Admin] Not initialised:', err.message);
+function formatValue(v: number): string {
+  if (v >= 1000000) return `£${(v / 1000000).toFixed(1)}M`;
+  if (v >= 1000) return `£${(v / 1000).toFixed(0)}k`;
+  return `£${v}`;
 }
+
+function getDomesticLeads(region: string, trade: string, outward: string): Lead[] {
+  const filtered = DOMESTIC_LEADS.filter(l => {
+    const regionMatch = l.region === region || l.region === 'United Kingdom';
+    const tradeMatch = trade === 'all' || l.trade === trade;
+    return regionMatch && tradeMatch;
+  });
+
+  const results = filtered.length >= 4 ? filtered : [
+    ...filtered,
+    ...DOMESTIC_LEADS.filter(l => l.region === 'United Kingdom' && (trade === 'all' || l.trade === trade)),
+    ...DOMESTIC_LEADS.filter(l => trade === 'all' || l.trade === trade).slice(0, 6),
+  ].slice(0, 12);
+
+  return results.map(({ region: _r, ...l }) => ({
+    ...l,
+    postcodeOutward: outward,
+    id: `${l.id}-${outward}`,
+  }));
+}
+
+function scoreLead(l: Lead): number {
+  let s = l.sourceConfidence;
+  if (l.urgency === 'high') s += 30;
+  else if (l.urgency === 'medium') s += 15;
+  if (l.contactInfo?.phone) s += 20;
+  if (l.contactInfo?.email) s += 15;
+  if (l.contactInfo?.name && !l.contactInfo.name.includes('Unlock')) s += 10;
+  if (l.description.length > 120) s += 5;
+  const valStr = l.estimatedValue.replace(/£|,/g, '');
+  if (valStr.includes('M')) s += 40;
+  else if (valStr.includes('k')) s += Math.min(parseInt(valStr) || 0, 30);
+  return s;
+}
+
+// ==========================================
+// LEAD SCAN ENDPOINT
+// ==========================================
+
+async function buildLeadEngine(app: express.Express) {
+  app.post("/api/leads/scan", async (req, res) => {
+    const { postcode, trade = 'all', tier = 'free' } = req.body;
+    if (!postcode || postcode.trim().length < 2) {
+      return res.status(400).json({ error: 'Valid UK postcode required' });
+    }
+
+    const outward = getOutward(postcode);
+    const [postcodeInfo, contractLeads] = await Promise.all([
+      lookupPostcode(postcode),
+      fetchContractsFinder(trade, outward),
+    ]);
+
+    const region = postcodeInfo?.region || regionFromPostcode(postcode);
+    const domesticLeads = getDomesticLeads(region, trade, outward);
+
+    let allLeads: Lead[] = [...contractLeads, ...domesticLeads];
+    allLeads = allLeads.map(l => ({ ...l, score: scoreLead(l) }));
+    allLeads = allLeads
+      .filter(l => l.sourceConfidence >= 60)
+      .sort((a, b) => b.score - a.score);
+
+    const total = allLeads.length;
+    const lockedCount = tier === 'free' ? Math.max(0, total - 3) : 0;
+
+    const output = (tier === 'free' ? allLeads.slice(0, 3) : allLeads).map(l => ({
+      ...l,
+      contactInfo: tier === 'free' && l.contactInfo
+        ? {
+            name: l.contactInfo.name,
+            phone: l.contactInfo.phone ? '*** Upgrade to unlock ***' : undefined,
+            email: l.contactInfo.email ? '*** Upgrade to unlock ***' : undefined,
+          }
+        : l.contactInfo,
+    }));
+
+    res.json({ leads: output, total, region, outward, lockedCount });
+  });
+}
+
+// ==========================================
+// SERVER STARTUP
+// ==========================================
 
 async function startServer() {
   warnIfMissingReleaseEnv();
@@ -176,43 +231,9 @@ async function startServer() {
   app.use(express.json());
   const PORT = 3000;
 
-  // ==========================================
-  // BLUEPRINT CRUD
-  // ==========================================
-  app.post("/api/blueprint", async (req, res) => {
-    const { text, phase = 3 } = req.body;
-    try {
-      if (!adminDb) throw new Error('DB not available');
-      const ref = await adminDb.collection('blueprint').add({ text, phase, createdAt: new Date() });
-      res.json({ id: ref.id, text, phase });
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+  await buildLeadEngine(app);
 
-  app.get("/api/blueprint", async (req, res) => {
-    try {
-      if (!adminDb) throw new Error('DB not available');
-      const snap = await adminDb.collection('blueprint').orderBy('createdAt', 'desc').get();
-      res.json(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  app.delete("/api/blueprint/:id", async (req, res) => {
-    try {
-      if (!adminDb) throw new Error('DB not available');
-      await adminDb.collection('blueprint').doc(req.params.id).delete();
-      res.json({ success: true });
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  // ==========================================
-  // I. THE CONVERSATIONAL ENGINE (Foreman AI)
-  // ==========================================
+  // WhatsApp Conversational Engine
   app.post("/api/whatsapp/webhook", async (req, res) => {
     const {
       message = '',
@@ -245,7 +266,7 @@ async function startServer() {
       case 1: // State 1: Handshake
         if (Number(filter_strength) === 5) {
           reply = "Hi, I'm the automated assistant. The boss is extremely busy. To even look at your job, we require a fully deductible Priority Booking deposit upfront. Do you agree to pay this?";
-          nextState = 4; // Skip straight to Priority Pass
+          nextState = 4;
         } else {
           reply = "Hi, I'm the automated assistant for this business. To get you a quote faster, I need a few details. What's the job and your postcode?";
           nextState = 2;
@@ -261,13 +282,11 @@ async function startServer() {
              reply = "Thanks. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
              nextState = 4; // Skip photos for low strictness
           } else {
-             reply = "Thanks. Boss's orders: I need 1-3 photos or a quick video of the issue before we can proceed. No photos, no quote.";
-             nextState = 3;
+            reply = "Thanks. Boss's orders: I need 1-3 photos or a quick video of the issue before we can proceed. No photos, no quote.";
+            nextState = 3;
           }
-        } else if (!hasPostcode) {
-          reply = "I need your full postcode to check if you're in our service area.";
         } else {
-          reply = "Please provide a bit more detail about the job.";
+          reply = "Please provide a detailed description of the job AND your full postcode.";
         }
         break;
       case 3: // State 3: Visual Proof
@@ -276,7 +295,7 @@ async function startServer() {
           reply = "Got the photos. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
           nextState = 4;
         } else {
-          reply = "I still need those photos. Boss won't look at it without visual proof. (Tip: Type 'Here are the photos' to simulate an upload)";
+          reply = "I still need those photos. Boss won't look at it without visual proof.";
         }
         break;
       case 4: // State 4: The Priority Pass
@@ -286,10 +305,10 @@ async function startServer() {
           reply = `Great. Here is your Priority Pass link: ${paymentUrl}. Once paid, we'll lock in a time.`;
           nextState = 5;
         } else {
-          reply = "We require the Priority Pass deposit to proceed. It filters out time-wasters and guarantees your slot. Let me know if you're ready to proceed.";
+          reply = "No problem. We'll add you to the standard waitlist, but we can't guarantee a timeframe.";
         }
         break;
-      case 5: // State 5: The Lock-In
+      case 5:
         reply = "Deposit confirmed. Here are the available slots for next week. Reply with your preferred time.";
         break;
       default:
@@ -317,9 +336,7 @@ async function startServer() {
     res.json({ reply, nextState, sessionStored });
   });
 
-  // ==========================================
-  // STRIPE PRIORITY PASS GENERATOR
-  // ==========================================
+  // Stripe Priority Pass
   app.post("/api/stripe/priority-pass", async (req, res) => {
     try {
       const { tradie_id = '', amount = 5000 } = req.body; // Default £50.00
@@ -377,191 +394,22 @@ async function startServer() {
 
       res.json({ url: session.url });
     } catch (error: any) {
-      console.error("[STRIPE] Error creating session:", error);
       res.status(500).json({ error: error.message });
     }
   });
 
-  // ==========================================
-  // LEAD SCAN (LIVE + FALLBACK)
-  // ==========================================
-  app.post("/api/leads/scan", async (req, res) => {
-    const { postcode = '', trade = 'general', limit = 8 } = (req.body ?? {}) as LeadScanInput;
-    const cleanPostcode = String(postcode).trim();
-    if (cleanPostcode.length < 3) return res.status(400).json({ error: 'postcode_required' });
+  app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 
-    try {
-      const leads = await fetchContractsFinderLeads({ postcode: cleanPostcode, trade: String(trade), limit });
-      if (leads.length > 0) return res.json({ source: 'live', leads });
-    } catch (err: any) {
-      console.warn('[LeadScan] Live source failed, using fallback:', err?.message ?? err);
-    }
-
-    const region = resolveRegionHint(cleanPostcode);
-    const fallback: LeadResult[] = [
-      { title: `${trade} callout near ${region}`, trade: String(trade), location: region, estimatedValue: 280, urgency: 'today' as const, source: 'JobFilter Fallback', sourceConfidence: 60, whyMatched: `Matched ${trade} + ${region}` },
-      { title: `${trade} maintenance job in ${region}`, trade: String(trade), location: region, estimatedValue: 540, urgency: 'this_week' as const, source: 'JobFilter Fallback', sourceConfidence: 58, whyMatched: `Matched ${trade} + ${region}` },
-      { title: `${trade} upgrade project in ${region}`, trade: String(trade), location: region, estimatedValue: 1250, urgency: 'planned' as const, source: 'JobFilter Fallback', sourceConfidence: 55, whyMatched: `Matched ${trade} + ${region}` },
-    ].slice(0, Math.min(Math.max(Number(limit) || 6, 3), 10));
-
-    return res.json({ source: 'fallback', leads: fallback });
-  });
-
-  // ==========================================
-  // WAITLIST
-  // ==========================================
-  app.post("/api/waitlist", async (req, res) => {
-    const { email, plan } = req.body;
-    if (!email || !plan) return res.status(400).json({ error: 'Missing email or plan' });
-
-    // Save to Firestore
-    let stored = false;
-    try {
-      if (adminDb) {
-        await adminDb.collection('waitlist').add({
-          email: email.trim().toLowerCase(),
-          plan,
-          createdAt: new Date(),
-        });
-        stored = true;
-      }
-    } catch (err: any) {
-      console.error('[Waitlist] Firestore write failed:', err.message);
-    }
-
-    res.json({ status: 'ok', stored });
-
-    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') return;
-
-    (async () => {
-      try {
-        // Confirmation to the user
-        await sendEmail({
-          from: FROM_EMAIL,
-          to: email,
-          subject: "You're on the JobFilter early access list",
-          html: `
-            <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px;background:#0f172a;color:#f1f5f9;border-radius:4px">
-              <div style="font-size:24px;font-weight:900;text-transform:uppercase;font-style:italic;color:#f97316;margin-bottom:8px">JobFilter</div>
-              <h1 style="font-size:20px;font-weight:900;text-transform:uppercase;margin:0 0 16px">You're on the list.</h1>
-              <p style="color:#94a3b8;font-size:14px;line-height:1.6">
-                You've secured early access for <strong style="color:#f1f5f9">${plan}</strong>.
-                We'll hit you up the moment we go live — no spam, no fluff.
-              </p>
-              <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin-top:16px">
-                Built in Birmingham. Built for the trade. Built to filter.
-              </p>
-              <div style="margin-top:32px;padding-top:16px;border-top:1px solid #1e293b;font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:0.1em">
-                JobFilter · jobfilter.uk
-              </div>
-            </div>
-          `
-        });
-
-        // Admin notification
-        await sendEmail({
-          from: FROM_EMAIL,
-          to: ADMIN_EMAIL,
-          subject: `New waitlist signup — ${plan}`,
-          text: `Email: ${email}\nPlan: ${plan}\nTime: ${new Date().toISOString()}`,
-        });
-
-        console.log(`[Waitlist] Emails sent for plan=${plan}`);
-      } catch (err: any) {
-        console.error('[Waitlist] Email failed:', err.message);
-      }
-    })();
-  });
-
-  // ==========================================
-  // ONBOARDING EMAIL
-  // ==========================================
-  app.post("/api/onboarding/submit", async (req, res) => {
-    const { name, trade, phoneNumber, calloutFee, filterStrictness, pulseSchedule } = req.body;
-    console.log(`[ONBOARDING] Received submission for trade=${trade}`);
-    
-    // Return immediately to the frontend so the UI doesn't hang
-    res.json({ status: "success", message: "Onboarding received. Processing email in background." });
-
-    if (!process.env.RESEND_API_KEY || process.env.RESEND_API_KEY === 're_mock_key') {
-      console.warn("[RESEND] API Key is missing or default. Skipping email.");
-      return;
-    }
-
-    // Process email in background
-    (async () => {
-      try {
-        console.log(`[RESEND] Attempting onboarding admin email send...`);
-        
-        // Since the user verified their domain, we can try sending from their domain
-        // Fallback to onboarding@resend.dev if they haven't set up the domain in Resend yet
-        await sendEmail({
-          from: FROM_EMAIL,
-          to: ADMIN_EMAIL,
-          subject: `New Tradie Onboarding: ${name} (${trade})`,
-          text: `
-            New Tradie Activation:
-            ----------------------
-            Name: ${name}
-            Trade: ${trade}
-            Phone: ${phoneNumber}
-            
-            Settings:
-            ---------
-            Deposit Fee: £${calloutFee}
-            Filter Level: ${filterStrictness}/5
-            Pulse Schedule: ${pulseSchedule}
-
-            Next Steps:
-            -----------
-            The user has been directed to the activation pending page to verify their email and select a subscription plan.
-          `
-        });
-        
-        console.log(`[RESEND] Onboarding email sent successfully to admin inbox`);
-      } catch (error) {
-        console.error("[RESEND] Background email sending failed:", error);
-      }
-    })();
-  });
-
-  // ==========================================
-  // LEAD ENGINE SCAN
-  // ==========================================
-  app.get("/api/scan", async (req, res) => {
-    const { postcode, trade = 'all', tier = 'free' } = req.query as Record<string, string>;
-    if (!postcode) return res.status(400).json({ error: 'postcode required' });
-    try {
-      const result = await scan({ postcode, trade, tier: tier as 'free' | 'paid' });
-      res.json(result);
-    } catch (err: any) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-
-  // API routes FIRST
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok" });
-  });
-
-  // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
+    const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" });
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
+    app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  app.listen(PORT, "0.0.0.0", () => console.log(`JobFilter running on http://localhost:${PORT}`));
 }
 
 startServer();
