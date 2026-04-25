@@ -147,6 +147,7 @@
             
             <div class="flex items-center gap-6">
                 <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">What You Get</button>
+                <button @click="navigate('/blueprint')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Blueprint</button>
                 <button @click="navigate('/login')" class="hidden md:block font-display font-black text-xl uppercase text-slate-400 hover:text-ink transition-colors">Login</button>
                 <button @click="navigate('/onboarding')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-2 text-2xl brutal-shadow brutal-shadow-hover transition-all">
                     GET STARTED
@@ -166,21 +167,21 @@
                 <div class="max-w-5xl mx-auto px-4 text-center">
                     <div class="inline-flex items-center gap-3 brutal-border bg-ink text-white px-6 py-2 mb-10">
                         <span class="w-3 h-3 bg-green-400 rounded-full animate-pulse inline-block"></span>
-                        <span class="font-display font-black uppercase text-xl tracking-widest">INTAKE ENGINE: LIVE</span>
+                        <span class="font-display font-black uppercase text-xl tracking-widest">INTAKE ENGINE: ACTIVE</span>
                     </div>
 
                     <h1 class="text-6xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
-                        STOP CHASING.<br>
-                        <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">START WINNING.</span>
+                        STOP FUNDING<br>
+                        <span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block mt-4">TYRE-KICKERS.</span>
                     </h1>
 
                     <p class="text-2xl md:text-3xl font-body font-bold max-w-3xl mx-auto mb-4 leading-tight text-ink">
-                        Intake Engine finds high-value jobs in your area, kills the rubbish, and delivers vetted opportunities straight to your phone.
+                        JobFilter is a bodyguard for your time. It kills dead leads, filters out time-wasters, and puts only real jobs from premium clients in front of you — before the cowboys ever reach your phone.
                     </p>
-                    <p class="text-xl font-body font-bold text-slate-400 mb-14">No directories. No bidding wars. No tyre-kickers.</p>
+                    <p class="text-xl font-body font-bold text-slate-400 mb-14">No dead leads. No race to the bottom. No evenings ruined by people who were never serious.</p>
 
                     <button @click="navigate('/onboarding')" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-12 py-6 text-4xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
-                        GET INTAKE ENGINE →
+                        GET YOUR BODYGUARD →
                     </button>
                 </div>
             </header>
@@ -219,29 +220,32 @@
 
                     <div class="grid md:grid-cols-3 gap-8">
                         <div class="bg-white brutal-border brutal-shadow p-10 flex flex-col">
-                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-8 self-start">VANTAGE</div>
-                            <p class="text-red-600 font-display font-black text-3xl uppercase leading-tight mb-6">STOP LOSING £1M BIDS TO PRETTIER FIRMS.</p>
-                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Your price is right — their PDF looks better. Vantage turns your tenders into high-end visual bid decks that win on presentation alone.</p>
+                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-4 self-start">VANTAGE</div>
+                            <p class="font-body font-bold text-slate-500 text-lg uppercase tracking-wide mb-6">WIN BIGGER JOBS BY LOOKING LIKE A PREMIUM FIRM</p>
+                            <p class="text-red-600 font-display font-black text-3xl uppercase leading-tight mb-6">STOP LOSING £50K BIDS TO FIRMS WHO LOOK BETTER THAN YOU.</p>
+                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Your price is right — their PDF looks better. Vantage turns your tenders into high-end visual bid decks. You stop losing jobs you deserved to win.</p>
                             <div class="bg-dewalt brutal-border p-4 text-center mt-auto">
-                                <span class="font-display font-black uppercase text-xl">INCLUDED WITH SUBSCRIPTION</span>
+                                <span class="font-display font-black uppercase text-xl">YOURS WITH INTAKE ENGINE</span>
                             </div>
                         </div>
 
                         <div class="bg-white brutal-border brutal-shadow p-10 flex flex-col">
-                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-8 self-start">VICINITY</div>
+                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-4 self-start">VICINITY</div>
+                            <p class="font-body font-bold text-slate-500 text-lg uppercase tracking-wide mb-6">TURN PAST WORK INTO NEW WORK AUTOMATICALLY</p>
                             <p class="text-red-600 font-display font-black text-3xl uppercase leading-tight mb-6">STOP LETTING YOUR BEST WORK ROT IN YOUR CAMERA ROLL.</p>
-                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Your phone is full of finished jobs nobody sees. Vicinity turns them into marketing assets that keep winning jobs for you.</p>
+                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Your phone is full of brilliant finished jobs nobody sees. Vicinity turns them into marketing assets that keep winning you premium work.</p>
                             <div class="bg-dewalt brutal-border p-4 text-center mt-auto">
-                                <span class="font-display font-black uppercase text-xl">INCLUDED WITH SUBSCRIPTION</span>
+                                <span class="font-display font-black uppercase text-xl">YOURS WITH INTAKE ENGINE</span>
                             </div>
                         </div>
 
                         <div class="bg-white brutal-border brutal-shadow p-10 flex flex-col">
-                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-8 self-start">CODEX</div>
-                            <p class="text-red-600 font-display font-black text-3xl uppercase leading-tight mb-6">STOP QUOTING IN LANGUAGE CLIENTS DON'T UNDERSTAND.</p>
-                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Codex turns your technical specs and knowledge into sales assets that close jobs. Complex in — high-conversion out.</p>
+                            <div class="bg-ink text-dewalt font-display font-black text-3xl uppercase px-4 py-2 brutal-border inline-block mb-4 self-start">CODEX</div>
+                            <p class="font-body font-bold text-slate-500 text-lg uppercase tracking-wide mb-6">TURN COMPLEX WORK INTO SALES ASSETS</p>
+                            <p class="text-red-600 font-display font-black text-3xl uppercase leading-tight mb-6">STOP LOSING JOBS TO COWBOYS WHO WRITE SIMPLER QUOTES THAN YOU.</p>
+                            <p class="text-xl font-body font-bold text-slate-600 flex-1 mb-8">Your specs are accurate. Your quote reads like a manual. Codex converts technical complexity into clear, compelling sales assets that close jobs.</p>
                             <div class="bg-dewalt brutal-border p-4 text-center mt-auto">
-                                <span class="font-display font-black uppercase text-xl">INCLUDED WITH SUBSCRIPTION</span>
+                                <span class="font-display font-black uppercase text-xl">YOURS WITH INTAKE ENGINE</span>
                             </div>
                         </div>
                     </div>
@@ -292,44 +296,70 @@
 
             <!-- PRICING -->
             <section class="py-32 border-b-4 border-ink bg-ink text-white">
-                <div class="max-w-5xl mx-auto px-4 text-center">
+                <div class="max-w-6xl mx-auto px-4 text-center">
                     <h2 class="text-6xl md:text-8xl font-display font-black uppercase tracking-tighter mb-4 text-dewalt">ONE PRICE. NO GAMES.</h2>
-                    <p class="text-2xl font-body font-bold text-slate-300 mb-20">No lead fees. No bidding. No competing with 5 other blokes for the same job.</p>
+                    <p class="text-2xl font-body font-bold text-slate-300 mb-6">No lead fees. No bidding wars. No race to the bottom.</p>
+                    <div class="inline-block bg-dewalt text-ink brutal-border px-8 py-4 mb-20">
+                        <p class="font-display font-black text-2xl uppercase">If this wins you just one £20k job you'd have lost — it pays for itself for 3 years.</p>
+                    </div>
 
-                    <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-                        <div class="bg-white text-ink brutal-border brutal-shadow p-10 flex flex-col">
-                            <div class="font-display font-black text-4xl uppercase mb-2">FREE</div>
-                            <div class="text-7xl font-display font-black mb-6">£0</div>
-                            <div class="space-y-4 mb-10 flex-1">
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Free tools — forever</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Quote estimator</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Lead quality checker</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-slate-300 text-2xl">✗</span> <span class="text-slate-400">Intake Engine (job delivery)</span></p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-slate-300 text-2xl">✗</span> <span class="text-slate-400">Vantage / Vicinity / Codex</span></p>
+                    <div class="grid md:grid-cols-3 gap-8 text-left">
+                        <!-- FREE -->
+                        <div class="bg-white text-ink brutal-border brutal-shadow p-8 flex flex-col">
+                            <div class="font-display font-black text-3xl uppercase mb-2">FREE TOOLS</div>
+                            <div class="text-6xl font-display font-black mb-6">£0</div>
+                            <div class="space-y-3 mb-10 flex-1">
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Quote estimator</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Lead quality checker</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Market scanner</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-slate-300">✗</span> <span class="text-slate-400">Job delivery</span></p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-slate-300">✗</span> <span class="text-slate-400">Vantage / Vicinity / Codex</span></p>
                             </div>
-                            <button @click="navigate('/features')" class="w-full bg-white text-ink brutal-border font-display font-black uppercase px-6 py-4 text-2xl hover:bg-slate-50 transition-colors mt-auto">
-                                USE FREE TOOLS
+                            <button @click="navigate('/features')" class="w-full bg-white text-ink brutal-border font-display font-black uppercase px-4 py-4 text-xl hover:bg-slate-50 transition-colors mt-auto">
+                                USE FOR FREE
                             </button>
                         </div>
 
-                        <div class="bg-dewalt brutal-border brutal-shadow p-10 relative flex flex-col">
-                            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-ink text-dewalt font-display font-black uppercase px-6 py-2 text-xl brutal-border whitespace-nowrap">MOST POPULAR</div>
-                            <div class="font-display font-black text-4xl uppercase mb-2 mt-4">INTAKE ENGINE</div>
-                            <div class="flex items-end gap-2 mb-2">
-                                <div class="text-7xl font-display font-black">£49</div>
-                                <div class="font-body font-bold text-2xl text-slate-600 mb-3">/month</div>
+                        <!-- INTAKE ENGINE -->
+                        <div class="bg-dewalt brutal-border brutal-shadow p-8 relative flex flex-col">
+                            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-ink text-dewalt font-display font-black uppercase px-6 py-2 text-lg brutal-border whitespace-nowrap">FOR TRADESMEN</div>
+                            <div class="font-display font-black text-3xl uppercase mb-2 mt-4">INTAKE ENGINE</div>
+                            <div class="flex items-end gap-2 mb-6">
+                                <div class="text-6xl font-display font-black">£49</div>
+                                <div class="font-body font-bold text-xl text-slate-600 mb-2">/month</div>
                             </div>
-                            <div class="space-y-4 mb-10 flex-1">
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vetted jobs delivered daily</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Tyre-kickers blocked automatically</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vantage — win bigger bids</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vicinity — jobs become marketing</p>
-                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Codex — close more work</p>
+                            <div class="space-y-3 mb-10 flex-1">
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-700 font-black">✓</span> Better jobs delivered daily</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-700 font-black">✓</span> Tyre-kickers killed before they reach you</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-700 font-black">✓</span> Vantage — win bigger jobs</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-700 font-black">✓</span> Vicinity — past work wins new work</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-700 font-black">✓</span> Codex — complex work → sales assets</p>
                             </div>
-                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-dewalt brutal-border font-display font-black uppercase px-6 py-4 text-2xl brutal-shadow brutal-shadow-hover transition-all mt-auto">
+                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-dewalt brutal-border font-display font-black uppercase px-4 py-4 text-xl brutal-shadow brutal-shadow-hover transition-all mt-auto">
                                 GET STARTED →
                             </button>
-                            <p class="text-center text-lg font-body font-bold text-slate-600 mt-4">Cancel anytime. No lock-in.</p>
+                            <p class="text-center text-base font-body font-bold text-slate-600 mt-4">Cancel anytime. No lock-in.</p>
+                        </div>
+
+                        <!-- CODEX BUSINESS -->
+                        <div class="bg-white text-ink brutal-border brutal-shadow p-8 flex flex-col">
+                            <div class="font-display font-black text-3xl uppercase mb-2">CODEX</div>
+                            <div class="flex items-end gap-2 mb-6">
+                                <div class="text-6xl font-display font-black">£99</div>
+                                <div class="font-body font-bold text-xl text-slate-500 mb-2">/month</div>
+                            </div>
+                            <div class="bg-slate-100 brutal-border px-4 py-2 mb-6 inline-block">
+                                <span class="font-display font-black uppercase text-lg text-slate-600">FOR TECHNICAL BUSINESSES</span>
+                            </div>
+                            <div class="space-y-3 mb-10 flex-1">
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Specs → sales proposals</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Technical docs → client-ready copy</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Win tenders with better presentation</p>
+                                <p class="font-body font-bold text-lg flex items-center gap-3"><span class="text-green-500 font-black">✓</span> Engineering firms, contractors, specialists</p>
+                            </div>
+                            <a href="/codex.html" class="w-full bg-ink text-white brutal-border font-display font-black uppercase px-4 py-4 text-xl brutal-shadow brutal-shadow-hover transition-all mt-auto text-center block">
+                                VIEW CODEX →
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -858,70 +888,160 @@
 
     <!-- BLUEPRINT ROUTE -->
     <template x-if="route === '/blueprint'">
-        <div class="min-h-screen bg-slate-50 py-12 px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="flex justify-between items-center mb-8">
-                    <h1 class="text-6xl font-display font-black uppercase tracking-tighter">THE BLUEPRINT</h1>
-                    <button @click="navigate('/')" class="bg-ink text-white px-6 py-3 font-display font-bold text-xl brutal-border hover:bg-slate-800 transition-colors">BACK TO SITE</button>
-                </div>
-                
-                <div class="bg-white brutal-border brutal-shadow p-8 mb-12">
-                    <h2 class="text-3xl font-display font-black uppercase mb-2">CEO VISION BOARD</h2>
-                    <p class="text-slate-500 font-body font-bold mb-6">Public roadmap and feature dump. No password required.</p>
-                    <form @submit.prevent="addVaultIdea" class="flex flex-col md:flex-row gap-4">
-                        <input type="text" x-model="newVaultIdea" class="flex-1 brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt" placeholder="e.g. Material Fetcher AI...">
-                        <select x-model="newVaultPhase" class="brutal-border p-4 font-body font-bold text-xl focus:outline-none focus:ring-4 focus:ring-dewalt bg-white">
-                            <option value="1">PHASE 1</option>
-                            <option value="2">PHASE 2</option>
-                            <option value="3">PHASE 3</option>
-                        </select>
-                        <button type="submit" class="bg-dewalt text-ink font-display font-black uppercase px-8 py-4 text-2xl brutal-border brutal-shadow brutal-shadow-hover transition-all whitespace-nowrap">LOG IDEA</button>
-                    </form>
+        <div class="min-h-screen bg-white">
+
+            <!-- Founding member banner -->
+            <div class="bg-ink text-dewalt py-4 px-4 text-center border-b-4 border-dewalt">
+                <p class="font-display font-black uppercase text-2xl tracking-widest">YOU'RE SEEING THIS BECAUSE YOU'RE EARLY. FIRST 50 MEMBERS LOCK IN AT £49/MONTH FOREVER.</p>
+            </div>
+
+            <div class="max-w-5xl mx-auto py-16 px-4">
+
+                <!-- Header -->
+                <div class="border-b-4 border-ink pb-12 mb-16 flex flex-col md:flex-row justify-between items-start gap-6">
+                    <div>
+                        <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-4">THE<br><span class="bg-dewalt px-4 brutal-border brutal-shadow inline-block">BLUEPRINT</span></h1>
+                        <p class="text-2xl font-body font-bold text-slate-500 max-w-2xl">Where JobFilter is going — and why. This isn't a marketing page. It's the actual plan. You're seeing it because you matter to this.</p>
+                    </div>
                 </div>
 
-                <div class="space-y-6">
-                    <h3 class="text-4xl font-display font-black uppercase mb-6 border-b-4 border-ink pb-2">THE BACKLOG</h3>
-                    
-                    <!-- AI Generated Features -->
-                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">VAT Sort</span>
-                            <span class="font-body font-bold text-slate-600">Automated receipt extraction and categorization for HMRC.</span>
-                        </div>
-                        <span class="bg-green-200 text-green-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 1: LIVE]</span>
+                <!-- PHASE 1: LIVE NOW -->
+                <div class="mb-16">
+                    <div class="flex items-center gap-6 mb-8">
+                        <div class="bg-green-500 text-white font-display font-black uppercase px-6 py-3 text-2xl brutal-border brutal-shadow">PHASE 1 — LIVE NOW</div>
+                        <div class="flex-1 h-1 bg-green-500"></div>
                     </div>
-                    
-                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Tool Tracker</span>
-                            <span class="font-body font-bold text-slate-600">Inventory management synced with van locations.</span>
-                        </div>
-                        <span class="bg-yellow-200 text-yellow-800 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 2: NEAR-TERM]</span>
-                    </div>
-                    
-                    <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                        <div>
-                            <span class="font-display font-black text-2xl uppercase block mb-1">Subbie-Net</span>
-                            <span class="font-body font-bold text-slate-600">AI-matched subcontractor hiring for overflow work.</span>
-                        </div>
-                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap">[PHASE 3: FUTURE]</span>
-                    </div>
+                    <p class="text-xl font-body font-bold text-slate-500 mb-8">This is what's running. The foundation. The bodyguard that's already blocking tyre-kickers and dead leads for UK tradesmen.</p>
 
-                    <!-- Dynamic Ideas from Firestore -->
-                    <template x-for="idea in vaultIdeas" :key="idea.id">
-                        <div class="bg-white brutal-border p-6 flex flex-col md:flex-row justify-between md:items-center gap-4">
-                            <div>
-                                <span class="font-display font-black text-2xl uppercase block mb-1" x-text="idea.text"></span>
-                                <span class="font-body font-bold text-slate-600" x-text="new Date(idea.createdAt).toLocaleDateString()"></span>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-green-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-4xl uppercase">INTAKE ENGINE</h3>
+                                <span class="bg-green-100 text-green-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">LIVE</span>
                             </div>
-                            <span :class="{
-                                'bg-green-200 text-green-800': idea.phase == 1,
-                                'bg-yellow-200 text-yellow-800': idea.phase == 2,
-                                'bg-slate-200 text-slate-600': idea.phase == 3 || !idea.phase
-                            }" class="font-bold px-3 py-1 text-sm uppercase brutal-border whitespace-nowrap" x-text="idea.phase == 1 ? '[PHASE 1: LIVE]' : idea.phase == 2 ? '[PHASE 2: NEAR-TERM]' : '[PHASE 3: FUTURE]'"></span>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Finds real jobs in your area, kills tyre-kickers and dead leads, delivers only premium work to your phone. The core. The reason everything exists.</p>
                         </div>
-                    </template>
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-green-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-4xl uppercase">FREE TOOLS</h3>
+                                <span class="bg-green-100 text-green-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">LIVE</span>
+                            </div>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Quote estimator, lead checker, market scanner. Free forever. No card. Built to prove this works before you put your hand in your pocket.</p>
+                        </div>
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-green-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-4xl uppercase">TRADIE DASHBOARD</h3>
+                                <span class="bg-green-100 text-green-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">LIVE</span>
+                            </div>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Your command centre. Money leads on one side, blocked tyre-kickers on the other. See exactly what you saved in time and money every week.</p>
+                        </div>
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-green-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-4xl uppercase">LEAD VETTING</h3>
+                                <span class="bg-green-100 text-green-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">LIVE</span>
+                            </div>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Every enquiry gets scored. Budget, location, seriousness. Cowboys and time-wasters never make it through. You only see jobs worth winning.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- PHASE 2: BUILDING -->
+                <div class="mb-16">
+                    <div class="flex items-center gap-6 mb-8">
+                        <div class="bg-dewalt text-ink font-display font-black uppercase px-6 py-3 text-2xl brutal-border brutal-shadow">PHASE 2 — BUILDING NOW</div>
+                        <div class="flex-1 h-1 bg-dewalt"></div>
+                    </div>
+                    <p class="text-xl font-body font-bold text-slate-500 mb-8">Intake Engine gets you in front of jobs. Phase 2 makes sure you walk out with them. Three tools that turn you from a good tradesman into a premium firm.</p>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-dewalt">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-3xl uppercase">VANTAGE</h3>
+                                <span class="bg-yellow-100 text-yellow-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">Q3 2026</span>
+                            </div>
+                            <p class="font-display font-black text-xl uppercase text-slate-500 mb-4">Win bigger jobs by looking like a premium firm</p>
+                            <p class="font-body font-bold text-lg text-slate-600 leading-relaxed">Your tenders become high-end visual bid decks. Stop losing £50k jobs because their PDF looked better than yours.</p>
+                            <div class="mt-6 bg-dewalt brutal-border px-4 py-2 text-center">
+                                <span class="font-display font-black uppercase text-lg">EARLY ACCESS FOR FOUNDING MEMBERS</span>
+                            </div>
+                        </div>
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-dewalt">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-3xl uppercase">VICINITY</h3>
+                                <span class="bg-yellow-100 text-yellow-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">Q3 2026</span>
+                            </div>
+                            <p class="font-display font-black text-xl uppercase text-slate-500 mb-4">Turn past work into new work automatically</p>
+                            <p class="font-body font-bold text-lg text-slate-600 leading-relaxed">Your finished jobs become marketing assets. The work you already did starts winning you more premium work without lifting a finger.</p>
+                            <div class="mt-6 bg-dewalt brutal-border px-4 py-2 text-center">
+                                <span class="font-display font-black uppercase text-lg">EARLY ACCESS FOR FOUNDING MEMBERS</span>
+                            </div>
+                        </div>
+                        <div class="bg-white brutal-border brutal-shadow p-8 border-l-8 border-dewalt">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="font-display font-black text-3xl uppercase">CODEX</h3>
+                                <span class="bg-yellow-100 text-yellow-800 font-display font-black text-sm uppercase px-3 py-1 brutal-border">Q3 2026</span>
+                            </div>
+                            <p class="font-display font-black text-xl uppercase text-slate-500 mb-4">Turn complex work into sales assets</p>
+                            <p class="font-body font-bold text-lg text-slate-600 leading-relaxed">Your specs and quotes stop sounding technical and start closing jobs. Cowboys who write clearer quotes stop beating you on presentation.</p>
+                            <div class="mt-6 bg-dewalt brutal-border px-4 py-2 text-center">
+                                <span class="font-display font-black uppercase text-lg">EARLY ACCESS FOR FOUNDING MEMBERS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHASE 3: VISION -->
+                <div class="mb-16">
+                    <div class="flex items-center gap-6 mb-8">
+                        <div class="bg-slate-200 text-ink font-display font-black uppercase px-6 py-3 text-2xl brutal-border">PHASE 3 — THE VISION</div>
+                        <div class="flex-1 h-1 bg-slate-300"></div>
+                    </div>
+                    <p class="text-xl font-body font-bold text-slate-500 mb-8">The bigger picture. Where this goes when the foundations are solid.</p>
+
+                    <div class="grid md:grid-cols-2 gap-6 opacity-70">
+                        <div class="bg-slate-50 brutal-border p-8">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3 text-slate-500">CODEX BUSINESS</h3>
+                            <p class="font-body font-bold text-lg text-slate-500">Codex for engineering firms, construction companies, and technical businesses who need to convert deep expertise into sales assets. Separate product, different audience, same result: more revenue.</p>
+                        </div>
+                        <div class="bg-slate-50 brutal-border p-8">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3 text-slate-500">MARKET INTEL</h3>
+                            <p class="font-body font-bold text-lg text-slate-500">Real-time market data for your area. What jobs are out there. What rates are moving. What your competitors are quoting. Know before you quote.</p>
+                        </div>
+                        <div class="bg-slate-50 brutal-border p-8">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3 text-slate-500">SUBBIE NETWORK</h3>
+                            <p class="font-body font-bold text-lg text-slate-500">Overflow work matched to vetted subcontractors. Too busy? Overflow goes to a trusted sub. Not busy enough? You pick up qualified overflow from other JobFilter members.</p>
+                        </div>
+                        <div class="bg-slate-50 brutal-border p-8">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3 text-slate-500">MOBILE APP</h3>
+                            <p class="font-body font-bold text-lg text-slate-500">Full dashboard, job management, and tools on your phone. Manage everything from the van. No laptop required.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOUNDING MEMBER CTA -->
+                <div class="bg-ink text-white brutal-border brutal-shadow p-12 text-center">
+                    <h2 class="text-5xl md:text-7xl font-display font-black uppercase text-dewalt mb-6">FOUNDING MEMBER DEAL</h2>
+                    <p class="text-2xl font-body font-bold text-slate-300 mb-8 max-w-3xl mx-auto">First 50 members lock in at <strong class="text-dewalt">£49/month forever</strong> — no price increases, ever. Plus early access to every Phase 2 feature before anyone else. Plus a direct line to the team building this.</p>
+                    <div class="grid md:grid-cols-3 gap-6 mb-12 text-left">
+                        <div class="border-4 border-dewalt p-6">
+                            <p class="font-display font-black text-2xl uppercase text-dewalt mb-2">£49/MONTH LOCKED</p>
+                            <p class="font-body font-bold text-slate-300">Price never goes up for founding members. Ever. Whatever we charge new members in 2027 — you pay £49.</p>
+                        </div>
+                        <div class="border-4 border-dewalt p-6">
+                            <p class="font-display font-black text-2xl uppercase text-dewalt mb-2">PHASE 2 FIRST</p>
+                            <p class="font-body font-bold text-slate-300">Vantage, Vicinity, and Codex beta access before public launch. Shape how they work before everyone else gets them.</p>
+                        </div>
+                        <div class="border-4 border-dewalt p-6">
+                            <p class="font-display font-black text-2xl uppercase text-dewalt mb-2">DIRECT LINE</p>
+                            <p class="font-body font-bold text-slate-300">WhatsApp direct to the team. Tell us what you need. What you hate. What would save you more time. We actually listen.</p>
+                        </div>
+                    </div>
+                    <button @click="navigate('/onboarding')" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-12 py-6 text-4xl brutal-shadow brutal-shadow-hover transition-all">
+                        BECOME A FOUNDING MEMBER →
+                    </button>
+                    <p class="mt-6 font-body font-bold text-slate-400 text-lg">Spots left: limited. Cancel anytime.</p>
+                </div>
+
             </div>
         </div>
     </template>

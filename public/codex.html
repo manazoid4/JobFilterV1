@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex | Your Expertise Should Sell Itself</title>
+    <meta name="description" content="Codex converts complex technical work into sales assets that win contracts. For engineering firms, construction companies, and technical businesses.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0a1628',
+                        gold: '#c9a227',
+                        'light-navy': '#1a2e52',
+                    },
+                    fontFamily: {
+                        display: ['"Barlow Condensed"', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a1628;
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .gold-border { border: 4px solid #c9a227; }
+        .gold-shadow { box-shadow: 8px 8px 0 #c9a227; }
+        .gold-shadow-hover:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0 #c9a227;
+        }
+        .navy-border { border: 4px solid #0a1628; }
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]:focus { outline: none; }
+        input[type=range]::-webkit-slider-runnable-track { height: 12px; background: #1a2e52; border: 3px solid #c9a227; }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 30px; width: 30px;
+            background: #c9a227; border: 3px solid #0a1628;
+            margin-top: -12px; cursor: pointer;
+            box-shadow: 3px 3px 0 #c9a227;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Nav -->
+    <nav class="border-b-4 border-gold bg-navy py-4 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="/" class="flex items-center gap-4">
+                    <svg class="w-10 h-10 gold-border" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="60" height="60" fill="#012169"/>
+                        <path d="M0 0 L60 60 M60 0 L0 60" stroke="#fff" stroke-width="6"/>
+                        <path d="M0 0 L60 60 M60 0 L0 60" stroke="#C8102E" stroke-width="4"/>
+                        <path d="M30 0 V60 M0 30 H60" stroke="#fff" stroke-width="10"/>
+                        <path d="M30 0 V60 M0 30 H60" stroke="#C8102E" stroke-width="6"/>
+                    </svg>
+                </a>
+                <span class="text-3xl font-display font-black uppercase tracking-tight text-white">CODEX</span>
+                <span class="text-lg font-display font-black uppercase text-gold border-2 border-gold px-3 py-1">BY JOBFILTER</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="/" class="hidden md:block font-display font-black text-xl uppercase text-slate-400 hover:text-gold transition-colors">JobFilter →</a>
+                <a href="#pricing" class="bg-gold gold-border text-navy font-display font-black uppercase px-6 py-2 text-2xl gold-shadow gold-shadow-hover transition-all">
+                    GET CODEX
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="py-24 md:py-40 border-b-4 border-gold bg-navy">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-3 gold-border bg-light-navy px-6 py-2 mb-10">
+                <span class="font-display font-black uppercase text-xl tracking-widest text-gold">FOR TECHNICAL BUSINESSES</span>
+            </div>
+
+            <h1 class="text-6xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8 text-white">
+                YOUR EXPERTISE<br>
+                <span class="bg-gold px-4 navy-border gold-shadow inline-block mt-4 text-navy">SHOULD SELL ITSELF.</span>
+            </h1>
+
+            <p class="text-2xl md:text-3xl font-body font-bold max-w-3xl mx-auto mb-4 leading-tight text-slate-300">
+                Codex converts your complex technical work into proposals, specs, and sales assets that win contracts — without dumbing down what you actually do.
+            </p>
+            <p class="text-xl font-body font-bold text-slate-500 mb-14">For engineering firms. Construction companies. Technical contractors. Specialists.</p>
+
+            <a href="#pricing" class="inline-block bg-gold gold-border text-navy font-display font-black uppercase px-12 py-6 text-4xl md:text-5xl gold-shadow gold-shadow-hover transition-all">
+                STOP LOSING TENDERS →
+            </a>
+        </div>
+    </header>
+
+    <!-- THE PROBLEM -->
+    <section class="py-24 border-b-4 border-gold bg-light-navy">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl md:text-7xl font-display font-black uppercase text-center mb-4 text-gold">THE PROBLEM</h2>
+            <p class="text-2xl font-body font-bold text-slate-400 text-center mb-20">You are better at what you do than most firms bidding against you. You keep losing anyway.</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="gold-border gold-shadow bg-navy p-10">
+                    <div class="text-7xl mb-6">📄</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-4 text-white">YOUR TENDER LOOKS LIKE EVERYONE ELSE'S</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">40-page Word doc. Tables of specs. Dense technical language. Clients can't tell you apart from the cowboy quoting half your price.</p>
+                </div>
+                <div class="gold-border gold-shadow bg-navy p-10">
+                    <div class="text-7xl mb-6">🧠</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-4 text-white">CLIENTS DON'T UNDERSTAND YOUR SPECS</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">Your 20 years of expertise is written for engineers, not buyers. The person signing the contract doesn't understand it — so they go with whoever sounds clearest.</p>
+                </div>
+                <div class="gold-border gold-shadow bg-navy p-10">
+                    <div class="text-7xl mb-6">💸</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-4 text-white">YOU LOSE CONTRACTS TO INFERIOR FIRMS</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">Worse firms win because their proposal looks more professional. You know your work is better. The client doesn't. That costs you six figures every year.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT CODEX DOES -->
+    <section class="py-24 border-b-4 border-gold bg-navy">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl md:text-7xl font-display font-black uppercase text-center mb-4 text-white">WHAT CODEX DOES</h2>
+            <p class="text-2xl font-body font-bold text-slate-400 text-center mb-20">Three inputs. One outcome: proposals and sales assets that win contracts.</p>
+
+            <div class="grid md:grid-cols-3 border-4 border-gold mb-16">
+                <div class="p-10 border-b-4 md:border-b-0 md:border-r-4 border-gold text-center">
+                    <div class="text-7xl font-display font-black text-gold mb-4">01</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-6 text-white">SPEC IN</h3>
+                    <p class="font-body font-bold text-slate-400 text-xl leading-relaxed">Send Codex your technical specifications, scope of works, or existing documentation. Raw, unedited, as technical as it is.</p>
+                </div>
+                <div class="p-10 border-b-4 md:border-b-0 md:border-r-4 border-gold text-center">
+                    <div class="text-7xl font-display font-black text-gold mb-4">02</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-6 text-white">CODEX CONVERTS</h3>
+                    <p class="font-body font-bold text-slate-400 text-xl leading-relaxed">Technical complexity becomes clear, compelling, client-friendly language. Jargon becomes benefits. Specs become reasons to choose you.</p>
+                </div>
+                <div class="p-10 text-center">
+                    <div class="text-7xl font-display font-black text-gold mb-4">03</div>
+                    <h3 class="font-display font-black text-4xl uppercase mb-6 text-white">SALES ASSET OUT</h3>
+                    <p class="font-body font-bold text-slate-400 text-xl leading-relaxed">Professional proposal, visual tender, or marketing copy — ready to send. You look like the premium firm you are. You win the contract.</p>
+                </div>
+            </div>
+
+            <!-- Use cases -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-light-navy gold-border p-8">
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">TENDER PROPOSALS</h3>
+                    <p class="font-body font-bold text-xl text-slate-300 leading-relaxed mb-4">Technical scope of works → professional visual proposal that stands out from every other tender in the pile. Clients understand it. Decision makers trust it.</p>
+                    <p class="font-display font-black text-xl uppercase text-white">Engineering firms. M&E contractors. Civil works.</p>
+                </div>
+                <div class="bg-light-navy gold-border p-8">
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">CLIENT PRESENTATIONS</h3>
+                    <p class="font-body font-bold text-xl text-slate-300 leading-relaxed mb-4">Dense technical reports → clear executive summaries and slide decks. Stop losing the room because your presentation is too technical for the people signing off the budget.</p>
+                    <p class="font-display font-black text-xl uppercase text-white">Consultants. Specialists. Project managers.</p>
+                </div>
+                <div class="bg-light-navy gold-border p-8">
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">MARKETING COPY</h3>
+                    <p class="font-body font-bold text-xl text-slate-300 leading-relaxed mb-4">Technical service descriptions → compelling website copy, case studies, and capability statements that actually explain what you do and why it matters to clients who aren't engineers.</p>
+                    <p class="font-display font-black text-xl uppercase text-white">Technical businesses. Manufacturers. Labs.</p>
+                </div>
+                <div class="bg-light-navy gold-border p-8">
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">FRAMEWORK BID DOCS</h3>
+                    <p class="font-body font-bold text-xl text-slate-300 leading-relaxed mb-4">Qualification questionnaires and PQQs converted into strong, structured bid responses. Stop submitting generic answers. Start winning frameworks.</p>
+                    <p class="font-display font-black text-xl uppercase text-white">Construction. Public sector. Facilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="py-24 border-b-4 border-gold bg-light-navy">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-5xl md:text-7xl font-display font-black uppercase text-center mb-20 text-white">WHO IT'S FOR</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-6xl mb-6">🔧</div>
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">M&E CONTRACTORS</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">Mechanical and electrical firms tendering commercial and industrial projects. Stop losing on presentation when your price and spec are right.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl mb-6">🏗️</div>
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">CONSTRUCTION FIRMS</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">Main contractors, specialist subcontractors, and groundworks firms. Win more frameworks. Convert more enquiries. Stop being passed over for firms with better marketing.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl mb-6">⚗️</div>
+                    <h3 class="font-display font-black text-3xl uppercase mb-4 text-gold">TECHNICAL SPECIALISTS</h3>
+                    <p class="font-body font-bold text-xl text-slate-400 leading-relaxed">Engineering consultants, surveyors, environmental firms, and technical service businesses. Turn deep expertise into sales-ready communication that wins clients.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI ANCHOR -->
+    <section class="py-20 border-b-4 border-gold bg-gold">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="font-display font-black text-4xl md:text-6xl uppercase text-navy leading-tight">
+                IF CODEX HELPS YOU WIN JUST ONE £100K CONTRACT YOU'D HAVE LOST ON PRESENTATION — IT PAYS FOR ITSELF FOR OVER 8 YEARS.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="py-32 border-b-4 border-gold bg-navy">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-6xl md:text-8xl font-display font-black uppercase tracking-tighter mb-4 text-gold">SIMPLE PRICING</h2>
+            <p class="text-2xl font-body font-bold text-slate-400 mb-20">One plan. Everything included. No per-document fees.</p>
+
+            <div class="grid md:grid-cols-2 gap-8 text-left">
+                <!-- Starter -->
+                <div class="bg-light-navy gold-border gold-shadow p-10 flex flex-col">
+                    <div class="font-display font-black text-3xl uppercase mb-2 text-white">CODEX STARTER</div>
+                    <div class="flex items-end gap-2 mb-6">
+                        <div class="text-7xl font-display font-black text-gold">£99</div>
+                        <div class="font-body font-bold text-xl text-slate-400 mb-2">/month</div>
+                    </div>
+                    <div class="space-y-3 mb-10 flex-1">
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-slate-300"><span class="text-green-400 font-black">✓</span> Up to 10 documents/month</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-slate-300"><span class="text-green-400 font-black">✓</span> Tender proposals</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-slate-300"><span class="text-green-400 font-black">✓</span> Technical → sales copy</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-slate-300"><span class="text-green-400 font-black">✓</span> Framework bid responses</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-slate-400"><span class="text-slate-600">✗</span> <span class="text-slate-500">Custom branding</span></p>
+                    </div>
+                    <a href="mailto:codex@jobfilter.uk?subject=Codex Starter Enquiry" class="w-full bg-gold text-navy gold-border font-display font-black uppercase px-6 py-4 text-2xl gold-shadow gold-shadow-hover transition-all mt-auto text-center block">
+                        GET STARTED →
+                    </a>
+                    <p class="text-center text-base font-body font-bold text-slate-500 mt-4">Cancel anytime.</p>
+                </div>
+
+                <!-- Pro -->
+                <div class="bg-gold navy-border gold-shadow p-10 relative flex flex-col">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-navy text-gold font-display font-black uppercase px-6 py-2 text-lg gold-border whitespace-nowrap">MOST CHOSEN</div>
+                    <div class="font-display font-black text-3xl uppercase mb-2 text-navy mt-4">CODEX PRO</div>
+                    <div class="flex items-end gap-2 mb-6">
+                        <div class="text-7xl font-display font-black text-navy">£199</div>
+                        <div class="font-body font-bold text-xl text-slate-600 mb-2">/month</div>
+                    </div>
+                    <div class="space-y-3 mb-10 flex-1">
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-navy"><span class="text-green-700 font-black">✓</span> Unlimited documents</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-navy"><span class="text-green-700 font-black">✓</span> Everything in Starter</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-navy"><span class="text-green-700 font-black">✓</span> Custom firm branding</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-navy"><span class="text-green-700 font-black">✓</span> Visual proposal templates</p>
+                        <p class="font-body font-bold text-lg flex items-center gap-3 text-navy"><span class="text-green-700 font-black">✓</span> Priority turnaround</p>
+                    </div>
+                    <a href="mailto:codex@jobfilter.uk?subject=Codex Pro Enquiry" class="w-full bg-navy text-gold gold-border font-display font-black uppercase px-6 py-4 text-2xl gold-shadow gold-shadow-hover transition-all mt-auto text-center block">
+                        GET CODEX PRO →
+                    </a>
+                    <p class="text-center text-base font-body font-bold text-slate-600 mt-4">Cancel anytime. No lock-in.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-light-navy gold-border p-8">
+                <p class="font-display font-black text-3xl uppercase text-gold mb-2">NEED SOMETHING BESPOKE?</p>
+                <p class="font-body font-bold text-xl text-slate-300">Large frameworks, ongoing bid programmes, or multi-team access — <a href="mailto:codex@jobfilter.uk" class="text-gold underline">get in touch</a>. We'll build a plan around what you actually need.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="py-40 bg-navy text-center border-b-4 border-gold">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-6xl md:text-8xl font-display font-black uppercase tracking-tighter mb-8 text-white">STOP LOSING CONTRACTS<br><span class="text-gold">YOU DESERVE TO WIN.</span></h2>
+            <p class="text-2xl font-body font-bold text-slate-400 mb-16 max-w-2xl mx-auto">Your work is better. Your price is fair. Your proposal is the problem. Fix the proposal.</p>
+            <a href="mailto:codex@jobfilter.uk?subject=Codex Enquiry" class="inline-block bg-gold gold-border text-navy font-display font-black uppercase px-16 py-10 text-5xl md:text-6xl gold-shadow gold-shadow-hover transition-all">
+                GET CODEX →
+            </a>
+            <p class="mt-8 text-xl font-body font-bold text-slate-500">codex@jobfilter.uk — we respond same day.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-light-navy py-12 border-t-4 border-gold">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <p class="font-display font-black uppercase text-2xl text-white">CODEX BY JOBFILTER</p>
+                <p class="font-body font-bold text-slate-400 mt-1">Technical expertise → sales assets. Built in Birmingham.</p>
+            </div>
+            <div class="flex gap-8 font-display font-black uppercase text-xl">
+                <a href="/" class="text-slate-400 hover:text-gold transition-colors">JobFilter.uk →</a>
+                <a href="mailto:codex@jobfilter.uk" class="text-slate-400 hover:text-gold transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
