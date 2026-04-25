@@ -228,6 +228,12 @@ function registerApi(app: express.Express) {
     }
   });
 
+  app.post("/api/email-gate/unlock", (req, res) => {
+    const email = String(req.body?.email ?? "").trim().toLowerCase();
+    console.log("[EmailGate]", { email, postcode: req.body?.postcode, trade: req.body?.trade, createdAt: new Date().toISOString() });
+    res.json({ ok: true });
+  });
+
   app.post("/api/calendar/sync", (_req, res) => {
     res.status(501).json({
       status: "not_implemented",
