@@ -377,7 +377,7 @@ export default function App() {
 
       {/* ── TOP BANNER ── */}
       <div className="fixed top-0 w-full z-[60] bg-high-vis-orange border-b-2 border-deep-slate text-deep-slate text-center py-2 px-3">
-        <p className="font-display text-2xl uppercase tracking-wide">🏆 Founding 30: £19/mo Solo tier locked forever — <span className="underline">Only 30 spots</span></p>
+        <p className="font-display text-xl uppercase tracking-wide">🏆 Intake Engine Founding 30: £19/mo — <span className="underline">Only 30 spots</span></p>
       </div>
 
       {/* ── NAV ── */}
@@ -447,14 +447,18 @@ export default function App() {
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-deep-slate border-2 border-high-vis-orange rounded-sm px-4 py-2 mb-8 shadow-[3px_3px_0_#f5d000]">
             <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
-            <span className="text-[11px] font-black uppercase tracking-widest text-high-vis-orange">Free — No Card Needed</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-high-vis-orange">Intake Engine — Main Subscription</span>
           </motion.div>
+
+          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-4">
+            Built for Trades
+          </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="font-display font-black text-6xl md:text-9xl uppercase leading-[0.85] mb-8"
           >
-            Get better jobs.<br /><span className="text-high-vis-orange">Not more rubbish leads.</span>
+            GET BETTER JOBS.<br /><span className="text-high-vis-orange">NOT MORE RUBBISH LEADS.</span>
           </motion.h1>
 
           <motion.p
@@ -464,25 +468,20 @@ export default function App() {
             We find, filter, and send you real opportunities — then help you win them.
           </motion.p>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="text-sm text-slate-600 font-bold uppercase tracking-widest mb-10">
-            Electricians · Plumbers · Builders · Heating Engineers · General Trade
-          </motion.p>
-
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
               className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-lg font-black py-4 px-12 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
-              Find Jobs Near Me →
+              Enter The Intake →
             </a>
-            <a href="#features-list" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-lg font-black py-4 px-12 rounded-sm transition-all uppercase italic">
-              See Features
+            <a href="#pricing" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-lg font-black py-4 px-12 rounded-sm transition-all uppercase italic">
+              See Intake Pricing
             </a>
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-600">
-            <span>✓ No account needed</span>
-            <span>✓ 3 full records free / month</span>
-            <span>✓ Postcode-accurate filtering</span>
-            <span>✓ 10 free trade tools</span>
+            <span>✓ Real opportunities only</span>
+            <span>✓ WhatsApp lead delivery</span>
+            <span>✓ No contracts</span>
           </motion.div>
         </div>
 
@@ -1241,75 +1240,115 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── SUPPORTING ENGINES PREVIEW ── */}
+      <section className="py-20 px-6 bg-white border-y-4 border-deep-slate">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic">Supporting <span className="text-high-vis-orange">Engines</span></h2>
+            <p className="text-slate-600 font-bold uppercase tracking-widest text-xs mt-3">Use these after intake to win bigger work and close faster.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vantage</p>
+              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop losing £1M bids to prettier firms</h3>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Tier 1 visual authority for cheaper and better.</p>
+              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
+                <li>• Bid decks</li>
+                <li>• 3D renders</li>
+                <li>• Infographics</li>
+              </ul>
+            </a>
+            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vicinity</p>
+              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop letting your best work rot in your camera roll</h3>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">One-tap marketing agency for tradesmen.</p>
+              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
+                <li>• Infographics</li>
+                <li>• WhatsApp-ready content</li>
+                <li>• Website assets</li>
+              </ul>
+            </a>
+            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
+              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Codex</p>
+              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Turn complex technical content into high-conversion sales assets</h3>
+              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Convert detail into clear buyer confidence.</p>
+              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
+                <li>• How-it-works videos</li>
+                <li>• Sales carousels</li>
+                <li>• Competitor battlecards</li>
+              </ul>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ── PRICING ── */}
       <section id="pricing" className="py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Primary Offer</p>
-          <h2 className="font-display text-5xl md:text-7xl font-extrabold uppercase leading-none tracking-wide text-white mb-4">Intake Engine Pricing</h2>
-          <p className="text-slate-400 font-bold uppercase tracking-widest mb-4">Main subscription. Find better jobs. No contracts.</p>
+          <h2 className="font-display text-6xl md:text-8xl font-extrabold uppercase leading-none tracking-wide text-white mb-4">Intake Engine Pricing</h2>
+          <p className="text-slate-400 font-bold uppercase tracking-widest mb-4">Get better jobs. Make more money. No contracts.</p>
+
+          <div className="max-w-5xl mx-auto mb-8 bg-high-vis-orange text-deep-slate border-4 border-black p-5 text-left shadow-[6px_6px_0_#000]">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em]">Main System</p>
+            <h3 className="font-display text-3xl md:text-4xl font-black uppercase italic">Intake Engine</h3>
+            <p className="text-xs font-bold uppercase tracking-wide mt-2">Finds jobs. Filters them. Delivers the opportunities worth taking.</p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-
-            {/* INTAKE STARTER */}
             <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
-              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">INTAKE STARTER</div>
+              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">Starter</div>
               <div className="flex items-baseline gap-1 mb-2">
                 <span className="text-5xl font-black italic">£29</span>
                 <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="font-bold mb-8">Get better jobs. Not more rubbish leads.</p>
-              <ul className="space-y-4 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Unlimited lead access</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Lead quality filtering</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> WhatsApp delivery</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Local radius controls</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Free tools included</li>
+              <p className="font-bold mb-8">For solo tradesmen who want steady decent jobs every week.</p>
+              <ul className="space-y-3 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Get steady local jobs</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Stop chasing dead leads</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Consistent flow of real job opportunities</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Jobs sent straight to WhatsApp</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Intake Starter' }); openWaitlist('Intake Starter'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Start Free Trial
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Starter' }); openWaitlist('Starter'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                Start getting better jobs
               </button>
             </div>
 
-            {/* INTAKE PRO */}
             <div className="bg-white text-black p-8 border-[4px] border-black shadow-[12px_12px_0px_0px_rgba(245,208,0,1)] flex flex-col text-left relative md:scale-105 z-10">
-              <div className="bg-high-vis-orange text-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit border-[2px] border-black">INTAKE PRO (RECOMMENDED)</div>
+              <div className="bg-high-vis-orange text-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit border-[2px] border-black">Growth — Recommended</div>
               <div className="flex items-baseline gap-1 mb-2">
                 <span className="text-5xl font-black italic">£59</span>
                 <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="font-bold mb-8 text-amber-600">The main plan for serious operators.</p>
-              <ul className="space-y-4 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> <strong>Everything in Intake Starter</strong></li>
-                <li className="flex items-center gap-2 font-bold bg-high-vis-orange/10 p-1"><span className="text-green-600">✓</span> Priority lead alerts</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Advanced pay-likelihood scoring</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Competitor pressure tracking</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Priority support</li>
+              <p className="font-bold mb-8 text-amber-600">For serious tradesmen who want better jobs and less wasted time.</p>
+              <ul className="space-y-3 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Only get jobs worth your time</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Waste less time quoting low-value work</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Priority filtering for higher quality opportunities</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> More control over location and job type</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Better jobs landed, faster</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Intake Pro' }); openWaitlist('Intake Pro'); }} className="w-full bg-slate-950 text-white py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(245,208,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Start Intake Pro
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Growth' }); openWaitlist('Growth'); }} className="w-full bg-slate-950 text-white py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(245,208,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                Get better jobs now
               </button>
             </div>
 
-            {/* INTAKE SCALE */}
             <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
-              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">INTAKE SCALE</div>
+              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">Dominance</div>
               <div className="flex items-baseline gap-1 mb-2">
                 <span className="text-5xl font-black italic">£99</span>
                 <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="font-bold mb-8">For teams that want postcode domination.</p>
-              <ul className="space-y-4 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Everything in Intake Pro</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Multi-trade routing</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Team user seats</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Lead quality guarantee</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Custom CRM integrations</li>
+              <p className="font-bold mb-8">For firms that want the best jobs first and a real competitive edge.</p>
+              <ul className="space-y-3 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Get the best jobs first</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Beat competitors to opportunities</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Maximum job quality + priority delivery</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Highest control across area, value, and fit</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Intake Scale' }); openWaitlist('Intake Scale'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Contact Sales
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Dominance' }); openWaitlist('Dominance'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                Apply for priority access
               </button>
             </div>
-
           </div>
 
           <div className="mt-16 border-t border-white/20 pt-10">
