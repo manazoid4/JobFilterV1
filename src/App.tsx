@@ -1170,72 +1170,73 @@ export default function App() {
       </section>
 
       {/* ── PRICING ── */}
-      <section id="pricing" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="font-display text-6xl md:text-8xl font-extrabold text-center uppercase leading-none tracking-wide text-deep-slate">PRICING THAT PAYS</h2>
-          <p className="text-center text-slate-600 font-semibold mt-4 text-lg">Simple. No contracts. Cancel anytime.</p>
+      <section id="pricing" className="py-24 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h2 className="font-display text-6xl md:text-8xl font-extrabold uppercase leading-none tracking-wide text-white mb-4">PRICING THAT PAYS</h2>
+          <p className="text-slate-400 font-bold uppercase tracking-widest mb-4">Simple. No contracts. Cancel anytime.</p>
 
-          <div className="mt-12 grid md:grid-cols-3 gap-6">
-            {/* SOLO */}
-            <div className="classic-panel rounded-sm p-8">
-              <div className="inline-block bg-slate-200 text-deep-slate font-display text-2xl uppercase px-3 py-1 border-2 border-deep-slate mb-6">SOLO</div>
-              <div className="flex items-end gap-2 mb-4">
-                <p className="font-display text-6xl font-black leading-none text-deep-slate">£29</p>
-                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+
+            {/* PRO */}
+            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
+              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">PRO</div>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-5xl font-black italic">£29</span>
+                <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="text-slate-700 font-bold text-sm mb-6">One-man-band. More paid jobs. Less dead time.</p>
-              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Unlimited lead access</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>AI WhatsApp vetting</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom van QR code</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>ROI calculator</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>3-day pulse reports</span></li>
+              <p className="font-bold mb-8">Own your local area. Stop wasting time on dead leads.</p>
+              <ul className="space-y-4 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Unlimited lead access</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> AI WhatsApp vetting</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Custom van QR code</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> ROI calculator</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> 3-day pulse reports</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Solo' }); openWaitlist('Solo'); }} className="w-full classic-btn text-deep-slate font-black py-3 rounded-sm uppercase tracking-widest">
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro' }); openWaitlist('Pro'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
                 Start Free Trial
               </button>
             </div>
 
-            {/* CREW */}
-            <div className="classic-panel rounded-sm p-8 border-4 border-high-vis-orange transform md:scale-105 relative">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-deep-slate text-high-vis-orange font-display text-xs font-black uppercase tracking-widest px-3 py-1 border-2 border-high-vis-orange">Most Popular</div>
-              <div className="inline-block bg-high-vis-orange text-deep-slate font-display text-2xl font-black uppercase px-3 py-1 border-2 border-deep-slate mb-6">CREW</div>
-              <div className="flex items-end gap-2 mb-4">
-                <p className="font-display text-6xl font-black leading-none text-deep-slate">£59</p>
-                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+            {/* PRO HAMMER */}
+            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[12px_12px_0px_0px_rgba(245,208,0,1)] flex flex-col text-left relative md:scale-105 z-10">
+              <div className="bg-high-vis-orange text-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit border-[2px] border-black">PRO HAMMER</div>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-5xl font-black italic">£59</span>
+                <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="text-slate-700 font-bold text-sm mb-6">Small firm. Hands-on support. Real results.</p>
-              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Everything in Solo</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Concierge onboarding</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Priority email support</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Dedicated account manager</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Weekly strategy calls</span></li>
+              <p className="font-bold mb-8 text-amber-600">The Sweet Spot. We handle the heavy lifting for you.</p>
+              <ul className="space-y-4 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> <strong>Everything in Pro</strong></li>
+                <li className="flex items-center gap-2 font-bold bg-high-vis-orange/10 p-1"><span className="text-green-600">✓</span> Concierge onboarding</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Priority email support</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Dedicated account manager</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Weekly strategy calls</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Crew' }); openWaitlist('Crew'); }} className="w-full bg-deep-slate text-high-vis-orange font-black py-3 rounded-sm uppercase tracking-widest border-2 border-deep-slate shadow-[4px_4px_0_#0f1933] hover:brightness-110 transition-all">
-                Get Crew
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Hammer' }); openWaitlist('Pro Hammer'); }} className="w-full bg-slate-950 text-white py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(245,208,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                Get Pro Hammer
               </button>
             </div>
 
-            {/* GAFFER */}
-            <div className="classic-panel rounded-sm p-8">
-              <div className="inline-block bg-slate-300 text-deep-slate font-display text-2xl font-black uppercase px-3 py-1 border-2 border-deep-slate mb-6">GAFFER</div>
-              <div className="flex items-end gap-2 mb-4">
-                <p className="font-display text-6xl font-black leading-none text-deep-slate">£99</p>
-                <p className="font-display text-2xl leading-none mb-1 text-slate-600">/mo</p>
+            {/* PRO MAX */}
+            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
+              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">PRO MAX</div>
+              <div className="flex items-baseline gap-1 mb-2">
+                <span className="text-5xl font-black italic">£99</span>
+                <span className="text-slate-500 font-bold">/MO</span>
               </div>
-              <p className="text-slate-700 font-bold text-sm mb-6">Run the show. VIP. Lead guarantee. Custom builds.</p>
-              <ul className="space-y-3 mb-8 text-sm font-semibold text-slate-800">
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Everything in Crew</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom lead preferences</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>VIP phone support</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Lead quality guarantee</span></li>
-                <li className="flex items-start gap-2"><span className="text-green-600 leading-none mt-0.5">✓</span><span>Custom integrations</span></li>
+              <p className="font-bold mb-8">Total Domination. For firms that want the lead guarantee.</p>
+              <ul className="space-y-4 mb-12 flex-1">
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Everything in Pro Hammer</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Custom lead preferences</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> VIP phone support</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Lead quality guarantee</li>
+                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Custom CRM integrations</li>
               </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Gaffer' }); openWaitlist('Gaffer'); }} className="w-full classic-btn text-deep-slate font-black py-3 rounded-sm uppercase tracking-widest">
-                Become Gaffer
+              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Pro Max' }); openWaitlist('Pro Max'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+                Contact Sales
               </button>
             </div>
+
           </div>
         </div>
       </section>
