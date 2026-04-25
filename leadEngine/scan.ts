@@ -20,7 +20,7 @@ import { contractsFetcher } from './fetchers/contractsFetcher.ts';
 import { planningDataFetcher } from './fetchers/planningDataFetcher.ts';
 import { directorySignalFetcher } from './fetchers/directorySignalFetcher.ts';
 import { normaliseAll } from './normaliser.ts';
-import { scoreLead } from './scorer.ts';
+import { scoreLeadBreakdown } from './scorer.ts';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
@@ -98,7 +98,10 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   }
 
   // 6. Score, update stats.passed, rank
-  const scored: Lead[] = unique.map(l => ({ ...l, score: scoreLead(l, region) }));
+  const scored: Lead[] = unique.map(l => {
+    const { score, reasons } = scoreLeadBreakdown(l, region);
+    return { ...l, score, scoreReasons: reasons };
+  });
   scored.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
   // Update passed counts from normalised totals
