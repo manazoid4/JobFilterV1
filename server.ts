@@ -54,6 +54,7 @@ function registerApi(app: express.Express) {
   app.post("/api/leads/scan", async (req, res) => {
     try {
       const { postcode, trade = "all", tier = "free" } = req.body ?? {};
+      console.log("[API] /api/leads/scan", { postcode, trade, tier });
       if (!validUkPostcodeInput(postcode)) {
         return res.status(400).json({ error: "Valid UK postcode required" });
       }
@@ -62,6 +63,7 @@ function registerApi(app: express.Express) {
       const safeTier = tier === "paid" ? "paid" : "free";
       const result = await scan({ postcode: postcode.trim(), trade: safeTrade, tier: safeTier });
 
+      res.type('application/json');
       res.json({
         ...result,
         leads: result.leads.map((lead) => ({
