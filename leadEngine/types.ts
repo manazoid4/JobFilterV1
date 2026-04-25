@@ -14,6 +14,7 @@ export interface Lead {
   urgency: Urgency;
   source: string;
   sourceConfidence: number;
+  sourceUrl?: string;
   contactSignal: ContactSignal;
   status: LeadStatus;
   description?: string;
@@ -21,6 +22,7 @@ export interface Lead {
   buyerName?: string;
   cpvCodes?: string[];
   score?: number;
+  scoreReasons?: string[];
 }
 
 export interface LeadStoreEntry {

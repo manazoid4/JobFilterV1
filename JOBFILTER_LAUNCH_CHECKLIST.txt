@@ -4,21 +4,18 @@ JOBFILTER: FINAL LAUNCH CHECKLIST
 Print this out or copy it to your notes. These are the exact 
 keys you need to gather to make the site 100% real.
 
-[ ] STEP 1: THE DATABASE (For saving Blueprint ideas permanently)
-    1. Go to https://supabase.com and create a free account.
-    2. Create a new "Project".
-    3. Go to Project Settings -> Database.
-    4. Copy the "Connection string" (URI). 
-    -> Save this as your DATABASE_URL.
+[ ] STEP 1: THE DATABASE (Firestore for waitlist, sessions, blueprint)
+    1. Go to Firebase Console for project: jobfilter-uk.
+    2. Enable Firestore Database (production mode).
+    3. Create a Service Account key (JSON).
+    4. Paste JSON into a single-line env var.
+    -> Save this as your FIREBASE_SERVICE_ACCOUNT.
 
-[ ] STEP 2: THE EMAIL (For getting alerts when tradies sign up)
-    1. Set up info@jobfilter.uk (using Google Workspace, Zoho, or your domain host).
-    2. Find your "SMTP Settings" in your email provider's dashboard.
-    3. You need 4 things:
-       - SMTP Host (e.g., smtp.gmail.com)
-       - SMTP Port (usually 465 or 587)
-       - Email Address (info@jobfilter.uk)
-       - App Password (a special password generated for apps, NOT your normal login password).
+[ ] STEP 2: THE EMAIL (Resend for onboarding + waitlist alerts)
+    1. Go to https://resend.com and create an account.
+    2. Add/verify jobfilter.uk sending domain.
+    3. Create an API key.
+    -> Save this as your RESEND_API_KEY.
 
 [ ] STEP 3: THE MONEY (For charging the £50 Priority Pass)
     1. Go to https://stripe.com and create an account.
@@ -39,10 +36,11 @@ keys you need to gather to make the site 100% real.
     3. Click "Edit & Deploy New Revision".
     4. Scroll down to "Variables & Secrets".
     5. Add the variables you collected above:
-       - DATABASE_URL
+       - FIREBASE_SERVICE_ACCOUNT
+       - RESEND_API_KEY
        - STRIPE_SECRET_KEY
        - WHATSAPP_API_TOKEN
-       - SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
+       - APP_URL
     6. Click "Deploy".
 
 =========================================================
