@@ -173,7 +173,7 @@ if (process.argv[1] && process.argv[1].endsWith('scan.ts')) {
       console.log(`     Value:   ${lead.estimatedValue}`);
       console.log(`     Source:  ${lead.source}  (confidence ${lead.sourceConfidence}%)`);
       console.log(`     Score:   ${lead.score ?? '?'}/100`);
-      if (lead.sourceUrl) console.log(`     URL:     ${lead.sourceUrl}`);
+      if ((lead as any).sourceUrl) console.log(`     URL:     ${(lead as any).sourceUrl}`);
     }
 
     console.log(`\n── Summary ──────────────────────────────────────`);

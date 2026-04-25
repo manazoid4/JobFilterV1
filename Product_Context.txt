@@ -1,0 +1,278 @@
+You are now working on JobFilter.
+
+You must permanently remember the following product definitions and use them in all future decisions.
+
+Do NOT reinterpret them.
+Do NOT simplify them incorrectly.
+Do NOT ignore them.
+
+These are the core products:
+
+---
+
+MAIN PRODUCT (MOST IMPORTANT):
+
+INTAKE ENGINE (subscription)
+
+This is the core of JobFilter.
+
+- It finds jobs
+- Filters them
+- Sends only high-quality opportunities
+
+This is what users are paying for.
+
+Everything on the site must push toward:
+→ subscribing to the intake engine
+
+---
+
+SUPPORTING PRODUCTS (ADVANTAGES):
+
+These are NOT random features.
+They are distinct advantages that help users win more jobs.
+
+---
+
+VANTAGE:
+
+"Stop losing £1M bids to prettier firms"
+
+- Provides tier 1 visual authority for cheaper and better
+- Transforms complex tender documents into:
+  - high-end bid decks
+  - 3D renders
+  - infographics
+
+Purpose:
+Make smaller firms look like top-tier contractors and win bigger jobs
+
+---
+
+VICINITY:
+
+"Stop letting your best work rot in your camera roll"
+
+- Takes completed jobs and transforms them into:
+  - visual marketing assets
+  - WhatsApp-ready content
+  - website-ready content
+
+Purpose:
+Turn past work into new work automatically
+
+Acts like:
+A one-tap marketing agency for tradesmen
+
+---
+
+CODEX:
+
+"Turn complex technical content into high-conversion sales assets"
+
+- Takes:
+  - instruction manuals
+  - engineering schematics
+- Outputs:
+  - how-it-works videos
+  - sales carousels
+  - competitor battle cards
+
+Purpose:
+Help tradesmen and technical firms sell better and win jobs
+
+---
+
+FREE TOOLS:
+
+- Always free
+- Used to attract users and build trust
+
+Position:
+"Use our free tools forever — no catch"
+
+---
+
+CRITICAL RULE:
+
+JobFilter is NOT:
+- a tool directory
+- a feature list
+- a SaaS dashboard
+
+It IS:
+
+"A system that gets tradesmen better jobs and helps them win them"
+
+---
+
+From now on:
+
+- Always structure the site around the intake engine
+- Always present Codex, Vantage, and Vicinity clearly as advantages
+- Never hide or omit them
+- Never place them randomly or incorrectly
+- Never clutter the landing page with unrelated features
+
+---
+
+Acknowledge that you understand and will follow this exactly.JobFilter: Deep Research & Messaging Strategy
+
+PART 1 — HOW TRADESMEN GET WORK & WHAT THEY HATE
+
+The Current Reality:
+UK Tradesmen rely on a mix of word-of-mouth (which is great but unpredictable) and lead-gen platforms like Checkatrade, MyBuilder, Rated People, and Bark (which are predictable but universally despised).
+
+The Frustrations (What they hate most):
+
+The "Race to the Bottom": Lead platforms sell the same lead to 3-5 different tradesmen. It immediately becomes a price war. They are forced to compete with "cowboys" who underbid, do shoddy work, and vanish.
+
+Paying for Dead Leads: They pay £20-£50 just to get a phone number, only to find the homeowner is a "tyre-kicker" looking for a ballpark figure, or they just get ghosted.
+
+The "Tyre-Kicker" Tax: Wasting fuel and 2 hours of an evening doing a site visit for someone who has a £500 budget for a £5,000 job.
+
+Definition of a "Good Job": A good job isn't just a big job. It's a job where the client respects their expertise, values quality over the absolute cheapest price, has realistic expectations, and pays on time.
+
+PART 2 — HOW TRADESMEN WIN OR LOSE JOBS
+
+The Current Reality:
+Quoting is the "second shift." After 8-10 hours on the tools, they spend their evenings tapping out quotes on WhatsApp, Word, or basic software like Tradify.
+
+Why They Lose:
+
+To Cowboys: They get undercut on price by unqualified workers.
+
+To "Flashy" Firms: They lose high-ticket jobs (extensions, high-end landscaping, bespoke joinery) to larger, slicker firms. The larger firm might sub-contract the work out to someone worse, but the larger firm won the job because they presented a beautiful, visual, professional 3D bid deck.
+
+Lack of Trust Signals: Homeowners are terrified of being ripped off. If a quote looks amateurish, the homeowner assumes the work will be too.
+
+The Emotional Trigger: The burning resentment of knowing you are technically vastly superior to the guy who won the job, but losing because he had a better brochure and a cleaner quote.
+
+PART 3 — HOW THEY MARKET THEMSELVES (THE GAPS)
+
+The Current Reality:
+Every tradesman has a smartphone filled with thousands of photos of incredible, hard-won craftsmanship.
+
+The Gap:
+
+The Camera Roll Graveyard: 95% of their best work dies on their phone. It never sees the light of day.
+
+Terrible Presentation: When they do post, it's a dusty, uncropped photo of a boiler installation or a half-finished patio on a messy Facebook page with the caption "Busy week."
+
+The "Marketing" Mental Block: They are craftsmen, not marketers. They hate the idea of "doing social media." They view marketing as BS. They just want their work to speak for itself, but they don't know how to make it speak.
+
+PART 4 — COMPETITOR ANALYSIS
+
+A) Lead Platforms (Checkatrade, MyBuilder)
+
+Positioning: "Find a vetted tradesman."
+
+Weakness: They serve the homeowner, not the tradesman. Tradesmen are just inventory. The model inherently pits tradesmen against each other.
+
+B) Proposal / Quoting Tools (Tradify, Payaca, Fergus)
+
+Positioning: "Save time on admin and quoting."
+
+Weakness: They are operational tools. They create clean PDF quotes, but they don't turn technical specs into persuasive sales assets (like Codex) or high-end visual decks (like Vantage). They organize the business, but they don't necessarily win the premium jobs.
+
+C) Marketing / Web Agencies for Trades
+
+Positioning: "We'll build you a website and run your SEO/Facebook Ads."
+
+Weakness: Ridiculously expensive retainers (£1k+/month). Often generate the exact same low-quality, tyre-kicker leads the platforms do, just through a different channel.
+
+PART 5 — THE SYNTHESIS (CORE INSIGHTS)
+
+1. What they actually want (What they mean):
+They don't want "leads." They want their evenings back. They want to work exclusively for clients who don't haggle over £50. They want to stop doing site visits for time-wasters. They want the respect of being treated like a premium contractor, not a commodity.
+
+2. What they hate most:
+Being treated like a commodity by Checkatrade, and losing £50k jobs to slicker firms who do worse work.
+
+3. What would make them instantly trust JobFilter:
+Demonstrating that you understand the pain of the "tyre-kicker." If your free tools act as a barrier that actively blocks cheap homeowners from reaching their phone, they will view you as their bodyguard, not just a software vendor.
+
+4. The "Make Me Money" realization:
+They will buy when they realize: "If I turn one £20k job I normally lose into a win because my bid looked like a £5M company's bid (Vantage), and I didn't waste 10 hours quoting dead leads (Intake Engine), this system pays for itself for the next decade."
+
+PART 6 — DIRECT OUTPUT: MESSAGING & COPY PLAYBOOK
+
+5 Strong Headline Options
+
+Stop paying for dead leads. Start filtering out time-wasters.
+
+Stop losing £50k jobs to firms who do worse work than you.
+
+The intake engine that kills tyre-kickers before they reach your phone.
+
+Turn your camera-roll graveyard into the ultimate sales weapon.
+
+Win the jobs you actually want. Let the cowboys fight over the rest.
+
+5 High-Converting CTAs
+
+See How We Filter Leads (Instead of "Start Free Trial")
+
+Turn My Photos Into Assets (For Vicinity)
+
+Build a Winning Bid Deck (For Vantage)
+
+Stop Buying Shared Leads
+
+See the Intake Engine in Action
+
+5 "Pain-Based" Hooks
+
+"Tired of driving 40 minutes for a site visit just to find out their budget is £300?"
+
+"You’re paying Checkatrade £40 to fight with 4 other blokes over a job you don't even want."
+
+"You do top-tier work, but your quotes look exactly like the cowboy down the road."
+
+"Your best work is currently rotting in your iPhone camera roll."
+
+"Quoting shouldn't be your unpaid second job."
+
+5 "Money-Based" Hooks
+
+"High-paying clients don't buy basic PDF quotes. They buy visual proof."
+
+"Let the cheap firms race to the bottom. We’ll help you dominate the premium market."
+
+"Turn a finished job on Friday into three new high-ticket inquiries by Monday."
+
+"Stop leaving margin on the table because you don't look expensive enough."
+
+"One premium job won with a Vantage bid deck pays for our system for life."
+
+The Lexicon: Phrases to USE
+
+Tyre-kickers / Time-wasters
+
+Cowboys / Chuck-in-a-truck
+
+Race to the bottom
+
+High-ticket / Premium work
+
+On the tools
+
+Site visits
+
+Dead leads / Shared leads
+
+Your evenings back
+
+Camera roll graveyard
+
+The Lexicon: Phrases to AVOID (Corporate SaaS BS)
+
+Avoid: "Optimize your sales funnel" (Say: "Get better jobs")
+
+Avoid: "Synergize your marketing" (Say: "Use your past work to win new work")
+
+Avoid: "Lead generation" (Say: "Intake engine" or "Filtering bad jobs")
+
+Avoid: "Omnichannel presence" (Say: "Look professional everywhere")
+
+Avoid: "Empower your enterprise" (Say: "Run a proper business")
