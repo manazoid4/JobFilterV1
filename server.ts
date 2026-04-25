@@ -39,6 +39,7 @@ async function sendEmail(payload: EmailPayload) {
 
 const FROM_EMAIL = 'JobFilter <hello@jobfilter.uk>';
 const ADMIN_EMAIL = 'manazoid4@gmail.com';
+const DEFAULT_ORIGIN = process.env.APP_URL || 'http://localhost:3000';
 
 type LeadScanInput = { postcode: string; trade: string; limit?: number };
 type LeadResult = {
@@ -77,6 +78,37 @@ function resolveRegionHint(postcode: string) {
   const two = cleaned.match(/^[A-Z]{2}/)?.[0] ?? '';
   const one = cleaned.match(/^[A-Z]/)?.[0] ?? '';
   return REGION_HINTS[two] ?? REGION_HINTS[one] ?? 'UK';
+}
+
+function warnIfMissingReleaseEnv() {
+  const required = ['STRIPE_SECRET_KEY', 'RESEND_API_KEY', 'APP_URL'];
+  const missing = required.filter((k) => !process.env[k]);
+  if (missing.length) {
+    console.warn(`[Release] Missing env vars: ${missing.join(', ')}`);
+  }
+}
+
+async function buildPriorityPassUrl(tradieId: string, amount: number, origin?: string) {
+  const safeAmount = Math.min(Math.max(Math.round(amount), 1000), 20000);
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'gbp',
+        product_data: {
+          name: 'Priority Booking Deposit',
+          description: 'Fully deductible against your final invoice.',
+        },
+        unit_amount: safeAmount,
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    success_url: `${origin || DEFAULT_ORIGIN}/dashboard?payment=success`,
+    cancel_url: `${origin || DEFAULT_ORIGIN}/dashboard?payment=cancelled`,
+    metadata: { tradie_id: tradieId },
+  });
+  return session.url;
 }
 
 async function fetchContractsFinderLeads(input: LeadScanInput): Promise<LeadResult[]> {
@@ -139,6 +171,7 @@ try {
 }
 
 async function startServer() {
+  warnIfMissingReleaseEnv();
   const app = express();
   app.use(express.json());
   const PORT = 3000;
@@ -181,15 +214,36 @@ async function startServer() {
   // I. THE CONVERSATIONAL ENGINE (Foreman AI)
   // ==========================================
   app.post("/api/whatsapp/webhook", async (req, res) => {
-    const { message, tradie_id, phone_number, current_state, filter_strength } = req.body;
+    const {
+      message = '',
+      tradie_id = 'unknown_tradie',
+      phone_number = '',
+      current_state,
+      filter_strength = 3,
+    } = req.body ?? {};
+
+    const incomingMessage = String(message);
+    const sessionKey = String(tradie_id || phone_number || 'unknown').trim();
+    const origin = String(req.headers.origin || DEFAULT_ORIGIN);
+    let resolvedState = Number(current_state) || 1;
+
+    if (!Number(current_state) && adminDb && sessionKey !== 'unknown') {
+      try {
+        const sessionDoc = await adminDb.collection('whatsapp_sessions').doc(sessionKey).get();
+        const dbState = Number(sessionDoc.data()?.current_state);
+        if (dbState >= 1 && dbState <= 5) resolvedState = dbState;
+      } catch (err: any) {
+        console.warn('[WhatsApp] Session read failed:', err.message);
+      }
+    }
     
     // 5-State Machine Logic
-    let nextState = current_state;
+    let nextState = resolvedState;
     let reply = "";
 
-    switch (current_state) {
+    switch (resolvedState) {
       case 1: // State 1: Handshake
-        if (filter_strength == 5) {
+        if (Number(filter_strength) === 5) {
           reply = "Hi, I'm the automated assistant. The boss is extremely busy. To even look at your job, we require a fully deductible Priority Booking deposit upfront. Do you agree to pay this?";
           nextState = 4; // Skip straight to Priority Pass
         } else {
@@ -198,12 +252,12 @@ async function startServer() {
         }
         break;
       case 2: // State 2: The Vet
-        const msgLower = message.toLowerCase();
-        const hasPostcode = message.match(/[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}/i) || msgLower.includes('postcode') || msgLower.includes('b14');
-        const hasDescription = message.length > 15;
+        const msgLower = incomingMessage.toLowerCase();
+        const hasPostcode = incomingMessage.match(/[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}/i) || msgLower.includes('postcode') || msgLower.includes('b14');
+        const hasDescription = incomingMessage.length > 15;
         
         if (hasPostcode && hasDescription) {
-          if (filter_strength <= 2) {
+          if (Number(filter_strength) <= 2) {
              reply = "Thanks. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
              nextState = 4; // Skip photos for low strictness
           } else {
@@ -217,7 +271,7 @@ async function startServer() {
         }
         break;
       case 3: // State 3: Visual Proof
-        const msgLower3 = message.toLowerCase();
+        const msgLower3 = incomingMessage.toLowerCase();
         if (req.body.has_media || msgLower3.includes('photo') || msgLower3.includes('pic') || msgLower3.includes('video') || msgLower3.includes('here')) {
           reply = "Got the photos. We offer a 'Priority Booking' to guarantee a slot. It's a fully deductible deposit against the final bill. Do you agree?";
           nextState = 4;
@@ -226,10 +280,10 @@ async function startServer() {
         }
         break;
       case 4: // State 4: The Priority Pass
-        const msgLower4 = message.toLowerCase();
+        const msgLower4 = incomingMessage.toLowerCase();
         if (msgLower4.includes("yes") || msgLower4.includes("ok") || msgLower4.includes("deposit") || msgLower4.includes("sure") || msgLower4.includes("pay")) {
-          // Generate Stripe Link
-          reply = "Great. Here is your Priority Pass link: https://buy.stripe.com/test_link. Once paid, we'll lock in a time.";
+          const paymentUrl = await buildPriorityPassUrl(sessionKey, 5000, origin);
+          reply = `Great. Here is your Priority Pass link: ${paymentUrl}. Once paid, we'll lock in a time.`;
           nextState = 5;
         } else {
           reply = "We require the Priority Pass deposit to proceed. It filters out time-wasters and guarantees your slot. Let me know if you're ready to proceed.";
@@ -243,8 +297,24 @@ async function startServer() {
         nextState = 1;
     }
 
-    // In a real app, we'd save the state to Supabase/PostgreSQL here keyed by tradie_id
-    res.json({ reply, nextState });
+    let sessionStored = false;
+    if (adminDb && sessionKey !== 'unknown') {
+      try {
+        await adminDb.collection('whatsapp_sessions').doc(sessionKey).set({
+          tradie_id: String(tradie_id || ''),
+          phone_number: String(phone_number || ''),
+          current_state: nextState,
+          filter_strength: Number(filter_strength) || 3,
+          last_message: incomingMessage,
+          updatedAt: new Date(),
+        }, { merge: true });
+        sessionStored = true;
+      } catch (err: any) {
+        console.error('[WhatsApp] Session write failed:', err.message);
+      }
+    }
+
+    res.json({ reply, nextState, sessionStored });
   });
 
   // ==========================================
@@ -252,28 +322,10 @@ async function startServer() {
   // ==========================================
   app.post("/api/stripe/priority-pass", async (req, res) => {
     try {
-      const { tradie_id, amount = 5000 } = req.body; // Default £50.00
-      
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [{
-          price_data: {
-            currency: 'gbp',
-            product_data: {
-              name: 'Priority Booking Deposit',
-              description: 'Fully deductible against your final invoice.',
-            },
-            unit_amount: amount,
-          },
-          quantity: 1,
-        }],
-        mode: 'payment',
-        success_url: `${req.headers.origin || 'http://localhost:3000'}/dashboard?payment=success`,
-        cancel_url: `${req.headers.origin || 'http://localhost:3000'}/dashboard?payment=cancelled`,
-        metadata: { tradie_id },
-      });
-
-      res.json({ url: session.url });
+      const { tradie_id = '', amount = 5000 } = req.body; // Default £50.00
+      const safeTradieId = String(tradie_id).trim() || 'unknown_tradie';
+      const url = await buildPriorityPassUrl(safeTradieId, Number(amount), String(req.headers.origin || DEFAULT_ORIGIN));
+      res.json({ url });
     } catch (error: any) {
       res.status(500).json({ error: error.message });
     }
@@ -282,12 +334,10 @@ async function startServer() {
   // ==========================================
   // CALENDAR SYNC (Mock)
   // ==========================================
-  app.post("/api/calendar/sync", (req, res) => {
-    const { tradie_id, provider } = req.body;
-    // Mock OAuth flow initiation
-    res.json({ 
-      status: "success", 
-      authUrl: `https://accounts.google.com/o/oauth2/v2/auth?client_id=mock&redirect_uri=mock&response_type=code&scope=calendar` 
+  app.post("/api/calendar/sync", (_req, res) => {
+    res.status(501).json({
+      status: "not_implemented",
+      message: "Calendar sync is not live yet. Keep bookings manual until OAuth is wired.",
     });
   });
 
