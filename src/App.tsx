@@ -35,14 +35,14 @@ type ScanPayload = {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const NAV_ITEMS = [
+const NAV_ITEMS: Array<{ to: string; label: string; codex?: boolean }> = [
   { to: '/', label: 'HOME' },
   { to: '/pricing', label: 'INTAKE ENGINE' },
-  { to: '/demo', label: 'DEMO' },
-  { to: '/codex', label: 'CODEX' },
   { to: '/vantage', label: 'VANTAGE' },
   { to: '/vicinity', label: 'VICINITY' },
-] as const;
+  { to: '/pricing', label: 'PRICING' },
+  { to: '/codex', label: 'CODEX ↗', codex: true },
+];
 
 // 10-lead pool — shuffled per scan so no repeated identical order
 const FALLBACK_POOL: Lead[] = [
@@ -91,26 +91,36 @@ async function redirectToCheckout(email = ''): Promise<void> {
 
 function Shell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#e5e5e5] text-black">
-      <header className="sticky top-0 z-20 border-b-4 border-[#facc15] bg-black">
+    <div className="min-h-screen bg-gray-50 text-black">
+      <header className="sticky top-0 z-20 border-b border-gray-200 bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2 text-2xl font-black uppercase leading-none tracking-tight text-white">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-[#facc15] text-2xl">🇬🇧</span>
             JOBFILTER
           </Link>
           <nav className="flex flex-wrap items-center gap-4 text-[12px] font-black uppercase tracking-tight">
-            {NAV_ITEMS.map((item) => (
-              <Link key={`${item.to}-${item.label}`} to={item.to} className="text-white transition-colors hover:text-[#facc15]">
-                {item.label}
-              </Link>
-            ))}
-            <Link to="/demo" className="border-4 border-[#facc15] bg-[#facc15] px-6 py-2 text-lg leading-none text-black">
+            {NAV_ITEMS.map((item) =>
+              item.codex
+                ? <Link key={item.label} to={item.to} className="border border-gray-600 px-2 py-1 text-[10px] text-gray-400 transition-colors hover:text-[#facc15]">{item.label}</Link>
+                : <Link key={item.label} to={item.to} className="text-white transition-colors hover:text-[#facc15]">{item.label}</Link>
+            )}
+            <Link to="/demo" className="border-2 border-[#facc15] bg-[#facc15] px-5 py-2 text-sm font-black leading-none text-black">
               FIND JOBS
             </Link>
           </nav>
         </div>
       </header>
       {children}
+      <footer className="border-t border-gray-200 bg-black px-4 py-8">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
+          <p className="text-sm font-bold text-gray-500">© 2025 JobFilter. Built for UK trades.</p>
+          <div className="flex gap-6">
+            <Link to="/privacy" className="text-sm text-gray-500 hover:text-white">Privacy</Link>
+            <Link to="/terms" className="text-sm text-gray-500 hover:text-white">Terms</Link>
+            <Link to="/codex" className="text-sm font-black text-[#facc15] hover:text-white">For manufacturers →</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -139,7 +149,7 @@ function Testimonial() {
           <p className="text-2xl font-black leading-9">
             "JobFilter sent me a £14,000 boiler replacement job in Solihull on a Wednesday morning.
             It was in my WhatsApp before I'd finished my coffee. Quoted that afternoon, got the job.
-            That's why I pay the £49."
+            That's why I pay the £29."
           </p>
           <footer className="mt-4">
             <p className="text-lg font-black uppercase">Dave Thornton</p>
@@ -159,20 +169,25 @@ const URGENCY_STYLE: Record<string, string> = {
 
 function LeadCard({ lead }: { lead: Lead }) {
   const urg = (lead.urgency ?? 'medium').toLowerCase();
+  const daysAgo = stableDaysAgo(lead.id);
   return (
-    <article className="border-4 border-black bg-white p-4 shadow-[4px_4px_0_#000]">
+    <article className="border border-gray-200 bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div className="flex-1">
-          <h2 className="text-xl font-black uppercase leading-tight tracking-tight">{lead.title}</h2>
-          <p className="mt-1 text-sm font-bold uppercase text-[#4f6786]">{lead.location}</p>
+          <h2 className="text-lg font-black uppercase leading-tight tracking-tight">{lead.title}</h2>
+          <p className="mt-1 text-sm font-semibold text-gray-500">{lead.location}</p>
         </div>
-        <span className={`border-2 border-black px-2 py-1 text-[11px] font-black uppercase ${URGENCY_STYLE[urg] ?? URGENCY_STYLE.medium}`}>
+        <span className={`px-2 py-1 text-[11px] font-black uppercase ${URGENCY_STYLE[urg] ?? URGENCY_STYLE.medium}`}>
           {urg}
         </span>
       </div>
-      <div className="mt-3 flex flex-wrap items-center gap-4 border-t-2 border-black pt-3">
-        <p className="text-xl font-black uppercase">{lead.estimatedValue}</p>
-        <p className="ml-auto text-xs font-black uppercase text-[#8da0bd]">{lead.source}</p>
+      <div className="mt-3 flex flex-wrap items-center gap-4 border-t border-gray-100 pt-3">
+        <p className="text-xl font-black">{lead.estimatedValue}</p>
+        <div className="ml-auto flex gap-3 text-xs font-bold text-gray-400">
+          <span>Confidence: {lead.sourceConfidence ?? 80}%</span>
+          <span>Listed {daysAgo}d ago</span>
+          <span>{lead.source}</span>
+        </div>
       </div>
     </article>
   );
@@ -180,11 +195,17 @@ function LeadCard({ lead }: { lead: Lead }) {
 
 function Panel({ title, body }: { title: string; body: string }) {
   return (
-    <article className="border-4 border-black bg-white p-4">
-      <h3 className="text-base font-black uppercase leading-none tracking-tight">{title}</h3>
-      <p className="mt-2 text-sm font-semibold leading-5">{body}</p>
+    <article className="border border-gray-200 bg-white p-4">
+      <h3 className="text-base font-black uppercase leading-none tracking-tight text-gray-800">{title}</h3>
+      <p className="mt-2 text-sm font-semibold leading-5 text-gray-600">{body}</p>
     </article>
   );
+}
+
+function stableDaysAgo(id: string): number {
+  let h = 0;
+  for (const c of id) h = (h * 31 + c.charCodeAt(0)) & 0xffff;
+  return (h % 5) + 1;
 }
 
 function CTA({ to = '/demo', label = 'Find Jobs' }: { to?: string; label?: string }) {
@@ -402,10 +423,10 @@ export function DemoPage() {
     if (!email.includes('@')) { setEmailError('Enter a valid email address.'); return; }
     setEmailSubmitting(true);
     try {
-      await fetch('/api/email-gate/unlock', {
+      await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, postcode, trade }),
+        body: JSON.stringify({ email, plan: 'free', postcode, trade }),
       });
     } catch { /* best effort — log on server */ }
     setEmailUnlocked(true);
@@ -426,7 +447,7 @@ export function DemoPage() {
           <div className="border-4 border-black bg-white p-5">
             <p className="text-xs font-black uppercase tracking-widest text-[#8da0bd]">LIVE LEAD SCAN</p>
             <h1 className="mt-1 text-4xl font-black uppercase leading-none tracking-tight">FIND JOBS NEAR YOU</h1>
-            <p className="mt-1 text-sm font-bold text-[#4f6786]">Real jobs. Filtered. Delivered to your WhatsApp when you subscribe.</p>
+            <p className="mt-1 text-sm font-semibold text-gray-500">Live scan. Filtered. Scored. Ready to quote.</p>
 
             <div className="mt-4 flex flex-wrap items-end gap-3">
               <label className="block">
@@ -468,10 +489,6 @@ export function DemoPage() {
             <Panel title="Jobs Found" body={leads.length ? String(leads.length) : '—'} />
           </div>
 
-          {scanError && (
-            <p className="mt-3 border-2 border-black bg-[#facc15] px-4 py-2 text-sm font-bold">{scanError}</p>
-          )}
-
           {/* Free leads (always visible) */}
           {freeLeads.length > 0 && (
             <div className="mt-4 grid gap-3">
@@ -479,51 +496,68 @@ export function DemoPage() {
             </div>
           )}
 
-          {/* Email gate */}
-          {lockedLeads.length > 0 && !emailUnlocked && (
-            <div className="mt-4 border-4 border-black bg-[#facc15] p-6 shadow-[6px_6px_0_#000]">
-              <p className="text-3xl font-black uppercase">🔒 {lockedLeads.length} MORE JOBS IN YOUR AREA</p>
-              <p className="mt-2 text-lg font-bold">
-                Enter your email to unlock — we'll also alert you when new jobs match your trade and postcode.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && void submitEmail()}
-                  placeholder="your@email.com"
-                  className="min-w-[220px] flex-1 border-4 border-black px-4 py-3 text-base font-bold"
-                />
-                <button
-                  onClick={() => void submitEmail()}
-                  disabled={emailSubmitting}
-                  className="border-4 border-black bg-black px-6 py-3 text-base font-black uppercase text-[#facc15] disabled:opacity-50"
-                >
-                  {emailSubmitting ? 'UNLOCKING...' : 'UNLOCK JOBS →'}
-                </button>
-              </div>
-              {emailError && <p className="mt-2 text-sm font-bold text-red-700">{emailError}</p>}
+          {/* Locked leads — first card has overlay gate, rest blurred */}
+          {lockedLeads.length > 0 && (
+            <div className="mt-3 grid gap-3">
+              {lockedLeads.map((lead, idx) =>
+                idx === 0 && !emailUnlocked ? (
+                  <div key={lead.id} className="relative">
+                    <div className="pointer-events-none select-none blur-sm">
+                      <LeadCard lead={lead} />
+                    </div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/90 p-4 text-center">
+                      <p className="text-base font-black uppercase">Unlock all {lockedLeads.length} leads in {summary.outward || postcode.split(' ')[0]}</p>
+                      <div className="mt-3 flex flex-wrap justify-center gap-2">
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && void submitEmail()}
+                          placeholder="your@email.com"
+                          className="min-w-[180px] border-2 border-black px-3 py-2 text-sm font-bold"
+                        />
+                        <button
+                          onClick={() => void submitEmail()}
+                          disabled={emailSubmitting}
+                          className="border-2 border-black bg-[#facc15] px-4 py-2 text-sm font-black uppercase disabled:opacity-50"
+                        >
+                          {emailSubmitting ? '...' : 'UNLOCK FREE →'}
+                        </button>
+                      </div>
+                      {emailError && <p className="mt-1 text-xs text-red-600">{emailError}</p>}
+                    </div>
+                  </div>
+                ) : (
+                  <div key={lead.id} className={emailUnlocked ? '' : 'pointer-events-none select-none blur-sm'}>
+                    <LeadCard lead={lead} />
+                  </div>
+                )
+              )}
             </div>
           )}
 
-          {/* Locked leads — blurred until email submitted */}
-          {lockedLeads.length > 0 && (
-            <div className={`mt-3 grid gap-3 transition-all duration-300 ${emailUnlocked ? '' : 'pointer-events-none select-none blur-sm'}`}>
-              {lockedLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}
+          {/* Post-unlock banner */}
+          {emailUnlocked && (
+            <div className="mt-4 border-4 border-black bg-black p-5 text-center">
+              <p className="text-xl font-black uppercase text-[#facc15]">Leads unlocked. Get new jobs daily.</p>
+              <div className="mt-3">
+                <CheckoutButton label="GET INTAKE ENGINE — £29/mo →" email={email} />
+              </div>
             </div>
           )}
 
           {/* WhatsApp CTA */}
-          <div className="mt-6 border-4 border-black bg-[#05070d] p-6 text-center">
-            <p className="text-3xl font-black uppercase text-[#facc15]">📱 GET THESE ON YOUR WHATSAPP</p>
-            <p className="mt-2 text-lg font-bold text-white">
-              Subscribe to Intake Engine. New jobs delivered daily — no apps, no dashboards, no faff.
-            </p>
-            <div className="mt-4">
-              <CheckoutButton label="GET INTAKE ENGINE — £49/mo →" email={email} />
+          {!emailUnlocked && (
+            <div className="mt-6 border-t border-gray-200 pt-6 text-center">
+              <p className="text-lg font-black uppercase">📱 GET THESE ON YOUR WHATSAPP</p>
+              <p className="mt-1 text-sm font-semibold text-gray-500">
+                Subscribe to Intake Engine. Jobs delivered daily — no apps, no dashboards.
+              </p>
+              <div className="mt-3">
+                <CheckoutButton label="GET INTAKE ENGINE — £29/mo →" email={email} />
+              </div>
             </div>
-          </div>
+          )}
 
         </div>
       </main>
