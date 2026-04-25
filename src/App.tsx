@@ -383,27 +383,30 @@ export default function App() {
       {/* ── NAV ── */}
       <nav className="fixed top-12 w-full z-50 px-4 py-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-deep-slate backdrop-blur-xl border-2 border-high-vis-orange rounded-sm px-6 py-3 flex justify-between items-center shadow-2xl">
+          <div className="bg-white border-b-4 border-high-vis-orange px-6 py-3 flex justify-between items-center shadow-md">
             <div className="flex items-center gap-4">
-              <a href="#features" className="group flex items-center gap-3" aria-label="Go to homepage top">
-                <div className="w-12 h-12 bg-high-vis-orange rounded-sm flex items-center justify-center font-display text-3xl font-black text-deep-slate tracking-tight border-2 border-deep-slate shadow-[3px_3px_0_#0f1933] group-hover:translate-x-[1px] group-hover:translate-y-[1px] group-hover:shadow-[2px_2px_0_#0f1933] transition-all">JF</div>
-                <div className="flex flex-col">
-                  <span className="font-display text-2xl font-black uppercase tracking-tight italic leading-tight text-white">JobFilter</span>
-                  <span className="text-[9px] font-black uppercase tracking-[0.25em] text-high-vis-orange leading-none mt-0.5">Built For Trades</span>
-                </div>
+              <a href="#features" className="flex items-center gap-3" aria-label="Go to homepage top">
+                <svg viewBox="0 0 32 32" className="w-10 h-10 border-2 border-deep-slate shrink-0">
+                  <rect width="32" height="32" fill="#012169"/>
+                  <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" strokeWidth="4"/>
+                  <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" strokeWidth="2.5"/>
+                  <path d="M16 0 V32 M0 16 H32" stroke="#fff" strokeWidth="6"/>
+                  <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" strokeWidth="4"/>
+                </svg>
+                <span className="font-display text-2xl font-black uppercase tracking-tight italic text-deep-slate">JOBFILTER</span>
               </a>
             </div>
             <div className="hidden lg:flex items-center gap-8">
-              <div className="flex items-center gap-6 text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-300">
-                <a href="#filter" className="hover:text-high-vis-orange transition-colors">Find Jobs</a>
-                <a href="#tools" className="hover:text-high-vis-orange transition-colors">Free Tools</a>
-                <a href="#blueprint" className="hover:text-high-vis-orange transition-colors">Blueprint</a>
-                <a href="#roi" className="hover:text-high-vis-orange transition-colors">ROI</a>
-                <a href="#pricing" className="hover:text-high-vis-orange transition-colors">Pricing</a>
+              <div className="flex items-center gap-6 text-[11px] font-extrabold uppercase tracking-[0.12em] text-deep-slate">
+                <a href="#filter" className="hover:text-amber-600 transition-colors">Find Jobs</a>
+                <a href="#tools" className="hover:text-amber-600 transition-colors">Free Tools</a>
+                <a href="#blueprint" className="hover:text-amber-600 transition-colors">Blueprint</a>
+                <a href="#roi" className="hover:text-amber-600 transition-colors">ROI</a>
+                <a href="#pricing" className="hover:text-amber-600 transition-colors">Pricing</a>
               </div>
-              <div className="h-4 w-px bg-slate-600"></div>
+              <div className="h-4 w-px bg-slate-300"></div>
               <div className="flex items-center gap-4">
-                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-slate-300 hover:text-high-vis-orange transition-colors">Tradie Login</a>
+                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-deep-slate hover:text-amber-600 transition-colors">Tradie Login</a>
                 <a href="#filter" onClick={() => trackEvent('nav_cta_click')} className="bg-high-vis-orange hover:bg-yellow-300 text-deep-slate text-[11px] font-black px-4 py-2 rounded-sm uppercase tracking-widest transition-all border-2 border-deep-slate">
                   Find Jobs Near Me
                 </a>
@@ -416,7 +419,7 @@ export default function App() {
                   <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">LIVE</span>
                 </div>
               </div>
-              <button className="lg:hidden text-white hover:text-high-vis-orange transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
+              <button className="lg:hidden text-deep-slate hover:text-amber-600 transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
                 {mobileMenuOpen
                   ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
                   : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
@@ -426,12 +429,12 @@ export default function App() {
           </div>
         </div>
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-deep-slate border-t-2 border-white/10 px-6 py-4 flex flex-col gap-4">
-            <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Find Jobs Near You</a>
-            <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Free Tools</a>
-            <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Blueprint</a>
-            <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">ROI Calc</a>
-            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-slate-300 hover:text-high-vis-orange">Pricing</a>
+          <div className="lg:hidden bg-white border-t-4 border-high-vis-orange px-6 py-4 flex flex-col gap-4">
+            <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Find Jobs Near You</a>
+            <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Free Tools</a>
+            <a href="#blueprint" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Blueprint</a>
+            <a href="#roi" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">ROI Calc</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Pricing</a>
             <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="brutal-btn text-sm px-4 py-3 font-display font-black text-center">FIND JOBS NEAR ME</a>
           </div>
         )}
