@@ -19,6 +19,7 @@ import { lookupPostcode } from './postcode.ts';
 import { contractsFetcher } from './fetchers/contractsFetcher.ts';
 import { planningDataFetcher } from './fetchers/planningDataFetcher.ts';
 import { directorySignalFetcher } from './fetchers/directorySignalFetcher.ts';
+import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher.ts';
 import { normaliseAll } from './normaliser.ts';
 import { scoreLeadBreakdown } from './scorer.ts';
 
@@ -31,8 +32,12 @@ export const SOURCE_ENDPOINTS: Record<string, string[]> = {
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
   ],
   PlanningData: [
-    'GET  https://www.planning.data.gov.uk/entity.json  (geo: ?latitude=&longitude=&dataset=planning-permission&period=current)',
-    'GET  https://www.planning.data.gov.uk/entity.json  (postcode: ?q={outward}&dataset=planning-permission&period=current)',
+    'GET  https://www.planning.data.gov.uk/entity.json  (geo: ?latitude=&longitude=&dataset=planning-application&period=current)',
+    'GET  https://www.planning.data.gov.uk/entity.json  (postcode: ?q={outward}&dataset=planning-application&period=current)',
+  ],
+  CompaniesHouse: [
+    'GET  https://api.company-information.service.gov.uk/advanced-search/companies  (sic_codes=, incorporated_from=, company_status=active)',
+    'Requires COMPANIES_HOUSE_API_KEY env var — free at developer.company-information.service.gov.uk',
   ],
   DirectorySignal: [
     '(internal structured dataset — no HTTP call)',
@@ -53,9 +58,10 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
-  const [cfResult, planningResult] = await Promise.allSettled([
+  const [cfResult, planningResult, chResult] = await Promise.allSettled([
     contractsFetcher(trade),
     planningDataFetcher(outward, region, trade, pcInfo.latitude, pcInfo.longitude),
+    companiesHouseFetcher(region, trade, outward),
   ]);
 
   const dirResult = directorySignalFetcher(region, trade, outward); // sync
@@ -64,6 +70,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const allRaw = [
     ...(cfResult.status === 'fulfilled' ? cfResult.value.leads : []),
     ...(planningResult.status === 'fulfilled' ? planningResult.value.leads : []),
+    ...(chResult.status === 'fulfilled' ? chResult.value.leads : []),
     ...dirResult.leads,
   ];
 
@@ -80,6 +87,12 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     Object.assign(mergedStats, planningResult.value.stats);
   } else {
     mergedStats['PlanningData'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'Planning settled as rejected' };
+  }
+
+  if (chResult.status === 'fulfilled') {
+    Object.assign(mergedStats, chResult.value.stats);
+  } else {
+    mergedStats['CompaniesHouse'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'CompaniesHouse settled as rejected' };
   }
 
   Object.assign(mergedStats, dirResult.stats);

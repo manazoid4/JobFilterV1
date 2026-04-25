@@ -92,7 +92,13 @@ export async function lookupPostcode(postcode: string): Promise<PostcodeInfo> {
     const result = data.result;
     return {
       outward,
-      region: result.region || result.european_electoral_region || fallback.region,
+      // postcodes.io returns broad ONS regions ("North West", "London") which don't
+      // match our directory keys ("Greater Manchester", "East London").
+      // Prefer our outward-code map when it's specific; only fall back to postcodes.io
+      // for outward codes we don't recognise ("United Kingdom").
+      region: fallback.region !== 'United Kingdom'
+        ? fallback.region
+        : (result.region || result.european_electoral_region || fallback.region),
       adminDistrict: result.admin_district,
       latitude: result.latitude,
       longitude: result.longitude,

@@ -32,9 +32,12 @@ type ScanPayload = {
 };
 
 const NAV_ITEMS = [
-  { to: '/', label: 'WHAT YOU GET' },
-  { to: '/pricing', label: 'BLUEPRINT' },
-  { to: '/demo', label: 'LOGIN' },
+  { to: '/', label: 'HOME' },
+  { to: '/demo', label: 'DEMO' },
+  { to: '/codex', label: 'CODEX' },
+  { to: '/vantage', label: 'VANTAGE' },
+  { to: '/vicinity', label: 'VICINITY' },
+  { to: '/pricing', label: 'PRICING' },
 ] as const;
 
 const FALLBACK_LEADS: Lead[] = [
@@ -46,19 +49,19 @@ const FALLBACK_LEADS: Lead[] = [
 function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[#e5e5e5] text-black">
-      <header className="sticky top-0 z-20 border-b-4 border-black bg-[#efefef]">
+      <header className="sticky top-0 z-20 border-b-4 border-[#facc15] bg-black">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-black uppercase leading-none tracking-tight">
-            <span className="inline-flex h-11 w-14 items-center justify-center border-4 border-black bg-[#0b1b44] text-[10px] font-black text-white">UK</span>
+          <Link to="/" className="flex items-center gap-2 text-2xl font-black uppercase leading-none tracking-tight text-white">
+            <span className="inline-flex h-11 w-14 items-center justify-center border-4 border-[#facc15] bg-[#facc15] text-[10px] font-black text-black">UK</span>
             JOBFILTER
           </Link>
-          <nav className="flex flex-wrap items-center gap-5 text-[12px] font-black uppercase tracking-tight">
+          <nav className="flex flex-wrap items-center gap-4 text-[12px] font-black uppercase tracking-tight">
             {NAV_ITEMS.map((item) => (
-              <Link key={item.to} to={item.to} className="hover:text-[#4f6786]">
+              <Link key={item.to} to={item.to} className="text-white hover:text-[#facc15] transition-colors">
                 {item.label}
               </Link>
             ))}
-            <Link to="/demo" className="border-4 border-black bg-[#facc15] px-6 py-2 text-lg leading-none">
+            <Link to="/demo" className="border-4 border-[#facc15] bg-[#facc15] px-6 py-2 text-lg leading-none text-black">
               GET STARTED
             </Link>
           </nav>

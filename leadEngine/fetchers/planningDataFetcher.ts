@@ -22,6 +22,7 @@ import type { RawLead, SourceStats } from '../types.ts';
 import { CONFIG } from '../config.ts';
 
 const PLANNING_ENTITY_URL = 'https://www.planning.data.gov.uk/entity.json';
+// Dataset: 'planning-application' is the correct live dataset on planning.data.gov.uk
 const PLANNING_DATASET = 'planning-application';
 
 // Trade → keywords to filter planning descriptions (post-fetch)
@@ -66,12 +67,11 @@ export async function planningDataFetcher(
   const attempts: URLSearchParams[] = [];
 
   if (lat && lon) {
-    // Geo radius search — most accurate
+    // Point search — returns entities near this lat/lon
     const geo = new URLSearchParams();
     geo.append('dataset', PLANNING_DATASET);
     geo.append('latitude', String(lat));
     geo.append('longitude', String(lon));
-    geo.set('geometry_relation', 'within');
     geo.set('period', 'current');
     geo.set('limit', '30');
     attempts.push(geo);
@@ -122,18 +122,26 @@ export async function planningDataFetcher(
           return kw.test(text);
         })
         .map((e: any, i: number) => {
-          const desc = String(e?.description ?? e?.name ?? '').trim();
-          const name  = String(e?.name ?? desc).substring(0, 80);
+          // planning.data.gov.uk can nest data under json_data or use top-level fields
+          const jsonData = e?.json_data ?? e?.data ?? {};
+          const desc = String(
+            e?.description ?? jsonData?.description ?? jsonData?.development_description ??
+            jsonData?.proposal ?? e?.name ?? ''
+          ).trim();
+          const name = String(e?.name ?? jsonData?.site_name ?? desc).substring(0, 80);
+          const address = String(
+            e?.address ?? jsonData?.site_address ?? jsonData?.address ?? e?.locality ?? outward
+          ).trim();
           return {
             rawId:         String(e?.entity ?? e?.reference ?? `planning-${Date.now()}-${i}`),
             rawTitle:      `Planning Approval: ${name || 'New Development'}`,
-            rawDescription:`Approved planning application in ${outward} — potential ${trade} work. Ref: ${e?.reference ?? 'N/A'}. ${desc}`.substring(0, 300),
-            rawValue:      estimateValue(desc, trade),
-            rawLocation:   String(e?.address ?? e?.locality ?? outward).trim(),
+            rawDescription:`Approved planning application in ${outward} — potential ${trade} work. Ref: ${e?.reference ?? 'N/A'}. ${desc || 'Development works approved.'}`.substring(0, 300),
+            rawValue:      estimateValue(desc || name, trade),
+            rawLocation:   address || outward,
             rawPostcode:   outward,
             rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
             rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
-            rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? 'Local Authority').trim(),
+            rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? jsonData?.applicant_name ?? 'Local Authority').trim(),
             rawCpvCodes:   [],
             sourceSystem:  'PlanningData',
             sourceUrl:     e?.entity ? `https://www.planning.data.gov.uk/entity/${e.entity}` : undefined,
