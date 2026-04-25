@@ -269,6 +269,26 @@ export default function App() {
     return 'Planned Work';
   };
 
+  const parseLeadValue = (value: unknown) => {
+    if (typeof value === 'number' && Number.isFinite(value)) return value;
+    const raw = String(value ?? '').replace(/[£,\s]/g, '');
+    const values = raw.match(/[\d.]+[kKmM]?/g)?.map((part) => {
+      const amount = parseFloat(part);
+      if (!Number.isFinite(amount)) return 0;
+      if (/[mM]$/.test(part)) return amount * 1_000_000;
+      if (/[kK]$/.test(part)) return amount * 1_000;
+      return amount;
+    }).filter(Boolean) ?? [];
+    if (!values.length) return 0;
+    return Math.round(values.reduce((sum, amount) => sum + amount, 0) / values.length);
+  };
+
+  const mapLeadUrgency = (urgency: unknown): JobUrgency => {
+    if (urgency === 'high' || urgency === 'today') return 'today';
+    if (urgency === 'medium' || urgency === 'this_week') return 'this_week';
+    return 'planned';
+  };
+
   const trackEvent = (eventName: AnalyticsEventName, params: Record<string, unknown> = {}) => {
     const eventPayload = { event: eventName, ...params, timestamp: new Date().toISOString() };
     if (typeof window !== 'undefined') { window.dataLayer = window.dataLayer || []; window.dataLayer.push(eventPayload); }
@@ -300,7 +320,8 @@ export default function App() {
   const startScan = async () => {
     setIsScanning(true); setScanComplete(false);
     const region = resolveRegionFromPostcode(postcode);
-    const selectedTrade = tradeType === 'heating' || tradeType === 'building' ? 'general' : tradeType;
+    const selectedTrade = tradeType === 'general' ? 'all' : tradeType === 'heating' ? 'hvac' : tradeType;
+    const fallbackTrade = tradeType === 'electrical' || tradeType === 'plumbing' ? tradeType : 'general';
 
     trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
 
@@ -317,20 +338,21 @@ export default function App() {
             title: String(lead.title ?? 'Local trade job'),
             trade: String(lead.trade ?? selectedTrade),
             location: String(lead.location ?? postcode.toUpperCase()),
-            estimatedValue: Number(lead.estimatedValue ?? 350),
-            urgency: (lead.urgency === 'today' || lead.urgency === 'this_week' || lead.urgency === 'planned') ? lead.urgency : 'this_week',
+            estimatedValue: parseLeadValue(lead.estimatedValue),
+            urgency: mapLeadUrgency(lead.urgency),
             source: String(lead.source ?? 'JobFilter'),
             sourceConfidence: Number(lead.sourceConfidence ?? 70),
-            whyMatched: String(lead.whyMatched ?? 'Postcode and trade match'),
+            whyMatched: String(lead.scoreReasons?.[0] ?? lead.whyMatched ?? 'Postcode and trade match'),
           }))
+          .filter((lead: LeadJob) => lead.estimatedValue > 0)
         : [];
 
-      const fallbackJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+      const fallbackJobs = UK_JOB_DATA[region][fallbackTrade] || UK_JOB_DATA[region].general;
       const fallbackLeads = [...fallbackJobs].map(job => ({
         ...job,
-        source: 'JobFilter Seed',
+        source: 'JobFilter Internal Dataset',
         sourceConfidence: 62,
-        whyMatched: `Matched ${selectedTrade} within ${region}`,
+        whyMatched: `Matched ${tradeType} within ${region}`,
       }));
 
       const resultLeads = (remoteLeads.length ? remoteLeads : fallbackLeads).sort((a, b) => b.estimatedValue - a.estimatedValue);
@@ -341,7 +363,7 @@ export default function App() {
       setFreeViewsUsed(v => Math.min(3, v + 1));
       trackEvent('filter_scan_complete', { jobs_returned: resultLeads.length, source: remoteLeads.length ? 'live' : 'seed' });
     } catch {
-      const fallbackJobs = UK_JOB_DATA[region][selectedTrade] || UK_JOB_DATA[region].general;
+      const fallbackJobs = UK_JOB_DATA[region][fallbackTrade] || UK_JOB_DATA[region].general;
       const sortedByValue = [...fallbackJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
       setLeadResults(sortedByValue);
       setScanRegion(region);

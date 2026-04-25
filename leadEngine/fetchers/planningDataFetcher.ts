@@ -5,7 +5,7 @@
  * OpenAPI spec: https://www.planning.data.gov.uk/openapi.json
  *
  * Key params:
- *   dataset      — array, e.g. "planning-permission"
+ *   dataset      — array, e.g. "planning-application"
  *   q            — postcode or UPRN text search
  *   longitude    — decimal, used with latitude for geo search
  *   latitude     — decimal
@@ -14,7 +14,7 @@
  *   limit        — max 500, default 10
  *   offset       — pagination
  *
- * Purpose: approved planning applications → intent signal for future trade work.
+ * Purpose: planning applications → intent signal for future trade work.
  * No auth required. Public API.
  */
 
@@ -22,6 +22,7 @@ import type { RawLead, SourceStats } from '../types.ts';
 import { CONFIG } from '../config.ts';
 
 const PLANNING_ENTITY_URL = 'https://www.planning.data.gov.uk/entity.json';
+const PLANNING_DATASET = 'planning-application';
 
 // Trade → keywords to filter planning descriptions (post-fetch)
 const TRADE_KEYWORDS: Record<string, RegExp> = {
@@ -67,7 +68,7 @@ export async function planningDataFetcher(
   if (lat && lon) {
     // Geo radius search — most accurate
     const geo = new URLSearchParams();
-    geo.append('dataset', 'planning-permission');
+    geo.append('dataset', PLANNING_DATASET);
     geo.append('latitude', String(lat));
     geo.append('longitude', String(lon));
     geo.set('geometry_relation', 'within');
@@ -78,7 +79,7 @@ export async function planningDataFetcher(
 
   // Postcode outward code text search
   const byPostcode = new URLSearchParams();
-  byPostcode.append('dataset', 'planning-permission');
+  byPostcode.append('dataset', PLANNING_DATASET);
   byPostcode.set('q', outward);
   byPostcode.set('period', 'current');
   byPostcode.set('limit', '30');
@@ -86,7 +87,7 @@ export async function planningDataFetcher(
 
   // Broad current dataset fallback (no geo filter)
   const broad = new URLSearchParams();
-  broad.append('dataset', 'planning-permission');
+  broad.append('dataset', PLANNING_DATASET);
   broad.set('period', 'current');
   broad.set('limit', '20');
   attempts.push(broad);
@@ -130,9 +131,9 @@ export async function planningDataFetcher(
             rawValue:      estimateValue(desc, trade),
             rawLocation:   String(e?.address ?? e?.locality ?? outward).trim(),
             rawPostcode:   outward,
-            rawDeadline:   '',
-            rawPublished:  String(e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
-            rawBuyer:      String(e?.organisation ?? 'Local Authority').trim(),
+            rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
+            rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
+            rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? 'Local Authority').trim(),
             rawCpvCodes:   [],
             sourceSystem:  'PlanningData',
             sourceUrl:     e?.entity ? `https://www.planning.data.gov.uk/entity/${e.entity}` : undefined,
