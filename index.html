@@ -146,7 +146,7 @@
             </div>
             
             <div class="flex items-center gap-6">
-                <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">Features</button>
+                <button @click="navigate('/features')" class="hidden md:block font-display font-black text-2xl uppercase hover:text-dewalt transition-colors">What You Get</button>
                 <button @click="navigate('/login')" class="hidden md:block font-display font-black text-xl uppercase text-slate-400 hover:text-ink transition-colors">Login</button>
                 <button @click="navigate('/onboarding')" class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-6 py-2 text-2xl brutal-shadow brutal-shadow-hover transition-all">
                     GET STARTED
@@ -290,6 +290,51 @@
                 </div>
             </section>
 
+            <!-- PRICING -->
+            <section class="py-32 border-b-4 border-ink bg-ink text-white">
+                <div class="max-w-5xl mx-auto px-4 text-center">
+                    <h2 class="text-6xl md:text-8xl font-display font-black uppercase tracking-tighter mb-4 text-dewalt">ONE PRICE. NO GAMES.</h2>
+                    <p class="text-2xl font-body font-bold text-slate-300 mb-20">No lead fees. No bidding. No competing with 5 other blokes for the same job.</p>
+
+                    <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+                        <div class="bg-white text-ink brutal-border brutal-shadow p-10 flex flex-col">
+                            <div class="font-display font-black text-4xl uppercase mb-2">FREE</div>
+                            <div class="text-7xl font-display font-black mb-6">£0</div>
+                            <div class="space-y-4 mb-10 flex-1">
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Free tools — forever</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Quote estimator</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-500 text-2xl font-black">✓</span> Lead quality checker</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-slate-300 text-2xl">✗</span> <span class="text-slate-400">Intake Engine (job delivery)</span></p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-slate-300 text-2xl">✗</span> <span class="text-slate-400">Vantage / Vicinity / Codex</span></p>
+                            </div>
+                            <button @click="navigate('/features')" class="w-full bg-white text-ink brutal-border font-display font-black uppercase px-6 py-4 text-2xl hover:bg-slate-50 transition-colors mt-auto">
+                                USE FREE TOOLS
+                            </button>
+                        </div>
+
+                        <div class="bg-dewalt brutal-border brutal-shadow p-10 relative flex flex-col">
+                            <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-ink text-dewalt font-display font-black uppercase px-6 py-2 text-xl brutal-border whitespace-nowrap">MOST POPULAR</div>
+                            <div class="font-display font-black text-4xl uppercase mb-2 mt-4">INTAKE ENGINE</div>
+                            <div class="flex items-end gap-2 mb-2">
+                                <div class="text-7xl font-display font-black">£49</div>
+                                <div class="font-body font-bold text-2xl text-slate-600 mb-3">/month</div>
+                            </div>
+                            <div class="space-y-4 mb-10 flex-1">
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vetted jobs delivered daily</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Tyre-kickers blocked automatically</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vantage — win bigger bids</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Vicinity — jobs become marketing</p>
+                                <p class="font-body font-bold text-xl flex items-center gap-3"><span class="text-green-600 text-2xl font-black">✓</span> Codex — close more work</p>
+                            </div>
+                            <button @click="navigate('/onboarding')" class="w-full bg-ink text-dewalt brutal-border font-display font-black uppercase px-6 py-4 text-2xl brutal-shadow brutal-shadow-hover transition-all mt-auto">
+                                GET STARTED →
+                            </button>
+                            <p class="text-center text-lg font-body font-bold text-slate-600 mt-4">Cancel anytime. No lock-in.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- FREE TOOLS TRUST STRIP -->
             <section class="py-16 border-b-4 border-ink bg-ink text-white">
                 <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-8">
@@ -323,66 +368,129 @@
         <div class="bg-slate-50 min-h-screen">
             <header class="py-24 border-b-4 border-ink bg-dewalt text-center">
                 <h1 class="text-7xl md:text-9xl font-display font-black uppercase tracking-tighter leading-none mb-8">
-                    INDUSTRIAL SPEC-TABLE
+                    WHAT YOU GET
                 </h1>
                 <p class="text-3xl font-body font-bold text-ink max-w-3xl mx-auto">
-                    The technical breakdown of the JobFilter system.
+                    One subscription. Four tools. Better jobs. Your evenings back.
                 </p>
             </header>
-            
-            <div class="max-w-7xl mx-auto py-24 px-4">
-                <div class="overflow-x-auto bg-white brutal-border brutal-shadow">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b-4 border-ink bg-slate-800 text-white">
-                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3 border-r-4 border-ink">THE TOOL</th>
-                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3 border-r-4 border-ink">THE ACTION</th>
-                                <th class="p-6 font-display font-black uppercase text-3xl w-1/3">THE PAYOFF</th>
-                            </tr>
-                        </thead>
-                        <tbody class="font-body font-bold text-xl">
-                            <tr class="border-b-4 border-ink">
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-dewalt px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">AI Engine</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">THE FOREMAN</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Intercepts WhatsApp messages, demands photos, postcodes, and a description.</td>
-                                <td class="p-6">Zero time wasted on tyre-kickers. You only see fully vetted jobs.</td>
-                            </tr>
-                            <tr class="border-b-4 border-ink">
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-green-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Payments</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">PRIORITY PASS</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Generates a Stripe Pay-Link for a deductible booking fee.</td>
-                                <td class="p-6">Guarantees the customer is serious and locks in revenue before you turn the ignition.</td>
-                            </tr>
-                            <tr class="border-b-4 border-ink">
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-blue-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Scheduling</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">MANUAL PULSE</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Pings you every 3 days for text-based availability. Shows clients your status.</td>
-                                <td class="p-6">Zero-API calendar management. You control the schedule without touching a calendar app.</td>
-                            </tr>
-                            <tr class="border-b-4 border-ink">
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-red-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Analytics</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">ROI ENGINE</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Calculates admin waste (15 mins/lead) and revenue reclaimed (£50/hr).</td>
-                                <td class="p-6">Hard data proving exactly how much time and money the system saves you.</td>
-                            </tr>
-                            <tr>
-                                <td class="p-6 border-r-4 border-ink bg-slate-50">
-                                    <span class="bg-purple-400 px-2 py-1 brutal-border inline-block mb-2 text-sm uppercase">Safety Net</span><br>
-                                    <span class="text-3xl font-display font-black uppercase">GHOST ARCHIVE</span>
-                                </td>
-                                <td class="p-6 border-r-4 border-ink">Catches unclear or incomplete messages that the AI couldn't process.</td>
-                                <td class="p-6">Nothing is ever deleted. You can manually review and reclaim any lead.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+            <div class="max-w-5xl mx-auto py-24 px-4 space-y-8">
+
+                <!-- Intake Engine -->
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-ink text-white p-8 border-b-4 border-ink flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <div class="bg-dewalt text-ink font-display font-black text-xl uppercase px-4 py-1 brutal-border inline-block mb-3">CORE PRODUCT</div>
+                            <h2 class="text-5xl font-display font-black uppercase text-dewalt">INTAKE ENGINE</h2>
+                            <p class="font-body font-bold text-slate-300 text-xl mt-2">Finds real jobs. Kills the rubbish. Sends you what's worth winning.</p>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <p class="text-4xl font-display font-black text-dewalt">£49/month</p>
+                            <p class="font-body font-bold text-slate-400">All four tools included</p>
+                        </div>
+                    </div>
+                    <div class="p-8 grid md:grid-cols-3 gap-6">
+                        <div class="border-4 border-ink p-6">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3">FIND</h3>
+                            <p class="font-body font-bold text-slate-600 text-lg leading-relaxed">Scans job boards, local networks, and incoming enquiries across your area. Every single day.</p>
+                            <p class="font-display font-black text-xl uppercase text-green-600 mt-4">You don't chase. It finds.</p>
+                        </div>
+                        <div class="border-4 border-ink p-6">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3">FILTER</h3>
+                            <p class="font-body font-bold text-slate-600 text-lg leading-relaxed">Tyre-kickers, cowboys, dead leads, no-budget time-wasters — blocked before they ever reach you.</p>
+                            <p class="font-display font-black text-xl uppercase text-green-600 mt-4">Only real jobs get through.</p>
+                        </div>
+                        <div class="border-4 border-ink p-6">
+                            <h3 class="font-display font-black text-3xl uppercase mb-3">DELIVER</h3>
+                            <p class="font-body font-bold text-slate-600 text-lg leading-relaxed">Vetted, high-value jobs sent to your phone. Premium clients. Realistic budgets. Ready to win.</p>
+                            <p class="font-display font-black text-xl uppercase text-green-600 mt-4">Your evenings stay yours.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vantage -->
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-dewalt border-b-4 border-ink p-8">
+                        <div class="bg-ink text-dewalt font-display font-black text-xl uppercase px-4 py-1 brutal-border inline-block mb-3">INCLUDED — WIN BIGGER JOBS</div>
+                        <h2 class="text-5xl font-display font-black uppercase">VANTAGE</h2>
+                        <p class="text-2xl font-body font-bold text-ink mt-2">Stop losing £50k+ bids to firms who look more professional than you.</p>
+                    </div>
+                    <div class="p-8 grid md:grid-cols-2 gap-8">
+                        <div class="border-l-8 border-red-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-red-600">THE PROBLEM</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Your price is right. A smaller firm submits a nicer-looking quote. They win the £40k job. You lose because their PDF looked better than yours.</p>
+                        </div>
+                        <div class="border-l-8 border-green-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-green-600">WHAT VANTAGE DOES</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Turns your tender into a high-end visual bid deck — renders, infographics, professional layout. You look like a premium firm because you are one.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vicinity -->
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-dewalt border-b-4 border-ink p-8">
+                        <div class="bg-ink text-dewalt font-display font-black text-xl uppercase px-4 py-1 brutal-border inline-block mb-3">INCLUDED — TURN PAST JOBS INTO FUTURE WORK</div>
+                        <h2 class="text-5xl font-display font-black uppercase">VICINITY</h2>
+                        <p class="text-2xl font-body font-bold text-ink mt-2">Stop letting your best work rot in your camera roll.</p>
+                    </div>
+                    <div class="p-8 grid md:grid-cols-2 gap-8">
+                        <div class="border-l-8 border-red-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-red-600">THE PROBLEM</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">You finish a brilliant job. Take a few photos. They sit in your phone forever. That work is never marketed. Nobody sees it.</p>
+                        </div>
+                        <div class="border-l-8 border-green-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-green-600">WHAT VICINITY DOES</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Takes your job photos and turns them into professional before-and-afters, case studies, and marketing assets. Your completed work wins you the next job.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Codex -->
+                <div class="bg-white brutal-border brutal-shadow">
+                    <div class="bg-dewalt border-b-4 border-ink p-8">
+                        <div class="bg-ink text-dewalt font-display font-black text-xl uppercase px-4 py-1 brutal-border inline-block mb-3">INCLUDED — CLOSE MORE WORK</div>
+                        <h2 class="text-5xl font-display font-black uppercase">CODEX</h2>
+                        <p class="text-2xl font-body font-bold text-ink mt-2">Stop losing jobs to cowboys who write simpler quotes than you.</p>
+                    </div>
+                    <div class="p-8 grid md:grid-cols-2 gap-8">
+                        <div class="border-l-8 border-red-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-red-600">THE PROBLEM</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Your quote is accurate and fair. But it's full of technical language the client doesn't understand. They go with the guy who sounded clearer — even if his price was higher.</p>
+                        </div>
+                        <div class="border-l-8 border-green-500 pl-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-green-600">WHAT CODEX DOES</h3>
+                            <p class="font-body font-bold text-xl text-slate-600 leading-relaxed">Converts your technical specs into high-conversion sales copy. Complex in — clear, compelling, client-friendly out. They understand it. They trust it. They sign it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Free Tools -->
+                <div class="bg-ink text-white brutal-border brutal-shadow p-8">
+                    <div class="bg-dewalt text-ink font-display font-black text-xl uppercase px-4 py-1 brutal-border inline-block mb-4">ALWAYS FREE — NO CARD NEEDED</div>
+                    <h2 class="text-5xl font-display font-black uppercase text-dewalt mb-8">FREE TOOLS</h2>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="border-4 border-dewalt p-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-dewalt">QUOTE ESTIMATOR</h3>
+                            <p class="font-body font-bold text-slate-300 leading-relaxed">Get a ballpark before you drive anywhere. Know if the job is worth your time before you turn the key.</p>
+                        </div>
+                        <div class="border-4 border-dewalt p-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-dewalt">LEAD CHECKER</h3>
+                            <p class="font-body font-bold text-slate-300 leading-relaxed">Paste an enquiry in. We score it immediately — genuine job or tyre-kicker. No guessing, no wasted drives.</p>
+                        </div>
+                        <div class="border-4 border-dewalt p-6">
+                            <h3 class="font-display font-black text-2xl uppercase mb-3 text-dewalt">MARKET SCANNER</h3>
+                            <p class="font-body font-bold text-slate-300 leading-relaxed">See what jobs are active in your postcode area right now. No subscription needed to use it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-8 pb-4">
+                    <button @click="navigate('/onboarding')" class="inline-block bg-dewalt brutal-border text-ink font-display font-black uppercase px-12 py-6 text-4xl md:text-5xl brutal-shadow brutal-shadow-hover transition-all">
+                        GET INTAKE ENGINE →
+                    </button>
+                    <p class="mt-6 font-body font-bold text-slate-500 text-xl">£49/month. Cancel anytime. No lock-in.</p>
                 </div>
             </div>
         </div>
@@ -391,16 +499,6 @@
     <!-- LOGIN ROUTE -->
     <template x-if="route === '/login'">
         <div class="min-h-screen bg-slate-50 py-24 px-4 flex flex-col items-center">
-            
-            <!-- Add to Homescreen Card -->
-            <div class="bg-white brutal-border brutal-shadow p-8 max-w-2xl w-full mb-16 text-center">
-                <div class="text-6xl mb-6">📱</div>
-                <h2 class="text-5xl font-display font-black uppercase mb-4">ACCESS THE ZONE INSTANTLY</h2>
-                <p class="text-2xl font-body font-bold text-ink mb-8">Add JobFilter to your home screen for one-tap lead management.</p>
-                <button class="bg-dewalt brutal-border text-ink font-display font-black uppercase px-8 py-4 text-3xl brutal-shadow brutal-shadow-hover transition-all w-full">
-                    INSTALL APP
-                </button>
-            </div>
 
             <!-- Login Form -->
             <div class="bg-white brutal-border brutal-shadow p-12 max-w-2xl w-full">
@@ -423,11 +521,6 @@
                     </div>
                 </form>
 
-                <div class="mt-12 pt-8 border-t-4 border-slate-200">
-                    <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
-                        [TESTING] BYPASS LOGIN
-                    </button>
-                </div>
             </div>
             
         </div>
@@ -863,45 +956,43 @@
                         </div>
                     </div>
 
-                    <!-- STEP 2: LOGIC & FEES -->
+                    <!-- STEP 2: COVERAGE -->
                     <div x-show="onboardingStep === 2" style="display: none;">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Set your AI Foreman's rules.</p>
+                        <p class="text-2xl font-body font-bold text-ink mb-8">Where do you work?</p>
                         <div class="space-y-8">
                             <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">PRIORITY BOOKING DEPOSIT (£)</label>
-                                <p class="text-slate-500 font-body font-bold mb-4">The deductible fee customers pay to lock in a slot.</p>
-                                <input type="number" x-model="calloutFee" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt" :required="onboardingStep === 2">
+                                <label class="block font-display font-black text-2xl uppercase mb-2">YOUR POSTCODE</label>
+                                <p class="text-slate-500 font-body font-bold mb-4">Intake Engine scans jobs within your working radius.</p>
+                                <input type="text" x-model="registerArea" placeholder="e.g. B14" class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt uppercase" :required="onboardingStep === 2">
                             </div>
-                            <div>
-                                <label class="block font-display font-black text-2xl uppercase mb-2">WORKLOAD DIAL (1-5)</label>
-                                <p class="text-slate-500 font-body font-bold mb-4">1 = Let everyone through. 5 = Interrogate them like MI5.</p>
-                                <div class="flex items-center gap-4">
-                                    <input type="range" min="1" max="5" x-model="filterStrictness" class="w-full h-4 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-ink">
-                                    <span class="text-3xl font-display font-black" x-text="filterStrictness"></span>
-                                </div>
+                            <div class="bg-dewalt brutal-border p-6">
+                                <h3 class="font-display font-black text-3xl uppercase mb-2">INTAKE ENGINE — £49/month</h3>
+                                <ul class="space-y-2 font-body font-bold text-lg">
+                                    <li>✓ Vetted jobs delivered daily</li>
+                                    <li>✓ Tyre-kickers blocked automatically</li>
+                                    <li>✓ Vantage, Vicinity, Codex — all included</li>
+                                    <li>✓ Cancel anytime</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- STEP 3: DEPLOYMENT -->
+                    <!-- STEP 3: CONFIRM -->
                     <div x-show="onboardingStep === 3" style="display: none;">
-                        <p class="text-2xl font-body font-bold text-ink mb-8">Deploy your Foreman.</p>
+                        <p class="text-2xl font-body font-bold text-ink mb-8">You're almost in. Confirm your details.</p>
                         <div class="space-y-6">
-                            <div class="border-4 border-ink p-6 bg-slate-50 text-center">
-                                <h3 class="font-display font-black text-2xl uppercase mb-4">VAN STICKER QR PREVIEW</h3>
-                                <div class="w-48 h-48 bg-white border-4 border-ink mx-auto flex items-center justify-center mb-4">
-                                    <span class="text-4xl font-display font-black text-slate-400">QR</span>
-                                </div>
-                                <p class="font-body font-bold text-slate-500">Scan to enter the WhatsApp funnel.</p>
+                            <div class="bg-dewalt brutal-border p-8 text-center">
+                                <h3 class="font-display font-black text-5xl uppercase mb-4">INTAKE ENGINE</h3>
+                                <p class="text-4xl font-display font-black">£49 / month</p>
+                                <p class="font-body font-bold text-slate-600 mt-2">Cancel anytime. No lock-in.</p>
                             </div>
                             <div class="border-4 border-ink p-6 bg-slate-50">
-                                <h3 class="font-display font-black text-2xl uppercase mb-2">MANUAL PULSE SCHEDULE</h3>
-                                <p class="font-body font-bold text-slate-500 mb-4">The system will ping you via WhatsApp every 3 days for your availability.</p>
-                                <select class="w-full brutal-border p-4 text-xl font-body font-bold focus:outline-none focus:ring-4 focus:ring-dewalt">
-                                    <option>Every 3 Days (Recommended)</option>
-                                    <option>Every Day</option>
-                                    <option>Weekly</option>
-                                </select>
+                                <h3 class="font-display font-black text-2xl uppercase mb-4">WHAT HAPPENS NEXT</h3>
+                                <ul class="space-y-3 font-body font-bold text-lg text-slate-600">
+                                    <li>→ Intake Engine activates for your area</li>
+                                    <li>→ First vetted jobs delivered within 24 hours</li>
+                                    <li>→ Vantage, Vicinity, and Codex ready to use immediately</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -920,11 +1011,6 @@
                     </div>
                 </form>
 
-                <div class="mt-12 pt-8 border-t-4 border-slate-200">
-                    <button type="button" @click="navigate('/dashboard')" class="w-full bg-slate-200 text-slate-500 brutal-border font-display font-black uppercase px-4 py-3 text-2xl hover:bg-slate-300 hover:text-ink transition-colors">
-                        [TESTING] BYPASS ONBOARDING
-                    </button>
-                </div>
             </div>
         </div>
     </template>
