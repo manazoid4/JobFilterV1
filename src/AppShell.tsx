@@ -129,12 +129,21 @@ function BoostMyJob({ useFeature }: { useFeature: () => boolean }) {
   const [caption, setCaption] = useState('');
   const [review, setReview] = useState('');
   const [copied, setCopied] = useState(false);
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
+
+  function handleImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => setImgSrc(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  }
 
   function generate() {
     if (!jobType.trim() || !location.trim()) return;
     if (!useFeature()) return;
     setCaption(`Just completed a ${jobType} in ${location} 🔥 Message me if interested`);
-    setReview(`"Brilliant work on our ${jobType}. Fast, tidy, and great price. Highly recommend!" — Local customer, ${location}`);
+    setReview(`⭐️⭐️⭐️⭐️⭐️ "Great work, very reliable. Would use again." — Local customer, ${location}`);
   }
 
   function copyAll() {
@@ -151,6 +160,17 @@ function BoostMyJob({ useFeature }: { useFeature: () => boolean }) {
       <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Turn a completed job into more leads</p>
 
       <div className="space-y-3">
+        <div>
+          <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-1">Job Photo (optional)</label>
+          <label className="flex flex-col items-center justify-center w-full border-2 border-dashed border-[#0f1933] cursor-pointer bg-white hover:bg-slate-50 transition-colors" style={{ minHeight: imgSrc ? 0 : '7rem' }}>
+            {imgSrc ? (
+              <img src={imgSrc} alt="Job" className="w-full max-h-48 object-cover" />
+            ) : (
+              <span className="text-xs font-black uppercase tracking-widest text-slate-400 py-8">Tap to upload photo</span>
+            )}
+            <input type="file" accept="image/*" className="hidden" onChange={handleImage} />
+          </label>
+        </div>
         <div>
           <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-1">Job Type</label>
           <input
@@ -211,19 +231,42 @@ function BoostMyJob({ useFeature }: { useFeature: () => boolean }) {
 }
 
 // ── Write My Quote ─────────────────────────────────────────────────────────────
+const QUOTE_VARIANTS = [
+  [
+    `✓ Why I'm the right person: I specialise in this exact type of work and have completed dozens of similar jobs across your area.`,
+    `✓ Experience: Years of hands-on experience means I get it right first time — no comebacks, no mess.`,
+    `✓ Local trust: I'm local, fully insured, and my customers recommend me to their neighbours. References available.`,
+  ],
+  [
+    `✓ Why I'm the right person: I've built a reputation for this type of job — customers come back to me because I deliver exactly what I promise.`,
+    `✓ Experience: I've handled jobs exactly like this many times. I know the pitfalls and I know how to avoid them.`,
+    `✓ Local trust: I work in your area regularly. Ask around — your neighbours probably know my work.`,
+  ],
+  [
+    `✓ Why I'm the right person: I don't just do the job — I make sure you're happy before I leave. That's why I get referrals.`,
+    `✓ Experience: Fully qualified, fully insured, and I've been doing this for years. No guesswork.`,
+    `✓ Local trust: I'm based nearby, I know local standards, and I stand behind every job I do.`,
+  ],
+];
+
 function WriteMyQuote({ useFeature }: { useFeature: () => boolean }) {
   const [desc, setDesc] = useState('');
   const [bullets, setBullets] = useState<string[]>([]);
+  const [variantIdx, setVariantIdx] = useState(0);
   const [copied, setCopied] = useState(false);
 
   function generate() {
     if (!desc.trim()) return;
     if (!useFeature()) return;
-    setBullets([
-      `✓ I specialise in this exact type of work and have completed dozens of similar jobs across your area.`,
-      `✓ Years of hands-on experience means I get it right first time — no comebacks, no mess.`,
-      `✓ I'm local, fully insured, and my customers recommend me to their neighbours. References available.`,
-    ]);
+    setVariantIdx(0);
+    setBullets(QUOTE_VARIANTS[0]);
+  }
+
+  function improve() {
+    if (!useFeature()) return;
+    const next = (variantIdx + 1) % QUOTE_VARIANTS.length;
+    setVariantIdx(next);
+    setBullets(QUOTE_VARIANTS[next]);
   }
 
   function copy() {
@@ -263,12 +306,20 @@ function WriteMyQuote({ useFeature }: { useFeature: () => boolean }) {
           {bullets.map((b, i) => (
             <p key={i} className="text-sm font-bold text-[#0f1933] leading-snug">{b}</p>
           ))}
-          <button
-            onClick={copy}
-            className="w-full mt-2 py-2.5 bg-[#f5d000] border-2 border-[#0f1933] font-black text-xs uppercase tracking-widest text-[#0f1933] shadow-[2px_2px_0_#0f1933] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
-          >
-            {copied ? '✓ Copied!' : 'Copy'}
-          </button>
+          <div className="flex gap-2 pt-1">
+            <button
+              onClick={improve}
+              className="flex-1 py-2.5 border-2 border-[#0f1933] font-black text-xs uppercase tracking-widest text-[#0f1933] hover:bg-slate-50 transition-colors"
+            >
+              Improve this
+            </button>
+            <button
+              onClick={copy}
+              className="flex-1 py-2.5 bg-[#f5d000] border-2 border-[#0f1933] font-black text-xs uppercase tracking-widest text-[#0f1933] shadow-[2px_2px_0_#0f1933] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+            >
+              {copied ? '✓ Copied!' : 'Copy'}
+            </button>
+          </div>
         </div>
       )}
     </div>
