@@ -1,1479 +1,496 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, deleteDoc, doc } from 'firebase/firestore';
-import { db } from './firebase';
+type Lead = {
+  id: string;
+  title: string;
+  location: string;
+  estimatedValue: string;
+  urgency?: 'low' | 'medium' | 'high' | string;
+  source: string;
+  sourceConfidence?: number;
+  score?: number;
+};
 
-type AnalyticsEventName =
-  | 'hero_cta_click'
-  | 'filter_scan_start'
-  | 'filter_scan_complete'
-  | 'pricing_plan_click'
-  | 'upgrade_cta_click'
-  | 'nav_cta_click'
-  | 'tool_used';
+type ScanPayload = {
+  leads?: Array<{
+    id: string;
+    title: string;
+    location: string;
+    estimatedValue: string;
+    urgency?: 'low' | 'medium' | 'high' | string;
+    source: string;
+    sourceConfidence?: number;
+    score?: number;
+  }>;
+  total?: number;
+  region?: string;
+  outward?: string;
+  lockedCount?: number;
+  errors?: string[];
+  error?: string;
+};
 
-declare global {
-  interface Window {
-    dataLayer?: Array<Record<string, unknown>>;
-  }
+const NAV_ITEMS = [
+  { to: '/', label: 'WHAT YOU GET' },
+  { to: '/pricing', label: 'BLUEPRINT' },
+  { to: '/demo', label: 'LOGIN' },
+] as const;
+
+const FALLBACK_LEADS: Lead[] = [
+  { id: 'fallback-1', title: 'Boiler replacement', location: 'Birmingham B14', estimatedValue: '£3k–£4k', urgency: 'high', source: 'Fallback Feed' },
+  { id: 'fallback-2', title: 'Full rewire', location: 'Solihull B91', estimatedValue: '£5k–£8k', urgency: 'medium', source: 'Fallback Feed' },
+  { id: 'fallback-3', title: 'Bathroom refit', location: 'Coventry CV1', estimatedValue: '£4k–£6k', urgency: 'high', source: 'Fallback Feed' },
+];
+
+function Shell({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-screen bg-[#e5e5e5] text-black">
+      <header className="sticky top-0 z-20 border-b-4 border-black bg-[#efefef]">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+          <Link to="/" className="flex items-center gap-2 text-2xl font-black uppercase leading-none tracking-tight">
+            <span className="inline-flex h-11 w-14 items-center justify-center border-4 border-black bg-[#0b1b44] text-[10px] font-black text-white">UK</span>
+            JOBFILTER
+          </Link>
+          <nav className="flex flex-wrap items-center gap-5 text-[12px] font-black uppercase tracking-tight">
+            {NAV_ITEMS.map((item) => (
+              <Link key={item.to} to={item.to} className="hover:text-[#4f6786]">
+                {item.label}
+              </Link>
+            ))}
+            <Link to="/demo" className="border-4 border-black bg-[#facc15] px-6 py-2 text-lg leading-none">
+              GET STARTED
+            </Link>
+          </nav>
+        </div>
+      </header>
+      {children}
+    </div>
+  );
 }
 
-// ─── Tool Types ───────────────────────────────────────────────────────────────
-type ToolId =
-  | 'quote'
-  | 'dayrate'
-  | 'leadvalue'
-  | 'markup'
-  | 'timeestimate'
-  | 'fuelcost'
-  | 'invoice'
-  | 'profit'
-  | 'cashflow'
-  | 'vatcheck';
+function CTA({ to = '/demo', label = 'ENTER THE INTAKE' }: { to?: string; label?: string }) {
+  return (
+    <Link to={to} className="inline-flex items-center justify-center border-4 border-black bg-black px-5 py-3 text-xs font-black uppercase tracking-widest text-[#facc15]">
+      {label}
+    </Link>
+  );
+}
 
-type JobUrgency = 'today' | 'this_week' | 'planned';
+function Panel({ title, body }: { title: string; body: string }) {
+  return (
+    <article className="border-4 border-black bg-white p-4">
+      <h3 className="text-base font-black uppercase leading-none tracking-tight">{title}</h3>
+      <p className="mt-2 text-sm font-semibold leading-5">{body}</p>
+    </article>
+  );
+}
 
-type LeadJob = {
-  title: string;
-  trade: string;
-  location: string;
-  estimatedValue: number;
-  urgency: JobUrgency;
-  source?: string;
-  sourceConfidence?: number;
-  whyMatched?: string;
-};
+function ProductPage({ title, summary, sections }: { title: string; summary: string; sections: Array<{ title: string; body: string }> }) {
+  return (
+    <Shell>
+      <main className="px-4 py-8">
+        <div className="mx-auto max-w-5xl border-4 border-black bg-white p-6">
+          <p className="text-xs font-black uppercase tracking-widest">BUILT FOR TRADES</p>
+          <h1 className="mt-2 text-5xl font-black uppercase leading-none tracking-tight">{title}</h1>
+          <p className="mt-3 max-w-3xl text-sm font-semibold leading-5">{summary}</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <CTA />
+            <Link to="/pricing" className="inline-flex items-center justify-center border-4 border-black bg-[#facc15] px-5 py-3 text-xs font-black uppercase tracking-widest">
+              NO CONTRACTS
+            </Link>
+          </div>
+        </div>
 
-type RegionTradeJobs = Record<string, Record<string, LeadJob[]>>;
+        <section className="mx-auto mt-4 grid max-w-5xl gap-3 md:grid-cols-2">
+          {sections.map((section) => (
+            <div key={section.title}>
+              <Panel title={section.title} body={section.body} />
+            </div>
+          ))}
+        </section>
+      </main>
+    </Shell>
+  );
+}
 
-const UK_JOB_DATA: RegionTradeJobs = {
-  birmingham: {
-    plumbing: [
-      { title: 'Emergency boiler pressure drop', trade: 'plumbing', location: 'B14', estimatedValue: 260, urgency: 'today' },
-      { title: 'Kitchen sink and trap replacement', trade: 'plumbing', location: 'B30', estimatedValue: 340, urgency: 'this_week' },
-      { title: 'Full bathroom refit first fix', trade: 'plumbing', location: 'B17', estimatedValue: 1850, urgency: 'planned' },
-    ],
-    electrical: [
-      { title: 'Consumer unit safety inspection', trade: 'electrical', location: 'B42', estimatedValue: 480, urgency: 'this_week' },
-      { title: 'EV charger install', trade: 'electrical', location: 'B23', estimatedValue: 980, urgency: 'planned' },
-      { title: 'Fault find on ring main', trade: 'electrical', location: 'B33', estimatedValue: 290, urgency: 'today' },
-    ],
-    general: [
-      { title: 'Fence repair after storm damage', trade: 'general', location: 'B11', estimatedValue: 520, urgency: 'this_week' },
-      { title: 'Garage conversion prep works', trade: 'building', location: 'B36', estimatedValue: 2100, urgency: 'planned' },
-      { title: 'Loft hatch and boarding upgrade', trade: 'general', location: 'B74', estimatedValue: 760, urgency: 'this_week' },
-    ],
-  },
-  london: {
-    plumbing: [
-      { title: 'Flat leak trace and fix', trade: 'plumbing', location: 'SW16', estimatedValue: 420, urgency: 'today' },
-      { title: 'Combi boiler service + flush', trade: 'plumbing', location: 'E17', estimatedValue: 330, urgency: 'this_week' },
-      { title: 'Shower valve replacement', trade: 'plumbing', location: 'SE9', estimatedValue: 260, urgency: 'this_week' },
-    ],
-    electrical: [
-      { title: 'Rewire 2-bed terrace', trade: 'electrical', location: 'N17', estimatedValue: 3800, urgency: 'planned' },
-      { title: 'Lighting upgrade in hallway', trade: 'electrical', location: 'W5', estimatedValue: 640, urgency: 'this_week' },
-      { title: 'EICR for rental property', trade: 'electrical', location: 'CR0', estimatedValue: 240, urgency: 'today' },
-    ],
-    general: [
-      { title: 'Damp patch repair and skim', trade: 'general', location: 'E10', estimatedValue: 590, urgency: 'this_week' },
-      { title: 'Door frame replacement', trade: 'building', location: 'SE15', estimatedValue: 690, urgency: 'this_week' },
-      { title: 'Kitchen tiling and seal', trade: 'general', location: 'NW9', estimatedValue: 920, urgency: 'planned' },
-    ],
-  },
-  manchester: {
-    plumbing: [
-      { title: 'Radiator balance + valve swap', trade: 'plumbing', location: 'M14', estimatedValue: 280, urgency: 'this_week' },
-      { title: 'Leaking stop tap replacement', trade: 'plumbing', location: 'M8', estimatedValue: 220, urgency: 'today' },
-      { title: 'Soil pipe section repair', trade: 'plumbing', location: 'M23', estimatedValue: 740, urgency: 'this_week' },
-    ],
-    electrical: [
-      { title: 'Extractor fan rewire', trade: 'electrical', location: 'M9', estimatedValue: 210, urgency: 'today' },
-      { title: 'Garage power feed install', trade: 'electrical', location: 'M20', estimatedValue: 860, urgency: 'planned' },
-      { title: 'Outdoor security lighting', trade: 'electrical', location: 'M32', estimatedValue: 560, urgency: 'this_week' },
-    ],
-    general: [
-      { title: 'Roofline repair and repaint', trade: 'general', location: 'M22', estimatedValue: 1450, urgency: 'planned' },
-      { title: 'Laminate floor install', trade: 'general', location: 'M27', estimatedValue: 870, urgency: 'this_week' },
-      { title: 'Brickwork repointing front wall', trade: 'building', location: 'M34', estimatedValue: 960, urgency: 'planned' },
-    ],
-  },
-};
+function ProductCards() {
+  const cards = [
+    {
+      name: 'VANTAGE',
+      pain: 'STOP LOSING £50K BIDS TO FIRMS WHO LOOK BETTER THAN YOU.',
+      body: 'Your price is right. Their PDF looks better. Vantage turns your tenders into premium visual bid decks.',
+      to: '/vantage',
+    },
+    {
+      name: 'VICINITY',
+      pain: 'STOP LETTING YOUR BEST WORK ROT IN YOUR CAMERA ROLL.',
+      body: 'Vicinity turns finished jobs into local sales assets that keep winning you premium work.',
+      to: '/vicinity',
+    },
+    {
+      name: 'CODEX',
+      pain: 'STOP LOSING JOBS TO COWBOYS WHO WRITE SIMPLER QUOTES.',
+      body: 'Codex converts technical complexity into clear sales copy that closes jobs.',
+      to: '/codex',
+    },
+  ];
 
-const REGION_BY_POSTCODE_PREFIX: Record<string, keyof typeof UK_JOB_DATA> = {
-  B: 'birmingham',
-  DY: 'birmingham',
-  WS: 'birmingham',
-  WV: 'birmingham',
-  E: 'london',
-  EC: 'london',
-  N: 'london',
-  NW: 'london',
-  SE: 'london',
-  SW: 'london',
-  W: 'london',
-  CR: 'london',
-  M: 'manchester',
-  SK: 'manchester',
-  OL: 'manchester',
-  BL: 'manchester',
-};
+  return (
+    <section className="border-y-4 border-black bg-[#facc15] px-4 py-12">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="text-center text-6xl font-black uppercase leading-none tracking-tight">THEN WIN THEM.</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-2xl font-bold">Getting in front of the job is step one. These three make sure you walk out with it.</p>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {cards.map((card) => (
+            <article key={card.name} className="flex flex-col border-4 border-black bg-[#e9e9e9] p-7 shadow-[8px_8px_0_#000]">
+              <h3 className="w-fit bg-black px-5 py-3 text-4xl font-black uppercase leading-none tracking-tight text-[#facc15]">{card.name}</h3>
+              <p className="mt-6 text-2xl font-black uppercase text-[#e11d1d]">{card.pain}</p>
+              <p className="mt-4 text-[18px] font-bold leading-8 text-[#4f6786]">{card.body}</p>
+              <Link
+                to={card.to}
+                className="mt-8 inline-flex w-fit items-center justify-center border-4 border-black bg-[#facc15] px-6 py-3 text-lg font-black uppercase tracking-tight text-black"
+              >
+                YOURS WITH INTAKE ENGINE
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export default function App() {
-  // ── Filter state ────────────────────────────────────────────────────────────
-  const [quotesPerWeek, setQuotesPerWeek] = useState(5);
-  const [milesDriven, setMilesDriven] = useState(20);
-  const [postcode, setPostcode] = useState('');
-  const [tradeType, setTradeType] = useState('general');
-  const [showModal, setShowModal] = useState<string | null>(null);
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanComplete, setScanComplete] = useState(false);
-  const [leadResults, setLeadResults] = useState<LeadJob[]>([]);
-  const [scanRegion, setScanRegion] = useState('');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [waitlistPlan, setWaitlistPlan] = useState('');
-  const [waitlistEmail, setWaitlistEmail] = useState('');
-  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
-  const [waitlistError, setWaitlistError] = useState('');
-  const [activeToolId, setActiveToolId] = useState<ToolId | null>(null);
-  const [freeViewsUsed, setFreeViewsUsed] = useState(0);
-  const [invContractorName, setInvContractorName] = useState('');
-  const [invPhone, setInvPhone] = useState('');
-  const [invEmail, setInvEmail] = useState('');
-  const [blueprintIdeas, setBlueprintIdeas] = useState<Array<{ id: string; idea: string; phase: string; createdAt: any }>>([]);
-  const [newIdea, setNewIdea] = useState('');
-  const [selectedPhase, setSelectedPhase] = useState('Phase 1');
+export function HomePage() {
+  return (
+    <Shell>
+      <main>
+        <section className="border-b-4 border-black bg-[#e5e5e5] px-4 py-10">
+          <div className="mx-auto max-w-6xl text-center">
+            <h1 className="text-8xl font-black uppercase leading-[0.9] tracking-tight">STOP FUNDING</h1>
+            <div className="mx-auto mt-3 w-fit border-4 border-black bg-[#facc15] px-6 py-2 shadow-[6px_6px_0_#111]">
+              <h2 className="text-8xl font-black uppercase leading-[0.9] tracking-tight">TYRE-KICKERS.</h2>
+            </div>
+            <p className="mx-auto mt-6 max-w-4xl text-3xl font-black leading-10">
+              JobFilter is a bodyguard for your time. It kills dead leads, filters out time-wasters, and puts only REAL LEADS in front of you.
+            </p>
+            <p className="mt-4 text-2xl font-bold text-[#8da0bd]">No dead leads. No race to the bottom. No evenings ruined by time-wasters.</p>
+            <Link to="/demo" className="mx-auto mt-8 inline-flex border-4 border-black bg-[#facc15] px-12 py-4 text-4xl font-black uppercase shadow-[6px_6px_0_#111]">
+              GET YOUR BODYGUARD →
+            </Link>
+          </div>
+        </section>
 
-  // ── Tool: Quote Quick Builder ────────────────────────────────────────────────
-  const [qtLabour, setQtLabour] = useState(6);
-  const [qtRate, setQtRate] = useState(35);
-  const [qtMaterials, setQtMaterials] = useState(120);
-  const [qtMarkup, setQtMarkup] = useState(20);
-  const qtMaterialsTotal = qtMaterials * (1 + qtMarkup / 100);
-  const qtLabourTotal = qtLabour * qtRate;
-  const qtTotal = qtLabourTotal + qtMaterialsTotal;
+        <section className="border-b-4 border-black bg-[#05070d] px-4 py-12">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-center text-7xl font-black uppercase text-[#facc15]">HOW IT WORKS</h2>
+            <div className="mt-8 grid gap-0 border-4 border-[#facc15] md:grid-cols-3">
+              {[
+                ['01', 'FIND', 'Scans job boards, local enquiries, and networks across your area — constantly.'],
+                ['02', 'FILTER', 'Kills tyre-kickers, low-budget time-wasters, and jobs not worth your drive — before they reach you.'],
+                ['03', 'DELIVER', 'Sends only vetted, high-value jobs to your phone. Ready to quote. Ready to win.'],
+              ].map(([num, title, body], idx) => (
+                <article key={title} className={`p-8 text-center ${idx > 0 ? 'border-l-4 border-[#facc15]' : ''}`}>
+                  <p className="text-7xl font-black text-[#facc15]">{num}</p>
+                  <h3 className="mt-2 text-5xl font-black uppercase text-white">{title}</h3>
+                  <p className="mt-4 text-xl font-bold leading-9 text-[#d5deed]">{body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
-  // ── Tool: Day Rate Calculator ────────────────────────────────────────────────
-  const [drAnnualTarget, setDrAnnualTarget] = useState(40000);
-  const [drDaysWorked, setDrDaysWorked] = useState(220);
-  const [drOverheads, setDrOverheads] = useState(5000);
-  const drRequired = Math.ceil((drAnnualTarget + drOverheads) / drDaysWorked);
+        <ProductCards />
+      </main>
+    </Shell>
+  );
+}
 
-  // ── Tool: Lead Value Checker ─────────────────────────────────────────────────
-  const [lvBudget, setLvBudget] = useState('');
-  const [lvScope, setLvScope] = useState('small');
-  const [lvDistance, setLvDistance] = useState(10);
-  const [lvPayType, setLvPayType] = useState('card');
-  const getLvScore = () => {
-    let score = 50;
-    const b = parseFloat(lvBudget) || 0;
-    if (b >= 2000) score += 25; else if (b >= 500) score += 15; else if (b >= 200) score += 5;
-    if (lvScope === 'large') score += 15; else if (lvScope === 'medium') score += 8;
-    if (lvDistance <= 5) score += 10; else if (lvDistance <= 15) score += 5; else score -= 10;
-    if (lvPayType === 'card' || lvPayType === 'bank') score += 5;
-    return Math.min(99, Math.max(20, score));
-  };
-  const lvScore = getLvScore();
-  const lvLabel = lvScore >= 75 ? 'High Value' : lvScore >= 55 ? 'Worth Quoting' : 'Low Value — Skip';
-  const lvColor = lvScore >= 75 ? 'text-green-400' : lvScore >= 55 ? 'text-high-vis-orange' : 'text-red-400';
+export function DemoPage() {
+  const [postcode, setPostcode] = useState('B14 7QH');
+  const [trade, setTrade] = useState('plumbing');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [summary, setSummary] = useState<{ total?: number; region?: string; outward?: string; lockedCount?: number; errors?: string[] }>({});
 
-  // ── Tool: Material Markup Calculator ────────────────────────────────────────
-  const [mmCost, setMmCost] = useState(200);
-  const [mmMarkup, setMmMarkup] = useState(25);
-  const mmCharge = mmCost * (1 + mmMarkup / 100);
-  const mmProfit = mmCharge - mmCost;
-
-  // ── Tool: Time Estimate Tool ─────────────────────────────────────────────────
-  const [teScope, setTeScope] = useState('medium');
-  const [teTrade, setTeTrade] = useState('general');
-  const [teAccess, setTeAccess] = useState('easy');
-  const getTeHours = () => {
-    const base: Record<string, number> = { small: 2, medium: 6, large: 16, major: 40 };
-    const tradeMulti: Record<string, number> = { general: 1, electrical: 1.2, plumbing: 1.1, heating: 1.3, building: 0.9 };
-    const accessMulti: Record<string, number> = { easy: 1, moderate: 1.2, difficult: 1.5 };
-    return Math.round((base[teScope] || 6) * (tradeMulti[teTrade] || 1) * (accessMulti[teAccess] || 1));
-  };
-  const teHours = getTeHours();
-
-  // ── Tool: Fuel Cost Calculator ───────────────────────────────────────────────
-  const [fcMiles, setFcMiles] = useState(20);
-  const [fcMpg, setFcMpg] = useState(35);
-  const [fcPrice, setFcPrice] = useState(148);
-  const [fcTrips, setFcTrips] = useState(1);
-  const fcLitresPerTrip = (fcMiles / fcMpg) * 4.546;
-  const fcCostPerTrip = (fcLitresPerTrip * fcPrice) / 100;
-  const fcTotal = fcCostPerTrip * fcTrips;
-
-  // ── Tool: Invoice Generator ──────────────────────────────────────────────────
-  const [invClient, setInvClient] = useState('');
-  const [invJob, setInvJob] = useState('');
-  const [invLabour, setInvLabour] = useState(0);
-  const [invMaterials, setInvMaterials] = useState(0);
-  const [invVat, setInvVat] = useState(false);
-  const invSubtotal = invLabour + invMaterials;
-  const invVatAmt = invVat ? invSubtotal * 0.2 : 0;
-  const invTotal = invSubtotal + invVatAmt;
-  const [invGenerated, setInvGenerated] = useState(false);
-  const invDate = new Date().toLocaleDateString('en-GB');
-  const invNumber = `JF-${Date.now().toString().slice(-5)}`;
-
-  // ── Tool: Profit Margin Calculator ──────────────────────────────────────────
-  const [pmRevenue, setPmRevenue] = useState(500);
-  const [pmCosts, setPmCosts] = useState(300);
-  const pmProfit = pmRevenue - pmCosts;
-  const pmMargin = pmRevenue > 0 ? ((pmProfit / pmRevenue) * 100).toFixed(1) : '0';
-  const pmLabel = parseFloat(pmMargin) >= 40 ? 'Healthy' : parseFloat(pmMargin) >= 20 ? 'Tight' : 'Too Low';
-  const pmColor = parseFloat(pmMargin) >= 40 ? 'text-green-400' : parseFloat(pmMargin) >= 20 ? 'text-high-vis-orange' : 'text-red-400';
-
-  // ── Tool: Cash Flow Forecaster ───────────────────────────────────────────────
-  const [cfWeeklyIn, setCfWeeklyIn] = useState(1200);
-  const [cfWeeklyOut, setCfWeeklyOut] = useState(800);
-  const cfWeeklyNet = cfWeeklyIn - cfWeeklyOut;
-  const cfMonthlyNet = cfWeeklyNet * 4.33;
-  const cfAnnualNet = cfWeeklyNet * 52;
-
-  // ── Tool: VAT Threshold Checker ──────────────────────────────────────────────
-  const [vtTurnover, setVtTurnover] = useState(60000);
-  const vtThreshold = 90000;
-  const vtGap = vtThreshold - vtTurnover;
-  const vtOver = vtTurnover > vtThreshold;
-  const vtPercent = Math.min(100, (vtTurnover / vtThreshold) * 100);
-
-  // ── ROI ─────────────────────────────────────────────────────────────────────
-  const hourlyRate = 45;
-  const timePerQuote = 1.5;
-  const fuelCostPerMile = 0.20;
-  const annualAdminDebt = Math.round((quotesPerWeek * timePerQuote * hourlyRate + milesDriven * fuelCostPerMile) * 52);
-  const jobFilterSavings = Math.round(annualAdminDebt * 0.85);
-
-  // ── Lead quality ─────────────────────────────────────────────────────────────
-  const postcodeStrength = postcode.replace(/\s/g, '').length;
-  const tradeBoost = tradeType === 'electrical' || tradeType === 'plumbing' ? 6 : 3;
-  const leadQualityScore = Math.max(42, Math.min(94, 55 + postcodeStrength * 4 + tradeBoost));
-
-  const resolveRegionFromPostcode = (rawPostcode: string) => {
-    const cleaned = rawPostcode.toUpperCase().replace(/\s+/g, '');
-    const twoLetterPrefix = cleaned.match(/^[A-Z]{2}/)?.[0] || '';
-    const oneLetterPrefix = cleaned.match(/^[A-Z]/)?.[0] || '';
-    return REGION_BY_POSTCODE_PREFIX[twoLetterPrefix] || REGION_BY_POSTCODE_PREFIX[oneLetterPrefix] || 'birmingham';
-  };
-
-  const toDisplayUrgency = (urgency: JobUrgency) => {
-    if (urgency === 'today') return 'Urgent Today';
-    if (urgency === 'this_week') return 'This Week';
-    return 'Planned Work';
-  };
-
-  const parseLeadValue = (value: unknown) => {
-    if (typeof value === 'number' && Number.isFinite(value)) return value;
-    const raw = String(value ?? '').replace(/[£,\s]/g, '');
-    const values = raw.match(/[\d.]+[kKmM]?/g)?.map((part) => {
-      const amount = parseFloat(part);
-      if (!Number.isFinite(amount)) return 0;
-      if (/[mM]$/.test(part)) return amount * 1_000_000;
-      if (/[kK]$/.test(part)) return amount * 1_000;
-      return amount;
-    }).filter(Boolean) ?? [];
-    if (!values.length) return 0;
-    return Math.round(values.reduce((sum, amount) => sum + amount, 0) / values.length);
-  };
-
-  const mapLeadUrgency = (urgency: unknown): JobUrgency => {
-    if (urgency === 'high' || urgency === 'today') return 'today';
-    if (urgency === 'medium' || urgency === 'this_week') return 'this_week';
-    return 'planned';
-  };
-
-  const trackEvent = (eventName: AnalyticsEventName, params: Record<string, unknown> = {}) => {
-    const eventPayload = { event: eventName, ...params, timestamp: new Date().toISOString() };
-    if (typeof window !== 'undefined') { window.dataLayer = window.dataLayer || []; window.dataLayer.push(eventPayload); }
-  };
-
-  const openWaitlist = (plan: string) => { setWaitlistPlan(plan); setWaitlistEmail(''); setWaitlistSubmitted(false); setWaitlistError(''); setShowModal('waitlist'); };
-
-  const submitWaitlist = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!waitlistEmail.trim()) return;
-    setWaitlistError('');
-    trackEvent('pricing_plan_click', { plan: waitlistPlan, source: 'waitlist_submit' });
-    const email = waitlistEmail.trim().toLowerCase();
-    const [firestoreResult, apiResult] = await Promise.allSettled([
-      addDoc(collection(db, 'waitlist'), { email, plan: waitlistPlan, createdAt: serverTimestamp() }),
-      fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, plan: waitlistPlan }) }),
-    ]);
-
-    const firestoreOk = firestoreResult.status === 'fulfilled';
-    const apiOk = apiResult.status === 'fulfilled' && apiResult.value.ok;
-    if (!firestoreOk && !apiOk) {
-      setWaitlistError('Could not save your spot right now. Try again in 30 seconds.');
-      return;
-    }
-
-    setWaitlistSubmitted(true);
-  };
-
-  const startScan = async () => {
-    setIsScanning(true); setScanComplete(false);
-    const region = resolveRegionFromPostcode(postcode);
-    const selectedTrade = tradeType === 'general' ? 'all' : tradeType === 'heating' ? 'hvac' : tradeType;
-    const fallbackTrade = tradeType === 'electrical' || tradeType === 'plumbing' ? tradeType : 'general';
-
-    trackEvent('filter_scan_start', { postcode_present: postcode.trim().length >= 4, region, trade: selectedTrade });
-
+  const runScan = async () => {
+    setLoading(true);
+    setError('');
     try {
       const response = await fetch('/api/leads/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postcode, trade: selectedTrade, limit: 6 }),
+        body: JSON.stringify({ postcode, trade, tier: 'paid' }),
       });
 
-      const payload = response.ok ? await response.json() : null;
-      const remoteLeads: LeadJob[] = Array.isArray(payload?.leads)
-        ? payload.leads.map((lead: any) => ({
-            title: String(lead.title ?? 'Local trade job'),
-            trade: String(lead.trade ?? selectedTrade),
-            location: String(lead.location ?? postcode.toUpperCase()),
-            estimatedValue: parseLeadValue(lead.estimatedValue),
-            urgency: mapLeadUrgency(lead.urgency),
-            source: String(lead.source ?? 'JobFilter'),
-            sourceConfidence: Number(lead.sourceConfidence ?? 70),
-            whyMatched: String(lead.scoreReasons?.[0] ?? lead.whyMatched ?? 'Postcode and trade match'),
+      const responseContentType = response.headers.get('content-type') || 'missing';
+      console.log('[Demo scan]', { status: response.status, contentType: responseContentType });
+
+      if (!responseContentType.includes('application/json')) {
+        throw new Error('The live scan is warming up. Try again in a moment.');
+      }
+
+      const payload: ScanPayload = await response.json();
+      console.log('[Demo payload]', payload);
+
+      if (!response.ok) {
+        throw new Error(payload.error || 'Live scan could not run right now.');
+      }
+
+      const mapped = Array.isArray(payload.leads)
+        ? payload.leads.slice(0, 10).map((lead) => ({
+            id: lead.id,
+            title: lead.title,
+            location: lead.location,
+            estimatedValue: lead.estimatedValue,
+            urgency: lead.urgency,
+            source: lead.source,
+            sourceConfidence: lead.sourceConfidence,
+            score: lead.score,
           }))
-          .filter((lead: LeadJob) => lead.estimatedValue > 0)
         : [];
 
-      const fallbackJobs = UK_JOB_DATA[region][fallbackTrade] || UK_JOB_DATA[region].general;
-      const fallbackLeads = [...fallbackJobs].map(job => ({
-        ...job,
-        source: 'JobFilter Internal Dataset',
-        sourceConfidence: 62,
-        whyMatched: `Matched ${tradeType} within ${region}`,
-      }));
+      setLeads(mapped.length ? mapped : FALLBACK_LEADS);
+      setSummary({
+        total: payload.total,
+        region: payload.region,
+        outward: payload.outward,
+        lockedCount: payload.lockedCount,
+        errors: payload.errors,
+      });
 
-      const resultLeads = (remoteLeads.length ? remoteLeads : fallbackLeads).sort((a, b) => b.estimatedValue - a.estimatedValue);
-      setLeadResults(resultLeads);
-      setScanRegion(region);
-      setIsScanning(false);
-      setScanComplete(true);
-      setFreeViewsUsed(v => Math.min(3, v + 1));
-      trackEvent('filter_scan_complete', { jobs_returned: resultLeads.length, source: remoteLeads.length ? 'live' : 'seed' });
-    } catch {
-      const fallbackJobs = UK_JOB_DATA[region][fallbackTrade] || UK_JOB_DATA[region].general;
-      const sortedByValue = [...fallbackJobs].sort((a, b) => b.estimatedValue - a.estimatedValue);
-      setLeadResults(sortedByValue);
-      setScanRegion(region);
-      setIsScanning(false);
-      setScanComplete(true);
-      trackEvent('filter_scan_complete', { jobs_returned: sortedByValue.length, source: 'seed' });
+      if (!mapped.length) {
+        setError('No live leads right now. Showing fallback jobs so you can still test the flow.');
+      }
+    } catch (_err) {
+      setLeads(FALLBACK_LEADS);
+      setSummary({});
+      setError('Live scan is unavailable right now. Showing sample leads instead.');
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const q = query(collection(db, "blueprint"), orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setBlueprintIdeas(snapshot.docs.map(doc => ({ id: doc.id, idea: doc.data().idea, phase: doc.data().phase, createdAt: doc.data().createdAt })));
-    });
-    return () => unsubscribe();
+    void runScan();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const tools = [
-    { id: 'quote' as ToolId, icon: '📋', label: 'Quote Builder', desc: 'Build a quote in 30 seconds' },
-    { id: 'dayrate' as ToolId, icon: '💷', label: 'Day Rate Calc', desc: 'Find your minimum day rate' },
-    { id: 'leadvalue' as ToolId, icon: '🎯', label: 'Lead Value Checker', desc: 'Is this job worth chasing?' },
-    { id: 'markup' as ToolId, icon: '📦', label: 'Material Markup', desc: 'Never undersell materials again' },
-    { id: 'timeestimate' as ToolId, icon: '⏱', label: 'Time Estimator', desc: 'How long will it actually take?' },
-    { id: 'fuelcost' as ToolId, icon: '⛽', label: 'Fuel Cost Calc', desc: 'Know your true travel cost' },
-    { id: 'invoice' as ToolId, icon: '🧾', label: 'Invoice Generator', desc: 'Instant professional invoice' },
-    { id: 'profit' as ToolId, icon: '📈', label: 'Profit Margin', desc: 'Is this job actually profitable?' },
-    { id: 'cashflow' as ToolId, icon: '💰', label: 'Cash Flow Forecast', desc: 'Predict your money 12 months out' },
-    { id: 'vatcheck' as ToolId, icon: '🔍', label: 'VAT Threshold Checker', desc: 'Are you close to the VAT limit?' },
-  ];
+  const visibleLeads = useMemo(() => leads.slice(0, 10), [leads]);
 
   return (
-    <div className="classic-theme min-h-screen bg-deep-slate text-deep-slate font-sans selection:bg-high-vis-orange selection:text-deep-slate">
+    <Shell>
+      <main className="px-4 py-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="border-4 border-black bg-white p-4">
+            <h1 className="text-4xl font-black uppercase leading-none tracking-tight">DEMO: /api/leads/scan</h1>
+            <p className="mt-2 text-xs font-black uppercase">REAL LEADS. FAIR SYSTEM. NO COMPETING.</p>
 
-      {/* ── TOP BANNER ── */}
-      <div className="fixed top-0 w-full z-[60] bg-high-vis-orange border-b-2 border-deep-slate text-deep-slate text-center py-2 px-3">
-        <p className="font-display text-xl uppercase tracking-wide">🏆 Intake Engine Founding 30: £19/mo — <span className="underline">Only 30 spots</span></p>
-      </div>
-
-      {/* ── NAV ── */}
-      <nav className="fixed top-12 w-full z-50 px-4 py-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white border-b-4 border-high-vis-orange px-6 py-3 flex justify-between items-center shadow-md">
-            <div className="flex items-center gap-4">
-              <a href="#features" className="flex items-center gap-3" aria-label="Go to homepage top">
-                <svg viewBox="0 0 32 32" className="w-10 h-10 border-2 border-deep-slate shrink-0">
-                  <rect width="32" height="32" fill="#012169"/>
-                  <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" strokeWidth="4"/>
-                  <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" strokeWidth="2.5"/>
-                  <path d="M16 0 V32 M0 16 H32" stroke="#fff" strokeWidth="6"/>
-                  <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" strokeWidth="4"/>
-                </svg>
-                <span className="font-display text-2xl font-black uppercase tracking-tight italic text-deep-slate">JOBFILTER</span>
-              </a>
-            </div>
-            <div className="hidden lg:flex items-center gap-8">
-              <div className="flex items-center gap-6 text-[11px] font-extrabold uppercase tracking-[0.12em] text-deep-slate">
-                <a href="#features" className="hover:text-amber-600 transition-colors">Features</a>
-                <a href="#tools" className="hover:text-amber-600 transition-colors">Free Tools</a>
-                <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="hover:text-amber-600 transition-colors">Codex</a>
-                <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="hover:text-amber-600 transition-colors">Vantage</a>
-                <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="hover:text-amber-600 transition-colors">Vicinity</a>
-                <a href="#pricing" className="hover:text-amber-600 transition-colors">Pricing</a>
-              </div>
-              <div className="h-4 w-px bg-slate-300"></div>
-              <div className="flex items-center gap-4">
-                <a href="#pricing" className="text-[11px] font-extrabold uppercase tracking-widest text-deep-slate hover:text-amber-600 transition-colors">Tradie Login</a>
-                <a href="/app" className="bg-deep-slate hover:bg-slate-700 text-high-vis-orange text-[11px] font-black px-4 py-2 uppercase tracking-widest transition-all border-2 border-deep-slate">
-                  Open App →
-                </a>
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <div className="hidden sm:flex flex-col items-end">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]"></span>
-                  <span className="text-[9px] font-extrabold uppercase tracking-tighter text-green-500">LIVE</span>
-                </div>
-              </div>
-              <button className="lg:hidden text-deep-slate hover:text-amber-600 transition-colors" onClick={() => setMobileMenuOpen(o => !o)} aria-label="Toggle menu">
-                {mobileMenuOpen
-                  ? <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                  : <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-                }
-              </button>
-            </div>
-          </div>
-        </div>
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t-4 border-high-vis-orange px-6 py-4 flex flex-col gap-4">
-            <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Features</a>
-            <a href="#tools" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Free Tools</a>
-            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Codex</a>
-            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Vantage</a>
-            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Vicinity</a>
-            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-sm font-display font-black uppercase tracking-widest text-deep-slate hover:text-amber-600">Pricing</a>
-            <a href="#filter" onClick={() => setMobileMenuOpen(false)} className="brutal-btn text-sm px-4 py-3 font-display font-black text-center">FIND JOBS NEAR ME</a>
-          </div>
-        )}
-      </nav>
-
-      {/* ── HERO ── */}
-      <header id="features" className="relative pt-52 pb-28 px-6 overflow-hidden">
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-deep-slate border-2 border-high-vis-orange rounded-sm px-4 py-2 mb-8 shadow-[3px_3px_0_#f5d000]">
-            <span className="w-1.5 h-1.5 bg-high-vis-orange rounded-full animate-pulse"></span>
-            <span className="text-[11px] font-black uppercase tracking-widest text-high-vis-orange">Intake Engine — Main Subscription</span>
-          </motion.div>
-
-          <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs md:text-sm font-black uppercase tracking-[0.2em] text-slate-500 mb-4">
-            Built for Trades
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="font-display font-black text-6xl md:text-9xl uppercase leading-[0.85] mb-8"
-          >
-            GET BETTER JOBS.<br /><span className="text-high-vis-orange">NOT MORE RUBBISH LEADS.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="text-lg md:text-2xl text-slate-600 max-w-2xl mx-auto mb-4 leading-snug font-medium"
-          >
-            We find, filter, and send you real opportunities — then help you win them.
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.35 }} className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#filter" onClick={() => trackEvent('hero_cta_click', { source: 'hero' })}
-              className="classic-btn inline-flex items-center justify-center gap-3 text-deep-slate text-lg font-black py-4 px-12 rounded-sm transition-all transform hover:scale-105 active:scale-95 uppercase italic">
-              Enter The Intake →
-            </a>
-            <a href="#pricing" className="classic-btn-secondary inline-flex items-center justify-center gap-3 text-lg font-black py-4 px-12 rounded-sm transition-all uppercase italic">
-              See Intake Pricing
-            </a>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-10 flex flex-wrap justify-center gap-8 text-xs font-bold uppercase tracking-widest text-slate-600">
-            <span>✓ Real opportunities only</span>
-            <span>✓ WhatsApp lead delivery</span>
-            <span>✓ No contracts</span>
-          </motion.div>
-        </div>
-
-      </header>
-
-      {/* ── SOCIAL PROOF STRIP ── */}
-      <div className="py-6 px-6 bg-white border-y-4 border-deep-slate">
-        <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-10 text-center">
-          {[
-            { v: '2,400+', l: 'Leads Scanned' },
-            { v: '£340', l: 'Avg Saved / Month' },
-            { v: '94%', l: 'Bad Leads Filtered' },
-            { v: '10', l: 'Free Trade Tools' },
-          ].map(({ v, l }) => (
-            <div key={l}>
-              <p className="font-display text-3xl font-extrabold text-high-vis-orange italic">{v}</p>
-              <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-600 mt-1">{l}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── FEATURES ── */}
-      <section id="features-list" className="py-20 px-6 bg-slate-100 border-b-4 border-deep-slate">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <div className="text-center">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Built for Trades</p>
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mt-2">The Intake Engine</h2>
-            <p className="text-sm md:text-base font-bold uppercase tracking-wider text-slate-600 mt-3">Main subscription product. Fair system. No chasing. No competing.</p>
-          </div>
-
-          <div className="grid md:grid-cols-5 gap-4">
-            {[
-              'Only get leads worth your time',
-              'See real jobs before others',
-              'Get jobs sent straight to WhatsApp',
-              'Know which jobs will actually pay',
-              'Work locally, not miles away',
-            ].map((item) => (
-              <div key={item} className="bg-white border-2 border-deep-slate p-4 shadow-[3px_3px_0_#0f172a]">
-                <p className="text-sm font-black uppercase leading-tight text-deep-slate">{item}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4">
-            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-5 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Codex</p>
-              <p className="text-lg font-display font-black uppercase italic mt-1">The engine that finds and filters jobs automatically</p>
-            </a>
-            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-5 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vantage</p>
-              <p className="text-lg font-display font-black uppercase italic mt-1">See jobs before your competitors</p>
-            </a>
-            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-5 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vicinity</p>
-              <p className="text-lg font-display font-black uppercase italic mt-1">Jobs near you, not miles away</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── THE FILTER ── */}
-      <section id="filter" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">ENTER THE <span className="text-high-vis-orange">INTAKE</span></h2>
-            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">Real leads by postcode. No chasing. No competing.</p>
-          </div>
-
-          <div className="classic-panel p-6 md:p-8 rounded-sm shadow-2xl">
-            <div className="grid md:grid-cols-[1.4fr_2fr_1fr] gap-4 mb-6">
-              <div>
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Trade</label>
-                <select value={tradeType} onChange={(e) => setTradeType(e.target.value)}
-                  className="w-full brutal-border bg-white px-4 py-3 text-sm font-black uppercase tracking-wide text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
-                  <option value="general">General Trade</option>
-                  <option value="electrical">Electrical</option>
+            <div className="mt-4 flex flex-wrap items-end gap-2">
+              <label className="block">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-widest">Postcode</span>
+                <input
+                  value={postcode}
+                  onChange={(e) => setPostcode(e.target.value.toUpperCase())}
+                  className="w-40 border-4 border-black px-3 py-2 text-sm font-bold"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-[10px] font-black uppercase tracking-widest">Trade</span>
+                <select value={trade} onChange={(e) => setTrade(e.target.value)} className="w-40 border-4 border-black px-3 py-2 text-sm font-bold">
                   <option value="plumbing">Plumbing</option>
-                  <option value="heating">Heating</option>
+                  <option value="electrical">Electrical</option>
+                  <option value="roofing">Roofing</option>
                   <option value="building">Building</option>
+                  <option value="carpentry">Carpentry</option>
+                  <option value="painting">Painting</option>
+                  <option value="hvac">HVAC</option>
+                  <option value="landscaping">Landscaping</option>
+                  <option value="all">All</option>
                 </select>
-              </div>
-              <div>
-                <label className="text-xs font-black text-slate-500 uppercase tracking-widest block mb-2">Your Postcode</label>
-                <input value={postcode} onChange={(e) => setPostcode(e.target.value.toUpperCase())} placeholder="e.g. B14 7QH"
-                  className="w-full brutal-border bg-white px-4 py-3 text-xl font-black uppercase tracking-wide text-deep-slate placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-              </div>
-              <div className="flex items-end">
-                <button onClick={startScan} disabled={isScanning || postcode.trim().length < 4}
-                  className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-amber-500 text-deep-slate font-extrabold py-3 px-4 rounded-sm uppercase italic tracking-widest transition-all h-[52px] text-sm">
-                  {isScanning ? 'Scanning...' : 'Start Job Scan'}
-                </button>
-              </div>
-            </div>
-
-            <div className="relative min-h-[180px] bg-deep-slate brutal-border p-5">
-              {isScanning && <div className="absolute inset-0 z-10 overflow-hidden"><div className="w-full h-1 bg-high-vis-orange absolute animate-scan"></div></div>}
-
-              {scanComplete ? (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
-                  <div className="flex items-center gap-3 text-green-400 font-bold uppercase italic text-sm"><span>✔</span> CONTROL THE JOBS — REAL LEADS ONLY</div>
-                  <div className="grid gap-2">
-                    {leadResults.map((job, index) => (
-                      <div key={`${job.title}-${index}`} className="bg-slate-800/70 border border-white/10 rounded-sm p-3">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="text-sm font-extrabold uppercase tracking-wide text-slate-100">{job.title}</p>
-                            <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mt-1">{job.trade} • {job.location}</p>
-                            {job.whyMatched && <p className="text-[10px] font-semibold text-slate-500 mt-1">{job.whyMatched}</p>}
-                          </div>
-                          <div className="text-right">
-                            <p className="text-xs font-extrabold uppercase tracking-widest text-high-vis-orange">Est. Value</p>
-                            <p className="text-lg font-display font-extrabold italic text-high-vis-orange">£{job.estimatedValue.toLocaleString('en-GB')}</p>
-                            {job.source && <p className="text-[10px] font-bold text-slate-400 mt-1">{job.source}{job.sourceConfidence ? ` · ${job.sourceConfidence}%` : ''}</p>}
-                          </div>
-                        </div>
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-slate-300 mt-2">{toDisplayUrgency(job.urgency)}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="bg-high-vis-orange border-2 border-deep-slate p-4 rounded-sm mt-2 shadow-[4px_4px_0_#0f1933]">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-xs text-deep-slate font-black uppercase tracking-widest">Lead Quality Score</p>
-                        <p className="text-4xl font-display font-black text-deep-slate mt-1">{leadQualityScore}<span className="text-xl text-deep-slate/60">/100</span></p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-xs text-deep-slate font-black uppercase tracking-widest mb-1">{freeViewsUsed} of 3 free views used</p>
-                        <div className="flex gap-1 justify-end">{[0,1,2].map(i => <div key={i} className={`w-6 h-2 ${i < freeViewsUsed ? 'bg-deep-slate' : 'bg-deep-slate/20'}`}></div>)}</div>
-                      </div>
-                    </div>
-                    <ul className="mt-3 space-y-1 text-xs text-deep-slate font-bold uppercase tracking-wide">
-                      <li>• Region locked: {scanRegion}</li>
-                      <li>• Scope matches {tradeType} profile</li>
-                      <li>• FAIR SYSTEM: no hidden lead mixing</li>
-                    </ul>
-                  </div>
-                  <div className="pt-3 border-t-2 border-white/10 flex flex-col sm:flex-row items-center gap-4 justify-between">
-                  <p className="text-sm font-bold text-slate-300">STAY IN CONTROL. NO CONTRACTS. <span className="text-deep-slate bg-high-vis-orange px-1 font-black">{Math.max(0, 3 - freeViewsUsed)} free views left this month.</span></p>
-                    <a href="#pricing" onClick={() => trackEvent('upgrade_cta_click', { source: 'filter' })}
-                      className="brutal-btn text-xs font-display font-black py-2.5 px-6 whitespace-nowrap">
-                      UNLOCK UNLIMITED →
-                    </a>
-                  </div>
-                </motion.div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full py-8">
-                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-4">ENTER POSTCODE. START JOB SCAN.</p>
-                  <div className="flex gap-2">
-                    {['REAL LEADS', 'NO CHASING', 'NO COMPETING'].map((s, i) => (
-                      <div key={i} className="bg-slate-800/60 border border-white/5 px-3 py-2 rounded-sm text-[10px] font-bold uppercase tracking-wide text-slate-500 text-center">{s}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SUPPORTING ENGINES PREVIEW ── */}
-      <section className="py-20 px-6 bg-slate-100 border-y-4 border-deep-slate">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Supporting Engines</p>
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mt-2">Win More From Every Good Lead</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-4">
-            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vantage</p>
-              <p className="font-display text-2xl font-black uppercase italic mt-2">Stop losing £1M bids to prettier firms</p>
-              <p className="text-sm font-bold text-slate-600 mt-3">Tier 1 visual authority for cheaper and better. Turn tender docs into bid decks, 3D renders, and infographics.</p>
-            </a>
-            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Vicinity</p>
-              <p className="font-display text-2xl font-black uppercase italic mt-2">Stop letting your best work rot in your camera roll</p>
-              <p className="text-sm font-bold text-slate-600 mt-3">Turn completed jobs into infographics, WhatsApp-ready content, and website assets in minutes.</p>
-            </a>
-            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-white border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-500">Codex</p>
-              <p className="font-display text-2xl font-black uppercase italic mt-2">Turn complex technical content into high-conversion sales assets</p>
-              <p className="text-sm font-bold text-slate-600 mt-3">Upload manuals and schematics. Get how-it-works videos, sales carousels, and competitor battlecards.</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── FREE TOOLS ── */}
-      <section id="tools" className="py-24 px-6 bg-white border-y-4 border-deep-slate">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-6">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">Free <span className="text-high-vis-orange">Trade Tools</span></h2>
-            <p className="text-slate-600 font-bold uppercase tracking-widest text-sm">Free tools to help you win more jobs.</p>
-          </div>
-
-          {/* Tool grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-            {tools.map(t => (
-              <button key={t.id} onClick={() => { setActiveToolId(t.id === activeToolId ? null : t.id); trackEvent('tool_used', { tool: t.id }); }}
-                className={`p-4 rounded-sm border-3 text-left transition-all ${activeToolId === t.id ? 'bg-high-vis-orange border-deep-slate text-deep-slate shadow-[4px_4px_0_#0f1933]' : 'bg-[#f8f8f8] border-deep-slate hover:bg-high-vis-orange/10 text-deep-slate font-bold'}`}>
-                <span className="text-3xl block mb-2">{t.icon}</span>
-                <p className="text-xs font-black uppercase tracking-wide leading-tight">{t.label}</p>
-                <p className="text-[10px] text-slate-600 mt-1 leading-tight">{t.desc}</p>
+              </label>
+              <button onClick={runScan} disabled={loading} className="border-4 border-black bg-[#facc15] px-5 py-3 text-xs font-black uppercase tracking-widest disabled:opacity-50">
+                {loading ? 'SCANNING...' : 'RUN LIVE SCAN'}
               </button>
+            </div>
+          </div>
+
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <Panel title="Region" body={summary.region || 'Live lookup'} />
+            <Panel title="Postcode" body={summary.outward || postcode} />
+            <Panel title="Shown" body={String(visibleLeads.length)} />
+            <Panel title="Locked" body={String(summary.lockedCount ?? 0)} />
+          </div>
+
+          {summary.errors?.length ? <p className="mt-3 text-sm font-black text-red-700">API note: {summary.errors.join(' | ')}</p> : null}
+          {error ? <p className="mt-3 text-sm font-black text-red-700">{error}</p> : null}
+
+          <div className="mt-4 grid gap-3">
+            {visibleLeads.map((lead) => (
+              <article key={lead.id} className="border-4 border-black bg-white p-4">
+                <div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <h2 className="text-xl font-black uppercase leading-none tracking-tight">{lead.title}</h2>
+                    <p className="mt-1 text-sm font-bold uppercase">{lead.location}</p>
+                  </div>
+                  <p className="text-xs font-black uppercase">{lead.source}</p>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-4">
+                  <p className="text-lg font-black uppercase">Value: {lead.estimatedValue}</p>
+                  <p className="text-xs font-black uppercase">Urgency: {lead.urgency || 'medium'}</p>
+                </div>
+              </article>
             ))}
           </div>
-
-          {/* Tool panels */}
-          <AnimatePresence mode="wait">
-            {activeToolId && (
-              <motion.div key={activeToolId} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="classic-panel rounded-sm p-6 md:p-8 text-deep-slate">
-
-                {/* ── QUOTE BUILDER ── */}
-                {activeToolId === 'quote' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase text-deep-slate mb-6">QUOTE QUICK <span className="bg-high-vis-orange px-1">BUILDER</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Labour hours" value={qtLabour} setValue={setQtLabour} min={1} max={40} unit="hrs" />
-                        <SliderField label="Your hourly rate" value={qtRate} setValue={setQtRate} min={15} max={100} prefix="£" />
-                        <SliderField label="Materials cost" value={qtMaterials} setValue={setQtMaterials} min={0} max={5000} step={50} prefix="£" />
-                        <SliderField label="Materials markup" value={qtMarkup} setValue={setQtMarkup} min={0} max={60} unit="%" />
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-between">
-                        <div className="space-y-4">
-                          <QuoteLine label="Labour" value={`£${qtLabourTotal.toFixed(0)}`} />
-                          <QuoteLine label={`Materials (inc. ${qtMarkup}% markup)`} value={`£${qtMaterialsTotal.toFixed(0)}`} />
-                          <div className="border-t border-white/10 pt-4">
-                            <QuoteLine label="TOTAL QUOTE" value={`£${qtTotal.toFixed(0)}`} large orange />
-                          </div>
-                          <div className="border-t border-white/10 pt-4">
-                            <QuoteLine label="Inc. VAT (20%)" value={`£${(qtTotal * 1.2).toFixed(0)}`} small />
-                          </div>
-                        </div>
-                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Better leads = bigger quotes. <a href="#pricing" className="underline">Unlock unlimited access →</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── DAY RATE ── */}
-                {activeToolId === 'dayrate' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Day Rate <span className="text-high-vis-orange">Calculator</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Annual income target" value={drAnnualTarget} setValue={setDrAnnualTarget} min={20000} max={120000} step={1000} prefix="£" />
-                        <SliderField label="Working days per year" value={drDaysWorked} setValue={setDrDaysWorked} min={100} max={260} unit="days" />
-                        <SliderField label="Annual overheads (van, tools, insurance)" value={drOverheads} setValue={setDrOverheads} min={0} max={30000} step={500} prefix="£" />
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
-                        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Your Minimum Day Rate</p>
-                        <p className="font-display text-7xl font-extrabold text-high-vis-orange italic">£{drRequired}</p>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">Per day to hit your target</p>
-                        <div className="mt-4 text-sm font-bold text-slate-300">
-                          = <span className="text-high-vis-orange">£{Math.ceil(drRequired / 8)}/hr</span> based on 8hr day
-                        </div>
-                        <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Charging less? You're subsidising your clients. <a href="#filter" className="underline">Find better-paying jobs →</a></p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── LEAD VALUE ── */}
-                {activeToolId === 'leadvalue' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Lead Value <span className="text-high-vis-orange">Checker</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-4">
-                        <div>
-                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Client's budget (£)</label>
-                          <input type="number" value={lvBudget} onChange={e => setLvBudget(e.target.value)} placeholder="e.g. 800" className="w-full brutal-border bg-white px-4 py-3 text-lg font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                        </div>
-                        <div>
-                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Job scope</label>
-                          <select value={lvScope} onChange={e => setLvScope(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
-                            <option value="small">Small (half day)</option>
-                            <option value="medium">Medium (1–3 days)</option>
-                            <option value="large">Large (week+)</option>
-                          </select>
-                        </div>
-                        <SliderField label="Distance from you" value={lvDistance} setValue={setLvDistance} min={1} max={50} unit="miles" />
-                        <div>
-                          <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Payment method</label>
-                          <select value={lvPayType} onChange={e => setLvPayType(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
-                            <option value="card">Card / Bank Transfer</option>
-                            <option value="cash">Cash</option>
-                            <option value="unknown">Not stated</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
-                        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Lead Score</p>
-                        <p className={`font-display text-8xl font-extrabold italic ${lvColor}`}>{lvScore}</p>
-                        <p className={`text-lg font-extrabold uppercase italic mt-2 ${lvColor}`}>{lvLabel}</p>
-                        <div className="mt-4 w-full bg-slate-800 rounded-sm h-2">
-                          <div className={`h-2 rounded-sm transition-all ${lvScore >= 75 ? 'bg-green-400' : lvScore >= 55 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${lvScore}%` }}></div>
-                        </div>
-                        {lvScore < 55 && (
-                          <div className="mt-6 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 This job is low value. <a href="#filter" className="underline">Find better leads near you →</a></p>
-                          </div>
-                        )}
-                        {lvScore >= 75 && (
-                          <div className="mt-6 p-3 bg-green-500/10 border border-green-500/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-green-400 uppercase tracking-wide">✔ Strong lead. Quote fast before someone else does.</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── MARKUP ── */}
-                {activeToolId === 'markup' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Material Markup <span className="text-high-vis-orange">Calculator</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Materials cost (what you pay)" value={mmCost} setValue={setMmCost} min={10} max={10000} step={10} prefix="£" />
-                        <SliderField label="Your markup %" value={mmMarkup} setValue={setMmMarkup} min={5} max={100} unit="%" />
-                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate">
-                          <p>Industry standard markup: <span className="text-white">20–30%</span></p>
-                          <p className="mt-1">Premium materials (specialist): <span className="text-white">40–60%</span></p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
-                        <QuoteLine label="Your cost" value={`£${mmCost.toFixed(0)}`} />
-                        <QuoteLine label={`Charge to client (+${mmMarkup}%)`} value={`£${mmCharge.toFixed(0)}`} large orange />
-                        <div className="border-t border-white/10 pt-4">
-                          <QuoteLine label="Your profit on materials" value={`£${mmProfit.toFixed(0)}`} />
-                        </div>
-                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Most tradesmen undercharge on materials by 15–20%. Don't leave money on the bench.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── TIME ESTIMATE ── */}
-                {activeToolId === 'timeestimate' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Time <span className="text-high-vis-orange">Estimator</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-4">
-                        {[
-                          { label: 'Job scope', val: teScope, set: setTeScope, opts: [['small','Small — half day or less'],['medium','Medium — 1 to 3 days'],['large','Large — 1 to 2 weeks'],['major','Major — 2 weeks+']] },
-                          { label: 'Trade type', val: teTrade, set: setTeTrade, opts: [['general','General'],['electrical','Electrical'],['plumbing','Plumbing'],['heating','Heating / Gas'],['building','Building']] },
-                          { label: 'Site access', val: teAccess, set: setTeAccess, opts: [['easy','Easy — clear access'],['moderate','Moderate — some obstacles'],['difficult','Difficult — restricted access']] },
-                        ].map(({ label, val, set, opts }) => (
-                          <div key={label}>
-                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">{label}</label>
-                            <select value={val} onChange={e => set(e.target.value)} className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange">
-                              {opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-                            </select>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
-                        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Estimated Time</p>
-                        <p className="font-display text-8xl font-extrabold text-high-vis-orange italic">{teHours}</p>
-                        <p className="text-lg font-bold uppercase tracking-widest text-slate-400 mt-1">hours</p>
-                        <div className="mt-4 grid grid-cols-2 gap-3 text-center">
-                          <div className="bg-slate-800/60 rounded-sm p-3">
-                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wide">Days</p>
-                            <p className="font-extrabold text-xl text-white">{(teHours / 8).toFixed(1)}</p>
-                          </div>
-                          <div className="bg-slate-800/60 rounded-sm p-3">
-                            <p className="text-xs text-slate-500 font-bold uppercase tracking-wide">Weeks</p>
-                            <p className="font-extrabold text-xl text-white">{(teHours / 40).toFixed(1)}</p>
-                          </div>
-                        </div>
-                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always add 20% buffer for access, snagging, and client changes.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── FUEL ── */}
-                {activeToolId === 'fuelcost' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Fuel Cost <span className="text-high-vis-orange">Calculator</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Round trip miles" value={fcMiles} setValue={setFcMiles} min={2} max={200} unit="miles" />
-                        <SliderField label="Van MPG" value={fcMpg} setValue={setFcMpg} min={15} max={60} unit="mpg" />
-                        <SliderField label="Fuel price (pence/litre)" value={fcPrice} setValue={setFcPrice} min={100} max={200} unit="p" />
-                        <SliderField label="Number of trips to site" value={fcTrips} setValue={setFcTrips} min={1} max={20} unit="trips" />
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
-                        <QuoteLine label="Fuel per trip" value={`£${fcCostPerTrip.toFixed(2)}`} />
-                        <QuoteLine label={`Total (${fcTrips} trips)`} value={`£${fcTotal.toFixed(2)}`} large orange />
-                        <div className="border-t border-white/10 pt-4">
-                          <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Add to your quote</p>
-                          <div className="flex gap-2">
-                            {[0, 10, 20].map(markup => (
-                              <div key={markup} className="flex-1 bg-slate-800/60 rounded-sm p-3 text-center">
-                                <p className="text-[10px] text-slate-500 font-bold uppercase">{markup === 0 ? 'Cost' : `+${markup}%`}</p>
-                                <p className="font-extrabold text-sm text-white mt-1">£{(fcTotal * (1 + markup / 100)).toFixed(2)}</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Always charge travel. Time sat in the van is still your time.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── INVOICE ── */}
-                {activeToolId === 'invoice' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Invoice <span className="text-high-vis-orange">Generator</span></h3>
-                    {!invGenerated ? (
-                      <div className="grid md:grid-cols-2 gap-8">
-                        <div className="space-y-4">
-                          <div className="space-y-4 mb-6 pb-6 border-b border-slate-700">
-                            <div>
-                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your name / company</label>
-                              <input value={invContractorName} onChange={e => setInvContractorName(e.target.value)} placeholder="e.g. John's Plumbing" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your phone</label>
-                              <input value={invPhone} onChange={e => setInvPhone(e.target.value)} placeholder="e.g. 07700 123456" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Your email</label>
-                              <input type="email" value={invEmail} onChange={e => setInvEmail(e.target.value)} placeholder="e.g. john@example.com" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                            </div>
-                          </div>
-                          <div>
-                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Client name</label>
-                            <input value={invClient} onChange={e => setInvClient(e.target.value)} placeholder="e.g. John Smith" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                          </div>
-                          <div>
-                            <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Job description</label>
-                            <input value={invJob} onChange={e => setInvJob(e.target.value)} placeholder="e.g. Boiler service and thermostat replacement" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                          </div>
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Labour (£)</label>
-                              <input type="number" value={invLabour || ''} onChange={e => setInvLabour(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                            </div>
-                            <div>
-                              <label className="text-xs font-black uppercase tracking-widest text-slate-500 block mb-2">Materials (£)</label>
-                              <input type="number" value={invMaterials || ''} onChange={e => setInvMaterials(parseFloat(e.target.value) || 0)} placeholder="0" className="w-full brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange" />
-                            </div>
-                          </div>
-                          <label className="flex items-center gap-3 cursor-pointer">
-                            <div onClick={() => setInvVat(v => !v)} className={`w-10 h-6 rounded-full transition-all ${invVat ? 'bg-high-vis-orange' : 'bg-slate-700'} relative`}>
-                              <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${invVat ? 'left-5' : 'left-1'}`}></div>
-                            </div>
-                            <span className="text-sm font-bold text-slate-300">Add VAT (20%)</span>
-                          </label>
-                          <button onClick={() => setInvGenerated(true)} disabled={!invClient || !invJob} className="w-full bg-high-vis-orange disabled:bg-slate-700 disabled:text-slate-500 hover:bg-yellow-300 text-deep-slate font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">
-                            Generate Invoice
-                          </button>
-                        </div>
-                        <div className="bg-slate-50 brutal-border p-6 space-y-3">
-                          <QuoteLine label="Labour" value={`£${invLabour.toFixed(2)}`} />
-                          <QuoteLine label="Materials" value={`£${invMaterials.toFixed(2)}`} />
-                          {invVat && <QuoteLine label="VAT (20%)" value={`£${invVatAmt.toFixed(2)}`} />}
-                          <div className="border-t border-white/10 pt-3">
-                            <QuoteLine label="Total Due" value={`£${invTotal.toFixed(2)}`} large orange />
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="bg-white text-slate-900 rounded-sm mb-4 overflow-hidden">
-                          <div className="h-1 bg-high-vis-orange w-full"></div>
-                          <div className="p-8">
-                            <div className="flex justify-between items-start mb-8">
-                              <div>
-                                <p className="font-bold text-lg">{invContractorName || 'Your Company'}</p>
-                                <p className="text-sm text-slate-500 mt-1">{invPhone} | {invEmail}</p>
-                                <p className="text-xs font-medium text-high-vis-orange mt-2">JobFilter — Built For Trades</p>
-                              </div>
-                              <div className="text-right">
-                                <p className="text-2xl font-extrabold text-slate-900">INVOICE</p>
-                                <p className="text-xs text-slate-500 font-bold mt-1">{invNumber}</p>
-                                <p className="text-xs text-slate-500 font-bold">{invDate}</p>
-                                <p className="text-xs text-slate-500 font-bold mt-2">Due: {new Date(Date.now() + 12096e5).toLocaleDateString('en-GB')}</p>
-                              </div>
-                            </div>
-                          <div className="mb-6">
-                            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Bill To</p>
-                            <p className="font-bold text-lg">{invClient || 'Client Name'}</p>
-                          </div>
-                          <div className="mb-6">
-                            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Description</p>
-                            <p className="font-medium">{invJob || 'Job Description'}</p>
-                          </div>
-                          <div className="border-t border-slate-200 pt-4 space-y-2">
-                            <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">Labour</span><span className="font-bold">£{invLabour.toFixed(2)}</span></div>
-                            <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">Materials</span><span className="font-bold">£{invMaterials.toFixed(2)}</span></div>
-                            {invVat && <div className="flex justify-between text-sm"><span className="font-medium text-slate-600">VAT (20%)</span><span className="font-bold">£{invVatAmt.toFixed(2)}</span></div>}
-                            <div className="flex justify-between text-xl font-extrabold border-t border-slate-300 pt-2 mt-2">
-                              <span>Total Due</span><span className="text-high-vis-orange">£{invTotal.toFixed(2)}</span>
-                            </div>
-                          </div>
-                          <div className="mt-6 text-xs text-slate-400">Payment due within 14 days. Bank transfer preferred.</div>
-                          </div>
-                        </div>
-                        <div className="flex gap-3">
-                          <button onClick={() => window.print()} className="flex-1 bg-high-vis-orange hover:bg-yellow-300 text-deep-slate font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Print / Save PDF</button>
-                          <button onClick={() => setInvGenerated(false)} className="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-3 rounded-sm uppercase italic tracking-widest text-sm">Edit Invoice</button>
-                        </div>
-                        <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
-                          <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Getting paid slow? JobFilter Pro includes a Payment Chaser that auto-follows up. <a href="#pricing" className="underline">See plans →</a></p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* ── PROFIT MARGIN ── */}
-                {activeToolId === 'profit' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Profit Margin <span className="text-high-vis-orange">Calculator</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Job revenue (what you charge)" value={pmRevenue} setValue={setPmRevenue} min={100} max={20000} step={50} prefix="£" />
-                        <SliderField label="Total job costs (labour + materials + fuel)" value={pmCosts} setValue={setPmCosts} min={50} max={18000} step={50} prefix="£" />
-                        <div className="p-4 bg-high-vis-orange/10 brutal-border text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
-                          <p>Target margin: <span className="text-white">30–40%</span> minimum</p>
-                          <p>Below 20%: <span className="text-red-400">You're working for free</span></p>
-                        </div>
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 flex flex-col justify-center text-center">
-                        <p className="text-xs font-extrabold uppercase tracking-widest text-slate-500 mb-2">Profit Margin</p>
-                        <p className={`font-display text-7xl font-extrabold italic ${pmColor}`}>{pmMargin}%</p>
-                        <p className={`text-lg font-extrabold uppercase italic mt-1 ${pmColor}`}>{pmLabel}</p>
-                        <div className="mt-4 w-full bg-slate-800 rounded-sm h-3">
-                          <div className={`h-3 rounded-sm transition-all ${parseFloat(pmMargin) >= 40 ? 'bg-green-400' : parseFloat(pmMargin) >= 20 ? 'bg-high-vis-orange' : 'bg-red-400'}`} style={{ width: `${Math.min(100, parseFloat(pmMargin) * 2.5)}%` }}></div>
-                        </div>
-                        <div className="mt-4 border-t border-white/10 pt-4">
-                          <QuoteLine label="Profit on this job" value={`£${pmProfit.toFixed(0)}`} large orange />
-                        </div>
-                        {parseFloat(pmMargin) < 30 && (
-                          <div className="mt-4 p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm text-left">
-                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Low margin. You need better-paying leads. <a href="#filter" className="underline">Find them here →</a></p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── CASH FLOW ── */}
-                {activeToolId === 'cashflow' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">Cash Flow <span className="text-high-vis-orange">Forecast</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Average weekly income" value={cfWeeklyIn} setValue={setCfWeeklyIn} min={200} max={10000} step={100} prefix="£" />
-                        <SliderField label="Average weekly outgoings (fuel, materials, subs)" value={cfWeeklyOut} setValue={setCfWeeklyOut} min={100} max={8000} step={100} prefix="£" />
-                      </div>
-                      <div className="bg-slate-50 brutal-border p-6 space-y-4">
-                        <div className="grid grid-cols-3 gap-3 text-center">
-                          {[
-                            { label: 'Weekly Net', value: `£${cfWeeklyNet.toFixed(0)}`, color: cfWeeklyNet > 0 ? 'text-green-400' : 'text-red-400' },
-                            { label: 'Monthly Net', value: `£${cfMonthlyNet.toFixed(0)}`, color: cfMonthlyNet > 0 ? 'text-green-400' : 'text-red-400' },
-                            { label: 'Annual Net', value: `£${(cfAnnualNet / 1000).toFixed(1)}k`, color: cfAnnualNet > 0 ? 'text-green-400' : 'text-red-400' },
-                          ].map(({ label, value, color }) => (
-                            <div key={label} className="bg-slate-800/60 rounded-sm p-4">
-                              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wide mb-1">{label}</p>
-                              <p className={`font-display text-xl font-extrabold italic ${color}`}>{value}</p>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="border-t border-white/10 pt-4">
-                          <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">12-Week Projection</p>
-                          <div className="flex items-end gap-1 h-16">
-                            {Array.from({ length: 12 }, (_, i) => {
-                              const variance = (Math.sin(i * 1.3) * 0.15 + 1);
-                              const h = Math.max(10, Math.min(100, ((cfWeeklyNet * variance) / Math.max(cfWeeklyIn, 1)) * 100 + 50));
-                              return <div key={i} className={`flex-1 rounded-sm ${cfWeeklyNet > 0 ? 'bg-green-500' : 'bg-red-500'} opacity-${60 + i * 3}`} style={{ height: `${h}%` }}></div>;
-                            })}
-                          </div>
-                        </div>
-                        {cfWeeklyNet < 200 && (
-                          <div className="p-3 bg-high-vis-orange/10 border border-high-vis-orange/20 rounded-sm">
-                            <p className="text-xs font-bold text-high-vis-orange uppercase tracking-wide">💡 Tight margins. More consistent leads = steadier cash flow. <a href="#filter" className="underline">Find leads →</a></p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── VAT CHECKER ── */}
-                {activeToolId === 'vatcheck' && (
-                  <div>
-                    <h3 className="font-display font-black text-3xl uppercase mb-6">VAT Threshold <span className="text-high-vis-orange">Checker</span></h3>
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-6">
-                        <SliderField label="Your annual turnover" value={vtTurnover} setValue={setVtTurnover} min={10000} max={200000} step={1000} prefix="£" />
-                        <div className="p-4 bg-[#ece9d8] border-2 border-deep-slate rounded-sm text-xs font-bold uppercase tracking-wide text-deep-slate space-y-1">
-                          <p>VAT registration threshold: <span className="text-slate-700">£{vtThreshold.toLocaleString()}</span></p>
-                          <p>Once over: <span className="text-amber-600">Must register within 30 days</span></p>
-                          <p>Voluntary registration: <span className="text-slate-700">Any turnover level</span></p>
-                        </div>
-                      </div>
-                      <div className="bg-[#f2f4f8] rounded-sm p-6 border-2 border-deep-slate flex flex-col justify-center">
-                        <div className="mb-4">
-                          <div className="flex justify-between mb-2">
-                            <span className="text-xs font-bold uppercase tracking-widest text-slate-500">£0</span>
-                            <span className="text-xs font-bold uppercase tracking-widest text-amber-600">£{vtThreshold.toLocaleString()} threshold</span>
-                          </div>
-                          <div className="w-full bg-slate-800 rounded-sm h-4">
-                            <div className={`h-4 rounded-sm transition-all ${vtOver ? 'bg-red-500' : vtPercent > 80 ? 'bg-high-vis-orange' : 'bg-green-400'}`} style={{ width: `${Math.min(100, vtPercent)}%` }}></div>
-                          </div>
-                          <p className="text-xs text-slate-600 font-bold mt-1 text-right">{vtPercent.toFixed(0)}% of threshold</p>
-                        </div>
-                        {vtOver ? (
-                          <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-sm">
-                            <p className="text-red-400 font-extrabold uppercase italic text-sm">⚠ Over Threshold</p>
-                            <p className="text-xs text-slate-700 font-bold mt-1">You're £{Math.abs(vtGap).toLocaleString()} over the VAT threshold. You should be registered. Speak to an accountant immediately.</p>
-                          </div>
-                        ) : vtPercent > 80 ? (
-                          <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-sm">
-                            <p className="text-amber-400 font-extrabold uppercase italic text-sm">⚡ Getting Close</p>
-                            <p className="text-xs text-slate-700 font-bold mt-1">Only £{vtGap.toLocaleString()} below the threshold. Plan ahead — VAT registration can affect pricing.</p>
-                          </div>
-                        ) : (
-                          <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-sm">
-                            <p className="text-green-400 font-extrabold uppercase italic text-sm">✔ Below Threshold</p>
-                            <p className="text-xs text-slate-700 font-bold mt-1">£{vtGap.toLocaleString()} below the VAT threshold. You're clear — but track your turnover monthly.</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
-      </section>
-
-      {/* ── BLUEPRINT ── */}
-      <section id="blueprint" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">BLUEPRINT</span></h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">Public roadmap and feature dump. No password required.</p>
-          </div>
-
-          <div className="bg-white brutal-border brutal-shadow-lg p-8 mb-8">
-            <div className="grid md:grid-cols-[1fr_140px_120px] gap-4">
-              <input
-                type="text"
-                placeholder="e.g. Material Fetcher AI..."
-                className="brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange"
-                value={newIdea}
-                onChange={(e) => setNewIdea(e.target.value)}
-              />
-              <select
-                className="brutal-border bg-white px-4 py-3 text-sm font-bold text-deep-slate focus:outline-none focus:ring-4 focus:ring-high-vis-orange"
-                value={selectedPhase}
-                onChange={(e) => setSelectedPhase(e.target.value)}
-              >
-                <option>Phase 1</option>
-                <option>Phase 2</option>
-                <option>Phase 3</option>
-              </select>
-              <button
-                onClick={async () => {
-                  if(!newIdea.trim()) return;
-                  await addDoc(collection(db, "blueprint"), {
-                    idea: newIdea,
-                    phase: selectedPhase,
-                    createdAt: serverTimestamp()
-                  });
-                  setNewIdea('');
-                }}
-                className="classic-btn text-deep-slate font-extrabold py-3 px-6 rounded-sm uppercase italic tracking-widest transition-all"
-              >
-                LOG IDEA
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-display text-2xl font-extrabold uppercase mb-6 text-high-vis-orange">THE BACKLOG</h3>
-            <div className="space-y-3">
-              {blueprintIdeas.length === 0 ? (
-                <div className="bg-slate-800/50 border border-white/10 rounded-sm p-6 text-center">
-                  <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">No ideas logged yet. Be the first.</p>
-                </div>
-              ) : (
-                blueprintIdeas.map((item) => (
-                  <div key={item.id} className="bg-slate-800/60 border border-white/10 rounded-sm p-4 flex justify-between items-center hover:bg-slate-800/80 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <span className="text-[10px] font-extrabold uppercase px-3 py-1 bg-high-vis-orange/20 border border-high-vis-orange text-high-vis-orange rounded-sm">
-                        {item.phase}
-                      </span>
-                      <span className="text-slate-200 font-bold">{item.idea}</span>
-                    </div>
-                    <button
-                      onClick={() => deleteDoc(doc(db, "blueprint", item.id))}
-                      className="text-slate-500 hover:text-red-400 transition-colors font-bold text-lg"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── ROI CALCULATOR ── */}
-      <section id="roi" className="py-24 px-6 bg-deep-slate border-y-4 border-high-vis-orange">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic mb-3">The <span className="text-high-vis-orange">NO CHASING</span> Calculator</h2>
-            <p className="text-slate-400 font-bold uppercase tracking-widest text-sm italic">See what wasted quoting is costing and what you keep with a FAIR SYSTEM.</p>
-          </div>
-          <div className="bg-white brutal-border brutal-shadow-lg p-8">
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
-                <SliderField label="Unpaid quotes per week" value={quotesPerWeek} setValue={setQuotesPerWeek} min={1} max={20} />
-                <SliderField label="Miles driven for wasted surveys" value={milesDriven} setValue={setMilesDriven} min={5} max={200} step={5} unit="mi" />
-              </div>
-              <div className="bg-deep-slate p-8 brutal-border flex flex-col justify-center text-center gap-6">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Annual Admin Debt</p>
-                  <p className="text-5xl font-display font-black text-red-400">£{annualAdminDebt.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500 font-bold mt-1">Time + fuel wasted on bad leads</p>
-                </div>
-                <div className="border-t-2 border-white/10 pt-6">
-                  <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">With JobFilter You Could Save</p>
-                  <p className="text-6xl font-display font-black text-high-vis-orange">£{jobFilterSavings.toLocaleString()}</p>
-                  <p className="text-xs text-slate-500 font-bold mt-1">Back in your pocket per year</p>
-                </div>
-                <a href="#pricing" className="brutal-btn font-display font-black py-3 px-6 text-sm">
-                  START SAVING NOW →
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SUPPORTING ENGINES PREVIEW ── */}
-      <section className="py-20 px-6 bg-white border-y-4 border-deep-slate">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="font-display text-4xl md:text-6xl font-extrabold uppercase italic">After Intake, <span className="text-high-vis-orange">Win The Job</span></h2>
-            <p className="text-slate-600 font-bold uppercase tracking-widest text-xs mt-3">Optional add-ons. Not included in Intake Engine subscription.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-5">
-            <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vantage</p>
-              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop losing £1M bids to prettier firms</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Turn tender docs into visual bid decks that look top-tier and win trust fast.</p>
-              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
-                <li>• Bid decks</li>
-                <li>• 3D renders</li>
-                <li>• Infographics</li>
-              </ul>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Vantage →</p>
-            </a>
-            <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Vicinity</p>
-              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Stop letting your best work rot in your camera roll</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Turn finished jobs into posts and assets that bring in better local enquiries.</p>
-              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
-                <li>• Infographics</li>
-                <li>• WhatsApp-ready content</li>
-                <li>• Website assets</li>
-              </ul>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Vicinity →</p>
-            </a>
-            <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="bg-slate-50 border-2 border-deep-slate p-6 hover:-translate-y-0.5 transition-transform">
-              <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange">Codex</p>
-              <h3 className="font-display text-2xl font-black uppercase italic mt-2">Turn complex technical content into high-conversion sales assets</h3>
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-600 mt-3">Make specs easy for clients to understand so technical wins turn into signed jobs.</p>
-              <ul className="mt-4 space-y-1 text-xs font-bold text-deep-slate uppercase">
-                <li>• How-it-works videos</li>
-                <li>• Sales carousels</li>
-                <li>• Competitor battlecards</li>
-              </ul>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-widest text-deep-slate">Open Codex →</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PRICING ── */}
-      <section id="pricing" className="py-24 bg-slate-950">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="font-display text-6xl md:text-8xl font-extrabold uppercase leading-none tracking-wide text-white mb-4">Intake Engine Pricing</h2>
-          <p className="text-slate-400 font-bold uppercase tracking-widest mb-4">Get better jobs. Make more money. No contracts.</p>
-
-          <div className="max-w-5xl mx-auto mb-8 bg-high-vis-orange text-deep-slate border-4 border-black p-5 text-left shadow-[6px_6px_0_#000]">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em]">Main System</p>
-            <h3 className="font-display text-3xl md:text-4xl font-black uppercase italic">Intake Engine</h3>
-            <p className="text-xs font-bold uppercase tracking-wide mt-2">Finds jobs. Filters them. Delivers the opportunities worth taking.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
-              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">Starter</div>
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-5xl font-black italic">£29</span>
-                <span className="text-slate-500 font-bold">/MO</span>
-              </div>
-              <p className="font-bold mb-8">For solo tradesmen who want steady decent jobs every week.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Get steady local jobs</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Stop chasing dead leads</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Consistent flow of real job opportunities</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Jobs sent straight to WhatsApp</li>
-              </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Starter' }); openWaitlist('Starter'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Start getting better jobs
-              </button>
-            </div>
-
-            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[12px_12px_0px_0px_rgba(245,208,0,1)] flex flex-col text-left relative md:scale-105 z-10">
-              <div className="bg-high-vis-orange text-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit border-[2px] border-black">Growth — Recommended</div>
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-5xl font-black italic">£59</span>
-                <span className="text-slate-500 font-bold">/MO</span>
-              </div>
-              <p className="font-bold mb-8 text-amber-600">For serious tradesmen who want better jobs and less wasted time.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Only get jobs worth your time</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Waste less time quoting low-value work</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Priority filtering for higher quality opportunities</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> More control over location and job type</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Better jobs landed, faster</li>
-              </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Growth' }); openWaitlist('Growth'); }} className="w-full bg-slate-950 text-white py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(245,208,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Get better jobs now
-              </button>
-            </div>
-
-            <div className="bg-white text-black p-8 border-[4px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col text-left">
-              <div className="border-[2px] border-black inline-block px-3 py-1 font-black text-sm mb-6 w-fit">Dominance</div>
-              <div className="flex items-baseline gap-1 mb-2">
-                <span className="text-5xl font-black italic">£99</span>
-                <span className="text-slate-500 font-bold">/MO</span>
-              </div>
-              <p className="font-bold mb-8">For firms that want the best jobs first and a real competitive edge.</p>
-              <ul className="space-y-3 mb-12 flex-1">
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Get the best jobs first</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Beat competitors to opportunities</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Maximum job quality + priority delivery</li>
-                <li className="flex items-center gap-2 font-bold"><span className="text-green-600">✓</span> Highest control across area, value, and fit</li>
-              </ul>
-              <button onClick={() => { trackEvent('pricing_plan_click', { plan: 'Dominance' }); openWaitlist('Dominance'); }} className="w-full bg-high-vis-orange py-4 border-[3px] border-black font-black uppercase text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
-                Apply for priority access
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── WAITLIST MODAL ── */}
-      <AnimatePresence>
-        {showModal === 'waitlist' && (
-          <motion.div key="overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/70" onClick={() => setShowModal(null)}>
-            <motion.div key="panel" initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white brutal-border brutal-shadow-lg p-8 max-w-md w-full" onClick={e => e.stopPropagation()}>
-              {waitlistSubmitted ? (
-                <div className="text-center py-4">
-                  <div className="w-12 h-12 bg-high-vis-orange brutal-border flex items-center justify-center mx-auto mb-4 font-display text-2xl font-black text-deep-slate">✓</div>
-                  <h3 className="font-display text-2xl font-black uppercase mb-2 text-deep-slate">YOU'RE ON THE LIST</h3>
-                  <p className="text-slate-500 font-bold text-sm uppercase tracking-widest">We'll notify you when {waitlistPlan} goes live.</p>
-                  <button onClick={() => setShowModal(null)} className="mt-6 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-deep-slate transition-colors">CLOSE</button>
-                </div>
-              ) : (
-                <>
-                  <div className="mb-6">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-high-vis-orange mb-1 bg-high-vis-orange/10 inline-block px-2 py-0.5">EARLY ACCESS — {waitlistPlan}</p>
-                    <h3 className="font-display text-2xl font-black uppercase leading-tight text-deep-slate mt-2">LOCK IN YOUR LAUNCH PRICE</h3>
-                    <p className="text-slate-500 text-sm font-bold mt-2">Be first when we go live. No spam. We only email when you have access.</p>
-                  </div>
-                  <form onSubmit={submitWaitlist} className="space-y-4">
-                    <input type="email" required value={waitlistEmail} onChange={e => setWaitlistEmail(e.target.value)} placeholder="your@email.com"
-                      className="w-full bg-slate-900/70 border border-white/10 rounded-sm px-4 py-3 text-sm font-bold text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-high-vis-orange" />
-                    <button type="submit" className="w-full bg-high-vis-orange hover:bg-amber-500 text-deep-slate text-[10px] font-extrabold py-4 rounded-sm uppercase italic tracking-widest transition-all">Secure My Spot</button>
-                    {waitlistError && <p className="text-red-400 text-xs font-bold uppercase tracking-wide">{waitlistError}</p>}
-                  </form>
-                  <button onClick={() => setShowModal(null)} className="mt-4 w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">NOT NOW</button>
-                </>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── FOOTER ── */}
-      <footer className="py-16 px-6 bg-deep-slate border-t-4 border-high-vis-orange">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <svg viewBox="0 0 32 32" className="w-8 h-8 border-2 border-white shrink-0">
-                <rect width="32" height="32" fill="#012169"/>
-                <path d="M0 0 L32 32 M32 0 L0 32" stroke="#fff" strokeWidth="4"/>
-                <path d="M0 0 L32 32 M32 0 L0 32" stroke="#C8102E" strokeWidth="2.5"/>
-                <path d="M16 0 V32 M0 16 H32" stroke="#fff" strokeWidth="6"/>
-                <path d="M16 0 V32 M0 16 H32" stroke="#C8102E" strokeWidth="4"/>
-              </svg>
-              <span className="font-display font-black text-2xl uppercase tracking-tighter text-white">JOBFILTER</span>
-            </div>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mb-2">Built in Birmingham. Built for the trade.</p>
-            <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">© {new Date().getFullYear()} JobFilter. All rights reserved.</p>
-          </div>
-          <div className="grid grid-cols-2 gap-10 text-[11px] font-black uppercase tracking-widest text-slate-500">
-            <div className="space-y-3">
-              <p className="text-slate-300">Product</p>
-              <a href="#features" className="block hover:text-white transition-colors">Features</a>
-              <a href="#tools" className="block hover:text-white transition-colors">Free Tools</a>
-              <a href="https://codex.jobfilter.uk" target="_blank" rel="noreferrer" className="block hover:text-white transition-colors">Codex</a>
-              <a href="https://vantage.jobfilter.uk" target="_blank" rel="noreferrer" className="block hover:text-white transition-colors">Vantage</a>
-              <a href="https://vicinity.jobfilter.uk" target="_blank" rel="noreferrer" className="block hover:text-white transition-colors">Vicinity</a>
-              <a href="#pricing" className="block hover:text-white transition-colors">Pricing</a>
-            </div>
-            <div className="space-y-3">
-              <p className="text-high-vis-orange">Legal</p>
-              <a href="/privacy" className="block hover:text-white transition-colors">Privacy</a>
-              <a href="/terms" className="block hover:text-white transition-colors">Terms</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+      </main>
+    </Shell>
   );
 }
 
-// ─── Reusable UI helpers ───────────────────────────────────────────────────────
-function SliderField({ label, value, setValue, min, max, step = 1, unit, prefix }: {
-  label: string; value: number; setValue: (v: number) => void;
-  min: number; max: number; step?: number; unit?: string; prefix?: string;
-}) {
+export function CodexPage() {
   return (
-    <div>
-      <div className="flex justify-between mb-2">
-        <label className="text-xs font-black uppercase tracking-widest text-slate-500">{label}</label>
-        <span className="text-deep-slate font-black text-sm">{prefix}{value.toLocaleString()}{unit}</span>
-      </div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={e => setValue(parseFloat(e.target.value))}
-        className="w-full h-2 bg-slate-200 rounded-none appearance-none cursor-pointer accent-deep-slate" />
-    </div>
+    <ProductPage
+      title="CODEX"
+      summary="Write sharp replies and quotes fast. NO CHASING."
+      sections={[
+        { title: 'Pain', body: 'Slow replies lose jobs.' },
+        { title: 'Fix', body: 'Build clean quote copy in minutes.' },
+        { title: 'Control', body: 'You send faster and keep momentum.' },
+        { title: 'Result', body: 'More wins with less admin drag.' },
+      ]}
+    />
   );
 }
 
-function QuoteLine({ label, value, large, orange, small }: { label: string; value: string; large?: boolean; orange?: boolean; small?: boolean }) {
+export function VantagePage() {
   return (
-    <div className="flex justify-between items-center">
-      <span className={`font-black uppercase tracking-wide ${small ? 'text-[10px] text-slate-400' : large ? 'text-sm text-slate-600' : 'text-xs text-slate-500'}`}>{label}</span>
-      <span className={`font-black ${large ? 'text-2xl' : small ? 'text-sm text-slate-500' : 'text-sm text-slate-600'} ${orange ? 'text-deep-slate bg-high-vis-orange px-1' : ''}`}>{value}</span>
-    </div>
+    <ProductPage
+      title="VANTAGE"
+      summary="Turn finished work into proof buyers trust. NO COMPETING."
+      sections={[
+        { title: 'Pain', body: 'No proof means weak trust.' },
+        { title: 'Fix', body: 'Shape jobs into hard proof blocks.' },
+        { title: 'Control', body: 'Lead with evidence, not promises.' },
+        { title: 'Result', body: 'Higher-value jobs with less friction.' },
+      ]}
+    />
   );
+}
+
+export function VicinityPage() {
+  return (
+    <ProductPage
+      title="VICINITY"
+      summary="Show local proof so buyers stop shopping around. STAY IN CONTROL."
+      sections={[
+        { title: 'Pain', body: 'If locals cannot see your work, you lose trust.' },
+        { title: 'Fix', body: 'Surface nearby completed jobs fast.' },
+        { title: 'Control', body: 'Own your patch with visible results.' },
+        { title: 'Result', body: 'Warmer enquiries and faster yes decisions.' },
+      ]}
+    />
+  );
+}
+
+export function PricingPage() {
+  return (
+    <Shell>
+      <main>
+        <section className="border-b-4 border-black bg-[#e5e5e5] px-4 py-12">
+          <div className="mx-auto max-w-6xl text-center">
+            <h1 className="text-8xl font-black uppercase leading-none">THE COST OF DOING NOTHING</h1>
+            <p className="mt-3 text-3xl font-bold text-[#8da0bd]">Adjust the sliders. See what you're leaving on the table every year.</p>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              <div className="border-4 border-black bg-[#e5e5e5] p-8 text-left shadow-[6px_6px_0_#111]">
+                <div className="mb-8 flex items-center justify-between">
+                  <p className="text-4xl font-black uppercase">HOURS WASTED WEEKLY</p>
+                  <span className="border-4 border-black bg-[#facc15] px-4 py-1 text-6xl font-black">5</span>
+                </div>
+                <div className="h-3 border-4 border-black bg-white"><div className="h-full w-1/4 bg-[#facc15]" /></div>
+                <div className="mb-8 mt-10 flex items-center justify-between">
+                  <p className="text-4xl font-black uppercase">MILES DRIVEN FOR NOTHING</p>
+                  <span className="border-4 border-black bg-[#facc15] px-4 py-1 text-6xl font-black">50</span>
+                </div>
+                <div className="h-3 border-4 border-black bg-white"><div className="h-full w-1/5 bg-[#facc15]" /></div>
+              </div>
+              <div className="border-4 border-black bg-[#05070d] p-8 text-center text-white shadow-[6px_6px_0_#111]">
+                <p className="text-5xl font-black uppercase tracking-wider">YOU LOSE EVERY YEAR</p>
+                <p className="mt-3 text-[86px] font-black leading-none text-[#facc15]">£12,870</p>
+                <p className="mt-4 text-3xl font-black uppercase">THAT'S A SECOND VAN. PAID FOR FREE.</p>
+                <Link to="/demo" className="mt-6 inline-flex border-4 border-[#facc15] bg-[#facc15] px-10 py-3 text-3xl font-black uppercase text-black">FIX THIS NOW →</Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b-4 border-black bg-[#05070d] px-4 py-12">
+          <div className="mx-auto max-w-6xl text-center">
+            <h2 className="text-8xl font-black uppercase text-[#facc15]">ONE PRICE. NO GAMES.</h2>
+            <p className="mt-2 text-3xl font-bold text-white">No lead fees. No bidding wars. No race to the bottom.</p>
+            <p className="mx-auto mt-5 w-fit border-4 border-[#facc15] bg-[#facc15] px-6 py-2 text-2xl font-black uppercase">If this wins one £20k job, it pays for itself for years.</p>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <article className="border-4 border-black bg-[#e5e5e5] p-6 text-left">
+                <h3 className="text-5xl font-black uppercase">FREE TOOLS</h3>
+                <p className="mt-1 text-8xl font-black">£0</p>
+                <ul className="mt-3 space-y-2 text-xl font-bold">
+                  <li>✓ Quote estimator</li><li>✓ Lead quality checker</li><li>✓ Market scanner</li><li className="text-[#8a9bb6]">✕ Job delivery</li>
+                </ul>
+                <Link to="/demo" className="mt-8 inline-flex border-4 border-black px-6 py-3 text-2xl font-black uppercase">USE FOR FREE</Link>
+              </article>
+              <article className="border-4 border-black bg-[#facc15] p-6 text-left">
+                <p className="text-lg font-black uppercase">FOR TRADESMEN</p>
+                <h3 className="text-5xl font-black uppercase">INTAKE ENGINE</h3>
+                <p className="mt-1 text-8xl font-black">£49 <span className="text-3xl">/month</span></p>
+                <ul className="mt-3 space-y-2 text-xl font-bold">
+                  <li>✓ Better jobs delivered daily</li><li>✓ Tyre-kickers killed before they reach you</li><li>✓ Vantage + Vicinity + Codex</li>
+                </ul>
+                <Link to="/demo" className="mt-8 inline-flex border-4 border-black bg-black px-6 py-3 text-2xl font-black uppercase text-[#facc15]">GET STARTED →</Link>
+              </article>
+              <article className="border-4 border-black bg-[#e5e5e5] p-6 text-left">
+                <h3 className="text-5xl font-black uppercase">CODEX</h3>
+                <p className="mt-1 text-8xl font-black">£99 <span className="text-3xl">/month</span></p>
+                <ul className="mt-3 space-y-2 text-xl font-bold">
+                  <li>✓ Specs → sales proposals</li><li>✓ Better tender presentation</li><li>✓ For engineering firms and specialists</li>
+                </ul>
+                <Link to="/codex" className="mt-8 inline-flex border-4 border-black bg-black px-6 py-3 text-2xl font-black uppercase text-white">VIEW CODEX →</Link>
+              </article>
+            </div>
+
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 text-left">
+              <div>
+                <h3 className="text-6xl font-black uppercase text-[#facc15]">FREE TOOLS. NO CARD.</h3>
+                <p className="mt-1 text-2xl font-bold text-white">Quote estimators, lead checkers, market scanners. Always free.</p>
+              </div>
+              <Link to="/demo" className="inline-flex border-4 border-white bg-white px-7 py-3 text-2xl font-black uppercase">SEE FREE TOOLS →</Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#e5e5e5] px-4 py-14 text-center">
+          <h2 className="text-8xl font-black uppercase leading-none">READY TO STOP GUESSING?</h2>
+          <p className="mx-auto mt-5 max-w-3xl text-3xl font-bold text-[#8da0bd]">Subscribe to Intake Engine. Get Vantage, Vicinity, and Codex included.</p>
+          <Link to="/demo" className="mx-auto mt-8 inline-flex border-4 border-black bg-[#facc15] px-12 py-5 text-4xl font-black uppercase shadow-[6px_6px_0_#111]">GET INTAKE ENGINE →</Link>
+        </section>
+      </main>
+    </Shell>
+  );
+}
+
+export function DashboardPage() {
+  return <ProductPage title="DASHBOARD" summary="Your intake control room." sections={[{ title: 'Focus', body: 'Watch lead quality and move quick.' }, { title: 'Speed', body: 'See what matters first.' }, { title: 'Control', body: 'Run jobs like a system.' }, { title: 'Result', body: 'Less chaos. More paid work.' }]} />;
+}
+
+export function ActivationPendingPage() {
+  return <ProductPage title="ACTIVATION PENDING" summary="Setup is queued. Demo is live now." sections={[{ title: 'Now', body: 'Run the demo and check job flow.' }, { title: 'Next', body: 'We finish setup and unlock full access.' }, { title: 'Control', body: 'You keep momentum while waiting.' }, { title: 'Result', body: 'No dead end.' }]} />;
+}
+
+export function PrivacyPage() {
+  return <ProductPage title="PRIVACY" summary="We keep only what is needed to run the FAIR SYSTEM." sections={[{ title: 'Keep', body: 'Only routing and scoring data.' }, { title: 'No traps', body: 'No pointless data grab.' }, { title: 'Control', body: 'Simple and direct.' }, { title: 'Result', body: 'Clear rules. No noise.' }]} />;
+}
+
+export function TermsPage() {
+  return <ProductPage title="TERMS" summary="JobFilter filters leads. You control pricing and delivery." sections={[{ title: 'Role', body: 'We filter intake and surface jobs.' }, { title: 'Boundary', body: 'Your trade agreement stays yours.' }, { title: 'Control', body: 'Clear split. No confusion.' }, { title: 'Result', body: 'Fair and simple.' }]} />;
 }
