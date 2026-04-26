@@ -37,9 +37,10 @@ type ScanPayload = {
 
 const NAV_ITEMS: Array<{ to: string; label: string }> = [
   { to: '/', label: 'Home' },
-  { to: '/pricing', label: 'Intake Engine' },
+  { to: '/demo', label: 'Find Jobs' },
   { to: '/vantage', label: 'Vantage' },
   { to: '/vicinity', label: 'Vicinity' },
+  { to: '/codex', label: 'Codex' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
