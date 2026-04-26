@@ -2,7 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import Stripe from "stripe";
-import { scan } from "./leadEngine/scan.ts";
+import { scan } from "./leadEngine/scan";
 
 const DEFAULT_ORIGIN = process.env.APP_URL || "http://localhost:3000";
 const stripeSecret = process.env.STRIPE_SECRET_KEY || "";
@@ -232,7 +232,7 @@ function registerApi(app: express.Express) {
               name: "JobFilter Intake Engine",
               description: "REAL LEADS. NO CHASING. NO CONTRACTS.",
             },
-            unit_amount: 2900,
+            unit_amount: 4900,
             recurring: { interval: "month" },
           },
           quantity: 1,

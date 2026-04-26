@@ -12,8 +12,8 @@
  *   Params: limit, cursor, updatedFrom, updatedTo, stages
  */
 
-import type { RawLead, SourceStats } from '../types.ts';
-import { CONFIG } from '../config.ts';
+import type { RawLead, SourceStats } from '../types';
+import { CONFIG } from '../config';
 
 // ── CPV prefix → trade mapping (post-fetch filter) ────────────────────────────
 const CPV_TRADE_PREFIXES: Record<string, string[]> = {

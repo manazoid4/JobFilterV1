@@ -1,5 +1,5 @@
-import type { Lead, RawLead, TradeKey } from './types.ts';
-import { getOutward, regionFromOutward } from './postcode.ts';
+import type { Lead, RawLead, TradeKey } from './types';
+import { getOutward, regionFromOutward } from './postcode';
 
 // ── CPV → trade mapping ────────────────────────────────────────────────────────
 const CPV_TRADE_MAP: Array<[string, TradeKey]> = [
