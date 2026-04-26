@@ -107,12 +107,13 @@ function registerApi(app: express.Express) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ error: "Valid email required" });
     }
-    console.log("[Waitlist]", { email, plan: req.body?.plan ?? "unknown", createdAt: new Date().toISOString() });
+    console.log("[Waitlist]", { email: email.replace(/^[^@]+/, "***"), plan: req.body?.plan ?? "unknown", createdAt: new Date().toISOString() });
     res.json({ ok: true });
   });
 
   app.post("/api/onboarding/submit", (req, res) => {
-    console.log("[Onboarding]", { ...req.body, createdAt: new Date().toISOString() });
+    const { email: _email, name: _name, phone: _phone, ...safeBody } = req.body ?? {};
+    console.log("[Onboarding]", { ...safeBody, createdAt: new Date().toISOString() });
     res.json({ ok: true });
   });
 
@@ -230,7 +231,7 @@ function registerApi(app: express.Express) {
 
   app.post("/api/email-gate/unlock", (req, res) => {
     const email = String(req.body?.email ?? "").trim().toLowerCase();
-    console.log("[EmailGate]", { email, postcode: req.body?.postcode, trade: req.body?.trade, createdAt: new Date().toISOString() });
+    console.log("[EmailGate]", { email: email.replace(/^[^@]+/, "***"), postcode: req.body?.postcode, trade: req.body?.trade, createdAt: new Date().toISOString() });
     res.json({ ok: true });
   });
 

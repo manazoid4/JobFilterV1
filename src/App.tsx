@@ -309,9 +309,10 @@ export function HomePage() {
               then sends only the verified, high-value work directly to you. Every morning.
             </p>
             <p className="mt-3 text-base font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
+            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · No Chasing · No Competing · Control The Jobs · Stay In Control</p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/demo" className="inline-flex rounded-md bg-[#facc15] px-8 py-3.5 text-base font-bold text-black transition-colors hover:bg-yellow-300">
-                See jobs near you →
+                Enter The Intake →
               </Link>
               <Link to="/pricing" className="inline-flex rounded-md border border-[#2d3b4f] px-8 py-3.5 text-base font-semibold text-[#94a3b8] transition-colors hover:border-white hover:text-white">
                 View pricing
@@ -649,7 +650,7 @@ export function PricingPage() {
         {/* Plans */}
         <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
           <div className="mx-auto max-w-6xl text-center">
-            <h2 className="text-5xl font-bold text-[#facc15]">One price. No games.</h2>
+            <h2 className="text-5xl font-bold text-[#facc15]">One price. Fair System. No games.</h2>
             <p className="mt-2 text-xl font-medium text-[#94a3b8]">No per-lead fees. No bidding wars. No race to the bottom.</p>
             <p className="mt-3 text-base font-medium text-[#06b6d4]">📱 Jobs delivered straight to your WhatsApp. No dashboard required.</p>
             <p className="mx-auto mt-5 w-fit rounded-md bg-[#facc15] px-5 py-2 text-sm font-bold text-black">
