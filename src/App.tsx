@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -516,7 +516,11 @@ export function DemoPage() {
           {/* Free leads */}
           {freeLeads.length > 0 && (
             <div className="mt-4 grid gap-3">
-              {freeLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}
+              {freeLeads.map((lead) => (
+                <Fragment key={lead.id}>
+                  <LeadCard lead={lead} />
+                </Fragment>
+              ))}
             </div>
           )}
 
