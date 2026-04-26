@@ -109,7 +109,7 @@ export const CONFIG: LeadEngineConfig = {
   maxDeadlineDaysFromNow: 180, // don't show notices 6+ months out
 
   topN: 25,
-  freeTierLimit: 5,
+  freeTierLimit: 25, // TEST MODE — revert to 5 before launch
   fetchTimeoutMs: 9_000,
   retryAttempts: 2,
   lookbackDays: 14,

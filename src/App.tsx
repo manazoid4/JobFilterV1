@@ -449,8 +449,8 @@ export function DemoPage() {
 
   useEffect(() => { void runScan(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const freeLeads   = useMemo(() => leads.slice(0, 2), [leads]);
-  const lockedLeads = useMemo(() => leads.slice(2),    [leads]);
+  const freeLeads   = useMemo(() => leads, [leads]); // TEST MODE — revert to slice(0,2)
+  const lockedLeads = useMemo(() => [] as Lead[],   []);  // TEST MODE — revert to slice(2)
 
   return (
     <Shell>
