@@ -90,30 +90,32 @@ async function redirectToCheckout(email = ''): Promise<void> {
 function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-gray-50 text-black">
-      <header className="sticky top-0 z-20 border-b border-[#2D3B4F] bg-[#0A0F1E]">
+      <header className="sticky top-0 z-20 border-b border-[#2d3b4f] bg-[#0a0f1e]">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold leading-none tracking-tight text-white">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded bg-[#facc15] text-xl">🇬🇧</span>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-[#facc15] text-xl">🇬🇧</span>
             JobFilter
           </Link>
-          <nav className="flex flex-wrap items-center gap-5 text-sm font-semibold">
+          <nav className="flex flex-wrap items-center gap-4 text-sm font-semibold">
             {NAV_ITEMS.map((item) => (
-              <Link key={item.label} to={item.to} className="text-gray-300 transition-colors hover:text-white">{item.label}</Link>
+              <Link key={item.label} to={item.to} className="text-[#94a3b8] transition-colors hover:text-white">
+                {item.label}
+              </Link>
             ))}
-            <Link to="/demo" className="border border-[#facc15] bg-[#facc15] px-4 py-1.5 text-sm font-bold leading-none text-black hover:bg-amber-400">
+            <Link to="/demo" className="rounded-md bg-[#2563eb] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">
               Find Jobs
             </Link>
           </nav>
         </div>
       </header>
       {children}
-      <footer className="border-t border-[#2D3B4F] bg-[#0A0F1E] px-4 py-8">
+      <footer className="border-t border-[#2d3b4f] bg-[#0a0f1e] px-4 py-8">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <p className="text-xs text-gray-500">© 2026 JobFilter. Built for UK trades.</p>
+          <p className="text-sm font-medium text-[#64748b]">© 2026 JobFilter. Built for UK trades.</p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="text-xs text-gray-500 hover:text-white">Privacy</Link>
-            <Link to="/terms" className="text-xs text-gray-500 hover:text-white">Terms</Link>
-            <Link to="/codex" className="text-xs font-semibold text-[#facc15] hover:text-white">For manufacturers →</Link>
+            <Link to="/privacy" className="text-sm text-[#64748b] hover:text-white">Privacy</Link>
+            <Link to="/terms" className="text-sm text-[#64748b] hover:text-white">Terms</Link>
+            <Link to="/codex" className="text-sm font-semibold text-[#06b6d4] hover:text-white">For manufacturers →</Link>
           </div>
         </div>
       </footer>
@@ -125,12 +127,12 @@ function Shell({ children }: { children: ReactNode }) {
 
 function TrustStrip() {
   return (
-    <div className="border-y border-[#2D3B4F] bg-[#0A0F1E] px-4 py-3">
+    <div className="border-y-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-3">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 md:gap-10">
-        <p className="text-xs font-semibold text-[#facc15]">247 jobs found today</p>
-        <p className="text-xs font-semibold text-white">Updated live</p>
-        <p className="text-xs font-semibold text-[#facc15]">3,200+ tradespeople</p>
-        <p className="text-xs font-semibold text-white">📱 Delivered to WhatsApp</p>
+        <p className="text-sm font-semibold text-[#facc15]">247 jobs found today</p>
+        <p className="text-sm font-semibold text-white">Updated live</p>
+        <p className="text-sm font-semibold text-[#94a3b8]">3,200+ tradespeople</p>
+        <p className="text-sm font-semibold text-[#94a3b8]">📱 Delivered to WhatsApp</p>
       </div>
     </div>
   );
@@ -138,18 +140,19 @@ function TrustStrip() {
 
 function Testimonial() {
   return (
-    <section className="border-b-2 border-black bg-white px-4 py-10">
+    <section className="border-b-2 border-gray-200 bg-white px-4 py-10">
       <div className="mx-auto max-w-4xl">
-        <p className="text-xs font-semibold tracking-widest text-[#8da0bd]">What tradespeople say</p>
-        <blockquote className="mt-4 border-l-4 border-[#facc15] pl-6">
-          <p className="text-xl font-semibold leading-8">
-            "I was spending Sunday evenings looking through Facebook groups and Checkatrade hoping something useful would come up.
-            JobFilter replaced all of that. I get a message every morning — usually six or seven jobs within 20 miles.
+        <p className="text-xs font-semibold uppercase tracking-widest text-[#94a3b8]">What tradespeople say</p>
+        <blockquote className="mt-4 border-l-4 border-[#2563eb] pl-6">
+          <p className="text-xl font-semibold leading-8 text-gray-800">
+            "I was spending Sunday evenings looking through Facebook groups and Checkatrade hoping
+            something useful would come up. JobFilter replaced all of that. I get a message every
+            morning — usually six or seven jobs within 20 miles — and I pick the ones worth calling.
             Signed two loft conversions in my first month."
           </p>
           <footer className="mt-4">
-            <p className="text-base font-bold">Dean Farrow</p>
-            <p className="text-sm text-[#8da0bd]">Roofer · Leeds · Member since 2024</p>
+            <p className="text-base font-bold text-gray-900">Dean Farrow</p>
+            <p className="text-sm font-medium text-[#64748b]">Roofer · Leeds · Member since 2024</p>
           </footer>
         </blockquote>
       </div>
@@ -157,39 +160,42 @@ function Testimonial() {
   );
 }
 
-const URGENCY_STYLE: Record<string, string> = {
-  high:   'bg-red-50 text-red-600 border border-red-200',
-  medium: 'bg-amber-50 text-amber-600 border border-amber-200',
-  low:    'bg-emerald-50 text-emerald-600 border border-emerald-200',
-};
-
-const URGENCY_ACCENT: Record<string, string> = {
-  high:   'border-l-red-500',
-  medium: 'border-l-amber-400',
-  low:    'border-l-emerald-500',
+const URGENCY_STYLE: Record<string, { badge: string; bar: string }> = {
+  high:   { badge: 'bg-red-50 text-red-600 border border-red-200',              bar: 'bg-red-500' },
+  medium: { badge: 'bg-amber-50 text-amber-700 border border-amber-200',        bar: 'bg-[#facc15]' },
+  low:    { badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200',  bar: 'bg-emerald-400' },
 };
 
 function LeadCard({ lead }: { lead: Lead }) {
   const urg = (lead.urgency ?? 'medium').toLowerCase();
+  const style = URGENCY_STYLE[urg] ?? URGENCY_STYLE.medium;
   const daysAgo = stableDaysAgo(lead.id);
-  const accent = URGENCY_ACCENT[urg] ?? URGENCY_ACCENT.medium;
   return (
-    <article className={`border border-gray-200 border-l-4 ${accent} bg-white p-4 shadow-sm`}>
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="flex-1">
-          <h2 className="text-base font-bold leading-tight tracking-tight">{lead.title}</h2>
-          <p className="mt-1 text-sm text-gray-500">{lead.location}</p>
+    <article className="relative flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className={`w-1 flex-shrink-0 ${style.bar}`} />
+      <div className="flex-1 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div className="flex-1">
+            <h2 className="text-base font-bold leading-snug text-gray-900">{lead.title}</h2>
+            <p className="mt-0.5 font-mono text-xs text-gray-500">{lead.location}</p>
+          </div>
+          <span className={`rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${style.badge}`}>
+            {urg}
+          </span>
         </div>
-        <span className={`rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${URGENCY_STYLE[urg] ?? URGENCY_STYLE.medium}`}>
-          {urg}
-        </span>
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-gray-100 pt-3">
-        <p className="text-lg font-bold">{lead.estimatedValue}</p>
-        <div className="ml-auto flex gap-2">
-          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">Confidence: {lead.sourceConfidence ?? 80}%</span>
-          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">{daysAgo}d ago</span>
-          <span className="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">{lead.source}</span>
+        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-3">
+          <span className="text-lg font-bold text-gray-900">{lead.estimatedValue}</span>
+          <div className="ml-auto flex gap-2">
+            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+              {lead.sourceConfidence ?? 80}% match
+            </span>
+            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+              {daysAgo}d ago
+            </span>
+            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+              {lead.source}
+            </span>
+          </div>
         </div>
       </div>
     </article>
@@ -198,9 +204,9 @@ function LeadCard({ lead }: { lead: Lead }) {
 
 function Panel({ title, body }: { title: string; body: string }) {
   return (
-    <article className="border border-gray-200 bg-white p-4">
-      <h3 className="text-sm font-bold text-gray-800">{title}</h3>
-      <p className="mt-1 text-sm text-gray-600">{body}</p>
+    <article className="rounded-lg border border-gray-200 bg-white p-4">
+      <h3 className="text-xs font-semibold text-gray-500">{title}</h3>
+      <p className="mt-1 text-base font-bold text-gray-900">{body}</p>
     </article>
   );
 }
@@ -213,7 +219,7 @@ function stableDaysAgo(id: string): number {
 
 function CTA({ to = '/demo', label = 'Find Jobs' }: { to?: string; label?: string }) {
   return (
-    <Link to={to} className="inline-flex items-center justify-center border-2 border-black bg-black px-5 py-2.5 text-sm font-bold text-[#facc15] hover:bg-[#0A0F1E]">
+    <Link to={to} className="inline-flex items-center justify-center rounded-md bg-[#2563eb] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8]">
       {label}
     </Link>
   );
@@ -225,7 +231,7 @@ function CheckoutButton({ label = 'Get Intake Engine →', email = '' }: { label
     <button
       disabled={loading}
       onClick={async () => { setLoading(true); await redirectToCheckout(email); setLoading(false); }}
-      className="inline-flex cursor-pointer items-center justify-center border-2 border-black bg-[#0A0F1E] px-6 py-3 text-base font-bold text-[#facc15] disabled:opacity-60 hover:bg-black"
+      className="inline-flex cursor-pointer items-center justify-center rounded-md bg-[#2563eb] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-60"
     >
       {loading ? 'Redirecting...' : label}
     </button>
@@ -236,13 +242,13 @@ function ProductPage({ title, summary, sections }: { title: string; summary: str
   return (
     <Shell>
       <main className="px-4 py-8">
-        <div className="mx-auto max-w-5xl border-2 border-black bg-white p-6">
-          <p className="text-xs font-semibold tracking-widest text-gray-400">Built for trades</p>
-          <h1 className="mt-2 text-4xl font-bold leading-none tracking-tight">{title}</h1>
-          <p className="mt-3 max-w-3xl text-sm font-semibold leading-5">{summary}</p>
+        <div className="mx-auto max-w-5xl rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#2563eb]">Built for trades</p>
+          <h1 className="mt-2 text-4xl font-bold leading-tight tracking-tight text-gray-900">{title}</h1>
+          <p className="mt-3 max-w-3xl text-base font-medium leading-6 text-gray-600">{summary}</p>
           <div className="mt-5 flex flex-wrap gap-2">
-            <CTA label="Get Leads" />
-            <Link to="/pricing" className="inline-flex items-center justify-center border-2 border-black bg-[#facc15] px-5 py-2.5 text-sm font-bold">
+            <CTA label="Get leads" />
+            <Link to="/pricing" className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50">
               No contracts
             </Link>
           </div>
@@ -259,23 +265,23 @@ function ProductPage({ title, summary, sections }: { title: string; summary: str
 
 function ProductCards() {
   const cards = [
-    { name: 'Vantage',  pain: 'Your price is right. Their PDF looks better.',       body: 'Vantage turns your tenders into premium visual bid decks that win on presentation.',              to: '/vantage' },
-    { name: 'Vicinity', pain: 'Your best work is buried in your camera roll.',       body: 'Vicinity turns finished jobs into local sales assets that keep winning you premium work.',        to: '/vicinity' },
-    { name: 'Codex',    pain: 'Complex specs lose jobs to simpler quotes.',          body: 'Codex converts technical complexity into clear sales copy that closes jobs.',                      to: '/codex' },
+    { name: 'Vantage',  pain: 'Your price is right. Their PDF looks better.',    body: 'Vantage turns your tenders into premium visual bid decks that win on presentation.', to: '/vantage' },
+    { name: 'Vicinity', pain: 'Your best work is buried in your camera roll.',    body: 'Vicinity turns finished jobs into local sales assets that keep winning premium work.', to: '/vicinity' },
+    { name: 'Codex',    pain: 'Complex specs lose jobs to simpler quotes.',        body: 'Codex converts technical complexity into clear sales copy that closes jobs.', to: '/codex' },
   ];
   return (
-    <section className="border-y-2 border-black bg-[#facc15] px-4 py-12">
+    <section className="border-y-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-5xl font-bold leading-none tracking-tight">Then win the job.</h2>
-        <p className="mx-auto mt-4 max-w-3xl text-center text-xl font-semibold">Getting in front of the job is step one. These three make sure you walk out with it.</p>
+        <h2 className="text-center text-4xl font-bold leading-tight text-gray-900">Then win the job.</h2>
+        <p className="mx-auto mt-4 max-w-3xl text-center text-lg font-medium text-gray-600">Getting in front of the job is step one. These three make sure you walk out with it.</p>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {cards.map((card) => (
-            <article key={card.name} className="flex flex-col border-2 border-black bg-[#e9e9e9] p-7 shadow-[4px_4px_0_#000]">
-              <h3 className="w-fit bg-black px-4 py-2 text-3xl font-bold text-[#facc15]">{card.name}</h3>
-              <p className="mt-6 text-lg font-bold text-[#e11d1d]">{card.pain}</p>
-              <p className="mt-4 text-base font-semibold leading-7 text-[#4f6786]">{card.body}</p>
-              <Link to={card.to} className="mt-8 inline-flex w-fit items-center justify-center border-2 border-black bg-[#facc15] px-5 py-2.5 text-base font-bold text-black hover:bg-amber-400">
-                Yours with Intake Engine
+            <article key={card.name} className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900">{card.name}</h3>
+              <p className="mt-4 text-base font-semibold text-red-600">{card.pain}</p>
+              <p className="mt-3 text-sm font-medium leading-6 text-gray-600">{card.body}</p>
+              <Link to={card.to} className="mt-6 inline-flex w-fit items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50">
+                Yours with Intake Engine →
               </Link>
             </article>
           ))}
@@ -292,54 +298,56 @@ export function HomePage() {
     <Shell>
       <main>
         {/* 1. HERO */}
-        <section className="border-b-2 border-black bg-[#e5e5e5] px-4 py-12">
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-16">
           <div className="mx-auto max-w-6xl text-center">
-            <h1 className="text-6xl font-bold leading-tight tracking-tight">
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#06b6d4]">Built for UK tradespeople</p>
+            <h1 className="mt-4 text-5xl font-bold leading-tight tracking-tight text-white md:text-6xl">
               The jobs worth quoting<br />land in your WhatsApp.
             </h1>
-            <div className="mx-auto mt-4 w-fit border-2 border-black bg-[#facc15] px-6 py-2 shadow-[4px_4px_0_#111]">
-              <h2 className="text-5xl font-bold leading-tight tracking-tight">The rest don't.</h2>
+            <p className="mx-auto mt-6 max-w-3xl text-xl font-medium leading-8 text-[#94a3b8]">
+              JobFilter scans planning applications, contract notices, and local signals across the UK —
+              then sends only the verified, high-value work directly to you. Every morning.
+            </p>
+            <p className="mt-3 text-base font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <Link to="/demo" className="inline-flex rounded-md bg-[#facc15] px-8 py-3.5 text-base font-bold text-black transition-colors hover:bg-yellow-300">
+                See jobs near you →
+              </Link>
+              <Link to="/pricing" className="inline-flex rounded-md border border-[#2d3b4f] px-8 py-3.5 text-base font-semibold text-[#94a3b8] transition-colors hover:border-white hover:text-white">
+                View pricing
+              </Link>
             </div>
-            <p className="mx-auto mt-6 max-w-3xl text-lg font-semibold leading-8 text-gray-700">
-              JobFilter scans planning data, contract notices, and local signals across the UK.
-              It filters time-wasters and delivers only real, vetted jobs — straight to your phone.
+            <p className="mt-6 text-sm font-medium text-[#64748b]">
+              Used by 1,400+ UK tradesmen · Average 11 qualified leads per week
             </p>
-            <p className="mt-3 text-base font-semibold text-[#4f6786]">
-              📱 Delivered to your WhatsApp daily. No apps. No dashboards. Just leads.
-            </p>
-            <Link to="/demo" className="mx-auto mt-8 inline-flex border-2 border-black bg-[#facc15] px-10 py-4 text-2xl font-bold shadow-[4px_4px_0_#111] hover:bg-amber-400">
-              See jobs near you →
-            </Link>
-            <p className="mt-4 text-sm text-gray-500">Used by 1,400+ UK tradesmen. Average of 11 qualified leads delivered per week.</p>
           </div>
         </section>
 
         <TrustStrip />
 
         {/* 2. INTAKE ENGINE */}
-        <section className="border-b-2 border-black bg-[#0A0F1E] px-4 py-12">
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-14">
           <div className="mx-auto max-w-6xl">
-            <p className="text-center text-xs font-semibold tracking-widest text-[#facc15]">The core product</p>
-            <h2 className="mt-2 text-center text-5xl font-bold text-white">Intake Engine</h2>
-            <p className="mx-auto mt-4 max-w-3xl text-center text-lg font-semibold text-[#d5deed]">
-              One subscription. Real jobs before they hit job boards. No time-wasters.
-              Delivered straight to your WhatsApp every morning.
+            <p className="text-center text-xs font-semibold uppercase tracking-widest text-[#06b6d4]">The core product</p>
+            <h2 className="mt-2 text-center text-4xl font-bold text-white">Intake Engine</h2>
+            <p className="mx-auto mt-4 max-w-3xl text-center text-lg font-medium text-[#94a3b8]">
+              One subscription. Real jobs before job boards. No time-wasters. Straight to WhatsApp.
             </p>
-            <div className="mt-8 grid gap-0 border-2 border-[#facc15] md:grid-cols-3">
+            <div className="mt-8 grid gap-0 rounded-xl border-2 border-[#2d3b4f] md:grid-cols-3">
               {[
-                ['01', 'Find',    'Scans planning data, contract notices, and local signals constantly. Before anyone else sees them.'],
-                ['02', 'Filter',  'Removes low-budget enquiries, duplicate postings, and jobs not worth your drive — before they reach you.'],
-                ['03', 'Deliver', 'Sends only vetted, high-value jobs to your WhatsApp. Ready to quote. Ready to win.'],
+                ['01', 'Find',    'Scans planning portals, contract notices, and local boards across the UK in real time. Before anyone else sees them.'],
+                ['02', 'Filter',  'Every lead is scored against your trade, location, and job size. Vague enquiries and impossible budgets are cut before they reach you.'],
+                ['03', 'Deliver', 'Your shortlist arrives on WhatsApp each morning — job type, location, estimated value. Ready to quote.'],
               ].map(([num, title, body], idx) => (
-                <article key={title} className={`p-8 text-center ${idx > 0 ? 'border-l-2 border-[#facc15]' : ''}`}>
-                  <p className="text-6xl font-bold text-[#facc15]">{num}</p>
-                  <h3 className="mt-2 text-4xl font-bold text-white">{title}</h3>
-                  <p className="mt-4 text-base font-semibold leading-7 text-[#d5deed]">{body}</p>
+                <article key={title} className={`p-8 text-center ${idx > 0 ? 'border-l-2 border-[#2d3b4f]' : ''}`}>
+                  <p className="text-5xl font-bold text-[#facc15]">{num}</p>
+                  <h3 className="mt-2 text-3xl font-bold text-white">{title}</h3>
+                  <p className="mt-4 text-base font-medium leading-7 text-[#94a3b8]">{body}</p>
                 </article>
               ))}
             </div>
             <div className="mt-8 text-center">
-              <Link to="/demo" className="inline-flex border-2 border-[#facc15] bg-[#facc15] px-10 py-4 text-2xl font-bold text-black hover:bg-amber-400">
+              <Link to="/demo" className="inline-flex rounded-md bg-[#facc15] px-8 py-3.5 text-base font-bold text-black transition-colors hover:bg-yellow-300">
                 See jobs in your area →
               </Link>
             </div>
@@ -347,12 +355,12 @@ export function HomePage() {
         </section>
 
         {/* 3. DEMO PROOF */}
-        <section className="border-b-2 border-black bg-[#e5e5e5] px-4 py-10">
+        <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
           <div className="mx-auto max-w-6xl text-center">
-            <p className="text-xs font-semibold tracking-widest text-[#8da0bd]">Live system</p>
-            <h2 className="mt-2 text-4xl font-bold leading-none">See real jobs in your area.</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base font-semibold text-[#4f6786]">Enter your postcode. We'll show you what JobFilter has found in your area this week.</p>
-            <Link to="/demo" className="mt-6 inline-flex border-2 border-black bg-black px-10 py-4 text-2xl font-bold text-[#facc15] hover:bg-[#0A0F1E]">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#64748b]">Live system</p>
+            <h2 className="mt-2 text-3xl font-bold text-gray-900">See real jobs in your area.</h2>
+            <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-gray-600">Enter your postcode. We'll show you what's been found in your area right now.</p>
+            <Link to="/demo" className="mt-6 inline-flex rounded-md bg-[#0a0f1e] px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-[#1e2a3a]">
               Run a free scan →
             </Link>
           </div>
@@ -449,23 +457,23 @@ export function DemoPage() {
         <div className="mx-auto max-w-4xl">
 
           {/* Header */}
-          <div className="border-2 border-black bg-white p-5">
-            <p className="text-xs font-semibold tracking-widest text-[#8da0bd]">Live lead scan</p>
-            <h1 className="mt-1 text-3xl font-bold leading-none tracking-tight">Find jobs near you</h1>
-            <p className="mt-1 text-sm text-gray-500">Enter your postcode. See real jobs in your area now.</p>
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#2563eb]">Live lead scan</p>
+            <h1 className="mt-1 text-3xl font-bold leading-tight text-gray-900">Find jobs near you</h1>
+            <p className="mt-1 text-sm font-medium text-gray-500">Enter your postcode. See real jobs in your area now.</p>
 
             <div className="mt-4 flex flex-wrap items-end gap-3">
               <label className="block">
-                <span className="mb-1 block text-[10px] font-semibold tracking-widest text-gray-600">Postcode</span>
+                <span className="mb-1 block text-xs font-semibold text-gray-700">Postcode</span>
                 <input
                   value={postcode}
                   onChange={(e) => setPostcode(e.target.value.toUpperCase())}
-                  className="w-44 border-2 border-black px-3 py-2 text-sm font-bold"
+                  className="w-44 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20"
                 />
               </label>
               <label className="block">
-                <span className="mb-1 block text-[10px] font-semibold tracking-widest text-gray-600">Trade</span>
-                <select value={trade} onChange={(e) => setTrade(e.target.value)} className="w-44 border-2 border-black px-3 py-2 text-sm font-bold">
+                <span className="mb-1 block text-xs font-semibold text-gray-700">Trade</span>
+                <select value={trade} onChange={(e) => setTrade(e.target.value)} className="w-44 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20">
                   <option value="plumbing">Plumbing</option>
                   <option value="electrical">Electrical</option>
                   <option value="roofing">Roofing</option>
@@ -480,21 +488,23 @@ export function DemoPage() {
               <button
                 onClick={runScan}
                 disabled={loading}
-                className="border-2 border-black bg-[#facc15] px-6 py-2.5 text-sm font-bold disabled:opacity-50 hover:bg-amber-400"
+                className="rounded-md bg-[#facc15] px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-yellow-300 disabled:opacity-50"
               >
                 {loading ? 'Scanning...' : 'Scan now'}
               </button>
             </div>
 
-            {/* Filter pills (visual trust signal) */}
+            {/* Filter pills */}
             <div className="mt-4 flex flex-wrap gap-2">
-              {['All urgency', 'Within 10mi', 'Budget £500+', 'Verified only'].map((f) => (
-                <span key={f} className="rounded-full border border-gray-300 bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600">{f}</span>
+              {['All urgency', 'High value', 'Within 10mi', 'This week'].map((pill) => (
+                <span key={pill} className="cursor-pointer rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600 transition-colors hover:border-[#2563eb] hover:text-[#2563eb]">
+                  {pill}
+                </span>
               ))}
             </div>
           </div>
 
-          {scanError && <p className="mt-2 text-xs text-gray-500">{scanError}</p>}
+          {scanError && <p className="mt-2 text-xs font-medium text-amber-600">{scanError}</p>}
 
           {/* Stats strip */}
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -519,9 +529,9 @@ export function DemoPage() {
                     <div className="pointer-events-none select-none blur-sm">
                       <LeadCard lead={lead} />
                     </div>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/90 p-4 text-center">
-                      <p className="text-base font-bold">Unlock all {lockedLeads.length} leads in {summary.outward || postcode.split(' ')[0]}</p>
-                      <p className="mt-1 text-xs text-gray-500">No sales calls. No follow-up sequence. Just the leads.</p>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center rounded-lg bg-white/95 p-4 text-center shadow-md">
+                      <p className="text-base font-bold text-gray-900">Unlock all {lockedLeads.length} leads in {summary.outward || postcode.split(' ')[0]}</p>
+                      <p className="mt-1 text-sm text-gray-500">We'll send your results to your inbox. No sales calls.</p>
                       <div className="mt-3 flex flex-wrap justify-center gap-2">
                         <input
                           type="email"
@@ -529,12 +539,12 @@ export function DemoPage() {
                           onChange={(e) => setEmail(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && void submitEmail()}
                           placeholder="your@email.com"
-                          className="min-w-[200px] border-2 border-black px-3 py-2 text-sm font-bold"
+                          className="min-w-[200px] rounded-md border border-gray-300 px-3 py-2 text-sm font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20"
                         />
                         <button
                           onClick={() => void submitEmail()}
                           disabled={emailSubmitting}
-                          className="border-2 border-black bg-[#facc15] px-4 py-2 text-sm font-bold disabled:opacity-50 hover:bg-amber-400"
+                          className="rounded-md bg-[#2563eb] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-50"
                         >
                           {emailSubmitting ? '...' : 'Unlock →'}
                         </button>
@@ -553,10 +563,10 @@ export function DemoPage() {
 
           {/* Post-unlock banner */}
           {emailUnlocked && (
-            <div className="mt-4 border-2 border-black bg-[#0A0F1E] p-5 text-center">
-              <p className="text-lg font-bold text-[#facc15]">Leads unlocked. Subscribe for new jobs daily.</p>
-              <p className="mt-1 text-sm text-gray-400">These leads are live — get them delivered every morning.</p>
-              <div className="mt-3">
+            <div className="mt-4 rounded-xl border border-[#2d3b4f] bg-[#0a0f1e] p-5 text-center">
+              <p className="text-lg font-bold text-white">These leads are live — start your free week.</p>
+              <p className="mt-1 text-sm font-medium text-[#94a3b8]">Jobs delivered to WhatsApp every morning. Cancel any time.</p>
+              <div className="mt-4">
                 <CheckoutButton label="Get Intake Engine — £49/mo →" email={email} />
               </div>
             </div>
@@ -564,12 +574,12 @@ export function DemoPage() {
 
           {/* WhatsApp CTA (pre-unlock) */}
           {!emailUnlocked && (
-            <div className="mt-6 border-t border-gray-200 pt-6 text-center">
-              <p className="text-base font-bold">📱 Get new jobs on WhatsApp daily</p>
-              <p className="mt-1 text-sm text-gray-500">
+            <div className="mt-6 rounded-xl border border-gray-200 bg-white p-6 text-center shadow-sm">
+              <p className="text-base font-bold text-gray-900">📱 Get new jobs on WhatsApp daily</p>
+              <p className="mt-1 text-sm font-medium text-gray-500">
                 Subscribe to Intake Engine. Jobs delivered to your phone — no apps, no dashboards required.
               </p>
-              <div className="mt-3">
+              <div className="mt-4">
                 <CheckoutButton label="Get Intake Engine — £49/mo →" email={email} />
               </div>
             </div>
@@ -594,101 +604,100 @@ export function PricingPage() {
       <main>
 
         {/* Cost calculator */}
-        <section className="border-b-2 border-black bg-[#e5e5e5] px-4 py-12">
+        <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
-              <h1 className="text-5xl font-bold leading-none">The cost of losing time to bad leads</h1>
-              <p className="mt-3 text-lg font-semibold text-[#8da0bd]">Adjust the sliders. See what you're leaving on the table every year.</p>
+              <h1 className="text-5xl font-bold leading-tight text-gray-900">The cost of losing bad leads</h1>
+              <p className="mt-3 text-lg font-medium text-gray-600">Adjust the sliders. See what bad leads cost you per year.</p>
             </div>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
-              <div className="border-2 border-black bg-white p-8 shadow-[4px_4px_0_#111]">
+              <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
                 <div className="mb-8">
                   <div className="flex items-center justify-between">
-                    <p className="text-xl font-bold">Hours lost per week</p>
-                    <span className="border-2 border-black bg-[#facc15] px-4 py-1 text-4xl font-bold">{hours}</span>
+                    <p className="text-lg font-semibold text-gray-800">Hours lost per week</p>
+                    <span className="rounded-lg border border-gray-200 bg-[#facc15] px-4 py-1 text-4xl font-bold text-black">{hours}</span>
                   </div>
                   <input type="range" min="1" max="20" value={hours}
                     onChange={(e) => setHours(Number(e.target.value))}
-                    className="mt-4 w-full cursor-pointer accent-black" />
+                    className="mt-4 w-full cursor-pointer accent-[#2563eb]" />
                 </div>
                 <div>
                   <div className="flex items-center justify-between">
-                    <p className="text-xl font-bold">Wasted miles per week</p>
-                    <span className="border-2 border-black bg-[#facc15] px-4 py-1 text-4xl font-bold">{miles}</span>
+                    <p className="text-lg font-semibold text-gray-800">Wasted miles per week</p>
+                    <span className="rounded-lg border border-gray-200 bg-[#facc15] px-4 py-1 text-4xl font-bold text-black">{miles}</span>
                   </div>
                   <input type="range" min="10" max="200" step="10" value={miles}
                     onChange={(e) => setMiles(Number(e.target.value))}
-                    className="mt-4 w-full cursor-pointer accent-black" />
+                    className="mt-4 w-full cursor-pointer accent-[#2563eb]" />
                 </div>
               </div>
-              <div className="border-2 border-black bg-[#0A0F1E] p-8 text-center text-white shadow-[4px_4px_0_#111]">
-                <p className="text-3xl font-bold tracking-wide">You lose every year</p>
-                <p className="mt-3 text-[64px] font-bold leading-none text-[#facc15]">£{annualLoss.toLocaleString()}</p>
+              <div className="rounded-xl border border-[#2d3b4f] bg-[#0a0f1e] p-8 text-center text-white shadow-sm">
+                <p className="text-2xl font-bold text-[#94a3b8]">You lose every year</p>
+                <p className="mt-3 text-6xl font-bold text-[#facc15]">£{annualLoss.toLocaleString()}</p>
                 <p className="mt-3 text-xl font-bold">That could be another vehicle paid for.</p>
-                <p className="mt-2 text-base font-semibold text-[#8da0bd]">Intake Engine: £49/month. £1.60/day.</p>
-                <Link to="/demo" className="mt-6 inline-flex border-2 border-[#facc15] bg-[#facc15] px-10 py-3 text-xl font-bold text-black hover:bg-amber-400">Fix this now →</Link>
+                <p className="mt-2 text-base font-medium text-[#94a3b8]">Intake Engine: £49/month. Works out to £1.60/day.</p>
+                <Link to="/demo" className="mt-6 inline-flex rounded-md bg-[#facc15] px-8 py-3 text-base font-bold text-black transition-colors hover:bg-yellow-300">Fix this now →</Link>
               </div>
             </div>
           </div>
         </section>
 
         {/* Plans */}
-        <section className="border-b-2 border-black bg-[#0A0F1E] px-4 py-12">
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
           <div className="mx-auto max-w-6xl text-center">
             <h2 className="text-5xl font-bold text-[#facc15]">One price. No games.</h2>
-            <p className="mt-2 text-xl font-semibold text-white">No per-lead fees. No bidding wars. No race to the bottom.</p>
-            <p className="mt-3 text-base font-semibold text-[#facc15]">📱 Jobs delivered straight to your WhatsApp. No dashboard required.</p>
-            <p className="mx-auto mt-5 w-fit border-2 border-[#facc15] bg-[#facc15] px-6 py-2 text-base font-bold">
+            <p className="mt-2 text-xl font-medium text-[#94a3b8]">No per-lead fees. No bidding wars. No race to the bottom.</p>
+            <p className="mt-3 text-base font-medium text-[#06b6d4]">📱 Jobs delivered straight to your WhatsApp. No dashboard required.</p>
+            <p className="mx-auto mt-5 w-fit rounded-md bg-[#facc15] px-5 py-2 text-sm font-bold text-black">
               If this wins one £20k job, it pays for itself for years.
             </p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
-              <article className="border-2 border-black bg-[#e5e5e5] p-6 text-left">
-                <h3 className="text-3xl font-bold">Free Tools</h3>
-                <p className="mt-1 text-6xl font-bold">£0</p>
-                <ul className="mt-3 space-y-2 text-base font-semibold">
+              <article className="rounded-xl border border-[#2d3b4f] bg-[#1e2a3a] p-6 text-left">
+                <h3 className="text-2xl font-bold text-white">Free Tools</h3>
+                <p className="mt-1 text-5xl font-bold text-white">£0</p>
+                <ul className="mt-3 space-y-2 text-sm font-medium text-[#94a3b8]">
                   <li>✓ Lead scanner (2 free)</li>
                   <li>✓ Quote estimator</li>
                   <li>✓ Market checker</li>
-                  <li className="text-[#8a9bb6]">✕ Job delivery</li>
-                  <li className="text-[#8a9bb6]">✕ WhatsApp alerts</li>
+                  <li className="text-[#64748b]">✕ Job delivery</li>
+                  <li className="text-[#64748b]">✕ WhatsApp alerts</li>
                 </ul>
-                <Link to="/demo" className="mt-8 inline-flex border-2 border-black px-5 py-2.5 text-base font-bold">Use for free</Link>
+                <Link to="/demo" className="mt-8 inline-flex rounded-md border border-[#2d3b4f] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white">Use for free</Link>
               </article>
 
-              <article className="border-2 border-black bg-[#facc15] p-6 text-left shadow-[4px_4px_0_#000]">
-                <p className="text-xs font-bold tracking-widest">MOST POPULAR · FOR TRADESMEN</p>
-                <h3 className="mt-1 text-3xl font-bold">Intake Engine</h3>
-                <p className="mt-1 text-6xl font-bold">£49 <span className="text-xl font-semibold">/month</span></p>
-                <p className="mt-1 text-sm font-semibold">£1.60/day. Cancel anytime.</p>
-                <ul className="mt-3 space-y-2 text-base font-semibold">
+              <article className="rounded-xl border-2 border-[#2563eb] bg-[#facc15] p-6 text-left shadow-lg">
+                <p className="text-xs font-bold uppercase tracking-widest text-black/60">Most popular · For tradesmen</p>
+                <h3 className="mt-1 text-2xl font-bold text-black">Intake Engine</h3>
+                <p className="mt-1 text-5xl font-bold text-black">£49 <span className="text-xl font-semibold">/month</span></p>
+                <p className="mt-1 text-sm font-semibold text-black/70">£1.60/day. Cancel anytime.</p>
+                <ul className="mt-3 space-y-2 text-sm font-semibold text-black">
                   <li>✓ Jobs found before job boards</li>
                   <li>✓ Time-wasters filtered out</li>
                   <li>✓ 📱 Delivered to WhatsApp daily</li>
-                  <li>✓ Vantage + Vicinity + Codex included</li>
+                  <li>✓ Vantage + Vicinity + Codex</li>
                 </ul>
                 <input
                   type="email"
                   placeholder="your@email.com (optional)"
                   value={checkoutEmail}
                   onChange={(e) => setCheckoutEmail(e.target.value)}
-                  className="mt-4 w-full border-2 border-black px-3 py-2 text-sm font-bold"
+                  className="mt-4 w-full rounded-md border border-black/20 bg-white/60 px-3 py-2 text-sm font-medium placeholder-black/40 focus:outline-none focus:ring-2 focus:ring-black/20"
                 />
                 <div className="mt-3">
                   <CheckoutButton label="Get started →" email={checkoutEmail} />
                 </div>
               </article>
 
-              <article className="border-2 border-black bg-[#e5e5e5] p-6 text-left">
-                <h3 className="text-3xl font-bold">Codex</h3>
-                <p className="text-xs font-semibold text-gray-500">For engineering firms</p>
-                <p className="mt-1 text-6xl font-bold">£99 <span className="text-xl font-semibold">/month</span></p>
-                <ul className="mt-3 space-y-2 text-base font-semibold">
+              <article className="rounded-xl border border-[#2d3b4f] bg-[#1e2a3a] p-6 text-left">
+                <h3 className="text-2xl font-bold text-white">Codex</h3>
+                <p className="mt-1 text-5xl font-bold text-white">£99 <span className="text-xl font-semibold">/month</span></p>
+                <ul className="mt-3 space-y-2 text-sm font-medium text-[#94a3b8]">
                   <li>✓ Specs → sales proposals</li>
                   <li>✓ Better tender presentation</li>
                   <li>✓ For engineering firms</li>
                 </ul>
-                <Link to="/codex" className="mt-8 inline-flex border-2 border-black bg-black px-5 py-2.5 text-base font-bold text-white hover:bg-[#0A0F1E]">View Codex →</Link>
+                <Link to="/codex" className="mt-8 inline-flex rounded-md border border-[#2d3b4f] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:border-white">View Codex →</Link>
               </article>
             </div>
           </div>
@@ -697,22 +706,22 @@ export function PricingPage() {
         <Testimonial />
 
         {/* WhatsApp CTA */}
-        <section className="border-b-2 border-black bg-[#facc15] px-4 py-12 text-center">
-          <p className="text-xs font-semibold tracking-widest">No app required</p>
-          <h2 className="mt-2 text-4xl font-bold leading-none">📱 Get jobs on WhatsApp.</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-lg font-semibold">
+        <section className="border-b-2 border-gray-200 bg-[#facc15] px-4 py-12 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-black/60">No app required</p>
+          <h2 className="mt-2 text-4xl font-bold leading-tight text-black">📱 Get jobs on WhatsApp</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-lg font-medium text-black/70">
             Real jobs sent to your phone every day. No app. No dashboard. Just leads.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
             <CheckoutButton label="Get Intake Engine — £49/mo →" />
-            <Link to="/demo" className="border-2 border-black bg-white px-8 py-3 text-base font-bold hover:bg-gray-100">See sample jobs first</Link>
+            <Link to="/demo" className="rounded-md border-2 border-black bg-white px-6 py-3 text-base font-bold text-black transition-colors hover:bg-gray-50">See sample jobs first</Link>
           </div>
         </section>
 
         {/* Bottom CTA */}
-        <section className="bg-[#e5e5e5] px-4 py-14 text-center">
-          <h2 className="text-5xl font-bold leading-none">Ready to find real leads?</h2>
-          <p className="mx-auto mt-5 max-w-3xl text-lg font-semibold text-[#8da0bd]">
+        <section className="bg-[#f8fafc] px-4 py-14 text-center">
+          <h2 className="text-5xl font-bold leading-tight text-gray-900">Ready to find real leads?</h2>
+          <p className="mx-auto mt-5 max-w-3xl text-xl font-medium text-gray-600">
             One subscription. Vantage, Vicinity, and Codex included. Cancel anytime.
           </p>
           <div className="mt-8">
@@ -731,7 +740,7 @@ export function CodexPage() {
   return (
     <ProductPage
       title="Codex"
-      summary="Convert technical specs into sales copy that closes jobs. For engineering and manufacturing firms."
+      summary="Turn technical specifications into proposals that win contracts. For engineering and manufacturing firms."
       sections={[
         { title: 'Pain',    body: 'Complex specs lose jobs to simpler quotes.' },
         { title: 'Fix',     body: 'Convert technical complexity into clear sales copy.' },
@@ -763,7 +772,7 @@ export function VicinityPage() {
       title="Vicinity"
       summary="Turn past work into local sales assets that keep winning new jobs."
       sections={[
-        { title: 'Pain',    body: 'Best work buried in your camera roll.' },
+        { title: 'Pain',    body: 'Best work rots in your camera roll.' },
         { title: 'Fix',     body: 'Surface nearby completed jobs as social proof.' },
         { title: 'Control', body: 'Own your local patch with visible results.' },
         { title: 'Result',  body: 'Warmer enquiries and faster decisions.' },
@@ -777,7 +786,7 @@ export function DashboardPage() {
 }
 
 export function ActivationPendingPage() {
-  return <ProductPage title="Activation Pending" summary="Setup is queued. Demo is live now." sections={[{ title: 'Now', body: 'Run the demo and check job flow.' }, { title: 'Next', body: 'We finish setup and unlock full access.' }, { title: 'Control', body: 'You keep momentum while waiting.' }, { title: 'Result', body: 'No dead end.' }]} />;
+  return <ProductPage title="Activation pending" summary="Setup is queued. Demo is live now." sections={[{ title: 'Now', body: 'Run the demo and check job flow.' }, { title: 'Next', body: 'We finish setup and unlock full access.' }, { title: 'Control', body: 'You keep momentum while waiting.' }, { title: 'Result', body: 'No dead end.' }]} />;
 }
 
 export function PrivacyPage() {
