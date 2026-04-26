@@ -2,7 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import Stripe from "stripe";
-import { scan } from "./leadEngine/scan.ts";
+import { scan } from "./leadEngine/scan";
 
 const DEFAULT_ORIGIN = process.env.APP_URL || "http://localhost:3000";
 const stripeSecret = process.env.STRIPE_SECRET_KEY || "";

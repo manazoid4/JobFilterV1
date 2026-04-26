@@ -10,11 +10,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
-      - name: Build
+      - name: Build frontend
         run: npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}'
-          channelId: live
-          projectId: jobfilter-uk
+      - name: Build functions
+        run: npx tsc -p functions/tsconfig.json
+      - name: Write service account
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}' > /tmp/sa.json
+      - name: Deploy to Firebase
+        run: npx firebase-tools deploy --only hosting,functions --project jobfilter-uk
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/sa.json

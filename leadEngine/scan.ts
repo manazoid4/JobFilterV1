@@ -13,15 +13,15 @@
  * Never blocks on a single source.
  */
 
-import type { Lead, ScanResult, SourceStats } from './types.ts';
-import { CONFIG } from './config.ts';
-import { lookupPostcode } from './postcode.ts';
-import { contractsFetcher } from './fetchers/contractsFetcher.ts';
-import { planningDataFetcher } from './fetchers/planningDataFetcher.ts';
-import { directorySignalFetcher } from './fetchers/directorySignalFetcher.ts';
-import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher.ts';
-import { normaliseAll } from './normaliser.ts';
-import { scoreLeadBreakdown } from './scorer.ts';
+import type { Lead, ScanResult, SourceStats } from './types';
+import { CONFIG } from './config';
+import { lookupPostcode } from './postcode';
+import { contractsFetcher } from './fetchers/contractsFetcher';
+import { planningDataFetcher } from './fetchers/planningDataFetcher';
+import { directorySignalFetcher } from './fetchers/directorySignalFetcher';
+import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher';
+import { normaliseAll } from './normaliser';
+import { scoreLeadBreakdown } from './scorer';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {

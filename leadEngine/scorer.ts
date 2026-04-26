@@ -1,5 +1,5 @@
-import type { Lead } from './types.ts';
-import { regionSimilarity } from './postcode.ts';
+import type { Lead } from './types';
+import { regionSimilarity } from './postcode';
 
 /**
  * Score each lead 0–100.
