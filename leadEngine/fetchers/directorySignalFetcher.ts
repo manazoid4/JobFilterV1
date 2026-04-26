@@ -104,6 +104,56 @@ const LEADS_BY_REGION: Record<string, InternalLead[]> = {
     { title: 'HMO Compliance – 6-bed, Grade A fire alarm', trade: 'electrical', location: 'Nottingham, NG7', valueLow: 3500, valueHigh: 5500, urgency: 'high', contactSignalLevel: 'strong', buyer: 'HMO landlord', description: 'HMO licence renewal. Grade A fire alarm + emergency lighting + full EICR. Deadline 6 weeks.' },
     { title: 'Extension Plastering – New build, 300sqm skim', trade: 'building', location: 'Nottingham, NG5', valueLow: 6000, valueHigh: 9000, urgency: 'medium', contactSignalLevel: 'weak', description: 'New build 4-bed, block and beam. Skim plaster throughout inc garage. Approx 300sqm.' },
   ],
+  'South Yorkshire': [
+    { title: 'Full Rewire – 3-bed terrace, 1960s, no RCD', trade: 'electrical', location: 'Sheffield, S6', valueLow: 3500, valueHigh: 5200, urgency: 'medium', contactSignalLevel: 'weak', description: '1960s mid-terrace, old rubber wiring, no RCD board. Full rewire + 18-way consumer unit.' },
+    { title: 'Roof Replacement – Storm damage, 4-bed semi', trade: 'roofing', location: 'Sheffield, S10', valueLow: 8000, valueHigh: 13000, urgency: 'high', contactSignalLevel: 'strong', description: 'Significant tile slippage after storm. Insurance-backed repair. Full re-roof 4-bed semi, 85sqm.' },
+    { title: 'Kitchen Extension – 4×3.5m, planning approved', trade: 'building', location: 'Rotherham, S60', valueLow: 22000, valueHigh: 35000, urgency: 'low', contactSignalLevel: 'weak', description: 'Rear single-storey kitchen extension, planning approved. Bifold doors, lantern roof.' },
+    { title: 'Boiler Replacement – Ideal Logic failed, 3-bed', trade: 'plumbing', location: 'Doncaster, DN1', valueLow: 2200, valueHigh: 3200, urgency: 'high', contactSignalLevel: 'strong', description: 'Ideal Logic combi failed mid-winter. 3-bed semi, urgent full replacement inc flue.' },
+    { title: 'Loft Conversion – Velux, 2 rooms', trade: 'building', location: 'Sheffield, S11', valueLow: 28000, valueHigh: 42000, urgency: 'low', contactSignalLevel: 'weak', description: 'Planning approved Velux loft conversion, 2 rooms + WC. Structural engineer drawings complete.' },
+  ],
+  'North London': [
+    { title: 'Full Rewire + EV Point – 4-bed Victorian terrace', trade: 'electrical', location: 'Islington, N1', valueLow: 8500, valueHigh: 13000, urgency: 'medium', contactSignalLevel: 'weak', description: 'Victorian 4-bed terrace, old wiring, adding EV charger point in rear outbuilding.' },
+    { title: 'Flat Roof Replacement – Extension, EPDM', trade: 'roofing', location: 'Stoke Newington, N16', valueLow: 3200, valueHigh: 5500, urgency: 'high', contactSignalLevel: 'strong', description: 'Kitchen extension flat roof leaking. 45sqm EPDM replacement, upstands included.' },
+    { title: 'Bathroom Refit – En-suite + main bathroom', trade: 'plumbing', location: 'Finsbury Park, N4', valueLow: 7500, valueHigh: 12000, urgency: 'low', contactSignalLevel: 'none', description: 'Full refit both bathrooms, high-spec finish. Supply and fit, tiling by others.' },
+    { title: 'Loft Conversion – L-shaped dormer, planning approved', trade: 'building', location: 'Muswell Hill, N10', valueLow: 55000, valueHigh: 75000, urgency: 'low', contactSignalLevel: 'weak', description: 'L-shaped dormer loft, 2 beds + bathroom. Planning approved, structural drawings complete.' },
+  ],
+  'South West London': [
+    { title: 'Consumer Unit + EICR – Rental, landlord deadline', trade: 'electrical', location: 'Tooting, SW17', valueLow: 700, valueHigh: 1000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Buy-to-let landlord', description: 'EICR expired, tenant renewal imminent. 3-bed terrace, 18-way CU with RCBOs needed.' },
+    { title: 'Boiler Service + Replacement – Vaillant combi', trade: 'plumbing', location: 'Balham, SW12', valueLow: 2500, valueHigh: 3500, urgency: 'high', contactSignalLevel: 'strong', description: 'Vaillant combi, over 15 years old, failed efficiency test at service. Customer wants replacement.' },
+    { title: 'Rear Extension – Planning approved, 3×4m', trade: 'building', location: 'Clapham, SW4', valueLow: 30000, valueHigh: 48000, urgency: 'low', contactSignalLevel: 'weak', description: 'Single-storey rear extension, permitted development, structural drawings complete.' },
+    { title: 'Chimney Repoint + Flashing – Victorian terrace', trade: 'roofing', location: 'Wandsworth, SW18', valueLow: 1400, valueHigh: 2500, urgency: 'medium', contactSignalLevel: 'none', description: 'Mortar crumbling, lead flashing failed on 2-stack Victorian terrace. Minor internal damp.' },
+  ],
+  'West London': [
+    { title: 'Kitchen Extension – Planning approved, 4×4m', trade: 'building', location: 'Ealing, W5', valueLow: 32000, valueHigh: 50000, urgency: 'low', contactSignalLevel: 'weak', description: 'Rear extension with bifold doors and Velux skylights. Planning approved, SE drawings done.' },
+    { title: 'Solar PV + Battery – 10 panels, south-facing', trade: 'electrical', location: 'Chiswick, W4', valueLow: 9000, valueHigh: 13000, urgency: 'low', contactSignalLevel: 'weak', description: '10-panel 3.7kWp system + 5kWh battery. MCS cert required for SEG. South-facing roof survey done.' },
+    { title: 'Bathroom Overhaul – Heritage spec, Victorian', trade: 'plumbing', location: 'Hammersmith, W6', valueLow: 8000, valueHigh: 13000, urgency: 'low', contactSignalLevel: 'none', description: 'Period property bathroom, high-spec heritage suite. First fix + second fix, tiling by others.' },
+    { title: 'Flat Roof + Fascia – Terraced, 3 properties', trade: 'roofing', location: 'Acton, W3', valueLow: 5500, valueHigh: 9000, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'Block management company', description: '3 terraced houses managed by same company. Flat roofs + fascia/soffit replacement, block deal.' },
+  ],
+  'Leicester': [
+    { title: 'Full Rewire – 4-bed Edwardian semi', trade: 'electrical', location: 'Leicester, LE2', valueLow: 4500, valueHigh: 7000, urgency: 'medium', contactSignalLevel: 'weak', description: '4-bed Edwardian semi, old wiring throughout. Full rewire + 18-way CU. EICR on completion.' },
+    { title: 'Boiler Replacement – Student HMO, 6-bed', trade: 'plumbing', location: 'Leicester, LE1', valueLow: 2800, valueHigh: 4000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Student HMO landlord', description: 'Old boiler condemned. HMO deadline 3 weeks. 6-bed student property, combi replacement.' },
+    { title: 'Roof Repoint + Gutter Replacement – 1930s semi', trade: 'roofing', location: 'Leicester, LE5', valueLow: 1600, valueHigh: 2800, urgency: 'medium', contactSignalLevel: 'none', description: 'Ridge repoint + full UPVC gutter replacement on 1930s semi. Minor tile work included.' },
+    { title: 'Loft Conversion – Velux, single room', trade: 'building', location: 'Leicester, LE3', valueLow: 18000, valueHigh: 28000, urgency: 'low', contactSignalLevel: 'weak', description: 'Simple Velux loft conversion, 1 room + storage. Planning confirmed PD.' },
+  ],
+  'Derby': [
+    { title: 'Bathroom Refit – Walk-in shower, full tile', trade: 'plumbing', location: 'Derby, DE1', valueLow: 5000, valueHigh: 7500, urgency: 'low', contactSignalLevel: 'none', description: 'Full bathroom refit, walk-in shower replacing bath. Full tile floor and walls, supply and fit.' },
+    { title: 'Consumer Unit Upgrade – EICR failed, rental', trade: 'electrical', location: 'Derby, DE3', valueLow: 650, valueHigh: 950, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Landlord', description: 'EICR failed on rental, tenant move-in imminent. 18-way CU with RCBOs, 3-bed terrace.' },
+    { title: 'Extension + Garage Conversion', trade: 'building', location: 'Derby, DE22', valueLow: 28000, valueHigh: 45000, urgency: 'low', contactSignalLevel: 'weak', description: 'Side garage conversion to habitable room + small rear extension. PD + prior approval.' },
+  ],
+  'Portsmouth': [
+    { title: 'HMO Fire Alarm + EICR – 5-bed, licence renewal', trade: 'electrical', location: 'Portsmouth, PO1', valueLow: 3000, valueHigh: 5000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'HMO landlord', description: 'HMO licence up for renewal. Grade A fire alarm, emergency lighting, full EICR. Deadline 8 weeks.' },
+    { title: 'Boiler Replacement – Naval quarter, urgent', trade: 'plumbing', location: 'Portsmouth, PO2', valueLow: 2200, valueHigh: 3200, urgency: 'high', contactSignalLevel: 'strong', description: 'Baxi boiler failed, no heating. 3-bed end-of-terrace, urgent replacement needed this week.' },
+    { title: 'Flat Roof Leak – Rear extension, EPDM', trade: 'roofing', location: 'Southsea, PO5', valueLow: 2500, valueHigh: 4000, urgency: 'high', contactSignalLevel: 'strong', description: 'Extension flat roof leaking at parapet. 30sqm EPDM replacement. Water into kitchen.' },
+  ],
+  'Teesside': [
+    { title: 'Boiler Replacement Contract – 8-unit HMO block', trade: 'plumbing', location: 'Middlesbrough, TS1', valueLow: 18000, valueHigh: 28000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'HMO landlord', description: 'Replace 8 boilers across HMO block of flats. All old back boilers. Gas Safe sign-off each unit.' },
+    { title: 'Full Rewire – 3-bed semi, 1970s', trade: 'electrical', location: 'Stockton-on-Tees, TS18', valueLow: 3200, valueHigh: 4800, urgency: 'medium', contactSignalLevel: 'weak', description: '3-bed 1970s semi, old wiring, no RCD. Full rewire + new 18-way consumer unit.' },
+    { title: 'Roof Replacement – Social housing, 2 units', trade: 'roofing', location: 'Hartlepool, TS25', valueLow: 12000, valueHigh: 20000, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'Housing association', description: 'Two semi-detached social housing units, full re-roof. Approved contractor list — open tender.' },
+  ],
+  'Sunderland': [
+    { title: 'Void Property Refurb – 4 units, HA contract', trade: 'building', location: 'Sunderland, SR1', valueLow: 28000, valueHigh: 45000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Housing association', description: '4 void properties, full refurb. Kitchens, bathrooms, decoration. 2-month turnaround required.' },
+    { title: 'Consumer Unit + EICR – Landlord portfolio', trade: 'electrical', location: 'Sunderland, SR4', valueLow: 2800, valueHigh: 4500, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Portfolio landlord', description: '5 rental properties, all need new consumer units + EICR. Landlord wants block deal.' },
+  ],
 };
 
 // National/generic leads — shown when region match is sparse

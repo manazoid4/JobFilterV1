@@ -60,8 +60,28 @@ async function buildPriorityPassUrl(tradieId: string, amount: number, origin?: s
   return session.url;
 }
 
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60_000;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT) return false;
+  entry.count++;
+  return true;
+}
+
 function registerApi(app: express.Express) {
   app.post("/api/leads/scan", async (req, res) => {
+    const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
+    if (!checkRateLimit(ip)) {
+      return res.status(429).json({ error: "Too many requests. Try again in a minute.", leads: SCAN_FALLBACK, total: SCAN_FALLBACK.length, region: "United Kingdom", outward: "", lockedCount: 0, errors: [] });
+    }
     try {
       const { postcode, trade = "all", tier = "free" } = req.body ?? {};
       console.log("[API] /api/leads/scan", { postcode, trade, tier });
