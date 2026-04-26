@@ -79,10 +79,10 @@ async function redirectToCheckout(email = ''): Promise<void> {
     if (data?.url) {
       window.location.href = data.url;
     } else {
-      window.location.href = '/demo';
+      window.location.href = '/activation-pending';
     }
   } catch {
-    window.location.href = '/demo';
+    window.location.href = '/activation-pending';
   }
 }
 
@@ -104,7 +104,7 @@ function Shell({ children }: { children: ReactNode }) {
   }, [menuOpen]);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-black">
+    <div className="min-h-screen max-w-full overflow-x-hidden bg-gray-50 text-black">
       <header className="sticky top-0 z-20 border-b border-[#2d3b4f] bg-[#0a0f1e]">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3" ref={menuRef}>
           <Link to="/" className="flex items-center gap-2 text-lg font-bold leading-none tracking-tight text-white sm:text-xl">
@@ -375,6 +375,56 @@ export function HomePage() {
         </section>
 
         <TrustStrip />
+
+        {/* BODYGUARD */}
+        <section className="border-b-2 border-gray-200 bg-white px-4 py-12">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid gap-8 md:grid-cols-2 md:items-center">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-[#2563eb]">WhatsApp Bodyguard</p>
+                <h2 className="mt-2 text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
+                  Time-wasters don't get through.<br />Your phone stays yours.
+                </h2>
+                <p className="mt-4 text-base font-medium leading-7 text-gray-600">
+                  Checkatrade sells your number to five blokes who'll all undercut each other for the same job. JobFilter works the opposite way — it blocks the rubbish before it reaches you. Only jobs worth quoting get through.
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {[
+                    'Tyre-kickers filtered out before they reach your phone',
+                    'No more driving 40 minutes for a £300 budget job',
+                    'No more quoting against four cowboys on the same lead',
+                    'Jobs delivered to WhatsApp. You decide which ones to call.',
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm font-medium text-gray-700">
+                      <span className="mt-0.5 flex-shrink-0 text-[#2563eb]">✓</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Link to="/demo" className="inline-flex rounded-md bg-[#0a0f1e] px-6 py-3 text-base font-semibold text-white hover:bg-[#1e2a3a]">See it in action →</Link>
+                </div>
+              </div>
+              <div className="rounded-xl border-2 border-[#2d3b4f] bg-[#0a0f1e] p-6 sm:p-8">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#facc15]">Your morning WhatsApp</p>
+                <div className="mt-4 space-y-3">
+                  {[
+                    { job: 'Boiler swap · B14 · £2.8k', badge: 'HIGH', color: 'bg-red-500' },
+                    { job: 'Full rewire · CV5 · £5.2k', badge: 'HIGH', color: 'bg-red-500' },
+                    { job: 'Roof repair · WV3 · £3.1k', badge: 'MED', color: 'bg-[#facc15]' },
+                    { job: 'Bathroom refit · LS6 · £6.5k', badge: 'MED', color: 'bg-[#facc15]' },
+                  ].map((item) => (
+                    <div key={item.job} className="flex items-center justify-between rounded-lg border border-[#2d3b4f] bg-[#1e2a3a] px-4 py-3">
+                      <span className="text-sm font-semibold text-white">{item.job}</span>
+                      <span className={`rounded px-2 py-0.5 text-[10px] font-bold text-black ${item.color}`}>{item.badge}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-center text-xs font-medium text-[#64748b]">Tyre-kickers already removed. These are real.</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* 2. INTAKE ENGINE */}
         <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-14">
@@ -793,46 +843,336 @@ export function PricingPage() {
 
 export function CodexPage() {
   return (
-    <ProductPage
-      title="Codex"
-      summary="Turn technical specifications into proposals that win contracts. For engineering and manufacturing firms."
-      sections={[
-        { title: 'Pain',    body: 'Complex specs lose jobs to simpler quotes.' },
-        { title: 'Fix',     body: 'Convert technical complexity into clear sales copy.' },
-        { title: 'Control', body: 'Send sharper proposals faster.' },
-        { title: 'Result',  body: 'More wins with less admin.' },
-      ]}
-    />
+    <Shell>
+      <main>
+        {/* Hero */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-14">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">Codex · Technical Sales</p>
+            <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+              Complex specs lose jobs<br className="hidden sm:block" /> to simpler quotes.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-[#94a3b8] sm:text-lg">
+              Your technical knowledge should win jobs, not lose them. Clients don't read 40-page manuals. Codex turns your specs, schematics, and manuals into content clients actually buy from.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link to="/pricing" className="inline-flex items-center justify-center rounded-md bg-[#facc15] px-6 py-3 text-base font-bold text-black hover:bg-yellow-300">Get Codex →</Link>
+              <Link to="/demo" className="inline-flex items-center justify-center rounded-md border border-[#2d3b4f] px-6 py-3 text-base font-semibold text-[#94a3b8] hover:border-white hover:text-white">See Intake Engine first</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* What you get */}
+        <section className="border-b-2 border-gray-200 bg-white px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#64748b]">Three outputs</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">Upload the spec. Get sales assets back.</h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-3">
+              {[
+                { icon: '🎬', title: 'How-It-Works Videos', body: 'Upload a schematic or installation manual. Get a 60-second animated explainer. Clients watch it, understand it, trust you. Kills the "it\'s too complicated" objection.' },
+                { icon: '📱', title: 'Sales Carousels', body: 'Turn instruction manuals into swipeable social content. LinkedIn and Instagram posts that show your technical authority without you having to explain it yourself.' },
+                { icon: '⚔️', title: 'Competitor Battle Cards', body: '"Why us vs. them" — one page that turns your spec sheet into a side-by-side comparison you win every time. Hand it over at the end of every survey.' },
+              ].map((item) => (
+                <div key={item.title} className="rounded-xl border border-gray-200 p-6 shadow-sm">
+                  <p className="text-4xl">{item.icon}</p>
+                  <h3 className="mt-3 text-lg font-bold text-gray-900">{item.title}</h3>
+                  <p className="mt-2 text-sm font-medium leading-6 text-gray-600">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Who it's for */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#facc15]">Who uses Codex</p>
+            <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Built for technical trades and manufacturers.</h2>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {['HVAC & MEP engineers', 'Solar & EV charger installers', 'Fire & security firms', 'Heat pump specialists', 'Manufacturers selling to installers', 'Building services contractors'].map((t) => (
+                <div key={t} className="flex items-center gap-3 rounded-lg border border-[#2d3b4f] bg-[#1e2a3a] px-4 py-3">
+                  <span className="text-[#facc15]">✓</span>
+                  <span className="text-sm font-semibold text-white">{t}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Examples */}
+        <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#64748b]">Real examples</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">Specs in. Sales assets out.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { input: 'ASHP technical datasheet', output: '3-slide visual sales page', result: 'Closes retrofit enquiries without a site visit. Homeowner books before they\'ve spoken to a competitor.' },
+                { input: 'MVHR schematic', output: '"How this works in your home" video', result: 'Kills the "it sounds complicated" objection. Conversion rate from enquiry to survey up 40%.' },
+                { input: 'Sprinkler system spec', output: 'Battle card vs. competitor', result: 'Shows code compliance + cost advantage side by side. FM Global approved. Signed on spec.' },
+                { input: 'EV charger installation manual', output: 'Instagram carousel', result: '6 posts from one manual. Positions installer as the authority. Three inbound enquiries from one post.' },
+                { input: 'Boiler flue regulations doc', output: 'Client FAQ one-pager', result: 'Handed out at every quote. Stops objections before they start. "Are you sure it\'s compliant?" — gone.' },
+                { input: 'Solar PV sizing guide', output: 'ROI calculator explainer video', result: 'Used in proposals. Client sees their payback period visually. Closes 60% faster than quote-only.' },
+              ].map((ex) => (
+                <div key={ex.input} className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-[#64748b]">Input</p>
+                  <p className="mt-1 text-sm font-bold text-gray-900">{ex.input}</p>
+                  <p className="mt-3 text-xs font-semibold uppercase tracking-widest text-[#2563eb]">Output</p>
+                  <p className="mt-1 text-sm font-bold text-gray-900">{ex.output}</p>
+                  <p className="mt-3 text-xs font-medium leading-5 text-gray-500">{ex.result}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-[#f8fafc] px-4 py-14 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Codex is £99/month standalone.<br className="hidden sm:block" /> Included with Intake Engine at £49/month.</h2>
+          <p className="mx-auto mt-3 max-w-xl text-base font-medium text-gray-600">Find better jobs. Win them on technical authority. One system.</p>
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <CheckoutButton label="Get Intake Engine + Codex →" />
+            <Link to="/pricing" className="w-full rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-700 hover:bg-gray-100 sm:w-auto">View all plans</Link>
+          </div>
+        </section>
+      </main>
+    </Shell>
   );
 }
 
 export function VantagePage() {
   return (
-    <ProductPage
-      title="Vantage"
-      summary="Turn your tenders into premium visual bid decks. Win on presentation."
-      sections={[
-        { title: 'Pain',    body: 'Your price is right. Their PDF looks better.' },
-        { title: 'Fix',     body: 'Build premium visual bid decks in minutes.' },
-        { title: 'Control', body: 'Lead with evidence, not promises.' },
-        { title: 'Result',  body: 'Win higher-value jobs on merit, not luck.' },
-      ]}
-    />
+    <Shell>
+      <main>
+        {/* Hero */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-14">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">Vantage · Bid Intelligence</p>
+            <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+              Stop losing £1M bids<br className="hidden sm:block" /> to prettier firms.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-[#94a3b8] sm:text-lg">
+              You do better work. You charge a fair price. You still lose — because their PDF looks like it came from a £5M contractor and yours looks like it came from Word 2009. Vantage fixes that.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link to="/pricing" className="inline-flex items-center justify-center rounded-md bg-[#facc15] px-6 py-3 text-base font-bold text-black hover:bg-yellow-300">Get Vantage with Intake Engine →</Link>
+              <Link to="/demo" className="inline-flex items-center justify-center rounded-md border border-[#2d3b4f] px-6 py-3 text-base font-semibold text-[#94a3b8] hover:border-white hover:text-white">See a sample bid deck</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Before / After */}
+        <section className="border-b-2 border-gray-200 bg-white px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">The same job. Two very different outcomes.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border-2 border-red-200 bg-red-50 p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-red-500">Before Vantage</p>
+                <h3 className="mt-2 text-lg font-bold text-gray-900">Word doc. 3 pages. No photos.</h3>
+                <ul className="mt-4 space-y-2 text-sm font-medium text-gray-700">
+                  <li>✕ Calibri font, size 11</li>
+                  <li>✕ No visuals, no renders, no proof</li>
+                  <li>✕ Looks like every other cowboy's quote</li>
+                  <li>✕ Client picks the slicker firm — even if they charge more</li>
+                  <li>✕ You lose a £80k job on presentation</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-emerald-600">After Vantage</p>
+                <h3 className="mt-2 text-lg font-bold text-gray-900">24-page visual bid deck. Looks like Wates built it.</h3>
+                <ul className="mt-4 space-y-2 text-sm font-medium text-gray-700">
+                  <li>✓ Branded cover + executive summary</li>
+                  <li>✓ 3D renders showing the finished result</li>
+                  <li>✓ Photo evidence from past jobs</li>
+                  <li>✓ Timeline, cost breakdown, credentials</li>
+                  <li>✓ Client signs off same week</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* What you get */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">What Vantage produces</p>
+            <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Three outputs. All from your existing docs.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { title: 'Visual Bid Deck', body: 'Multi-page proposal: cover, scope, timeline, cost breakdown, team credentials, past work photos. Clients see a serious contractor.' },
+                { title: '3D Renders', body: 'Show the client exactly what the finished job looks like before you start. Kills objections. Closes faster. No architect needed.' },
+                { title: 'Infographics', body: 'Turn your method statement or spec sheet into something a client actually reads. One page. High impact. Scored higher on quality criteria.' },
+              ].map((item) => (
+                <div key={item.title} className="rounded-xl border border-[#2d3b4f] bg-[#1e2a3a] p-6">
+                  <h3 className="text-lg font-bold text-[#facc15]">{item.title}</h3>
+                  <p className="mt-3 text-sm font-medium leading-6 text-[#94a3b8]">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Real examples */}
+        <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#64748b]">Real-world examples</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">Jobs won with a Vantage deck.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { value: '£800k', label: 'Social housing refurb', detail: 'Council estate rewire + heating upgrade. Vantage deck beat 6 larger firms. Scored highest on quality criteria.' },
+                { value: '£150k', label: 'Commercial extension', detail: '3D render of finished extension closed the deal in one meeting. Client dropped the architect they\'d been using for 3 years.' },
+                { value: '£2.1M', label: 'Tier 1 framework bid', detail: 'NHS framework application. Method statement infographic scored 92/100. First time the firm made it onto a Tier 1 framework.' },
+                { value: '£45k', label: 'High-end landscaping', detail: 'Bespoke garden design. Vantage 3D render against a blank Word doc from the competitor. Client: "Yours looked like a proper company."' },
+                { value: '£320k', label: 'School roofing contract', detail: 'LA-tendered school roof. Visual timeline showing zero disruption to term time was the deciding factor. Won on quality, not price.' },
+                { value: '£90k', label: 'Luxury bathroom fit-out', detail: 'Developer site, 6 units. Render showing finished spec vs. builder\'s spec. Signed before rivals had even submitted.' },
+              ].map((ex) => (
+                <div key={ex.label} className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+                  <p className="text-3xl font-bold text-[#2563eb]">{ex.value}</p>
+                  <p className="mt-1 text-sm font-bold text-gray-900">{ex.label}</p>
+                  <p className="mt-2 text-xs font-medium leading-5 text-gray-500">{ex.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Tier 1 */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#facc15]">Tier 1 work</p>
+            <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">Get on the frameworks the big firms dominate.</h2>
+            <p className="mt-4 max-w-2xl text-base font-medium text-[#94a3b8]">Council contracts. NHS frameworks. Housing association programmes. They don't go to the cheapest firm — they go to the firm that looks like it can handle the job. Vantage gets you there.</p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {['NHS & public sector frameworks', 'Local authority housing programmes', 'Pre-qualification questionnaires (PQQ)', 'Design & Build tenders', 'JCT / NEC contract submissions', 'Housing association batch contracts'].map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-lg border border-[#2d3b4f] bg-[#1e2a3a] px-4 py-3">
+                  <span className="text-[#facc15]">✓</span>
+                  <span className="text-sm font-semibold text-white">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-[#f8fafc] px-4 py-14 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Vantage is included with Intake Engine.</h2>
+          <p className="mx-auto mt-3 max-w-xl text-base font-medium text-gray-600">One subscription. Find the jobs. Win the jobs. £49/month.</p>
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <CheckoutButton label="Get Intake Engine + Vantage →" />
+            <Link to="/demo" className="w-full rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-700 hover:bg-gray-100 sm:w-auto">See jobs first</Link>
+          </div>
+        </section>
+      </main>
+    </Shell>
   );
 }
 
 export function VicinityPage() {
   return (
-    <ProductPage
-      title="Vicinity"
-      summary="Turn past work into local sales assets that keep winning new jobs."
-      sections={[
-        { title: 'Pain',    body: 'Best work rots in your camera roll.' },
-        { title: 'Fix',     body: 'Surface nearby completed jobs as social proof.' },
-        { title: 'Control', body: 'Own your local patch with visible results.' },
-        { title: 'Result',  body: 'Warmer enquiries and faster decisions.' },
-      ]}
-    />
+    <Shell>
+      <main>
+        {/* Hero */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-14">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">Vicinity · Local Marketing</p>
+            <h1 className="mt-3 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+              Your best work is rotting<br className="hidden sm:block" /> in your camera roll.
+            </h1>
+            <p className="mt-4 max-w-2xl text-base font-medium leading-7 text-[#94a3b8] sm:text-lg">
+              You've done thousands of jobs. 99% of the proof is buried on your iPhone. Vicinity turns finished jobs into local sales assets that keep winning new work — automatically, without you doing social media.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link to="/pricing" className="inline-flex items-center justify-center rounded-md bg-[#facc15] px-6 py-3 text-base font-bold text-black hover:bg-yellow-300">Get Vicinity with Intake Engine →</Link>
+              <Link to="/demo" className="inline-flex items-center justify-center rounded-md border border-[#2d3b4f] px-6 py-3 text-base font-semibold text-[#94a3b8] hover:border-white hover:text-white">See Intake Engine first</Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Before / After */}
+        <section className="border-b-2 border-gray-200 bg-white px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Before vs. after. Same job. Different result.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-xl border-2 border-red-200 bg-red-50 p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-red-500">What most tradesmen post</p>
+                <p className="mt-3 text-base font-semibold text-gray-800 italic">"Busy week, nice bathroom job in Leeds 📸"</p>
+                <ul className="mt-4 space-y-2 text-sm font-medium text-gray-700">
+                  <li>✕ Blurry, uncropped photo</li>
+                  <li>✕ No location signal, no value signal</li>
+                  <li>✕ Looks like every other post on Facebook</li>
+                  <li>✕ Gets 3 likes from family</li>
+                  <li>✕ Dead by Thursday</li>
+                </ul>
+              </div>
+              <div className="rounded-xl border-2 border-emerald-200 bg-emerald-50 p-6">
+                <p className="text-xs font-bold uppercase tracking-widest text-emerald-600">What Vicinity produces</p>
+                <p className="mt-3 text-base font-semibold text-gray-800 italic">"Just finished this full bathroom refit in LS6 — full suite, tiled floor to ceiling, heated rail. Ready in 4 days. DM for availability."</p>
+                <ul className="mt-4 space-y-2 text-sm font-medium text-gray-700">
+                  <li>✓ Professional before/after format</li>
+                  <li>✓ Location tagged to attract local enquiries</li>
+                  <li>✓ Value signal built in</li>
+                  <li>✓ WhatsApp-ready in one tap</li>
+                  <li>✓ 3 inbound enquiries by Sunday</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* What you get */}
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">Three outputs</p>
+            <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">One job. Three assets. All from your phone.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                { icon: '📱', title: 'WhatsApp-Ready Posts', body: 'Before/after formatted, captioned, location-tagged. One tap to send to your local contacts, WhatsApp groups, or customer follow-up list.' },
+                { icon: '🌐', title: 'Website Gallery Updates', body: 'Upload a photo. It\'s auto-formatted, captioned by trade and location, and added to your site. Your portfolio stays live without you touching it.' },
+                { icon: '📍', title: 'Local Area Drops', body: '"Just finished this in [their road]." Targeted posts based on your recent job postcodes. The most powerful local marketing there is — proof on their doorstep.' },
+              ].map((item) => (
+                <div key={item.title} className="rounded-xl border border-[#2d3b4f] bg-[#1e2a3a] p-6">
+                  <p className="text-4xl">{item.icon}</p>
+                  <h3 className="mt-3 text-lg font-bold text-[#facc15]">{item.title}</h3>
+                  <p className="mt-2 text-sm font-medium leading-6 text-[#94a3b8]">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Real examples */}
+        <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#64748b]">How tradesmen use it</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">Finished a job Friday. Three enquiries by Monday.</h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { trade: 'Bathroom fitter · Leeds', result: '3 enquiries in 48 hours from a single Vicinity post. All within 1 mile of the original job.' },
+                { trade: 'Electrician · Birmingham', result: 'WhatsApp group drop of a rewire job. Two of the neighbours in the same street booked surveys.' },
+                { trade: 'Roofer · Manchester', result: 'Before/after of a storm-damaged roof. Shared by homeowner. 6 inbound calls the same week.' },
+                { trade: 'Landscaper · Bristol', result: 'Gallery update automated. Client found them via website photos, not word of mouth. £14k job.' },
+                { trade: 'Plasterer · Coventry', result: 'Local area drop in CV4. "Just done this on your road" message. Booked 4 jobs in the same street in one month.' },
+                { trade: 'Builder · Solihull', result: 'WhatsApp-ready extension photos sent to 3 WhatsApp groups. First extension referral came in the same day.' },
+              ].map((ex) => (
+                <div key={ex.trade} className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+                  <p className="text-sm font-bold text-[#2563eb]">{ex.trade}</p>
+                  <p className="mt-2 text-sm font-medium leading-5 text-gray-600">{ex.result}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="bg-[#f8fafc] px-4 py-14 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">Vicinity is included with Intake Engine.</h2>
+          <p className="mx-auto mt-3 max-w-xl text-base font-medium text-gray-600">Find the jobs. Win them. Then turn every completed job into the next one. £49/month.</p>
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <CheckoutButton label="Get Intake Engine + Vicinity →" />
+            <Link to="/demo" className="w-full rounded-md border border-gray-300 px-6 py-3 text-base font-semibold text-gray-700 hover:bg-gray-100 sm:w-auto">See jobs first</Link>
+          </div>
+        </section>
+      </main>
+    </Shell>
   );
 }
 
@@ -841,7 +1181,28 @@ export function DashboardPage() {
 }
 
 export function ActivationPendingPage() {
-  return <ProductPage title="Activation pending" summary="Setup is queued. Demo is live now." sections={[{ title: 'Now', body: 'Run the demo and check job flow.' }, { title: 'Next', body: 'We finish setup and unlock full access.' }, { title: 'Control', body: 'You keep momentum while waiting.' }, { title: 'Result', body: 'No dead end.' }]} />;
+  return (
+    <Shell>
+      <main className="flex min-h-[70vh] items-center justify-center px-4 py-16">
+        <div className="mx-auto max-w-lg text-center">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#facc15] text-3xl">✓</div>
+          <h1 className="mt-6 text-3xl font-bold text-gray-900">You're registered.</h1>
+          <p className="mt-3 text-base font-medium text-gray-600">Your account is being set up. We'll message you on WhatsApp once your Intake Engine is live — usually within a few hours.</p>
+          <div className="mt-8 rounded-xl border border-gray-200 bg-[#f8fafc] p-6 text-left">
+            <p className="text-sm font-bold text-gray-900">What happens next:</p>
+            <ul className="mt-4 space-y-3 text-sm font-medium text-gray-600">
+              <li className="flex items-start gap-2"><span className="text-[#2563eb]">1.</span> We confirm your trade and postcode area</li>
+              <li className="flex items-start gap-2"><span className="text-[#2563eb]">2.</span> Your Intake Engine goes live — scanning for jobs in your area</li>
+              <li className="flex items-start gap-2"><span className="text-[#2563eb]">3.</span> First job drop arrives on WhatsApp tomorrow morning</li>
+            </ul>
+          </div>
+          <div className="mt-6">
+            <Link to="/demo" className="inline-flex rounded-md bg-[#0a0f1e] px-6 py-3 text-base font-semibold text-white hover:bg-[#1e2a3a]">See sample jobs while you wait →</Link>
+          </div>
+        </div>
+      </main>
+    </Shell>
+  );
 }
 
 export function PrivacyPage() {
