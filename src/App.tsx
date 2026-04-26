@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -89,15 +89,31 @@ async function redirectToCheckout(email = ''): Promise<void> {
 // ── Shell ─────────────────────────────────────────────────────────────────────
 
 function Shell({ children }: { children: ReactNode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    }
+    if (menuOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [menuOpen]);
+
   return (
     <div className="min-h-screen bg-gray-50 text-black">
       <header className="sticky top-0 z-20 border-b border-[#2d3b4f] bg-[#0a0f1e]">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold leading-none tracking-tight text-white">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3" ref={menuRef}>
+          <Link to="/" className="flex items-center gap-2 text-lg font-bold leading-none tracking-tight text-white sm:text-xl">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-[#facc15] text-xl">🇬🇧</span>
             JobFilter
           </Link>
-          <nav className="flex flex-wrap items-center gap-4 text-sm font-semibold">
+
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-4 text-sm font-semibold md:flex">
             {NAV_ITEMS.map((item) => (
               <Link key={item.label} to={item.to} className="text-[#94a3b8] transition-colors hover:text-white">
                 {item.label}
@@ -107,13 +123,46 @@ function Shell({ children }: { children: ReactNode }) {
               Find Jobs
             </Link>
           </nav>
+
+          {/* Mobile: Find Jobs + hamburger */}
+          <div className="flex items-center gap-2 md:hidden">
+            <Link to="/demo" className="rounded-md bg-[#facc15] px-3 py-2 text-sm font-bold text-black">
+              Find Jobs
+            </Link>
+            <button
+              aria-label="Toggle menu"
+              onClick={() => setMenuOpen((o) => !o)}
+              className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 rounded-md border border-[#2d3b4f] text-white"
+            >
+              <span className={`block h-0.5 w-5 bg-white transition-transform duration-200 ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+              <span className={`block h-0.5 w-5 bg-white transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 w-5 bg-white transition-transform duration-200 ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+            </button>
+          </div>
         </div>
+
+        {/* Mobile nav drawer */}
+        {menuOpen && (
+          <nav className="border-t border-[#2d3b4f] bg-[#0a0f1e] px-4 pb-4 md:hidden">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.label}
+                to={item.to}
+                className="block py-3 text-base font-semibold text-[#94a3b8] transition-colors hover:text-white border-b border-[#1e2a3a] last:border-0"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        )}
       </header>
+
       {children}
+
       <footer className="border-t border-[#2d3b4f] bg-[#0a0f1e] px-4 py-8">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
+        <div className="mx-auto max-w-6xl space-y-4 text-center md:flex md:items-center md:justify-between md:space-y-0 md:text-left">
           <p className="text-sm font-medium text-[#64748b]">© 2026 JobFilter. Built for UK trades.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-6 md:justify-end">
             <Link to="/privacy" className="text-sm text-[#64748b] hover:text-white">Privacy</Link>
             <Link to="/terms" className="text-sm text-[#64748b] hover:text-white">Terms</Link>
             <Link to="/codex" className="text-sm font-semibold text-[#06b6d4] hover:text-white">For manufacturers →</Link>
@@ -129,11 +178,11 @@ function Shell({ children }: { children: ReactNode }) {
 function TrustStrip() {
   return (
     <div className="border-y-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-3">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 md:gap-10">
-        <p className="text-sm font-semibold text-[#facc15]">247 jobs found today</p>
-        <p className="text-sm font-semibold text-white">Updated live</p>
-        <p className="text-sm font-semibold text-[#94a3b8]">3,200+ tradespeople</p>
-        <p className="text-sm font-semibold text-[#94a3b8]">📱 Delivered to WhatsApp</p>
+      <div className="mx-auto flex max-w-6xl items-center justify-start gap-6 overflow-x-auto md:justify-center md:gap-10">
+        <p className="flex-shrink-0 text-sm font-semibold text-[#facc15]">247 jobs found today</p>
+        <p className="flex-shrink-0 text-sm font-semibold text-white">Updated live</p>
+        <p className="flex-shrink-0 text-sm font-semibold text-[#94a3b8]">3,200+ tradespeople</p>
+        <p className="flex-shrink-0 text-sm font-semibold text-[#94a3b8]">📱 Delivered to WhatsApp</p>
       </div>
     </div>
   );
@@ -173,20 +222,20 @@ function LeadCard({ lead }: { lead: Lead }) {
   const daysAgo = stableDaysAgo(lead.id);
   return (
     <article className="relative flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-      <div className={`w-1 flex-shrink-0 ${style.bar}`} />
+      <div className={`w-1.5 flex-shrink-0 ${style.bar}`} />
       <div className="flex-1 p-4">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div className="flex-1">
-            <h2 className="text-base font-bold leading-snug text-gray-900">{lead.title}</h2>
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <h2 className="text-sm font-bold leading-snug text-gray-900 sm:text-base">{lead.title}</h2>
             <p className="mt-0.5 font-mono text-xs text-gray-500">{lead.location}</p>
           </div>
-          <span className={`rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${style.badge}`}>
+          <span className={`flex-shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${style.badge}`}>
             {urg}
           </span>
         </div>
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-3">
-          <span className="text-lg font-bold text-gray-900">{lead.estimatedValue}</span>
-          <div className="ml-auto flex gap-2">
+        <div className="mt-3 border-t border-gray-100 pt-3">
+          <span className="text-base font-bold text-gray-900 sm:text-lg">{lead.estimatedValue}</span>
+          <div className="mt-2 flex flex-wrap gap-1.5">
             <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
               {lead.sourceConfidence ?? 80}% match
             </span>
@@ -232,7 +281,7 @@ function CheckoutButton({ label = 'Get Intake Engine →', email = '' }: { label
     <button
       disabled={loading}
       onClick={async () => { setLoading(true); await redirectToCheckout(email); setLoading(false); }}
-      className="inline-flex cursor-pointer items-center justify-center rounded-md bg-[#2563eb] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-60"
+      className="inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-[#2563eb] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#1d4ed8] disabled:opacity-60 sm:w-auto"
     >
       {loading ? 'Redirecting...' : label}
     </button>
@@ -245,7 +294,7 @@ function ProductPage({ title, summary, sections }: { title: string; summary: str
       <main className="px-4 py-8">
         <div className="mx-auto max-w-5xl rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
           <p className="text-xs font-semibold uppercase tracking-widest text-[#2563eb]">Built for trades</p>
-          <h1 className="mt-2 text-4xl font-bold leading-tight tracking-tight text-gray-900">{title}</h1>
+          <h1 className="mt-2 text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl">{title}</h1>
           <p className="mt-3 max-w-3xl text-base font-medium leading-6 text-gray-600">{summary}</p>
           <div className="mt-5 flex flex-wrap gap-2">
             <CTA label="Get leads" />
@@ -299,23 +348,23 @@ export function HomePage() {
     <Shell>
       <main>
         {/* 1. HERO */}
-        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-16">
+        <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12 md:py-20">
           <div className="mx-auto max-w-6xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#06b6d4]">Built for UK tradespeople</p>
-            <h1 className="mt-4 text-5xl font-bold leading-tight tracking-tight text-white md:text-6xl">
-              The jobs worth quoting<br />land in your WhatsApp.
+            <p className="text-xs font-semibold uppercase tracking-widest text-[#06b6d4] sm:text-sm">Built for UK tradespeople</p>
+            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl md:text-6xl">
+              The jobs worth quoting<br className="hidden sm:block" /> land in your WhatsApp.
             </h1>
-            <p className="mx-auto mt-6 max-w-3xl text-xl font-medium leading-8 text-[#94a3b8]">
+            <p className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-[#94a3b8] sm:text-lg sm:leading-8">
               JobFilter scans planning applications, contract notices, and local signals across the UK —
               then sends only the verified, high-value work directly to you. Every morning.
             </p>
-            <p className="mt-3 text-base font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
-            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · No Chasing · No Competing · Control The Jobs · Stay In Control</p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/demo" className="inline-flex rounded-md bg-[#facc15] px-8 py-3.5 text-base font-bold text-black transition-colors hover:bg-yellow-300">
+            <p className="mt-3 text-sm font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
+            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · No Chasing · No Competing · Stay In Control</p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
+              <Link to="/demo" className="w-full rounded-md bg-[#facc15] px-8 py-4 text-base font-bold text-black transition-colors hover:bg-yellow-300 sm:w-auto">
                 Enter The Intake →
               </Link>
-              <Link to="/pricing" className="inline-flex rounded-md border border-[#2d3b4f] px-8 py-3.5 text-base font-semibold text-[#94a3b8] transition-colors hover:border-white hover:text-white">
+              <Link to="/pricing" className="w-full rounded-md border border-[#2d3b4f] px-8 py-4 text-base font-semibold text-[#94a3b8] transition-colors hover:border-white hover:text-white sm:w-auto">
                 View pricing
               </Link>
             </div>
@@ -341,10 +390,10 @@ export function HomePage() {
                 ['02', 'Filter',  'Every lead is scored against your trade, location, and job size. Vague enquiries and impossible budgets are cut before they reach you.'],
                 ['03', 'Deliver', 'Your shortlist arrives on WhatsApp each morning — job type, location, estimated value. Ready to quote.'],
               ].map(([num, title, body], idx) => (
-                <article key={title} className={`p-8 text-center ${idx > 0 ? 'border-l-2 border-[#2d3b4f]' : ''}`}>
+                <article key={title} className={`p-6 text-center sm:p-8 ${idx > 0 ? 'border-t-2 border-[#2d3b4f] md:border-l-2 md:border-t-0' : ''}`}>
                   <p className="text-5xl font-bold text-[#facc15]">{num}</p>
-                  <h3 className="mt-2 text-3xl font-bold text-white">{title}</h3>
-                  <p className="mt-4 text-base font-medium leading-7 text-[#94a3b8]">{body}</p>
+                  <h3 className="mt-2 text-2xl font-bold text-white sm:text-3xl">{title}</h3>
+                  <p className="mt-4 text-sm font-medium leading-7 text-[#94a3b8] sm:text-base">{body}</p>
                 </article>
               ))}
             </div>
@@ -464,18 +513,18 @@ export function DemoPage() {
             <h1 className="mt-1 text-3xl font-bold leading-tight text-gray-900">Find jobs near you</h1>
             <p className="mt-1 text-sm font-medium text-gray-500">Enter your postcode. See real jobs in your area now.</p>
 
-            <div className="mt-4 flex flex-wrap items-end gap-3">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-end">
               <label className="block">
                 <span className="mb-1 block text-xs font-semibold text-gray-700">Postcode</span>
                 <input
                   value={postcode}
                   onChange={(e) => setPostcode(e.target.value.toUpperCase())}
-                  className="w-44 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20"
+                  className="w-full rounded-md border border-gray-300 px-3 py-3 text-base font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 sm:w-40 sm:py-2 sm:text-sm"
                 />
               </label>
               <label className="block">
                 <span className="mb-1 block text-xs font-semibold text-gray-700">Trade</span>
-                <select value={trade} onChange={(e) => setTrade(e.target.value)} className="w-44 rounded-md border border-gray-300 px-3 py-2 text-sm font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20">
+                <select value={trade} onChange={(e) => setTrade(e.target.value)} className="w-full rounded-md border border-gray-300 px-3 py-3 text-base font-medium focus:border-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 sm:w-44 sm:py-2 sm:text-sm">
                   <option value="plumbing">Plumbing</option>
                   <option value="electrical">Electrical</option>
                   <option value="roofing">Roofing</option>
@@ -490,7 +539,7 @@ export function DemoPage() {
               <button
                 onClick={runScan}
                 disabled={loading}
-                className="rounded-md bg-[#facc15] px-5 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-yellow-300 disabled:opacity-50"
+                className="w-full rounded-md bg-[#facc15] px-5 py-3 text-base font-bold text-black transition-colors hover:bg-yellow-300 disabled:opacity-50 sm:w-auto sm:py-2.5 sm:text-sm sm:font-semibold"
               >
                 {loading ? 'Scanning...' : 'Scan now'}
               </button>
@@ -613,8 +662,8 @@ export function PricingPage() {
         <section className="border-b-2 border-gray-200 bg-[#f8fafc] px-4 py-12">
           <div className="mx-auto max-w-6xl">
             <div className="text-center">
-              <h1 className="text-5xl font-bold leading-tight text-gray-900">The cost of losing bad leads</h1>
-              <p className="mt-3 text-lg font-medium text-gray-600">Adjust the sliders. See what bad leads cost you per year.</p>
+              <h1 className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl">The cost of losing bad leads</h1>
+              <p className="mt-3 text-base font-medium text-gray-600 sm:text-lg">Adjust the sliders. See what bad leads cost you per year.</p>
             </div>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
               <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
@@ -651,8 +700,8 @@ export function PricingPage() {
         {/* Plans */}
         <section className="border-b-2 border-[#2d3b4f] bg-[#0a0f1e] px-4 py-12">
           <div className="mx-auto max-w-6xl text-center">
-            <h2 className="text-5xl font-bold text-[#facc15]">One price. Fair System. No games.</h2>
-            <p className="mt-2 text-xl font-medium text-[#94a3b8]">No per-lead fees. No bidding wars. No race to the bottom.</p>
+            <h2 className="text-3xl font-bold text-[#facc15] sm:text-4xl md:text-5xl">One price. Fair System. No games.</h2>
+            <p className="mt-2 text-base font-medium text-[#94a3b8] sm:text-xl">No per-lead fees. No bidding wars. No race to the bottom.</p>
             <p className="mt-3 text-base font-medium text-[#06b6d4]">📱 Jobs delivered straight to your WhatsApp. No dashboard required.</p>
             <p className="mx-auto mt-5 w-fit rounded-md bg-[#facc15] px-5 py-2 text-sm font-bold text-black">
               If this wins one £20k job, it pays for itself for years.
@@ -714,20 +763,20 @@ export function PricingPage() {
         {/* WhatsApp CTA */}
         <section className="border-b-2 border-gray-200 bg-[#facc15] px-4 py-12 text-center">
           <p className="text-xs font-bold uppercase tracking-widest text-black/60">No app required</p>
-          <h2 className="mt-2 text-4xl font-bold leading-tight text-black">📱 Get jobs on WhatsApp</h2>
-          <p className="mx-auto mt-4 max-w-3xl text-lg font-medium text-black/70">
+          <h2 className="mt-2 text-3xl font-bold leading-tight text-black sm:text-4xl">📱 Get jobs on WhatsApp</h2>
+          <p className="mx-auto mt-4 max-w-3xl text-base font-medium text-black/70 sm:text-lg">
             Real jobs sent to your phone every day. No app. No dashboard. Just leads.
           </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
             <CheckoutButton label="Get Intake Engine — £49/mo →" />
-            <Link to="/demo" className="rounded-md border-2 border-black bg-white px-6 py-3 text-base font-bold text-black transition-colors hover:bg-gray-50">See sample jobs first</Link>
+            <Link to="/demo" className="w-full rounded-md border-2 border-black bg-white px-6 py-3 text-base font-bold text-black transition-colors hover:bg-gray-50 sm:w-auto">See sample jobs first</Link>
           </div>
         </section>
 
         {/* Bottom CTA */}
         <section className="bg-[#f8fafc] px-4 py-14 text-center">
-          <h2 className="text-5xl font-bold leading-tight text-gray-900">Ready to find real leads?</h2>
-          <p className="mx-auto mt-5 max-w-3xl text-xl font-medium text-gray-600">
+          <h2 className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl md:text-5xl">Ready to find real leads?</h2>
+          <p className="mx-auto mt-5 max-w-3xl text-base font-medium text-gray-600 sm:text-xl">
             One subscription. Vantage, Vicinity, and Codex included. Cancel anytime.
           </p>
           <div className="mt-8">
