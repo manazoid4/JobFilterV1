@@ -232,7 +232,7 @@ function registerApi(app: express.Express) {
               name: "JobFilter Intake Engine",
               description: "REAL LEADS. NO CHASING. NO CONTRACTS.",
             },
-            unit_amount: 2900,
+            unit_amount: 4900,
             recurring: { interval: "month" },
           },
           quantity: 1,
