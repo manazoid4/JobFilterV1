@@ -61,7 +61,7 @@ async function buildPriorityPassUrl(tradieId: string, amount: number, origin?: s
 }
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 200; // TEST MODE — revert to 10 before launch
+const RATE_LIMIT = 10;
 const RATE_WINDOW_MS = 60_000;
 
 function checkRateLimit(ip: string): boolean {
