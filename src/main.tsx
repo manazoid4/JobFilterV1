@@ -6,6 +6,7 @@ import {
   CodexPage,
   DashboardPage,
   DemoPage,
+  FreeToolsPage,
   HomePage,
   PrivacyPage,
   PricingPage,
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/vantage" element={<VantagePage />} />
         <Route path="/vicinity" element={<VicinityPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/tools" element={<FreeToolsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/activation-pending" element={<ActivationPendingPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />

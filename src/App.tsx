@@ -1,5 +1,5 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -41,6 +41,7 @@ const NAV_ITEMS: Array<{ to: string; label: string }> = [
   { to: '/vantage', label: 'Vantage' },
   { to: '/vicinity', label: 'Vicinity' },
   { to: '/codex', label: 'Codex' },
+  { to: '/tools', label: 'Free Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
@@ -216,38 +217,51 @@ const URGENCY_STYLE: Record<string, { badge: string; bar: string }> = {
   low:    { badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200',  bar: 'bg-emerald-400' },
 };
 
-function LeadCard({ lead }: { lead: Lead }) {
+function LeadCard({ lead, showModuleLinks = false }: { lead: Lead; showModuleLinks?: boolean }) {
   const urg = (lead.urgency ?? 'medium').toLowerCase();
   const style = URGENCY_STYLE[urg] ?? URGENCY_STYLE.medium;
   const daysAgo = stableDaysAgo(lead.id);
+  const { tier, reason } = scoreLeadTier(lead);
+  const tierS = TIER_STYLE[tier] ?? TIER_STYLE.MED;
   return (
-    <article className="relative flex overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-      <div className={`w-1.5 flex-shrink-0 ${style.bar}`} />
-      <div className="flex-1 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0 flex-1">
-            <h2 className="text-sm font-bold leading-snug text-gray-900 sm:text-base">{lead.title}</h2>
-            <p className="mt-0.5 font-mono text-xs text-gray-500">{lead.location}</p>
+    <article className="relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+      <div className="flex flex-1">
+        <div className={`w-1.5 flex-shrink-0 ${style.bar}`} />
+        <div className="flex-1 p-4">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <h2 className="text-sm font-bold leading-snug text-gray-900 sm:text-base">{lead.title}</h2>
+              <p className="mt-0.5 font-mono text-xs text-gray-500">{lead.location}</p>
+            </div>
+            <div className="flex flex-shrink-0 flex-col items-end gap-1">
+              <span className={`rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${style.badge}`}>{urg}</span>
+              <span className={`rounded px-2 py-0.5 text-[10px] font-bold ${tierS.badge}`}>{tierS.label}</span>
+            </div>
           </div>
-          <span className={`flex-shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold capitalize ${style.badge}`}>
-            {urg}
-          </span>
-        </div>
-        <div className="mt-3 border-t border-gray-100 pt-3">
-          <span className="text-base font-bold text-gray-900 sm:text-lg">{lead.estimatedValue}</span>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
-              {lead.sourceConfidence ?? 80}% match
-            </span>
-            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
-              {daysAgo}d ago
-            </span>
-            <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
-              {lead.source}
-            </span>
+          <div className="mt-3 border-t border-gray-100 pt-3">
+            <span className="text-base font-bold text-gray-900 sm:text-lg">{lead.estimatedValue}</span>
+            <p className="mt-0.5 text-[11px] font-medium text-gray-400 italic">{reason}</p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+                {lead.sourceConfidence ?? 80}% match
+              </span>
+              <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+                {daysAgo}d ago
+              </span>
+              <span className="rounded-md border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[11px] text-gray-500">
+                {lead.source}
+              </span>
+            </div>
           </div>
         </div>
       </div>
+      {showModuleLinks && (
+        <div className="flex flex-wrap gap-0 border-t border-gray-100 divide-x divide-gray-100">
+          <Link to="/vantage" className="flex-1 py-2 text-center text-[11px] font-semibold text-[#2563eb] hover:bg-blue-50">Win this job → Vantage</Link>
+          <Link to="/vicinity" className="flex-1 py-2 text-center text-[11px] font-semibold text-emerald-600 hover:bg-emerald-50">More nearby → Vicinity</Link>
+          <Link to="/codex" className="flex-1 py-2 text-center text-[11px] font-semibold text-[#06b6d4] hover:bg-cyan-50">Close faster → Codex</Link>
+        </div>
+      )}
     </article>
   );
 }
@@ -265,6 +279,69 @@ function stableDaysAgo(id: string): number {
   let h = 0;
   for (const c of id) h = (h * 31 + c.charCodeAt(0)) & 0xffff;
   return (h % 5) + 1;
+}
+
+// ── Lead scoring engine ────────────────────────────────────────────────────────
+
+function parseLeadValue(v: string): number {
+  const m = v.match(/£([\d,.]+)/);
+  if (!m) return 0;
+  return Number(m[1].replace(/,/g, ''));
+}
+
+type LeadTier = { tier: 'HIGH' | 'MED' | 'LOW' | 'JUNK'; reason: string };
+
+function scoreLeadTier(lead: Lead): LeadTier {
+  const urg = (lead.urgency ?? 'medium').toLowerCase();
+  const val = parseLeadValue(lead.estimatedValue);
+  const conf = lead.sourceConfidence ?? 75;
+  if (urg === 'high' && val >= 2000 && conf >= 70)
+    return { tier: 'HIGH', reason: 'Urgent · verified budget · strong source' };
+  if (urg === 'high' || (val >= 5000 && conf >= 65))
+    return { tier: 'HIGH', reason: 'Urgent job with confirmed value signal' };
+  if (urg === 'medium' && val >= 1500)
+    return { tier: 'MED', reason: 'Active project · budget confirmed · low competition' };
+  if (val < 500 || conf < 40)
+    return { tier: 'JUNK', reason: 'Budget too low or source unverified' };
+  if (urg === 'low' && val < 2000)
+    return { tier: 'LOW', reason: 'Early-stage enquiry · unconfirmed budget' };
+  return { tier: 'MED', reason: 'Solid lead · moderate urgency' };
+}
+
+const TIER_STYLE: Record<string, { badge: string; label: string }> = {
+  HIGH: { badge: 'bg-red-500 text-white',      label: 'HIGH' },
+  MED:  { badge: 'bg-amber-400 text-black',    label: 'MED'  },
+  LOW:  { badge: 'bg-gray-300 text-gray-700',  label: 'LOW'  },
+  JUNK: { badge: 'bg-gray-100 text-gray-400',  label: 'JUNK' },
+};
+
+// ── Free scan input (homepage) ─────────────────────────────────────────────────
+
+function FreeScanInput({ className = '' }: { className?: string }) {
+  const [pc, setPc] = useState('');
+  const navigate = useNavigate();
+  const handleScan = (e: FormEvent) => {
+    e.preventDefault();
+    const target = pc.trim().toUpperCase() || 'B14 7QH';
+    void navigate(`/demo?postcode=${encodeURIComponent(target)}`);
+  };
+  return (
+    <form onSubmit={handleScan} className={`flex flex-col items-center gap-3 sm:flex-row sm:justify-center ${className}`}>
+      <input
+        value={pc}
+        onChange={(e) => setPc(e.target.value.toUpperCase())}
+        placeholder="Enter postcode e.g. B14 7QH"
+        maxLength={8}
+        className="w-full rounded-md border-2 border-[#2d3b4f] bg-[#1e2a3a] px-4 py-3 text-base font-medium text-white placeholder-[#64748b] focus:border-[#facc15] focus:outline-none sm:w-60"
+      />
+      <button
+        type="submit"
+        className="w-full rounded-md bg-[#facc15] px-8 py-3 text-base font-bold text-black transition-colors hover:bg-yellow-300 sm:w-auto"
+      >
+        Scan my area →
+      </button>
+    </form>
+  );
 }
 
 function CTA({ to = '/demo', label = 'Find Jobs' }: { to?: string; label?: string }) {
@@ -360,13 +437,14 @@ export function HomePage() {
             </p>
             <p className="mt-3 text-sm font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
             <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · No Chasing · No Competing · Stay In Control</p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-4">
-              <Link to="/demo" className="w-full rounded-md bg-[#facc15] px-8 py-4 text-base font-bold text-black transition-colors hover:bg-yellow-300 sm:w-auto">
-                Enter The Intake →
-              </Link>
-              <Link to="/pricing" className="w-full rounded-md border border-[#2d3b4f] px-8 py-4 text-base font-semibold text-[#94a3b8] transition-colors hover:border-white hover:text-white sm:w-auto">
-                View pricing
-              </Link>
+            <div className="mt-8">
+              <FreeScanInput />
+              <p className="mt-4 text-center text-sm font-medium text-[#64748b]">
+                Or{' '}
+                <Link to="/pricing" className="underline hover:text-white">view pricing</Link>
+                {' '}·{' '}
+                <Link to="/tools" className="underline hover:text-white">free tools</Link>
+              </p>
             </div>
             <p className="mt-6 text-sm font-medium text-[#64748b]">
               Used by 1,400+ UK tradesmen · Average 11 qualified leads per week
@@ -480,7 +558,8 @@ export function HomePage() {
 // ── DemoPage ──────────────────────────────────────────────────────────────────
 
 export function DemoPage() {
-  const [postcode, setPostcode] = useState('B14 7QH');
+  const [searchParamsHook] = useSearchParams();
+  const [postcode, setPostcode] = useState(searchParamsHook.get('postcode') ?? 'B14 7QH');
   const [trade, setTrade] = useState('plumbing');
   const [loading, setLoading] = useState(false);
   const [scanError, setScanError] = useState('');
@@ -549,8 +628,8 @@ export function DemoPage() {
 
   useEffect(() => { void runScan(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const freeLeads   = useMemo(() => leads, [leads]); // TEST MODE — revert to slice(0,2)
-  const lockedLeads = useMemo(() => [] as Lead[],   []);  // TEST MODE — revert to slice(2)
+  const freeLeads   = useMemo(() => leads.slice(0, 2), [leads]);
+  const lockedLeads = useMemo(() => leads.slice(2),    [leads]);
 
   return (
     <Shell>
@@ -605,6 +684,17 @@ export function DemoPage() {
             </div>
           </div>
 
+          {/* Pipeline */}
+          <div className="mt-3 flex items-center justify-center gap-1 overflow-x-auto rounded-lg border border-[#2d3b4f] bg-[#0a0f1e] px-4 py-2">
+            {['SCRAPE', 'NORMALISE', 'SCORE', 'FILTER', 'DELIVER'].map((step, i) => (
+              <Fragment key={step}>
+                {i > 0 && <span className="flex-shrink-0 text-[#facc15] text-xs">→</span>}
+                <span className={`flex-shrink-0 rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${step === 'DELIVER' ? 'bg-[#facc15] text-black' : 'text-[#94a3b8]'}`}>{step}</span>
+              </Fragment>
+            ))}
+            <span className="ml-2 flex-shrink-0 text-[10px] font-medium text-[#64748b]">· Detects jobs before marketplaces</span>
+          </div>
+
           {scanError && <p className="mt-2 text-xs font-medium text-amber-600">{scanError}</p>}
 
           {/* Stats strip */}
@@ -617,9 +707,9 @@ export function DemoPage() {
           {/* Free leads */}
           {freeLeads.length > 0 && (
             <div className="mt-4 grid gap-3">
-              {freeLeads.map((lead) => (
+              {freeLeads.map((lead, idx) => (
                 <Fragment key={lead.id}>
-                  <LeadCard lead={lead} />
+                  <LeadCard lead={lead} showModuleLinks={idx === 0} />
                 </Fragment>
               ))}
             </div>
@@ -1211,4 +1301,210 @@ export function PrivacyPage() {
 
 export function TermsPage() {
   return <ProductPage title="Terms" summary="JobFilter filters leads. You control pricing and delivery." sections={[{ title: 'Role', body: 'We filter intake and surface jobs.' }, { title: 'Boundary', body: 'Your trade agreement stays yours.' }, { title: 'Control', body: 'Clear split. No confusion.' }, { title: 'Result', body: 'Fair and simple.' }]} />;
+}
+
+// ── FreeToolsPage ─────────────────────────────────────────────────────────────
+
+function ProfitCalc() {
+  const [jobVal, setJobVal]     = useState(5000);
+  const [materials, setMats]    = useState(1500);
+  const [hours, setHours]       = useState(20);
+  const [rate, setRate]         = useState(35);
+  const labour  = hours * rate;
+  const profit  = jobVal - materials - labour;
+  const margin  = jobVal > 0 ? Math.round((profit / jobVal) * 100) : 0;
+  const ok      = profit > 0;
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p className="text-xs font-bold uppercase tracking-widest text-[#2563eb]">Profit Calculator</p>
+      <h2 className="mt-1 text-lg font-bold text-gray-900">Is this job worth quoting?</h2>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {([['Job value (£)', jobVal, setJobVal, 500, 200000, 500], ['Materials (£)', materials, setMats, 0, 100000, 250], ['Hours on site', hours, setHours, 1, 200, 1], ['Your rate (£/hr)', rate, setRate, 15, 150, 5]] as const).map(([label, val, setter, min, max, step]) => (
+          <label key={label} className="block">
+            <span className="mb-1 block text-xs font-semibold text-gray-700">{label}</span>
+            <input type="number" value={val} min={min} max={max} step={step}
+              onChange={(e) => (setter as (v: number) => void)(Number(e.target.value))}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#2563eb] focus:outline-none" />
+          </label>
+        ))}
+      </div>
+      <div className={`mt-5 rounded-lg p-4 ${ok ? 'bg-emerald-50 border border-emerald-200' : 'bg-red-50 border border-red-200'}`}>
+        <p className="text-sm font-semibold text-gray-700">Labour cost: <strong>£{labour.toLocaleString()}</strong></p>
+        <p className={`mt-1 text-2xl font-bold ${ok ? 'text-emerald-700' : 'text-red-600'}`}>
+          {ok ? `+£${profit.toLocaleString()} profit (${margin}% margin)` : `−£${Math.abs(profit).toLocaleString()} loss — don't quote this`}
+        </p>
+      </div>
+      {!ok && <div className="mt-3 rounded-md bg-[#0a0f1e] p-3 text-center"><Link to="/demo" className="text-sm font-semibold text-[#facc15]">Find better jobs in your area →</Link></div>}
+    </div>
+  );
+}
+
+function TyreKickerDetector() {
+  const questions = [
+    { id: 'budget', label: 'Have they confirmed a budget?' },
+    { id: 'timeline', label: 'Do they have a clear start date?' },
+    { id: 'quotes', label: 'Are they getting fewer than 3 quotes?' },
+    { id: 'decision', label: 'Is there one decision-maker?' },
+    { id: 'planning', label: 'Is planning approved (if required)?' },
+  ];
+  const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
+  const toggle = (id: string, val: boolean) => setAnswers((a) => ({ ...a, [id]: a[id] === val ? null : val }));
+  const answered = questions.filter((q) => answers[q.id] !== undefined && answers[q.id] !== null);
+  const yesses = answered.filter((q) => answers[q.id] === true).length;
+  const score = answered.length ? Math.round((yesses / questions.length) * 100) : null;
+  const verdict = score === null ? null : score >= 80 ? { text: 'Solid lead — quote it', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' }
+    : score >= 60 ? { text: 'Borderline — qualify harder before committing', color: 'text-amber-700 bg-amber-50 border-amber-200' }
+    : { text: 'Tyre-kicker — walk away', color: 'text-red-700 bg-red-50 border-red-200' };
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p className="text-xs font-bold uppercase tracking-widest text-red-500">Tyre-Kicker Detector</p>
+      <h2 className="mt-1 text-lg font-bold text-gray-900">Is this enquiry worth your time?</h2>
+      <div className="mt-4 space-y-3">
+        {questions.map((q) => (
+          <div key={q.id} className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 px-4 py-3">
+            <span className="text-sm font-medium text-gray-800">{q.label}</span>
+            <div className="flex gap-2">
+              <button onClick={() => toggle(q.id, true)} className={`rounded px-3 py-1 text-xs font-bold transition-colors ${answers[q.id] === true ? 'bg-emerald-500 text-white' : 'border border-gray-300 text-gray-600 hover:border-emerald-400'}`}>Yes</button>
+              <button onClick={() => toggle(q.id, false)} className={`rounded px-3 py-1 text-xs font-bold transition-colors ${answers[q.id] === false ? 'bg-red-500 text-white' : 'border border-gray-300 text-gray-600 hover:border-red-400'}`}>No</button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {verdict && (
+        <div className={`mt-4 rounded-lg border p-4 text-center ${verdict.color}`}>
+          <p className="text-lg font-bold">{verdict.text}</p>
+          <p className="mt-1 text-sm font-medium">Score: {score}%</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function QuickQuoteGenerator() {
+  const RANGES: Record<string, Record<string, string>> = {
+    plumbing:    { small: '£150–£400', medium: '£800–£2.5k', large: '£3k–£8k' },
+    electrical:  { small: '£200–£500', medium: '£1k–£3k',   large: '£4k–£12k' },
+    roofing:     { small: '£300–£900', medium: '£2k–£6k',   large: '£8k–£20k' },
+    building:    { small: '£500–£2k',  medium: '£5k–£20k',  large: '£25k–£80k' },
+    carpentry:   { small: '£200–£600', medium: '£1.5k–£5k', large: '£6k–£18k' },
+    painting:    { small: '£150–£400', medium: '£700–£2k',  large: '£2.5k–£8k' },
+    landscaping: { small: '£300–£800', medium: '£2k–£6k',   large: '£8k–£25k' },
+    hvac:        { small: '£400–£1k',  medium: '£2k–£5k',   large: '£6k–£20k' },
+  };
+  const [trade, setTrade] = useState('plumbing');
+  const [size, setSize]   = useState<'small' | 'medium' | 'large'>('medium');
+  const range = RANGES[trade]?.[size] ?? '—';
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p className="text-xs font-bold uppercase tracking-widest text-[#06b6d4]">Quick Quote Generator</p>
+      <h2 className="mt-1 text-lg font-bold text-gray-900">Ballpark figure in seconds</h2>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold text-gray-700">Trade</span>
+          <select value={trade} onChange={(e) => setTrade(e.target.value)} className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#2563eb] focus:outline-none">
+            {Object.keys(RANGES).map((t) => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
+          </select>
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-xs font-semibold text-gray-700">Job size</span>
+          <select value={size} onChange={(e) => setSize(e.target.value as 'small' | 'medium' | 'large')} className="rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#2563eb] focus:outline-none">
+            <option value="small">Small (half-day–1 day)</option>
+            <option value="medium">Medium (2–5 days)</option>
+            <option value="large">Large (1+ weeks)</option>
+          </select>
+        </label>
+      </div>
+      <div className="mt-5 rounded-lg border-2 border-[#2d3b4f] bg-[#0a0f1e] p-5 text-center">
+        <p className="text-xs font-semibold uppercase tracking-widest text-[#94a3b8]">Typical range</p>
+        <p className="mt-1 text-3xl font-bold text-[#facc15]">{range}</p>
+        <p className="mt-2 text-xs font-medium text-[#64748b]">UK market rate · adjust for materials + overheads</p>
+      </div>
+      <div className="mt-3 rounded-md border border-gray-200 bg-gray-50 p-3 text-center text-xs font-medium text-gray-600">
+        Want jobs matching this size? <Link to="/demo" className="font-semibold text-[#2563eb] hover:underline">Scan your area →</Link>
+      </div>
+    </div>
+  );
+}
+
+function AreaDemandChecker() {
+  const DEMAND: Record<string, { score: number; label: string; apps: number; desc: string }> = {
+    B: { score: 94, label: 'Very High', apps: 312, desc: 'Birmingham — major regen zone, high planning volume' },
+    M: { score: 88, label: 'High',      apps: 267, desc: 'Manchester — commercial + residential boom' },
+    LS:{ score: 85, label: 'High',      apps: 241, desc: 'Leeds — strong renovation demand, growing suburbs' },
+    BS:{ score: 82, label: 'High',      apps: 198, desc: 'Bristol — premium market, eco-retrofit demand' },
+    CV:{ score: 75, label: 'Moderate',  apps: 156, desc: 'Coventry — steady residential, social housing pipeline' },
+    WV:{ score: 71, label: 'Moderate',  apps: 134, desc: 'Wolverhampton — mixed, active planning zone' },
+    DY:{ score: 68, label: 'Moderate',  apps: 121, desc: 'Dudley — residential maintenance-heavy market' },
+    BL:{ score: 64, label: 'Moderate',  apps: 108, desc: 'Bolton — decent residential volume' },
+    E: { score: 91, label: 'Very High', apps: 287, desc: 'East London — constant high-value work' },
+    N: { score: 87, label: 'High',      apps: 231, desc: 'North London — renovation + extension demand' },
+    SW:{ score: 83, label: 'High',      apps: 219, desc: 'South West London — premium refurb market' },
+  };
+  const [pc, setPc] = useState('');
+  const [result, setResult] = useState<typeof DEMAND[string] | null>(null);
+  const [checked, setChecked] = useState(false);
+  const check = (e: FormEvent) => {
+    e.preventDefault();
+    const outward = pc.trim().toUpperCase().split(' ')[0].replace(/\d+.*$/, '');
+    const match = DEMAND[outward] ?? DEMAND[outward.slice(0, 1)];
+    setResult(match ?? null);
+    setChecked(true);
+  };
+  const scoreColor = result ? result.score >= 85 ? 'text-emerald-600' : result.score >= 70 ? 'text-amber-600' : 'text-gray-600' : '';
+  return (
+    <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <p className="text-xs font-bold uppercase tracking-widest text-emerald-600">Area Demand Checker</p>
+      <h2 className="mt-1 text-lg font-bold text-gray-900">How busy is your area right now?</h2>
+      <form onSubmit={check} className="mt-4 flex gap-2">
+        <input value={pc} onChange={(e) => setPc(e.target.value.toUpperCase())} placeholder="e.g. B14 or M20"
+          className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-[#2563eb] focus:outline-none" />
+        <button type="submit" className="rounded-md bg-[#0a0f1e] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e2a3a]">Check</button>
+      </form>
+      {checked && (
+        result ? (
+          <div className="mt-4 rounded-lg border border-gray-200 bg-[#f8fafc] p-4">
+            <div className="flex items-center justify-between">
+              <p className={`text-3xl font-bold ${scoreColor}`}>{result.score}/100</p>
+              <span className={`rounded px-2 py-1 text-xs font-bold ${result.score >= 85 ? 'bg-emerald-100 text-emerald-700' : result.score >= 70 ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'}`}>{result.label}</span>
+            </div>
+            <p className="mt-1 text-sm font-semibold text-gray-800">{result.apps} planning applications last 30 days</p>
+            <p className="mt-1 text-xs font-medium text-gray-500">{result.desc}</p>
+            <div className="mt-3"><Link to={`/demo?postcode=${encodeURIComponent(pc.trim().toUpperCase())}`} className="text-sm font-semibold text-[#2563eb] hover:underline">See live jobs in this area →</Link></div>
+          </div>
+        ) : (
+          <p className="mt-4 text-sm font-medium text-gray-500">No demand data for that area yet — <Link to="/demo" className="font-semibold text-[#2563eb] hover:underline">try a live scan instead</Link>.</p>
+        )
+      )}
+    </div>
+  );
+}
+
+export function FreeToolsPage() {
+  return (
+    <Shell>
+      <main className="px-4 py-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-6 rounded-xl border border-[#2d3b4f] bg-[#0a0f1e] p-6">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#facc15]">No login required</p>
+            <h1 className="mt-2 text-3xl font-bold text-white">Free Tools for Tradespeople</h1>
+            <p className="mt-2 text-base font-medium text-[#94a3b8]">Use them now. No account needed. Upgrade to Intake Engine when you're ready for daily leads.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            <ProfitCalc />
+            <TyreKickerDetector />
+            <QuickQuoteGenerator />
+            <AreaDemandChecker />
+          </div>
+          <div className="mt-8 rounded-xl border-2 border-[#2563eb] bg-[#0a0f1e] p-6 text-center">
+            <p className="text-base font-bold text-white">Ready for daily leads delivered to WhatsApp?</p>
+            <p className="mt-1 text-sm font-medium text-[#94a3b8]">Intake Engine — £49/month. No contracts.</p>
+            <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link to="/demo" className="rounded-md bg-[#facc15] px-6 py-3 text-base font-bold text-black hover:bg-yellow-300">Scan my area now →</Link>
+              <Link to="/pricing" className="rounded-md border border-[#2d3b4f] px-6 py-3 text-base font-semibold text-[#94a3b8] hover:border-white hover:text-white">View pricing</Link>
+            </div>
+          </div>
+        </div>
+      </main>
+    </Shell>
+  );
 }
