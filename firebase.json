@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "jobfilter-uk",
     "public": "dist",
     "ignore": [
       "firebase.json",
