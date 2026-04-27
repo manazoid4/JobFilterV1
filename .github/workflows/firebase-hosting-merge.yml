@@ -12,6 +12,10 @@ jobs:
         run: npm ci
       - name: Build frontend
         run: npm run build
+      - name: Prepare functions
+        run: cp -r leadEngine functions/
+      - name: Install function dependencies
+        run: npm install --prefix functions
       - name: Build functions
         run: npx tsc -p functions/tsconfig.json
       - name: Write service account

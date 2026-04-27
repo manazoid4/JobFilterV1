@@ -1,7 +1,7 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import express from 'express';
 import Stripe from 'stripe';
-import { scan } from '../leadEngine/scan';
+import { scan } from './leadEngine/scan';
 
 const DEFAULT_ORIGIN = process.env.APP_URL || 'https://jobfilter.uk';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
