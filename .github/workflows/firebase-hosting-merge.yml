@@ -18,9 +18,8 @@ jobs:
         run: npm install --prefix functions
       - name: Build functions
         run: npx tsc -p functions/tsconfig.json
-      - name: Write service account
-        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}' > /tmp/sa.json
-      - name: Deploy to Firebase
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}'
+      - name: Deploy hosting + functions
         run: npx firebase-tools deploy --only hosting,functions --project jobfilter-uk
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/sa.json
