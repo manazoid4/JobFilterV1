@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "jobfilter-uk",
     "public": "dist",
     "ignore": [
       "firebase.json",
@@ -8,9 +9,17 @@
     ],
     "rewrites": [
       {
+        "source": "/api/**",
+        "function": "api"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
     ]
+  },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
   }
 }

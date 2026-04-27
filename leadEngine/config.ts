@@ -1,4 +1,4 @@
-import type { TradeKey } from './types.ts';
+import type { TradeKey } from './types';
 
 export type { TradeKey };
 

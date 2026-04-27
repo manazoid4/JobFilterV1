@@ -21,7 +21,7 @@
  * If COMPANIES_HOUSE_API_KEY is not set → returns empty + logs skip message.
  */
 
-import type { RawLead, SourceStats } from '../types.ts';
+import type { RawLead, SourceStats } from '../types';
 
 const CH_BASE = 'https://api.company-information.service.gov.uk';
 

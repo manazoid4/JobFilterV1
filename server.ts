@@ -2,7 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import Stripe from "stripe";
-import { scan } from "./leadEngine/scan.ts";
+import { scan } from "./leadEngine/scan";
 
 const DEFAULT_ORIGIN = process.env.APP_URL || "http://localhost:3000";
 const stripeSecret = process.env.STRIPE_SECRET_KEY || "";
@@ -61,7 +61,7 @@ async function buildPriorityPassUrl(tradieId: string, amount: number, origin?: s
 }
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 200; // TEST MODE — revert to 10 before launch
+const RATE_LIMIT = 10;
 const RATE_WINDOW_MS = 60_000;
 
 function checkRateLimit(ip: string): boolean {
@@ -232,7 +232,7 @@ function registerApi(app: express.Express) {
               name: "JobFilter Intake Engine",
               description: "REAL LEADS. NO CHASING. NO CONTRACTS.",
             },
-            unit_amount: 2900,
+            unit_amount: 4900,
             recurring: { interval: "month" },
           },
           quantity: 1,

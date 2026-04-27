@@ -1,4 +1,4 @@
-import type { RawLead, SourceStats } from '../types.ts';
+import type { RawLead, SourceStats } from '../types';
 
 // ── Directory Signal Fetcher ───────────────────────────────────────────────────
 // Internal structured dataset — guaranteed fallback.
