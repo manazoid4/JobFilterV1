@@ -40,5 +40,5 @@ jobs:
             --project jobfilter-uk
         continue-on-error: true
 
-      - name: Deploy hosting + functions
-        run: npx firebase-tools deploy --only hosting,functions --project jobfilter-uk
+      - name: Deploy hosting
+        run: npx firebase-tools deploy --only hosting --project jobfilter-uk
