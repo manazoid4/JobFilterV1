@@ -23,7 +23,7 @@ export function HomePage() {
             </p>
             <div className="mt-5 jf-box border-white/30 bg-[#0B2A5B] p-5 text-white shadow-none">
               <p className="text-xl font-black leading-snug">
-                You lose hours every week chasing jobs that never convert. That's thousands per year gone.
+                You lose thousands a year chasing jobs that never convert.
               </p>
             </div>
             <div className="mt-6 grid gap-2 text-sm font-black text-white/75 sm:grid-cols-2">
@@ -49,9 +49,20 @@ export function HomePage() {
             </h2>
             <h2 className="headline bg-[var(--yellow)] p-5 text-3xl">With JobFilter</h2>
           </div>
-          <Compare bad="Wasted calls" good="Only real jobs" />
-          <Compare bad="Time lost" good="Time saved" />
-          <Compare bad="Guessing" good="Clear decision" />
+          <Compare bad="Chasing quotes" good="Only real jobs" />
+          <Compare bad="Time wasted" good="Time saved" />
+          <Compare bad="Guessing" good="Clear decisions" />
+        </div>
+      </section>
+
+      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-8">
+          <h2 className="headline max-w-4xl text-4xl leading-none md:text-6xl">
+            MOST PLATFORMS SELL THE SAME JOB TO MULTIPLE TRADESMEN.
+          </h2>
+          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
+            We don't. We filter the jobs you already get.
+          </p>
         </div>
       </section>
 
@@ -77,7 +88,7 @@ export function HomePage() {
             <h2 className="headline mt-3 text-5xl leading-none">USE OUR FREE TOOLS FOREVER.</h2>
             <div className="mt-5 grid gap-3 text-lg font-black text-[var(--muted)]">
               <p>FREE: 2 scans per week.</p>
-              <p>FREE: access to quote calculator and job estimator.</p>
+              <p>FREE: quote calculator, job estimator, and diesel calculator.</p>
               <p>FREE: newsletter and tips access.</p>
             </div>
             <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/free-tools">OPEN FREE TOOLS</Link>

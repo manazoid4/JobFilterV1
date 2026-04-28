@@ -53,7 +53,11 @@ export function LeadDetailPage() {
       )}
 
       <ActionBar>
-        <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="tel:">CALL</a>
+        {lead.phone ? (
+          <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`tel:${lead.phone}`}>CALL</a>
+        ) : (
+          <button className="jf-button bg-[#D7D9D4] text-[var(--ink)]" disabled>NO PHONE</button>
+        )}
         <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('ignored')}>IGNORE</button>
         <button className="jf-button bg-[var(--navy)] text-white" onClick={() => setStatus('saved')}>SAVE</button>
       </ActionBar>

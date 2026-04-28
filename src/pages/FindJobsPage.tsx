@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
-import { LeadCard } from '../components/LeadCard';
-import type { LeadSearchResponse, Trade } from '../lib/types';
+import { ScoreBadge } from '../components/ScoreBadge';
+import { Tag } from '../components/Tag';
+import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building'];
 
@@ -115,15 +116,7 @@ export function FindJobsPage() {
           ) : (
             <div className="grid gap-4">
               {result.leads.map((lead) => (
-                <LeadCard
-                  key={lead.id}
-                  title={lead.title}
-                  score={lead.score}
-                  tags={[lead.postcodeOutward ? 'Local' : 'Clear', lead.estimatedValue ? 'Budget' : 'Clear', 'Risk'].slice(0, 3)}
-                  cta="VIEW NOTICE"
-                  href={lead.url}
-                  meta={lead.source}
-                />
+                <LeadResultCard key={lead.id} lead={lead} />
               ))}
             </div>
           )}
@@ -133,11 +126,51 @@ export function FindJobsPage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
+  const fields = [
+    ['Buyer', lead.buyer || 'Unknown'],
+    ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
+    ['Value', lead.estimatedValue || 'Not listed'],
+    ['Deadline', formatDate(lead.deadlineAt)],
+    ['Published', formatDate(lead.publishedAt)],
+    ['Source', lead.source],
+  ];
+
+  return (
+    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr_auto]">
+      <ScoreBadge score={lead.score} />
+      <div className="min-w-0">
+        <div className="flex flex-wrap gap-2">
+          <Tag label={lead.source} />
+          <Tag label={`${lead.sourceConfidence}%`} />
+          <Tag label={lead.tradeMatch} />
+        </div>
+        <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
+        <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
+          {fields.map(([label, value]) => (
+            <Stat key={label} label={label} value={value} />
+          ))}
+        </div>
+      </div>
+      <a className="jf-button h-fit bg-[var(--navy)] text-white md:self-start" href={lead.url} target="_blank" rel="noreferrer">
+        VIEW NOTICE
+      </a>
+    </article>
+  );
+}
+
+function Stat({ label, value }: { key?: string; label: string; value: string }) {
   return (
     <div>
       <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
       <p className="mt-1 font-black">{value}</p>
     </div>
   );
+}
+
+function formatDate(value: string) {
+  if (!value) return 'Not listed';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return 'Not listed';
+  return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }

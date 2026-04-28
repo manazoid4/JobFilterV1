@@ -114,6 +114,7 @@ app.post('/api/intake/score', async (req, res) => {
     const urgency = clean(req.body?.urgency, 40) as 'Emergency' | 'This week' | 'Later';
     const details = clean(req.body?.details, 500);
     const postcode = clean(req.body?.postcode, 20).toUpperCase();
+    const phone = clean(req.body?.phone, 40);
     const hasPhotos = Boolean(req.body?.hasPhotos);
     if (!jobType || !urgency) return res.status(422).json({ ok: false, errors: ['pick job type and urgency'] });
 
@@ -125,6 +126,7 @@ app.post('/api/intake/score', async (req, res) => {
       jobType,
       urgency,
       postcode,
+      phone,
       area: postcode.split(/\s+/)[0] || 'Area unknown',
       flags: scored.flags,
       details,
@@ -145,6 +147,7 @@ app.post('/api/waitlist', async (req, res) => {
       name: clean(req.body?.name, 80),
       trade: clean(req.body?.trade, 60),
       contact: clean(req.body?.contact, 120),
+      contactType: detectContactType(req.body?.contact),
       source: clean(req.body?.source, 80) || 'site',
       createdAt: new Date().toISOString(),
     };
@@ -203,6 +206,13 @@ export const api = onRequest({ region: 'europe-west2', memory: '512MiB', timeout
 
 function clean(input: unknown, max: number) {
   return String(input ?? '').replace(/[<>]/g, '').trim().slice(0, max);
+}
+
+function detectContactType(input: unknown) {
+  const value = String(input ?? '').trim();
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'email';
+  if (/^\+?[\d\s().-]{8,}$/.test(value)) return 'phone';
+  return 'unknown';
 }
 
 function scoreIntake(input: { urgency: string; details: string; postcode: string; hasPhotos: boolean }) {
