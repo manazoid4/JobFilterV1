@@ -436,7 +436,8 @@ export function HomePage() {
               then sends only the verified, high-value work directly to you. Every morning.
             </p>
             <p className="mt-3 text-sm font-medium text-[#64748b]">📱 Jobs delivered to WhatsApp. No apps. No dashboards. Just leads.</p>
-            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · No Chasing · No Competing · Stay In Control</p>
+            <p className="mt-3 text-xs font-bold uppercase tracking-widest text-[#facc15]">Enter The Intake · Control The Jobs · No Chasing · No Competing</p>
+            <p className="mt-1 text-xs font-bold uppercase tracking-widest text-[#facc15]">Real Leads · Stay In Control · Built For Trades · No Contracts · Fair System</p>
             <div className="mt-8">
               <FreeScanInput />
               <p className="mt-4 text-center text-sm font-medium text-[#64748b]">

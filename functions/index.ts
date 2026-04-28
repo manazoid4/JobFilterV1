@@ -63,6 +63,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: [{ price_data: { currency: 'gbp', product_data: { name: 'JobFilter Intake Engine', description: 'REAL LEADS. NO CHASING. NO CONTRACTS.' }, unit_amount: 4900, recurring: { interval: 'month' } }, quantity: 1 }],
       mode: 'subscription',
+      subscription_data: { trial_period_days: 7 },
       success_url: `${req.headers.origin || DEFAULT_ORIGIN}/activation-pending?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin || DEFAULT_ORIGIN}/#pricing`,
       customer_email: req.body?.email,
