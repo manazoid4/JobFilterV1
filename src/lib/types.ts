@@ -3,25 +3,24 @@ export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building';
 export type Lead = {
   id: string;
   title: string;
-  buyer: string;
+  buyerName: string;
   location: string;
   postcodeOutward: string;
   estimatedValue: string;
-  publishedAt: string;
-  deadlineAt: string;
-  url: string;
+  deadlineAt?: string;
+  sourceUrl?: string;
   source: string;
   sourceConfidence: number;
-  tradeMatch: string;
-  score: number;
+  score?: number;
+  urgency?: 'low' | 'medium' | 'high';
+  contactSignal?: 'none' | 'weak' | 'strong';
 };
 
 export type LeadSearchResponse = {
-  ok: boolean;
-  source: 'contracts_finder';
-  count: number;
+  total: number;
   region: string;
   outward: string;
+  lockedCount?: number;
   leads: Lead[];
   errors: string[];
 };

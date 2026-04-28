@@ -1,34 +1,42 @@
 import type { Lead } from '../lib/types';
 
-function formatDate(value: string) {
+function formatDate(value?: string) {
   if (!value) return 'Not listed';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return 'Not listed';
-  return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return 'Not listed';
+  return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).format(d);
 }
 
 export function LeadCard({ lead }: { lead: Lead }) {
   return (
-    <article className="jf-box bg-white p-5">
+    <article className="rounded-xl border border-white/10 bg-white/5 p-5">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="max-w-3xl">
           <div className="flex flex-wrap gap-2">
-            <span className="badge bg-[var(--navy)] text-white">{lead.source}</span>
-            <span className="badge bg-[var(--yellow)] text-[var(--ink)]">{lead.score}/100 MATCH</span>
-            <span className="badge border border-[var(--line)] bg-white">{lead.sourceConfidence}% CONFIDENCE</span>
+            <span className="rounded-full bg-[var(--yellow)] px-2 py-0.5 text-xs font-black text-[var(--ink)]">{lead.source}</span>
+            {lead.score !== undefined && (
+              <span className="rounded-full border border-white/20 px-2 py-0.5 text-xs font-bold text-white/70">{lead.score}/100 match</span>
+            )}
+            <span className="rounded-full border border-white/20 px-2 py-0.5 text-xs font-bold text-white/70">{lead.sourceConfidence}% confidence</span>
+            {lead.urgency && (
+              <span className={`rounded-full px-2 py-0.5 text-xs font-black ${lead.urgency === 'high' ? 'bg-red-500/80 text-white' : lead.urgency === 'medium' ? 'bg-orange-400/80 text-white' : 'bg-white/10 text-white/60'}`}>
+                {lead.urgency}
+              </span>
+            )}
           </div>
-          <h2 className="mt-4 text-2xl font-black leading-tight">{lead.title}</h2>
-          <p className="mt-2 text-sm font-bold uppercase text-[var(--muted)]">{lead.buyer || 'Buyer not listed'}</p>
+          <h2 className="mt-3 text-xl font-black leading-tight text-white">{lead.title}</h2>
+          <p className="mt-1 text-sm font-semibold text-white/50">{lead.buyerName || 'Buyer not listed'}</p>
         </div>
-        <a className="jf-button bg-[var(--orange)] text-white" href={lead.url} target="_blank" rel="noreferrer">
-          View Notice
-        </a>
+        {lead.sourceUrl && (
+          <a className="shrink-0 rounded-lg bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] hover:opacity-90" href={lead.sourceUrl} target="_blank" rel="noreferrer">
+            View Notice →
+          </a>
+        )}
       </div>
-      <dl className="mt-5 grid gap-3 border-t-2 border-[var(--line)] pt-4 sm:grid-cols-2 lg:grid-cols-5">
+      <dl className="mt-4 grid gap-3 border-t border-white/10 pt-4 sm:grid-cols-2 lg:grid-cols-4">
         <Info label="Location" value={lead.location || 'UK'} />
         <Info label="Outward" value={lead.postcodeOutward || 'N/A'} />
         <Info label="Value" value={lead.estimatedValue || 'Not listed'} />
-        <Info label="Published" value={formatDate(lead.publishedAt)} />
         <Info label="Deadline" value={formatDate(lead.deadlineAt)} />
       </dl>
     </article>
@@ -38,8 +46,8 @@ export function LeadCard({ lead }: { lead: Lead }) {
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="micro-label text-[10px] text-[var(--muted)]">{label}</dt>
-      <dd className="mt-1 font-black">{value}</dd>
+      <dt className="text-[10px] font-black uppercase tracking-wider text-white/40">{label}</dt>
+      <dd className="mt-1 font-black text-white">{value}</dd>
     </div>
   );
 }
