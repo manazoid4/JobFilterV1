@@ -11,10 +11,12 @@ export function FindJobsPage() {
   const [radiusMiles, setRadiusMiles] = useState(25);
   const [result, setResult] = useState<LeadSearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
+  const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    setErrorText('');
     setLoading(true);
     setResult(null);
     try {
@@ -25,8 +27,12 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      if (!response.ok || !data.ok) {
+        setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
+      }
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch {
+      setErrorText('Network error. Retry the scan.');
       setResult({
         ok: false,
         source: 'contracts_finder',
@@ -39,6 +45,10 @@ export function FindJobsPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function retryScan() {
+    await submit({ preventDefault() {} } as FormEvent);
   }
 
   return (
@@ -81,11 +91,11 @@ export function FindJobsPage() {
 
       {result && (
         <section className="mt-5">
-          {!result.ok && (
+          {errorText && (
             <div className="jf-box mb-5 bg-[var(--orange)] p-5 text-white">
               <p className="font-black">Scan failed cleanly.</p>
-              <p className="mt-1 font-semibold">{result.errors.join(' ') || 'Retry in a minute.'}</p>
-              <button onClick={submit as any} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
+              <p className="mt-1 font-semibold">{errorText}</p>
+              <button onClick={() => void retryScan()} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
             </div>
           )}
 
