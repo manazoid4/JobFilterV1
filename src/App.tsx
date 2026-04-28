@@ -1,14 +1,17 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Footer } from './components/Footer';
 import { TopNav } from './components/TopNav';
-import { CodexPage } from './pages/CodexPage';
 import { FindJobsPage } from './pages/FindJobsPage';
+import { FreeToolsPage } from './pages/FreeToolsPage';
 import { HomePage } from './pages/HomePage';
 import { IntakePage } from './pages/IntakePage';
 import { LeadDetailPage } from './pages/LeadDetailPage';
 import { LeadListPage } from './pages/LeadListPage';
+import { LegalPage } from './pages/LegalPage';
 import { MyLinkPage } from './pages/MyLinkPage';
 import { PricingPage } from './pages/PricingPage';
+import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
+import { TipsPage } from './pages/TipsPage';
 
 export default function App() {
   return (
@@ -21,8 +24,14 @@ export default function App() {
         <Route path="/leads" element={<LeadListPage />} />
         <Route path="/leads/:id" element={<LeadDetailPage />} />
         <Route path="/find-jobs" element={<FindJobsPage />} />
+        <Route path="/free-tools" element={<FreeToolsPage />} />
+        <Route path="/tips" element={<TipsPage />} />
         <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/codex" element={<CodexPage />} />
+        <Route path="/vantage" element={<ProductAdvantagePage type="vantage" />} />
+        <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
+        <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
+        <Route path="/privacy" element={<LegalPage type="privacy" />} />
+        <Route path="/terms" element={<LegalPage type="terms" />} />
         <Route path="/health" element={<HealthPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -1,161 +1,120 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { WaitlistForm } from '../components/WaitlistForm';
+
+const rows = [
+  ['Scans', '2/week', 'Unlimited'],
+  ['Tools', 'Yes', 'Yes'],
+  ['WhatsApp Alerts', 'No', 'Yes'],
+  ['Users', '1', 'Multiple'],
+  ['Lead Shield', 'No', 'Yes'],
+];
 
 export function PricingPage() {
   const [hours, setHours] = useState(5);
   const [miles, setMiles] = useState(50);
-  const [email, setEmail] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const annualCost = useMemo(() => (hours * 35 + miles * 0.45) * 52, [hours, miles]);
-
-  async function startIntake() {
-    setSubmitting(true);
-    try {
-      const res = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() || undefined }),
-      });
-      const data = await res.json() as { url?: string; error?: string };
-      if (data.url) window.location.href = data.url;
-    } catch {
-      // silent — button re-enables
-    } finally {
-      setSubmitting(false);
-    }
-  }
+  const annualCost = useMemo(() => Math.round((hours * 35 + miles * 0.45) * 52), [hours, miles]);
 
   return (
-    <main className="min-h-screen bg-[var(--navy)] text-white">
-
-      {/* Cost calculator */}
-      <section className="border-b border-white/10 px-4 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h1 className="text-center text-3xl font-black md:text-5xl">The cost of losing bad leads</h1>
-          <p className="mt-3 text-center text-base text-white/50">Adjust the sliders. See what bad leads cost you per year.</p>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <Slider label="Hours lost per week" value={hours} min={0} max={20} onChange={setHours} />
-              <Slider label="Wasted miles per week" value={miles} min={0} max={300} step={5} onChange={setMiles} className="mt-6" />
-            </div>
-            <div className="flex flex-col justify-between rounded-2xl bg-[#0d1426] p-6">
-              <div>
-                <p className="text-sm font-bold text-white/50">You lose every year</p>
-                <p className="mt-1 text-6xl font-black text-[var(--yellow)]">£{Math.round(annualCost).toLocaleString()}</p>
-                <p className="mt-3 font-bold text-white/70">That could be another vehicle paid for.</p>
-                <p className="mt-1 text-sm text-white/40">Intake Engine: £49/month. Works out to £1.60/day.</p>
-              </div>
-              <Link to="/find-jobs" className="mt-6 inline-block rounded-lg border border-[var(--yellow)] px-5 py-3 text-center font-black text-[var(--yellow)] hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors">
-                Fix this now →
-              </Link>
-            </div>
-          </div>
-        </div>
+    <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
+      <section className="jf-box bg-[var(--navy)] p-6 text-white">
+        <p className="micro-label text-[var(--yellow)]">PRICING</p>
+        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">ONE PRICE. NO LEAD TAX.</h1>
+        <p className="mt-4 max-w-xl text-xl font-black text-white/70">Free tools stay free. Pro protects your inbox.</p>
       </section>
 
-      {/* Plans */}
-      <section className="px-4 py-16">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-center text-3xl font-black md:text-5xl">One price. Fair System. No games.</h2>
-          <p className="mt-3 text-center text-white/50">No per-lead fees. No bidding wars. No race to the bottom.</p>
-          <p className="mt-2 text-center text-sm font-bold text-[var(--yellow)]">Jobs delivered straight to your WhatsApp. No dashboard required.</p>
-          <div className="mt-3 text-center">
-            <span className="inline-block rounded-full bg-[var(--yellow)]/15 px-4 py-1.5 text-xs font-black text-[var(--yellow)]">
-              If this wins one £20k job, it pays for itself for years.
-            </span>
-          </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="text-sm font-black text-white/50">Free Tools</p>
-              <p className="mt-2 text-5xl font-black">£0</p>
-              <ul className="mt-5 space-y-2 text-sm">
-                <Li check>Lead scanner (2 free)</Li>
-                <Li check>Quote estimator</Li>
-                <Li check>Market checker</Li>
-                <Li>Job delivery</Li>
-                <Li>WhatsApp alerts</Li>
-              </ul>
-              <Link to="/find-jobs" className="mt-6 block rounded-lg border border-white/20 px-4 py-2.5 text-center text-sm font-black hover:bg-white/10">
-                Use for free
-              </Link>
-            </div>
-
-            <div className="rounded-2xl bg-[var(--yellow)] p-6 text-[var(--ink)]">
-              <p className="text-xs font-black uppercase tracking-widest opacity-60">Most popular · For tradesmen</p>
-              <p className="mt-1 text-lg font-black">Intake Engine</p>
-              <div className="mt-2 flex items-end gap-1">
-                <span className="text-5xl font-black">£49</span>
-                <span className="mb-1 font-bold opacity-60">/month</span>
-              </div>
-              <p className="mt-1 text-xs font-bold opacity-50">£1.60/day. Cancel anytime.</p>
-              <ul className="mt-5 space-y-2 text-sm">
-                <Li check ink>Jobs found before job boards</Li>
-                <Li check ink>Time-wasters filtered out</Li>
-                <Li check ink>Delivered to WhatsApp daily</Li>
-                <Li check ink>Vantage + Vicinity + Codex</Li>
-              </ul>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com (optional)"
-                className="mt-5 w-full rounded-lg border border-black/20 bg-white/60 px-3 py-2 text-sm text-[var(--ink)] placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-black/30"
-              />
-              <button
-                onClick={startIntake}
-                disabled={submitting}
-                className="mt-3 w-full rounded-lg bg-[var(--ink)] px-4 py-3 font-black text-white hover:opacity-90 disabled:opacity-50"
-              >
-                {submitting ? 'Loading...' : 'Get started →'}
-              </button>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="text-sm font-black text-white/50">Codex</p>
-              <div className="mt-2 flex items-end gap-1">
-                <span className="text-5xl font-black">£99</span>
-                <span className="mb-1 font-bold text-white/40">/month</span>
-              </div>
-              <ul className="mt-5 space-y-2 text-sm">
-                <Li check>Specs → sales proposals</Li>
-                <Li check>Better tender presentation</Li>
-                <Li check>For engineering firms</Li>
-              </ul>
-              <Link to="/codex" className="mt-6 block rounded-lg border border-white/20 px-4 py-2.5 text-center text-sm font-black hover:bg-white/10">
-                View Codex →
-              </Link>
-            </div>
-
-          </div>
-        </div>
+      <section className="grid gap-4 md:grid-cols-2">
+        <Plan
+          name="Free"
+          price="£0"
+          body="Use the tools. Check the scanner. Learn the system."
+          items={['2 scans per week', 'Free tools', 'Newsletter and tips', '1 user']}
+          cta="USE FREE TOOLS"
+          to="/free-tools"
+        />
+        <Plan
+          name="Pro"
+          price="£49/month"
+          body="Lead Shield filters time-wasters before they hit your phone."
+          items={['Unlimited scans', 'Multiple users', 'WhatsApp lead alerts', 'Filtered lead delivery', 'Priority filtering']}
+          cta="JOIN WAITLIST"
+          to="#waitlist"
+          dark
+        />
       </section>
 
+      <section className="jf-box overflow-hidden bg-white">
+        <div className="grid grid-cols-3 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
+          <p className="p-4">Feature</p>
+          <p className="p-4">Free</p>
+          <p className="p-4">Pro (£49)</p>
+        </div>
+        {rows.map(([feature, free, pro]) => (
+          <div key={feature} className="grid grid-cols-3 border-b-2 border-[var(--line)] last:border-b-0">
+            <p className="p-4 font-black">{feature}</p>
+            <p className="p-4 font-black text-[var(--muted)]">{free}</p>
+            <p className="p-4 font-black">{pro}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
+        <div className="jf-box bg-white p-6">
+          <p className="micro-label text-[var(--orange)]">COST CHECK</p>
+          <h2 className="headline mt-3 text-5xl">£{annualCost.toLocaleString()}/YEAR</h2>
+          <p className="mt-2 font-black text-[var(--muted)]">Estimated time and fuel lost to bad jobs.</p>
+          <div className="mt-5 grid gap-4">
+            <Slider label="Hours lost/week" value={hours} min={0} max={20} onChange={setHours} />
+            <Slider label="Wasted miles/week" value={miles} min={0} max={300} step={5} onChange={setMiles} />
+          </div>
+        </div>
+        <div id="waitlist">
+          <WaitlistForm source="pricing" />
+        </div>
+      </section>
     </main>
   );
 }
 
-function Slider({ label, value, min, max, step = 1, onChange, className = '' }: {
-  label: string; value: number; min: number; max: number; step?: number; onChange: (v: number) => void; className?: string;
+function Plan({ name, price, body, items, cta, to, dark = false }: {
+  name: string;
+  price: string;
+  body: string;
+  items: string[];
+  cta: string;
+  to: string;
+  dark?: boolean;
 }) {
+  const box = dark ? 'bg-[var(--navy)] text-white' : 'bg-white';
+  const button = dark ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--navy)] text-white';
+  const link = to.startsWith('#') ? <a className={`jf-button mt-6 ${button}`} href={to}>{cta}</a> : <Link className={`jf-button mt-6 ${button}`} to={to}>{cta}</Link>;
+
   return (
-    <div className={className}>
-      <div className="flex items-center justify-between">
-        <label className="text-sm font-bold text-white/70">{label}</label>
-        <span className="rounded-lg bg-[var(--yellow)] px-2 py-0.5 text-sm font-black text-[var(--ink)]">{value}</span>
-      </div>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))}
-        className="mt-3 w-full accent-[var(--yellow)]" />
-    </div>
+    <section className={`jf-box p-6 ${box}`}>
+      <p className="micro-label text-[var(--orange)]">{name}</p>
+      <h2 className="headline mt-3 text-5xl">{price}</h2>
+      <p className={`mt-2 font-black ${dark ? 'text-white/70' : 'text-[var(--muted)]'}`}>{body}</p>
+      <ul className="mt-5 grid gap-2">
+        {items.map((item) => <li key={item} className="font-black">YES {item}</li>)}
+      </ul>
+      {link}
+    </section>
   );
 }
 
-function Li({ check = false, ink = false, children }: { check?: boolean; ink?: boolean; children: ReactNode }) {
+function Slider({ label, value, min, max, step = 1, onChange }: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step?: number;
+  onChange: (value: number) => void;
+}) {
   return (
-    <li className={`flex items-center gap-2 ${ink ? 'text-[var(--ink)]' : check ? 'text-white' : 'text-white/30'}`}>
-      <span className="text-xs">{check ? '✓' : '✕'}</span>
-      {children}
-    </li>
+    <label className="field-label">
+      {label}
+      <input className="w-full accent-[var(--yellow)]" type="range" min={min} max={max} step={step} value={value} onChange={(event) => onChange(Number(event.target.value))} />
+      <span className="font-black">{value}</span>
+    </label>
   );
 }

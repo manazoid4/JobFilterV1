@@ -1,75 +1,101 @@
 import { Link } from 'react-router-dom';
-import { LeadCard } from '../components/LeadCard';
+import { WaitlistForm } from '../components/WaitlistForm';
+
+const features = [
+  ['Lead Scoring', 'Know if it is worth your time.'],
+  ['Intake Link', 'Customers answer first. You chase less.'],
+  ['SMS Alerts', 'Gold leads hit your phone fast.'],
+  ['Filtering Logic', 'Tyre-kickers get blocked early.'],
+];
 
 export function HomePage() {
   return (
     <main className="pb-20 md:pb-0">
-      <section className="border-b-2 border-[var(--line)] bg-white">
-        <div className="page-shell grid min-h-[calc(100svh-126px)] content-center gap-6 py-8 md:min-h-[calc(100vh-72px)] md:py-12">
-          <p className="micro-label text-[var(--orange)]">JOBFILTER = DECISION ENGINE</p>
-          <h1 className="headline max-w-4xl text-[clamp(3.4rem,10vw,8rem)] leading-[0.88]">
-            STOP WASTING TIME ON BAD JOBS
-          </h1>
-          <p className="max-w-xl text-xl font-black leading-snug text-[var(--muted)]">
-            Every enquiry filtered before you even see it.
-          </p>
+      <section className="border-b-2 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell grid gap-6 py-8 md:py-12 lg:grid-cols-[1fr_420px] lg:items-start">
           <div>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/my-link">
-              GET MY FILTER LINK
-            </Link>
+            <p className="micro-label text-[var(--yellow)]">JOBFILTER = INTAKE FOREMAN</p>
+            <h1 className="headline mt-4 max-w-5xl text-[clamp(3.3rem,10vw,8rem)] leading-[0.88]">
+              STOP WASTING TIME ON BAD JOBS
+            </h1>
+            <p className="mt-5 max-w-xl text-xl font-black leading-snug text-white/75">
+              Every enquiry filtered before it wastes your time.
+            </p>
+            <div className="mt-5 jf-box border-white/30 bg-[#0B2A5B] p-5 text-white shadow-none">
+              <p className="text-xl font-black leading-snug">
+                You lose hours every week chasing jobs that never convert. That's thousands per year gone.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-2 text-sm font-black text-white/75 sm:grid-cols-2">
+              <p>Built for tradesmen. Not to sell you leads.</p>
+              <p>We don't make money off your time. We protect it.</p>
+              <p>If you save time, you make more money.</p>
+              <p>Built in Birmingham.</p>
+            </div>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/my-link">GET MY FILTER LINK</Link>
+              <a className="jf-button bg-white text-[var(--ink)]" href="#waitlist">JOIN WAITLIST</a>
+            </div>
+          </div>
+          <WaitlistForm source="home-hero" />
+        </div>
+      </section>
+
+      <section className="page-shell section-pad">
+        <div className="jf-box overflow-hidden bg-white">
+          <div className="grid border-b-2 border-[var(--line)] md:grid-cols-2">
+            <h2 className="headline border-b-2 border-[var(--line)] bg-[var(--orange)] p-5 text-3xl text-white md:border-b-0 md:border-r-2">
+              Without JobFilter
+            </h2>
+            <h2 className="headline bg-[var(--yellow)] p-5 text-3xl">With JobFilter</h2>
+          </div>
+          <Compare bad="Wasted calls" good="Only real jobs" />
+          <Compare bad="Time lost" good="Time saved" />
+          <Compare bad="Guessing" good="Clear decision" />
+        </div>
+      </section>
+
+      <section className="border-y-2 border-[var(--line)] bg-white">
+        <div className="page-shell py-10">
+          <p className="micro-label text-[var(--orange)]">WHAT IT DOES</p>
+          <h2 className="headline mt-3 text-5xl leading-none">FILTER FIRST. ACT FAST.</h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            {features.map(([title, body]) => (
+              <article key={title} className="jf-box bg-[var(--bg-main)] p-5">
+                <h3 className="headline text-3xl">{title}</h3>
+                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="page-shell section-pad">
-        <div className="grid gap-4 md:grid-cols-2">
-          <LeadCard
-            title="Kitchen rewire, B14, this week"
-            score={88}
-            tags={['Local', 'Urgent', 'Clear', 'Photos']}
-            cta="TAKE"
-            to="/my-link"
-            meta="GOOD"
-          />
-          <LeadCard
-            title="Maybe a small job, no area"
-            score={28}
-            tags={['Risk', 'Budget']}
-            cta="IGNORE"
-            to="/my-link"
-            meta="BAD"
-          />
+        <div className="grid gap-5 lg:grid-cols-[1fr_420px]">
+          <div className="jf-box bg-white p-6">
+            <p className="micro-label text-[var(--orange)]">FREE TOOLS</p>
+            <h2 className="headline mt-3 text-5xl leading-none">USE OUR FREE TOOLS FOREVER.</h2>
+            <div className="mt-5 grid gap-3 text-lg font-black text-[var(--muted)]">
+              <p>FREE: 2 scans per week.</p>
+              <p>FREE: access to quote calculator and job estimator.</p>
+              <p>FREE: newsletter and tips access.</p>
+            </div>
+            <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/free-tools">OPEN FREE TOOLS</Link>
+          </div>
+          <div id="waitlist">
+            <WaitlistForm source="home-bottom" />
+          </div>
         </div>
-      </section>
-
-      <section className="border-y-2 border-[var(--line)] bg-[var(--navy)] text-white">
-        <div className="page-shell grid gap-3 py-8 md:grid-cols-3">
-          <Step n="1" title="Share link" />
-          <Step n="2" title="We filter" />
-          <Step n="3" title="You get the good ones" />
-        </div>
-      </section>
-
-      <section className="page-shell py-8">
-        <div className="jf-box bg-[var(--yellow)] p-6">
-          <p className="headline text-4xl leading-none md:text-6xl">9 JOBS FILTERED TODAY NEAR YOU</p>
-        </div>
-      </section>
-
-      <section className="page-shell pb-16">
-        <Link className="jf-button w-full bg-[var(--navy)] text-white md:w-auto" to="/my-link">
-          GET MY FILTER LINK
-        </Link>
       </section>
     </main>
   );
 }
 
-function Step({ n, title }: { n: string; title: string }) {
+function Compare({ bad, good }: { bad: string; good: string }) {
   return (
-    <div className="border-2 border-white/30 p-5">
-      <p className="micro-label text-[var(--yellow)]">Step {n}</p>
-      <h2 className="headline mt-2 text-3xl">{title}</h2>
+    <div className="grid border-b-2 border-[var(--line)] last:border-b-0 md:grid-cols-2">
+      <p className="border-b-2 border-[var(--line)] p-5 text-xl font-black md:border-b-0 md:border-r-2">{bad}</p>
+      <p className="bg-[var(--bg-main)] p-5 text-xl font-black">{good}</p>
     </div>
   );
 }
