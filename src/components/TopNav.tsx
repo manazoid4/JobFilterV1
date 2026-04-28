@@ -28,12 +28,12 @@ export function TopNav() {
             </NavLink>
           ))}
         </nav>
-        <NavLink to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+        <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
           SCAN NOW
         </NavLink>
       </div>
-      <nav className="grid grid-cols-4 border-t-2 border-[var(--line)] md:hidden">
-        {links.map((link) => (
+      <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
+        {links.filter((link) => link.to !== '/codex').map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
