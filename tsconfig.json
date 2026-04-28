@@ -22,5 +22,12 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true
-  }
+  },
+  "exclude": [
+    "functions",
+    "dist",
+    "node_modules",
+    "Obsidian_Memory",
+    "memoryraw_claude"
+  ]
 }
