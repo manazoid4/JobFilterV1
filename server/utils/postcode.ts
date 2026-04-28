@@ -44,7 +44,7 @@ export function parseUkPostcode(input: unknown): PostcodeInfo {
 
 export function outwardFromPostcode(input: string) {
   const cleaned = input.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  return cleaned.match(/^([A-Z]{1,2}\d[A-Z]?)(\d[A-Z]{2})$/)?.[1] ?? '';
+  return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/)?.[1] ?? '';
 }
 
 export function regionFromOutward(outward: string) {

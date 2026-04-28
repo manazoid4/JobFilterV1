@@ -56,10 +56,10 @@ select {
 }
 
 .copy {
-  max-width: 42rem;
+  max-width: 38rem;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   font-weight: 800;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--muted);
 }
 
@@ -107,7 +107,7 @@ select {
   background-image:
     linear-gradient(rgba(30, 45, 72, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(30, 45, 72, 0.08) 1px, transparent 1px);
-  background-size: 34px 34px;
+  background-size: 38px 38px;
 }
 
 @media (max-width: 900px) {

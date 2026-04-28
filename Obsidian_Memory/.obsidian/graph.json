@@ -1,0 +1,58 @@
+{
+  "collapse-filter": false,
+  "search": "-path:\"99-Templates\" -file:\"_\"",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "path:00-Dashboard",
+      "color": {
+        "a": 1,
+        "rgb": 16766720
+      }
+    },
+    {
+      "query": "path:01-Projects",
+      "color": {
+        "a": 1,
+        "rgb": 2554554
+      }
+    },
+    {
+      "query": "path:02-Areas",
+      "color": {
+        "a": 1,
+        "rgb": 3381759
+      }
+    },
+    {
+      "query": "path:03-Resources",
+      "color": {
+        "a": 1,
+        "rgb": 11389935
+      }
+    },
+    {
+      "query": "path:04-Archive",
+      "color": {
+        "a": 1,
+        "rgb": 11184810
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1.2,
+  "lineSizeMultiplier": 0.8,
+  "collapse-forces": false,
+  "centerStrength": 0.3,
+  "repelStrength": 12,
+  "linkStrength": 1,
+  "linkDistance": 170,
+  "scale": 0.9999999999999966,
+  "close": true
+}

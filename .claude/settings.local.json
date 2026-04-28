@@ -11,7 +11,10 @@
       "Bash(git check-ignore *)",
       "Bash(curl -s https://jobfilter.uk)",
       "Bash(git commit -m 'fix: improve logo visibility and button clarity for tradespeople *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(gh api *)",
+      "Bash(gh run *)"
     ]
   }
 }
