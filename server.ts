@@ -1,7 +1,9 @@
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
+import { registerIntakeScoreRoute } from './server/routes/intakeScore';
 import { registerLeadSearchRoute } from './server/routes/leadsSearch';
+import { registerWaitlistRoute } from './server/routes/waitlist';
 
 async function startServer() {
   const app = express();
@@ -12,7 +14,9 @@ async function startServer() {
     next();
   });
 
+  registerIntakeScoreRoute(app);
   registerLeadSearchRoute(app);
+  registerWaitlistRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'contracts_finder' });

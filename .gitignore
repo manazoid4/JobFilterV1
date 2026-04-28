@@ -4,6 +4,7 @@ dist/
 functions/lib/
 functions/node_modules/
 coverage/
+data/
 .DS_Store
 *.log
 .env*

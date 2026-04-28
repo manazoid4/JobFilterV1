@@ -1,97 +1,101 @@
 import { Link } from 'react-router-dom';
-import { SectionLabel } from '../components/SectionLabel';
+import { WaitlistForm } from '../components/WaitlistForm';
+
+const features = [
+  ['Lead Scoring', 'Know if it is worth your time.'],
+  ['Intake Link', 'Customers answer first. You chase less.'],
+  ['SMS Alerts', 'Gold leads hit your phone fast.'],
+  ['Filtering Logic', 'Tyre-kickers get blocked early.'],
+];
 
 export function HomePage() {
   return (
-    <main>
-
-      {/* Hero */}
-      <section className="soft-grid border-b-2 border-[var(--line)]">
-        <div className="page-shell grid gap-6 py-10 md:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <div className="jf-box bg-white p-6 md:p-10">
-            <SectionLabel>FIG. 01 · INTAKE ENGINE</SectionLabel>
-            <h1 className="headline mt-5 text-[clamp(3.2rem,8vw,7rem)] leading-[0.88]">
-              REAL LEADS.
-              <span className="block">NO CHASING.</span>
-              <span className="block text-[var(--orange)]">NO COMPETING.</span>
+    <main className="pb-20 md:pb-0">
+      <section className="border-b-2 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell grid gap-6 py-8 md:py-12 lg:grid-cols-[1fr_420px] lg:items-start">
+          <div>
+            <p className="micro-label text-[var(--yellow)]">JOBFILTER = INTAKE FOREMAN</p>
+            <h1 className="headline mt-4 max-w-5xl text-[clamp(3.3rem,10vw,8rem)] leading-[0.88]">
+              STOP WASTING TIME ON BAD JOBS
             </h1>
-            <p className="copy mt-5">
-              JobFilter finds and filters real UK trade jobs before they hit the boards. Stay in control. Skip the race to the bottom.
+            <p className="mt-5 max-w-xl text-xl font-black leading-snug text-white/75">
+              Every enquiry filtered before it wastes your time.
             </p>
+            <div className="mt-5 jf-box border-white/30 bg-[#0B2A5B] p-5 text-white shadow-none">
+              <p className="text-xl font-black leading-snug">
+                You lose hours every week chasing jobs that never convert. That's thousands per year gone.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-2 text-sm font-black text-white/75 sm:grid-cols-2">
+              <p>Built for tradesmen. Not to sell you leads.</p>
+              <p>We don't make money off your time. We protect it.</p>
+              <p>If you save time, you make more money.</p>
+              <p>Built in Birmingham.</p>
+            </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--navy)] text-white" to="/find-jobs">ENTER THE INTAKE</Link>
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">FREE TOOLS FOREVER →</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/my-link">GET MY FILTER LINK</Link>
+              <a className="jf-button bg-white text-[var(--ink)]" href="#waitlist">JOIN WAITLIST</a>
             </div>
           </div>
-
-          <div className="grid gap-3">
-            <Note title="CONTROL THE JOBS" body="One system. Less noise. Better fit work." />
-            <Note title="STAY IN CONTROL" body="Free tools always. Paid intake only when you're ready." />
-            <Note title="BUILT FOR TRADES" body="Made for people on the tools, not corporate teams." />
-            <Note title="NO CONTRACTS" body="Cancel anytime. No lock-in. Fair system." />
-          </div>
+          <WaitlistForm source="home-hero" />
         </div>
       </section>
 
-      {/* Banner */}
-      <section className="border-b-2 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell grid gap-2 py-4 text-sm font-black uppercase sm:grid-cols-4">
-          <p>FREE TOOLS FOREVER</p>
-          <p>Real leads only</p>
-          <p>No contracts</p>
-          <p>Fair system</p>
-        </div>
-      </section>
-
-      {/* Free vs Paid */}
       <section className="page-shell section-pad">
-        <SectionLabel>REF. 02 · WHAT YOU GET</SectionLabel>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          <div className="jf-box bg-white p-6 md:p-8">
-            <p className="micro-label text-[var(--muted)]">Free — Always</p>
-            <h2 className="headline mt-3 text-[clamp(1.8rem,4vw,3rem)] leading-none">FREE TOOLS FOREVER</h2>
-            <ul className="mt-5 space-y-2 text-sm font-bold text-[var(--muted)]">
-              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Lead scanner (2 free per day)</li>
-              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Quote estimator</li>
-              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Market checker</li>
-            </ul>
-            <Link className="jf-button mt-6 bg-[var(--bg-main)] text-[var(--ink)]" to="/find-jobs">SCAN FOR FREE →</Link>
+        <div className="jf-box overflow-hidden bg-white">
+          <div className="grid border-b-2 border-[var(--line)] md:grid-cols-2">
+            <h2 className="headline border-b-2 border-[var(--line)] bg-[var(--orange)] p-5 text-3xl text-white md:border-b-0 md:border-r-2">
+              Without JobFilter
+            </h2>
+            <h2 className="headline bg-[var(--yellow)] p-5 text-3xl">With JobFilter</h2>
           </div>
-          <div className="jf-box bg-[var(--navy)] p-6 text-white md:p-8">
-            <p className="micro-label text-[var(--yellow)]">Intake Engine — £49/month</p>
-            <h2 className="headline mt-3 text-[clamp(1.8rem,4vw,3rem)] leading-none text-white">JOBS BEFORE THE BOARDS SEE THEM</h2>
-            <ul className="mt-5 space-y-2 text-sm font-bold text-white/80">
-              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> Time-wasters filtered out</li>
-              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> Delivered to WhatsApp daily</li>
-              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> No per-lead fees. No bidding wars.</li>
-            </ul>
-            <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET INTAKE ENGINE →</Link>
+          <Compare bad="Wasted calls" good="Only real jobs" />
+          <Compare bad="Time lost" good="Time saved" />
+          <Compare bad="Guessing" good="Clear decision" />
+        </div>
+      </section>
+
+      <section className="border-y-2 border-[var(--line)] bg-white">
+        <div className="page-shell py-10">
+          <p className="micro-label text-[var(--orange)]">WHAT IT DOES</p>
+          <h2 className="headline mt-3 text-5xl leading-none">FILTER FIRST. ACT FAST.</h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            {features.map(([title, body]) => (
+              <article key={title} className="jf-box bg-[var(--bg-main)] p-5">
+                <h3 className="headline text-3xl">{title}</h3>
+                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-[var(--navy)] text-white">
-        <div className="page-shell py-14 text-center md:py-16">
-          <SectionLabel>REF. 03 · CONTROL</SectionLabel>
-          <h2 className="headline mx-auto mt-4 max-w-4xl text-[clamp(3rem,8vw,6.5rem)] leading-none">
-            ENTER THE INTAKE.
-            <span className="block">CONTROL THE JOBS.</span>
-          </h2>
-          <p className="copy mx-auto mt-4 text-white/60">This is clear. This is fair. Built for UK trades.</p>
-          <Link className="jf-button mt-7 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN NOW →</Link>
+      <section className="page-shell section-pad">
+        <div className="grid gap-5 lg:grid-cols-[1fr_420px]">
+          <div className="jf-box bg-white p-6">
+            <p className="micro-label text-[var(--orange)]">FREE TOOLS</p>
+            <h2 className="headline mt-3 text-5xl leading-none">USE OUR FREE TOOLS FOREVER.</h2>
+            <div className="mt-5 grid gap-3 text-lg font-black text-[var(--muted)]">
+              <p>FREE: 2 scans per week.</p>
+              <p>FREE: access to quote calculator and job estimator.</p>
+              <p>FREE: newsletter and tips access.</p>
+            </div>
+            <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/free-tools">OPEN FREE TOOLS</Link>
+          </div>
+          <div id="waitlist">
+            <WaitlistForm source="home-bottom" />
+          </div>
         </div>
       </section>
-
     </main>
   );
 }
 
-function Note({ title, body }: { title: string; body: string }) {
+function Compare({ bad, good }: { bad: string; good: string }) {
   return (
-    <div className="jf-box bg-[var(--navy)] p-5 text-white">
-      <p className="micro-label text-[var(--yellow)]">{title}</p>
-      <p className="mt-2 text-sm font-bold leading-relaxed text-white/80">{body}</p>
+    <div className="grid border-b-2 border-[var(--line)] last:border-b-0 md:grid-cols-2">
+      <p className="border-b-2 border-[var(--line)] p-5 text-xl font-black md:border-b-0 md:border-r-2">{bad}</p>
+      <p className="bg-[var(--bg-main)] p-5 text-xl font-black">{good}</p>
     </div>
   );
 }
