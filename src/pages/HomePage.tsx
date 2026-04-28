@@ -4,34 +4,38 @@ import { SectionLabel } from '../components/SectionLabel';
 export function HomePage() {
   return (
     <main>
-      <section className="soft-grid border-b-2 border-[var(--line)] bg-[var(--bg-main)]">
-        <div className="page-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+
+      {/* Hero */}
+      <section className="soft-grid border-b-2 border-[var(--line)]">
+        <div className="page-shell grid gap-6 py-10 md:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div className="jf-box bg-white p-6 md:p-10">
             <SectionLabel>FIG. 01 · INTAKE ENGINE</SectionLabel>
-            <h1 className="headline mt-6 max-w-4xl text-[clamp(3rem,8vw,7rem)] leading-[0.9]">
+            <h1 className="headline mt-5 text-[clamp(3.2rem,8vw,7rem)] leading-[0.88]">
               REAL LEADS.
               <span className="block">NO CHASING.</span>
+              <span className="block text-[var(--orange)]">NO COMPETING.</span>
             </h1>
-            <p className="copy mt-6">
-              JobFilter helps UK tradesmen get better jobs and stay in control. It filters weak work, shows only useful opportunities, and keeps the good tools free forever.
+            <p className="copy mt-5">
+              JobFilter finds and filters real UK trade jobs before they hit the boards. Stay in control. Skip the race to the bottom.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link className="jf-button bg-[var(--navy)] text-white" to="/find-jobs">ENTER THE INTAKE</Link>
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">FREE TOOLS FOREVER</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">FREE TOOLS FOREVER →</Link>
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <Note title="CONTROL THE JOBS" body="One system. Less noise. Better fit." />
-            <Note title="NO COMPETING" body="Find work without getting dragged into a race to the bottom." />
-            <Note title="STAY IN CONTROL" body="Use the intake engine, keep the free tools, upgrade only when ready." />
+          <div className="grid gap-3">
+            <Note title="CONTROL THE JOBS" body="One system. Less noise. Better fit work." />
+            <Note title="STAY IN CONTROL" body="Free tools always. Paid intake only when you're ready." />
             <Note title="BUILT FOR TRADES" body="Made for people on the tools, not corporate teams." />
+            <Note title="NO CONTRACTS" body="Cancel anytime. No lock-in. Fair system." />
           </div>
         </div>
       </section>
 
+      {/* Banner */}
       <section className="border-b-2 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase md:grid-cols-4">
+        <div className="page-shell grid gap-2 py-4 text-sm font-black uppercase sm:grid-cols-4">
           <p>FREE TOOLS FOREVER</p>
           <p>Real leads only</p>
           <p>No contracts</p>
@@ -39,38 +43,46 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Free vs Paid */}
       <section className="page-shell section-pad">
-        <SectionLabel>REF. 02 · PRODUCT CONTEXT</SectionLabel>
-        <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Product title="Intake Engine" body="The subscription product. Finds, filters, and scores jobs." />
-          <Product title="Vantage" body="Turns big tenders into better-looking bids and decks." />
-          <Product title="Vicinity" body="Turns finished work into new work and marketing assets." />
-          <Product title="Codex" body="Turns technical content into clean sales assets." />
-        </div>
-      </section>
-
-      <section className="border-y-2 border-[var(--line)] bg-white">
-        <div className="page-shell grid gap-6 py-10 md:py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <SectionLabel>REF. 03 · VALUE</SectionLabel>
-            <h2 className="headline mt-4 text-[clamp(2.6rem,6vw,5rem)] leading-none">FREE TOOLS. PAID INTAKE WHEN YOU NEED IT.</h2>
+        <SectionLabel>REF. 02 · WHAT YOU GET</SectionLabel>
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="jf-box bg-white p-6 md:p-8">
+            <p className="micro-label text-[var(--muted)]">Free — Always</p>
+            <h2 className="headline mt-3 text-[clamp(1.8rem,4vw,3rem)] leading-none">FREE TOOLS FOREVER</h2>
+            <ul className="mt-5 space-y-2 text-sm font-bold text-[var(--muted)]">
+              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Lead scanner (2 free per day)</li>
+              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Quote estimator</li>
+              <li className="flex gap-2"><span className="text-[var(--orange)]">→</span> Market checker</li>
+            </ul>
+            <Link className="jf-button mt-6 bg-[var(--bg-main)] text-[var(--ink)]" to="/find-jobs">SCAN FOR FREE →</Link>
           </div>
-          <p className="copy">
-            Use the free tools forever. When you want a proper intake system that finds real leads and cuts out the tyre-kickers, move to Intake Engine.
-          </p>
+          <div className="jf-box bg-[var(--navy)] p-6 text-white md:p-8">
+            <p className="micro-label text-[var(--yellow)]">Intake Engine — £49/month</p>
+            <h2 className="headline mt-3 text-[clamp(1.8rem,4vw,3rem)] leading-none text-white">JOBS BEFORE THE BOARDS SEE THEM</h2>
+            <ul className="mt-5 space-y-2 text-sm font-bold text-white/80">
+              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> Time-wasters filtered out</li>
+              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> Delivered to WhatsApp daily</li>
+              <li className="flex gap-2"><span className="text-[var(--yellow)]">✓</span> No per-lead fees. No bidding wars.</li>
+            </ul>
+            <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET INTAKE ENGINE →</Link>
+          </div>
         </div>
       </section>
 
+      {/* CTA */}
       <section className="bg-[var(--navy)] text-white">
-        <div className="page-shell py-14 text-center md:py-18">
-          <SectionLabel>REF. 04 · CONTROL</SectionLabel>
-          <h2 className="headline mx-auto mt-4 max-w-5xl text-[clamp(3rem,8vw,7rem)] leading-none">
+        <div className="page-shell py-14 text-center md:py-16">
+          <SectionLabel>REF. 03 · CONTROL</SectionLabel>
+          <h2 className="headline mx-auto mt-4 max-w-4xl text-[clamp(3rem,8vw,6.5rem)] leading-none">
             ENTER THE INTAKE.
             <span className="block">CONTROL THE JOBS.</span>
           </h2>
-          <Link className="jf-button mt-8 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN NOW →</Link>
+          <p className="copy mx-auto mt-4 text-white/60">This is clear. This is fair. Built for UK trades.</p>
+          <Link className="jf-button mt-7 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN NOW →</Link>
         </div>
       </section>
+
     </main>
   );
 }
@@ -79,16 +91,7 @@ function Note({ title, body }: { title: string; body: string }) {
   return (
     <div className="jf-box bg-[var(--navy)] p-5 text-white">
       <p className="micro-label text-[var(--yellow)]">{title}</p>
-      <p className="mt-3 text-base font-bold leading-relaxed text-white/85">{body}</p>
+      <p className="mt-2 text-sm font-bold leading-relaxed text-white/80">{body}</p>
     </div>
-  );
-}
-
-function Product({ title, body }: { title: string; body: string }) {
-  return (
-    <article className="jf-box bg-white p-5">
-      <p className="micro-label text-[var(--orange)]">{title}</p>
-      <p className="mt-3 text-base font-bold leading-relaxed text-[var(--muted)]">{body}</p>
-    </article>
   );
 }

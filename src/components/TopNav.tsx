@@ -33,7 +33,7 @@ export function TopNav() {
         </NavLink>
       </div>
       <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
-        {links.filter((link) => link.to !== '/codex').map((link) => (
+        {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
