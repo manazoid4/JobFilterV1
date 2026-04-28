@@ -2,7 +2,6 @@ node_modules/
 build/
 dist/
 functions/lib/
-functions/leadEngine/
 functions/node_modules/
 coverage/
 .DS_Store
