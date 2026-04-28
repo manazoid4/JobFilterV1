@@ -4,6 +4,10 @@ import { TopNav } from './components/TopNav';
 import { CodexPage } from './pages/CodexPage';
 import { FindJobsPage } from './pages/FindJobsPage';
 import { HomePage } from './pages/HomePage';
+import { IntakePage } from './pages/IntakePage';
+import { LeadDetailPage } from './pages/LeadDetailPage';
+import { LeadListPage } from './pages/LeadListPage';
+import { MyLinkPage } from './pages/MyLinkPage';
 import { PricingPage } from './pages/PricingPage';
 
 export default function App() {
@@ -12,6 +16,10 @@ export default function App() {
       <TopNav />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/my-link" element={<MyLinkPage />} />
+        <Route path="/intake/:username" element={<IntakePage />} />
+        <Route path="/leads" element={<LeadListPage />} />
+        <Route path="/leads/:id" element={<LeadDetailPage />} />
         <Route path="/find-jobs" element={<FindJobsPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/codex" element={<CodexPage />} />

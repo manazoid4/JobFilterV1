@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/', label: 'Home' },
-  { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/pricing', label: 'Pricing' },
-  { to: '/codex', label: 'Codex' },
+  { to: '/my-link', label: 'My Link' },
+  { to: '/leads', label: 'Leads' },
+  { to: '/find-jobs', label: 'Live Scan' },
 ];
 
 export function TopNav() {
@@ -28,8 +28,8 @@ export function TopNav() {
             </NavLink>
           ))}
         </nav>
-        <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
-          SCAN NOW
+        <NavLink to="/my-link" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
+          GET LINK
         </NavLink>
       </div>
       <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">

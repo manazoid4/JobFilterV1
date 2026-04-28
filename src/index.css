@@ -112,7 +112,7 @@ select {
 
 @media (max-width: 900px) {
   .page-shell {
-    width: calc(100% - 112px);
+    width: calc(100% - 32px);
     max-width: 100%;
   }
 
@@ -188,4 +188,22 @@ select {
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.choice-button {
+  min-height: 64px;
+  border: 2px solid var(--line);
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 1rem;
+  text-align: left;
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+.choice-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--line);
 }

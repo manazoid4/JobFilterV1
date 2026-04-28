@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export function PricingPage() {
@@ -151,7 +151,7 @@ function Slider({ label, value, min, max, step = 1, onChange, className = '' }: 
   );
 }
 
-function Li({ check = false, ink = false, children }: { check?: boolean; ink?: boolean; children: React.ReactNode }) {
+function Li({ check = false, ink = false, children }: { check?: boolean; ink?: boolean; children: ReactNode }) {
   return (
     <li className={`flex items-center gap-2 ${ink ? 'text-[var(--ink)]' : check ? 'text-white' : 'text-white/30'}`}>
       <span className="text-xs">{check ? '✓' : '✕'}</span>
