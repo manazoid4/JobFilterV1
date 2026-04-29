@@ -4,6 +4,7 @@ export type IntakeScoreInput = {
   details: string;
   postcode: string;
   hasPhotos: boolean;
+  budget?: string;
 };
 
 export function scoreIntake(input: IntakeScoreInput) {
@@ -41,8 +42,26 @@ export function scoreIntake(input: IntakeScoreInput) {
     flags.push('Budget');
   }
 
+  if (input.budget === 'Under £500') {
+    score = 0;
+    flags.push('Budget');
+  } else if (input.budget === '£500–£2,000') {
+    score += 5;
+    flags.push('GoodBudget');
+  } else if (input.budget === '£2,000–£5,000') {
+    score += 15;
+    flags.push('GoodBudget');
+  } else if (input.budget === '£5,000+') {
+    score += 25;
+    flags.push('GoodBudget');
+  }
+
+  const finalScore = Math.max(0, Math.min(100, score));
+  const tier = finalScore >= 80 ? 'GOLD' : finalScore >= 50 ? 'SILVER' : 'BIN';
+
   return {
-    score: Math.max(0, Math.min(100, score)),
+    score: finalScore,
     flags: flags.slice(0, 4),
+    tier,
   };
 }

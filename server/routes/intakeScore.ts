@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
 import { scoreIntake } from '../services/decisionScoring';
-import { triggerGoldLeadSms } from '../services/sms';
+import { triggerGoldLeadWhatsApp } from '../services/sms';
 import { outwardFromPostcode } from '../utils/postcode';
 
 const JOB_TYPES = new Set(['Electrical', 'Plumbing', 'Roofing', 'Building']);
@@ -15,17 +15,19 @@ export function registerIntakeScoreRoute(app: Express) {
       const postcode = sanitizeText(req.body?.postcode).toUpperCase();
       const phone = sanitizeText(req.body?.phone);
       const hasPhotos = Boolean(req.body?.hasPhotos);
+      const budget = sanitizeText(req.body?.budget);
+      const phone = sanitizeText(req.body?.phone);
       const area = outwardFromPostcode(postcode) || postcode || 'Area unknown';
-      const { score, flags } = scoreIntake({ jobType, urgency, details, postcode, hasPhotos });
+      const { score, flags, tier } = scoreIntake({ jobType, urgency, details, postcode, hasPhotos, budget });
 
-      let sms = { triggered: false, provider: 'none' };
-      if (score > 80) {
-        sms = await triggerGoldLeadSms({ score, jobType, area });
+      let whatsapp = { triggered: false, provider: 'none' };
+      if (tier === 'GOLD') {
+        whatsapp = await triggerGoldLeadWhatsApp({ score, jobType, area, budget, phone });
       }
 
       return res.json({
         ok: true,
-        sms,
+        whatsapp,
         lead: {
           id: `lead-${Date.now()}`,
           title: `${jobType} job`,
@@ -37,6 +39,9 @@ export function registerIntakeScoreRoute(app: Express) {
           area,
           flags,
           details,
+          budget,
+          phone,
+          tier,
           status: 'new',
           createdAt: new Date().toISOString(),
         },
