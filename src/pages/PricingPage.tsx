@@ -3,11 +3,19 @@ import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const rows = [
-  ['Scans', '2/week', 'Unlimited'],
-  ['Tools', 'Yes', 'Yes'],
-  ['WhatsApp Alerts', 'No', 'Yes'],
-  ['Users', '1', 'Multiple'],
-  ['Lead Shield', 'No', 'Yes'],
+  ['Area scans', '2/week', 'Unlimited'],
+  ['Lead score', 'Score band', 'Full score + reasons'],
+  ['Source detail', 'Source name', 'Official link + buyer'],
+  ['Contact signal', 'Hidden', 'Unlocked'],
+  ['WhatsApp alerts', 'No', 'Yes'],
+  ['Saved leads', 'No', 'Yes'],
+];
+
+const contrasts = [
+  ['Quoting tools', 'PriceBuilder and BuildScope help price jobs after you already have them.'],
+  ['Missed-call AI', 'Unmissed recovers calls, but does not decide if the job is worth chasing.'],
+  ['Trade agencies', 'Time To Scale style packages cost more and can still send weak enquiries.'],
+  ['Enterprise controls', 'Morta is powerful project data infrastructure, not a tradesman lead filter.'],
 ];
 
 export function PricingPage() {
@@ -19,25 +27,31 @@ export function PricingPage() {
     <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-[var(--navy)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">ONE PRICE. NO LEAD TAX.</h1>
-        <p className="mt-4 max-w-xl text-xl font-black text-white/70">Free tools stay free. Pro protects your inbox.</p>
+        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">£49/MONTH TO UNLOCK THE ACTION LAYER.</h1>
+        <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
+          Free shows the signal. Pro unlocks the detail, WhatsApp delivery, and saved-lead workflow.
+        </p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#waitlist">GET WHATSAPP ALERTS</a>
+          <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FIRST</Link>
+        </div>
       </section>
 
       <section className="grid gap-4 md:grid-cols-2">
         <Plan
           name="Free"
           price="£0"
-          body="Use the tools. Check the scanner. Learn the system."
-          items={['2 scans per week', 'Free tools', 'Newsletter and tips', '1 user']}
-          cta="USE FREE TOOLS"
-          to="/free-tools"
+          body="Check your area and see whether there is signal."
+          items={['2 scans per week', 'Score band', 'Source name', 'Free tools', 'Limited lead reasons']}
+          cta="SCAN MY AREA"
+          to="/find-jobs"
         />
         <Plan
           name="Pro"
           price="£49/month"
-          body="Lead Shield filters time-wasters before they hit your phone."
-          items={['Unlimited scans', 'Multiple users', 'WhatsApp lead alerts', 'Filtered lead delivery', 'Priority filtering']}
-          cta="JOIN WAITLIST"
+          body="Unlock the fields that turn a signal into an action."
+          items={['Unlimited scans', 'Full score reasons', 'Buyer and official source link', 'Contact signal', 'WhatsApp alerts', 'Saved leads']}
+          cta="JOIN PRO WAITLIST"
           to="#waitlist"
           dark
         />
@@ -60,17 +74,41 @@ export function PricingPage() {
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <div className="jf-box bg-white p-6">
-          <p className="micro-label text-[var(--orange)]">COST CHECK</p>
-          <h2 className="headline mt-3 text-5xl">£{annualCost.toLocaleString()}/YEAR</h2>
-          <p className="mt-2 font-black text-[var(--muted)]">Estimated time and fuel lost to bad jobs.</p>
+          <p className="micro-label text-[var(--orange)]">ROI CHECK</p>
+          <h2 className="headline mt-3 text-5xl leading-none">£{annualCost.toLocaleString()}/YEAR</h2>
+          <p className="mt-2 font-black text-[var(--muted)]">
+            Estimated time and fuel lost to weak jobs. One avoided wasted evening can cover the month.
+          </p>
           <div className="mt-5 grid gap-4">
             <Slider label="Hours lost/week" value={hours} min={0} max={20} onChange={setHours} />
             <Slider label="Wasted miles/week" value={miles} min={0} max={300} step={5} onChange={setMiles} />
           </div>
         </div>
-        <div id="waitlist">
-          <WaitlistForm source="pricing" />
+        <WhatsAppBox />
+      </section>
+
+      <section className="jf-box bg-white p-6">
+        <p className="micro-label text-[var(--orange)]">WHY NOT ANOTHER TOOL?</p>
+        <h2 className="headline mt-3 text-4xl leading-none">JobFilter sits before quoting, calls, and admin.</h2>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {contrasts.map(([title, body]) => (
+            <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+              <h3 className="font-black uppercase">{title}</h3>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
+            </article>
+          ))}
         </div>
+      </section>
+
+      <section id="waitlist" className="grid gap-5 lg:grid-cols-[1fr_420px]">
+        <div className="jf-box bg-[var(--yellow)] p-6">
+          <p className="micro-label text-[var(--ink)]">PRO WAITLIST</p>
+          <h2 className="headline mt-3 text-5xl leading-none">Get the jobs worth checking sent to WhatsApp.</h2>
+          <p className="mt-4 max-w-xl text-lg font-black text-[var(--ink)]/75">
+            No checkout is forced here. Join the alert list and unlock the paid route when the Intake Engine opens.
+          </p>
+        </div>
+        <WaitlistForm source="pricing-whatsapp-alerts" />
       </section>
     </main>
   );
@@ -99,6 +137,22 @@ function Plan({ name, price, body, items, cta, to, dark = false }: {
       </ul>
       {link}
     </section>
+  );
+}
+
+function WhatsAppBox() {
+  return (
+    <article className="jf-box bg-[var(--navy)] p-5 text-white">
+      <p className="micro-label text-[var(--yellow)]">WHATSAPP ALERT PREVIEW</p>
+      <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">
+{`GOLD LEAD - Roofing
+Area: B91 / West Midlands
+Value: £50k+
+Urgency: Deadline soon
+Why it matters: Official source, buyer named, high value
+Action: Open notice`}
+      </pre>
+    </article>
   );
 }
 

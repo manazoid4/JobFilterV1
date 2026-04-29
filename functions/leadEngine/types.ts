@@ -1,7 +1,7 @@
 export type TradeKey = 'plumbing' | 'electrical' | 'roofing' | 'building' | 'carpentry' | 'painting' | 'hvac' | 'landscaping' | 'all';
 export type Urgency = 'low' | 'medium' | 'high';
 export type ContactSignal = 'none' | 'weak' | 'strong';
-export type LeadStatus = 'open' | 'closed' | 'cancelled';
+export type LeadStatus = 'new' | 'saved' | 'ignored' | 'closed' | 'cancelled';
 export type Tier = 'free' | 'paid';
 
 export interface Lead {

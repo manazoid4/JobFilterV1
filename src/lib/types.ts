@@ -1,4 +1,7 @@
 export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building';
+export type LeadUrgency = 'high' | 'medium' | 'low';
+export type ContactSignal = 'strong' | 'weak' | 'none';
+export type LiveLeadStatus = 'new' | 'saved' | 'ignored';
 
 export type DecisionFlag = 'Local' | 'Urgent' | 'Photos' | 'Clear' | 'Risk' | 'Budget' | 'GoodBudget';
 
@@ -22,16 +25,22 @@ export type LeadDecision = {
 export type Lead = {
   id: string;
   title: string;
-  buyer: string;
+  trade: Trade | string;
+  buyer?: string;
   location: string;
   postcodeOutward: string;
   estimatedValue: string;
+  urgency: LeadUrgency;
   publishedAt: string;
   deadlineAt: string;
   url: string;
   source: string;
   sourceConfidence: number;
-  tradeMatch: Trade;
+  contactSignal: ContactSignal;
+  status: LiveLeadStatus;
+  reasons?: string[];
+  revenueTier?: 'gold' | 'worth-checking' | 'low-signal';
+  tradeMatch?: Trade;
   score: number;
 };
 
