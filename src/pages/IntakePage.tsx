@@ -45,7 +45,7 @@ export function IntakePage() {
     const response = await fetch('/api/intake/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobType, urgency, details, postcode, phone, hasPhotos, username }),
+      body: JSON.stringify({ jobType, urgency, details, postcode, phone, budget, hasPhotos, username }),
     });
     const payload = await response.json() as { lead: LeadDecision };
     saveStoredLead(payload.lead);

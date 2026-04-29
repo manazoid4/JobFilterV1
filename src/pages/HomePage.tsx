@@ -76,6 +76,17 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-8">
+          <h2 className="headline max-w-4xl text-4xl leading-none md:text-6xl">
+            MOST PLATFORMS SELL THE SAME JOB TO MULTIPLE TRADESMEN.
+          </h2>
+          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
+            We don't. We filter the jobs you already get.
+          </p>
+        </div>
+      </section>
+
       <section className="bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
           <h2 className="headline text-5xl leading-none">CHECKATRADE VS JOBFILTER</h2>
