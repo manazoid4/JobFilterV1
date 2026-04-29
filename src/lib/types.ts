@@ -1,6 +1,6 @@
 export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building';
 
-export type DecisionFlag = 'Local' | 'Urgent' | 'Photos' | 'Clear' | 'Risk' | 'Budget';
+export type DecisionFlag = 'Local' | 'Urgent' | 'Photos' | 'Clear' | 'Risk' | 'Budget' | 'GoodBudget';
 
 export type LeadDecision = {
   id: string;
@@ -13,6 +13,8 @@ export type LeadDecision = {
   flags: DecisionFlag[];
   details?: string;
   phone?: string;
+  budget?: string;
+  tier?: 'GOLD' | 'SILVER' | 'BIN';
   status: 'new' | 'saved' | 'ignored';
   createdAt: string;
 };
