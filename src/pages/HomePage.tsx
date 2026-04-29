@@ -59,6 +59,20 @@ export function HomePage() {
               <p className="mt-2 font-black text-[var(--muted)]">They want it 'sometime next year' but called you today</p>
             </article>
           </div>
+          <Compare bad="Chasing quotes" good="Only real jobs" />
+          <Compare bad="Time wasted" good="Time saved" />
+          <Compare bad="Guessing" good="Clear decisions" />
+        </div>
+      </section>
+
+      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-8">
+          <h2 className="headline max-w-4xl text-4xl leading-none md:text-6xl">
+            MOST PLATFORMS SELL THE SAME JOB TO MULTIPLE TRADESMEN.
+          </h2>
+          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
+            We don't. We filter the jobs you already get.
+          </p>
         </div>
       </section>
 
