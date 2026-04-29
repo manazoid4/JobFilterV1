@@ -5,6 +5,7 @@ import type { LeadDecision } from '../lib/types';
 
 const jobTypes = ['Electrical', 'Plumbing', 'Roofing', 'Building'];
 const urgencyTypes: LeadDecision['urgency'][] = ['Emergency', 'This week', 'Later'];
+const budgetOptions = ['Under £500', '£500–£2,000', '£2,000–£5,000', '£5,000+'];
 
 export function IntakePage() {
   const { username = 'tradesman' } = useParams();
@@ -12,6 +13,8 @@ export function IntakePage() {
   const [step, setStep] = useState(1);
   const [jobType, setJobType] = useState('');
   const [urgency, setUrgency] = useState<LeadDecision['urgency']>('This week');
+  const [budget, setBudget] = useState('');
+  const [phone, setPhone] = useState('');
   const [details, setDetails] = useState('');
   const [postcode, setPostcode] = useState('');
   const [hasPhotos, setHasPhotos] = useState(false);
@@ -27,6 +30,11 @@ export function IntakePage() {
     setStep(3);
   }
 
+  function pickBudget(value: string) {
+    setBudget(value);
+    setStep(4);
+  }
+
   function onPhoto(event: ChangeEvent<HTMLInputElement>) {
     setHasPhotos(Boolean(event.target.files?.length));
   }
@@ -36,7 +44,7 @@ export function IntakePage() {
     const response = await fetch('/api/intake/score', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobType, urgency, details, postcode, hasPhotos, username }),
+      body: JSON.stringify({ jobType, urgency, budget, phone, details, postcode, hasPhotos, username }),
     });
     const payload = await response.json() as { lead: LeadDecision };
     saveStoredLead(payload.lead);
@@ -65,9 +73,18 @@ export function IntakePage() {
         )}
 
         {step === 3 && (
+          <Step title="What's your budget?">
+            {budgetOptions.map((item) => (
+              <button key={item} className="choice-button" onClick={() => pickBudget(item)}>{item}</button>
+            ))}
+          </Step>
+        )}
+
+        {step === 4 && (
           <div>
             <h1 className="headline mt-3 text-5xl leading-none">ADD DETAILS</h1>
             <div className="mt-6 grid gap-3">
+              <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number" />
               <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Postcode" />
               <textarea className="field-input min-h-28 resize-none" value={details} onChange={(event) => setDetails(event.target.value)} placeholder="Optional details" />
               <input className="field-input" type="file" accept="image/*" multiple onChange={onPhoto} />
