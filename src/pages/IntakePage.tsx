@@ -17,7 +17,6 @@ export function IntakePage() {
   const [phone, setPhone] = useState('');
   const [details, setDetails] = useState('');
   const [postcode, setPostcode] = useState('');
-  const [phone, setPhone] = useState('');
   const [hasPhotos, setHasPhotos] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -87,7 +86,6 @@ export function IntakePage() {
             <div className="mt-6 grid gap-3">
               <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number" />
               <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Postcode" />
-              <input className="field-input" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Phone number" />
               <textarea className="field-input min-h-28 resize-none" value={details} onChange={(event) => setDetails(event.target.value)} placeholder="Optional details" />
               <input className="field-input" type="file" accept="image/*" multiple onChange={onPhoto} />
               <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={submitting} onClick={() => void submit()}>
