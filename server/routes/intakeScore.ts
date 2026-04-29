@@ -16,7 +16,6 @@ export function registerIntakeScoreRoute(app: Express) {
       const phone = sanitizeText(req.body?.phone);
       const hasPhotos = Boolean(req.body?.hasPhotos);
       const budget = sanitizeText(req.body?.budget);
-      const phone = sanitizeText(req.body?.phone);
       const area = outwardFromPostcode(postcode) || postcode || 'Area unknown';
       const { score, flags, tier } = scoreIntake({ jobType, urgency, details, postcode, hasPhotos, budget });
 
@@ -40,7 +39,6 @@ export function registerIntakeScoreRoute(app: Express) {
           flags,
           details,
           budget,
-          phone,
           tier,
           status: 'new',
           createdAt: new Date().toISOString(),

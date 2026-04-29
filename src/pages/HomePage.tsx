@@ -59,9 +59,6 @@ export function HomePage() {
               <p className="mt-2 font-black text-[var(--muted)]">They want it 'sometime next year' but called you today</p>
             </article>
           </div>
-          <Compare bad="Chasing quotes" good="Only real jobs" />
-          <Compare bad="Time wasted" good="Time saved" />
-          <Compare bad="Guessing" good="Clear decisions" />
         </div>
       </section>
 
