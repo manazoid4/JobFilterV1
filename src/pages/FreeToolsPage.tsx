@@ -9,6 +9,9 @@ export function FreeToolsPage() {
   const [hours, setHours] = useState(6);
   const [miles, setMiles] = useState(30);
   const [risk, setRisk] = useState(2);
+  const [fuelMiles, setFuelMiles] = useState(120);
+  const [mpg, setMpg] = useState(32);
+  const [dieselPrice, setDieselPrice] = useState(1.55);
 
   const quote = useMemo(() => {
     const labour = dayRate * days;
@@ -17,6 +20,10 @@ export function FreeToolsPage() {
   }, [dayRate, days, materials, margin]);
 
   const wastedCost = useMemo(() => Math.round((hours * 35 + miles * 0.45 + risk * 40) * 52), [hours, miles, risk]);
+  const dieselCost = useMemo(() => {
+    const litres = mpg > 0 ? (fuelMiles / mpg) * 4.54609 : 0;
+    return Math.round(litres * dieselPrice);
+  }, [dieselPrice, fuelMiles, mpg]);
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
@@ -26,7 +33,7 @@ export function FreeToolsPage() {
         <p className="mt-3 max-w-xl text-lg font-black text-white/70">No catch. Use them before you pay us.</p>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="grid gap-4 lg:grid-cols-3">
         <ToolCard title="Quote calculator" result={`£${quote.toLocaleString()}`}>
           <NumberField label="Day rate" value={dayRate} onChange={setDayRate} />
           <NumberField label="Days" value={days} onChange={setDays} />
@@ -39,6 +46,13 @@ export function FreeToolsPage() {
           <NumberField label="Miles wasted/week" value={miles} onChange={setMiles} />
           <NumberField label="Bad visits/week" value={risk} onChange={setRisk} />
           <p className="font-black text-[var(--muted)]">Shows what bad jobs cost.</p>
+        </ToolCard>
+
+        <ToolCard title="Diesel calculator" result={`£${dieselCost.toLocaleString()}`}>
+          <NumberField label="Miles" value={fuelMiles} onChange={setFuelMiles} />
+          <NumberField label="MPG" value={mpg} onChange={setMpg} />
+          <NumberField label="Diesel £/litre" value={dieselPrice} step={0.01} onChange={setDieselPrice} />
+          <p className="font-black text-[var(--muted)]">Know the fuel cost before you quote.</p>
         </ToolCard>
       </section>
 
@@ -61,11 +75,11 @@ function ToolCard({ title, result, children }: { title: string; result: string; 
   );
 }
 
-function NumberField({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {
+function NumberField({ label, value, step = 1, onChange }: { label: string; value: number; step?: number; onChange: (value: number) => void }) {
   return (
     <label className="field-label">
       {label}
-      <input className="field-input" type="number" value={value} min={0} onChange={(event) => onChange(Number(event.target.value))} />
+      <input className="field-input" type="number" value={value} min={0} step={step} onChange={(event) => onChange(Number(event.target.value))} />
     </label>
   );
 }

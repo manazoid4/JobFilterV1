@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Footer } from './components/Footer';
+import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { TopNav } from './components/TopNav';
 import { FindJobsPage } from './pages/FindJobsPage';
 import { FreeToolsPage } from './pages/FreeToolsPage';
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />
+      <LaunchWaitlistModal />
     </div>
   );
 }

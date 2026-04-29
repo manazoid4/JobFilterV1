@@ -13,6 +13,7 @@ export function registerIntakeScoreRoute(app: Express) {
       const urgency = sanitizeUrgency(req.body?.urgency);
       const details = sanitizeText(req.body?.details);
       const postcode = sanitizeText(req.body?.postcode).toUpperCase();
+      const phone = sanitizeText(req.body?.phone);
       const hasPhotos = Boolean(req.body?.hasPhotos);
       const budget = sanitizeText(req.body?.budget);
       const phone = sanitizeText(req.body?.phone);
@@ -34,6 +35,7 @@ export function registerIntakeScoreRoute(app: Express) {
           jobType,
           urgency,
           postcode,
+          phone,
           area,
           flags,
           details,
