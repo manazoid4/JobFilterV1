@@ -116,7 +116,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     source: raw.sourceSystem,
     sourceConfidence: sourceConfidence(raw.sourceSystem),
     contactSignal,
-    status: 'open',
+    status: 'new',
     description: raw.rawDescription?.substring(0, 300) ?? '',
     deadlineAt: deadline,
     buyerName: raw.rawBuyer ?? '',

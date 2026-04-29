@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
@@ -14,8 +15,8 @@ export function FindJobsPage() {
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
 
-  async function submit(event: FormEvent) {
-    event.preventDefault();
+  async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade }) {
+    event?.preventDefault();
     setErrorText('');
     setLoading(true);
     setResult(null);
@@ -23,7 +24,11 @@ export function FindJobsPage() {
       const response = await fetch('/api/leads/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postcode, trade, radiusMiles }),
+        body: JSON.stringify({
+          postcode,
+          trade: overrides?.trade ?? trade,
+          radiusMiles: overrides?.radiusMiles ?? radiusMiles,
+        }),
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
@@ -47,17 +52,18 @@ export function FindJobsPage() {
     }
   }
 
-  async function retryScan() {
-    await submit({ preventDefault() {} } as FormEvent);
+  function widenAndScan(nextRadius: number) {
+    setRadiusMiles(nextRadius);
+    void submit(undefined, { radiusMiles: nextRadius });
   }
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--orange)]">LIVE SCANNER</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">FIND REAL JOBS NEAR YOU</h1>
-        <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
-          Contracts Finder only. No made-up leads.
+        <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
+        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">FIND JOBS WORTH PRICING</h1>
+        <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
+          Official Contracts Finder signals first. JobFilter scores value, urgency, proximity, and source quality before anything hits your phone.
         </p>
         <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
@@ -85,7 +91,7 @@ export function FindJobsPage() {
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">CONTRACTS FINDER</p>
-          <p className="mt-2 text-xl font-black">Checking live notices.</p>
+          <p className="mt-2 text-xl font-black">Checking live notices and scoring signal quality.</p>
         </section>
       )}
 
@@ -95,26 +101,35 @@ export function FindJobsPage() {
             <div className="jf-box bg-[var(--orange)] p-5 text-white">
               <p className="font-black">Scan failed cleanly.</p>
               <p className="mt-1 font-semibold">{errorText}</p>
-              <button onClick={() => void retryScan()} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
+              <button onClick={() => void submit()} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
             </div>
           )}
 
           <div className="jf-box grid gap-3 bg-white p-4 md:grid-cols-5">
             <Stat label="Source" value="Contracts Finder" />
-            <Stat label="Count" value={String(result.count)} />
+            <Stat label="Matches" value={String(result.count)} />
             <Stat label="Region" value={result.region || 'Unknown'} />
             <Stat label="Outward" value={result.outward || 'N/A'} />
             <Stat label="Updated" value={lastUpdated || 'N/A'} />
           </div>
 
           {result.count === 0 ? (
-            <div className="jf-box bg-white p-6">
-              <p className="micro-label text-[var(--orange)]">EMPTY</p>
-              <h2 className="headline mt-2 text-4xl">NO LIVE MATCHES</h2>
-              <p className="mt-2 font-black text-[var(--muted)]">Try a wider radius or scan later.</p>
-            </div>
+            <EmptyScanReport
+              trade={trade}
+              radiusMiles={radiusMiles}
+              result={result}
+              lastUpdated={lastUpdated}
+              onWiden={widenAndScan}
+            />
           ) : (
             <div className="grid gap-4">
+              <section className="jf-box bg-[var(--yellow)] p-5">
+                <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
+                <h2 className="headline mt-2 text-4xl leading-none">HIGHEST VALUE FIRST</h2>
+                <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
+                  Free view shows the score and signal. Pro unlocks WhatsApp delivery, saved leads, buyer detail, and full action workflow.
+                </p>
+              </section>
               {result.leads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} />
               ))}
@@ -127,23 +142,24 @@ export function FindJobsPage() {
 }
 
 function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
+  const reasons = lead.reasons?.length ? lead.reasons : ['Official source', `${lead.sourceConfidence}% source confidence`];
   const fields = [
-    ['Buyer', lead.buyer || 'Unknown'],
+    ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
+    ['Outward', lead.postcodeOutward || 'N/A'],
     ['Value', lead.estimatedValue || 'Not listed'],
-    ['Deadline', formatDate(lead.deadlineAt)],
-    ['Published', formatDate(lead.publishedAt)],
-    ['Source', lead.source],
+    ['Urgency', urgencyLabel(lead.urgency)],
+    ['Contact', contactLabel(lead.contactSignal)],
   ];
 
   return (
-    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr_auto]">
+    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr_260px]">
       <ScoreBadge score={lead.score} />
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
-          <Tag label={lead.source} />
-          <Tag label={`${lead.sourceConfidence}%`} />
-          <Tag label={lead.tradeMatch} />
+          <Tag label={tierLabel(lead.score)} />
+          <Tag label={`${lead.sourceConfidence}% source`} />
+          <Tag label={urgencyLabel(lead.urgency)} />
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -151,11 +167,64 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
             <Stat key={label} label={label} value={value} />
           ))}
         </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {reasons.map((reason) => <span key={reason} className="badge bg-[var(--bg-main)] text-[var(--ink)]">{reason}</span>)}
+        </div>
       </div>
-      <a className="jf-button h-fit bg-[var(--navy)] text-white md:self-start" href={lead.url} target="_blank" rel="noreferrer">
-        VIEW NOTICE
-      </a>
+      <div className="grid gap-3 md:self-start">
+        <LockedValue label="Buyer" value={lead.buyer || 'Unlock on Pro'} />
+        <LockedValue label="Deadline" value={formatDate(lead.deadlineAt)} />
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
+        <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+      </div>
     </article>
+  );
+}
+
+function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
+  trade: Trade;
+  radiusMiles: number;
+  result: LeadSearchResponse;
+  lastUpdated: string;
+  onWiden: (radius: number) => void;
+}) {
+  const nextRadius = radiusMiles < 50 ? 50 : 100;
+  const adjacentTrade = trade === 'building' ? 'roofing' : 'building';
+
+  return (
+    <section className="jf-box bg-white p-6">
+      <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
+      <h2 className="headline mt-2 text-4xl leading-none">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+      <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Source checked" value="Contracts Finder" />
+        <Stat label="Trade" value={titleCase(trade)} />
+        <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
+        <Stat label="Checked" value={lastUpdated || 'N/A'} />
+      </div>
+      <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
+          WIDEN TO {nextRadius} MILES
+        </button>
+        <button className="jf-button bg-white text-[var(--ink)]" onClick={() => onWiden(100)}>
+          INCLUDE REGIONAL JOBS
+        </button>
+        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">
+          GET WHATSAPP ALERTS
+        </Link>
+      </div>
+      <p className="mt-5 font-black text-[var(--muted)]">
+        Next best move: watch this trade automatically, widen the radius, or scan adjacent {adjacentTrade} work. Pro alerts send the match when it appears.
+      </p>
+    </section>
+  );
+}
+
+function LockedValue({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+      <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+      <p className="mt-1 font-black">{value || 'Unlock on Pro'}</p>
+    </div>
   );
 }
 
@@ -169,8 +238,30 @@ function Stat({ label, value }: { key?: string; label: string; value: string }) 
 }
 
 function formatDate(value: string) {
-  if (!value) return 'Not listed';
+  if (!value) return 'Unlock on Pro';
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return 'Not listed';
+  if (Number.isNaN(date.getTime())) return 'Unlock on Pro';
   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function titleCase(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function urgencyLabel(value: Lead['urgency']) {
+  if (value === 'high') return 'Deadline soon';
+  if (value === 'medium') return 'Worth checking';
+  return 'Low urgency';
+}
+
+function contactLabel(value: Lead['contactSignal']) {
+  if (value === 'strong') return 'Strong signal';
+  if (value === 'weak') return 'Partial signal';
+  return 'No contact signal';
+}
+
+function tierLabel(score: number) {
+  if (score >= 80) return 'GOLD';
+  if (score >= 55) return 'WORTH CHECKING';
+  return 'LOW SIGNAL';
 }
