@@ -32,7 +32,7 @@ export function normalizeNotice(notice: ContractsFinderNotice, trade: string, ou
     trade,
     buyer: notice.buyer,
     location: notice.location || region || 'United Kingdom',
-    postcodeOutward: outwardFromPostcode(notice.postcode) || '',
+    postcodeOutward: outwardFromPostcode(notice.postcode) || outward,
     estimatedValue: formatValue(notice.value),
     urgency,
     publishedAt: normalizeDate(notice.publishedAt),
@@ -50,7 +50,7 @@ export function normalizeNotice(notice: ContractsFinderNotice, trade: string, ou
 }
 
 function formatValue(value?: number) {
-  if (!value) return '';
+  if (!value) return 'Unknown';
   return new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency: 'GBP',

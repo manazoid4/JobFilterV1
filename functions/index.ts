@@ -308,7 +308,7 @@ function normalizeContractsFinderLead(notice: any, trade: string, outward: strin
     trade,
     buyer: notice.buyer,
     location: notice.location || region || 'United Kingdom',
-    postcodeOutward: notice.postcode ? getOutward(notice.postcode) : '',
+    postcodeOutward: notice.postcode ? getOutward(notice.postcode) : outward,
     estimatedValue: formatValue(notice.value),
     urgency: score.urgency,
     publishedAt: normalizeDate(notice.publishedAt),
@@ -453,7 +453,7 @@ function buildReasons(notice: any, keywordHits: number, locationScore: number, u
 }
 
 function formatValue(value?: number) {
-  if (!value) return '';
+  if (!value) return 'Unknown';
   return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 }).format(value);
 }
 
