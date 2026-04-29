@@ -26,5 +26,11 @@ jobs:
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}'
 
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Ensure Cloud Billing API is enabled
+        run: gcloud services enable cloudbilling.googleapis.com --project jobfilter-uk
+
       - name: Deploy Functions and Hosting
         run: npx firebase-tools deploy --only functions,hosting --project jobfilter-uk
