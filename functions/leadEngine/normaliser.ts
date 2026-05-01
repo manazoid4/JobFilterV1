@@ -1,5 +1,5 @@
 import type { Lead, RawLead, TradeKey } from './types';
-import { getOutward, regionFromOutward } from './postcode';
+import { getOutward, regionFromNuts, regionFromOutward } from './postcode';
 
 // ── CPV → trade mapping ────────────────────────────────────────────────────────
 const CPV_TRADE_MAP: Array<[string, TradeKey]> = [
@@ -82,6 +82,26 @@ function sourceConfidence(sourceSystem: string): number {
   }
 }
 
+function normaliseDate(value: string | undefined): string {
+  if (!value) return '';
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString();
+}
+
+function deriveOutward(raw: RawLead): string {
+  const postcodeOutward = raw.rawPostcode ? getOutward(raw.rawPostcode) : '';
+  if (postcodeOutward) return postcodeOutward;
+
+  const location = String(raw.rawLocation ?? '').trim().toUpperCase();
+  const postcodeMatch = location.match(/\b[A-Z]{1,2}\d[A-Z\d]?\b/);
+  if (postcodeMatch) return postcodeMatch[0];
+
+  const nutsMatch = location.match(/\bUK[A-Z0-9]{1,3}\b/);
+  if (nutsMatch) return nutsMatch[0];
+
+  return 'UK';
+}
+
 export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const title = raw.rawTitle?.trim();
   if (!title || title.length < 4) return null;
@@ -95,11 +115,11 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const min = raw.rawValueMin ?? (rawVal * 0.8);
   const max = raw.rawValueMax ?? rawVal;
 
-  const deadline = raw.rawDeadline ? new Date(raw.rawDeadline).toISOString() : '';
-  const published = raw.rawPublished ? new Date(raw.rawPublished).toISOString() : new Date().toISOString();
+  const deadline = normaliseDate(raw.rawDeadline);
+  const published = normaliseDate(raw.rawPublished) || new Date().toISOString();
 
-  const outward = raw.rawPostcode ? getOutward(raw.rawPostcode) : '';
-  const region = outward ? regionFromOutward(outward) : '';
+  const outward = deriveOutward(raw);
+  const region = outward.startsWith('UK') ? regionFromNuts(outward) : regionFromOutward(outward);
 
   const estVal = formatValue(min, max);
   const urgency = calcUrgency(deadline, rawVal);
