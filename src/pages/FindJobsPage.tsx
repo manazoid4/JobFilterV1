@@ -149,7 +149,7 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
     ['Outward', lead.postcodeOutward || 'N/A'],
     ['Value', lead.estimatedValue || 'Not listed'],
     ['Urgency', urgencyLabel(lead.urgency)],
-    ['Contact', contactLabel(lead.contactSignal)],
+    ['Contact', 'Unlock on Pro'],
   ];
 
   return (

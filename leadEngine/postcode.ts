@@ -68,6 +68,19 @@ export function getOutward(postcode: string): string {
   return postcode.trim().toUpperCase().split(/\s+/)[0];
 }
 
+export function assertValidPostcodeInput(postcode: string): string {
+  const value = String(postcode ?? '').trim().toUpperCase();
+  const cleaned = value.replace(/\s+/g, '');
+  const match = cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(?:\d[A-Z]{2})?$/);
+  if (!match) throw new Error('valid UK postcode required');
+
+  const outward = match[1];
+  if (regionFromOutward(outward) === 'United Kingdom') {
+    throw new Error('valid UK postcode required');
+  }
+  return outward;
+}
+
 export function regionFromOutward(outward: string): string {
   const clean = outward.toUpperCase();
   // Sort by prefix length descending so longer (more specific) prefixes match first
@@ -79,7 +92,7 @@ export function regionFromOutward(outward: string): string {
 }
 
 export async function lookupPostcode(postcode: string): Promise<PostcodeInfo> {
-  const outward = getOutward(postcode);
+  const outward = assertValidPostcodeInput(postcode);
   const fallback: PostcodeInfo = { outward, region: regionFromOutward(outward) };
   try {
     const clean = postcode.replace(/\s+/g, '').toUpperCase();

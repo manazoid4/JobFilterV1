@@ -21,6 +21,7 @@ Clarity Engine
 > Clear → sells
 ---
 ## Link
+→ [[Product Index]]
 → [[Intake Engine]]
 ---
 ## Line

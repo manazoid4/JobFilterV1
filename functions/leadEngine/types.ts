@@ -53,6 +53,7 @@ export interface RawLead {
   rawId: string;
   rawTitle: string;
   rawDescription: string;
+  rawTrade?: TradeKey;
   rawValue?: number;
   rawValueMin?: number;
   rawValueMax?: number;

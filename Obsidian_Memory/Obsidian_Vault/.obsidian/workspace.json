@@ -11,14 +11,10 @@
             "id": "84b878f08d4ca145",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "System/Build Execution - 29th April 2026.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Build Execution - 29th April 2026"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -78,8 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "2bc5299d8d542ba0",
@@ -95,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "System/Build Execution - 29th April 2026.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -105,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Build Execution - 29th April 2026"
+              "title": "Backlinks"
             }
           },
           {
@@ -114,12 +108,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "System/Build Execution - 29th April 2026.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Build Execution - 29th April 2026"
+              "title": "Outgoing links"
             }
           },
           {
@@ -157,13 +150,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "System/Build Execution - 29th April 2026.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Build Execution - 29th April 2026"
+              "title": "Outline"
             }
           }
         ],
@@ -186,6 +178,9 @@
   },
   "active": "84b878f08d4ca145",
   "lastOpenFiles": [
+    "System/Git Push Workflow Note - 1 May 2026.md",
+    "System/Build Execution - 29th April 2026.md",
+    "System/Lead Engine 30 Run Test - 1 May 2026.md",
     "JobFilter/Product/Vicinity.md",
     "JobFilter/Product/Vantage.md",
     "JobFilter/Product/Free Tools.md",
@@ -197,7 +192,6 @@
     "System/GitHub Production Deploy Fix - 29th April 2026.md",
     "System/Simple Competitor List.md",
     "Prompts/# 📊 COMPETITOR INTEL UPGRADED — MEMORY AWARE.md",
-    "System/Build Execution - 29th April 2026.md",
     "System/Research for Build Agent - 29th April 2026.md",
     "Prompts.md",
     "Prompts/# 🧠 DEEP BUILD AGENT (FINAL — FULL SYSTEM THINKER).md",

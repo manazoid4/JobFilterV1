@@ -24,7 +24,8 @@ export function registerLeadSearchRoute(app: Express) {
           .filter((notice) => noticeFitsLocation(notice, postcode.region, postcode.outward, radiusMiles))
           .map((notice) => normalizeNotice(notice, trade, postcode.outward, postcode.region))
           .sort((a, b) => b.score - a.score)
-          .slice(0, radiusMiles >= 100 ? 25 : 15);
+          .slice(0, radiusMiles >= 100 ? 25 : 15)
+          .map(toFreePreviewLead);
 
         return res.json({
           ok: true,
@@ -53,6 +54,24 @@ export function registerLeadSearchRoute(app: Express) {
       });
     }
   });
+}
+
+function toFreePreviewLead(lead: ReturnType<typeof normalizeNotice>) {
+  return {
+    ...lead,
+    buyer: '',
+    deadlineAt: '',
+    url: '',
+    contactSignal: 'none' as const,
+    score: previewScore(lead.score),
+    reasons: ['Preview only - unlock full detail'],
+  };
+}
+
+function previewScore(score: number) {
+  if (score >= 80) return 80;
+  if (score >= 55) return 55;
+  return 35;
 }
 
 function sanitizeTrade(input: unknown) {

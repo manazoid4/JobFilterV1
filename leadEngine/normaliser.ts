@@ -109,7 +109,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const cpvCodes = raw.rawCpvCodes ?? [];
   const tradeFromCpv = inferTradeFromCpv(cpvCodes);
   const tradeFromText = inferTradeFromText(title, raw.rawDescription ?? '');
-  const trade: TradeKey = (tradeFromCpv ?? tradeFromText ?? (requestedTrade as TradeKey) ?? 'building');
+  const trade: TradeKey = (raw.rawTrade ?? tradeFromCpv ?? tradeFromText ?? (requestedTrade as TradeKey) ?? 'building');
 
   const rawVal = raw.rawValue ?? raw.rawValueMax ?? raw.rawValueMin ?? 0;
   const min = raw.rawValueMin ?? (rawVal * 0.8);
