@@ -235,8 +235,10 @@ async function fetchFTS(trade: string): Promise<{ leads: RawLead[]; stats: Sourc
       if (!matchesTrade(title, desc, cpvCodes, trade)) { dropped++; continue; }
 
       const value = tender?.value?.amount ?? tender?.minValue?.amount ?? 0;
-      const deliveryLocs: any[] = tender?.deliveryLocations ?? [];
-      const location = deliveryLocs.map((l: any) => l?.description ?? l?.region ?? '').filter(Boolean).join(', ')
+      // FTS: tender.deliveryLocations absent — real path is items[].deliveryAddresses[].region
+      const deliveryAddrs: any[] = items.flatMap((it: any) => it?.deliveryAddresses ?? []);
+      const location = deliveryAddrs.map((a: any) => a?.region ?? a?.description ?? '').filter(Boolean).join(', ')
+        || items[0]?.deliveryLocation?.description
         || buyer?.address?.region
         || '';
 

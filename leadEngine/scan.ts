@@ -20,6 +20,7 @@ import { contractsFetcher } from './fetchers/contractsFetcher';
 import { planningDataFetcher } from './fetchers/planningDataFetcher';
 import { directorySignalFetcher } from './fetchers/directorySignalFetcher';
 import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher';
+import { pcsS2wFetcher } from './fetchers/pcsS2wFetcher';
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 
@@ -30,6 +31,12 @@ export const SOURCE_ENDPOINTS: Record<string, string[]> = {
   ],
   FTS: [
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
+  ],
+  PCS: [
+    'GET  https://www.publiccontractsscotland.gov.uk/search/api/OCDS/v1/Releases  (publishedFrom=, stages=tender, limit=50)',
+  ],
+  Sell2Wales: [
+    'GET  https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases  (publishedFrom=, stages=tender, limit=50)',
   ],
   PlanningData: [
     'GET  https://www.planning.data.gov.uk/entity.json  (geo: ?latitude=&longitude=&dataset=planning-application&period=current)',
@@ -58,10 +65,11 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
-  const [cfResult, planningResult, chResult] = await Promise.allSettled([
+  const [cfResult, planningResult, chResult, pcsResult] = await Promise.allSettled([
     contractsFetcher(trade),
     planningDataFetcher(outward, region, trade, pcInfo.latitude, pcInfo.longitude),
     companiesHouseFetcher(region, trade, outward),
+    pcsS2wFetcher(trade),
   ]);
 
   const dirResult = directorySignalFetcher(region, trade, outward); // sync
@@ -71,6 +79,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     ...(cfResult.status === 'fulfilled' ? cfResult.value.leads : []),
     ...(planningResult.status === 'fulfilled' ? planningResult.value.leads : []),
     ...(chResult.status === 'fulfilled' ? chResult.value.leads : []),
+    ...(pcsResult.status === 'fulfilled' ? pcsResult.value.leads : []),
     ...dirResult.leads,
   ];
 
@@ -93,6 +102,13 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     Object.assign(mergedStats, chResult.value.stats);
   } else {
     mergedStats['CompaniesHouse'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'CompaniesHouse settled as rejected' };
+  }
+
+  if (pcsResult.status === 'fulfilled') {
+    Object.assign(mergedStats, pcsResult.value.stats);
+  } else {
+    mergedStats['PCS'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'PCS settled as rejected' };
+    mergedStats['Sell2Wales'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'Sell2Wales settled as rejected' };
   }
 
   Object.assign(mergedStats, dirResult.stats);

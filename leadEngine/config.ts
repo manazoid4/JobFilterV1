@@ -43,8 +43,8 @@ export const CONFIG: LeadEngineConfig = {
     fts:                      process.env.SOURCE_FTS !== 'false',
     contractsFinder:          process.env.SOURCE_CF !== 'false',
     companiesHouse:           process.env.SOURCE_CH !== 'false',
-    sell2wales:               process.env.SOURCE_S2W !== 'false',
-    publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
+    sell2wales:               process.env.SOURCE_S2W === 'true',   // broken API — off until fixed
+    publicContractsScotland:  process.env.SOURCE_PCS === 'true',   // TLS error — off until fixed
   },
 
   cpvAllowPrefixes: CPV_ALLOW,
