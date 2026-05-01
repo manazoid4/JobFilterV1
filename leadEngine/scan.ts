@@ -33,7 +33,7 @@ export const SOURCE_ENDPOINTS: Record<string, string[]> = {
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
   ],
   PCS: [
-    'GET  https://www.publiccontractsscotland.gov.uk/search/api/OCDS/v1/Releases  (publishedFrom=, stages=tender, limit=50)',
+    'GET  https://api.publiccontractsscotland.gov.uk/v1/Notices  (dateFrom=MM-YYYY, noticeType=2, outputType=0)',
   ],
   Sell2Wales: [
     'GET  https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases  (publishedFrom=, stages=tender, limit=50)',

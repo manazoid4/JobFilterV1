@@ -43,7 +43,7 @@ export const CONFIG: LeadEngineConfig = {
     fts:                      process.env.SOURCE_FTS !== 'false',
     contractsFinder:          process.env.SOURCE_CF !== 'false',
     companiesHouse:           process.env.SOURCE_CH !== 'false',
-    sell2wales:               process.env.SOURCE_S2W !== 'false',
+    sell2wales:               process.env.SOURCE_S2W === 'true',   // unresolved endpoint — off until fixed
     publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
   },
 

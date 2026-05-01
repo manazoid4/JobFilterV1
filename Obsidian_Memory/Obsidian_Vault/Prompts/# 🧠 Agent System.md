@@ -1,0 +1,12 @@
+## Agents
+→ [[⚡ FAST BUILD AGENT (FINAL — SELF-LEARNING + SAFE)]]
+→ [[🧠 DEEP BUILD AGENT (FINAL — FULL SYSTEM THINKER)]]
+→ [[⚡ QUICK RESEARCH AGENT — HIGH IMPACT LOOP]]
+→ [[🧠 DEEP RESEARCH AGENT SYSTEM BUILDER]]
+
+## Intelligence
+→ [[📊 COMPETITOR INTEL UPGRADED — MEMORY AWARE]]
+
+## Feeds System
+→ [[Intake Engine]]
+→ [[JobFilter Product overview]]

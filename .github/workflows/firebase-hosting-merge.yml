@@ -1,4 +1,4 @@
-name: Deploy to Firebase Hosting + Cloud Run on merge
+name: Deploy to Firebase Hosting + Functions on merge
 'on':
   push:
     branches:
@@ -12,33 +12,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Functions dependencies
+        run: npm ci --prefix functions
+
       - name: Build
         run: npm run build
+
+      - name: Build Functions
+        run: npx tsc -p functions/tsconfig.json
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JOBFILTER_UK }}'
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Deploy API to Cloud Run
-        run: |
-          gcloud run deploy jobfilter \
-            --source . \
-            --region europe-west2 \
-            --platform managed \
-            --allow-unauthenticated \
-            --min-instances 0 \
-            --max-instances 10 \
-            --memory 512Mi \
-            --cpu 1 \
-            --timeout 60 \
-            --set-env-vars NODE_ENV=production,PORT=8080 \
-            --update-secrets STRIPE_SECRET_KEY=STRIPE_SECRET_KEY:latest \
-            --project jobfilter-uk
-        continue-on-error: true
-
-      - name: Deploy hosting
-        run: npx firebase-tools deploy --only hosting --project jobfilter-uk
+      - name: Deploy Functions and Hosting
+        run: npx firebase-tools deploy --only functions,hosting --project jobfilter-uk
