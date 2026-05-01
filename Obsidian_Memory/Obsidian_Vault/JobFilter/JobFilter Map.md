@@ -1,6 +1,7 @@
 # JobFilter Map
 
 ## Hubs
+- [[Vault Map]]
 - [[Product Index]]
 - [[Prompts Index]]
 - [[System Index]]

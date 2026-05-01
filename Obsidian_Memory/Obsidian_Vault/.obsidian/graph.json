@@ -3,26 +3,54 @@
   "search": "",
   "showTags": false,
   "showAttachments": false,
-  "hideUnresolved": false,
-  "showOrphans": true,
+  "hideUnresolved": true,
+  "showOrphans": false,
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "products",
+      "query": "path:\"JobFilter\"",
+      "color": {
+        "a": 1,
+        "rgb": 5415679
+      }
+    },
+    {
+      "query": "path:\"JobFilter/Product\"",
       "color": {
         "a": 1,
         "rgb": 14701138
       }
     },
     {
-      "query": "",
+      "query": "path:\"System\"",
       "color": {
         "a": 1,
-        "rgb": 14725458
+        "rgb": 16753920
+      }
+    },
+    {
+      "query": "path:\"Prompts\"",
+      "color": {
+        "a": 1,
+        "rgb": 11730954
+      }
+    },
+    {
+      "query": "path:\"AI Knowledge\"",
+      "color": {
+        "a": 1,
+        "rgb": 3381759
+      }
+    },
+    {
+      "query": "path:\"khutba.io\"",
+      "color": {
+        "a": 1,
+        "rgb": 10053171
       }
     }
   ],
-  "collapse-display": true,
+  "collapse-display": false,
   "showArrow": false,
   "textFadeMultiplier": 0,
   "nodeSizeMultiplier": 1,
@@ -32,6 +60,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 1.4019828977760984,
+  "scale": 0.9999999999999888,
   "close": true
 }
