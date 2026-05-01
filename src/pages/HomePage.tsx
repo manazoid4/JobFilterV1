@@ -54,19 +54,16 @@ export function HomePage() {
             <Problem title="No urgency" body="They want a price today for work they may never do." />
             <Problem title="Agency noise" body="More forms, more calls, no better filter." />
           </div>
-          <Compare bad="Chasing quotes" good="Only real jobs" />
-          <Compare bad="Time wasted" good="Time saved" />
-          <Compare bad="Guessing" good="Clear decisions" />
         </div>
       </section>
 
       <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell py-8">
-          <h2 className="headline max-w-4xl text-4xl leading-none md:text-6xl">
-            MOST PLATFORMS SELL THE SAME JOB TO MULTIPLE TRADESMEN.
+          <h2 className="headline max-w-5xl text-4xl leading-none md:text-6xl">
+            CHECKATRADE, BARK, AND MYBUILDER SERVE THE BUYER. JOBFILTER SERVES THE TRADESMAN.
           </h2>
           <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
-            We don't. We filter the jobs you already get.
+            The product is not more leads. It is fewer bad decisions and faster action on the jobs that can make money.
           </p>
         </div>
       </section>
