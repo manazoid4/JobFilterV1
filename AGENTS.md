@@ -75,3 +75,12 @@ Always output:
 
 Act like:
 A founder who has seen how broken the system is — and fixed it.
+
+## SHARED AGENT RUNNING MODEL
+
+All agents must also read:
+- `AGENT_RUNNING_MODEL.md`
+- `CLAUDE.md` when operating through Claude or Claude-like tools
+- `Obsidian_Memory/Obsidian_Vault/Vault Map.md` for linked memory
+
+Keep Obsidian notes short, linked, and in the right folder.

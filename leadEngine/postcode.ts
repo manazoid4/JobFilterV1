@@ -65,7 +65,8 @@ const REGION_MAP: Array<[string, string]> = [
 ];
 
 export function getOutward(postcode: string): string {
-  return postcode.trim().toUpperCase().split(/\s+/)[0];
+  const cleaned = String(postcode ?? '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(?:\d[A-Z]{2})?$/)?.[1] ?? '';
 }
 
 export function assertValidPostcodeInput(postcode: string): string {

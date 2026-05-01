@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { getApps, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { scan } from './leadEngine/scan';
-import { getOutward, regionFromOutward } from './leadEngine/postcode';
+import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadEngine/postcode';
 
 const DEFAULT_ORIGIN = process.env.APP_URL || 'https://jobfilter.uk';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
@@ -24,7 +24,12 @@ function checkRateLimit(ip: string): boolean {
 
 function validUkPostcode(v: unknown): v is string {
   if (typeof v !== 'string') return false;
-  return /^[A-Z]{1,2}\d[A-Z\d]?\s*\d?[A-Z]{0,2}$/i.test(v.trim()) && v.trim().length >= 2;
+  try {
+    assertValidPostcodeInput(v);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 const app = express();
@@ -73,10 +78,11 @@ app.post('/api/leads/search', async (req, res) => {
       });
     }
 
-    const outward = getOutward(postcode.trim());
+    const outward = assertValidPostcodeInput(postcode.trim());
     const region = regionFromOutward(outward);
     const radiusMiles = Number(req.body?.radiusMiles ?? 25);
-    const leads = await fetchContractsFinderSearch(String(trade || 'electrical'), outward, region, radiusMiles);
+    const leads = (await fetchContractsFinderSearch(String(trade || 'electrical'), outward, region, radiusMiles))
+      .map(toFreePreviewLead);
 
     return res.json({
       ok: true,
@@ -323,6 +329,47 @@ function normalizeContractsFinderLead(notice: any, trade: string, outward: strin
     tradeMatch: trade,
     score: score.score,
   };
+}
+
+function toFreePreviewLead(lead: any) {
+  return {
+    ...lead,
+    title: `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`,
+    buyer: '',
+    deadlineAt: '',
+    url: '',
+    estimatedValue: valuePreview(lead.estimatedValue),
+    urgency: 'medium',
+    sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
+    contactSignal: 'none',
+    score: previewScore(lead.score),
+    reasons: ['Paid preview - unlock buyer, deadline, exact value, and action route'],
+  };
+}
+
+function previewScore(score: number) {
+  if (score >= 80) return 80;
+  if (score >= 55) return 55;
+  return 35;
+}
+
+function previewSourceConfidence(confidence: number) {
+  if (confidence >= 85) return 80;
+  if (confidence >= 70) return 65;
+  return 50;
+}
+
+function valuePreview(value: string) {
+  const amount = Number(String(value).replace(/[^0-9.]/g, ''));
+  if (!Number.isFinite(amount) || amount <= 0) return 'Unlock exact value';
+  if (amount >= 100_000) return 'High-value contract';
+  if (amount >= 25_000) return 'Strong-value job';
+  if (amount >= 5_000) return 'Paid job signal';
+  return 'Unlock exact value';
+}
+
+function titleCase(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 function noticeMatchesTrade(notice: any, trade: string) {

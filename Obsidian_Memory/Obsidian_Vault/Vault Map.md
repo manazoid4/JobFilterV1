@@ -9,6 +9,7 @@
 - [[Product Index]]
 - [[System Index]]
 - [[Prompts Index]]
+- [[Agent Running Model]]
 
 ## Rule
 - Keep project notes in their project folders.
