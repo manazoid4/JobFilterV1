@@ -68,6 +68,17 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-8">
+          <h2 className="headline max-w-5xl text-4xl leading-none md:text-6xl">
+            CHECKATRADE, BARK, AND MYBUILDER SERVE THE BUYER. JOBFILTER SERVES THE TRADESMAN.
+          </h2>
+          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
+            The product is not more leads. It is fewer bad decisions and faster action on the jobs that can make money.
+          </p>
+        </div>
+      </section>
+
       <section className="bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">INTAKE ENGINE</p>
