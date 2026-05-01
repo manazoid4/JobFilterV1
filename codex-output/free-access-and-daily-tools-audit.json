@@ -1,0 +1,145 @@
+{
+  "date": "2026-05-01",
+  "scope": [
+    "home",
+    "pricing",
+    "free-tools",
+    "find-jobs",
+    "vantage",
+    "vicinity",
+    "codex",
+    "my-link",
+    "intake",
+    "lead-list",
+    "lead-detail"
+  ],
+  "method": [
+    "source review",
+    "local server route checks",
+    "local API checks"
+  ],
+  "browserNote": "In-app browser backend was unavailable; audit used source-backed visible surface review plus localhost API checks.",
+  "scenario1": {
+    "question": "Can a tradesman or construction company get JobFilter paid value for free without effort?",
+    "answer": "YES",
+    "summary": "The free scanner exposes paid-value fields in API responses and in parts of the UI, including buyer, deadline, source confidence, full reasons, status, and official URL. Pricing and scanner copy claim these fields are Pro value.",
+    "issues": [
+      {
+        "page": "/find-jobs",
+        "copyOrSurface": "Free view shows the score and signal. Pro unlocks WhatsApp delivery, saved leads, buyer detail, and full action workflow.",
+        "risk": "high",
+        "problem": "The API returns buyer, URL, deadline, score reasons, and status for free.",
+        "recommendedFix": "Create a redacted free lead DTO server-side and only return paid fields after entitlement."
+      },
+      {
+        "page": "/find-jobs",
+        "copyOrSurface": "Buyer card renders lead.buyer when present.",
+        "risk": "high",
+        "problem": "Buyer detail appears in the free result card despite being described as Pro.",
+        "recommendedFix": "Always render locked buyer state for free users and redact buyer from API."
+      },
+      {
+        "page": "/api/leads/search",
+        "copyOrSurface": "Local API test returned buyer names, official source URLs, deadlines, full reasons, scores, and status.",
+        "risk": "high",
+        "problem": "Paid fields are available without account or payment.",
+        "recommendedFix": "Server-side plan gating, quota enforcement, and response redaction."
+      },
+      {
+        "page": "/free-tools",
+        "copyOrSurface": "FREE TOOLS FOREVER / No catch. Use them before you pay us.",
+        "risk": "medium",
+        "problem": "This overpromises free access when scanner is limited and paid detail should be gated.",
+        "recommendedFix": "Change to: Free calculators stay free. Lead detail unlocks on Pro."
+      },
+      {
+        "page": "/free-tools and /pricing",
+        "copyOrSurface": "2 scans per week on Free / Unlimited scans on Pro",
+        "risk": "medium",
+        "problem": "The visible product claims a quota but the tested scanner allowed immediate use without account identity.",
+        "recommendedFix": "Enforce quota server-side per authenticated user or at minimum per IP/session."
+      },
+      {
+        "page": "/my-link, /intake/:username, /leads, /leads/:id",
+        "copyOrSurface": "Free link sharing, lead scoring, call, save, ignore flow.",
+        "risk": "medium",
+        "problem": "This overlaps with saved-lead workflow value if intended as paid.",
+        "recommendedFix": "Either gate it or explicitly position it as a free intake teaser with Pro limits."
+      }
+    ],
+    "highestRisk": "Scanner API leaks paid lead detail.",
+    "recommendedPriority": "Fix server-side redaction and quota enforcement before copy cleanup."
+  },
+  "scenario2": {
+    "name": "dailytools test",
+    "overall": "PARTIAL FAIL",
+    "summary": "Free tools are visible and usable, but they are basic calculators rather than strong daily decision tools for trade businesses.",
+    "tools": [
+      {
+        "tool": "Quote calculator",
+        "result": "pass_with_gaps",
+        "usefulness": "Quick labour, materials, and margin estimate.",
+        "gaps": [
+          "No VAT toggle",
+          "No markup versus margin clarity",
+          "No contingency or waste",
+          "No overhead or minimum call-out",
+          "No profit breakdown"
+        ]
+      },
+      {
+        "tool": "Job estimator",
+        "result": "pass_with_gaps",
+        "usefulness": "Shows annual cost of wasted time, miles, and bad visits.",
+        "gaps": [
+          "Name is vague",
+          "No per-visit cost",
+          "No quote/bin decision",
+          "No missed profitable work calculation"
+        ]
+      },
+      {
+        "tool": "Diesel calculator",
+        "result": "pass_with_gaps",
+        "usefulness": "Useful quick travel fuel cost.",
+        "gaps": [
+          "No return trip toggle",
+          "No parking, tolls, ULEZ, or van running cost",
+          "No price-per-job recommendation"
+        ]
+      },
+      {
+        "tool": "Live lead scanner",
+        "result": "fail_boundary",
+        "usefulness": "Real lead scanner is valuable.",
+        "gaps": [
+          "Leaks paid detail",
+          "Quota not clearly enforced",
+          "Free/Pro boundary inconsistent"
+        ]
+      }
+    ],
+    "missingTools": [
+      "Lead-fit checker",
+      "Travel-profit checker",
+      "Day-rate calculator",
+      "Material markup calculator",
+      "Quote follow-up timer",
+      "Bad lead filter",
+      "Weekly pipeline board"
+    ]
+  },
+  "headlineFindings": [
+    "YES, paid value can be accessed for free through scanner data.",
+    "The paid boundary is described in copy but not enforced in the response layer.",
+    "Free tools are usable but too basic to become daily trade business habits.",
+    "The live scanner is both the strongest free tool and the biggest revenue leak."
+  ],
+  "exactRisks": [
+    "Revenue leak from free buyer/source/deadline/API detail.",
+    "Trust risk because Pro buyer-detail copy is contradicted by free output.",
+    "Abuse risk because 2 scans/week is claimed but not visibly enforced.",
+    "Positioning risk from 'No catch' copy.",
+    "Product risk because daily tools lack lead filtering decisions."
+  ]
+}

@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const rows = [
-  ['Area scans', '2/week', 'Unlimited'],
-  ['Lead score', 'Score band', 'Full score + reasons'],
-  ['Source detail', 'Source name', 'Official link + buyer'],
-  ['Contact signal', 'Hidden', 'Unlocked'],
-  ['WhatsApp alerts', 'No', 'Yes'],
-  ['Saved leads', 'No', 'Yes'],
+  ['Area scans', 'Preview only', 'Unlimited', 'Unlimited'],
+  ['Lead score', 'Score band', 'Full score + reasons', 'Full score + reasons'],
+  ['Source detail', 'Source name', 'Official link + buyer', 'Official link + buyer'],
+  ['Contact signal', 'Hidden', 'Unlocked', 'Unlocked'],
+  ['WhatsApp alerts', 'No', 'Yes', 'Yes'],
+  ['Saved leads', 'No', 'Yes', 'Yes'],
+  ['Company letterhead', 'No', 'No', 'Included'],
+  ['Blueprint instructions', 'No', 'No', 'Job-specific pack'],
+  ['Print + post included', 'No', 'No', 'Included'],
 ];
 
 const contrasts = [
@@ -37,12 +40,12 @@ export function PricingPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2">
+      <section className="grid gap-4 lg:grid-cols-3">
         <Plan
           name="Free"
           price="£0"
           body="Check your area and see whether there is signal."
-          items={['2 scans per week', 'Score band', 'Source name', 'Free tools', 'Limited lead reasons']}
+          items={['Preview scans', 'Score band', 'Source name', 'Free tools', 'Limited lead reasons']}
           cta="SCAN MY AREA"
           to="/find-jobs"
         />
@@ -55,21 +58,51 @@ export function PricingPage() {
           to="#waitlist"
           dark
         />
+        <Plan
+          name="Highest"
+          price="Invite"
+          body="Letterhead Pack for trades who want the lead, the paperwork, and the first impression handled."
+          items={['Everything in Pro', 'Company letterhead', 'Blueprint instructions', 'Print + post included', 'PDF copy for WhatsApp', 'Follow-up wording']}
+          cta="REQUEST HIGHEST ACCESS"
+          to="#waitlist"
+          yellow
+        />
       </section>
 
       <section className="jf-box overflow-hidden bg-white">
-        <div className="grid grid-cols-3 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
+        <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
           <p className="p-4">Feature</p>
           <p className="p-4">Free</p>
           <p className="p-4">Pro (£49)</p>
+          <p className="p-4">Highest</p>
         </div>
-        {rows.map(([feature, free, pro]) => (
-          <div key={feature} className="grid grid-cols-3 border-b-2 border-[var(--line)] last:border-b-0">
+        {rows.map(([feature, free, pro, highest]) => (
+          <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
             <p className="p-4 font-black">{feature}</p>
             <p className="p-4 font-black text-[var(--muted)]">{free}</p>
             <p className="p-4 font-black">{pro}</p>
+            <p className="p-4 font-black">{highest}</p>
           </div>
         ))}
+      </section>
+
+      <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
+        <div className="jf-box bg-[var(--yellow)] p-6">
+          <p className="micro-label text-[var(--ink)]">HIGHEST PACKAGE</p>
+          <h2 className="headline mt-3 text-5xl leading-none">Send the job pack like a firm that wins.</h2>
+          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+            When a lead is worth chasing, Highest builds the pack: professional letterhead with your company details, job-specific blueprint instructions, scope notes, proof checklist, PDF copy, printing and postage.
+          </p>
+        </div>
+        <article className="jf-box bg-white p-5">
+          <p className="micro-label text-[var(--orange)]">WHAT GOES OUT</p>
+          <ul className="mt-4 grid gap-3 text-sm font-black">
+            <li>Company letterhead with trade, area, phone, email, and proof points.</li>
+            <li>Blueprint instructions written for the exact job, not generic waffle.</li>
+            <li>Printed copy posted to the buyer where a proper paper touch helps.</li>
+            <li>WhatsApp-ready PDF and follow-up wording for NO CHASING.</li>
+          </ul>
+        </article>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
@@ -114,7 +147,7 @@ export function PricingPage() {
   );
 }
 
-function Plan({ name, price, body, items, cta, to, dark = false }: {
+function Plan({ name, price, body, items, cta, to, dark = false, yellow = false }: {
   name: string;
   price: string;
   body: string;
@@ -122,16 +155,17 @@ function Plan({ name, price, body, items, cta, to, dark = false }: {
   cta: string;
   to: string;
   dark?: boolean;
+  yellow?: boolean;
 }) {
-  const box = dark ? 'bg-[var(--navy)] text-white' : 'bg-white';
-  const button = dark ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--navy)] text-white';
+  const box = yellow ? 'bg-[var(--yellow)] text-[var(--ink)]' : dark ? 'bg-[var(--navy)] text-white' : 'bg-white';
+  const button = yellow ? 'bg-[var(--navy)] text-white' : dark ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--navy)] text-white';
   const link = to.startsWith('#') ? <a className={`jf-button mt-6 ${button}`} href={to}>{cta}</a> : <Link className={`jf-button mt-6 ${button}`} to={to}>{cta}</Link>;
 
   return (
     <section className={`jf-box p-6 ${box}`}>
       <p className="micro-label text-[var(--orange)]">{name}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
-      <p className={`mt-2 font-black ${dark ? 'text-white/70' : 'text-[var(--muted)]'}`}>{body}</p>
+      <p className={`mt-2 font-black ${dark ? 'text-white/70' : yellow ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>{body}</p>
       <ul className="mt-5 grid gap-2">
         {items.map((item) => <li key={item} className="font-black">YES {item}</li>)}
       </ul>

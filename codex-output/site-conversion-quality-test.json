@@ -1,0 +1,1238 @@
+{
+  "startedAt": "2026-05-01T15:35:10.992Z",
+  "baseUrl": "http://localhost:3000",
+  "scans": [
+    {
+      "postcode": "B14 7QH",
+      "trade": "electrical",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 858,
+      "count": 2,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "1:estimatedValue"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "electrical",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "electrical",
+          "score": 63
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "B1 1AA",
+      "trade": "building",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 536,
+      "count": 3,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "2:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "building",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "building",
+          "score": 75
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "M1 1AE",
+      "trade": "roofing",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 550,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": []
+    },
+    {
+      "postcode": "M14 5PX",
+      "trade": "plumbing",
+      "radiusMiles": 50,
+      "status": 200,
+      "ok": true,
+      "ms": 514,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": []
+    },
+    {
+      "postcode": "SW1A 1AA",
+      "trade": "electrical",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 485,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "electrical",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "electrical",
+          "score": 63
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "E1 6AN",
+      "trade": "building",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 577,
+      "count": 5,
+      "empty": false,
+      "schemaMisses": [
+        "1:postcodeOutward",
+        "3:postcodeOutward",
+        "4:estimatedValue"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": true,
+        "reason": "YES: one strong weekly lead has clear trade, location, value signal, source confidence, and action path.",
+        "topLead": {
+          "id": "cf-ee9c24cd-c812-41db-970b-a7d5df94ba08-895440",
+          "title": "25-255 Down Lane Park Nursery Demolition Work",
+          "trade": "building",
+          "buyer": "London Borough of Haringey",
+          "location": "N22 7TR",
+          "postcodeOutward": "N22",
+          "estimatedValue": "£80,000",
+          "urgency": "medium",
+          "publishedAt": "2026-04-29T15:22:21.000Z",
+          "deadlineAt": "2026-05-11T17:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/ee9c24cd-c812-41db-970b-a7d5df94ba08",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "High value",
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "gold",
+          "tradeMatch": "building",
+          "score": 82
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "N1 9GU",
+      "trade": "roofing",
+      "radiusMiles": 50,
+      "status": 200,
+      "ok": true,
+      "ms": 490,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:estimatedValue"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing estimatedValue; weak value signal).",
+        "topLead": {
+          "id": "cf-1137e7c5-8028-4436-a95b-4437e79edacf-895840",
+          "title": "TO219 - Replacement roof covering and VRF ventilation system throughout Kings Court 2",
+          "trade": "roofing",
+          "buyer": "Herefordshire and Worcestershire Health and Care NHS Trust",
+          "location": "WR5 1JR",
+          "postcodeOutward": "WR5",
+          "estimatedValue": "",
+          "urgency": "medium",
+          "publishedAt": "2026-05-01T15:19:46.000Z",
+          "deadlineAt": "2026-05-22T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/1137e7c5-8028-4436-a95b-4437e79edacf",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "roofing",
+          "score": 56
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "LS1 1UR",
+      "trade": "plumbing",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 507,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": []
+    },
+    {
+      "postcode": "NE1 4LP",
+      "trade": "electrical",
+      "radiusMiles": 50,
+      "status": 200,
+      "ok": true,
+      "ms": 575,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "electrical",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "electrical",
+          "score": 63
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "BS1 5TR",
+      "trade": "building",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 674,
+      "count": 3,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "2:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "building",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "building",
+          "score": 75
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "CF10 1EP",
+      "trade": "roofing",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 504,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-2af2714e-d841-4fbe-8ee1-a7390cb1d38b-895471",
+          "title": "GB-Colchester: Flat Roofing works (small roofs - Houses)",
+          "trade": "roofing",
+          "buyer": "Colchester City Council",
+          "location": "East of England",
+          "postcodeOutward": "",
+          "estimatedValue": "£500,000",
+          "urgency": "medium",
+          "publishedAt": "2026-04-30T07:30:10.000Z",
+          "deadlineAt": "2026-05-29T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/2af2714e-d841-4fbe-8ee1-a7390cb1d38b",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "roofing",
+          "score": 70
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "EH1 1YZ",
+      "trade": "plumbing",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 520,
+      "count": 4,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "1:postcodeOutward",
+        "2:postcodeOutward",
+        "3:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-4f752b64-ea85-4352-a61c-5ffd837aa6eb-895512",
+          "title": "Minor Works Framework - Solway Community School - Sports Hall Boiler",
+          "trade": "plumbing",
+          "buyer": "Cumberland Council",
+          "location": "North East",
+          "postcodeOutward": "",
+          "estimatedValue": "£85,097",
+          "urgency": "medium",
+          "publishedAt": "2026-04-30T09:31:51.000Z",
+          "deadlineAt": "2026-04-02T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/4f752b64-ea85-4352-a61c-5ffd837aa6eb",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "High value",
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "plumbing",
+          "score": 74
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "G1 1XW",
+      "trade": "electrical",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 527,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "electrical",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "electrical",
+          "score": 63
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "BT1 5GS",
+      "trade": "building",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 508,
+      "count": 17,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "1:postcodeOutward",
+        "2:postcodeOutward",
+        "3:postcodeOutward",
+        "4:postcodeOutward",
+        "5:postcodeOutward",
+        "6:postcodeOutward",
+        "7:postcodeOutward",
+        "8:postcodeOutward",
+        "9:postcodeOutward",
+        "10:postcodeOutward",
+        "10:estimatedValue",
+        "11:estimatedValue",
+        "12:postcodeOutward",
+        "13:postcodeOutward",
+        "14:estimatedValue",
+        "15:estimatedValue",
+        "16:estimatedValue"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-23daffc3-47a9-4d62-849f-dc809b435d48-894555",
+          "title": "5043.EFM.SW Teaching & Learning Spaces Refurbishment 2026",
+          "trade": "building",
+          "buyer": "UNIVERSITY OF SHEFFIELD",
+          "location": "Yorkshire and the Humber",
+          "postcodeOutward": "",
+          "estimatedValue": "£200,000",
+          "urgency": "high",
+          "publishedAt": "2026-04-14T10:08:18.000Z",
+          "deadlineAt": "2026-05-06T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/23daffc3-47a9-4d62-849f-dc809b435d48",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "High value",
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "gold",
+          "tradeMatch": "building",
+          "score": 88
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "L1 8JQ",
+      "trade": "roofing",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 622,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": []
+    },
+    {
+      "postcode": "S1 2HE",
+      "trade": "plumbing",
+      "radiusMiles": 50,
+      "status": 200,
+      "ok": true,
+      "ms": 507,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": []
+    },
+    {
+      "postcode": "NG1 5FS",
+      "trade": "electrical",
+      "radiusMiles": 25,
+      "status": 200,
+      "ok": true,
+      "ms": 476,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-641e0f0f-bc04-49ec-8241-2932100aa23a-895730",
+          "title": "Vestry House Museum - Museum Fit-Out Contractor",
+          "trade": "electrical",
+          "buyer": "London Borough of Waltham Forest",
+          "location": "United Kingdom",
+          "postcodeOutward": "",
+          "estimatedValue": "£256,000",
+          "urgency": "high",
+          "publishedAt": "2026-05-01T09:12:40.000Z",
+          "deadlineAt": "2026-06-01T16:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/641e0f0f-bc04-49ec-8241-2932100aa23a",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "electrical",
+          "score": 63
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "CB2 1TN",
+      "trade": "building",
+      "radiusMiles": 50,
+      "status": 200,
+      "ok": true,
+      "ms": 561,
+      "count": 4,
+      "empty": false,
+      "schemaMisses": [
+        "2:postcodeOutward",
+        "3:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": true,
+        "reason": "YES: one strong weekly lead has clear trade, location, value signal, source confidence, and action path.",
+        "topLead": {
+          "id": "cf-e12454f5-c362-4bfc-bdd7-42e07ae34bce-894376",
+          "title": "Cleaning Contract",
+          "trade": "building",
+          "buyer": "Community Centre",
+          "location": "cb23 6gw",
+          "postcodeOutward": "CB23",
+          "estimatedValue": "£50,000",
+          "urgency": "medium",
+          "publishedAt": "2026-04-23T15:58:33.000Z",
+          "deadlineAt": "2026-05-15T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/e12454f5-c362-4bfc-bdd7-42e07ae34bce",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "High value",
+            "Outward postcode match",
+            "Official source",
+            "Buyer named",
+            "CPV trade match"
+          ],
+          "revenueTier": "gold",
+          "tradeMatch": "building",
+          "score": 94
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "OX1 1AA",
+      "trade": "roofing",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 495,
+      "count": 1,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-2af2714e-d841-4fbe-8ee1-a7390cb1d38b-895471",
+          "title": "GB-Colchester: Flat Roofing works (small roofs - Houses)",
+          "trade": "roofing",
+          "buyer": "Colchester City Council",
+          "location": "East of England",
+          "postcodeOutward": "",
+          "estimatedValue": "£500,000",
+          "urgency": "medium",
+          "publishedAt": "2026-04-30T07:30:10.000Z",
+          "deadlineAt": "2026-05-29T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/2af2714e-d841-4fbe-8ee1-a7390cb1d38b",
+          "source": "Contracts Finder",
+          "sourceConfidence": 96,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "roofing",
+          "score": 70
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "EX1 1AE",
+      "trade": "plumbing",
+      "radiusMiles": 100,
+      "status": 200,
+      "ok": true,
+      "ms": 705,
+      "count": 4,
+      "empty": false,
+      "schemaMisses": [
+        "0:postcodeOutward",
+        "1:postcodeOutward",
+        "2:postcodeOutward",
+        "3:postcodeOutward"
+      ],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "NO: top lead is not strong enough (missing postcodeOutward).",
+        "topLead": {
+          "id": "cf-4f752b64-ea85-4352-a61c-5ffd837aa6eb-895512",
+          "title": "Minor Works Framework - Solway Community School - Sports Hall Boiler",
+          "trade": "plumbing",
+          "buyer": "Cumberland Council",
+          "location": "North East",
+          "postcodeOutward": "",
+          "estimatedValue": "£85,097",
+          "urgency": "medium",
+          "publishedAt": "2026-04-30T09:31:51.000Z",
+          "deadlineAt": "2026-04-02T11:00:00.000Z",
+          "url": "https://www.contractsfinder.service.gov.uk/Notice/4f752b64-ea85-4352-a61c-5ffd837aa6eb",
+          "source": "Contracts Finder",
+          "sourceConfidence": 88,
+          "contactSignal": "strong",
+          "status": "new",
+          "reasons": [
+            "Deadline soon",
+            "High value",
+            "Official source",
+            "Buyer named",
+            "CPV trade match",
+            "Trade keywords found"
+          ],
+          "revenueTier": "worth-checking",
+          "tradeMatch": "plumbing",
+          "score": 74
+        }
+      },
+      "errors": []
+    },
+    {
+      "postcode": "B14 7QH",
+      "trade": "electrical",
+      "radiusMiles": 10,
+      "status": 429,
+      "ok": false,
+      "ms": 4,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "B14 7QH",
+      "trade": "electrical",
+      "radiusMiles": 50,
+      "status": 429,
+      "ok": false,
+      "ms": 2,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "B14 7QH",
+      "trade": "electrical",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 1,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "B1 1AA",
+      "trade": "building",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 1,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "M1 1AE",
+      "trade": "roofing",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 1,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "SW1A 1AA",
+      "trade": "plumbing",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 2,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "LS1 1UR",
+      "trade": "building",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 1,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "postcode": "CF10 1EP",
+      "trade": "electrical",
+      "radiusMiles": 100,
+      "status": 429,
+      "ok": false,
+      "ms": 1,
+      "count": 0,
+      "empty": true,
+      "schemaMisses": [],
+      "duplicateIds": 0,
+      "ordered": true,
+      "oneLead": {
+        "pass": false,
+        "reason": "No top lead."
+      },
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    }
+  ],
+  "junk": [
+    {
+      "payload": {
+        "postcode": "",
+        "trade": "electrical",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 400,
+      "status": 429,
+      "pass": false,
+      "ms": 1,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "NOTREAL",
+        "trade": "electrical",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 400,
+      "status": 429,
+      "pass": false,
+      "ms": 1,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "B14 7QH",
+        "trade": "seo",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 2,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "B14 7QH",
+        "trade": "<script>",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 2,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "B14 7QH",
+        "trade": "electrical",
+        "radiusMiles": 0
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 2,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "B14 7QH",
+        "trade": "electrical",
+        "radiusMiles": 500
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 5,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "B14 7QH",
+        "trade": "electrical",
+        "radiusMiles": "wide"
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 1,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "<b>B14</b>",
+        "trade": "plumbing",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 400,
+      "status": 429,
+      "pass": false,
+      "ms": 2,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "SW1A 1AA",
+        "trade": "plumbing",
+        "radiusMiles": -1
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 1,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    },
+    {
+      "payload": {
+        "postcode": "M1 1AE",
+        "trade": "plumbing union",
+        "radiusMiles": 25
+      },
+      "expectedStatus": 422,
+      "status": 429,
+      "pass": false,
+      "ms": 1,
+      "errors": [
+        "rate limit exceeded. retry in one minute."
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "pass": false,
+      "ms": 17,
+      "expectedText": "Find The Jobs Worth Pricing"
+    },
+    {
+      "path": "/find-jobs",
+      "status": 200,
+      "pass": false,
+      "ms": 14,
+      "expectedText": "FIND JOBS WORTH PRICING"
+    },
+    {
+      "path": "/pricing",
+      "status": 200,
+      "pass": false,
+      "ms": 13,
+      "expectedText": "£49/MONTH"
+    },
+    {
+      "path": "/free-tools",
+      "status": 200,
+      "pass": false,
+      "ms": 596,
+      "expectedText": "FREE"
+    },
+    {
+      "path": "/vantage",
+      "status": 200,
+      "pass": false,
+      "ms": 185,
+      "expectedText": "Vantage"
+    },
+    {
+      "path": "/vicinity",
+      "status": 200,
+      "pass": false,
+      "ms": 42,
+      "expectedText": "Vicinity"
+    },
+    {
+      "path": "/codex",
+      "status": 200,
+      "pass": false,
+      "ms": 38,
+      "expectedText": "Codex"
+    },
+    {
+      "path": "/my-link",
+      "status": 200,
+      "pass": false,
+      "ms": 7,
+      "expectedText": "FILTER"
+    },
+    {
+      "path": "/health",
+      "status": 200,
+      "pass": false,
+      "ms": 6,
+      "expectedText": "SYSTEM ONLINE"
+    }
+  ],
+  "waitlist": [
+    {
+      "source": "codex-test-empty",
+      "status": 422,
+      "pass": true,
+      "ms": 2,
+      "error": "Name, trade, and email or phone are required."
+    },
+    {
+      "source": "codex-test-missing-contact",
+      "status": 422,
+      "pass": true,
+      "ms": 1,
+      "error": "Name, trade, and email or phone are required."
+    },
+    {
+      "source": "codex-test-valid",
+      "status": 200,
+      "pass": true,
+      "ms": 4,
+      "stored": "local_jsonl",
+      "error": ""
+    }
+  ],
+  "summary": {
+    "totalTests": 50,
+    "scanTests": 28,
+    "validScanPasses": 0,
+    "validScanFailures": 28,
+    "emptyOutputs": 13,
+    "schemaFailures": 15,
+    "duplicateFailures": 0,
+    "orderingFailures": 0,
+    "junkTests": 10,
+    "junkPasses": 0,
+    "pageTests": 9,
+    "pagePasses": 0,
+    "waitlistTests": 3,
+    "waitlistPasses": 3,
+    "p50Ms": 507,
+    "p95Ms": 705,
+    "oneLeadPasses": 2,
+    "oneLeadRule": "NO",
+    "endedAt": "2026-05-01T15:35:23.144Z"
+  }
+}

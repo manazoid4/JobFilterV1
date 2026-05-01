@@ -13,8 +13,8 @@
  * Never blocks on a single source.
  */
 
-import type { Lead, ScanResult, SourceStats } from './types';
-import { CONFIG } from './config';
+import type { Lead, RawLead, ScanResult, SourceStats } from './types';
+import { CONFIG, TRADE_KEYS } from './config';
 import { lookupPostcode } from './postcode';
 import { contractsFetcher } from './fetchers/contractsFetcher';
 import { planningDataFetcher } from './fetchers/planningDataFetcher';
@@ -58,7 +58,8 @@ export interface ScanOptions {
 }
 
 export async function scan(opts: ScanOptions): Promise<ScanResult> {
-  const { postcode, trade = 'all', tier = 'free' } = opts;
+  const { postcode, trade = '', tier = 'free' } = opts;
+  const cleanTrade = validateTrade(trade);
 
   // 1. Resolve postcode
   const pcInfo = await lookupPostcode(postcode);
@@ -66,13 +67,21 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 2. Run all sources concurrently — failures are caught internally
   const [cfResult, planningResult, chResult, pcsResult] = await Promise.allSettled([
-    contractsFetcher(trade),
-    planningDataFetcher(outward, region, trade, pcInfo.latitude, pcInfo.longitude),
-    companiesHouseFetcher(region, trade, outward),
-    pcsS2wFetcher(trade),
+    CONFIG.sources.contractsFinder || CONFIG.sources.fts
+      ? contractsFetcher(cleanTrade)
+      : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
+    CONFIG.sources.contractsFinder
+      ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
+      : Promise.resolve(disabledSources(['PlanningData'])),
+    CONFIG.sources.companiesHouse
+      ? companiesHouseFetcher(region, cleanTrade, outward)
+      : Promise.resolve(disabledSources(['CompaniesHouse'])),
+    CONFIG.sources.publicContractsScotland || CONFIG.sources.sell2wales
+      ? pcsS2wFetcher(cleanTrade)
+      : Promise.resolve(disabledSources(['PCS', 'Sell2Wales'])),
   ]);
 
-  const dirResult = directorySignalFetcher(region, trade, outward); // sync
+  const dirResult = directorySignalFetcher(region, cleanTrade, outward); // sync
 
   // 3. Collect raw leads + merge stats
   const allRaw = [
@@ -114,7 +123,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   Object.assign(mergedStats, dirResult.stats);
 
   // 4. Normalise
-  const normalised: Lead[] = normaliseAll(allRaw, trade);
+  const normalised: Lead[] = normaliseAll(allRaw, cleanTrade);
 
   // 5. Deduplicate by id
   const seen = new Set<string>();
@@ -131,18 +140,20 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     const { score, reasons } = scoreLeadBreakdown(l, region, outward);
     return { ...l, score, scoreReasons: reasons };
   });
-  scored.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  const tradeMatched = scored.filter(l => l.trade === cleanTrade);
+  const rankingPool = tradeMatched.length ? tradeMatched : scored;
+  rankingPool.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
   // Update passed counts from normalised totals
   for (const source of Object.keys(mergedStats)) {
-    const count = scored.filter(l => l.source === source).length;
+    const count = rankingPool.filter(l => l.source === source).length;
     mergedStats[source].passed = count;
   }
 
   // 7. Tier gating
   const limit = tier === 'free' ? CONFIG.freeTierLimit : CONFIG.topN;
-  const top = scored.slice(0, limit);
-  const lockedCount = Math.max(0, scored.length - top.length);
+  const top = rankingPool.slice(0, limit);
+  const lockedCount = Math.max(0, rankingPool.length - top.length);
 
   // 8. Build errors list from failed sources
   const errors: string[] = [];
@@ -152,13 +163,29 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   return {
     leads: top,
-    total: scored.length,
+    total: rankingPool.length,
     region,
     outward,
     lockedCount,
     sources: mergedStats,
     errors,
   };
+}
+
+function validateTrade(trade: string): Exclude<ScanOptions['trade'], undefined | 'all'> {
+  const clean = String(trade ?? '').trim().toLowerCase();
+  if (!TRADE_KEYS.includes(clean as any) || clean === 'all') {
+    throw new Error('trade must be plumbing, electrical, roofing, building, carpentry, painting, hvac, or landscaping');
+  }
+  return clean as Exclude<ScanOptions['trade'], undefined | 'all'>;
+}
+
+function disabledSources(names: string[]): { leads: RawLead[]; stats: Record<string, SourceStats> } {
+  const stats: Record<string, SourceStats> = {};
+  for (const name of names) {
+    stats[name] = { fetched: 0, passed: 0, dropped: 0, failed: false };
+  }
+  return { leads: [], stats };
 }
 
 // ── CLI runner ────────────────────────────────────────────────────────────────

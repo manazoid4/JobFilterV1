@@ -88,7 +88,7 @@ const LEADS_BY_REGION: Record<string, InternalLead[]> = {
     { title: 'Central Heating Install – First fix, 3-bed new build', trade: 'plumbing', location: 'Southampton, SO16', valueLow: 4200, valueHigh: 6500, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'Self-build client', description: 'Self-build 3-bed, heating first fix. Underfloor ground floor + rads upstairs. Combi boiler.' },
   ],
   'Surrey': [
-    { title: 'Conservatory Roof Replacement – Solid tiled', trade: 'roofing', location: 'Guildford, GU1', valueLow: 7500, valueHigh: 12000, urgency: 'medium', contactSignalLevel: 'none', description: 'Polycarbonate replaced with solid insulated tiled system. 5×3.5m conservatory.' },
+    { title: 'Conservatory Roof Replacement – Solid tiled', trade: 'roofing', location: 'Guildford, GU1', valueLow: 7500, valueHigh: 12000, urgency: 'medium', contactSignalLevel: 'strong', description: 'Polycarbonate replaced with solid insulated tiled system. 5×3.5m conservatory.' },
     { title: 'ASHP Installation – 4-bed, BUS grant', trade: 'hvac', location: 'Guildford, GU2', valueLow: 9000, valueHigh: 14000, urgency: 'low', contactSignalLevel: 'weak', description: 'Gas boiler removal, 10kW ASHP, MCS cert required. BUS grant approved.' },
     { title: 'Block Pave Driveway – 3-car, 75sqm', trade: 'landscaping', location: 'Woking, GU21', valueLow: 8000, valueHigh: 14000, urgency: 'low', contactSignalLevel: 'none', description: '75sqm lawn to block-paved driveway, dropped kerb approved, SUDS drainage required.' },
   ],
@@ -160,7 +160,7 @@ const LEADS_BY_REGION: Record<string, InternalLead[]> = {
 const NATIONAL_LEADS: InternalLead[] = [
   { title: 'School HVAC Maintenance Contract – 3yr term', trade: 'hvac', location: 'Various (regional schools)', valueLow: 24000, valueHigh: 36000, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'Academy Trust', description: '3-year HVAC maintenance contract, 4 primary schools. Quarterly PPM + callout cover.' },
   { title: 'Housing Association Void Works – Multi-unit', trade: 'building', location: 'Social Housing (regional)', valueLow: 120000, valueHigh: 200000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Housing Association', description: 'Void property refurb, 25–40 units. Kitchens, bathrooms, decoration. 6-month rolling contract.' },
-  { title: 'Commercial Electrical Inspection Contract', trade: 'electrical', location: 'National', valueLow: 25000, valueHigh: 45000, urgency: 'medium', contactSignalLevel: 'weak', buyer: 'FM Company', description: 'EICR inspections across 10 office buildings. MCS/NICEIC accredited contractor required.' },
+  { title: 'Commercial Electrical Inspection Contract', trade: 'electrical', location: 'National', valueLow: 25000, valueHigh: 45000, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'FM Company', description: 'EICR inspections across 10 office buildings. MCS/NICEIC accredited contractor required.' },
   { title: 'Boiler Replacement Framework – Council housing', trade: 'plumbing', location: 'Regional (awarded by postcode)', valueLow: 80000, valueHigh: 150000, urgency: 'high', contactSignalLevel: 'strong', buyer: 'Local Authority', description: 'Framework contract, boiler replacements across council housing stock. Gas Safe required.' },
   { title: 'Grounds Maintenance Contract – Business park', trade: 'landscaping', location: 'Business Park (regional)', valueLow: 18000, valueHigh: 30000, urgency: 'medium', contactSignalLevel: 'strong', buyer: 'Property Management', description: '2-year grounds maintenance, 20-acre business park. Fortnightly visits + winter treatment.' },
   { title: 'Roofing Framework – Housing association', trade: 'roofing', location: 'Regional', valueLow: 200000, valueHigh: 500000, urgency: 'medium', contactSignalLevel: 'weak', buyer: 'Housing Association', description: 'Framework for planned and reactive roofing works across housing stock. CHAS accredited required.' },
@@ -172,6 +172,7 @@ function toRawLead(lead: InternalLead, region: string, outward: string, idx: num
     rawId: `dir-${region.toLowerCase().replace(/\s+/g, '-')}-${idx}`,
     rawTitle: lead.title,
     rawDescription: lead.description,
+    rawTrade: lead.trade as any,
     rawValueMin: lead.valueLow,
     rawValueMax: lead.valueHigh,
     rawLocation: lead.location,

@@ -8,6 +8,7 @@ const pipeline = [
   ['Score', 'Urgency, value, proximity, source quality, completeness.'],
   ['Store', 'Worth-checking jobs stay in your lead list.'],
   ['Deliver', 'Gold leads are shaped for WhatsApp action.'],
+  ['Letterhead Pack', 'Highest package turns the lead into a professional letterhead, blueprint instructions, print, and postage pack.'],
 ];
 
 const advantages = [
@@ -115,7 +116,7 @@ export function HomePage() {
             <div>
               <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-                Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs.
+                Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs. Highest adds the professional letterhead pack: your company details, job-specific blueprint instructions, printing and postage handled.
               </p>
             </div>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
@@ -127,13 +128,17 @@ export function HomePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">ADVANTAGES</p>
           <h2 className="headline mt-3 text-5xl leading-none">Win the job after the filter.</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 md:grid-cols-4">
             {advantages.map(([title, body, to]) => (
               <Link key={title} className="jf-box bg-white p-5 text-[var(--ink)]" to={to}>
                 <h3 className="headline text-3xl">{title}</h3>
                 <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
               </Link>
             ))}
+            <Link className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]" to="/pricing">
+              <h3 className="headline text-3xl">Letterhead Pack</h3>
+              <p className="mt-2 font-black text-[var(--ink)]/75">Professional letterhead, blueprint instructions, print, and post. Built for the jobs you need to win properly.</p>
+            </Link>
           </div>
         </div>
       </section>

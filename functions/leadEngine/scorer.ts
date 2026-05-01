@@ -9,7 +9,7 @@ import { regionSimilarity } from './postcode';
  *  - urgency                  (0–20)
  *  - proximity                (0–30)
  *  - contact signal           (0–15)
- *  - value bracket            (0–15)
+ *  - value bracket            (0–25)
  */
 export function scoreLead(lead: Lead, userRegion: string): number {
   return scoreLeadBreakdown(lead, userRegion).score;
@@ -58,17 +58,20 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('No contact signal (+0)');
   }
 
-  // Value bracket (max 15) — sweet spot £2k–£150k for trades
+  // Value bracket (max 25) — one paid lead must be worth chasing.
   const raw = parseValueToMidpoint(lead.estimatedValue);
-  if (raw >= 2_000 && raw <= 150_000) {
+  if (raw >= 5_000 && raw <= 150_000) {
+    score += 25;
+    reasons.push('Estimated value in pay-worthy range (+25)');
+  } else if (raw >= 2_000 && raw < 5_000) {
     score += 15;
-    reasons.push('Estimated value in sweet spot (+15)');
-  } else if (raw >= 1_000 && raw < 5_000) {
-    score += 8;
-    reasons.push('Estimated value acceptable (+8)');
+    reasons.push('Estimated value acceptable (+15)');
+  } else if (raw >= 1_000) {
+    score += 5;
+    reasons.push('Small job value (+5)');
   } else if (raw > 150_000) {
-    score += 3;
-    reasons.push('Large contract, likely competitive (+3)');
+    score += 10;
+    reasons.push('Large contract, likely competitive (+10)');
   } else {
     reasons.push('Low/unknown value (+0)');
   }
