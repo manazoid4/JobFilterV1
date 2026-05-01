@@ -5,6 +5,7 @@
 - [[Product Index]]
 - [[Prompts Index]]
 - [[System Index]]
+- [[Agent Running Model]]
 
 ## Rule
 - Build for [[Intake Engine]] first.

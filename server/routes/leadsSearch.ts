@@ -59,12 +59,16 @@ export function registerLeadSearchRoute(app: Express) {
 function toFreePreviewLead(lead: ReturnType<typeof normalizeNotice>) {
   return {
     ...lead,
+    title: `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`,
     buyer: '',
     deadlineAt: '',
     url: '',
+    estimatedValue: valuePreview(lead.estimatedValue),
+    urgency: 'medium' as const,
+    sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
     contactSignal: 'none' as const,
     score: previewScore(lead.score),
-    reasons: ['Preview only - unlock full detail'],
+    reasons: ['Paid preview - unlock buyer, deadline, exact value, and action route'],
   };
 }
 
@@ -72,6 +76,25 @@ function previewScore(score: number) {
   if (score >= 80) return 80;
   if (score >= 55) return 55;
   return 35;
+}
+
+function previewSourceConfidence(confidence: number) {
+  if (confidence >= 85) return 80;
+  if (confidence >= 70) return 65;
+  return 50;
+}
+
+function valuePreview(value: string) {
+  const amount = Number(String(value).replace(/[^0-9.]/g, ''));
+  if (!Number.isFinite(amount) || amount <= 0) return 'Unlock exact value';
+  if (amount >= 100_000) return 'High-value contract';
+  if (amount >= 25_000) return 'Strong-value job';
+  if (amount >= 5_000) return 'Paid job signal';
+  return 'Unlock exact value';
+}
+
+function titleCase(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 function sanitizeTrade(input: unknown) {

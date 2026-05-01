@@ -1,10 +1,11 @@
 const UK_POSTCODE =
   /^([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})$/i;
+const UK_OUTWARD = /^([A-Z]{1,2}\d[A-Z\d]?)$/i;
 
 const REGION_BY_PREFIX: Array<[RegExp, string]> = [
   [/^(BT)/, 'Northern Ireland'],
   [/^(B|CV|DY|WS|WV)/, 'West Midlands'],
-  [/^(M|OL|BL|SK|WA|WN)/, 'North West'],
+  [/^(M|OL|BL|SK|WA|WN|L|CH|PR|FY)/, 'North West'],
   [/^(BS|BA|GL|SN|TA|EX|PL|TQ)/, 'South West'],
   [/^(E|EC|N|NW|SE|SW|W|WC|BR|CR|DA|EN|HA|IG|KT|RM|SM|TW|UB)/, 'London'],
   [/^(LS|BD|HD|HX|WF|YO|S$)/, 'Yorkshire'],
@@ -28,23 +29,27 @@ export function parseUkPostcode(input: unknown): PostcodeInfo {
   }
 
   const cleaned = input.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  const match = cleaned.match(UK_POSTCODE);
-  if (!match) {
+  const fullMatch = cleaned.match(UK_POSTCODE);
+  const outwardMatch = cleaned.match(UK_OUTWARD);
+  if (!fullMatch && !outwardMatch) {
     throw new Error('valid UK postcode required');
   }
 
-  const outward = match[1];
-  const inward = match[2];
-  const postcode = `${outward} ${inward}`;
+  const outward = (fullMatch?.[1] ?? outwardMatch?.[1] ?? '').toUpperCase();
+  const inward = fullMatch?.[2] ?? '';
+  const postcode = inward ? `${outward} ${inward}` : outward;
   const area = outward.match(/^[A-Z]+/)?.[0] ?? outward;
   const region = regionFromArea(area);
+  if (region === 'United Kingdom') {
+    throw new Error('valid UK postcode required');
+  }
 
   return { postcode, outward, region };
 }
 
 export function outwardFromPostcode(input: string) {
   const cleaned = input.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/)?.[1] ?? '';
+  return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(?:\d[A-Z]{2})?$/)?.[1] ?? '';
 }
 
 export function regionFromOutward(outward: string) {

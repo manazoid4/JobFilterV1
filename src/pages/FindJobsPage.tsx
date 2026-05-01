@@ -127,7 +127,7 @@ export function FindJobsPage() {
                 <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
                 <h2 className="headline mt-2 text-4xl leading-none">HIGHEST VALUE FIRST</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  Free view shows the score and signal. Pro unlocks WhatsApp delivery, saved leads, buyer detail, and full action workflow.
+                  Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
               {result.leads.map((lead) => (
@@ -147,8 +147,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
     ['Outward', lead.postcodeOutward || 'N/A'],
-    ['Value', lead.estimatedValue || 'Not listed'],
-    ['Urgency', urgencyLabel(lead.urgency)],
+    ['Value', safePreviewValue(lead.estimatedValue)],
+    ['Urgency', 'Unlock timing'],
     ['Contact', 'Unlock on Pro'],
   ];
 
@@ -158,8 +158,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          <Tag label={`${lead.sourceConfidence}% source`} />
-          <Tag label={urgencyLabel(lead.urgency)} />
+          <Tag label="Official source" />
+          <Tag label="Timing locked" />
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -172,8 +172,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer || 'Unlock on Pro'} />
-        <LockedValue label="Deadline" value={formatDate(lead.deadlineAt)} />
+        <LockedValue label="Buyer" value="Unlock on Pro" />
+        <LockedValue label="Deadline" value="Unlock on Pro" />
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
         <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
       </div>
@@ -242,6 +242,11 @@ function formatDate(value: string) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return 'Unlock on Pro';
   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function safePreviewValue(value: string) {
+  if (!value || /£[\d,]/.test(value)) return 'Unlock exact value';
+  return value;
 }
 
 function titleCase(value: string) {
