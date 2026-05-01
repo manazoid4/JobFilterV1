@@ -15,6 +15,10 @@
 import type { RawLead, SourceStats } from '../types';
 import { CONFIG } from '../config';
 
+const PACKAGE_CACHE_TTL_MS = 5 * 60_000;
+const packageCache = new Map<string, { expiresAt: number; payload: any }>();
+const packageInflight = new Map<string, Promise<any>>();
+
 // ── CPV prefix → trade mapping (post-fetch filter) ────────────────────────────
 const CPV_TRADE_PREFIXES: Record<string, string[]> = {
   plumbing:    ['45330', '45331', '45332', '45333', '50720', '50730'],
@@ -68,6 +72,39 @@ async function fetchWithTimeout(url: string, opts: RequestInit = {}): Promise<Re
   throw lastErr ?? new Error('fetch failed');
 }
 
+async function fetchJsonPackage(label: string, url: string): Promise<any> {
+  const cached = packageCache.get(url);
+  if (cached && cached.expiresAt > Date.now()) return cached.payload;
+
+  const existing = packageInflight.get(url);
+  if (existing) return existing;
+
+  const request = (async () => {
+    const r = await fetchWithTimeout(url, {
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
+      },
+    });
+
+    if (!r.ok) {
+      const body = await r.text().catch(() => '');
+      throw new Error(`${label} HTTP ${r.status} — ${url} — ${body.substring(0, 200)}`);
+    }
+
+    const payload = await r.json() as any;
+    packageCache.set(url, { expiresAt: Date.now() + PACKAGE_CACHE_TTL_MS, payload });
+    return payload;
+  })();
+
+  packageInflight.set(url, request);
+  try {
+    return await request;
+  } finally {
+    packageInflight.delete(url);
+  }
+}
+
 // ── Contracts Finder OCDS Search ─────────────────────────────────────────────
 // Endpoint: GET https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search
 // No authentication required for public OCDS endpoint.
@@ -89,26 +126,7 @@ async function fetchContractsFinder(trade: string): Promise<{ leads: RawLead[]; 
   const url = `${CF_OCDS_BASE}?${params}`;
 
   try {
-    const r = await fetchWithTimeout(url, {
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
-      },
-    });
-
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      return {
-        leads: [],
-        stats: {
-          fetched: 0, passed: 0, dropped: 0,
-          failed: true,
-          error: `CF HTTP ${r.status} — ${url} — ${body.substring(0, 200)}`,
-        },
-      };
-    }
-
-    const pkg = await r.json() as any;
+    const pkg = await fetchJsonPackage('CF', url);
     // OCDS release package — releases array
     const releases: any[] = pkg?.releases ?? pkg?.data ?? [];
 
@@ -193,26 +211,7 @@ async function fetchFTS(trade: string): Promise<{ leads: RawLead[]; stats: Sourc
   const url = `${FTS_BASE}?${params}`;
 
   try {
-    const r = await fetchWithTimeout(url, {
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
-      },
-    });
-
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      return {
-        leads: [],
-        stats: {
-          fetched: 0, passed: 0, dropped: 0,
-          failed: true,
-          error: `FTS HTTP ${r.status} — ${url} — ${body.substring(0, 200)}`,
-        },
-      };
-    }
-
-    const pkg = await r.json() as any;
+    const pkg = await fetchJsonPackage('FTS', url);
     const releases: any[] = pkg?.releases ?? [];
 
     const leads: RawLead[] = [];

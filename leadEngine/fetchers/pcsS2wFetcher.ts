@@ -16,6 +16,9 @@ import { CONFIG } from '../config';
 const PCS_BASE = 'https://api.publiccontractsscotland.gov.uk/v1/Notices';
 const S2W_BASE = 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases';
 let systemCaEnabled = false;
+const PCS_CACHE_TTL_MS = 10 * 60_000;
+const pcsReleaseCache = new Map<string, { expiresAt: number; releases: any[] }>();
+const pcsInflight = new Map<string, Promise<any[]>>();
 
 const CPV_TRADE_PREFIXES: Record<string, string[]> = {
   plumbing:    ['45330', '45331', '45332', '45333', '50720', '50730'],
@@ -199,20 +202,7 @@ async function fetchPublicContractsScotland(trade: string): Promise<{ leads: Raw
   });
 
   const results = await Promise.allSettled(urls.map(async url => {
-    const r = await fetchWithTimeout(url, {
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
-      },
-    }, { retryWithSystemCa: true, timeoutMs: Math.max(CONFIG.fetchTimeoutMs, 25_000) });
-
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      throw new Error(`HTTP ${r.status} — ${body.substring(0, 200)}`);
-    }
-
-    const pkg = await r.json() as any;
-    const releases: any[] = pkg?.releases ?? [];
+    const releases = await fetchPcsReleases(url);
     const parsed = parseOcdsReleases(releases, trade, 'PCS');
     console.error(`[PCS] ${url} → fetched=${releases.length} passed=${parsed.leads.length} dropped=${parsed.dropped}`);
     return { url, releases: releases.length, ...parsed };
@@ -243,6 +233,40 @@ async function fetchPublicContractsScotland(trade: string): Promise<{ leads: Raw
       error: errors.length ? `PCS month fetch failed: ${errors.join(' | ')}` : undefined,
     },
   };
+}
+
+async function fetchPcsReleases(url: string): Promise<any[]> {
+  const cached = pcsReleaseCache.get(url);
+  if (cached && cached.expiresAt > Date.now()) return cached.releases;
+
+  const existing = pcsInflight.get(url);
+  if (existing) return existing;
+
+  const request = (async () => {
+    const r = await fetchWithTimeout(url, {
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
+      },
+    }, { retryWithSystemCa: true, timeoutMs: Math.max(CONFIG.fetchTimeoutMs, 25_000) });
+
+    if (!r.ok) {
+      const body = await r.text().catch(() => '');
+      throw new Error(`HTTP ${r.status} — ${body.substring(0, 200)}`);
+    }
+
+    const pkg = await r.json() as any;
+    const releases: any[] = pkg?.releases ?? [];
+    pcsReleaseCache.set(url, { expiresAt: Date.now() + PCS_CACHE_TTL_MS, releases });
+    return releases;
+  })();
+
+  pcsInflight.set(url, request);
+  try {
+    return await request;
+  } finally {
+    pcsInflight.delete(url);
+  }
 }
 
 async function fetchOcdsSource(
