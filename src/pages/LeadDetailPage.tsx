@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
+import type { LeadDecisionStatus } from '../lib/types';
 
 export function LeadDetailPage() {
   const { id = '' } = useParams();
@@ -18,7 +19,7 @@ export function LeadDetailPage() {
     );
   }
 
-  function setStatus(status: 'saved' | 'ignored') {
+  function setStatus(status: LeadDecisionStatus) {
     updateStoredLead(lead!.id, { status });
     window.location.href = '/leads';
   }
@@ -52,6 +53,19 @@ export function LeadDetailPage() {
         </section>
       )}
 
+      <section className="jf-box bg-white p-6">
+        <p className="micro-label text-[var(--orange)]">OUTCOME</p>
+        <h2 className="headline mt-2 text-3xl">TRACK THE MONEY</h2>
+        <p className="mt-2 font-black text-[var(--muted)]">
+          Current result: {outcomeLabel(lead.status)}
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => setStatus('won')}>WON</button>
+          <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setStatus('lost')}>LOST</button>
+          <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('no_answer')}>NO ANSWER</button>
+        </div>
+      </section>
+
       <ActionBar>
         {lead.phone ? (
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`tel:${lead.phone}`}>CALL</a>
@@ -63,4 +77,13 @@ export function LeadDetailPage() {
       </ActionBar>
     </main>
   );
+}
+
+function outcomeLabel(status: LeadDecisionStatus) {
+  if (status === 'won') return 'WON';
+  if (status === 'lost') return 'LOST';
+  if (status === 'no_answer') return 'NO ANSWER';
+  if (status === 'saved') return 'SAVED';
+  if (status === 'ignored') return 'IGNORED';
+  return 'NEW';
 }

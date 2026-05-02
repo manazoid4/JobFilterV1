@@ -20,7 +20,9 @@ Score: ${payload.score}/100${phoneText ? `\n${phoneText}` : ''}`;
   console.log('[whatsapp/gold-lead]', message);
 
   const hasRequiredEnv =
-    process.env.TWILIO_WHATSAPP_TO && process.env.TWILIO_ACCOUNT_SID;
+    process.env.TWILIO_WHATSAPP_TO &&
+    process.env.TWILIO_ACCOUNT_SID &&
+    process.env.TWILIO_AUTH_TOKEN;
 
   if (hasRequiredEnv) {
     const url = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`;
