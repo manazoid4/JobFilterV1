@@ -2,6 +2,7 @@ node_modules/
 build/
 dist/
 .firebase/
+supabase/.temp/
 functions/lib/
 functions/node_modules/
 coverage/
