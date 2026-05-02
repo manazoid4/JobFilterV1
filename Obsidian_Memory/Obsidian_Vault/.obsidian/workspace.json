@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "b183621b55183e17",
+        "id": "fa8860777ff7a641",
         "type": "tabs",
         "children": [
           {
-            "id": "fe252b2f95788698",
+            "id": "ddbb988fe1d91402",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -70,8 +70,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -151,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "followCursor": false,
+                "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -177,44 +176,46 @@
       "bases:Create new base": false
     }
   },
-  "active": "fe252b2f95788698",
+  "active": "ddbb988fe1d91402",
   "lastOpenFiles": [
-    "Vault Map.md",
-    "System/Supabase CLI Access - 2 May 2026.md",
-    "SupaBase DB password.md",
-    "khutba.io/khutba.io Project Outline.md",
-    "System/Supabase Vercel Migration - 2 May 2026.md",
-    "khutba.io/Prompts/khutba.io Prompts Index.md",
-    "Untitled.base",
-    "2026-05-02.md",
-    "Untitled.canvas",
-    "System/Free Preview Gate Test - 1 May 2026.md",
-    "System/Agent Running Model.md",
-    "khutba.io/Sessions/khutba.io Running Log.md",
-    "2026-05-01.md",
-    "khutba.io/khutba.io Selling Points.md",
-    "AI Knowledge/AI Cost Optimization.md",
-    "AI Knowledge/Claude Code Workflows.md",
-    "AI Knowledge/AI Knowledge Index.md",
-    "AI Knowledge/Multi-Model Pipelines.md",
-    "khutba.io/khutba.io Overview.md",
-    "khutba.io/khutba.io APIs.md",
+    "JobFilter/Product/Design Direction - Brutalist Yellow.md",
+    "JobFilter/JobFilter Control Map.canvas",
+    "JobFilter/JobFilter Control Map.excalidraw.md",
+    "JobFilter/System/System Index.md",
+    "JobFilter/System/Agent Running Model.md",
+    "JobFilter/System/Database Rollback - 2 May 2026.md",
+    "JobFilter/System/Research for Build Agent - 29th April 2026.md",
+    "JobFilter/System/Lead Engine 30 Run Test - 1 May 2026.md",
+    "JobFilter/System/GitHub Production Deploy Fix - 29th April 2026.md",
+    "JobFilter/System/Free Preview Gate Test - 1 May 2026.md",
+    "JobFilter/System/Free Access Audit - 1 May 2026.md",
+    "JobFilter/System/Build Execution - 29th April 2026.md",
+    "JobFilter/Sessions/Rolling Launch Summary.md",
+    "JobFilter/JobFilter Map.md",
+    "JobFilter/Product/Competitor Research - 2 May 2026.md",
+    "JobFilter/System/Obsidian Visual Maps.md",
+    "JobFilter/Product/Data Sources Flow.excalidraw.md",
+    "JobFilter/Product/Launch Scenarios.md",
     "khutba.io/khutba.io Map.md",
+    "khutba.io/khutba.io Overview.md",
+    "Airdrop Bot/Airdrop Bot Flow.canvas",
+    "AI Knowledge/AI Knowledge Index.md",
+    "Vault Map.md",
+    "2026-05-02.md",
+    "Untitled.md",
+    "khutba.io/khutba.io APIs.md",
+    "khutba.io/khutba.io Selling Points.md",
+    "JobFilter/Prompts 1/Prompts Index.md",
+    "Untitled.canvas",
+    "JobFilter/Sessions",
+    "Airdrop Bot",
+    "JobFilter/System",
     "khutba.io/Sessions",
     "khutba.io/Prompts",
     "khutba.io",
-    "Prompts/#⚡ FAST BUILD AGENT (FINAL — SELF-LEARNING + SAFE).md",
-    "Prompts/# 🧠 DEEP RESEARCH AGENT SYSTEM BUILDER.md",
-    "Prompts/# 🧠 DEEP BUILD AGENT (FINAL — FULL SYSTEM THINKER).md",
-    "Prompts/# 🧠 Agent System.md",
-    "Prompts/# 📊 COMPETITOR INTEL UPGRADED — MEMORY AWARE.md",
-    "Prompts/# ⚡ QUICK RESEARCH AGENT — HIGH IMPACT LOOP.md",
-    "System/Free Access Audit - 1 May 2026.md",
-    "AI Knowledge",
-    "JobFilter/Untitled.base",
+    "JobFilter/Prompts 1",
+    "JobFilter/Product",
     "JobFilter",
-    "Projects",
-    "System",
-    "Prompts"
+    "AI Knowledge"
   ]
 }

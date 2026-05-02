@@ -37,6 +37,7 @@ This file is for Claude, Codex, and any other agent working in this repo.
 - Check `Obsidian_Memory/Obsidian_Vault/Vault Map.md` for memory.
 - Add short Obsidian notes for meaningful changes.
 - Link notes into the right folder index.
+- For Obsidian visual maps, create native `.canvas` boards first. Only use Excalidraw when the plugin is installed and enabled.
 - Run targeted tests before claiming work is done.
 - Push only intentional changes.
 

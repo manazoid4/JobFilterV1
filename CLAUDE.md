@@ -14,6 +14,7 @@ Claude and Claude-like agents should follow:
 
 ## Before Editing
 - Check the relevant product/system note in Obsidian.
+- For Obsidian visual maps, use native `.canvas` first; Excalidraw is not installed unless `.obsidian/plugins/obsidian-excalidraw-plugin` exists.
 - Keep changes modular.
 - Do not rewrite unrelated files.
 - Run focused tests before reporting success.
