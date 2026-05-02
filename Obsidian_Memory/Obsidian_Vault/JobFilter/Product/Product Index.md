@@ -7,6 +7,7 @@
 - [[Data Sources Flow.excalidraw]]
 - [[Launch Scenarios]]
 - [[Competitor Research - 2 May 2026]]
+- [[Design Direction - Brutalist Yellow]]
 
 ## Modules
 - [[Free Tools]]
