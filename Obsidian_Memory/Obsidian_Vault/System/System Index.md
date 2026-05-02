@@ -8,6 +8,7 @@
 
 ## Build
 - [[Agent Running Model]]
+- [[Supabase Vercel Migration - 2 May 2026]]
 - [[Build Execution - 29th April 2026]]
 - [[GitHub Production Deploy Fix - 29th April 2026]]
 - [[Git Push Workflow Note - 1 May 2026]]

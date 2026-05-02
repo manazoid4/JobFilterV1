@@ -1,8 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { Express, Request, Response } from 'express';
-import { getApps, initializeApp, applicationDefault, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import { createClient } from '@supabase/supabase-js';
 
 export function registerWaitlistRoute(app: Express) {
   app.post('/api/waitlist', async (req: Request, res: Response) => {
@@ -29,10 +28,18 @@ export function registerWaitlistRoute(app: Express) {
 }
 
 async function storeWaitlistEntry(entry: Record<string, string>) {
-  const firestore = getFirestoreIfAvailable();
-  if (firestore) {
-    await firestore.collection('waitlist').add(entry);
-    return 'firestore';
+  const supabase = getSupabaseIfAvailable();
+  if (supabase) {
+    const { error } = await supabase.from('waitlist').insert({
+      name: entry.name,
+      trade: entry.trade,
+      contact: entry.contact,
+      contact_type: entry.contactType,
+      source: entry.source,
+      created_at: entry.createdAt,
+    });
+    if (error) throw error;
+    return 'supabase';
   }
 
   const dataDir = path.join(process.cwd(), 'data');
@@ -41,20 +48,13 @@ async function storeWaitlistEntry(entry: Record<string, string>) {
   return 'local_jsonl';
 }
 
-function getFirestoreIfAvailable() {
-  const projectId = process.env.GOOGLE_CLOUD_PROJECT || process.env.FIREBASE_PROJECT_ID;
-  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-  if (!projectId && !serviceAccountJson && process.env.NODE_ENV === 'development') return null;
-
-  if (!getApps().length) {
-    if (serviceAccountJson) {
-      initializeApp({ credential: cert(JSON.parse(serviceAccountJson)) });
-    } else {
-      initializeApp({ credential: applicationDefault(), projectId });
-    }
-  }
-
-  return getFirestore();
+function getSupabaseIfAvailable() {
+  const url = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceRoleKey) return null;
+  return createClient(url, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }
 
 function clean(input: unknown, max: number) {

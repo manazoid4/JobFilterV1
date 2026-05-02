@@ -11,3 +11,11 @@ data/
 .env*
 !.env.example
 firebase-applet-config.json
+*password*.md
+*Password*.md
+*secret*.md
+*Secret*.md
+Obsidian_Memory/Obsidian_Vault/Untitled.*
+Obsidian_Memory/Obsidian_Vault/*.base
+Obsidian_Memory/Obsidian_Vault/*.canvas
+Obsidian_Memory/Obsidian_Vault/[0-9][0-9][0-9][0-9]-*.md

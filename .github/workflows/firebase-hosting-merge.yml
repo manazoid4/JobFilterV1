@@ -1,8 +1,6 @@
-name: Deploy to Firebase Hosting + Functions on merge
+name: Legacy Firebase rollback deploy
 'on':
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest

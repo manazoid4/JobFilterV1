@@ -28,3 +28,7 @@ Use these before shipping lead, pricing, or free-tool changes.
 - `npm run lint`
 - `npm run build`
 - Run after any production-facing change.
+
+## Supabase + Vercel Migration
+- `node codex-output/supabase-vercel-migration-regression.mjs`
+- Checks Firebase is removed from the active root app path, Supabase waitlist storage exists, Vercel API rewrites exist, and Firebase deploy is manual rollback only.
