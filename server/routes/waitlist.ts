@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { Express, Request, Response } from 'express';
-import { createClient } from '@supabase/supabase-js';
 
 export function registerWaitlistRoute(app: Express) {
   app.post('/api/waitlist', async (req: Request, res: Response) => {
@@ -28,33 +27,10 @@ export function registerWaitlistRoute(app: Express) {
 }
 
 async function storeWaitlistEntry(entry: Record<string, string>) {
-  const supabase = getSupabaseIfAvailable();
-  if (supabase) {
-    const { error } = await supabase.from('waitlist').insert({
-      name: entry.name,
-      trade: entry.trade,
-      contact: entry.contact,
-      contact_type: entry.contactType,
-      source: entry.source,
-      created_at: entry.createdAt,
-    });
-    if (error) throw error;
-    return 'supabase';
-  }
-
   const dataDir = path.join(process.cwd(), 'data');
   await fs.mkdir(dataDir, { recursive: true });
   await fs.appendFile(path.join(dataDir, 'waitlist.jsonl'), `${JSON.stringify(entry)}\n`, 'utf8');
   return 'local_jsonl';
-}
-
-function getSupabaseIfAvailable() {
-  const url = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceRoleKey) return null;
-  return createClient(url, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
 }
 
 function clean(input: unknown, max: number) {
