@@ -1,9 +1,8 @@
 import type { Express, Request, Response } from 'express';
+import type { Lead } from '../../leadEngine/types';
+import { scan } from '../../leadEngine/scan';
 import { rateLimit } from '../middleware/rateLimit';
-import type { ContractsFinderNotice } from '../services/contractsFinder';
-import { fetchContractsFinderNotices } from '../services/contractsFinder';
-import { normalizeNotice } from '../services/leadNormalizer';
-import { outwardFromPostcode, parseUkPostcode, regionFromOutward } from '../utils/postcode';
+import { parseUkPostcode } from '../utils/postcode';
 
 const TRADES = new Set(['plumbing', 'electrical', 'roofing', 'building']);
 
@@ -15,59 +14,57 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10_000);
+      const result = await scan({ postcode: postcode.postcode, trade, tier: 'free' });
+      const leads = result.leads
+        .map(toFreePreviewLead);
 
-      try {
-        const notices = await fetchContractsFinderNotices(trade, controller.signal);
-        const leads = notices
-          .filter((notice) => noticeFitsLocation(notice, postcode.region, postcode.outward, radiusMiles))
-          .map((notice) => normalizeNotice(notice, trade, postcode.outward, postcode.region))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, radiusMiles >= 100 ? 25 : 15)
-          .map(toFreePreviewLead);
-
-        return res.json({
-          ok: true,
-          source: 'contracts_finder',
-          count: leads.length,
-          region: postcode.region,
-          outward: postcode.outward,
-          leads,
-          errors: [],
-        });
-      } finally {
-        clearTimeout(timeout);
-        console.log('[leads/search]', { trade, outward: postcode.outward, radiusMiles, ms: Date.now() - started });
-      }
+      console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, ms: Date.now() - started });
+      return res.json({
+        ok: true,
+        source: 'lead_engine',
+        count: leads.length,
+        region: result.region,
+        outward: result.outward,
+        leads,
+        errors: result.errors,
+      });
     } catch (error: any) {
       const message = String(error?.message ?? error);
       const status = message.includes('postcode') ? 400 : message.includes('trade') || message.includes('radius') ? 422 : 503;
       return res.status(status).json({
         ok: false,
-        source: 'contracts_finder',
+        source: 'lead_engine',
         count: 0,
         region: '',
         outward: '',
         leads: [],
-        errors: [message === 'This operation was aborted' ? 'contracts finder request timed out' : message],
+        errors: [message === 'This operation was aborted' ? 'lead engine request timed out' : message],
       });
     }
   });
 }
 
-function toFreePreviewLead(lead: ReturnType<typeof normalizeNotice>) {
+function toFreePreviewLead(lead: Lead) {
+  const score = Number(lead.score ?? 0);
   return {
-    ...lead,
+    id: lead.id,
     title: `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`,
+    trade: lead.trade,
     buyer: '',
+    location: lead.location,
+    postcodeOutward: lead.postcodeOutward,
+    publishedAt: '',
     deadlineAt: '',
     url: '',
     estimatedValue: valuePreview(lead.estimatedValue),
     urgency: 'medium' as const,
     sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
     contactSignal: 'none' as const,
-    score: previewScore(lead.score),
+    source: lead.source,
+    status: lead.status,
+    revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
+    tradeMatch: String(lead.trade),
+    score: previewScore(score),
     reasons: ['Paid preview - unlock buyer, deadline, exact value, and action route'],
   };
 }
@@ -111,13 +108,4 @@ function sanitizeRadius(input: unknown) {
     throw new Error('radiusMiles must be between 1 and 100');
   }
   return radius;
-}
-
-function noticeFitsLocation(notice: ContractsFinderNotice, region: string, outward: string, radiusMiles: number) {
-  const location = `${notice.location} ${notice.postcode}`.toUpperCase();
-  if (!notice.postcode && location.includes('UNITED KINGDOM')) return true;
-  const noticeOutward = outwardFromPostcode(notice.postcode);
-  if (!noticeOutward) return radiusMiles >= 100 || location.includes('UNITED KINGDOM');
-  if (noticeOutward === outward) return true;
-  return radiusMiles >= 25 && regionFromOutward(noticeOutward) === region;
 }

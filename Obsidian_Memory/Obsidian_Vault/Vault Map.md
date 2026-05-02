@@ -4,12 +4,21 @@
 - [[JobFilter Map]]
 - [[AI Knowledge Index]]
 - [[khutba.io Map]]
+- [[Airdrop Bot Map]]
 
 ## JobFilter
 - [[Product Index]]
+- [[Data Sources]]
+- [[Launch Scenarios]]
+- [[Rolling Launch Summary]]
+- [[Daily To-Do]]
 - [[System Index]]
 - [[Prompts Index]]
 - [[Agent Running Model]]
+
+## Airdrop Bot
+- [[Project Outline]]
+- [[Airdrop Bot Flow.canvas]]
 
 ## Rule
 - Keep project notes in their project folders.
