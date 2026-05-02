@@ -2,6 +2,7 @@ export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building';
 export type LeadUrgency = 'high' | 'medium' | 'low';
 export type ContactSignal = 'strong' | 'weak' | 'none';
 export type LiveLeadStatus = 'new' | 'saved' | 'ignored';
+export type LeadDecisionStatus = 'new' | 'saved' | 'ignored' | 'won' | 'lost' | 'no_answer';
 
 export type DecisionFlag = 'Local' | 'Urgent' | 'Photos' | 'Clear' | 'Risk' | 'Budget' | 'GoodBudget';
 
@@ -18,7 +19,7 @@ export type LeadDecision = {
   phone?: string;
   budget?: string;
   tier?: 'GOLD' | 'SILVER' | 'BIN';
-  status: 'new' | 'saved' | 'ignored';
+  status: LeadDecisionStatus;
   createdAt: string;
 };
 

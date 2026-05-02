@@ -12,7 +12,10 @@
 - [x] Run 10-postcode source smoke test.
 - [x] Run build and targeted regressions.
 - [x] Wire visible `/find-jobs` scanner to the unified lead engine.
-- [ ] List API keys needed from founder.
+- [x] Improve one-lead-rule pass rate to 42/42.
+- [x] Add won/lost/no answer outcome tracking.
+- [x] Confirm WhatsApp key blocker and test stub gold-lead delivery.
+- [x] List API keys needed from founder.
 
 ## Rolling Next
 

@@ -1,6 +1,6 @@
 # JobFilter Lead Engine 50+ Quality Test - Fixed
 
-Completed: 2026-05-02T01:25:54.280Z
+Completed: 2026-05-02T13:14:54.327Z
 Total checks: 54
 
 ## Totals
@@ -12,7 +12,7 @@ Total checks: 54
 - Score ordering failures: 0
 - Anti-junk clean rejects: 12/12
 - Anti-junk surfaced leads: 0
-- Latency p50/p95/max: 16ms / 60ms / 208ms
+- Latency p50/p95/max: 39ms / 74ms / 187ms
 - 1-lead rule: YES (42/42)
 
 ## Tradesman POV

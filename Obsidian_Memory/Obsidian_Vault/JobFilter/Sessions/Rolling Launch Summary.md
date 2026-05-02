@@ -14,6 +14,10 @@ Focus:
 - Ran 10-postcode source smoke test.
 - Implemented scenario learning into the visible scanner: `/find-jobs` now uses the unified lead engine instead of Contracts Finder only.
 - Free preview still locks buyer, URL, deadline, exact value, contact signal, and action route.
+- Improved planning leads with source URL, buyer, and deadline to count as strong action signals.
+- One-lead-rule pass rate is now 42/42.
+- Added intake outcome tracking: won, lost, no answer.
+- Confirmed WhatsApp gold-lead path works in stub mode. Real Twilio keys are missing.
 
 What changed:
 
@@ -28,6 +32,14 @@ What changed:
 - `codex-output/unified-find-jobs-regression.mjs`
 - `server/routes/leadsSearch.ts`
 - `src/lib/types.ts`
+- `src/pages/LeadDetailPage.tsx`
+- `src/pages/LeadListPage.tsx`
+- `server/services/sms.ts`
+- `leadEngine/normaliser.ts`
+- `functions/leadEngine/normaliser.ts`
+- `codex-output/planning-contact-signal-regression.mjs`
+- `codex-output/outcome-tracking-regression.mjs`
+- `codex-output/whatsapp-env-regression.mjs`
 - [[Data Sources]]
 - [[Launch Scenarios]]
 - [[Competitor Research - 2 May 2026]]
@@ -52,16 +64,15 @@ Verification:
 - Free preview live contract test passed against local server.
 - Unified find-jobs regression passed.
 - Lead-engine quality regression passed.
-- 50+ lead quality script returned 42/42 valid scans with no empty outputs, no schema failures, no duplicate IDs, and clean junk rejection. It still reports one-lead-rule overall as false: 36/42 passed.
+- 50+ lead quality script returned 42/42 valid scans with no empty outputs, no schema failures, no duplicate IDs, clean junk rejection, and one-lead-rule overall true: 42/42.
 - Live `/find-jobs` free preview contract passed after switching to the unified engine.
 - 10-postcode smoke after the route change returned structured leads for all 10 test postcodes with the free limit held at 5.
 
 Next work:
 
-- Re-run the full site conversion script after rate-limit reset and tune one-lead-rule failures.
-- Improve one-lead-rule pass rate from 36/42 to 42/42.
-- Confirm WhatsApp env keys and test one gold lead delivery.
-- Add outcome tracking: won, lost, no answer.
+- Add real Twilio WhatsApp keys and test one live gold-lead delivery.
+- Re-run full site conversion script after local rate limit resets.
+- Start storing lead outcomes server-side instead of only localStorage.
 
 ## Rolling Rule
 

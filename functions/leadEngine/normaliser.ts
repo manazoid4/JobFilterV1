@@ -67,6 +67,7 @@ function calcUrgency(deadlineAt: string, value: number): 'low' | 'medium' | 'hig
 
 function calcContactSignal(raw: RawLead): 'none' | 'weak' | 'strong' {
   if (raw.rawContact?.phone) return 'strong';
+  if (raw.rawBuyer && raw.sourceUrl && raw.rawDeadline) return 'strong';
   if (raw.rawContact?.email || raw.rawBuyer) return 'weak';
   if (raw.sourceUrl) return 'weak';
   return 'none';
