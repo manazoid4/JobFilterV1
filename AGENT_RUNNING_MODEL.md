@@ -52,3 +52,31 @@ This file is for Claude, Codex, and any other agent working in this repo.
 - Do not add placeholder data to production paths.
 - Do not overbuild dashboards before lead quality is proven.
 - Do not leave Obsidian notes orphaned.
+
+## Current Handoff Prompt
+Use this when sending another agent into the repo:
+
+```text
+You are working on JobFilter in C:\Users\manaz\Desktop\JobFilter\JobFilterV1.
+
+Read AGENTS.md, AGENT_RUNNING_MODEL.md, and Obsidian_Memory/Obsidian_Vault/Vault Map.md first.
+
+Context:
+- JobFilter is a UK trades lead intelligence SaaS, not a job board.
+- Priority is lead quality, data reliability, paid conversion, then simple UX.
+- Free tools may be useful, but free flows must never expose paid lead value.
+- Paid value includes buyer, URL, deadline, exact value, exact score/source detail, contact signal, and searchable lead title.
+- Recent bug: /find-jobs free preview leaked buyer/deadline/value. Fixes now lock those in server/routes/leadsSearch.ts, functions/index.ts, and src/pages/FindJobsPage.tsx.
+- Postcodes must support full format, no-space format, and outward-only format like B10, L10, SY11, SW17. Junk like X10, ZZ99 9ZZ, NOTREAL must fail.
+
+Before claiming done, run:
+npm run lint
+npm run build
+npx tsx codex-output/postcode-filter-regression.mjs
+node codex-output/free-scanner-redaction-regression.mjs
+node codex-output/free-preview-live-contract-test.mjs
+npx tsx codex-output/lead-engine-quality-regression.mjs
+npx tsx codex-output/lead-engine-50-plus-quality-test-fixed.mjs
+
+Keep changes scoped. Add short linked Obsidian notes for meaningful changes. Do not stage unrelated .obsidian workspace noise or .claude worktree files.
+```
