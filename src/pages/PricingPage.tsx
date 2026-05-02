@@ -28,13 +28,18 @@ export function PricingPage() {
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
-      <section className="jf-box bg-[var(--navy)] p-6 text-white">
+      <section className="jf-box bg-[var(--navy)] p-8 text-center text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">£49/MONTH TO UNLOCK THE ACTION LAYER.</h1>
-        <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-          Free shows the signal. Pro unlocks the detail, WhatsApp delivery, and saved-lead workflow.
+        <h1 className="headline mx-auto mt-3 max-w-4xl text-6xl leading-none text-[var(--yellow)] md:text-8xl">
+          ONE PRICE. NO GAMES.
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-xl font-black text-white/80">
+          No lead fees. No bidding wars. No race to the bottom. Free shows the signal. Pro unlocks the detail.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mx-auto mt-6 inline-flex border-4 border-[var(--line)] bg-[var(--yellow)] px-6 py-4 text-center text-sm font-black uppercase text-[var(--ink)]">
+          One decent job pays for the month. One strong lead can pay for the year.
+        </div>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#waitlist">GET WHATSAPP ALERTS</a>
           <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FIRST</Link>
         </div>

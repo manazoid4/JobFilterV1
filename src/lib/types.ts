@@ -1,4 +1,4 @@
-export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building';
+export type Trade = 'plumbing' | 'electrical' | 'roofing' | 'building' | 'carpentry' | 'painting' | 'hvac' | 'landscaping';
 export type LeadUrgency = 'high' | 'medium' | 'low';
 export type ContactSignal = 'strong' | 'weak' | 'none';
 export type LiveLeadStatus = 'new' | 'saved' | 'ignored';
