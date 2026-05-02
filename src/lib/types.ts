@@ -46,7 +46,7 @@ export type Lead = {
 
 export type LeadSearchResponse = {
   ok: boolean;
-  source: 'contracts_finder';
+  source: 'contracts_finder' | 'lead_engine';
   count: number;
   region: string;
   outward: string;

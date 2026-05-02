@@ -40,7 +40,7 @@ export function FindJobsPage() {
       setErrorText('Network error. Retry the scan.');
       setResult({
         ok: false,
-        source: 'contracts_finder',
+        source: 'lead_engine',
         count: 0,
         region: '',
         outward: '',
@@ -90,8 +90,8 @@ export function FindJobsPage() {
 
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">CONTRACTS FINDER</p>
-          <p className="mt-2 text-xl font-black">Checking live notices and scoring signal quality.</p>
+          <p className="micro-label text-[var(--yellow)]">LEAD ENGINE</p>
+          <p className="mt-2 text-xl font-black">Checking planning, tender, company, and fallback signals before scoring quality.</p>
         </section>
       )}
 
@@ -106,7 +106,7 @@ export function FindJobsPage() {
           )}
 
           <div className="jf-box grid gap-3 bg-white p-4 md:grid-cols-5">
-            <Stat label="Source" value="Contracts Finder" />
+            <Stat label="Source" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
             <Stat label="Matches" value={String(result.count)} />
             <Stat label="Region" value={result.region || 'Unknown'} />
             <Stat label="Outward" value={result.outward || 'N/A'} />
@@ -196,7 +196,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
       <h2 className="headline mt-2 text-4xl leading-none">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Source checked" value="Contracts Finder" />
+        <Stat label="Source checked" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />

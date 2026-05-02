@@ -3,7 +3,9 @@ import { NavLink } from 'react-router-dom';
 const links = [
   { to: '/pricing', label: 'Pricing' },
   { to: '/free-tools', label: 'Free Tools' },
+  { to: '/news', label: 'News' },
   { to: '/tips', label: 'Tips' },
+  { to: '/intake-test', label: 'Test Mode' },
   { to: '/vantage', label: 'Vantage' },
   { to: '/vicinity', label: 'Vicinity' },
   { to: '/codex', label: 'Codex' },

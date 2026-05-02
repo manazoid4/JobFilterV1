@@ -70,7 +70,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     CONFIG.sources.contractsFinder || CONFIG.sources.fts
       ? contractsFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
-    CONFIG.sources.contractsFinder
+    CONFIG.sources.planningData
       ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
       : Promise.resolve(disabledSources(['PlanningData'])),
     CONFIG.sources.companiesHouse

@@ -6,6 +6,7 @@ export interface LeadEngineConfig {
   sources: {
     fts: boolean;
     contractsFinder: boolean;
+    planningData: boolean;
     companiesHouse: boolean;
     sell2wales: boolean;
     publicContractsScotland: boolean;
@@ -42,6 +43,7 @@ export const CONFIG: LeadEngineConfig = {
   sources: {
     fts:                      process.env.SOURCE_FTS !== 'false',
     contractsFinder:          process.env.SOURCE_CF !== 'false',
+    planningData:             process.env.SOURCE_PLANNING_DATA !== 'false',
     companiesHouse:           process.env.SOURCE_CH !== 'false',
     sell2wales:               process.env.SOURCE_S2W === 'true',   // unresolved endpoint — off until fixed
     publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
@@ -109,7 +111,7 @@ export const CONFIG: LeadEngineConfig = {
   maxDeadlineDaysFromNow: 180, // don't show notices 6+ months out
 
   topN: 25,
-  freeTierLimit: 25, // TEST MODE — revert to 5 before launch
+  freeTierLimit: 5,
   fetchTimeoutMs: 9_000,
   retryAttempts: 2,
   lookbackDays: 14,

@@ -6,10 +6,12 @@ import { FindJobsPage } from './pages/FindJobsPage';
 import { FreeToolsPage } from './pages/FreeToolsPage';
 import { HomePage } from './pages/HomePage';
 import { IntakePage } from './pages/IntakePage';
+import { IntakeTestPage } from './pages/IntakeTestPage';
 import { LeadDetailPage } from './pages/LeadDetailPage';
 import { LeadListPage } from './pages/LeadListPage';
 import { LegalPage } from './pages/LegalPage';
 import { MyLinkPage } from './pages/MyLinkPage';
+import { NewsPage } from './pages/NewsPage';
 import { PricingPage } from './pages/PricingPage';
 import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
 import { TipsPage } from './pages/TipsPage';
@@ -22,11 +24,13 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/my-link" element={<MyLinkPage />} />
         <Route path="/intake/:username" element={<IntakePage />} />
+        <Route path="/intake-test" element={<IntakeTestPage />} />
         <Route path="/leads" element={<LeadListPage />} />
         <Route path="/leads/:id" element={<LeadDetailPage />} />
         <Route path="/find-jobs" element={<FindJobsPage />} />
         <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/tips" element={<TipsPage />} />
+        <Route path="/news" element={<NewsPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/vantage" element={<ProductAdvantagePage type="vantage" />} />
         <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
