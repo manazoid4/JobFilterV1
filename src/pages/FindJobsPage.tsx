@@ -130,13 +130,13 @@ export function FindJobsPage() {
                   Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
-              {result.leads.slice(0, Math.random() > 0.5 ? 1 : 2).map((lead) => (
+              {result.leads.slice(0, 2).map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} />
               ))}
-              {result.leads.length > 1 && (
+              {result.count > 2 && (
                 <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
-                   <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
-                   <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
+                  <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
+                  <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
                 </div>
               )}
             </div>
