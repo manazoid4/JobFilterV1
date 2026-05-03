@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+﻿import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
@@ -130,9 +130,15 @@ export function FindJobsPage() {
                   Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
-              {result.leads.map((lead) => (
+              {result.leads.slice(0, Math.random() > 0.5 ? 1 : 2).map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} />
               ))}
+              {result.leads.length > 1 && (
+                <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
+                   <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
+                   <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -158,7 +164,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          <Tag label="Official source" />
+          {lead.source === 'EPC' && <Tag label="epc_signal" />}
+          {lead.source === 'PlanningData' && <Tag label="planning_portal" />}
           <Tag label="Timing locked" />
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
@@ -245,7 +252,7 @@ function formatDate(value: string) {
 }
 
 function safePreviewValue(value: string) {
-  if (!value || /£[\d,]/.test(value)) return 'Unlock exact value';
+  if (!value || /Â£[\d,]/.test(value)) return 'Unlock exact value';
   return value;
 }
 
@@ -270,3 +277,4 @@ function tierLabel(score: number) {
   if (score >= 55) return 'WORTH CHECKING';
   return 'LOW SIGNAL';
 }
+

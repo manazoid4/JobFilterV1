@@ -48,6 +48,24 @@ export function ProductAdvantagePage({ type }: { type: keyof typeof content }) {
           <p className="mt-3 text-lg font-black text-[var(--muted)]">
             Good tradesmen lose work when buyers cannot see the value. This fixes presentation without turning you into a marketing agency.
           </p>
+          {type === 'vicinity' && (
+            <div className="mt-6 border-t-2 border-[var(--line)] pt-6">
+              <p className="micro-label">EXAMPLE VICINITY POST</p>
+              <div className="mt-4 jf-box bg-[var(--yellow)] p-4 shadow-none">
+                <p className="font-black italic text-black">"Just finished this full rewire in B15. Another JobFilter win! ⚡️"</p>
+                <div className="mt-4 flex gap-2">
+                  <a 
+                    href={`https://wa.me/?text=${encodeURIComponent('Check out this job I just finished: https://jobfilter.uk/v/B15-rewire')}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="jf-button flex items-center gap-2 bg-[#25D366] text-white py-2"
+                  >
+                    <span>SHARE ON WHATSAPP</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <WaitlistForm source={page.title.toLowerCase()} />
       </section>
