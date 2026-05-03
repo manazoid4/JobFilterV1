@@ -76,6 +76,16 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('Low/unknown value (+0)');
   }
 
+  // High Intent Keywords (max 10 bonus)
+  const highIntentKeywords = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
+  const text = `${lead.title} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
+  const matched = highIntentKeywords.filter(k => text.includes(k));
+  if (matched.length > 0) {
+    const bonus = Math.min(matched.length * 5, 10);
+    score += bonus;
+    reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
+  }
+
   return { score: Math.min(score, 100), reasons };
 }
 
