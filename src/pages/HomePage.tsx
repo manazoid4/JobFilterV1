@@ -74,7 +74,9 @@ export function HomePage() {
         </div>
       </section>
 
-          <div className="mt-8 grid gap-6">
+      <section className="bg-[var(--bg-main)] py-16">
+        <div className="page-shell">
+          <div className="grid gap-6">
             {supportTools.map(([title, body, to], index) => (
               <Link key={title} to={to} className="jf-box block bg-[var(--yellow)] p-6 text-[var(--ink)]">
                 <span className="inline-flex bg-[var(--ink)] px-4 py-2 text-sm font-black uppercase text-[var(--yellow)]">
@@ -169,7 +171,7 @@ export function HomePage() {
   );
 }
 
-function LeadProofCard() {
+function LeadPreview() {
   return (
     <article className="jf-box bg-white p-5 text-[var(--ink)]">
       <p className="micro-label text-[var(--orange)]">GOLD LEAD</p>
