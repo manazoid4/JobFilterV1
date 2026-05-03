@@ -1,0 +1,24 @@
+{
+	"nodes":[
+		{"id":"title","type":"text","text":"# JobFilter Control Map\nREAL LEADS. NO CHASING. STAY IN CONTROL.","x":0,"y":0,"width":520,"height":140,"color":"1"},
+		{"id":"fetch","type":"text","text":"## FETCH\nPlanning data\nOfficial APIs only","x":0,"y":220,"width":220,"height":140,"color":"2"},
+		{"id":"normalise","type":"text","text":"## NORMALISE\nFixed lead schema\nNo empty outputs","x":300,"y":220,"width":220,"height":140,"color":"4"},
+		{"id":"filter","type":"text","text":"## FILTER\nTrade\nLocation\nHigh signal only","x":600,"y":220,"width":220,"height":140,"color":"3"},
+		{"id":"score","type":"text","text":"## SCORE\nUrgency\nValue\nProximity\nCompleteness","x":900,"y":220,"width":220,"height":180,"color":"5"},
+		{"id":"store","type":"text","text":"## STORE\nStructured backend\nPaid lead depth locked","x":300,"y":500,"width":220,"height":140,"color":"6"},
+		{"id":"deliver","type":"text","text":"## DELIVER\nWhatsApp\nShort, useful, actionable","x":600,"y":500,"width":220,"height":140,"color":"2"},
+		{"id":"paid","type":"text","text":"## PAID VALUE\nFull contact signals\nPriority leads\nHigher value first","x":900,"y":500,"width":240,"height":150,"color":"4"},
+		{"id":"free","type":"text","text":"## FREE VALUE\nUseful preview\nNo full paid detail\nNO CONTRACTS","x":0,"y":500,"width":220,"height":150,"color":"1"},
+		{"id":"next","type":"text","text":"## NEXT ACTIONS\nImprove lead quality\nProtect paid data\nTest WhatsApp delivery","x":300,"y":760,"width":520,"height":150,"color":"3"}
+	],
+	"edges":[
+		{"id":"fetch-normalise","fromNode":"fetch","fromSide":"right","toNode":"normalise","toSide":"left"},
+		{"id":"normalise-filter","fromNode":"normalise","fromSide":"right","toNode":"filter","toSide":"left"},
+		{"id":"filter-score","fromNode":"filter","fromSide":"right","toNode":"score","toSide":"left"},
+		{"id":"score-store","fromNode":"score","fromSide":"bottom","toNode":"store","toSide":"top"},
+		{"id":"store-deliver","fromNode":"store","fromSide":"right","toNode":"deliver","toSide":"left"},
+		{"id":"deliver-paid","fromNode":"deliver","fromSide":"right","toNode":"paid","toSide":"left"},
+		{"id":"free-store","fromNode":"free","fromSide":"right","toNode":"store","toSide":"left"},
+		{"id":"deliver-next","fromNode":"deliver","fromSide":"bottom","toNode":"next","toSide":"top"}
+	]
+}

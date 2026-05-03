@@ -1,15 +1,15 @@
-import type { Lead } from './types';
+﻿import type { Lead } from './types';
 import { regionSimilarity } from './postcode';
 
 /**
- * Score each lead 0–100.
+ * Score each lead 0â€“100.
  *
  * Factors:
- *  - source confidence        (0–20)
- *  - urgency                  (0–20)
- *  - proximity                (0–30)
- *  - contact signal           (0–15)
- *  - value bracket            (0–25)
+ *  - source confidence        (0â€“20)
+ *  - urgency                  (0â€“20)
+ *  - proximity                (0â€“30)
+ *  - contact signal           (0â€“15)
+ *  - value bracket            (0â€“25)
  */
 export function scoreLead(lead: Lead, userRegion: string): number {
   return scoreLeadBreakdown(lead, userRegion).score;
@@ -76,12 +76,22 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('Low/unknown value (+0)');
   }
 
+  // High Intent Keywords (max 10 bonus)
+  const highIntentKeywords = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
+  const text = `${lead.title} ${lead.reasons?.join(' ') ?? ''}`.toLowerCase();
+  const matched = highIntentKeywords.filter(k => text.includes(k));
+  if (matched.length > 0) {
+    const bonus = Math.min(matched.length * 5, 10);
+    score += bonus;
+    reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
+  }
+
   return { score: Math.min(score, 100), reasons };
-}
+  }
 
 function parseValueToMidpoint(val: string): number {
   if (!val || val === 'POA') return 0;
-  const nums = val.replace(/[£,]/g, '').match(/[\d.]+[kKmM]?/g) ?? [];
+  const nums = val.replace(/[Â£,]/g, '').match(/[\d.]+[kKmM]?/g) ?? [];
   const parse = (s: string): number => {
     const n = parseFloat(s);
     if (s.endsWith('M') || s.endsWith('m')) return n * 1_000_000;
@@ -92,3 +102,4 @@ function parseValueToMidpoint(val: string): number {
   if (!values.length) return 0;
   return values.reduce((a, b) => a + b, 0) / values.length;
 }
+

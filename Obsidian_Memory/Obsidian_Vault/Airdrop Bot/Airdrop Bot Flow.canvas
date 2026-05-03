@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"source","type":"text","text":"# Source\nReliable Discord airdrop posts","x":0,"y":0,"width":260,"height":130,"color":"1"},
+		{"id":"inbox","type":"text","text":"# Inbox\nForward into #airdrop-inbox","x":360,"y":0,"width":260,"height":130,"color":"2"},
+		{"id":"parse","type":"text","text":"# Parse\nProject\nDeadline\nTask\nLink","x":720,"y":0,"width":260,"height":160,"color":"3"},
+		{"id":"score","type":"text","text":"# Risk Check\nDuplicate?\nScam signal?\nDeadline clear?","x":720,"y":260,"width":260,"height":150,"color":"5"},
+		{"id":"review","type":"text","text":"# Review\nPost clean draft to #airdrop-review","x":360,"y":260,"width":260,"height":130,"color":"4"},
+		{"id":"publish","type":"text","text":"# Publish\nApprove first\nThen send to X or alerts","x":0,"y":260,"width":260,"height":140,"color":"6"}
+	],
+	"edges":[
+		{"id":"source-inbox","fromNode":"source","fromSide":"right","toNode":"inbox","toSide":"left"},
+		{"id":"inbox-parse","fromNode":"inbox","fromSide":"right","toNode":"parse","toSide":"left"},
+		{"id":"parse-score","fromNode":"parse","fromSide":"bottom","toNode":"score","toSide":"top"},
+		{"id":"score-review","fromNode":"score","fromSide":"left","toNode":"review","toSide":"right"},
+		{"id":"review-publish","fromNode":"review","fromSide":"left","toNode":"publish","toSide":"right"}
+	]
+}
