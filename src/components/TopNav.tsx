@@ -37,9 +37,11 @@ export function TopNav() {
 
           {/* Logo */}
           <NavLink to="/" className="flex items-center gap-[10px]">
-            <span
-              className="inline-block flex-shrink-0 rounded-[3px] bg-[var(--navy)]"
-              style={{ width: 24, height: 24 }}
+            <img
+              src="/union-flag.svg"
+              alt=""
+              className="flex-shrink-0 border-2 border-[var(--navy)]"
+              style={{ width: 40, height: 40, background: 'var(--navy)', boxShadow: '3px 3px 0 var(--navy)' }}
             />
             <span
               style={{
