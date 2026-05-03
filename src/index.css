@@ -2,13 +2,13 @@
 @import "tailwindcss";
 
 :root {
-  --bg-main: #ECEDEA;
-  --ink: #0B1B37;
-  --navy: #071A3A;
-  --yellow: #F5D311;
-  --orange: #C9522D;
-  --line: #1E2D48;
-  --muted: #6B7280;
+  --bg-main: #F1F5F9;
+  --ink: #0F172A;
+  --navy: #0F172A;
+  --yellow: #FACC15;
+  --orange: #EF4444;
+  --line: #0F172A;
+  --muted: #475569;
   --white: #FFFFFF;
 }
 
@@ -39,8 +39,9 @@ select {
 
 .headline {
   font-family: "Archivo Black", Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+  line-height: 0.9;
 }
 
 .micro-label {
@@ -58,7 +59,7 @@ select {
 .copy {
   max-width: 38rem;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.5;
   color: var(--muted);
 }
@@ -68,29 +69,30 @@ select {
 }
 
 .jf-box {
-  border: 2px solid var(--line);
-  border-radius: 2px;
-  box-shadow: 6px 6px 0 var(--line);
+  border: 4px solid var(--line);
+  border-radius: 0px;
+  box-shadow: 8px 8px 0 var(--line);
 }
 
 .jf-button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--line);
-  border-radius: 2px;
-  padding: 0.75rem 1rem;
-  font-size: 0.85rem;
+  border: 3px solid var(--line);
+  border-radius: 0px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
   font-weight: 900;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 3px 3px 0 var(--line);
+  box-shadow: 4px 4px 0 var(--line);
+  transition: all 0.1s ease;
 }
 
 .jf-button:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 var(--line);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--line);
 }
 
 .jf-button:active {

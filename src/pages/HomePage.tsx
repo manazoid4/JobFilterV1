@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const pipeline = [
@@ -20,25 +20,25 @@ const advantages = [
 export function HomePage() {
   return (
     <main className="pb-20 md:pb-0">
-      <section className="bg-[var(--navy)] text-white">
+      <section className="bg-[var(--yellow)] soft-grid border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">THE LEAD FILTER BEFORE THE QUOTE</p>
-            <h1 className="headline mt-4 max-w-5xl text-[clamp(3.4rem,9vw,8rem)] leading-[0.9] text-white">
-              Find The Jobs Worth Pricing.
+            <p className="micro-label text-[var(--ink)]">STOP CHASING TYRE-KICKERS</p>
+            <h1 className="headline mt-4 max-w-5xl text-[clamp(4.5rem,12vw,12rem)] leading-[0.85] text-[var(--ink)]">
+              CONTROL THE JOBS.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black leading-snug text-white/75">
-              JobFilter scans official UK construction signals, filters out noise, and sends high-value opportunities to your phone.
+            <p className="mt-5 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
+              Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA</Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE £49 PLAN</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">ENTER THE INTAKE (FREE SCAN)</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET THE FILTER</Link>
             </div>
-            <div className="mt-7 grid gap-2 text-sm font-black text-white/75 sm:grid-cols-2">
-              <p>Official sources first</p>
-              <p>Scored by value and urgency</p>
-              <p>WhatsApp delivery path</p>
-              <p>No shared lead auction</p>
+            <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
+              <p>⚡️ NO CHASING</p>
+              <p>⚡️ NO COMPETING</p>
+              <p>⚡️ REAL UK LEADS</p>
+              <p>⚡️ STAY IN CONTROL</p>
             </div>
           </div>
           <LeadPreview />
@@ -48,34 +48,23 @@ export function HomePage() {
       <section className="bg-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE PROBLEM</p>
-          <h2 className="headline mt-3 max-w-4xl text-5xl leading-none md:text-6xl">Lead platforms sell attention. JobFilter protects it.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-6xl leading-[0.9] md:text-8xl">LEAD PLATFORMS SELL YOUR ATTENTION. WE PROTECT IT.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-4">
-            <Problem title="Shared leads" body="The same job becomes a race to the bottom." />
-            <Problem title="Weak budgets" body="You only discover the money problem after the call." />
-            <Problem title="No urgency" body="They want a price today for work they may never do." />
-            <Problem title="Agency noise" body="More forms, more calls, no better filter." />
+            <Problem title="NO MORE AUCTIONS" body="Shared leads are a race to the bottom. If 5 people get the lead, the buyer only wins on price. You lose." />
+            <Problem title="NO WEAK BUDGETS" body="Stop pricing jobs for people who can't afford you. We signal the money before you pick up the phone." />
+            <Problem title="NO TIME WASTERS" body="If they aren't starting for 6 months, they aren't a priority. We score urgency so you stay on the tools." />
+            <Problem title="NO MIDDLEMEN" body="No more 'agent' noise. We connect you to official government and commercial signals directly." />
           </div>
         </div>
       </section>
 
-      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell py-8">
-          <h2 className="headline max-w-5xl text-4xl leading-none md:text-6xl">
-            CHECKATRADE, BARK, AND MYBUILDER SERVE THE BUYER. JOBFILTER SERVES THE TRADESMAN.
+      <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
+        <div className="page-shell py-12">
+          <h2 className="headline max-w-5xl text-5xl leading-[0.9] md:text-7xl text-[var(--yellow)]">
+            THEY SERVE THE BUYER. JOBFILTER SERVES THE TRADESMAN.
           </h2>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
-            The product is not more leads. It is fewer bad decisions and faster action on the jobs that can make money.
-          </p>
-        </div>
-      </section>
-
-      <section className="border-y-2 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell py-8">
-          <h2 className="headline max-w-5xl text-4xl leading-none md:text-6xl">
-            CHECKATRADE, BARK, AND MYBUILDER SERVE THE BUYER. JOBFILTER SERVES THE TRADESMAN.
-          </h2>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-snug">
-            The product is not more leads. It is fewer bad decisions and faster action on the jobs that can make money.
+          <p className="mt-6 max-w-3xl text-2xl font-black leading-tight text-white/80">
+            The product is not "more leads". It is fewer bad decisions and faster action on the jobs that actually pay your mortgage.
           </p>
         </div>
       </section>
@@ -114,7 +103,7 @@ export function HomePage() {
           <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
           <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
             <div>
-              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">Â£49/month. Unlock the action layer.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
                 Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs. Highest adds the professional letterhead pack: your company details, job-specific blueprint instructions, printing and postage handled.
               </p>
@@ -167,7 +156,7 @@ function LeadPreview() {
       <div className="mt-4 grid gap-3 text-sm">
         <Row label="Trade" value="Electrical" />
         <Row label="Area" value="B14 / West Midlands" />
-        <Row label="Value" value="£25k+" />
+        <Row label="Value" value="Â£25k+" />
         <Row label="Urgency" value="Deadline soon" />
         <Row label="Source" value="Contracts Finder / 91%" />
         <Row label="Contact signal" value="Buyer named" />
@@ -184,10 +173,10 @@ function WhatsAppPreview() {
   return (
     <article className="jf-box bg-[var(--navy)] p-5 text-white">
       <p className="micro-label text-[var(--yellow)]">WHATSAPP ALERT PREVIEW</p>
-      <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">
+      <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">      
 {`GOLD LEAD - Electrical
 Area: B14 / West Midlands
-Value: £25k+
+Value: Â£25k+
 Urgency: Deadline soon
 Why it matters: Official tender, buyer named, strong trade match
 Action: Open notice`}
