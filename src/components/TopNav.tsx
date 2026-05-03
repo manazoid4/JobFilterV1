@@ -1,39 +1,36 @@
 import { NavLink } from 'react-router-dom';
 
 const links = [
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/news', label: 'Signals' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/news', label: 'News' },
-  { to: '/tips', label: 'Tips' },
-  { to: '/intake-test', label: 'Test Mode' },
-  { to: '/vantage', label: 'Vantage' },
-  { to: '/vicinity', label: 'Vicinity' },
-  { to: '/codex', label: 'Codex' },
+  { to: '/my-link', label: 'Login' },
 ];
 
 export function TopNav() {
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-[var(--line)] bg-[var(--navy)] text-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+    <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-white text-[var(--ink)]">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
         <NavLink to="/" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center border-2 border-[var(--line)] bg-[var(--yellow)] font-black">JF</span>
-          <span className="headline text-2xl tracking-normal">JOBFILTER</span>
+          <img className="h-10 w-10 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[5px_5px_0_var(--line)]" src="/union-flag.svg" alt="" />
+          <span className="headline text-3xl tracking-normal">JOBFILTER</span>
         </NavLink>
-        <nav className="hidden items-center gap-2 md:flex">
+        <nav className="hidden items-center gap-1 md:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `nav-link ${isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-white hover:bg-white/10'}`
+                `nav-link ${isActive ? 'text-[var(--muted)]' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`
               }
             >
               {link.label}
             </NavLink>
           ))}
         </nav>
-        <NavLink to="/my-link" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
-          GET MY FILTER LINK
+        <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
+          SCAN MY AREA
         </NavLink>
       </div>
       <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
@@ -42,12 +39,15 @@ export function TopNav() {
             key={link.to}
             to={link.to}
             className={({ isActive }) =>
-              `border-r border-white/20 px-2 py-2 text-center text-[11px] font-black uppercase ${isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--navy)] text-white'}`
+              `border-r border-[var(--line)] px-2 py-2 text-center text-[11px] font-black uppercase ${isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)]'}`
             }
           >
             {link.label}
           </NavLink>
         ))}
+        <NavLink to="/find-jobs" className="border-r border-[var(--line)] bg-[var(--yellow)] px-2 py-2 text-center text-[11px] font-black uppercase text-[var(--ink)]">
+          Scan Now
+        </NavLink>
       </nav>
     </header>
   );

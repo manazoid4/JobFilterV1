@@ -4,7 +4,7 @@ import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 
-const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building'];
+const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 export function FindJobsPage() {
   const [postcode, setPostcode] = useState('B14 7QH');
@@ -63,7 +63,7 @@ export function FindJobsPage() {
         <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
         <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">FIND JOBS WORTH PRICING</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Official Contracts Finder signals first. JobFilter scores value, urgency, proximity, and source quality before anything hits your phone.
+          Planning data, tender notices, company signals, and official source proof. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
         </p>
         <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
@@ -130,13 +130,13 @@ export function FindJobsPage() {
                   Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
-              {result.leads.slice(0, Math.random() > 0.5 ? 1 : 2).map((lead) => (
+              {result.leads.slice(0, 2).map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} />
               ))}
-              {result.leads.length > 1 && (
+              {result.count > 2 && (
                 <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
-                   <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
-                   <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
+                  <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
+                  <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
                 </div>
               )}
             </div>
@@ -244,13 +244,6 @@ function Stat({ label, value }: { key?: string; label: string; value: string }) 
   );
 }
 
-function formatDate(value: string) {
-  if (!value) return 'Unlock on Pro';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return 'Unlock on Pro';
-  return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
 function safePreviewValue(value: string) {
   if (!value || /Â£[\d,]/.test(value)) return 'Unlock exact value';
   return value;
@@ -258,18 +251,6 @@ function safePreviewValue(value: string) {
 
 function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-function urgencyLabel(value: Lead['urgency']) {
-  if (value === 'high') return 'Deadline soon';
-  if (value === 'medium') return 'Worth checking';
-  return 'Low urgency';
-}
-
-function contactLabel(value: Lead['contactSignal']) {
-  if (value === 'strong') return 'Strong signal';
-  if (value === 'weak') return 'Partial signal';
-  return 'No contact signal';
 }
 
 function tierLabel(score: number) {

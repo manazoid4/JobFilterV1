@@ -8,6 +8,7 @@ export interface LeadEngineConfig {
     contractsFinder: boolean;
     planningData: boolean;
     companiesHouse: boolean;
+    epcData: boolean;
     sell2wales: boolean;
     publicContractsScotland: boolean;
   };
@@ -45,6 +46,7 @@ export const CONFIG: LeadEngineConfig = {
     contractsFinder:          process.env.SOURCE_CF !== 'false',
     planningData:             process.env.SOURCE_PLANNING_DATA !== 'false',
     companiesHouse:           process.env.SOURCE_CH !== 'false',
+    epcData:                  process.env.SOURCE_EPC !== 'false',
     sell2wales:               process.env.SOURCE_S2W === 'true',   // unresolved endpoint — off until fixed
     publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
   },

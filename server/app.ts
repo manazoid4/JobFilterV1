@@ -19,14 +19,14 @@ export async function createApp() {
   registerWaitlistRoute(app);
 
   app.get('/api/health', (_req, res) => {
-    res.json({ ok: true, service: 'jobfilter', source: 'contracts_finder' });
+    res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
   });
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('[server]', err?.message ?? err);
     res.status(500).json({
       ok: false,
-      source: 'contracts_finder',
+      source: 'lead_engine',
       count: 0,
       region: '',
       outward: '',

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -97,7 +97,15 @@ select {
 
 .jf-button:active {
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--line);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.jf-button-lg {
+  min-height: 72px;
+  padding: 1rem 2rem;
+  font-family: "Barlow Condensed", "Archivo Black", Impact, sans-serif;
+  font-size: clamp(1.35rem, 3vw, 2.5rem);
+  line-height: 1;
 }
 
 .value-row {
@@ -119,7 +127,7 @@ select {
   }
 
   .jf-box {
-    box-shadow: 4px 4px 0 var(--line);
+    box-shadow: 5px 5px 0 var(--line);
   }
 
   .top-scan {
@@ -164,8 +172,8 @@ select {
 .field-input {
   min-height: 52px;
   width: 100%;
-  border: 2px solid var(--line);
-  border-radius: 2px;
+  border: 3px solid var(--line);
+  border-radius: 0;
   background: var(--bg-main);
   padding: 0.8rem 0.9rem;
   color: var(--ink);
@@ -184,7 +192,7 @@ select {
 .badge {
   display: inline-flex;
   align-items: center;
-  border-radius: 2px;
+  border-radius: 0;
   padding: 0.35rem 0.5rem;
   font-size: 0.7rem;
   font-weight: 900;
@@ -194,7 +202,7 @@ select {
 
 .choice-button {
   min-height: 64px;
-  border: 2px solid var(--line);
+  border: 4px solid var(--line);
   background: var(--yellow);
   color: var(--ink);
   padding: 1rem;
@@ -202,7 +210,7 @@ select {
   font-size: 1.25rem;
   font-weight: 900;
   text-transform: uppercase;
-  box-shadow: 3px 3px 0 var(--line);
+  box-shadow: 6px 6px 0 var(--line);
 }
 
 .choice-button:active {

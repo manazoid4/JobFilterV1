@@ -4,7 +4,8 @@ import { scan } from '../../leadEngine/scan';
 import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
 
-const TRADES = new Set(['plumbing', 'electrical', 'roofing', 'building']);
+const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
+const TRADES = new Set(TRADE_LIST);
 
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
@@ -97,7 +98,7 @@ function titleCase(value: string) {
 function sanitizeTrade(input: unknown) {
   const trade = String(input ?? '').toLowerCase().replace(/[^a-z]/g, '');
   if (!TRADES.has(trade)) {
-    throw new Error('trade must be plumbing, electrical, roofing, or building');
+    throw new Error(`trade must be ${TRADE_LIST.join(', ')}`);
   }
   return trade;
 }
