@@ -78,7 +78,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
 
   // High Intent Keywords (max 10 bonus)
   const highIntentKeywords = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
-  const text = `${lead.title} ${lead.reasons?.join(' ') ?? ''}`.toLowerCase();
+  const text = `${lead.title} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
   const matched = highIntentKeywords.filter(k => text.includes(k));
   if (matched.length > 0) {
     const bonus = Math.min(matched.length * 5, 10);
