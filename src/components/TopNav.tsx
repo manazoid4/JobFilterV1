@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/#what-you-get', label: 'What You Get', anchor: true },
-  { to: '/intake-test', label: 'Testing Stage' },
-  { to: '/#blueprint', label: 'Blueprint', anchor: true },
+  { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/pricing', label: 'Pricing' },
   { to: '/news', label: 'Signals' },
+  { to: '/free-tools', label: 'Free Tools' },
   { to: '/my-link', label: 'Login' },
 ];
 
@@ -17,11 +17,7 @@ export function TopNav() {
           <span className="headline text-3xl tracking-normal">JOBFILTER</span>
         </NavLink>
         <nav className="hidden items-center gap-1 md:flex">
-          {links.map((link) => link.anchor ? (
-            <a key={link.to} href={link.to} className="nav-link text-[var(--ink)] hover:bg-[var(--yellow)]">
-              {link.label}
-            </a>
-          ) : (
+          {links.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -34,15 +30,11 @@ export function TopNav() {
           ))}
         </nav>
         <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
-          GET STARTED
+          SCAN MY AREA
         </NavLink>
       </div>
       <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
-        {links.map((link) => link.anchor ? (
-          <a key={link.to} href={link.to} className="border-r border-[var(--line)] bg-white px-2 py-2 text-center text-[11px] font-black uppercase text-[var(--ink)]">
-            {link.label}
-          </a>
-        ) : (
+        {links.map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
@@ -54,7 +46,7 @@ export function TopNav() {
           </NavLink>
         ))}
         <NavLink to="/find-jobs" className="border-r border-[var(--line)] bg-[var(--yellow)] px-2 py-2 text-center text-[11px] font-black uppercase text-[var(--ink)]">
-          Get Started
+          Scan Now
         </NavLink>
       </nav>
     </header>

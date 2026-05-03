@@ -48,8 +48,8 @@ export function HomePage() {
               <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
                 CHECK WHAT YOUR AREA IS HIDING
               </Link>
-              <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" to="/intake-test">
-                OPEN TEST STAGE
+              <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" to="/pricing">
+                SEE £49 PLAN
               </Link>
             </div>
           </div>
@@ -106,19 +106,19 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="testing-stage" className="border-y-4 border-[var(--line)] bg-white">
+      <section id="how-it-works" className="border-y-4 border-[var(--line)] bg-white">
         <div className="page-shell grid gap-8 py-16 lg:grid-cols-[1fr_430px] lg:items-center">
           <div className="jf-box bg-[var(--ink)] p-8 text-white">
-            <p className="micro-label text-[var(--yellow)]">TESTING STAGE</p>
-            <h2 className="headline mt-5 text-6xl leading-none md:text-7xl">PUSH A LEAD THROUGH THE FILTER</h2>
+            <p className="micro-label text-[var(--yellow)]">LIVE INTAKE ENGINE</p>
+            <h2 className="headline mt-5 text-6xl leading-none md:text-7xl">SCAN YOUR AREA NOW</h2>
             <p className="mt-6 max-w-xl text-xl font-black text-white/85">
-              Paste a real enquiry. The stage scores it fast and tells you if it looks worth chasing.
+              Enter your postcode and trade. The engine checks planning data, tenders, and company signals — then scores every result before it reaches you.
             </p>
-            <Link className="jf-button mt-8 bg-[var(--yellow)] text-[var(--ink)]" to="/intake-test">OPEN TEST STAGE</Link>
+            <Link className="jf-button mt-8 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">START SCANNING FREE</Link>
           </div>
           <div className="jf-box bg-[var(--bg-main)] p-6">
-            <Example label="GOOD EXAMPLE" text="Need a boiler replacement in B14 this week. Photos ready. Budget around £2,500. WhatsApp me." />
-            <Example label="BAD EXAMPLE" text="Need some work done, not sure what yet, just looking around." />
+            <Example label="WORTH CHASING" text="Need a boiler replacement in B14 this week. Photos ready. Budget around £2,500. WhatsApp me." />
+            <Example label="FILTER CATCHES THIS" text="Need some work done, not sure what yet, just looking around." />
           </div>
         </div>
       </section>
