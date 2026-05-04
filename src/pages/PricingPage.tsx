@@ -172,7 +172,7 @@ function Plan({ name, price, body, items, cta, to, dark = false, yellow = false 
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       <p className={`mt-2 font-black ${dark ? 'text-white/70' : yellow ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>{body}</p>
       <ul className="mt-5 grid gap-2">
-        {items.map((item) => <li key={item} className="font-black">YES {item}</li>)}
+        {items.map((item) => <li key={item} className="font-black">✓ {item}</li>)}
       </ul>
       {link}
     </section>

@@ -79,10 +79,10 @@ export function TopNav() {
 
           {/* Desktop CTA */}
           <NavLink
-            to="/intake-test"
+            to="/find-jobs"
             className="jf-button hidden bg-[var(--yellow)] text-[var(--navy)] xl:inline-flex"
           >
-            Join the Waitlist →
+            Scan Your Area →
           </NavLink>
 
           {/* Hamburger */}
@@ -125,11 +125,11 @@ export function TopNav() {
               )
             )}
             <NavLink
-              to="/intake-test"
+              to="/find-jobs"
               className="jf-button mt-4 bg-[var(--yellow)] text-[var(--navy)]"
               onClick={() => setMenuOpen(false)}
             >
-              Join the Waitlist →
+              Scan Your Area →
             </NavLink>
           </div>
         )}
