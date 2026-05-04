@@ -52,7 +52,7 @@ export function TopNav() {
                 color: 'var(--navy)',
               }}
             >
-              JOBFILTER
+              JOBFILTER™
             </span>
           </NavLink>
 

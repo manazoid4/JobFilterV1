@@ -44,7 +44,7 @@ export function VantagePage() {
               className="inline-block w-fit px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
               style={{ background: 'var(--navy)', color: 'var(--yellow)' }}
             >
-              Vantage Engine
+              Vantage™ Engine
             </span>
             <h1
               className="headline"
@@ -221,7 +221,7 @@ export function VantagePage() {
             className="headline mb-8 pl-4 text-[clamp(22px,3vw,32px)] uppercase text-[var(--navy)]"
             style={{ borderLeft: '8px solid var(--yellow)' }}
           >
-            The Vantage Workflow
+            The Vantage™ Workflow
           </h3>
           <div className="grid gap-8 md:grid-cols-3">
             {steps.map((s) => (
@@ -255,7 +255,7 @@ export function VantagePage() {
               Coming soon
             </p>
             <h2 className="headline text-[clamp(24px,3vw,36px)] uppercase text-[var(--navy)]">
-              Stop losing £1M bids to prettier firms.
+              Stop losing £1M bids to prettier firms. That's the Vantage™ fix.
             </h2>
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
               Good tradesmen lose work when buyers can't see the value. Vantage closes the presentation gap without turning you into a marketing agency.

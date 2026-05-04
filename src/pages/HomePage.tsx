@@ -18,7 +18,7 @@ const whyGood = [
 const products = [
   {
     label: 'Core product',
-    name: 'Intake Engine',
+    name: 'Intake Engine™',
     price: '£49/mo',
     desc: 'Postcode + trade → GOLD/SILVER/BIN scoring → WhatsApp ping. Only real jobs get through.',
     to: '/intake-test',
@@ -27,7 +27,7 @@ const products = [
   },
   {
     label: 'Included — win bigger jobs',
-    name: 'Vantage',
+    name: 'Vantage™',
     price: null,
     desc: 'Turn tender docs into bid decks with 3D renders and infographics. Small firms winning £1M jobs.',
     to: '/vantage',
@@ -36,7 +36,7 @@ const products = [
   },
   {
     label: 'Included — turn past work into new enquiries',
-    name: 'Vicinity',
+    name: 'Vicinity™',
     price: null,
     desc: 'Camera roll → WhatsApp content and website proof. Stop letting your best work rot.',
     to: '/vicinity',
@@ -45,7 +45,7 @@ const products = [
   },
   {
     label: 'Included — close more work',
-    name: 'Codex',
+    name: 'Codex™',
     price: null,
     desc: 'Technical quotes and manuals → clear client-ready copy. Stop losing jobs to clearer quotes.',
     to: '/codex',
@@ -106,7 +106,7 @@ export function HomePage() {
                 color: 'var(--muted)',
               }}
             >
-              Intake Engine · Active
+              The JobFilter™ Way
             </span>
             <h1
               className="headline"
@@ -158,7 +158,7 @@ export function HomePage() {
                 color: 'var(--muted)',
               }}
             >
-              Why JobFilter
+              Why JobFilter™
             </span>
             <h2
               className="headline"
@@ -311,7 +311,7 @@ export function HomePage() {
                 color: 'var(--muted)',
               }}
             >
-              How It Works
+              The JobFilter™ Way
             </span>
             <h2
               className="headline"
@@ -460,7 +460,7 @@ export function HomePage() {
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              Built in Birmingham for the UK trade.
+              Built in Birmingham. The JobFilter™ Way.
             </h2>
             <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
               Join the launch list. No contract. No card needed. Get the filter link when the next release opens.
