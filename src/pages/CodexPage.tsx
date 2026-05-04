@@ -10,13 +10,6 @@ const historyItems = [
   { title: 'Underfloor Heating Spec', tone: 'Sales-Focused', age: '3 days ago' },
 ];
 
-const mobileNav = [
-  { to: '/find-jobs', icon: '⚡', label: 'Leads' },
-  { to: '/leads', icon: '🔨', label: 'Projects' },
-  { to: '/free-tools', icon: '🧮', label: 'Tools' },
-  { to: '/my-link', icon: '👤', label: 'Profile' },
-];
-
 export function CodexPage() {
   const [tone, setTone] = useState('Plain English');
   const [hasOutput, setHasOutput] = useState(false);
@@ -312,34 +305,6 @@ export function CodexPage() {
         </section>
       </div>
 
-      {/* ── Mobile bottom nav ─────────────────────── */}
-      <nav
-        className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around md:hidden"
-        style={{ height: 72, background: 'var(--paper)', borderTop: '2px solid var(--navy)' }}
-      >
-        {mobileNav.map((item) => (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="flex h-full flex-col items-center justify-center px-3 text-[var(--navy)]"
-            style={{ minWidth: 56 }}
-          >
-            <span style={{ fontSize: 20 }}>{item.icon}</span>
-            <span
-              style={{
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 10,
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-                marginTop: 2,
-              }}
-            >
-              {item.label}
-            </span>
-          </Link>
-        ))}
-      </nav>
     </main>
   );
 }
