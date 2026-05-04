@@ -13,8 +13,10 @@ import { LegalPage } from './pages/LegalPage';
 import { MyLinkPage } from './pages/MyLinkPage';
 import { NewsPage } from './pages/NewsPage';
 import { PricingPage } from './pages/PricingPage';
+import { CodexPage } from './pages/CodexPage';
 import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
 import { VantagePage } from './pages/VantagePage';
+import { VicinityPage } from './pages/VicinityPage';
 import { TipsPage } from './pages/TipsPage';
 
 export default function App() {
@@ -34,8 +36,8 @@ export default function App() {
         <Route path="/news" element={<NewsPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/vantage" element={<VantagePage />} />
-        <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
-        <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
+        <Route path="/vicinity" element={<VicinityPage />} />
+        <Route path="/codex" element={<CodexPage />} />
         <Route path="/privacy" element={<LegalPage type="privacy" />} />
         <Route path="/terms" element={<LegalPage type="terms" />} />
         <Route path="/health" element={<HealthPage />} />
