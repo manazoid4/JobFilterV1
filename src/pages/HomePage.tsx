@@ -8,6 +8,13 @@ const whyBad = [
   'Cowboys undercutting before you can even reply',
 ];
 
+const whyGood = [
+  'Official signals scored before they reach your phone',
+  'Gold leads sent to WhatsApp within minutes',
+  'Buyer, value, urgency, and source proof in one place',
+  'You chase fewer jobs and protect the work that pays',
+];
+
 const supportTools = [
   ['Vantage', 'Submit your job. Get a winning bid pack back in 6 hours.', '/vantage'],
   ['Vicinity', 'Send your photos. Get posts, ads, and portfolio assets back same day.', '/vicinity'],
@@ -134,7 +141,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid gap-4">
-            <LeadPreview />
+            <LeadProofCard />
             <WhatsAppPreview />
           </div>
         </div>
