@@ -160,6 +160,28 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell grid gap-6 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
+          <div>
+            <p className="micro-label text-[var(--ink)]">NO SHARED LEAD AUCTION</p>
+            <h2 className="headline mt-3 max-w-4xl text-5xl leading-none md:text-7xl">
+              WE DO NOT BLAST YOUR GOLD LEAD TO FIVE TRADES.
+            </h2>
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+              Public records are public. The protection is what JobFilter does after it finds them: no shared auction, no five-trade blast, no race-to-the-bottom resale.
+            </p>
+          </div>
+          <div className="jf-box bg-white p-5">
+            <p className="micro-label text-[var(--orange)]">HOW WE PROTECT IT</p>
+            <div className="mt-4 grid gap-3 text-sm font-black text-[var(--ink)]">
+              <p className="border-b-2 border-[var(--line)] pb-3">✓ Gold leads are controlled by trade, patch, and timing before WhatsApp delivery.</p>
+              <p className="border-b-2 border-[var(--line)] pb-3">✓ Same-trade, same-patch blasts are blocked from becoming a shared auction.</p>
+              <p>✓ If a signal looks crowded, it gets marked down or blocked.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Why JobFilter ─────────────────────────────── */}
       <section id="why" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
         <div className="page-shell">
