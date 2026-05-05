@@ -73,11 +73,11 @@ export function IntakeTestPage() {
       const response = await fetch('/api/intake/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...scenario.payload, username: 'test-mode' }),
+        body: JSON.stringify({ ...scenario.payload, username: 'live-scoring' }),
       });
       const payload = await response.json() as { ok: boolean; lead?: LeadDecision; errors?: string[] };
       if (!response.ok || !payload.ok || !payload.lead) {
-        throw new Error(payload.errors?.[0] ?? 'intake test failed');
+        throw new Error(payload.errors?.[0] ?? 'intake scoring failed');
       }
       setLead(payload.lead);
     } catch (err) {
@@ -90,10 +90,10 @@ export function IntakeTestPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--orange)]">INTAKE ENGINE TEST MODE</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">REAL LEADS. NO CHASING.</h1>
+        <p className="micro-label text-[var(--orange)]">INTAKE ENGINE — LIVE SCORING</p>
+        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Run the first product against hard scenarios. Keep the good jobs. Bin the rubbish.
+          Select a job type and see how the engine scores it. Live scoring. Real criteria.
         </p>
       </section>
 
@@ -105,7 +105,7 @@ export function IntakeTestPage() {
               className={`jf-box bg-white p-5 text-left ${selected.name === scenario.name ? 'outline outline-4 outline-[var(--yellow)]' : ''}`}
               onClick={() => void runScenario(scenario)}
             >
-              <p className="micro-label text-[var(--orange)]">RUN TEST</p>
+              <p className="micro-label text-[var(--orange)]">SCORE THIS</p>
               <h2 className="headline mt-2 text-3xl">{scenario.name}</h2>
               <p className="mt-2 text-base font-black text-[var(--muted)]">{scenario.verdict}</p>
             </button>
@@ -138,7 +138,7 @@ export function IntakeTestPage() {
             )}
             {!lead && !loading && !error && (
               <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => void runScenario()}>
-                RUN SELECTED TEST
+                SCORE THIS
               </button>
             )}
           </div>

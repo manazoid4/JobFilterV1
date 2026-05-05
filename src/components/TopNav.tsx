@@ -2,11 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/free-tools', label: 'Free Tools' },
-  { to: '/smart-quote', label: 'Smart Quote' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/news', label: 'Signals' },
-  { to: '/my-link', label: 'Login' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/news', label: 'Trade Signals' },
+  { to: '/epc', label: 'EPC Leads' },
 ];
 
 export function TopNav() {
@@ -31,7 +30,7 @@ export function TopNav() {
           ))}
         </nav>
         <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
-          SCAN MY AREA
+          SCAN FREE
         </NavLink>
       </div>
       <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
@@ -46,9 +45,6 @@ export function TopNav() {
             {link.label}
           </NavLink>
         ))}
-        <NavLink to="/find-jobs" className="border-r border-[var(--line)] bg-[var(--yellow)] px-2 py-2 text-center text-[11px] font-black uppercase text-[var(--ink)]">
-          Scan Now
-        </NavLink>
       </nav>
     </header>
   );

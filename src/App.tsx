@@ -3,8 +3,10 @@ import { Footer } from './components/Footer';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { TopNav } from './components/TopNav';
 import { FindJobsPage } from './pages/FindJobsPage';
+import { ForYourTradePage } from './pages/ForYourTradePage';
 import { FreeToolsPage } from './pages/FreeToolsPage';
 import { HomePage } from './pages/HomePage';
+import { EpcPage } from './pages/EpcPage';
 import { IntakePage } from './pages/IntakePage';
 import { IntakeTestPage } from './pages/IntakeTestPage';
 import { LeadDetailPage } from './pages/LeadDetailPage';
@@ -29,6 +31,8 @@ export default function App() {
         <Route path="/leads" element={<LeadListPage />} />
         <Route path="/leads/:id" element={<LeadDetailPage />} />
         <Route path="/find-jobs" element={<FindJobsPage />} />
+        <Route path="/for-your-trade" element={<ForYourTradePage />} />
+        <Route path="/epc" element={<EpcPage />} />
         <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/tips" element={<TipsPage />} />
         <Route path="/news" element={<NewsPage />} />

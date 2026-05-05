@@ -1,5 +1,58 @@
 # Rolling Launch Summary
 
+## 5 May 2026
+
+Focus:
+
+- Overhauled public positioning around JobFilter as a human-staffed lead filtering service, not a generic SaaS dashboard.
+- Pricing moved to Free / Founding 30 / Pro.
+- Product pages reframed around done-for-you operator support and clearer trade outcomes.
+
+What changed:
+
+- Added WhatsApp Bodyguard section.
+- Added EPC page.
+- Added For Your Trade page.
+- Fixed nav, footer, and mobile presentation issues.
+- Expanded tips and legal content.
+
+Verification:
+
+- `npm run lint` passed.
+- `npm run build` passed.
+
+Next work:
+
+- Keep lead quality and WhatsApp delivery ahead of UI polish.
+- Wire paid access so pricing gates data depth, not page access.
+- Verify build before any production Firebase deploy.
+
+---
+
+## 4 May 2026
+
+Focus:
+
+- Deep research run: live web search on competitor landscape and WhatsApp market data
+- 8 new AI quoting tools identified (BuildScope, TradeFlow, Quotable, QuoteGuru, PriceUp, QuoteSmith, PricingPro, Quote My Build) — all post-lead, all confirm JobFilter's upstream "filter before the quote" position
+- WhatsApp confirmed as primary channel: 89–95% UK trades use it, 98% open rate, Twilio ~£0.04/msg
+- Researched Dikaio AI, Scoop Solar, Siteflo, Construction AI — none relevant
+- Updated builder agent prompt with full competitive context and sharpened positioning
+- Updated competitor research note with new tool table and WhatsApp data
+
+What changed:
+
+- `System/Research for Build Agent - 4th May 2026.md` — full overwrite
+- `Product/Competitor Research - 2 May 2026.md` — new AI quoting + WhatsApp sections added
+
+Next work:
+
+- Wire Stripe (Checkout Session, Pro + Founding 30)
+- Firebase Auth
+- Twilio WhatsApp keys (configuration, not a build task)
+
+---
+
 ## 2 May 2026
 
 Focus:

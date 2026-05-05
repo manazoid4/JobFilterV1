@@ -6,6 +6,7 @@
   --ink: #0F172A;
   --navy: #0F172A;
   --yellow: #FACC15;
+  --green: #22C55E;
   --orange: #EF4444;
   --line: #0F172A;
   --muted: #475569;
@@ -29,6 +30,10 @@ body {
 
 a {
   text-decoration: none;
+}
+
+main {
+  padding-bottom: 2rem;
 }
 
 button,
@@ -132,6 +137,12 @@ select {
 
   .top-scan {
     display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: calc(100% - 24px);
   }
 }
 
