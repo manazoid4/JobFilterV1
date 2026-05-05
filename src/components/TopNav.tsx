@@ -6,7 +6,8 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/news', label: 'Trade Signals' },
-  { to: '/epc', label: 'Energy Leads' },
+  { to: '/epc', label: 'EPC Leads' },
+  { to: '/tradiestack', label: 'TradieStack' },
 ];
 
 export function TopNav() {
@@ -37,21 +38,9 @@ export function TopNav() {
             </NavLink>
           ))}
         </nav>
-
-        <div className="flex items-center gap-3">
-          <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] lg:inline-flex">
-            SCAN FREE
-          </NavLink>
-          <button
-            type="button"
-            className="grid h-11 w-11 place-items-center border-2 border-[var(--line)] bg-white font-black shadow-[3px_3px_0_var(--line)] lg:hidden"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? 'X' : '☰'}
-          </button>
-        </div>
+        <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
+          SCAN FREE
+        </NavLink>
       </div>
 
       {menuOpen && (
@@ -77,8 +66,8 @@ export function TopNav() {
           >
             SCAN FREE
           </NavLink>
-        </nav>
-      )}
+        ))}
+      </nav>
     </header>
   );
 }

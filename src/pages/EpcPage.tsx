@@ -19,12 +19,12 @@ export function EpcPage() {
   return (
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">ENERGY LEADS</p>
+        <p className="micro-label text-[var(--yellow)]">EPC LEADS</p>
         <h1 className="headline mt-3 max-w-5xl text-5xl leading-none text-[var(--yellow)] md:text-7xl">
-          ENERGY UPGRADE WORK - FLAGGED BEFORE ANYONE KNOCKS.
+          EPC ENERGY UPGRADES - FLAGGED BEFORE ANYONE KNOCKS.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-          Some properties need urgent energy improvements before they can move forward. JobFilter identifies the work trigger and alerts you before it turns into a public race.
+          Properties rated F and G cannot be legally rented without energy improvements. JobFilter identifies these addresses and alerts you before they post anywhere.
         </p>
       </section>
 
@@ -54,7 +54,7 @@ export function EpcPage() {
         <p className="micro-label text-[var(--ink)]">LETTER SERVICE</p>
         <h2 className="headline mt-3 text-5xl leading-none">INTRODUCTORY LETTER SERVICE.</h2>
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]/75">
-          JobFilter can send a professional introductory letter to high-intent property owners on your behalf. Company details, trade specialisation, compliance proof, and direct contact - before five other tradesmen are fighting for the same job.
+          JobFilter can send a professional introductory letter to F/G rated property owners on your behalf. Company details, trade specialisation, compliance proof, and direct contact - before five other tradesmen are fighting for the same job.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-4">
           {['Printed on headed paper', 'Posted to the property address', 'Your details, proof, and trade specialisation', 'WhatsApp-ready PDF copy'].map((feature) => (
@@ -67,23 +67,23 @@ export function EpcPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TARGETED ADS</p>
-        <h2 className="headline mt-3 text-5xl leading-none">VICINITY: HYPER-LOCAL UPGRADE ADS.</h2>
+        <h2 className="headline mt-3 text-5xl leading-none">VICINITY: HYPER-LOCAL EPC ADS.</h2>
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--muted)]">
-          Run targeted ads around high-intent upgrade areas in your postcode. Vicinity handles the design and placement - you take the calls.
+          Run targeted ads to every F/G rated property owner in your postcode. Vicinity handles the design and placement - you take the calls.
         </p>
         <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/vicinity">OPEN VICINITY</Link>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
         <div className="jf-box bg-[var(--navy)] p-6 text-white">
-          <p className="micro-label text-[var(--yellow)]">GET ENERGY UPGRADE ALERTS</p>
+          <p className="micro-label text-[var(--yellow)]">GET EPC ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
           <p className="mt-4 max-w-xl text-lg font-black text-white/75">
-            Join the energy upgrade lead list. Gold signals go to WhatsApp when the paid alert flow opens.
+            Join the EPC lead list. Gold signals go to WhatsApp when the paid alert flow opens.
           </p>
           <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
         </div>
-        <WaitlistForm source="energy-leads" />
+        <WaitlistForm source="epc-leads" />
       </section>
     </main>
   );

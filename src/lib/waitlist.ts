@@ -17,3 +17,10 @@ export async function joinWaitlist(input: WaitlistInput) {
   }
   return payload;
 }
+
+export async function getWaitlistCount() {
+  const response = await fetch('/api/waitlist/count');
+  const payload = await response.json() as { ok: boolean; count: number; remaining: number; foundingMax: number };
+  if (!response.ok || !payload.ok) return { count: 0, remaining: 30, foundingMax: 30 };
+  return payload;
+}

@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { Express, Request, Response } from 'express';
+import { sendWaitlistConfirmation } from '../services/email';
 
 export function registerWaitlistRoute(app: Express) {
   app.post('/api/waitlist', async (req: Request, res: Response) => {
@@ -19,6 +20,11 @@ export function registerWaitlistRoute(app: Express) {
       }
 
       const stored = await storeWaitlistEntry(entry);
+
+      if (entry.contactType === 'email') {
+        sendWaitlistConfirmation(entry.name, entry.contact).catch(() => {});
+      }
+
       return res.json({ ok: true, stored });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Waitlist failed.') });

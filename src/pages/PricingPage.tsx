@@ -6,8 +6,8 @@ const rows = [
   ['Area scans', 'Preview scans', 'Unlimited', 'Unlimited'],
   ['Score band', '✓', '✓', '✓'],
   ['Full lead score + reasons', '✗', '✓', '✓'],
-  ['Signal confidence', '✓', '✓', '✓'],
-  ['Full proof + decision-maker detail', '✗', '✓', '✓'],
+  ['Source name', '✓', '✓', '✓'],
+  ['Official source link + buyer', '✗', '✓', '✓'],
   ['Contact signal', '✗', '✓', '✓'],
   ['WhatsApp alerts', '✗', '✓', '✓'],
   ['Saved leads', '✗', '✓', '✓'],
@@ -54,7 +54,7 @@ export function PricingPage() {
           name="Free"
           price="£0"
           body="Check your area. See if there is REAL LEADS signal before you pay."
-          items={['Preview scans', 'Score band', 'Signal confidence', 'Free tools only', 'Paid detail locked']}
+          items={['Preview scans', 'Score band', 'Source name', 'Free tools only', 'Paid detail locked']}
           cta="SCAN MY AREA"
           to="/find-jobs"
         />
@@ -63,7 +63,7 @@ export function PricingPage() {
           price="£29/mo forever"
           weekly="£29/mo - that's £6.71/week"
           body="Hard cap: 30 users only. First 30 only. Once full, gone forever."
-          items={['Unlimited scans', 'Full lead score + reasons', 'Full proof + decision-maker detail', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
+          items={['Unlimited scans', 'Full lead score + reasons', 'Official source link + buyer', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
           cta="LOCK £29 FOREVER"
           to="#waitlist"
           yellow
@@ -74,7 +74,7 @@ export function PricingPage() {
           price="£49/mo"
           weekly="£49/mo - that's £11.29/week"
           body="Full paid access for trades who want the jobs worth checking sent straight to WhatsApp."
-          items={['Unlimited scans', 'Full lead score + reasons', 'Full proof + decision-maker detail', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
+          items={['Unlimited scans', 'Full lead score + reasons', 'Official source link + buyer', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
           cta="JOIN PRO WAITLIST"
           to="#waitlist"
           dark
@@ -155,6 +155,15 @@ export function PricingPage() {
           </p>
         </div>
         <WaitlistForm source="pricing-whatsapp-alerts" />
+      </section>
+
+      <section className="jf-box bg-white p-8 text-center border-4 border-[var(--green)]">
+        <p className="micro-label text-[var(--green)]">NEW — ONE-OFF PURCHASE</p>
+        <h2 className="headline mt-3 text-4xl leading-none">TRADIESTACK — £450 ONCE. OWN IT.</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+          Trade website. CRM. Auto follow-ups. Review engine. Quotes. Invoices. WhatsApp inbox. Everything agencies charge £1,000-£5,500/month for. One payment. No fees ever.
+        </p>
+        <Link className="jf-button mt-6 bg-[var(--navy)] text-white" to="/tradiestack">SEE TRADIESTACK</Link>
       </section>
     </main>
   );

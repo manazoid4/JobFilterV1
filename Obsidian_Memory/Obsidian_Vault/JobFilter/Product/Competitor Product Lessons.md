@@ -115,3 +115,24 @@ JobFilter brand rules (reinforced):
 - Headlines: short declarative statements. "Real jobs. Real signals. No chasing."
 - Sub-copy: one sentence max. Prove the claim. Move on.
 - No mascots, no emojis in product copy, no exclamation marks.
+
+---
+
+## Triple Engine Model (from Time To Scale, 5 May 2026)
+
+From Time To Scale:
+- They bundle Find + Chase + Win into one agency retainer at £197-497/mo.
+- JobFilter can build the same three engines as software at £29-49/mo.
+- Agency can't scale. Software can. That's the structural advantage.
+
+Apply to JobFilter — the Triple Engine:
+
+| Engine | What It Does | Time To Scale Equivalent | JobFilter Status |
+|--------|-------------|--------------------------|------------------|
+| **Find Engine** | Scans official data, scores leads, WhatsApps gold alerts | Website + SEO (captures inbound, doesn't generate) | **BUILT** — scanner, scoring, WhatsApp trigger |
+| **Chase Engine** | Auto-nudge if lead not contacted in 2h. Drafts message templates. Multi-touch follow-up. | Missed Call Text Back + Automated Lead Follow-Up | **BUILD NOW** — highest-impact gap |
+| **Win Engine** | Auto-generate review link after Won job. Track monthly ROI. "You won X jobs worth £Y." | 5-Star Review Scaler + campaign reporting | **BUILD NOW** — retention moat |
+
+**Rule:** Every feature built must fit into one of these three engines. If it doesn't, don't build it.
+
+**See also:** [[Research for Build Agent - 5th May 2026#Block 8 Time To Scale Deep-Dive — Emulate & Beat]]
