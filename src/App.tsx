@@ -13,6 +13,7 @@ import { LegalPage } from './pages/LegalPage';
 import { MyLinkPage } from './pages/MyLinkPage';
 import { NewsPage } from './pages/NewsPage';
 import { PricingPage } from './pages/PricingPage';
+import { CodexPage } from './pages/CodexPage';
 import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
 import { SmartQuotePage } from './pages/SmartQuotePage';
 import { TipsPage } from './pages/TipsPage';
