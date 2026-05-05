@@ -21,8 +21,8 @@ const products = [
     name: 'Intake Engine™',
     price: '£49/mo',
     desc: 'Postcode + trade → GOLD/SILVER/BIN scoring → WhatsApp ping. Only real jobs get through.',
-    to: '/intake-test',
-    cta: 'See the Intake Engine →',
+    to: '/find-jobs',
+    cta: 'Scan Your Area →',
     dark: true,
   },
   {
@@ -78,14 +78,6 @@ const freeTools = [
   { name: 'Area Scan', desc: 'See what work is active near you.', to: '/free-tools' },
 ];
 
-const proofRows = [
-  ['Trade', 'Electrical'],
-  ['Area', 'B14 / West Midlands'],
-  ['Value', 'Strong-value job'],
-  ['Urgency', 'Deadline locked'],
-  ['Source', 'Official source proof'],
-  ['Action', 'Unlock on Pro'],
-];
 
 export function HomePage() {
   return (
@@ -133,8 +125,8 @@ export function HomePage() {
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/intake-test" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-                See the Intake Engine →
+              <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
+                Scan Your Area →
               </Link>
               <Link to="/free-tools" className="jf-button bg-[var(--paper)] text-[var(--navy)]">
                 Or try the free tools →
@@ -142,7 +134,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid gap-4">
-            <LeadPreview />
+            <LeadProofCard />
             <WhatsAppPreview />
           </div>
         </div>
@@ -345,24 +337,9 @@ export function HomePage() {
             ))}
           </div>
           <div className="mt-8">
-            <Link to="/intake-test" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-              See the Intake Engine →
+            <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
+              Scan Your Area →
             </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[var(--navy)] text-white">
-        <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
-          <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
-            <div>
-              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
-              <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-                Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs. Highest adds the professional letterhead pack: your company details, job-specific blueprint instructions, printing and postage handled.
-              </p>
-            </div>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
           </div>
         </div>
       </section>
@@ -398,11 +375,11 @@ export function HomePage() {
               See £49 plan →
             </Link>
             <Link
-              to="/intake-test"
+              to="/find-jobs"
               className="jf-button text-[var(--paper)]"
               style={{ borderColor: 'rgba(255,255,255,0.5)', boxShadow: '4px 4px 0 rgba(255,255,255,0.2)' }}
             >
-              Try the Intake Engine →
+              Scan Your Area →
             </Link>
           </div>
         </div>
@@ -430,11 +407,19 @@ export function HomePage() {
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              Built in Birmingham. The JobFilter™ Way.
+              Start filtering today.
             </h2>
             <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Join the launch list. No contract. No card needed. Get the filter link when the next release opens.
+              Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer for £49/month. No contract. Cancel any time.
             </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
+                Get the £49 plan →
+              </Link>
+              <Link to="/find-jobs" className="jf-button bg-[var(--paper)] text-[var(--navy)]">
+                Scan your area free →
+              </Link>
+            </div>
           </div>
           <WaitlistForm source="home-v3" />
         </div>
