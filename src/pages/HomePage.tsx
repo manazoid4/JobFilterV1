@@ -28,6 +28,13 @@ const freeTools = [
 ];
 
 
+const products = [
+  { name: 'Intake Engine', label: 'Core', desc: 'Official UK signals scored and delivered to WhatsApp before they hit the directories.', to: '/pricing', dark: true, price: '£29/mo', cta: 'Start free scan →' },
+  { name: 'Vantage', label: 'Add-on', desc: 'Submit your job. Get a winning bid pack back in 6 hours.', to: '/vantage', dark: false, cta: 'See Vantage →' },
+  { name: 'Vicinity', label: 'Add-on', desc: 'Send your photos. Get posts, ads, and portfolio assets back same day.', to: '/vicinity', dark: false, cta: 'See Vicinity →' },
+  { name: 'Codex', label: 'Add-on', desc: 'Submit your technical work. Get client-ready sales content that closes.', to: '/codex', dark: false, cta: 'See Codex →' },
+];
+
 export function HomePage() {
   return (
     <main className="pb-8">
