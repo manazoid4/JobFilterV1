@@ -108,7 +108,7 @@ function ServiceForm({ trade }: { trade: string }) {
       <textarea className="field-input min-h-[100px]" placeholder="Job details - what do you need help with?" required />
       <fieldset className="grid gap-2">
         <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
-        {['Today', 'This week', 'Planning ahead'].map(opt => (
+        {['Today', 'This week', 'Later'].map(opt => (
           <label key={opt} className="flex items-center gap-3 font-black cursor-pointer">
             <input type="radio" name="urgency" value={opt} defaultChecked={opt === 'This week'} />
             {opt}
