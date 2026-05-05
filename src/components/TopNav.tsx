@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/smart-quote', label: 'Smart Quote' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/news', label: 'Trade Signals' },
@@ -9,6 +12,8 @@ const links = [
 ];
 
 export function TopNav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-white text-[var(--ink)]">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
@@ -33,16 +38,59 @@ export function TopNav() {
           SCAN FREE
         </NavLink>
       </div>
-      <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
-        {links.map((link) => (
+
+      {/* Sticky nav */}
+      <header className="sticky top-0 z-40 border-b-2 border-[var(--navy)] bg-[var(--paper)]">
+        <div className="page-shell flex items-center justify-between" style={{ height: 70, gap: 24 }}>
+
+          {/* Logo */}
+          <NavLink to="/" className="flex items-center gap-[10px]">
+            <img
+              src="/union-flag.svg"
+              alt=""
+              className="flex-shrink-0 border-2 border-[var(--navy)]"
+              style={{ width: 40, height: 40, background: 'var(--navy)', boxShadow: '3px 3px 0 var(--navy)' }}
+            />
+            <span
+              style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontWeight: 900,
+                fontSize: 22,
+                letterSpacing: '0.06em',
+                color: 'var(--navy)',
+              }}
+            >
+              JOBFILTER™
+            </span>
+          </NavLink>
+
+          {/* Desktop links */}
+          <nav className="hidden items-center gap-1 xl:flex">
+            {links.map((link) =>
+              link.anchor ? (
+                <a key={link.to} href={link.to} className="nav-link">
+                  {link.label}
+                </a>
+              ) : (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `nav-link${isActive ? ' bg-[var(--offwhite)]' : ''}`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              )
+            )}
+          </nav>
+
+          {/* Desktop CTA */}
           <NavLink
-            key={link.to}
-            to={link.to}
-            className={({ isActive }) =>
-              `border-r border-[var(--line)] px-2 py-2 text-center text-[11px] font-black uppercase ${isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)]'}`
-            }
+            to="/find-jobs"
+            className="jf-button hidden bg-[var(--yellow)] text-[var(--navy)] xl:inline-flex"
           >
-            {link.label}
+            Scan Your Area →
           </NavLink>
         ))}
       </nav>
