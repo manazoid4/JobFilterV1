@@ -218,6 +218,61 @@ export function HomePage() {
         </div>
       </section>
 
+      <section className="border-y-4 border-[var(--line)] bg-white">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--orange)]">THE OLD WAY vs JOBFILTER</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">THEY SELL YOUR ATTENTION. WE PROTECT IT.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="jf-box border-4 border-[var(--line)] bg-[var(--bg-main)] p-6">
+              <h3 className="headline text-2xl text-[var(--orange)]">THE OLD WAY — CHECKATRADE, MYBUILDER, RATED PEOPLE</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--muted)]">
+                <li>✗ Pay £50-£150/month just to be listed</li>
+                <li>✗ Leads sold to 4-8 other trades — race to the bottom</li>
+                <li>✗ You call them, filter time-wasters yourself</li>
+                <li>✗ Hope they answer. Hope they have budget. Hope you're first.</li>
+                <li>✗ No guarantee. "Leads" = a name and phone number someone typed into a form.</li>
+                <li>✗ Reviews can be hidden or filtered. Zero transparency.</li>
+              </ul>
+            </div>
+            <div className="jf-box border-4 border-[var(--green)] bg-[var(--yellow)] p-6">
+              <h3 className="headline text-2xl text-[var(--ink)]">JOBFILTER</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--ink)]">
+                <li>✓ Free preview. £29/month for full access. No per-lead fees. No contracts.</li>
+                <li>✓ Every signal is exclusive — no one else sees your scan results.</li>
+                <li>✓ We score every signal. GOLD means worth chasing. BIN means skip it.</li>
+                <li>✓ Official planning data, EPC ratings, council contracts. Not forms. Not ads.</li>
+                <li>✓ 30-day money-back guarantee. No quibbles. No hoops.</li>
+                <li>✓ We don't rate you. We don't sell your profile. We just find the jobs.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
+          <h2 className="headline mt-3 max-w-4xl text-5xl leading-none md:text-7xl text-[var(--yellow)]">
+            GOLD LEADS. STRAIGHT TO YOUR PHONE.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            When a job scores Gold, it fires to WhatsApp within minutes. Not batched. Not delayed. Before anyone else sees it.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              ['98% open rate', 'Not email. Not an app. WhatsApp - where you already work.'],
+              ['One-tap action', "Lead arrives. Tap. You're on it. No hunting through dashboards."],
+              ['Before the competition', "89% of UK trades use WhatsApp. You're first. They're not."],
+            ].map(([title, body]) => (
+              <div key={title} className="jf-box bg-white/10 p-5">
+                <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
+                <p className="mt-2 font-black text-white/75">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
