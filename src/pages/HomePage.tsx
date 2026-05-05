@@ -28,6 +28,12 @@ const freeTools = [
 ];
 
 
+const steps = [
+  { n: '01', title: 'Enter your postcode and trade', body: 'Tell us where you work and what you do. Takes 30 seconds.' },
+  { n: '02', title: 'We scan official sources', body: 'Planning data, council contracts, EPC signals — scored before they reach you.' },
+  { n: '03', title: 'Gold leads hit your WhatsApp', body: 'Only the high-value jobs land. No noise, no chasing, no shared auctions.' },
+];
+
 const products = [
   { name: 'Intake Engine', label: 'Core', desc: 'Official UK signals scored and delivered to WhatsApp before they hit the directories.', to: '/pricing', dark: true, price: '£29/mo', cta: 'Start free scan →' },
   { name: 'Vantage', label: 'Add-on', desc: 'Submit your job. Get a winning bid pack back in 6 hours.', to: '/vantage', dark: false, cta: 'See Vantage →' },
