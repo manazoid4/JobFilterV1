@@ -603,7 +603,7 @@ export function HomePage() {
   );
 }
 
-function LeadProofCard() {
+function LeadPreview() {
   return (
     <article className="jf-box bg-white p-5 text-[var(--ink)]">
       <p className="micro-label text-[var(--orange)]">GOLD LEAD</p>
