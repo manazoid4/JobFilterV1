@@ -2,26 +2,15 @@
 @import "tailwindcss";
 
 :root {
-  /* V3 Canonical tokens */
-  --navy:     #0E1A2B;
-  --navy-2:   #142336;
-  --navy-3:   #1c3149;
-  --paper:    #ffffff;
-  --offwhite: #F5F4EF;
-  --rule:     #E6E4DD;
-  --rule-2:   #D6D3CA;
-  --muted:    #5E6A78;
-  --muted-2:  #8A95A2;
-  --yellow:   #F8D31A;
-  --yellow-2: #FFDC36;
-  --red:      #C84A3C;
-  --green:    #2C8A52;
-  /* Legacy aliases — kept for compatibility */
-  --ink:      #0E1A2B;
-  --bg-main:  #F5F4EF;
-  --orange:   #C84A3C;
-  --line:     #0E1A2B;
-  --white:    #ffffff;
+  --bg-main: #F1F5F9;
+  --ink: #0F172A;
+  --navy: #0F172A;
+  --yellow: #FACC15;
+  --green: #22C55E;
+  --orange: #EF4444;
+  --line: #0F172A;
+  --muted: #475569;
+  --white: #FFFFFF;
 }
 
 * {
@@ -45,6 +34,10 @@ body {
 
 a {
   text-decoration: none;
+}
+
+main {
+  padding-bottom: 2rem;
 }
 
 button,
@@ -154,6 +147,12 @@ select {
 
   .top-scan {
     display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: calc(100% - 24px);
   }
 }
 

@@ -8,11 +8,10 @@ const whyBad = [
   'Cowboys undercutting before you can even reply',
 ];
 
-const whyGood = [
-  'Leads filtered before they reach your phone',
-  'GOLD / SILVER / BIN scored automatically',
-  'WhatsApp alert with trade, area, value, and next action',
-  'You price. You decide. No auction.',
+const supportTools = [
+  ['Vantage', 'Submit your job. Get a winning bid pack back in 6 hours.', '/vantage'],
+  ['Vicinity', 'Send your photos. Get posts, ads, and portfolio assets back same day.', '/vicinity'],
+  ['Codex', 'Submit your technical work. Get client-ready sales content that closes.', '/codex'],
 ];
 
 const products = [
@@ -81,10 +80,9 @@ const freeTools = [
 
 export function HomePage() {
   return (
-    <main>
-      {/* ── Hero ─────────────────────────────────────── */}
-      <section className="border-b-2 border-[var(--navy)] bg-[var(--paper)]" style={{ padding: '96px 0' }}>
-        <div className="page-shell grid gap-12 lg:grid-cols-[1fr_420px] lg:items-center">
+    <main className="pb-8">
+      <section className="bg-[var(--yellow)] soft-grid border-b-4 border-[var(--line)]">
+        <div className="page-shell section-pad grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <span
               style={{
@@ -124,18 +122,33 @@ export function HomePage() {
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-                Scan Your Area →
-              </Link>
-              <Link to="/free-tools" className="jf-button bg-[var(--paper)] text-[var(--navy)]">
-                Or try the free tools →
-              </Link>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA FREE</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            </div>
+            <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
+              <p>⚡️ NO CHASING</p>
+              <p>⚡️ NO COMPETING</p>
+              <p>⚡️ REAL UK LEADS</p>
+              <p>⚡️ STAY IN CONTROL</p>
             </div>
           </div>
           <div className="grid gap-4">
-            <LeadProofCard />
+            <LeadPreview />
             <WhatsAppPreview />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--orange)]">THE PROBLEM</p>
+          <h2 className="headline mt-3 max-w-4xl text-6xl leading-[0.9] md:text-8xl">LEAD PLATFORMS SELL YOUR ATTENTION. WE PROTECT IT.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-4">
+            <Problem title="NO MORE AUCTIONS" body="Shared leads are a race to the bottom. If 5 people get the lead, the buyer only wins on price. You lose." />
+            <Problem title="NO WEAK BUDGETS" body="Stop pricing jobs for people who can't afford you. We signal the money before you pick up the phone." />
+            <Problem title="NO TIME WASTERS" body="If they aren't starting for 6 months, they aren't a priority. We score urgency so you stay on the tools." />
+            <Problem title="NO MIDDLEMEN" body="No more 'agent' noise. We connect you to official government and commercial signals directly." />
           </div>
         </div>
       </section>
@@ -201,8 +214,31 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── What We Do ───────────────────────────────── */}
-      <section id="what" style={{ background: 'var(--paper)', padding: '96px 0' }}>
+      <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
+          <h2 className="headline mt-3 max-w-4xl text-5xl leading-none md:text-7xl text-[var(--yellow)]">
+            GOLD LEADS. STRAIGHT TO YOUR PHONE.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            When a job scores Gold, it fires to WhatsApp within minutes. Not batched. Not delayed. Before anyone else sees it.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              ['98% open rate', 'Not email. Not an app. WhatsApp - where you already work.'],
+              ['One-tap action', "Lead arrives. Tap. You're on it. No hunting through dashboards."],
+              ['Before the competition', "89% of UK trades use WhatsApp. You're first. They're not."],
+            ].map(([title, body]) => (
+              <div key={title} className="jf-box bg-white/10 p-5">
+                <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
+                <p className="mt-2 font-black text-white/75">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[var(--bg-main)] py-16">
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
             <span
@@ -336,10 +372,20 @@ export function HomePage() {
               </div>
             ))}
           </div>
-          <div className="mt-8">
-            <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-              Scan Your Area →
-            </Link>
+        </div>
+      </section>
+
+      <section className="bg-[var(--navy)] text-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
+          <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
+            <div>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
+              <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
+                Free shows the signal. Founding 30 and Pro unlock full source links, contact signal, WhatsApp alerts, saved leads, priority-ranked jobs, and the Letterhead Pack.
+              </p>
+            </div>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
           </div>
         </div>
       </section>
@@ -385,9 +431,44 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Waitlist CTA ─────────────────────────────── */}
-      <section style={{ background: 'var(--paper)', padding: '96px 0' }}>
-        <div className="page-shell grid gap-10 lg:grid-cols-[1fr_420px] lg:items-center">
+      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
+        <div className="page-shell grid gap-6 py-16 lg:grid-cols-[1fr_420px]">
+          <article className="jf-box bg-white p-7">
+            <p className="micro-label text-[var(--orange)]">PAID GATE</p>
+            <h2 className="headline mt-3 text-5xl leading-none">Free shows the signal. Pro unlocks the job.</h2>
+            <p className="mt-4 text-xl font-black text-[var(--muted)]">
+              Free proves there is work in the area. £49 unlocks buyer detail, contact signal, WhatsApp delivery, saved leads, and the next action.
+            </p>
+            <p className="mt-5 font-black uppercase text-[var(--green)]">NO CONTRACTS. FAIR SYSTEM. STAY IN CONTROL.</p>
+          </article>
+          <article className="jf-box bg-[var(--yellow)] p-7">
+            <p className="micro-label text-[var(--ink)]">PAID PLANS INCLUDE</p>
+            <h2 className="headline mt-3 text-5xl leading-none">Letterhead Pack</h2>
+            <p className="mt-4 text-lg font-black">
+              Founding 30 and Pro include professional letterhead, blueprint instructions, printing and postage, plus the PDF copy to send before the other firm looks organised.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--ink)]">EPC ENERGY UPGRADES</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">F AND G RATED PROPERTIES CAN'T BE RENTED WITHOUT YOUR WORK.</h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            Properties with low EPC ratings need urgent retrofit before they're legally lettable. JobFilter flags these addresses before any job board sees them.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm font-black">
+            {['Heat pump installs', 'Insulation upgrades', 'Boiler replacements', 'Solar installs', 'EV chargers'].map(t => (
+              <span key={t} className="border-2 border-[var(--ink)] bg-white px-3 py-2">{t}</span>
+            ))}
+          </div>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/epc">SEE EPC LEADS -&gt;</Link>
+        </div>
+      </section>
+
+      <section className="bg-white">
+        <div className="page-shell grid gap-8 py-16 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
             <span
               style={{
@@ -438,7 +519,7 @@ function LeadProofCard() {
         <Row label="Area" value="B14 / West Midlands" />
         <Row label="Value" value="£25k+" />
         <Row label="Urgency" value="Deadline soon" />
-        <Row label="Source" value="Contracts Finder / 91%" />
+        <Row label="✓ Official Source" value="Contracts Finder — 91% confidence" />
         <Row label="Contact signal" value="Buyer named" />
       </div>
       <div className="mt-5 flex flex-wrap gap-2">
