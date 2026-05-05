@@ -214,7 +214,7 @@ function WhatsAppBox() {
 Area: B91 / West Midlands
 Value: £50k+
 Urgency: Deadline soon
-Why it matters: Official source, buyer named, high value
+Why it matters: Verified signal, decision-maker named, high value
 Action: Open notice`}
       </pre>
     </article>
