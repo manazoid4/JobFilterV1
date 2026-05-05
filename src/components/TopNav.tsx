@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const links = [
@@ -10,14 +11,21 @@ const links = [
 ];
 
 export function TopNav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-white text-[var(--ink)]">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
-        <NavLink to="/" className="flex items-center gap-3">
-          <img className="h-10 w-10 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[5px_5px_0_var(--line)]" src="/union-flag.svg" alt="" />
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+        <NavLink to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+          <img
+            className="h-10 w-10 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[5px_5px_0_var(--line)]"
+            src="/union-flag.svg"
+            alt=""
+          />
           <span className="headline text-3xl tracking-normal">JOBFILTER</span>
         </NavLink>
-        <nav className="hidden items-center gap-1 md:flex">
+
+        <nav className="hidden items-center gap-1 lg:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -34,19 +42,32 @@ export function TopNav() {
           SCAN FREE
         </NavLink>
       </div>
-      <nav className="mobile-nav border-t-2 border-[var(--line)] md:hidden">
-        {links.map((link) => (
+
+      {menuOpen && (
+        <nav className="grid border-t-2 border-[var(--line)] bg-white lg:hidden">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase ${
+                  isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-[var(--ink)]'
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
           <NavLink
-            key={link.to}
-            to={link.to}
-            className={({ isActive }) =>
-              `border-r border-[var(--line)] px-2 py-2 text-center text-[11px] font-black uppercase ${isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)]'}`
-            }
+            to="/find-jobs"
+            onClick={() => setMenuOpen(false)}
+            className="bg-[var(--yellow)] px-4 py-3 text-sm font-black uppercase text-[var(--ink)]"
           >
-            {link.label}
+            SCAN FREE
           </NavLink>
-        ))}
-      </nav>
+        </nav>
+      )}
     </header>
   );
 }
