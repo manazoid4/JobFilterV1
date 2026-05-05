@@ -9,9 +9,9 @@ const whyBad = [
 ];
 
 const whyGood = [
-  'Official signals scored before they reach your phone',
+  'Private signals scored before they reach your phone',
   'Gold leads sent to WhatsApp within minutes',
-  'Buyer, value, urgency, and source proof in one place',
+  'Buyer, value, urgency, and proof in one place',
   'You chase fewer jobs and protect the work that pays',
 ];
 
@@ -35,7 +35,7 @@ const products = [
     label: 'Included — win bigger jobs',
     name: 'Vantage™',
     price: null,
-    desc: 'Turn tender docs into bid decks with 3D renders and infographics. Small firms winning £1M jobs.',
+    desc: 'Turn job details into bid decks with 3D renders and infographics. Small firms winning £1M jobs.',
     to: '/vantage',
     cta: 'Learn about Vantage →',
     dark: false,
@@ -69,12 +69,12 @@ const steps = [
   {
     n: '02',
     title: 'It finds and scores',
-    body: 'Tenders, planning signals, and local work triggers — scored GOLD, SILVER, or BIN before they reach you.',
+    body: 'Private work triggers scored GOLD, SILVER, or BIN before they reach you.',
   },
   {
     n: '03',
     title: 'You get the WhatsApp',
-    body: 'Trade, area, value, urgency, source proof. You decide in seconds whether to chase it.',
+    body: 'Trade, area, value, urgency, and proof. You decide in seconds whether to chase it.',
   },
 ];
 
@@ -124,10 +124,10 @@ export function HomePage() {
               </span>
             </h1>
             <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
-              Official UK signals. Scored. Filtered. Straight to your phone.
+              Private filter. Scored. Controlled. Straight to your phone.
             </p>
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
-              Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
+              Real UK trade leads. No competing on price. No shared auctions. Just high-value work signals delivered to your phone.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA FREE</Link>
@@ -155,7 +155,7 @@ export function HomePage() {
             <Problem title="NO MORE AUCTIONS" body="Shared leads are a race to the bottom. If 5 people get the lead, the buyer only wins on price. You lose." />
             <Problem title="NO WEAK BUDGETS" body="Stop pricing jobs for people who can't afford you. We signal the money before you pick up the phone." />
             <Problem title="NO TIME WASTERS" body="If they aren't starting for 6 months, they aren't a priority. We score urgency so you stay on the tools." />
-            <Problem title="NO MIDDLEMEN" body="No more 'agent' noise. We connect you to official government and commercial signals directly." />
+            <Problem title="NO MIDDLEMEN" body="No more 'agent' noise. We filter work triggers before they waste your time." />
           </div>
         </div>
       </section>
@@ -168,7 +168,7 @@ export function HomePage() {
               WE DO NOT BLAST YOUR GOLD LEAD TO FIVE TRADES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Public records are public. The protection is what JobFilter does after it finds them: no shared auction, no five-trade blast, no race-to-the-bottom resale.
+              JobFilter keeps the filter private. Gold leads are controlled before they hit WhatsApp: no shared auction, no five-trade blast, no race-to-the-bottom resale.
             </p>
           </div>
           <div className="jf-box bg-white p-5">
@@ -411,7 +411,7 @@ export function HomePage() {
             <div>
               <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-                Free shows the signal. Founding 30 and Pro unlock full source links, contact signal, WhatsApp alerts, saved leads, priority-ranked jobs, and the Letterhead Pack.
+                Free shows the signal. Founding 30 and Pro unlock full lead depth, contact signal, WhatsApp alerts, saved leads, priority-ranked jobs, and the Letterhead Pack.
               </p>
             </div>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
@@ -482,17 +482,17 @@ export function HomePage() {
 
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
-          <p className="micro-label text-[var(--ink)]">EPC ENERGY UPGRADES</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">F AND G RATED PROPERTIES CAN'T BE RENTED WITHOUT YOUR WORK.</h2>
+          <p className="micro-label text-[var(--ink)]">ENERGY UPGRADE LEADS</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">LOW-RATED PROPERTIES NEED YOUR WORK.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Properties with low EPC ratings need urgent retrofit before they're legally lettable. JobFilter flags these addresses before any job board sees them.
+            Some properties need urgent retrofit before they can move forward. JobFilter flags the work trigger before any job board sees it.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm font-black">
             {['Heat pump installs', 'Insulation upgrades', 'Boiler replacements', 'Solar installs', 'EV chargers'].map(t => (
               <span key={t} className="border-2 border-[var(--ink)] bg-white px-3 py-2">{t}</span>
             ))}
           </div>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/epc">SEE EPC LEADS -&gt;</Link>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/epc">SEE ENERGY LEADS -&gt;</Link>
         </div>
       </section>
 
@@ -542,17 +542,17 @@ function LeadProofCard() {
   return (
     <article className="jf-box bg-white p-5 text-[var(--ink)]">
       <p className="micro-label text-[var(--orange)]">GOLD LEAD</p>
-      <h2 className="mt-3 text-2xl font-black leading-tight">Electrical maintenance tender</h2>
+      <h2 className="mt-3 text-2xl font-black leading-tight">Electrical maintenance package</h2>
       <div className="mt-4 grid gap-3 text-sm">
         <Row label="Trade" value="Electrical" />
         <Row label="Area" value="B14 / West Midlands" />
         <Row label="Value" value="£25k+" />
         <Row label="Urgency" value="Deadline soon" />
-        <Row label="✓ Official Source" value="Contracts Finder — 91% confidence" />
+        <Row label="✓ Verified Signal" value="91% confidence" />
         <Row label="Contact signal" value="Buyer named" />
       </div>
       <div className="mt-5 flex flex-wrap gap-2">
-        {['Official source', 'High signal', 'Free preview'].map((tag) => (
+        {['Verified signal', 'High intent', 'Free preview'].map((tag) => (
           <span
             key={tag}
             className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.06em]"
@@ -580,7 +580,7 @@ function WhatsAppPreview() {
 Area: B14 / West Midlands
 Value: £25k+
 Urgency: Deadline soon
-Why it matters: Official tender, buyer named, strong trade match
+Why it matters: Buyer named, strong trade match, high intent
 Action: Open notice`}
       </pre>
     </article>

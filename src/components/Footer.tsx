@@ -13,7 +13,7 @@ export function Footer() {
           <Link to="/find-jobs">Free Scan</Link>
           <Link to="/pricing">Pricing</Link>
           <Link to="/free-tools">Free Tools</Link>
-          <Link to="/epc">EPC Leads</Link>
+          <Link to="/epc">Energy Leads</Link>
           <Link to="/for-your-trade">For Your Trade</Link>
           <Link to="/vantage">Vantage</Link>
           <Link to="/vicinity">Vicinity</Link>

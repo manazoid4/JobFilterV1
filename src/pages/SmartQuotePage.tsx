@@ -35,7 +35,7 @@ const STARTERS: Record<string, Record<string, [string, string]>> = {
     'Velux install': ['Thank you for requesting a quotation for Velux roof window installation.', 'This proposal covers structural opening, supply and fit of specified Velux units with flashings, and full internal and external weatherproofing to manufacturer specification.'],
   },
   Building: {
-    'Extension': ['Thank you for requesting a quotation for a property extension.', 'This proposal covers groundworks, foundations, blockwork cavity walls, structural elements, roof structure, and first-fix trades — subject to planning consent and Building Control approval.'],
+    'Extension': ['Thank you for requesting a quotation for a property extension.', 'This proposal covers groundworks, foundations, blockwork cavity walls, structural elements, roof structure, and first-fix trades - subject to required approvals and control sign-off.'],
     'Kitchen remodel': ['Thank you for your enquiry regarding a kitchen remodel.', 'This quotation covers full strip-out, any structural alterations, first-fix mechanical and electrical, and complete fit-out to your approved specification and material schedule.'],
     'Loft conversion': ['Thank you for requesting a quotation for a loft conversion.', 'This proposal covers structural beam installation, new floor, staircase, dormer or Velux options, insulation to Part L, and boarding — all with Building Control sign-off included.'],
     'Structural repair': ['Thank you for contacting us regarding structural works at your property.', 'This quotation covers investigation, structural engineer co-ordination, underpinning or needling as required, and full reinstatement of finishes.'],

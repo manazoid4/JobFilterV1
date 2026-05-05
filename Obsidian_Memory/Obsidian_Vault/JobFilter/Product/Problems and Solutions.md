@@ -23,15 +23,15 @@ They worry that:
 
 ### Honest Constraint
 
-Official source data is public.
+Data-source strategy is private.
 
-JobFilter cannot honestly claim that nobody else in the world can find a public planning application, public tender, or EPC signal.
+JobFilter should not tell customers or competitors exactly where signals come from.
 
-Do not promise impossible exclusivity over public records.
+Do not expose source names, source categories, URLs, registers, portals, or data-source mechanics in public copy.
 
 ### JobFilter Solution
 
-JobFilter should protect distribution, not pretend to own public data.
+JobFilter should protect distribution and keep the signal stack private.
 
 The product rule:
 
@@ -39,13 +39,13 @@ The product rule:
 - Do not send the same Gold lead to a queue of competing trades in the same trade and patch.
 - Use trade + postcode patch + time window controls before WhatsApp delivery.
 - If a signal is already crowded, mark it down or block it.
-- Show customers the source proof, but make clear JobFilter is not a bid marketplace.
+- Show customers confidence, timing, proof level, and action detail without naming the source stack.
 
 ### Website Copy Direction
 
 Use:
 
-> Public records are public. The protection is what JobFilter does after it finds them: no shared auction, no five-trade blast, no race-to-the-bottom resale.
+> JobFilter keeps the filter private. Gold leads are controlled before they hit WhatsApp: no shared auction, no five-trade blast, no race-to-the-bottom resale.
 
 Use:
 
@@ -61,6 +61,9 @@ Avoid:
 - "Exclusive public data."
 - "Guaranteed no competition."
 - "We own the lead."
+- Naming the data source.
+- Linking to source portals.
+- Explaining the source pipeline publicly.
 
 ### Implementation Direction
 
@@ -72,12 +75,13 @@ Needed in the lead engine:
 - Suppress duplicate same-trade same-patch blasts.
 - Add `competitionRisk` or `crowdingSignal` to scoring.
 - Expose "No shared auction" in paid trust copy.
+- Never expose source names on marketing pages, pricing, lead previews, legal copy, or public examples.
 
 ### Success Test
 
 A paying trade should understand:
 
-- public source data can still be found elsewhere
+- JobFilter keeps its data-source strategy private
 - JobFilter does not sell the same Gold lead like a shared lead marketplace
 - the value is speed, filtering, delivery control, and proof
 

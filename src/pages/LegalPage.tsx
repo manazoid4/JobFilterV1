@@ -14,11 +14,11 @@ const copy = {
   terms: {
     title: 'TERMS OF USE',
     sections: [
-      { heading: 'Service', body: 'JobFilter provides a lead filtering and scoring service for UK tradesmen. Lead data is sourced from publicly available government and commercial databases. We do not guarantee the accuracy or availability of any specific lead.' },
+      { heading: 'Service', body: 'JobFilter provides a lead filtering and scoring service for UK tradesmen. Lead availability depends on the signals available in each area. We do not guarantee the accuracy or availability of any specific lead.' },
       { heading: 'Acceptable use', body: 'You may use JobFilter to find and evaluate work opportunities relevant to your trade. You may not submit false information, use the service to harass third parties, or attempt to reverse-engineer the scoring system.' },
       { heading: 'Free tools', body: 'Free calculators and tools are provided for guidance only. Results are estimates, not financial advice.' },
       { heading: 'Paid plans', body: 'Paid plans can be cancelled at any time. No cancellation fee. Cancellation stops future billing; it does not refund a current billing period.' },
-      { heading: 'Liability', body: 'JobFilter is not liable for decisions made based on lead data. All lead signals are sourced from public records and scored automatically. Verify any lead before committing time or materials.' },
+      { heading: 'Liability', body: 'JobFilter is not liable for decisions made based on lead data. Lead signals are scored automatically. Verify any lead before committing time or materials.' },
       { heading: 'Changes', body: 'We may update these terms. Continued use of JobFilter after changes are posted means you accept the updated terms.' },
     ],
   },
