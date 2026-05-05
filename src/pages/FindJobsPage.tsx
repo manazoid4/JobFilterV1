@@ -95,7 +95,7 @@ export function FindJobsPage() {
         <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
         <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">FIND JOBS WORTH PRICING</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Planning data, tender notices, company signals, and official source proof. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
+          Private work signals, filtered before they waste your time. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
         </p>
         <div className="mt-4">
           <p className="micro-label text-[var(--muted)]">QUICK SCAN</p>
@@ -139,7 +139,7 @@ export function FindJobsPage() {
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">LEAD ENGINE</p>
-          <p className="mt-2 text-xl font-black">Checking planning, tender, company, and fallback signals before scoring quality.</p>
+          <p className="mt-2 text-xl font-black">Checking the private signal stack before scoring quality.</p>
         </section>
       )}
 
@@ -154,7 +154,7 @@ export function FindJobsPage() {
           )}
 
           <div className="jf-box grid gap-3 bg-white p-4 md:grid-cols-5">
-            <Stat label="Source" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
+            <Stat label="Engine" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
             <Stat label="Matches" value={String(result.count)} />
             <Stat label="Region" value={result.region || 'Unknown'} />
             <Stat label="Outward" value={result.outward || 'N/A'} />
@@ -175,7 +175,7 @@ export function FindJobsPage() {
                 <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
                 <h2 className="headline mt-2 text-4xl leading-none">HIGHEST VALUE FIRST</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
+                  Free view proves the signal exists. Pro unlocks full lead depth, contact signal, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
               {result.leads.slice(0, 2).map((lead) => (
@@ -214,8 +214,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          {lead.source === 'EPC' && <Tag label="epc_signal" />}
-          {lead.source === 'PlanningData' && <Tag label="planning_portal" />}
+          {lead.source && <Tag label="verified_signal" />}
           <Tag label="Timing locked" />
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
@@ -259,7 +258,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
       <h2 className="headline mt-2 text-4xl leading-none">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Source checked" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
+        <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
