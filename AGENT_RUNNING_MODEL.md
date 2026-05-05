@@ -35,6 +35,7 @@ This file is for Claude, Codex, and any other agent working in this repo.
 - Read `AGENTS.md` first.
 - Read this file second.
 - Check `Obsidian_Memory/Obsidian_Vault/Vault Map.md` for memory.
+- Always read `Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md` before product copy, pricing, lead delivery, lead gating, or customer trust changes.
 - Add short Obsidian notes for meaningful changes.
 - Link notes into the right folder index.
 - For Obsidian visual maps, create native `.canvas` boards first. Only use Excalidraw when the plugin is installed and enabled.
@@ -61,6 +62,7 @@ Use this when sending another agent into the repo:
 You are working on JobFilter in C:\Users\manaz\Desktop\JobFilter\JobFilterV1.
 
 Read AGENTS.md, AGENT_RUNNING_MODEL.md, and Obsidian_Memory/Obsidian_Vault/Vault Map.md first.
+Also read Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md before product copy, pricing, lead delivery, lead gating, or customer trust changes.
 
 Context:
 - JobFilter is a UK trades lead intelligence SaaS, not a job board.

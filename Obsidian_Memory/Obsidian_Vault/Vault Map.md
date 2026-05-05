@@ -7,6 +7,7 @@
 - [[Airdrop Bot Map]]
 
 ## JobFilter
+- [[Problems and Solutions]]
 - [[Strategic-Signal-EPC]]
 - [[Product Index]]
 - [[Data Sources]]

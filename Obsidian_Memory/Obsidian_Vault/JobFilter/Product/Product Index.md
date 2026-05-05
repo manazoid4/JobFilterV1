@@ -2,6 +2,7 @@
 
 ## Core
 - [[JobFilter Product overview]]
+- [[Problems and Solutions]]
 - [[Intake Engine]]
 - [[Data Sources]]
 - [[Data Sources Flow.excalidraw]]
