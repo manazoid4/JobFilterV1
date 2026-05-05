@@ -26,8 +26,8 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta 
           {tags.slice(0, 4).map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
-          {meta === 'EPC' && <Tag label="epc_signal" />}
-          {meta === 'PlanningData' && <Tag label="planning_portal" />}
+          {meta === 'EPC' && <Tag label="energy_upgrade" />}
+          {meta === 'PlanningData' && <Tag label="verified_signal" />}
         </div>
         <div className="mt-4">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>

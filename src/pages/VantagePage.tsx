@@ -58,7 +58,7 @@ export function VantagePage() {
               </span>
             </h1>
             <p className="max-w-md text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Professional, high-conversion proposals generated from your raw tender documents in seconds.
+              Professional, high-conversion proposals generated from your raw job documents in seconds.
             </p>
           </div>
 

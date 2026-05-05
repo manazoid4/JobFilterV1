@@ -3,7 +3,7 @@ const tips = [
   ['Charge for detailed site surveys', "A paid survey weeds out tyre-kickers instantly. Credit it against the job if they proceed. If they won't pay £50 for a proper look, they won't pay your rate either."],
   ['Never quote without photos', "Photos catch surprises before they eat your margin. If they can't send three photos, the job isn't ready. Let someone else find that out the expensive way."],
   ['Quote the risk, not just the job', "If you can't see behind the wall, price what you can see and write a variation clause. Don't absorb unknowns into a fixed price."],
-  ['Avoid shared lead platforms', 'If five tradesmen get the same lead, the buyer wins on price and you lose on margin. Official sources do not share. Job boards do.'],
+  ['Avoid shared lead platforms', 'If five tradesmen get the same lead, the buyer wins on price and you lose on margin. Shared job boards create auctions. Private filters protect your time.'],
   ['Send a WhatsApp confirmation after every call', "One message: job type, date agreed, what's included. No dispute later. Takes 30 seconds."],
   ['Only do urgent jobs on a written basis', 'Emergency callouts are where margins get squeezed hardest. Set your emergency rate, put it in writing before you arrive, stick to it.'],
   ['Follow up every quote within 48 hours', "Auto-chase on quotes lifts close rate by 20-30%. Most tradesmen don't follow up at all. One WhatsApp message beats silence every time."],
