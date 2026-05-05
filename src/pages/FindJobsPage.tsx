@@ -188,8 +188,7 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          {lead.source === 'EPC' && <Tag label="energy_upgrade" />}
-          {lead.source === 'PlanningData' && <Tag label="verified_signal" />}
+          {lead.source && <Tag label="verified_signal" />}
           <Tag label="Timing locked" />
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
