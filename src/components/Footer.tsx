@@ -18,6 +18,7 @@ export function Footer() {
           <Link to="/vantage">Vantage</Link>
           <Link to="/vicinity">Vicinity</Link>
           <Link to="/codex">Codex</Link>
+          <Link to="/tradiestack">TradieStack</Link>
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>
         </div>

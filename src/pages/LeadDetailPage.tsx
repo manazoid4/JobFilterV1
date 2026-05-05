@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
@@ -7,6 +8,8 @@ import type { LeadDecisionStatus } from '../lib/types';
 export function LeadDetailPage() {
   const { id = '' } = useParams();
   const lead = getStoredLeads().find((item) => item.id === id);
+  const [lostReason, setLostReason] = useState('');
+  const [reviewLink, setReviewLink] = useState('');
 
   if (!lead) {
     return (
@@ -19,8 +22,31 @@ export function LeadDetailPage() {
     );
   }
 
-  function setStatus(status: LeadDecisionStatus) {
-    updateStoredLead(lead!.id, { status });
+  async function setStatus(status: LeadDecisionStatus) {
+    const outcome: Record<string, string> = {};
+    if (status === 'lost' && lostReason) {
+      outcome.lostReason = lostReason;
+    }
+    updateStoredLead(lead!.id, { status, ...outcome });
+
+    await fetch('/api/leads/outcome', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId: lead!.id, status, title: lead!.jobType, value: lead!.budget, lostReason }),
+    }).catch(() => {});
+
+    if (status === 'won') {
+      try {
+        const res = await fetch('/api/leads/review-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ leadId: lead!.id, customerName: 'your customer', trade: lead!.jobType }),
+        });
+        const data = await res.json();
+        if (data.ok) setReviewLink(data.message || '');
+      } catch {}
+    }
+
     window.location.href = '/leads';
   }
 
@@ -59,11 +85,28 @@ export function LeadDetailPage() {
         <p className="mt-2 font-black text-[var(--muted)]">
           Current result: {outcomeLabel(lead.status)}
         </p>
+        <div className="mt-2 grid gap-2 sm:grid-cols-4">
+          {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+            <button
+              key={reason}
+              onClick={() => setLostReason(reason)}
+              className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+            >
+              {reason}
+            </button>
+          ))}
+        </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => setStatus('won')}>WON</button>
           <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setStatus('lost')}>LOST</button>
           <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('no_answer')}>NO ANSWER</button>
         </div>
+        {reviewLink && (
+          <div className="mt-4 border-4 border-[var(--green)] bg-[var(--yellow)] p-4">
+            <p className="font-black uppercase text-[var(--ink)]">Review request ready — send this to your customer:</p>
+            <p className="mt-2 font-black">{reviewLink}</p>
+          </div>
+        )}
       </section>
 
       <ActionBar>

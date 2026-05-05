@@ -4,6 +4,10 @@ import { createServer as createViteServer } from 'vite';
 import { registerIntakeScoreRoute } from './routes/intakeScore';
 import { registerLeadSearchRoute } from './routes/leadsSearch';
 import { registerWaitlistRoute } from './routes/waitlist';
+import { registerLeadNotifyRoute } from './routes/leadNotify';
+import { registerWaitlistCountRoute } from './routes/waitlistCount';
+import { registerChaseCheckRoute } from './routes/chaseCheck';
+import { registerOutcomeReportRoute } from './routes/outcomeReport';
 
 export async function createApp() {
   const app = express();
@@ -17,6 +21,10 @@ export async function createApp() {
   registerIntakeScoreRoute(app);
   registerLeadSearchRoute(app);
   registerWaitlistRoute(app);
+  registerLeadNotifyRoute(app);
+  registerWaitlistCountRoute(app);
+  registerChaseCheckRoute(app);
+  registerOutcomeReportRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });

@@ -22,6 +22,7 @@ export function FindJobsPage() {
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
+  const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade }) {
     event?.preventDefault();
@@ -63,6 +64,29 @@ export function FindJobsPage() {
   function widenAndScan(nextRadius: number) {
     setRadiusMiles(nextRadius);
     void submit(undefined, { radiusMiles: nextRadius });
+  }
+
+  async function sendWhatsApp(lead: Lead) {
+    setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
+    try {
+      await fetch('/api/leads/notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phoneNumber: 'user',
+          leadData: {
+            trade: lead.trade,
+            area: lead.location,
+            value: lead.estimatedValue,
+            score: lead.score,
+            source: lead.source,
+            planningRef: lead.url,
+          },
+        }),
+      });
+    } catch {
+      setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+    }
   }
 
   return (
@@ -155,7 +179,7 @@ export function FindJobsPage() {
                 </p>
               </section>
               {result.leads.slice(0, 2).map((lead) => (
-                <LeadResultCard key={lead.id} lead={lead} />
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} />
               ))}
               {result.count > 2 && (
                 <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
@@ -171,7 +195,7 @@ export function FindJobsPage() {
   );
 }
 
-function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean }) {
   const reasons = lead.reasons?.length ? lead.reasons : ['Official source', `${lead.sourceConfidence}% source confidence`];
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
@@ -181,6 +205,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
     ['Urgency', 'Unlock timing'],
     ['Contact', 'Unlock on Pro'],
   ];
+
+  const isGold = lead.score >= 80;
 
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr_260px]">
@@ -206,7 +232,13 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
         <LockedValue label="Buyer" value="Unlock on Pro" />
         <LockedValue label="Deadline" value="Unlock on Pro" />
         <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
-        <button className="jf-button w-full bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+        {isGold ? (
+          <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
+            {whatsappSent ? 'SENT TO WHATSAPP ✓' : 'SEND TO WHATSAPP'}
+          </button>
+        ) : (
+          <button className="jf-button w-full bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+        )}
       </div>
     </article>
   );

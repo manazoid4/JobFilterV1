@@ -35,6 +35,7 @@ export function HomePage() {
             <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
               Official UK signals. Scored. Filtered. Straight to your phone.
             </p>
+            <p className="mt-2 text-sm font-black uppercase text-[var(--ink)]">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES.</p>
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
@@ -65,6 +66,37 @@ export function HomePage() {
             <Problem title="NO WEAK BUDGETS" body="Stop pricing jobs for people who can't afford you. We signal the money before you pick up the phone." />
             <Problem title="NO TIME WASTERS" body="If they aren't starting for 6 months, they aren't a priority. We score urgency so you stay on the tools." />
             <Problem title="NO MIDDLEMEN" body="No more 'agent' noise. We connect you to official government and commercial signals directly." />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y-4 border-[var(--line)] bg-white">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--orange)]">THE OLD WAY vs JOBFILTER</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">THEY SELL YOUR ATTENTION. WE PROTECT IT.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="jf-box border-4 border-[var(--line)] bg-[var(--bg-main)] p-6">
+              <h3 className="headline text-2xl text-[var(--orange)]">THE OLD WAY — CHECKATRADE, MYBUILDER, RATED PEOPLE</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--muted)]">
+                <li>✗ Pay £50-£150/month just to be listed</li>
+                <li>✗ Leads sold to 4-8 other trades — race to the bottom</li>
+                <li>✗ You call them, filter time-wasters yourself</li>
+                <li>✗ Hope they answer. Hope they have budget. Hope you're first.</li>
+                <li>✗ No guarantee. "Leads" = a name and phone number someone typed into a form.</li>
+                <li>✗ Reviews can be hidden or filtered. Zero transparency.</li>
+              </ul>
+            </div>
+            <div className="jf-box border-4 border-[var(--green)] bg-[var(--yellow)] p-6">
+              <h3 className="headline text-2xl text-[var(--ink)]">JOBFILTER</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--ink)]">
+                <li>✓ Free preview. £29/month for full access. No per-lead fees. No contracts.</li>
+                <li>✓ Every signal is exclusive — no one else sees your scan results.</li>
+                <li>✓ We score every signal. GOLD means worth chasing. BIN means skip it.</li>
+                <li>✓ Official planning data, EPC ratings, council contracts. Not forms. Not ads.</li>
+                <li>✓ 30-day money-back guarantee. No quibbles. No hoops.</li>
+                <li>✓ We don't rate you. We don't sell your profile. We just find the jobs.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -182,6 +214,17 @@ export function HomePage() {
               Founding 30 and Pro include professional letterhead, blueprint instructions, printing and postage, plus the PDF copy to send before the other firm looks organised.
             </p>
           </article>
+        </div>
+      </section>
+
+      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--ink)]">TRADIESTACK — NEW</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WEBSITE. CRM. FOLLOW-UPS. REVIEWS. £450 ONCE.</h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
+          </p>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
         </div>
       </section>
 

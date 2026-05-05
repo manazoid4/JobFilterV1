@@ -156,6 +156,15 @@ export function PricingPage() {
         </div>
         <WaitlistForm source="pricing-whatsapp-alerts" />
       </section>
+
+      <section className="jf-box bg-white p-8 text-center border-4 border-[var(--green)]">
+        <p className="micro-label text-[var(--green)]">NEW — ONE-OFF PURCHASE</p>
+        <h2 className="headline mt-3 text-4xl leading-none">TRADIESTACK — £450 ONCE. OWN IT.</h2>
+        <p className="mx-auto mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+          Trade website. CRM. Auto follow-ups. Review engine. Quotes. Invoices. WhatsApp inbox. Everything agencies charge £1,000-£5,500/month for. One payment. No fees ever.
+        </p>
+        <Link className="jf-button mt-6 bg-[var(--navy)] text-white" to="/tradiestack">SEE TRADIESTACK</Link>
+      </section>
     </main>
   );
 }

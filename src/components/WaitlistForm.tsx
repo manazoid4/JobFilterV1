@@ -1,5 +1,5 @@
-import { FormEvent, useState } from 'react';
-import { joinWaitlist } from '../lib/waitlist';
+import { FormEvent, useEffect, useState } from 'react';
+import { getWaitlistCount, joinWaitlist } from '../lib/waitlist';
 
 const trades = ['Electrician', 'Plumber', 'Roofer', 'Builder', 'Landscaper', 'Joiner', 'Other'];
 
@@ -9,6 +9,11 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   const [contact, setContact] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [error, setError] = useState('');
+  const [remaining, setRemaining] = useState<number | null>(null);
+
+  useEffect(() => {
+    getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => {});
+  }, []);
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -19,6 +24,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
       setStatus('done');
       setName('');
       setContact('');
+      getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => {});
       onDone?.();
     } catch (err: any) {
       setStatus('error');
@@ -38,6 +44,9 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   return (
     <form onSubmit={submit} className={`jf-box grid gap-3 bg-white ${compact ? 'p-4' : 'p-5'}`}>
       <p className="micro-label text-[var(--orange)]">JOIN WAITLIST</p>
+      {remaining !== null && remaining <= 30 && (
+        <p className="text-sm font-black text-[var(--green)]">{remaining} of 30 Founding slots remaining</p>
+      )}
       <label className="field-label">
         Name
         <input className="field-input" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required />

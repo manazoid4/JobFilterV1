@@ -6,6 +6,7 @@ const links = [
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/news', label: 'Trade Signals' },
   { to: '/epc', label: 'EPC Leads' },
+  { to: '/tradiestack', label: 'TradieStack' },
 ];
 
 export function TopNav() {
