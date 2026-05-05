@@ -5,6 +5,7 @@ import { getApps, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { scan } from './leadEngine/scan';
 import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadEngine/postcode';
+import { twilioWhatsApp, sendEmail } from './lib/services';
 
 const DEFAULT_ORIGIN = process.env.APP_URL || 'https://jobfilter.uk';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
@@ -153,6 +154,9 @@ app.post('/api/waitlist', async (req, res) => {
       return res.status(422).json({ ok: false, error: 'Name, trade, and email or phone are required.' });
     }
     await getFirestore().collection('waitlist').add(entry);
+    if (entry.contactType === 'email') {
+      sendEmail(entry.contact, "You're on the JobFilter Founding 30 list", `<div style="font-family:sans-serif;max-width:500px;margin:0 auto;padding:24px"><h1>You're on the list, ${entry.name}.</h1><p>Thanks for joining the JobFilter Founding 30 waitlist. We'll email you the moment it's live.</p><p>Free scan: <a href="https://jobfilter.uk/find-jobs">jobfilter.uk/find-jobs</a></p></div>`).catch(() => {});
+    }
     return res.json({ ok: true, stored: 'firestore' });
   } catch (err: any) {
     return res.status(500).json({ ok: false, error: String(err?.message ?? 'Waitlist failed.') });
@@ -198,6 +202,93 @@ app.post('/api/stripe/priority-pass', async (req, res) => {
 app.post('/api/onboarding/submit', (req, res) => { res.json({ ok: true }); });
 app.post('/api/email-gate/unlock', (req, res) => { res.json({ ok: true }); });
 app.post('/api/calendar/sync', (_req, res) => { res.status(501).json({ status: 'not_implemented' }); });
+
+app.get('/api/waitlist/count', async (_req, res) => {
+  try {
+    const snapshot = await getFirestore().collection('waitlist').count().get();
+    const count = snapshot.data().count || 0;
+    const foundingMax = 30;
+    const remaining = Math.max(0, foundingMax - count);
+    return res.json({ ok: true, count, remaining, foundingMax });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.post('/api/leads/notify', async (req, res) => {
+  try {
+    const { phoneNumber, leadData } = req.body || {};
+    if (!phoneNumber || !leadData) return res.status(422).json({ ok: false, error: 'phoneNumber and leadData required.' });
+    const trade = leadData.trade || 'Trade';
+    const area = leadData.area || leadData.location || 'Unknown';
+    const value = leadData.value || leadData.estimatedValue || 'Not specified';
+    const message = `NEW GOLD LEAD\nJob: ${trade}\nArea: ${area}\nValue: ${value}\nScore: ${leadData.score || 80}/100\nSource: ${leadData.source || 'Official'}`;
+    const result = await twilioWhatsApp(message);
+    return res.json({ ok: true, result });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+const chaseStore: Record<string, { status: string; sentAt: string; nudged: boolean }> = {};
+
+app.post('/api/chase/update', (req, res) => {
+  try {
+    const { leadId, status } = req.body || {};
+    if (!leadId || !status) return res.status(422).json({ ok: false, error: 'leadId and status required.' });
+    chaseStore[leadId] = { status, sentAt: chaseStore[leadId]?.sentAt || new Date().toISOString(), nudged: chaseStore[leadId]?.nudged || false };
+    return res.json({ ok: true });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.post('/api/chase/nudge', async (req, res) => {
+  try {
+    const { leadId, phoneNumber, trade, area } = req.body || {};
+    if (!leadId || !phoneNumber) return res.status(422).json({ ok: false, error: 'leadId and phoneNumber required.' });
+    const entry = chaseStore[leadId];
+    if (entry?.nudged) return res.json({ ok: true, nudged: false, reason: 'already_nudged' });
+    if (entry?.status === 'contacted' || entry?.status === 'quoted' || entry?.status === 'won') return res.json({ ok: true, nudged: false, reason: 'already_contacted' });
+    chaseStore[leadId] = { ...entry, status: entry?.status || 'sent', sentAt: entry?.sentAt || new Date().toISOString(), nudged: true };
+    const message = `Follow-up: Still interested in the ${trade || 'trade'} job in ${area || 'your area'}? Tap to draft a message.`;
+    const result = await twilioWhatsApp(message);
+    return res.json({ ok: true, nudged: true, result });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.post('/api/chase/template', (req, res) => {
+  try {
+    const { trade, area, address, description } = req.body || {};
+    const message = `Hi, I noticed your property${address ? ` at ${address}` : ''} has planning approval for ${description || 'work'}. I'm a local ${trade || 'tradesman'} — would you like a quote? No obligation.`;
+    return res.json({ ok: true, message });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+const outcomes: Record<string, { id: string; title: string; status: string; value?: string; createdAt: string; lostReason?: string }> = {};
+
+app.post('/api/leads/outcome', (req, res) => {
+  try {
+    const { leadId, status, title, value, lostReason } = req.body || {};
+    if (!leadId || !status) return res.status(422).json({ ok: false, error: 'leadId and status required.' });
+    outcomes[leadId] = { id: leadId, title: title || 'Unknown job', status, value, createdAt: outcomes[leadId]?.createdAt || new Date().toISOString(), lostReason: status === 'lost' ? lostReason : undefined };
+    return res.json({ ok: true });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.post('/api/leads/review-link', (req, res) => {
+  try {
+    const { customerName, trade } = req.body || {};
+    const reviewUrl = 'https://g.page/r/yourbusiness/review';
+    const message = `Hi ${customerName || 'there'}, thanks for choosing us for your ${trade || 'trade'} work. If you're happy with the job, a quick review here would mean the world: ${reviewUrl}`;
+    return res.json({ ok: true, reviewUrl, message });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.get('/api/leads/summary', (_req, res) => {
+  try {
+    const all = Object.values(outcomes);
+    const won = all.filter((o) => o.status === 'won');
+    const wonCount = won.length;
+    const totalValue = won.reduce((sum, o) => { const v = parseFloat((o.value || '0').replace(/[^0-9.]/g, '')); return sum + (isNaN(v) ? 0 : v); }, 0);
+    return res.json({ ok: true, wonCount, totalValue: totalValue > 0 ? `£${totalValue.toLocaleString()}` : 'N/A', monthlyCost: 29, summary: wonCount > 0 ? `${wonCount} jobs won. ~£${totalValue.toLocaleString()} total. £29 subscription.` : 'No won jobs tracked yet.' });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 export const api = onRequest({ region: 'europe-west2', memory: '512MiB', timeoutSeconds: 60 }, app);
