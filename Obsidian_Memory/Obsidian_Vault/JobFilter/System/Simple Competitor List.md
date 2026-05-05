@@ -51,4 +51,24 @@
     
 - **Spruce** – [spruce.eco](https://spruce.eco) (Eco-focused trade management).
     
-- **Site Step** – [sitestep.io](https://www.google.com/search?q=https://sitestep.io) (Project tracking and photo documentation).
+- **Site Step** – [sitestep.io](https://sitestep.io) (Project tracking and photo documentation).
+
+### **F) Added 5 May 2026**
+
+- **SiteStep Software** (sitestepsoftware.com) — Construction site management, forms, compliance. Copy: operational clarity, field-first UX language. Beat: apply same clarity to lead quality not site admin.
+
+- **Zenza App** (zenzaapp.com) — Trades job management, scheduling. Copy: trade-native onboarding. Beat: JobFilter sits upstream — lead found before the job enters their calendar.
+
+- **KlipBoard** (klipboard.io) — Field service management, mobile-first job sheets. Copy: zero-friction mobile capture. Beat: JobFilter feeds KlipBoard — we find the job, they manage it.
+
+- **BuildScout** — Research pending. Name implies construction lead scouting. Copy: if they surface planning/tender signals, take the data angle. Beat: deeper scoring + WhatsApp delivery.
+
+- **EnhancedAI** — Research pending. Likely AI automation for trades. Copy: AI language trades trust. Beat: show the AI work (source, score, reasoning) not just the output.
+
+- **Junior Media UK** (juniormediauk.com) — Trade marketing, lead gen via ads/social. Copy: outcome-first copy, ROI framing for trades. Beat: replace paid ad dependency with official signal feeds.
+
+- **BigCommerce** (bigcommerce.com) — E-commerce platform. Not direct competitor. Copy: tiered plan structure, feature gates per tier, annual discount framing. Beat: apply to lead access tiers not product SKUs.
+
+- **Codewords AI** — Research pending. Likely AI copywriting/content. Copy: plain-English AI output framing if trade-focused. Beat: transparent scoring logic, not AI as marketing language.
+
+- **One.site** (one.site) — Construction compliance and documentation. Copy: compliance-grade proof language, operational clarity. Beat: apply same proof standards to lead sourcing not site paperwork.

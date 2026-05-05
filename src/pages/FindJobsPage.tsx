@@ -6,6 +6,14 @@ import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
+const TRADE_PRESETS: { label: string; trade: Trade }[] = [
+  { label: '⚡ ELECTRICAL', trade: 'electrical' },
+  { label: '🔧 PLUMBING', trade: 'plumbing' },
+  { label: '🏗️ BUILDING', trade: 'building' },
+  { label: '🏠 ROOFING', trade: 'roofing' },
+  { label: '🌿 LANDSCAPING', trade: 'landscaping' },
+];
+
 export function FindJobsPage() {
   const [postcode, setPostcode] = useState('B14 7QH');
   const [trade, setTrade] = useState<Trade>('electrical');
@@ -65,6 +73,22 @@ export function FindJobsPage() {
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
           Planning data, tender notices, company signals, and official source proof. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
         </p>
+        <div className="mt-4">
+          <p className="micro-label text-[var(--muted)]">QUICK SCAN</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {TRADE_PRESETS.map((preset) => (
+              <button
+                key={preset.trade}
+                type="button"
+                disabled={loading}
+                onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
+                className="bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
             Postcode
@@ -181,8 +205,8 @@ function LeadResultCard({ lead }: { key?: string; lead: Lead }) {
       <div className="grid gap-3 md:self-start">
         <LockedValue label="Buyer" value="Unlock on Pro" />
         <LockedValue label="Deadline" value="Unlock on Pro" />
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
-        <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+        <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
+        <button className="jf-button w-full bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
       </div>
     </article>
   );
@@ -245,7 +269,7 @@ function Stat({ label, value }: { key?: string; label: string; value: string }) 
 }
 
 function safePreviewValue(value: string) {
-  if (!value || /Â£[\d,]/.test(value)) return 'Unlock exact value';
+  if (!value) return 'Unlock exact value';
   return value;
 }
 

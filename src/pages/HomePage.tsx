@@ -32,7 +32,10 @@ export function HomePage() {
             <h1 className="headline mt-4 max-w-5xl text-[clamp(4.5rem,12vw,12rem)] leading-[0.85] text-[var(--ink)]">
               CONTROL THE JOBS.
             </h1>
-            <p className="mt-5 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
+            <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
+              Official UK signals. Scored. Filtered. Straight to your phone.
+            </p>
+            <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -46,7 +49,10 @@ export function HomePage() {
               <p>⚡️ STAY IN CONTROL</p>
             </div>
           </div>
-          <LeadPreview />
+          <div className="grid gap-4">
+            <LeadPreview />
+            <WhatsAppPreview />
+          </div>
         </div>
       </section>
 
@@ -112,7 +118,7 @@ export function HomePage() {
           <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
           <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
             <div>
-              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">Â£49/month. Unlock the action layer.</h2>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
                 Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs. Highest adds the professional letterhead pack: your company details, job-specific blueprint instructions, printing and postage handled.
               </p>
@@ -179,7 +185,7 @@ function LeadPreview() {
       <div className="mt-4 grid gap-3 text-sm">
         <Row label="Trade" value="Electrical" />
         <Row label="Area" value="B14 / West Midlands" />
-        <Row label="Value" value="Â£25k+" />
+        <Row label="Value" value="£25k+" />
         <Row label="Urgency" value="Deadline soon" />
         <Row label="Source" value="Contracts Finder / 91%" />
         <Row label="Contact signal" value="Buyer named" />
@@ -200,7 +206,7 @@ function WhatsAppPreview() {
       <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">      
 {`GOLD LEAD - Electrical
 Area: B14 / West Midlands
-Value: Â£25k+
+Value: £25k+
 Urgency: Deadline soon
 Why it matters: Official tender, buyer named, strong trade match
 Action: Open notice`}

@@ -2,9 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/smart-quote', label: 'Smart Quote' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/news', label: 'Signals' },
-  { to: '/free-tools', label: 'Free Tools' },
   { to: '/my-link', label: 'Login' },
 ];
 

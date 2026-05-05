@@ -146,17 +146,19 @@ select {
 }
 
 .mobile-nav {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: 100vw;
-  max-width: 100vw;
-  overflow: hidden;
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.mobile-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .mobile-nav a {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex: 0 0 auto;
   white-space: nowrap;
 }
 

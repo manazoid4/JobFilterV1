@@ -45,11 +45,41 @@ export function registerLeadSearchRoute(app: Express) {
   });
 }
 
+// Strip common tender boilerplate prefixes and cap at 8 words
+const BOILERPLATE_PREFIXES = /^(provision of|supply of|supply and (installation|delivery) of|procurement of|appointment of|delivery of|contract for)\s+/i;
+
+function shortenTenderTitle(rawTitle: string): string {
+  const stripped = rawTitle.replace(BOILERPLATE_PREFIXES, '').trim();
+  const words = stripped.split(/\s+/);
+  return words.slice(0, 8).join(' ') + (words.length > 8 ? '…' : '');
+}
+
+function previewTitle(lead: Lead): string {
+  const src = lead.source;
+
+  if (src === 'ContractsFinder' || src === 'FTS' || src === 'PCS' || src === 'Sell2Wales') {
+    if (lead.title && lead.title.length > 4) {
+      return shortenTenderTitle(lead.title);
+    }
+  }
+
+  if (src === 'PlanningData') {
+    return `Planning signal: ${titleCase(lead.trade)} work near ${lead.postcodeOutward}`;
+  }
+
+  if (src === 'CompaniesHouse') {
+    return `New ${titleCase(lead.trade)} business signal near ${lead.postcodeOutward}`;
+  }
+
+  // DirectorySignal, EPC: capitalise trade properly
+  return `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`;
+}
+
 function toFreePreviewLead(lead: Lead) {
   const score = Number(lead.score ?? 0);
   return {
     id: lead.id,
-    title: `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`,
+    title: previewTitle(lead),
     trade: lead.trade,
     buyer: '',
     location: lead.location,
@@ -66,7 +96,7 @@ function toFreePreviewLead(lead: Lead) {
     revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
     tradeMatch: String(lead.trade),
     score: previewScore(score),
-    reasons: ['Paid preview - unlock buyer, deadline, exact value, and action route'],
+    reasons: buildReasons(lead, score),
   };
 }
 
@@ -93,6 +123,19 @@ function valuePreview(value: string) {
 
 function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function buildReasons(lead: Lead, score: number): string[] {
+  const reasons: string[] = [];
+  if (lead.source === 'ContractsFinder') reasons.push('Official government tender source');
+  else if (lead.source === 'FTS') reasons.push('Find a Tender official notice');
+  else if (lead.source === 'PlanningData') reasons.push('Live planning portal signal');
+  else if (lead.source === 'CompaniesHouse') reasons.push('Company growth signal');
+  else if (lead.source === 'DirectorySignal') reasons.push('Local trade demand signal');
+  reasons.push(titleCase(lead.trade) + ' trade match');
+  if (score >= 80) reasons.push('High priority lead');
+  else if (score >= 55) reasons.push('Worth checking');
+  return reasons.slice(0, 3);
 }
 
 function sanitizeTrade(input: unknown) {

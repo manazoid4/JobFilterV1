@@ -14,6 +14,7 @@ import { MyLinkPage } from './pages/MyLinkPage';
 import { NewsPage } from './pages/NewsPage';
 import { PricingPage } from './pages/PricingPage';
 import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
+import { SmartQuotePage } from './pages/SmartQuotePage';
 import { TipsPage } from './pages/TipsPage';
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/tips" element={<TipsPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/smart-quote" element={<SmartQuotePage />} />
         <Route path="/vantage" element={<ProductAdvantagePage type="vantage" />} />
         <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
         <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
