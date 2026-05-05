@@ -9,8 +9,13 @@ export function Footer() {
           <p className="headline mt-2 text-4xl">PROTECT YOUR TIME.</p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm font-black uppercase">
-          <Link to="/pricing">Pricing</Link>
+          <Link to="/find-jobs">Free Scan</Link>
+          <Link to="/smart-quote">Smart Quote</Link>
           <Link to="/free-tools">Free Tools</Link>
+          <Link to="/pricing">Pricing</Link>
+          <Link to="/vantage">Vantage</Link>
+          <Link to="/vicinity">Vicinity</Link>
+          <Link to="/codex">Codex</Link>
           <Link to="/tips">Tips</Link>
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>

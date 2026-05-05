@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/#why', label: 'Why JobFilter', anchor: true },
-  { to: '/#what', label: 'What We Do', anchor: true },
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/#trades', label: 'For Your Trade', anchor: true },
-  { to: '/news', label: 'News' },
+  { to: '/smart-quote', label: 'Smart Quote' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/news', label: 'Signals' },
+  { to: '/my-link', label: 'Login' },
 ];
 
 export function TopNav() {

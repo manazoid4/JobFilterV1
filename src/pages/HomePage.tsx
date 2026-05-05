@@ -126,8 +126,11 @@ export function HomePage() {
                 tyre-kickers.
               </span>
             </h1>
-            <p className="mt-6 max-w-xl text-[17px] font-medium leading-[1.55] text-[var(--navy)]">
-              JobFilter finds real jobs, scores them automatically, and puts work worth pricing in front of you — before you waste another evening quoting someone who was never serious.
+            <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
+              Official UK signals. Scored. Filtered. Straight to your phone.
+            </p>
+            <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
+              Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/intake-test" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
@@ -138,7 +141,10 @@ export function HomePage() {
               </Link>
             </div>
           </div>
-          <LeadProofCard />
+          <div className="grid gap-4">
+            <LeadPreview />
+            <WhatsAppPreview />
+          </div>
         </div>
       </section>
 
@@ -346,53 +352,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── Free Tools ───────────────────────────────── */}
-      <section id="tools" style={{ background: 'var(--paper)', padding: '96px 0' }}>
-        <div className="page-shell">
-          <div style={{ maxWidth: 720, marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              Free Tools
-            </span>
-            <h2
-              className="headline"
-              style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
-            >
-              Useful without paying a penny.
-            </h2>
-            <p className="mt-4 text-[17px] font-medium leading-[1.55] text-[var(--navy)]">
-              No login. No card. Just tools that save you time on the tools.
-            </p>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {freeTools.map((t) => (
-              <Link
-                key={t.name}
-                to={t.to}
-                className="block p-6"
-                style={{
-                  border: '2px solid var(--navy)',
-                  borderRadius: 4,
-                  background: 'var(--offwhite)',
-                  boxShadow: '4px 4px 0 var(--navy)',
-                  textDecoration: 'none',
-                }}
-              >
-                <h3 className="text-[17px] font-semibold text-[var(--navy)]">{t.name}</h3>
-                <p className="mt-2 text-[14px] text-[var(--muted)]">{t.desc}</p>
-                <p className="mt-4 text-[13px] font-semibold text-[var(--navy)]">Try it free →</p>
-              </Link>
-            ))}
+      <section className="bg-[var(--navy)] text-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
+          <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
+            <div>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
+              <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
+                Free shows the signal. Pro unlocks full source links, contact signal, WhatsApp alerts, saved leads, and priority-ranked jobs. Highest adds the professional letterhead pack: your company details, job-specific blueprint instructions, printing and postage handled.
+              </p>
+            </div>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
           </div>
         </div>
       </section>
@@ -475,40 +445,16 @@ export function HomePage() {
 
 function LeadProofCard() {
   return (
-    <article
-      className="p-6 text-left"
-      style={{
-        border: '2px solid var(--navy)',
-        borderRadius: 4,
-        background: 'var(--paper)',
-        boxShadow: '8px 8px 0 var(--yellow)',
-      }}
-    >
-      <span
-        className="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
-        style={{
-          background: 'var(--offwhite)',
-          color: 'var(--muted)',
-          border: '1px solid var(--rule)',
-          borderRadius: 3,
-        }}
-      >
-        Official Source Proof
-      </span>
-      <h2 className="mt-4 text-[20px] font-semibold leading-tight text-[var(--navy)]">
-        Electrical maintenance tender
-      </h2>
-      <div className="mt-5 grid gap-3">
-        {proofRows.map(([label, value]) => (
-          <div
-            key={label}
-            className="flex items-start justify-between gap-4 pb-2"
-            style={{ borderBottom: '1px solid var(--rule)' }}
-          >
-            <span className="text-[14px] text-[var(--muted)]">{label}</span>
-            <span className="text-right text-[14px] font-semibold text-[var(--navy)]">{value}</span>
-          </div>
-        ))}
+    <article className="jf-box bg-white p-5 text-[var(--ink)]">
+      <p className="micro-label text-[var(--orange)]">GOLD LEAD</p>
+      <h2 className="mt-3 text-2xl font-black leading-tight">Electrical maintenance tender</h2>
+      <div className="mt-4 grid gap-3 text-sm">
+        <Row label="Trade" value="Electrical" />
+        <Row label="Area" value="B14 / West Midlands" />
+        <Row label="Value" value="£25k+" />
+        <Row label="Urgency" value="Deadline soon" />
+        <Row label="Source" value="Contracts Finder / 91%" />
+        <Row label="Contact signal" value="Buyer named" />
       </div>
       <div className="mt-5 flex flex-wrap gap-2">
         {['Official source', 'High signal', 'Free preview'].map((tag) => (
@@ -527,5 +473,48 @@ function LeadProofCard() {
         ))}
       </div>
     </article>
+  );
+}
+
+function WhatsAppPreview() {
+  return (
+    <article className="jf-box bg-[var(--navy)] p-5 text-white">
+      <p className="micro-label text-[var(--yellow)]">WHATSAPP ALERT PREVIEW</p>
+      <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">      
+{`GOLD LEAD - Electrical
+Area: B14 / West Midlands
+Value: £25k+
+Urgency: Deadline soon
+Why it matters: Official tender, buyer named, strong trade match
+Action: Open notice`}
+      </pre>
+    </article>
+  );
+}
+
+function Problem({ title, body }: { title: string; body: string }) {
+  return (
+    <article className="jf-box bg-[var(--bg-main)] p-5">
+      <h3 className="headline text-2xl">{title}</h3>
+      <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+    </article>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
+      <span className="font-black text-[var(--muted)]">{label}</span>
+      <span className="text-right font-black">{value}</span>
+    </div>
+  );
+}
+
+function Example({ label, text }: { label: string; text: string }) {
+  return (
+    <div className="border-4 border-[var(--line)] bg-white p-5 [&+&]:mt-5">
+      <p className="font-black uppercase">{label}</p>
+      <p className="mt-3 font-black leading-relaxed text-[var(--muted)]">"{text}"</p>
+    </div>
   );
 }
