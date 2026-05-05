@@ -66,13 +66,8 @@ export function TopNav() {
           >
             SCAN FREE
           </NavLink>
-<<<<<<< fix/main-build
         </nav>
       )}
-=======
-        ))}
-      </nav>
->>>>>>> main
     </header>
   );
 }
