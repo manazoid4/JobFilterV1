@@ -16,6 +16,7 @@ export function Footer() {
           <Link to="/smart-quote">Smart Quote</Link>
           <Link to="/epc">EPC Leads</Link>
           <Link to="/for-your-trade">For Your Trade</Link>
+          <Link to="/tips">Trade Tips</Link>
           <Link to="/vantage">Vantage</Link>
           <Link to="/vicinity">Vicinity</Link>
           <Link to="/codex">Codex</Link>
