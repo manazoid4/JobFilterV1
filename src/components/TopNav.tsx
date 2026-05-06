@@ -41,6 +41,16 @@ export function TopNav() {
         <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
           SCAN FREE
         </NavLink>
+        <button
+          type="button"
+          aria-label="Open menu"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] border-2 border-[var(--line)] bg-white lg:hidden"
+          onClick={() => setMenuOpen((o) => !o)}
+        >
+          <span className={`block h-[3px] w-5 bg-[var(--ink)] transition-all ${menuOpen ? 'translate-y-2 rotate-45' : ''}`} />
+          <span className={`block h-[3px] w-5 bg-[var(--ink)] transition-all ${menuOpen ? 'opacity-0' : ''}`} />
+          <span className={`block h-[3px] w-5 bg-[var(--ink)] transition-all ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`} />
+        </button>
       </div>
 
       {menuOpen && (
