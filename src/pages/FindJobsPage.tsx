@@ -202,8 +202,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
     ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
     ['Outward', lead.postcodeOutward || 'N/A'],
     ['Value', safePreviewValue(lead.estimatedValue)],
-    ['Urgency', 'Unlock timing'],
-    ['Contact', 'Unlock on Pro'],
+    ['Urgency', lead.urgency || 'Unknown'],
+    ['Contact', lead.contactSignal || 'Unknown'],
   ];
 
   const isGold = lead.score >= 80;
@@ -215,7 +215,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
           {lead.source && <Tag label="verified_signal" />}
-          <Tag label="Timing locked" />
+          {lead.urgency && <Tag label={lead.urgency} />}
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -228,15 +228,15 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value="Unlock on Pro" />
-        <LockedValue label="Deadline" value="Unlock on Pro" />
-        <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
+        <LockedValue label="Buyer" value={lead.buyer || "Unknown"} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString("en-GB") : "Unknown"} />
+        {lead.url ? <a className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center" href={lead.url} target="_blank" rel="noreferrer">VIEW SOURCE</a> : <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>}
         {isGold ? (
           <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
             {whatsappSent ? 'SENT TO WHATSAPP ✓' : 'SEND TO WHATSAPP'}
           </button>
         ) : (
-          <button className="jf-button w-full bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? "SENT ✓" : "SEND TO WHATSAPP"}</button>
         )}
       </div>
     </article>

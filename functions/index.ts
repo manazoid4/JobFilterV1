@@ -117,8 +117,7 @@ app.post('/api/leads/search', async (req, res) => {
     const outward = assertValidPostcodeInput(postcode.trim());
     const region = regionFromOutward(outward);
     const radiusMiles = Number(req.body?.radiusMiles ?? 25);
-    const leads = (await fetchContractsFinderSearch(String(trade || 'electrical'), outward, region, radiusMiles))
-      .map(toFreePreviewLead);
+    const leads = await fetchContractsFinderSearch(String(trade || 'electrical'), outward, region, radiusMiles); // TEST MODE: no preview gating
 
     return res.json({
       ok: true,
