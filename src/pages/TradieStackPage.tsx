@@ -116,7 +116,7 @@ export function TradieStackPage() {
           <Link className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" to="/pricing">JOBFILTER PRICING</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
-          Questions? contact@jobfilter.uk — Built in Birmingham. Launching June 2026.
+          Questions? contact@jobfilter.uk — Built in Birmingham.
         </p>
       </section>
 
