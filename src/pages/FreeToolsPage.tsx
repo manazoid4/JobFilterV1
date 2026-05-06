@@ -93,6 +93,20 @@ export function FreeToolsPage() {
         </ToolCard>
       </section>
 
+      <section className="jf-box bg-[var(--navy)] p-6 text-white">
+        <p className="micro-label text-[var(--yellow)]">FREE TOOL — SMART QUOTING</p>
+        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)]">QUOTE STARTER IN 10 SECONDS.</h2>
+        <p className="mt-3 max-w-2xl font-black text-white/75">
+          Pick your trade and job type. Get a professional opening paragraph ready to paste into your quote. Covers 6 trades and 30+ job types. Free. No login.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2 text-sm font-black text-white/60">
+          {['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry'].map((t) => (
+            <span key={t} className="border border-white/20 px-2 py-1">{t}</span>
+          ))}
+        </div>
+        <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">OPEN SMART QUOTE →</Link>
+      </section>
+
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">PAID VALUE STAYS LOCKED</p>
         <h2 className="headline text-4xl">LIVE LEAD SCANNER</h2>
