@@ -74,6 +74,15 @@ export function NewsPage() {
           </article>
         ))}
       </section>
+
+      <section className="border-t-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-10">
+          <p className="micro-label text-[var(--ink)]">TRADE TIPS</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">PRACTICAL RULES FOR AVOIDING TYRE-KICKERS.</h2>
+          <p className="mt-4 max-w-xl font-black text-[var(--ink)]/75">Ask budget before you travel. Charge for surveys. Invoice the day the job finishes. 12 rules that protect your time and margin.</p>
+          <a className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/tips">READ TRADE TIPS →</a>
+        </div>
+      </section>
     </main>
   );
 }
