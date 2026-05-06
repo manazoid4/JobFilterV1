@@ -89,57 +89,40 @@ app.post('/api/leads/scan', async (req, res) => {
 app.post('/api/leads/search', async (req, res) => {
   const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
   if (!checkRateLimit(ip)) {
-    return res.status(429).json({
-      ok: false,
-      source: 'contracts_finder',
-      count: 0,
-      region: '',
-      outward: '',
-      leads: [],
-      errors: ['Too many requests.'],
-    });
+    return res.status(429).json({ ok: false, source: 'lead_engine', count: 0, region: '', outward: '', leads: [], lockedCount: 0, errors: ['Too many requests.'] });
   }
 
   try {
     const { postcode, trade = 'electrical' } = req.body ?? {};
     if (!validUkPostcode(postcode)) {
-      return res.status(400).json({
-        ok: false,
-        source: 'contracts_finder',
-        count: 0,
-        region: '',
-        outward: '',
-        leads: [],
-        errors: ['valid UK postcode required'],
-      });
+      return res.status(400).json({ ok: false, source: 'lead_engine', count: 0, region: '', outward: '', leads: [], lockedCount: 0, errors: ['valid UK postcode required'] });
     }
 
-    const outward = assertValidPostcodeInput(postcode.trim());
-    const region = regionFromOutward(outward);
-    const radiusMiles = Number(req.body?.radiusMiles ?? 25);
-    const leads = await fetchContractsFinderSearch(String(trade || 'electrical'), outward, region, radiusMiles); // TEST MODE: no preview gating
+    const result = await scan({ postcode: postcode.trim(), trade: String(trade || 'electrical'), tier: 'paid' });
+    const allLeads = result.leads;
+
+    const FREE_LIMIT = 2;
+    const visibleLeads = allLeads.slice(0, FREE_LIMIT).map(toFreePreviewLead);
+    const lockedCount = Math.max(0, allLeads.length - FREE_LIMIT);
 
     return res.json({
       ok: true,
-      source: 'contracts_finder',
-      count: leads.length,
-      region,
-      outward,
-      leads,
-      errors: [],
+      source: 'lead_engine',
+      count: allLeads.length,
+      region: result.region,
+      outward: result.outward,
+      leads: visibleLeads,
+      lockedCount,
+      errors: result.errors ?? [],
     });
   } catch (err: any) {
-    return res.status(503).json({
-      ok: false,
-      source: 'contracts_finder',
-      count: 0,
-      region: '',
-      outward: '',
-      leads: [],
-      errors: [String(err?.message ?? 'scan failed')],
-    });
+    return res.status(503).json({ ok: false, source: 'lead_engine', count: 0, region: '', outward: '', leads: [], lockedCount: 0, errors: [String(err?.message ?? 'scan failed')] });
   }
 });
+
+function toFreePreviewLead(lead: any): any {
+  return { ...lead, buyer: undefined, url: '', deadlineAt: '', contactSignal: 'none' };
+}
 
 app.post('/api/intake/score', async (req, res) => {
   try {

@@ -178,13 +178,17 @@ export function FindJobsPage() {
                   Free view proves the signal exists. Pro unlocks full lead depth, contact signal, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
               </section>
-              {result.leads.slice(0, 2).map((lead) => (
+              {result.leads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} />
               ))}
-              {result.count > 2 && (
-                <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
-                  <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
-                  <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
+              {(result.lockedCount ?? 0) > 0 && (
+                <div className="jf-box bg-[var(--ink)] p-8 text-center">
+                  <p className="micro-label text-[var(--yellow)]">PAYWALL</p>
+                  <p className="headline mt-2 text-3xl text-white leading-tight">
+                    {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} FOUND
+                  </p>
+                  <p className="mt-2 font-black text-white/70">Buyer name, deadline, contact signal, and source URL locked on free tier.</p>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK ALL RESULTS →</Link>
                 </div>
               )}
             </div>
@@ -200,10 +204,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
-    ['Outward', lead.postcodeOutward || 'N/A'],
     ['Value', safePreviewValue(lead.estimatedValue)],
     ['Urgency', lead.urgency || 'Unknown'],
-    ['Contact', lead.contactSignal || 'Unknown'],
   ];
 
   const isGold = lead.score >= 80;
@@ -228,15 +230,15 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer || "Unknown"} />
-        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString("en-GB") : "Unknown"} />
-        {lead.url ? <a className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center" href={lead.url} target="_blank" rel="noreferrer">VIEW SOURCE</a> : <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>}
+        <LockedValue label="Buyer" value={lead.buyer} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
         {isGold ? (
           <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
             {whatsappSent ? 'SENT TO WHATSAPP ✓' : 'SEND TO WHATSAPP'}
           </button>
         ) : (
-          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? "SENT ✓" : "SEND TO WHATSAPP"}</button>
+          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT ✓' : 'SEND TO WHATSAPP'}</button>
         )}
       </div>
     </article>
@@ -281,11 +283,33 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-function LockedValue({ label, value }: { label: string; value: string }) {
+function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+  if (!value) {
+    return (
+      <div className="relative border-2 border-[var(--line)] overflow-hidden p-3">
+        <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+        <p className="mt-1 font-black blur-sm select-none text-[var(--ink)] pointer-events-none">████████████████</p>
+        <Link
+          to="/pricing"
+          className="absolute inset-0 flex items-center justify-center bg-white/80"
+        >
+          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">🔒 UNLOCK</span>
+        </Link>
+      </div>
+    );
+  }
+  if (isLink && href) {
+    return (
+      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+        <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+        <a href={href} target="_blank" rel="noreferrer" className="mt-1 block font-black text-[var(--navy)] underline underline-offset-2 truncate text-sm">VIEW SOURCE →</a>
+      </div>
+    );
+  }
   return (
     <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
       <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-      <p className="mt-1 font-black">{value || 'Unlock on Pro'}</p>
+      <p className="mt-1 font-black">{value}</p>
     </div>
   );
 }

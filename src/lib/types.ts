@@ -52,5 +52,6 @@ export type LeadSearchResponse = {
   region: string;
   outward: string;
   leads: Lead[];
+  lockedCount?: number;
   errors: string[];
 };
