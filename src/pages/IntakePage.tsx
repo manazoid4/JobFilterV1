@@ -19,6 +19,7 @@ export function IntakePage() {
   const [postcode, setPostcode] = useState('');
   const [hasPhotos, setHasPhotos] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   function pickJob(value: string) {
     setJobType(value);
@@ -41,14 +42,23 @@ export function IntakePage() {
 
   async function submit() {
     setSubmitting(true);
-    const response = await fetch('/api/intake/score', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobType, urgency, details, postcode, phone, budget, hasPhotos, username }),
-    });
-    const payload = await response.json() as { lead: LeadDecision };
-    saveStoredLead(payload.lead);
-    navigate(`/leads/${payload.lead.id}`);
+    setSubmitError('');
+    try {
+      const response = await fetch('/api/intake/score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobType, urgency, details, postcode, phone, budget, hasPhotos, username }),
+      });
+      const payload = await response.json() as { lead?: LeadDecision; errors?: string[] };
+      if (!response.ok || !payload.lead) {
+        throw new Error(payload.errors?.[0] ?? 'Could not score your request. Please try again.');
+      }
+      saveStoredLead(payload.lead);
+      navigate(`/leads/${payload.lead.id}`);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -88,8 +98,11 @@ export function IntakePage() {
               <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Postcode" />
               <textarea className="field-input min-h-28 resize-none" value={details} onChange={(event) => setDetails(event.target.value)} placeholder="Optional details" />
               <input className="field-input" type="file" accept="image/*" multiple onChange={onPhoto} />
+              {submitError && (
+                <p className="border-2 border-[var(--orange)] bg-[var(--bg-main)] p-3 font-black text-[var(--orange)]">{submitError}</p>
+              )}
               <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={submitting} onClick={() => void submit()}>
-                {submitting ? 'SENDING' : 'SEND REQUEST'}
+                {submitting ? 'SENDING…' : 'SEND REQUEST'}
               </button>
             </div>
           </div>
