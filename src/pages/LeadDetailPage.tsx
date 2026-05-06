@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
@@ -7,6 +7,7 @@ import type { LeadDecisionStatus } from '../lib/types';
 
 export function LeadDetailPage() {
   const { id = '' } = useParams();
+  const navigate = useNavigate();
   const lead = getStoredLeads().find((item) => item.id === id);
   const [lostReason, setLostReason] = useState('');
   const [reviewLink, setReviewLink] = useState('');
@@ -43,11 +44,14 @@ export function LeadDetailPage() {
           body: JSON.stringify({ leadId: lead!.id, customerName: 'your customer', trade: lead!.jobType }),
         });
         const data = await res.json();
-        if (data.ok) setReviewLink(data.message || '');
+        if (data.ok && data.message) {
+          setReviewLink(data.message);
+          return; // Stay on page so tradesman can copy the review link
+        }
       } catch {}
     }
 
-    window.location.href = '/leads';
+    navigate('/leads');
   }
 
   return (
