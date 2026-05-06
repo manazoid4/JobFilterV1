@@ -408,26 +408,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
-        <div className="page-shell grid gap-6 py-16 lg:grid-cols-[1fr_420px]">
-          <article className="jf-box bg-white p-7">
-            <p className="micro-label text-[var(--orange)]">PAID GATE</p>
-            <h2 className="headline mt-3 text-5xl leading-none">Free shows the signal. Pro unlocks the job.</h2>
-            <p className="mt-4 text-xl font-black text-[var(--muted)]">
-              Free proves there is work in the area. £49 unlocks buyer detail, contact signal, WhatsApp delivery, saved leads, and the next action.
-            </p>
-            <p className="mt-5 font-black uppercase text-[var(--green)]">NO CONTRACTS. FAIR SYSTEM. STAY IN CONTROL.</p>
-          </article>
-          <article className="jf-box bg-[var(--yellow)] p-7">
-            <p className="micro-label text-[var(--ink)]">PAID PLANS INCLUDE</p>
-            <h2 className="headline mt-3 text-5xl leading-none">Letterhead Pack</h2>
-            <p className="mt-4 text-lg font-black">
-              Founding 30 and Pro include professional letterhead, blueprint instructions, printing and postage, plus the PDF copy to send before the other firm looks organised.
-            </p>
-          </article>
-        </div>
-      </section>
-
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--ink)]">TRADIESTACK — NEW</p>
@@ -439,19 +419,19 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
+      <section className="bg-[var(--navy)] border-y-4 border-[var(--line)] text-white">
         <div className="page-shell py-12">
-          <p className="micro-label text-[var(--ink)]">EPC ENERGY UPGRADES</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">F AND G RATED PROPERTIES CAN'T BE RENTED WITHOUT YOUR WORK.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="micro-label text-[var(--yellow)]">EPC ENERGY UPGRADES</p>
+          <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)] md:text-6xl">F AND G RATED PROPERTIES CAN'T BE RENTED WITHOUT YOUR WORK.</h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/75">
             Properties with low EPC ratings need urgent retrofit before they're legally lettable. JobFilter flags these addresses before any job board sees them.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 text-sm font-black">
             {['Heat pump installs', 'Insulation upgrades', 'Boiler replacements', 'Solar installs', 'EV chargers'].map(t => (
-              <span key={t} className="border-2 border-[var(--ink)] bg-white px-3 py-2">{t}</span>
+              <span key={t} className="border-2 border-white/40 bg-white/10 px-3 py-2 text-white">{t}</span>
             ))}
           </div>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/epc">SEE EPC LEADS -&gt;</Link>
+          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/epc">SEE EPC LEADS →</Link>
         </div>
       </section>
 
