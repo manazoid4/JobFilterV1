@@ -34,7 +34,7 @@ export function LaunchWaitlistModal() {
             <div>
               <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
               <h2 className="headline mt-2 text-4xl leading-none">STOP WASTING EVENINGS.</h2>
-              <p className="mt-3 font-black text-white/70">Join the Birmingham launch list.</p>
+              <p className="mt-3 font-black text-white/70">Lock your Founding 30 slot. £29/mo forever.</p>
             </div>
             <button className="border-2 border-white px-3 py-1 font-black" onClick={close} aria-label="Close waitlist">
               X
