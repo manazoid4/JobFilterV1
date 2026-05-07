@@ -175,7 +175,7 @@ export function FindJobsPage() {
                 <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
                 <h2 className="headline mt-2 text-4xl leading-none">HIGHEST VALUE FIRST</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  Free view proves the signal exists. Pro unlocks full lead depth, contact signal, deadline, WhatsApp delivery, and the full action workflow.
+                  Free view proves the signal exists. Upgrade from £29/mo to unlock full lead depth, buyer name, deadline, WhatsApp delivery, and direct source links.
                 </p>
               </section>
               {result.leads.map((lead) => (
@@ -183,12 +183,15 @@ export function FindJobsPage() {
               ))}
               {(result.lockedCount ?? 0) > 0 && (
                 <div className="jf-box bg-[var(--ink)] p-8 text-center">
-                  <p className="micro-label text-[var(--yellow)]">PAYWALL</p>
+                  <p className="micro-label text-[var(--yellow)]">FULL RESULTS LOCKED</p>
                   <p className="headline mt-2 text-3xl text-white leading-tight">
-                    {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} FOUND
+                    {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
                   </p>
-                  <p className="mt-2 font-black text-white/70">Buyer name, deadline, contact signal, and source URL locked on free tier.</p>
-                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK ALL RESULTS →</Link>
+                  <p className="mt-2 font-black text-white/70">
+                    Each includes buyer name, deadline, source link, and contact signal — the detail that decides if a job is worth chasing.
+                  </p>
+                  <p className="mt-3 text-sm font-black text-[var(--yellow)]">Founding 30: £29/mo forever &nbsp;·&nbsp; Pro: £49/mo &nbsp;·&nbsp; 30-day money-back</p>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £29/MO →</Link>
                 </div>
               )}
             </div>
