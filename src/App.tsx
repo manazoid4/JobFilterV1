@@ -17,6 +17,7 @@ import { NewsPage } from './pages/NewsPage';
 import { PricingPage } from './pages/PricingPage';
 import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
 import { SmartQuotePage } from './pages/SmartQuotePage';
+import { SignalsPage } from './pages/SignalsPage';
 import { TipsPage } from './pages/TipsPage';
 import { TradieStackPage } from './pages/TradieStackPage';
 
@@ -42,6 +43,7 @@ export default function App() {
         <Route path="/vantage" element={<ProductAdvantagePage type="vantage" />} />
         <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
         <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
+        <Route path="/signals" element={<SignalsPage />} />
         <Route path="/tradiestack" element={<TradieStackPage />} />
         <Route path="/privacy" element={<LegalPage type="privacy" />} />
         <Route path="/terms" element={<LegalPage type="terms" />} />
