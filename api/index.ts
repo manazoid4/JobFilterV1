@@ -1,9 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createApp } from '../server/app';
 
-const appPromise = createApp();
+let appReady: Awaited<ReturnType<typeof createApp>> | null = null;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const app = await appPromise;
-  return app(req, res);
+  if (!appReady) appReady = await createApp();
+  return new Promise<void>((resolve, reject) => {
+    appReady!(req as any, res as any, (err: unknown) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
 }

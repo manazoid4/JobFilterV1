@@ -43,7 +43,9 @@ export async function createApp() {
     });
   });
 
-  if (process.env.NODE_ENV !== 'production' && process.env.VERCEL !== '1') {
+  if (process.env.VERCEL === '1') {
+    // Vercel serves static files itself — no static middleware needed here
+  } else if (process.env.NODE_ENV !== 'production') {
     const vite = await createServerVite();
     app.use(vite.middlewares);
   } else {

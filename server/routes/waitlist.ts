@@ -1,6 +1,5 @@
-import fs from 'fs/promises';
-import path from 'path';
 import type { Express, Request, Response } from 'express';
+import { supabase } from '../lib/supabase';
 import { sendWaitlistConfirmation } from '../services/email';
 
 export function registerWaitlistRoute(app: Express) {
@@ -10,18 +9,22 @@ export function registerWaitlistRoute(app: Express) {
         name: clean(req.body?.name, 80),
         trade: clean(req.body?.trade, 60),
         contact: clean(req.body?.contact, 120),
-        contactType: detectContactType(req.body?.contact),
+        contact_type: detectContactType(req.body?.contact),
         source: clean(req.body?.source, 80) || 'site',
-        createdAt: new Date().toISOString(),
       };
 
       if (!entry.name || !entry.trade || !entry.contact) {
         return res.status(422).json({ ok: false, error: 'Name, trade, and email or phone are required.' });
       }
 
-      const stored = await storeWaitlistEntry(entry);
+      let stored = 'none';
+      if (supabase) {
+        const { error } = await supabase.from('waitlist').insert(entry);
+        if (error) throw error;
+        stored = 'supabase';
+      }
 
-      if (entry.contactType === 'email') {
+      if (entry.contact_type === 'email') {
         sendWaitlistConfirmation(entry.name, entry.contact).catch(() => {});
       }
 
@@ -30,13 +33,6 @@ export function registerWaitlistRoute(app: Express) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Waitlist failed.') });
     }
   });
-}
-
-async function storeWaitlistEntry(entry: Record<string, string>) {
-  const dataDir = path.join(process.cwd(), 'data');
-  await fs.mkdir(dataDir, { recursive: true });
-  await fs.appendFile(path.join(dataDir, 'waitlist.jsonl'), `${JSON.stringify(entry)}\n`, 'utf8');
-  return 'local_jsonl';
 }
 
 function clean(input: unknown, max: number) {
