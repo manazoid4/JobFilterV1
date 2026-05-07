@@ -1,8 +1,8 @@
 /**
  * EPC (Energy Performance Certificate) Fetcher
  *
- * Endpoint: GET https://epc.opendatacommunities.org/api/v1/domestic/search
- * Auth: Authorization: Basic {base64(email:api_key)}
+ * Endpoint: GET https://get-energy-performance-data.communities.gov.uk/api/v1/domestic/search
+ * Auth: Authorization: Bearer {token}
  *
  * Signal: Homes with low ratings (F, G) or recently expired EPCs are high-value
  * prospects for insulation, heat pumps, and solar upgrades.
@@ -11,35 +11,26 @@
 import type { RawLead, SourceStats } from '../types';
 import { CONFIG } from '../config';
 
-const EPC_BASE_URL = 'https://epc.opendatacommunities.org/api/v1/domestic/search';
+const EPC_BASE_URL = 'https://get-energy-performance-data.communities.gov.uk/api/v1/domestic/search';
 
 export async function epcFetcher(
   outward: string,
   trade: string,
 ): Promise<{ leads: RawLead[]; stats: Record<string, SourceStats> }> {
-  // Check for API key
-  const apiKey = process.env.EPC_API_KEY;
-  const email = process.env.EPC_EMAIL;
-
-  if (!apiKey || !email) {
-    console.error('[EPC] Missing EPC_API_KEY or EPC_EMAIL env vars');
+  const bearerToken = process.env.EPC_BEARER_TOKEN;
+  if (!bearerToken) {
     return {
       leads: [],
-      stats: {
-        EPC: { fetched: 0, passed: 0, dropped: 0, failed: false, error: 'Disabled: No credentials' },
-      },
+      stats: { EPC: { fetched: 0, passed: 0, dropped: 0, failed: false, error: 'Disabled: No EPC_BEARER_TOKEN' } },
     };
   }
-
-  // Basic Auth header
-  const auth = Buffer.from(`${email}:${apiKey}`).toString('base64');
 
   try {
     const url = `${EPC_BASE_URL}?postcode=${outward}&size=50`;
     const r = await fetch(url, {
       headers: {
         Accept: 'application/json',
-        Authorization: `Basic ${auth}`,
+        Authorization: `Bearer ${bearerToken}`,
         'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
       },
       signal: AbortSignal.timeout(CONFIG.fetchTimeoutMs),
@@ -56,7 +47,7 @@ export async function epcFetcher(
     }
 
     const data = await r.json() as any;
-    const rows: any[] = data?.rows ?? [];
+    const rows: any[] = data?.rows ?? data?.data ?? data?.results ?? [];
 
     // Filter by trade relevance
     // Electrical -> Heat Pumps, Solar
