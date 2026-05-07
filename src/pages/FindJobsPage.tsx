@@ -214,7 +214,10 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          {lead.source === 'EPC' && <Tag label="epc_signal" />}
+          {lead.source === 'EPC' && <EpcSourceBadge title={lead.title} />}
+          {lead.source === 'LandRegistry' && (
+            <span className="badge bg-[#1e3a5f] text-white text-xs font-black px-2 py-1">LR</span>
+          )}
           {lead.source === 'PlanningData' && <Tag label="planning_portal" />}
           <Tag label="Timing locked" />
         </div>
@@ -241,6 +244,31 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         )}
       </div>
     </article>
+  );
+}
+
+const EPC_RATING_COLOURS: Record<string, string> = {
+  A: 'bg-[#008054] text-white',
+  B: 'bg-[#19b459] text-white',
+  C: 'bg-[#8dce46] text-[#1a1a1a]',
+  D: 'bg-[#ffd500] text-[#1a1a1a]',
+  E: 'bg-[#fcaa65] text-[#1a1a1a]',
+  F: 'bg-[#ef8023] text-white',
+  G: 'bg-[#e9153b] text-white',
+};
+
+function EpcSourceBadge({ title }: { title: string }) {
+  // Parse rating from title like "Efficiency Upgrade: Rating F"
+  const match = title.match(/Rating\s+([A-G])/i);
+  const rating = match ? match[1].toUpperCase() : null;
+  const ratingColour = rating ? (EPC_RATING_COLOURS[rating] ?? 'bg-gray-400 text-white') : '';
+  return (
+    <span className="flex items-center gap-1">
+      <span className="badge bg-[#2d7a4f] text-white font-black text-xs px-2 py-1">EPC</span>
+      {rating && (
+        <span className={`badge font-black text-xs px-2 py-1 ${ratingColour}`}>{rating}</span>
+      )}
+    </span>
   );
 }
 

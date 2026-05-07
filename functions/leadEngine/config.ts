@@ -11,6 +11,7 @@ export interface LeadEngineConfig {
     epcData: boolean;
     sell2wales: boolean;
     publicContractsScotland: boolean;
+    landRegistry: boolean;
   };
   cpvAllowPrefixes: Record<TradeKey, string[]>;
   cpvBlockPrefixes: string[];
@@ -49,6 +50,7 @@ export const CONFIG: LeadEngineConfig = {
     epcData:                  process.env.SOURCE_EPC !== 'false',
     sell2wales:               process.env.SOURCE_S2W === 'true',   // unresolved endpoint — off until fixed
     publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
+    landRegistry:             process.env.SOURCE_LR !== 'false',
   },
 
   cpvAllowPrefixes: CPV_ALLOW,

@@ -192,7 +192,7 @@ export function HomePage() {
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE £49 PLAN</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/news">READ TRADE SIGNALS</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">Start free →</Link>
           </div>
         </div>
       </section>
@@ -225,6 +225,22 @@ export function HomePage() {
             Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
           </p>
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
+        </div>
+      </section>
+
+      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            JobFilter reads official data that tells you work is coming — planning approvals, council contracts, EPC ratings, property sales, and new business registrations. All before it hits the directories.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3 text-sm font-black">
+            {['Planning', 'Public Contracts', 'EPC Retrofit', 'Property Sales', 'New Businesses'].map(t => (
+              <span key={t} className="border-2 border-[var(--ink)] bg-white px-3 py-2">{t}</span>
+            ))}
+          </div>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/signals">SEE THE SIGNALS →</Link>
         </div>
       </section>
 

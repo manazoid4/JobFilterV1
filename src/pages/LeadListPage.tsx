@@ -43,6 +43,7 @@ export function LeadListPage() {
               tags={lead.flags}
               meta={lead.urgency}
               cta="DECIDE"
+              showStatus
             />
           ))}
         </div>

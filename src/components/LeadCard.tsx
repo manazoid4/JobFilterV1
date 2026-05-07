@@ -1,7 +1,18 @@
+import { useState, type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import type { DecisionFlag } from '../lib/types';
 import { ScoreBadge } from './ScoreBadge';
 import { Tag } from './Tag';
+
+type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'ignored';
+
+const STATUS_PILLS: { label: string; value: LeadStatus }[] = [
+  { label: 'CONTACTED', value: 'contacted' },
+  { label: 'QUOTED', value: 'quoted' },
+  { label: 'WON', value: 'won' },
+  { label: 'LOST', value: 'lost' },
+  { label: 'IGNORE', value: 'ignored' },
+];
 
 type LeadCardProps = {
   key?: string;
@@ -13,9 +24,28 @@ type LeadCardProps = {
   to?: string;
   href?: string;
   meta?: string;
+  showStatus?: boolean;
 };
 
-export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta }: LeadCardProps) {
+export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false }: LeadCardProps) {
+  const storageKey = `lead_status_${id ?? ''}`;
+  const [status, setStatus] = useState<LeadStatus | null>(() => {
+    if (!id || typeof window === 'undefined') return null;
+    return (localStorage.getItem(storageKey) as LeadStatus | null);
+  });
+
+  function handleStatusClick(event: MouseEvent, value: LeadStatus) {
+    event.preventDefault();
+    event.stopPropagation();
+    const next = status === value ? null : value;
+    if (next) {
+      localStorage.setItem(storageKey, next);
+    } else {
+      localStorage.removeItem(storageKey);
+    }
+    setStatus(next);
+  }
+
   const content = (
     <article className="jf-box grid grid-cols-[auto_1fr] gap-4 bg-white p-4">
       <ScoreBadge score={score} />
@@ -32,6 +62,23 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta 
         <div className="mt-4">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
         </div>
+        {showStatus && id && (
+          <div className="mt-3 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+            {STATUS_PILLS.map(({ label, value }) => (
+              <button
+                key={value}
+                onClick={(e) => handleStatusClick(e, value)}
+                className={`border-2 px-2 py-1 text-[10px] font-black uppercase tracking-wide ${
+                  status === value
+                    ? 'bg-[var(--yellow)] border-[var(--ink)] text-[var(--ink)]'
+                    : 'bg-white border-[var(--line)] text-[var(--muted)]'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </article>
   );

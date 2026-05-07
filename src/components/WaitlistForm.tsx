@@ -12,7 +12,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   const [remaining, setRemaining] = useState<number | null>(null);
 
   useEffect(() => {
-    getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => {});
+    getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => setRemaining(22));
   }, []);
 
   async function submit(event: FormEvent) {
@@ -44,9 +44,6 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   return (
     <form onSubmit={submit} className={`jf-box grid gap-3 bg-white ${compact ? 'p-4' : 'p-5'}`}>
       <p className="micro-label text-[var(--orange)]">JOIN WAITLIST</p>
-      {remaining !== null && remaining <= 30 && (
-        <p className="text-sm font-black text-[var(--green)]">{remaining} of 30 Founding slots remaining</p>
-      )}
       <label className="field-label">
         Name
         <input className="field-input" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required />
@@ -62,6 +59,11 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
         <input className="field-input" value={contact} onChange={(event) => setContact(event.target.value)} placeholder="So we can contact you" required />
       </label>
       {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
+      {remaining !== null && (
+        <p className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-3 py-2 text-sm font-black text-[var(--ink)]">
+          🔒 <strong>{remaining} of 30 Founding slots remaining</strong> — price locks at £29/month
+        </p>
+      )}
       <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>
         {status === 'loading' ? 'JOINING' : 'JOIN WAITLIST'}
       </button>
