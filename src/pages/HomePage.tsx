@@ -398,12 +398,12 @@ export function HomePage() {
           <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
           <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
             <div>
-              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">£49/month. Unlock the action layer.</h2>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">From £29/month. One job covers it.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-                Free shows the signal. Founding 30 and Pro unlock full source links, contact signal, WhatsApp alerts, saved leads, priority-ranked jobs, and the Letterhead Pack.
+                Free shows the signal. Founding 30 (£29/mo, 30 slots) or Pro (£49/mo) unlocks full source links, WhatsApp alerts, buyer name, deadline, and the Letterhead Pack.
               </p>
             </div>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRO DETAILS</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
           </div>
         </div>
       </section>
@@ -459,11 +459,11 @@ export function HomePage() {
               Start filtering today.
             </h2>
             <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer for £49/month. No contract. Cancel any time.
+              Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer from £29/month. No contract. 30-day money-back guarantee.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-                Get the £49 plan →
+                Get Founding 30 — £29/mo →
               </Link>
               <Link to="/find-jobs" className="jf-button bg-[var(--paper)] text-[var(--navy)]">
                 Scan your area free →
