@@ -136,6 +136,36 @@
 - Partnership model: member benefit programme (£19/mo exclusive rate, 15-25% revenue share)
 - Draft outreach email templates for top 3
 
+#### 19. JobFilter — Document Search Prototype (COMPLETED)
+- Created `src/components/KeywordSearch.tsx` — search bar with 12 keyword buttons
+- Created `src/lib/documentSearch.ts` — mock search with 12 realistic planning documents
+- Integrated into FindJobsPage as collapsible section
+- Created vault doc: `Product/Document Search Spec.md` with technical spec, cost analysis, 8-week plan
+- Cost: £8-15/mo to run vs Buildscout's £239/mo
+
+#### 20. JobFilter — Pricing Experiments (COMPLETED)
+- **Weekly framing**: Weekly price is PRIMARY number across all pages (£6.99/wk, £6.71/wk)
+- **Annual urgency**: "Save £108/year" in big green text, progress bar for Founding 30 slots
+- **Risk reversal**: 30-day guarantee banners on HomePage, PricingPage, FindJobsPage, FreeToolsPage
+- **ROI Calculator**: Interactive slider on PricingPage — job value × jobs/month = real-time ROI vs Checkatrade/Agency
+- **Founding 30 urgency**: Progress bar in nav + PricingPage hero, "X/30 slots taken" with visual indicator
+
+#### 21. AgentDock — MVP Build (COMPLETED)
+- Landing page with enterprise B2B dark theme
+- "See every agent. Control every action." positioning
+- Pipeline strip: TRIGGER → TRIAGE → DRAFT → REVIEW → SEND → LOG
+- 4 agent roles with live status LEDs
+- Demo mode with simulated ServiceNow ticket activity
+- Dashboard: Operations Dock, Agent Board, Pipeline View, Handoff Log, Review Gate, Connectors
+- Vault docs: MVP Scope updated, AgentDock Landing Page Spec created
+
+#### 22. khutba.io — Product Build + Launch Plan (COMPLETED)
+- Built full codebase: server (Socket.io, UK prayer times, Ramadan countdown, WhatsApp share), client (Landing, Pricing, Display, Admin pages)
+- Screen-first positioning vs MinbarLive's phone-only
+- Unlimited minutes vs MinbarLive's caps
+- Pricing: £29/£59/£99 vs MinbarLive's €59-€299/mo
+- Vault docs: Product Roadmap (5 phases), Ramadan Launch Plan 2027, UK Mosque Outreach Strategy
+
 ### Pushed to GitHub
 - Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
 - Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
@@ -144,9 +174,11 @@
 - Commit 5: `8231cff` — Fix: duplicate toFreePreviewLead + Stripe type errors
 - Commit 6: `a367a3f` — Running summary update
 - Commit 7: `0035755` — Conversion polish, Triple Engine integration, Free Tools funnel
+- Commit 8: `42a5671` — Document search prototype, pricing experiments
+- Commit 9: `525eb50` — AgentDock MVP, khutba.io product build + Ramadan launch plan
 
 ### Deployed to Firebase
-- Hosting: jobfilter.uk — LIVE with all mobile fixes + conversion polish
+- Hosting: jobfilter.uk — LIVE with all improvements
 - Functions: api — LIVE with Stripe integration
 
 ### Key Decisions
@@ -157,7 +189,9 @@
 - Triple Engine now complete AND integrated: Find → Chase → Win — all connected
 - Free Tools now have clear conversion paths on every page
 - Pricing uses weekly framing (£6.99/wk) to reduce perceived cost
-- Founding 30 urgency reinforced with slots counter in nav
+- Founding 30 urgency reinforced with slots counter in nav + progress bar
+- Document search prototype built — £8-15/mo to run vs Buildscout's £239/mo
+- khutba.io: screen-first moat, unlimited minutes, Ramadan 2027 launch plan
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer

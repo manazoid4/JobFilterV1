@@ -31,6 +31,11 @@ import { SmartQuotePage } from './pages/SmartQuotePage';
 import { SignalsPage } from './pages/SignalsPage';
 import { TipsPage } from './pages/TipsPage';
 import { TradieStackPage } from './pages/TradieStackPage';
+import { TradePlumbers } from './pages/TradePlumbers';
+import { TradeElectricians } from './pages/TradeElectricians';
+import { TradeBuilders } from './pages/TradeBuilders';
+import { TradeHeatPumps } from './pages/TradeHeatPumps';
+import { TradeRoofers } from './pages/TradeRoofers';
 import { WinEnginePage } from './pages/WinEnginePage';
 
 export default function App() {
@@ -69,6 +74,11 @@ export default function App() {
         <Route path="/construction-leads/bristol" element={<CityBristol />} />
         <Route path="/construction-leads/leeds" element={<CityLeeds />} />
         <Route path="/construction-leads/glasgow" element={<CityGlasgow />} />
+        <Route path="/trade/plumbers" element={<TradePlumbers />} />
+        <Route path="/trade/electricians" element={<TradeElectricians />} />
+        <Route path="/trade/builders" element={<TradeBuilders />} />
+        <Route path="/trade/heat-pump-installers" element={<TradeHeatPumps />} />
+        <Route path="/trade/roofers" element={<TradeRoofers />} />
         <Route path="/privacy" element={<LegalPage type="privacy" />} />
         <Route path="/terms" element={<LegalPage type="terms" />} />
         <Route path="/health" element={<HealthPage />} />
