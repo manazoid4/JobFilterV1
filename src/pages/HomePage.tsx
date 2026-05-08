@@ -124,6 +124,44 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── THE QUIET WEEK PROBLEM ───────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--yellow)]">THE QUIET WEEK PROBLEM</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">
+            YOUR QUIET WEEK ISN'T A SKILLS PROBLEM. IT'S A PIPELINE PROBLEM.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            Every trade has boom and bust. The difference is who fills the gaps before they start. JobFilter spots the signals during the busy weeks so you've got work lined up when things go quiet.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="jf-box bg-white/10 p-5">
+              <p className="text-xs font-black uppercase text-[var(--green)]">WEEK 1 — BUSY</p>
+              <p className="mt-2 font-black text-white/80">3 jobs on the go. Phone ringing. You're flat out.</p>
+              <p className="mt-2 text-sm font-black text-[var(--yellow)]">JobFilter scans in the background. 2 new signals logged.</p>
+            </div>
+            <div className="jf-box bg-white/10 p-5">
+              <p className="text-xs font-black uppercase text-[var(--green)]">WEEK 2 — BUSY</p>
+              <p className="mt-2 font-black text-white/80">Still on the tools. No time to look for work.</p>
+              <p className="mt-2 text-sm font-black text-[var(--yellow)]">GOLD alert fires to WhatsApp. You save it for later.</p>
+            </div>
+            <div className="jf-box bg-white/10 p-5">
+              <p className="text-xs font-black uppercase text-[var(--orange)]">WEEK 3 — QUIET</p>
+              <p className="mt-2 font-black text-white/80">Jobs finish. Phone goes silent. Cashflow tightens.</p>
+              <p className="mt-2 text-sm font-black text-[var(--green)]">You open JobFilter. 3 saved leads ready to chase. You're not starting from zero.</p>
+            </div>
+            <div className="jf-box bg-white/10 p-5">
+              <p className="text-xs font-black uppercase text-[var(--green)]">WEEK 4 — FILLED</p>
+              <p className="mt-2 font-black text-white/80">Two of those saved leads turn into booked jobs.</p>
+              <p className="mt-2 text-sm font-black text-[var(--yellow)]">Meanwhile the scanner has already found next week's pipeline.</p>
+            </div>
+          </div>
+          <p className="mt-6 text-sm font-black text-white/50">
+            Without JobFilter: quiet week hits, you scramble. With JobFilter: quiet week hits, you already know where the next jobs are.
+          </p>
+        </div>
+      </section>
+
       {/* ── THE PROBLEM ──────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell section-pad">
@@ -532,6 +570,39 @@ export function HomePage() {
             Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
           </p>
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
+        </div>
+      </section>
+
+      {/* ── BUILT IN BIRMINGHAM ──────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--orange)]">BUILT IN BIRMINGHAM, NOT LONDON</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">
+            WE KNOW HOW TRADES WORK. BECAUSE WE'RE BUILT AMONG THEM.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
+            JobFilter wasn't designed in a London co-working space by people who've never held a spirit level. It was built in Birmingham by people who know the difference between a first fix and a snag list.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="jf-box bg-white p-5">
+              <h3 className="headline text-xl text-[var(--navy)]">LOCAL KNOWLEDGE</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">
+                We know the Midlands planning portals. We know which councils move fast and which ones sit on applications for months. That knowledge is baked into the scoring.
+              </p>
+            </div>
+            <div className="jf-box bg-white p-5">
+              <h3 className="headline text-xl text-[var(--navy)]">REAL TRADES, NOT TECH BROS</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">
+                Every feature is built from what trades actually need — not what a product manager thinks they should want. WhatsApp alerts because that's where you work. No dashboards to log into.
+              </p>
+            </div>
+            <div className="jf-box bg-white p-5">
+              <h3 className="headline text-xl text-[var(--navy)]">HONEST PRICING</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">
+                £6.99/week because that's what a fair price looks like. No hidden fees, no per-lead charges, no "enterprise" tier. If you're on the tools, you shouldn't need a CFO to buy software.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

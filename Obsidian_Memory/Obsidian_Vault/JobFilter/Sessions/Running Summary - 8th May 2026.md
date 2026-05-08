@@ -166,6 +166,21 @@
 - Pricing: £29/£59/£99 vs MinbarLive's €59-€299/mo
 - Vault docs: Product Roadmap (5 phases), Ramadan Launch Plan 2027, UK Mosque Outreach Strategy
 
+#### 23. JobFilter — Integration Partnership Map (COMPLETED)
+- Created `System/Integration Partnership Map - 8th May 2026.md`
+- Prioritized 11 integrations by retention impact × implementation cost
+- Top 5 with technical specs: WhatsApp Business API, Google Calendar, TradeFlow UK, Companies House API, Xero
+- 3 outreach templates ready to send
+- 30/60/90 day implementation plan
+- Key finding: WhatsApp deeper integration + Google Calendar are fastest wins; TradeFlow completes the pipeline
+
+#### 24. JobFilter — Trade SEO Pages (COMPLETED)
+- Created reusable `src/components/TradePage.tsx` with TradePageData interface
+- Built 5 trade pages: Plumbers, Electricians, Builders, Heat Pump Installers, Roofers
+- Routes: `/trade/{trade}` — each with unique headline angle, trade-specific pain points, real data stats
+- Internal SEO cluster links between all trade pages
+- Vault doc: `Product/Trade SEO Strategy.md`
+
 ### Pushed to GitHub
 - Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
 - Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
@@ -176,6 +191,7 @@
 - Commit 7: `0035755` — Conversion polish, Triple Engine integration, Free Tools funnel
 - Commit 8: `42a5671` — Document search prototype, pricing experiments
 - Commit 9: `525eb50` — AgentDock MVP, khutba.io product build + Ramadan launch plan
+- Commit 10: `21d1c7d` — Integration partnership map, 5 trade SEO pages
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements

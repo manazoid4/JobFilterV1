@@ -55,6 +55,11 @@ export function Footer() {
             <p className="text-sm font-black text-white/60 leading-relaxed">
               Not a London startup guessing. Built by people who know how trades work.
             </p>
+            <div className="mt-3 grid gap-2 text-xs font-black text-white/50">
+              <p>Local knowledge baked into every signal score.</p>
+              <p>WhatsApp-first because that's where you actually work.</p>
+              <p>£6.99/week because fair pricing isn't complicated.</p>
+            </div>
             <div className="mt-3 border-2 border-[var(--green)]/40 bg-[var(--green)]/10 px-3 py-2 text-xs font-black text-[var(--green)]">
               30-DAY MONEY-BACK GUARANTEE
             </div>

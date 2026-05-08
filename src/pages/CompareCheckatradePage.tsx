@@ -103,6 +103,125 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
+      {/* ── THE LEAD AUCTION VISUAL ──────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--ink)]">THE LEAD AUCTION</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">
+            EVERY LEAD YOU BUY GOES TO 4 OTHER BLOKES.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            You pay £15 for a lead. So do four other trades. One of you wins. The other four just funded their own competition. That's not lead generation. That's a tax on hope.
+          </p>
+          <div className="mt-8 jf-box bg-white p-6">
+            <div className="grid gap-4 md:grid-cols-6">
+              <div className="text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-[var(--navy)] bg-[var(--navy)]">
+                  <span className="text-lg font-black text-[var(--yellow)]">1</span>
+                </div>
+                <p className="mt-2 text-sm font-black text-[var(--navy)]">LEAD</p>
+                <p className="text-xs font-black text-[var(--muted)]">Homeowner posts a job</p>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-3xl font-black text-[var(--orange)]">→</span>
+              </div>
+              <div className="text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-[var(--orange)]">
+                  <span className="text-lg font-black text-[var(--orange)]">5</span>
+                </div>
+                <p className="mt-2 text-sm font-black text-[var(--navy)]">TRADES PAY</p>
+                <p className="text-xs font-black text-[var(--muted)]">All get the same lead</p>
+              </div>
+              <div className="flex items-center justify-center">
+                <span className="text-3xl font-black text-[var(--orange)]">→</span>
+              </div>
+              <div className="text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-[var(--green)] bg-[var(--green)]">
+                  <span className="text-lg font-black text-white">1</span>
+                </div>
+                <p className="mt-2 text-sm font-black text-[var(--green)]">WINS</p>
+                <p className="text-xs font-black text-[var(--muted)]">First to quote</p>
+              </div>
+              <div className="text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-4 border-[var(--orange)] bg-[var(--orange)]/20">
+                  <span className="text-lg font-black text-[var(--orange)]">4</span>
+                </div>
+                <p className="mt-2 text-sm font-black text-[var(--orange)]">LOSE</p>
+                <p className="text-xs font-black text-[var(--muted)]">Paid for nothing</p>
+              </div>
+            </div>
+            <div className="mt-6 border-2 border-[var(--ink)] bg-[var(--bg-main)] p-4 text-center">
+              <p className="text-sm font-black text-[var(--navy)]">
+                You paid £15. Four other trades paid £15. One person got a job. Four people paid to compete with themselves.
+              </p>
+              <p className="mt-1 text-sm font-black text-[var(--green)]">
+                JobFilter: one signal, one trade, no auction. You see it or you don't. No one else gets your scan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FIRST MOVER ADVANTAGE ────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--yellow)]">FIRST MOVER ADVANTAGE</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
+            THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. Not the best reviewed. The first. JobFilter tells you where to turn up before anyone else knows the job exists.
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="jf-box bg-white/10 p-6">
+              <p className="text-xs font-black uppercase text-[var(--green)]">WITH JOBFILTER</p>
+              <div className="mt-4 grid gap-3 font-black text-white/85">
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:14</span>
+                  <span>Planning approved — JobFilter detects the signal</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:16</span>
+                  <span>GOLD alert fires to your WhatsApp</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:20</span>
+                  <span>You tap the link, see buyer details, make the call</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">09:00</span>
+                  <span>You're first to quote. You set the price. You win the job.</span>
+                </div>
+              </div>
+            </div>
+            <div className="jf-box bg-white/10 p-6">
+              <p className="text-xs font-black uppercase text-[var(--orange)]">ON CHECKATRADE</p>
+              <div className="mt-4 grid gap-3 font-black text-white/85">
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 1</span>
+                  <span>Homeowner posts job on Checkatrade</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 1</span>
+                  <span>Lead sold to 5-8 trades. All get the same notification.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 2-3</span>
+                  <span>Everyone quotes. Price war starts. Margins destroyed.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 5</span>
+                  <span>Homeowner picks cheapest. You paid for the lead and lost.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-6 text-sm font-black text-white/50">
+            70% of jobs go to the first quote. JobFilter gets you there first. Checkatrade puts you in a queue.
+          </p>
+        </div>
+      </section>
+
       {/* ── THE FIX ──────────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell section-pad">

@@ -113,6 +113,19 @@ export function PricingPage() {
           </div>
         )}
 
+        {/* Competitor FOMO */}
+        <div className="mx-auto mt-5 max-w-lg border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/5 px-5 py-4">
+          <p className="text-sm font-black text-[var(--yellow)]">
+            SOMEONE IN YOUR POSTCODE AREA IS ALREADY SEEING THESE JOBS BEFORE THEY HIT CHECKATRADE.
+          </p>
+          <p className="mt-2 text-sm font-black text-white/70">
+            Every week JobFilter picks up planning approvals, EPC retrofits, and council contracts that never reach the directories. The trades using it are quoting first. The ones who aren't are wondering where the good jobs went.
+          </p>
+          <p className="mt-2 text-sm font-black text-[var(--green)]">
+            It could be you. Or it could be the bloke who undercuts you on price.
+          </p>
+        </div>
+
         <div className="mt-6 inline-flex items-center gap-2 border-2 border-[var(--line)] p-1">
           <button
             type="button"

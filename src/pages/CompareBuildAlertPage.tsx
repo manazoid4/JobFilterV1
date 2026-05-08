@@ -113,6 +113,66 @@ export function CompareBuildAlertPage() {
         </div>
       </section>
 
+      {/* ── FIRST MOVER ADVANTAGE ────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--yellow)]">FIRST MOVER ADVANTAGE</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
+            THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
+          </h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. The first. BuildAlert mails you a letter. By the time it arrives, someone with WhatsApp already won the job.
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="jf-box bg-white/10 p-6">
+              <p className="text-xs font-black uppercase text-[var(--green)]">WITH JOBFILTER — MINUTES</p>
+              <div className="mt-4 grid gap-3 font-black text-white/85">
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:14</span>
+                  <span>Signal detected — planning, EPC, or contract</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:16</span>
+                  <span>GOLD alert fires to your WhatsApp</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">08:20</span>
+                  <span>You see buyer, value, urgency. Make the call.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--green)]">09:00</span>
+                  <span>First to quote. You set the price. Job won.</span>
+                </div>
+              </div>
+            </div>
+            <div className="jf-box bg-white/10 p-6">
+              <p className="text-xs font-black uppercase text-[var(--orange)]">WITH BUILDALERT — DAYS</p>
+              <div className="mt-4 grid gap-3 font-black text-white/85">
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 1</span>
+                  <span>Planning application approved</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 2-3</span>
+                  <span>BuildAlert processes and posts your letter</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 4-5</span>
+                  <span>Letter arrives. You browse the planning portal.</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="flex-shrink-0 font-bold text-[var(--orange)]">Day 6+</span>
+                  <span>Someone with faster alerts already quoted and won.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-6 text-sm font-black text-white/50">
+            Speed wins. Letters don't win. WhatsApp does.
+          </p>
+        </div>
+      </section>
+
       {/* ── COMPARISON TABLE ─────────────────────────── */}
       <section id="comparison" className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
