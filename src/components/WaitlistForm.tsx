@@ -12,7 +12,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   const [remaining, setRemaining] = useState<number | null>(null);
 
   useEffect(() => {
-    getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => setRemaining(22));
+    getWaitlistCount().then((data) => setRemaining(data.remaining)).catch(() => {});
   }, []);
 
   async function submit(event: FormEvent) {
@@ -44,6 +44,9 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   return (
     <form onSubmit={submit} className={`jf-box grid gap-3 bg-white ${compact ? 'p-4' : 'p-5'}`}>
       <p className="micro-label text-[var(--orange)]">JOIN WAITLIST</p>
+      {remaining !== null && remaining <= 30 && (
+        <p className="text-sm font-black text-[var(--green)]">{remaining} of 30 Founding slots remaining</p>
+      )}
       <label className="field-label">
         Name
         <input className="field-input" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required />

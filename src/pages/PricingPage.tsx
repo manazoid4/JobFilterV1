@@ -83,22 +83,18 @@ export function PricingPage() {
       </section>
 
       <section className="jf-box overflow-hidden bg-white">
-        <div className="overflow-x-auto">
-          <div className="min-w-[640px]">
-            <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
-              <p className="p-4">Feature</p>
-              <p className="p-4">Free</p>
-              <p className="p-4">Founding 30 (£29)</p>
-              <p className="p-4">Pro (£49)</p>
-            </div>
-            {rows.map(([feature, free, founding, pro]) => (
-              <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
-                <p className="p-4 font-black">{feature}</p>
-                <p className="p-4 font-black text-[var(--muted)]">{free}</p>
-                <p className="p-4 font-black">{founding}</p>
-                <p className="p-4 font-black">{pro}</p>
-              </div>
-            ))}
+        <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
+          <p className="p-4">Feature</p>
+          <p className="p-4">Free</p>
+          <p className="p-4">Founding 30 (£29)</p>
+          <p className="p-4">Pro (£49)</p>
+        </div>
+        {rows.map(([feature, free, founding, pro]) => (
+          <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
+            <p className="p-4 font-black">{feature}</p>
+            <p className="p-4 font-black text-[var(--muted)]">{free}</p>
+            <p className="p-4 font-black">{founding}</p>
+            <p className="p-4 font-black">{pro}</p>
           </div>
         </div>
       </section>
@@ -106,7 +102,7 @@ export function PricingPage() {
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <div className="jf-box bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">LETTERHEAD PACK</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">Send the job pack like a firm that wins.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none">Send the job pack like a firm that wins.</h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
             Included with Founding 30 and Pro: company letterhead, job-specific blueprint instructions, WhatsApp-ready PDF, printing, and postage.
           </p>
@@ -153,7 +149,7 @@ export function PricingPage() {
       <section id="waitlist" className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <div className="jf-box bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">PRO WAITLIST</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">Founding 30 slots filling fast.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none">Founding 30 slots filling fast.</h2>
           <p className="mt-4 max-w-xl text-lg font-black text-[var(--ink)]/75">
             Lock £29 forever or join Pro at £49.
           </p>
@@ -163,7 +159,7 @@ export function PricingPage() {
 
       <section className="jf-box bg-white p-8 text-center border-4 border-[var(--green)]">
         <p className="micro-label text-[var(--green)]">NEW — ONE-OFF PURCHASE</p>
-        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">TRADIESTACK — £450 ONCE. OWN IT.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none">TRADIESTACK — £450 ONCE. OWN IT.</h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
           Trade website. CRM. Auto follow-ups. Review engine. Quotes. Invoices. WhatsApp inbox. Everything agencies charge £1,000-£5,500/month for. One payment. No fees ever.
         </p>
@@ -192,7 +188,7 @@ function Plan({ name, price, weekly, body, items, cta, to, dark = false, yellow 
   return (
     <section className={`jf-box p-6 ${box}`}>
       <p className="micro-label text-[var(--orange)]">{name}</p>
-      <h2 className="headline mt-3 text-4xl sm:text-5xl">{price}</h2>
+      <h2 className="headline mt-3 text-5xl">{price}</h2>
       {weekly && <p className={`mt-1 text-sm font-black uppercase ${dark ? 'text-[var(--yellow)]' : 'text-[var(--ink)]'}`}>{weekly}</p>}
       <p className={`mt-2 font-black ${dark ? 'text-white/70' : yellow ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>{body}</p>
       {paid && (
@@ -218,7 +214,7 @@ function WhatsAppBox() {
 Area: B91 / West Midlands
 Value: £50k+
 Urgency: Deadline soon
-Why it matters: Official source, buyer named, high value
+Why it matters: Verified signal, decision-maker named, high value
 Action: Open notice`}
       </pre>
     </article>

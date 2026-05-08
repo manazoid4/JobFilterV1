@@ -6,22 +6,21 @@
 
 ## Tiers
 
-| | Free | EPC Signal | Pro | Founding 30 |
-|---|---|---|---|---|
-| **Monthly** | £0 | £19/mo | £49/mo | £29/mo |
-| **Annual** | £0 | £13/mo (£156/yr) | £34/mo (£408/yr) | £20/mo (£240/yr) |
-| **Annual saving** | — | Save £72/yr | Save £180/yr | Save £108/yr |
-| Lead scans | 3/week ⚠️ unlimited during testing | Unlimited EPC | Unlimited | Unlimited |
-| EPC Signal Engine | Preview only | ✅ Full | ✅ Included | ✅ Included |
-| GOLD WhatsApp alerts | ❌ | ✅ | ✅ | ✅ |
-| GOLD/SILVER/BIN scoring | Preview only | ✅ | ✅ | ✅ |
-| Vantage | ❌ | ❌ | ✅ | ✅ |
-| Vicinity | ❌ | ❌ | ✅ | ✅ |
-| Codex | ❌ | ❌ | ✅ | ✅ |
-| Letterhead Pack | ❌ | 10/mo | ✅ included | ✅ included |
-| Saved leads | ❌ | ✅ | ✅ | ✅ |
-| QR van sticker | ❌ | ❌ | ✅ | ✅ |
-| Contract | None | None | None | None |
+| | Free | Pro | Founding 30 |
+|---|---|---|---|
+| **Monthly** | £0 | £49/mo | £29/mo |
+| **Annual** | £0 | £34/mo (£408/yr) | £20/mo (£240/yr) |
+| **Annual saving** | — | Save £180/yr | Save £108/yr |
+| Lead scans | 3/week ⚠️ unlimited during testing | Unlimited | Unlimited |
+| GOLD WhatsApp alerts | ❌ | ✅ | ✅ |
+| GOLD/SILVER/BIN scoring | Preview only | ✅ | ✅ |
+| Vantage | ❌ | ✅ | ✅ |
+| Vicinity | ❌ | ✅ | ✅ |
+| Codex | ❌ | ✅ | ✅ |
+| Letterhead Pack | ❌ | ✅ included | ✅ included |
+| Saved leads | ❌ | ✅ | ✅ |
+| QR van sticker | ❌ | ✅ | ✅ |
+| Contract | None | None | None |
 
 ---
 

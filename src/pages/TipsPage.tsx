@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const tips = [
   ['Ask budget in the first message', "If they won't give a rough number, they're not serious. Save the site visit. Ask before you travel."],
   ['Charge for detailed site surveys', "A paid survey weeds out tyre-kickers instantly. Credit it against the job if they proceed. If they won't pay £50 for a proper look, they won't pay your rate either."],
@@ -28,6 +30,18 @@ export function TipsPage() {
             <p className="mt-2 text-lg font-black text-[var(--muted)]">{body}</p>
           </article>
         ))}
+      </section>
+
+      <section className="jf-box bg-[var(--ink)] p-8 text-white">
+        <p className="micro-label text-[var(--yellow)]">THE FILTER</p>
+        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">STOP SORTING THROUGH RUBBISH. LET JOBFILTER DO IT.</h2>
+        <p className="mt-4 max-w-2xl text-lg font-black text-white/75">
+          Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £49/month to unlock.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+        </div>
       </section>
     </main>
   );

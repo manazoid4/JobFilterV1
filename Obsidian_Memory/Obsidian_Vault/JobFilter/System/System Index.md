@@ -9,6 +9,7 @@
 ## Product
 
 - [[Product Index]]
+- [[Problems and Solutions]]
 - [[Intake Engine]]
 
 ## Session Logs

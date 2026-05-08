@@ -33,8 +33,8 @@ export function LaunchWaitlistModal() {
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
-              <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">STOP WASTING EVENINGS.</h2>
-              <p className="mt-3 font-black text-white/70">Join the Birmingham launch list.</p>
+              <h2 className="headline mt-2 text-4xl leading-none">STOP WASTING EVENINGS.</h2>
+              <p className="mt-3 font-black text-white/70">Lock your Founding 30 slot. £29/mo forever.</p>
             </div>
             <button className="min-h-[44px] min-w-[44px] border-2 border-white px-3 py-1 font-black" onClick={close} aria-label="Close waitlist">
               X

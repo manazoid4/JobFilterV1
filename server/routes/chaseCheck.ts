@@ -1,23 +1,20 @@
 import type { Express, Request, Response } from 'express';
-import { supabase } from '../lib/supabase';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
 
+const chaseStatuses: Record<string, { status: string; sentAt: string; nudged: boolean }> = {};
+
 export function registerChaseCheckRoute(app: Express) {
-  app.post('/api/chase/update', async (req: Request, res: Response) => {
+  app.post('/api/chase/update', (req: Request, res: Response) => {
     try {
       const { leadId, status } = req.body || {};
       if (!leadId || !status) {
         return res.status(422).json({ ok: false, error: 'leadId and status required.' });
       }
-
-      if (supabase) {
-        const { error } = await supabase.from('chase_status').upsert(
-          { lead_id: leadId, status, updated_at: new Date().toISOString() },
-          { onConflict: 'lead_id', ignoreDuplicates: false },
-        );
-        if (error) throw error;
-      }
-
+      chaseStatuses[leadId] = {
+        status,
+        sentAt: chaseStatuses[leadId]?.sentAt || new Date().toISOString(),
+        nudged: chaseStatuses[leadId]?.nudged || false,
+      };
       return res.json({ ok: true });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Chase update failed.') });
@@ -30,27 +27,14 @@ export function registerChaseCheckRoute(app: Express) {
       if (!leadId || !phoneNumber) {
         return res.status(422).json({ ok: false, error: 'leadId and phoneNumber required.' });
       }
-
-      if (supabase) {
-        const { data: existing } = await supabase
-          .from('chase_status')
-          .select('status, nudged')
-          .eq('lead_id', leadId)
-          .single();
-
-        if (existing?.nudged) {
-          return res.json({ ok: true, nudged: false, reason: 'already_nudged' });
-        }
-        if (['contacted', 'quoted', 'won'].includes(existing?.status)) {
-          return res.json({ ok: true, nudged: false, reason: 'already_contacted' });
-        }
-
-        await supabase.from('chase_status').upsert(
-          { lead_id: leadId, status: existing?.status || 'sent', nudged: true, updated_at: new Date().toISOString() },
-          { onConflict: 'lead_id', ignoreDuplicates: false },
-        );
+      const entry = chaseStatuses[leadId];
+      if (entry?.nudged) {
+        return res.json({ ok: true, nudged: false, reason: 'already_nudged' });
       }
-
+      if (entry?.status === 'contacted' || entry?.status === 'quoted' || entry?.status === 'won') {
+        return res.json({ ok: true, nudged: false, reason: 'already_contacted' });
+      }
+      chaseStatuses[leadId] = { ...entry, status: entry?.status || 'sent', sentAt: entry?.sentAt || new Date().toISOString(), nudged: true };
       const result = await triggerGoldLeadWhatsApp({
         score: 75,
         jobType: trade || 'Trade',

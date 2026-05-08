@@ -3,6 +3,7 @@
 ## Core
 
 - [[JobFilter Product overview]]
+- [[Problems and Solutions]]
 - [[Intake Engine]]
 - [[Pricing]]
 - [[Launch Checklist]]

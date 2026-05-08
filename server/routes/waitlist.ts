@@ -1,5 +1,4 @@
 import type { Express, Request, Response } from 'express';
-import { supabase } from '../lib/supabase';
 import { sendWaitlistConfirmation } from '../services/email';
 
 export function registerWaitlistRoute(app: Express) {
@@ -17,14 +16,9 @@ export function registerWaitlistRoute(app: Express) {
         return res.status(422).json({ ok: false, error: 'Name, trade, and email or phone are required.' });
       }
 
-      let stored = 'none';
-      if (supabase) {
-        const { error } = await supabase.from('waitlist').insert(entry);
-        if (error) throw error;
-        stored = 'supabase';
-      }
+      const stored = await storeWaitlistEntry(entry);
 
-      if (entry.contact_type === 'email') {
+      if (entry.contactType === 'email') {
         sendWaitlistConfirmation(entry.name, entry.contact).catch(() => {});
       }
 

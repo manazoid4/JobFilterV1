@@ -1,27 +1,5 @@
 # Rolling Launch Summary
 
-## 6 May 2026
-
-**Focus:** White screen fix, lead engine unlock, scenario testing, competitor research.
-
-**What changed:**
-- Fixed 3 chained ReferenceErrors (white screen): `LeadProofCard` renamed without updating def, `products` and `steps` used but never declared
-- TopNav JSX fixed — misplaced closing tags
-- Firebase deploy triggered manually — PR #66 squash merge never auto-deployed
-- Lead engine unlocked: real buyer/deadline/URL/contact signal visible (test mode)
-- Scenarios run: [[Launch Scenarios]] S3 (score 90 ✓), S5 (tyre-kicker caught at 60 ✓), S14 (planning gap — no cold-outreach flag)
-- Live ContractsFinder scan: real named buyer, real deadline, real source URL confirmed working
-
-**Gaps found:**
-- No root `<ErrorBoundary>` — one undefined var = full white screen
-- S14: planning leads need "find homeowner yourself" guidance flag
-- WhatsApp delivery is stub — Twilio env vars must be confirmed in Firebase console
-- No Stripe, no auth — cannot take money yet
-
-**Next:** Wire Stripe → add ErrorBoundary → confirm Twilio env vars
-
----
-
 ## 5 May 2026
 
 Focus:

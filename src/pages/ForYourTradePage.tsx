@@ -20,7 +20,7 @@ export function ForYourTradePage() {
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className="jf-box bg-[var(--yellow)] p-7">
         <p className="micro-label text-[var(--ink)]">FOR YOUR TRADE</p>
-        <h1 className="headline mt-3 max-w-5xl text-3xl leading-none sm:text-5xl md:text-7xl">
+        <h1 className="headline mt-3 max-w-5xl text-5xl leading-none md:text-7xl">
           JOBS FOR YOUR TRADE. BEFORE ANYONE ELSE SEES THEM.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
@@ -34,7 +34,7 @@ export function ForYourTradePage() {
             key={trade.id}
             type="button"
             onClick={() => setSelected(trade)}
-            className={`min-h-[44px] border-4 border-[var(--navy)] p-4 text-left font-black uppercase shadow-[4px_4px_0_var(--line)] ${
+            className={`border-4 border-[var(--navy)] p-4 text-left font-black uppercase shadow-[4px_4px_0_var(--line)] ${
               selected.id === trade.id ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)]'
             }`}
           >
@@ -46,7 +46,7 @@ export function ForYourTradePage() {
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <article className="jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">{selected.label} SIGNALS</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl text-[var(--yellow)]">WHAT GETS FLAGGED.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">WHAT GETS FLAGGED.</h2>
           <p className="mt-4 text-xl font-black text-white/80">{selected.signals}</p>
           <div className="mt-6 border-4 border-[var(--yellow)] p-4">
             <p className="micro-label text-[var(--yellow)]">VALUE RANGE</p>
@@ -56,7 +56,7 @@ export function ForYourTradePage() {
 
         <article className="jf-box bg-white p-5">
           <p className="micro-label text-[var(--orange)]">EXAMPLE LEAD</p>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-black leading-tight">{selected.example.title}</h2>
+          <h2 className="mt-3 text-3xl font-black leading-tight">{selected.example.title}</h2>
           <div className="mt-4 grid gap-3 text-sm">
             <LeadRow label="Area" value={selected.example.area} />
             <LeadRow label="Value" value={selected.example.value} />
@@ -75,7 +75,7 @@ export function ForYourTradePage() {
             ['Better control', 'Gold jobs go to WhatsApp. Weak noise stays out.'],
           ].map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
-              <h3 className="headline text-xl sm:text-2xl">{title}</h3>
+              <h3 className="headline text-2xl">{title}</h3>
               <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
             </article>
           ))}
@@ -85,7 +85,7 @@ export function ForYourTradePage() {
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
         <div className="jf-box bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">SCAN YOUR PATCH</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">NO FAKE LEADS. NO CHASING.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none">NO FAKE LEADS. NO CHASING.</h2>
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW
           </Link>

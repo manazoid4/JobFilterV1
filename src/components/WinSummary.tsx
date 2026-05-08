@@ -24,7 +24,7 @@ export function WinSummary() {
   return (
     <section className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
       <p className="micro-label text-[var(--ink)]">MONTHLY WIN SUMMARY</p>
-      <h2 className="headline mt-2 text-2xl sm:text-3xl leading-none">YOU'RE EARNING.</h2>
+      <h2 className="headline mt-2 text-3xl leading-none">YOU'RE EARNING.</h2>
       <p className="mt-2 text-xl font-black">{summary}</p>
       <Link className="jf-button mt-4 inline-block bg-[var(--ink)] text-white" to="/leads">VIEW LEADS</Link>
     </section>

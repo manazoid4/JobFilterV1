@@ -95,7 +95,7 @@ export function FindJobsPage() {
         <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
         <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Planning data, tender notices, company signals, and official source proof. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
+          Private work signals, filtered before they waste your time. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
         </p>
         <div className="mt-4">
           <p className="micro-label text-[var(--muted)]">QUICK SCAN</p>
@@ -106,14 +106,14 @@ export function FindJobsPage() {
                 type="button"
                 disabled={loading}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
-                className="min-h-[44px] bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
+                className="bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
               >
                 {preset.label}
               </button>
             ))}
           </div>
         </div>
-        <form onSubmit={submit} className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
+        <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
@@ -139,7 +139,7 @@ export function FindJobsPage() {
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">LEAD ENGINE</p>
-          <p className="mt-2 text-xl font-black">Checking planning, tender, company, and fallback signals before scoring quality.</p>
+          <p className="mt-2 text-xl font-black">Checking the private signal stack before scoring quality.</p>
         </section>
       )}
 
@@ -154,7 +154,7 @@ export function FindJobsPage() {
           )}
 
           <div className="jf-box grid gap-3 bg-white p-4 md:grid-cols-5">
-            <Stat label="Source" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
+            <Stat label="Engine" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
             <Stat label="Matches" value={String(result.count)} />
             <Stat label="Region" value={result.region || 'Unknown'} />
             <Stat label="Outward" value={result.outward || 'N/A'} />
@@ -175,16 +175,23 @@ export function FindJobsPage() {
                 <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
                 <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">HIGHEST VALUE FIRST</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
+                  Free view proves the signal exists. Upgrade from £29/mo to unlock full lead depth, buyer name, deadline, WhatsApp delivery, and direct source links.
                 </p>
               </section>
-              {result.leads.slice(0, 2).map((lead) => (
+              {result.leads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} />
               ))}
-              {result.count > 2 && (
-                <div className="jf-box bg-white p-8 text-center border-dashed border-4 border-[var(--line)]">
-                  <p className="headline text-2xl text-[var(--muted)]">AND {result.count - 2} MORE LOCKED LEADS</p>
-                  <Link to="/pricing" className="jf-button mt-4 bg-[var(--navy)] text-white">UNLOCK ALL RESULTS</Link>
+              {(result.lockedCount ?? 0) > 0 && (
+                <div className="jf-box bg-[var(--ink)] p-8 text-center">
+                  <p className="micro-label text-[var(--yellow)]">FULL RESULTS LOCKED</p>
+                  <p className="headline mt-2 text-3xl text-white leading-tight">
+                    {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
+                  </p>
+                  <p className="mt-2 font-black text-white/70">
+                    Each includes buyer name, deadline, source link, and contact signal — the detail that decides if a job is worth chasing.
+                  </p>
+                  <p className="mt-3 text-sm font-black text-[var(--yellow)]">Founding 30: £29/mo forever &nbsp;·&nbsp; Pro: £49/mo &nbsp;·&nbsp; 30-day money-back</p>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £29/MO →</Link>
                 </div>
               )}
             </div>
@@ -200,10 +207,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
-    ['Outward', lead.postcodeOutward || 'N/A'],
     ['Value', safePreviewValue(lead.estimatedValue)],
-    ['Urgency', 'Unlock timing'],
-    ['Contact', 'Unlock on Pro'],
+    ['Urgency', lead.urgency || 'Unknown'],
   ];
 
   const isGold = lead.score >= 80;
@@ -214,12 +219,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
           <Tag label={tierLabel(lead.score)} />
-          {lead.source === 'EPC' && <EpcSourceBadge title={lead.title} />}
-          {lead.source === 'LandRegistry' && (
-            <span className="badge bg-[#1e3a5f] text-white text-xs font-black px-2 py-1">LR</span>
-          )}
-          {lead.source === 'PlanningData' && <Tag label="planning_portal" />}
-          <Tag label="Timing locked" />
+          {lead.source && <Tag label="verified_signal" />}
+          {lead.urgency && <Tag label={lead.urgency} />}
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -232,15 +233,15 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value="Unlock on Pro" />
-        <LockedValue label="Deadline" value="Unlock on Pro" />
-        <Link className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">UNLOCK FULL DETAIL</Link>
+        <LockedValue label="Buyer" value={lead.buyer} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
         {isGold ? (
           <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
             {whatsappSent ? 'SENT TO WHATSAPP ✓' : 'SEND TO WHATSAPP'}
           </button>
         ) : (
-          <button className="jf-button w-full bg-[var(--bg-main)] text-[var(--ink)]" disabled>SEND TO WHATSAPP - PRO</button>
+          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT ✓' : 'SEND TO WHATSAPP'}</button>
         )}
       </div>
     </article>
@@ -287,7 +288,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
         <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Source checked" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
+        <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
@@ -310,11 +311,33 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-function LockedValue({ label, value }: { label: string; value: string }) {
+function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+  if (!value) {
+    return (
+      <div className="relative border-2 border-[var(--line)] overflow-hidden p-3">
+        <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+        <p className="mt-1 font-black blur-sm select-none text-[var(--ink)] pointer-events-none">████████████████</p>
+        <Link
+          to="/pricing"
+          className="absolute inset-0 flex items-center justify-center bg-white/80"
+        >
+          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">🔒 UNLOCK</span>
+        </Link>
+      </div>
+    );
+  }
+  if (isLink && href) {
+    return (
+      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+        <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+        <a href={href} target="_blank" rel="noreferrer" className="mt-1 block font-black text-[var(--navy)] underline underline-offset-2 truncate text-sm">VIEW SOURCE →</a>
+      </div>
+    );
+  }
   return (
     <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
       <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-      <p className="mt-1 font-black">{value || 'Unlock on Pro'}</p>
+      <p className="mt-1 font-black">{value}</p>
     </div>
   );
 }

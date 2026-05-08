@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const content = {
   vantage: {
@@ -49,7 +50,7 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className={`jf-box p-7 md:p-9 ${page.hero}`}>
         <p className={`micro-label ${page.label}`}>{page.title}</p>
-        <h1 className="headline mt-3 max-w-5xl text-3xl leading-none sm:text-5xl md:text-7xl">{page.headline}</h1>
+        <h1 className="headline mt-3 max-w-5xl text-5xl leading-none md:text-7xl">{page.headline}</h1>
         <p className="mt-5 max-w-2xl text-xl font-black opacity-80">{page.sub}</p>
       </section>
 
@@ -57,7 +58,7 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
         <div className="grid gap-5">
           <article className="jf-box bg-white p-6">
             <p className="micro-label text-[var(--orange)]">HUMAN-STAFFED SERVICE</p>
-            <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">{page.distinct}</h2>
+            <h2 className="headline mt-3 text-4xl leading-none">{page.distinct}</h2>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">{page.body}</p>
             <p className="mt-4 border-t-2 border-[var(--line)] pt-4 font-black text-[var(--ink)]">{page.note}</p>
             {'problem' in page && <p className="mt-4 font-black text-[var(--orange)]">{page.problem}</p>}
@@ -95,28 +96,36 @@ function ServiceForm({ trade }: { trade: string }) {
   if (submitted) return (
     <div className="jf-box bg-[var(--yellow)] p-6">
       <p className="micro-label text-[var(--ink)]">REQUEST RECEIVED</p>
-      <h2 className="headline mt-3 text-3xl sm:text-4xl">Team responds within 6 hours.</h2>
+      <h2 className="headline mt-3 text-4xl">Team responds within 6 hours.</h2>
       <p className="mt-3 font-black text-[var(--ink)]/75">Usually much faster. Check your phone.</p>
     </div>
   );
   return (
-    <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-      <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
-      <input className="field-input" placeholder="Your name" required />
-      <input className="field-input" placeholder="Trade / company" defaultValue={trade} required />
-      <input className="field-input" placeholder="Phone number" required />
-      <textarea className="field-input min-h-[100px]" placeholder="Job details - what do you need help with?" required />
-      <fieldset className="grid gap-2">
-        <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
-        {['Today', 'This week', 'Planning ahead'].map(opt => (
-          <label key={opt} className="flex items-center gap-3 font-black cursor-pointer">
-            <input type="radio" name="urgency" value={opt} defaultChecked={opt === 'This week'} />
-            {opt}
-          </label>
-        ))}
-      </fieldset>
-      <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SUBMIT TO TEAM</button>
-      <p className="text-sm font-black text-[var(--muted)]">Team responds within 6 hours. Usually much faster.</p>
-    </form>
+    <div className="grid gap-4">
+      <div className="jf-box border-4 border-[var(--yellow)] bg-white p-4">
+        <p className="micro-label text-[var(--orange)]">PRICING</p>
+        <p className="mt-2 text-lg font-black text-[var(--ink)]">Included with Founding 30 (£29/mo) and Pro (£49/mo).</p>
+        <p className="mt-1 font-black text-[var(--muted)]">Free tier: free tools only. Paid plan unlocks this service.</p>
+        <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
+      </div>
+      <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+        <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
+        <input className="field-input" placeholder="Your name" required />
+        <input className="field-input" placeholder="Trade / company" defaultValue={trade} required />
+        <input className="field-input" placeholder="Phone number" required />
+        <textarea className="field-input min-h-[100px]" placeholder="Job details - what do you need help with?" required />
+        <fieldset className="grid gap-2">
+          <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
+          {['Today', 'This week', 'Planning ahead'].map(opt => (
+            <label key={opt} className="flex items-center gap-3 font-black cursor-pointer">
+              <input type="radio" name="urgency" value={opt} defaultChecked={opt === 'This week'} />
+              {opt}
+            </label>
+          ))}
+        </fieldset>
+        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SUBMIT TO TEAM</button>
+        <p className="text-sm font-black text-[var(--muted)]">Team responds within 6 hours. Usually much faster.</p>
+      </form>
+    </div>
   );
 }
