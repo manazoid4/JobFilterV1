@@ -26,9 +26,9 @@ Higher score = build first.
 
 | # | Feature | Engine | Conv | Ret | Effort | Score | Status |
 |---|---------|--------|------|-----|--------|-------|--------|
-| 1 | Trade-specific scoring | Find | 8 | 8 | 2 | **8.0** | Not built |
-| 2 | Radius-based alerts | Find | 8 | 8 | 2 | **8.0** | Not built |
-| 3 | "Fill My Week" button | Chase | 7 | 7 | 2 | **7.0** | Not built |
+| 1 | Trade-specific scoring | Find | 8 | 8 | 2 | **8.0** | BUILT |
+| 2 | Radius-based alerts | Find | 8 | 8 | 2 | **8.0** | BUILT |
+| 3 | "Fill My Week" button | Chase | 7 | 7 | 2 | **7.0** | BUILT |
 | 4 | WhatsApp message templates | Chase | 7 | 7 | 2 | **7.0** | ALREADY BUILT |
 | 5 | Auto-nudge (2h no contact) | Chase | 7 | 7 | 2 | **7.0** | ALREADY BUILT |
 | 6 | "Did you win this job?" follow-up | Win | 6 | 8 | 2 | **7.0** | ALREADY BUILT |
@@ -56,7 +56,11 @@ Higher score = build first.
 |---|---------|--------|------|-----|--------|-------|--------|
 | 19 | Property value data (Rightmove) | Find | 5 | 5 | 7 | **1.43** | Not built |
 | 20 | Xero/FreeAgent integration | Integration | 4 | 5 | 6 | **1.5** | Not built |
-| 21 | Land Registry signals | Find | 4 | 5 | 6 | **1.5** | In vault, not built |
+| 21 | Land Registry signals | Find | 4 | 5 | 6 | **1.5** | BUILT (DEMO_MODE) |
+| 24 | Charity Commission signals | Find | 5 | 6 | 3 | **3.67** | BUILT (DEMO_MODE) — new charity registrations signal premises work |
+| 25 | Forestry Commission felling licences | Find | 4 | 5 | 3 | **3.0** | BUILT (DEMO_MODE) — tree clearance leads for landscapers |
+| 26 | Freshness decay scorer | Find | 7 | 7 | 1 | **14.0** | BUILT — older leads lose score (3d bonus, 7d neutral, 14d+ penalty) |
+| 27 | Fuzzy dedup (title+postcode) | Find | 6 | 6 | 1 | **12.0** | BUILT — prevents duplicate leads from overlapping sources |
 
 ### TIER 4: DO NOT BUILD NOW (Score < 1.0)
 
