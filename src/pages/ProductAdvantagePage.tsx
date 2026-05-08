@@ -28,16 +28,16 @@ const content = {
   },
   codex: {
     title: 'CODEX',
-    hero: 'bg-white text-[var(--ink)]',
-    label: 'text-[var(--orange)]',
-    headline: "IF THEY DON'T GET IT, THEY WON'T PAY FOR IT.",
-    sub: 'Submit your technical work. We turn it into content that closes.',
-    body: 'Your expertise is the product. Codex makes sure the buyer sees it.',
-    note: 'Built for HVAC engineers, electrical contractors, and mechanical specialists doing complex technical work.',
-    distinct: 'Codex is not about winning bids or marketing past work. It translates technical complexity into sales language.',
-    problem: "Client can't understand technical work -> won't see value -> won't pay the price.",
-    steps: ['Submit schematics, manuals, spec sheets, complex quotes, or technical proposals', 'Team translates the value into plain English', 'Client-ready sales content delivered within 6 hours'],
-    gets: ['Plain English client document', 'How-it-works explainer', 'Spec comparison card', 'Value justification sheet'],
+    hero: 'bg-[var(--navy)] text-white',
+    label: 'text-[var(--yellow)]',
+    headline: 'TECHNICAL WORK. COMMERCIAL LANGUAGE.',
+    sub: 'Your schematics, specs, and proposals — translated into documents that close deals.',
+    body: 'Engineers and specialists lose contracts because clients cannot understand the technical value. Codex bridges the gap between your expertise and their decision.',
+    note: 'Built for HVAC engineers, electrical contractors, mechanical specialists, and technical consultants who need their work understood by non-technical buyers.',
+    distinct: 'Codex translates technical complexity into commercial clarity. Not marketing. Not bids. Translation.',
+    problem: 'Technical excellence invisible to the buyer = lost contract to inferior competitor who communicated better.',
+    steps: ['Upload schematics, spec sheets, technical proposals, or complex quotes', 'Specialist team translates technical value into commercial language', 'Client-ready documents delivered within 6 hours'],
+    gets: ['Executive summary for decision-makers', 'Technical-to-commercial translation document', 'Value comparison matrix', 'Scope clarification sheet', 'Client presentation deck'],
   },
 };
 
@@ -45,6 +45,7 @@ type ProductType = keyof typeof content;
 
 export function ProductAdvantagePage({ type }: { type: ProductType }) {
   const page = content[type];
+  const isCodex = type === 'codex';
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-8">
@@ -63,6 +64,25 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
             <p className="mt-4 border-t-2 border-[var(--line)] pt-4 font-black text-[var(--ink)]">{page.note}</p>
             {'problem' in page && <p className="mt-4 font-black text-[var(--orange)]">{page.problem}</p>}
           </article>
+
+          {isCodex && (
+            <article className="jf-box bg-[var(--bg-main)] p-6">
+              <p className="micro-label text-[var(--navy)]">WHO THIS IS FOR</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {[
+                  ['HVAC Engineers', 'Heat pump specs, ventilation designs, energy calculations'],
+                  ['Electrical Contractors', 'Distribution diagrams, load calculations, compliance docs'],
+                  ['Mechanical Specialists', 'Piping schematics, structural calculations, material specs'],
+                  ['Technical Consultants', 'Feasibility studies, risk assessments, technical proposals'],
+                ].map(([role, desc]) => (
+                  <div key={role} className="border-2 border-[var(--line)] bg-white p-4">
+                    <p className="font-black text-[var(--ink)]">{role}</p>
+                    <p className="mt-1 text-sm text-[var(--muted)]">{desc}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+          )}
 
           <section className="grid gap-4 md:grid-cols-3">
             {page.steps.map((step, index) => (
@@ -85,13 +105,13 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
           </section>
         </div>
 
-        <ServiceForm trade={page.title} />
+        <ServiceForm trade={page.title} isCodex={isCodex} />
       </section>
     </main>
   );
 }
 
-function ServiceForm({ trade }: { trade: string }) {
+function ServiceForm({ trade, isCodex }: { trade: string; isCodex: boolean }) {
   const [submitted, setSubmitted] = useState(false);
   if (submitted) return (
     <div className="jf-box bg-[var(--yellow)] p-6">
@@ -109,11 +129,11 @@ function ServiceForm({ trade }: { trade: string }) {
         <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
       </div>
       <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-        <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
+        <p className="micro-label text-[var(--orange)]">{isCodex ? 'SUBMIT TECHNICAL WORK' : 'SUBMIT TO TEAM'}</p>
         <input className="field-input" placeholder="Your name" required />
-        <input className="field-input" placeholder="Trade / company" defaultValue={trade} required />
-        <input className="field-input" placeholder="Phone number" required />
-        <textarea className="field-input min-h-[100px]" placeholder="Job details - what do you need help with?" required />
+        <input className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
+        <input className="field-input" placeholder="Email or phone" required />
+        <textarea className="field-input min-h-[100px]" placeholder={isCodex ? 'Describe the technical work — what needs translating?' : 'Job details - what do you need help with?'} required />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (
@@ -123,7 +143,7 @@ function ServiceForm({ trade }: { trade: string }) {
             </label>
           ))}
         </fieldset>
-        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SUBMIT TO TEAM</button>
+        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">{isCodex ? 'SUBMIT TECHNICAL WORK' : 'SUBMIT TO TEAM'}</button>
         <p className="text-sm font-black text-[var(--muted)]">Team responds within 6 hours. Usually much faster.</p>
       </form>
     </div>

@@ -51,11 +51,14 @@ select {
   font: inherit;
 }
 
+/* ── TYPOGRAPHY ─────────────────────────────────────── */
+
 .headline {
   font-family: 'Barlow Condensed', sans-serif;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   font-weight: 800;
+  line-height: 1;
 }
 
 .micro-label {
@@ -66,11 +69,6 @@ select {
   font-family: 'Barlow Condensed', sans-serif;
 }
 
-.page-shell {
-  width: min(1180px, calc(100vw - 40px));
-  margin-inline: auto;
-}
-
 .copy {
   max-width: 38rem;
   font-size: clamp(1rem, 1.8vw, 1.1rem);
@@ -79,18 +77,24 @@ select {
   color: var(--muted);
 }
 
+/* ── LAYOUT ─────────────────────────────────────────── */
+
+.page-shell {
+  width: min(1180px, calc(100vw - 40px));
+  margin-inline: auto;
+}
+
 .section-pad {
   padding-block: 96px;
 }
 
-@media (max-width: 720px) {
-  .section-pad { padding-block: 64px; }
-}
+/* ── COMPONENTS ─────────────────────────────────────── */
 
 .jf-box {
   border: 2px solid var(--navy);
   border-radius: 4px;
   box-shadow: 8px 8px 0 var(--yellow);
+  background: var(--white);
 }
 
 .jf-button {
@@ -107,6 +111,9 @@ select {
   letter-spacing: 0.02em;
   box-shadow: 4px 4px 0 var(--navy);
   transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.1s;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .jf-button:hover {
@@ -122,44 +129,69 @@ select {
 .jf-button-lg {
   min-height: 52px;
   padding: 14px 26px;
-  font-family: 'Barlow', sans-serif;
   font-size: clamp(15px, 2vw, 17px);
   font-weight: 700;
   line-height: 1.2;
 }
 
-.value-row {
-  border-top: 1px solid var(--rule);
-  padding-top: 1rem;
+.choice-button {
+  min-height: 64px;
+  border: 2px solid var(--navy);
+  border-radius: 3px;
+  background: var(--yellow);
+  color: var(--navy);
+  padding: 1rem;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow: 4px 4px 0 var(--navy);
+  transition: transform 0.06s, box-shadow 0.06s;
+  cursor: pointer;
 }
 
-.soft-grid {
-  background-image:
-    linear-gradient(rgba(14, 26, 43, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 26, 43, 0.06) 1px, transparent 1px);
-  background-size: 38px 38px;
+.choice-button:hover {
+  background: var(--yellow-2);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--navy);
 }
 
-@media (max-width: 900px) {
-  .page-shell {
-    width: calc(100% - 32px);
-    max-width: 100%;
-  }
-
-  .jf-box {
-    box-shadow: 5px 5px 0 var(--yellow);
-  }
-
-  .top-scan {
-    display: none !important;
-  }
+.choice-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--navy);
 }
 
-@media (max-width: 640px) {
-  .page-shell {
-    width: calc(100% - 24px);
-  }
+/* ── FORMS ──────────────────────────────────────────── */
+
+.field-label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
+
+.field-input {
+  min-height: 52px;
+  width: 100%;
+  border: 2px solid var(--navy);
+  border-radius: 3px;
+  background: var(--paper);
+  padding: 0.8rem 0.9rem;
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  outline: none;
+}
+
+.field-input:focus {
+  background: var(--paper);
+  box-shadow: 0 0 0 3px var(--yellow);
+}
+
+/* ── NAVIGATION ─────────────────────────────────────── */
 
 .nav-link {
   padding: 8px 12px;
@@ -192,33 +224,18 @@ select {
   white-space: nowrap;
 }
 
-.field-label {
-  display: grid;
-  gap: 0.45rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* ── UTILITIES ──────────────────────────────────────── */
+
+.value-row {
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
 }
 
-.field-input {
-  min-height: 52px;
-  width: 100%;
-  border: 2px solid var(--navy);
-  border-radius: 3px;
-  background: var(--paper);
-  padding: 0.8rem 0.9rem;
-  color: var(--navy);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0;
-  text-transform: none;
-  outline: none;
-}
-
-.field-input:focus {
-  background: var(--paper);
-  box-shadow: 0 0 0 3px var(--yellow);
+.soft-grid {
+  background-image:
+    linear-gradient(rgba(14, 26, 43, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 26, 43, 0.06) 1px, transparent 1px);
+  background-size: 38px 38px;
 }
 
 .badge {
@@ -230,31 +247,6 @@ select {
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.choice-button {
-  min-height: 64px;
-  border: 2px solid var(--navy);
-  border-radius: 3px;
-  background: var(--yellow);
-  color: var(--navy);
-  padding: 1rem;
-  text-align: left;
-  font-size: 1.1rem;
-  font-weight: 700;
-  box-shadow: 4px 4px 0 var(--navy);
-  transition: transform 0.06s, box-shadow 0.06s;
-}
-
-.choice-button:hover {
-  background: var(--yellow-2);
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0 var(--navy);
-}
-
-.choice-button:active {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--navy);
 }
 
 .skeleton {
@@ -273,3 +265,118 @@ select {
 .skeleton-line-lg { height: 1.5rem; }
 .skeleton-title { height: 2rem; }
 .skeleton-box { min-height: 120px; }
+
+/* ── MOTION ─────────────────────────────────────────── */
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-in {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+.animate-in-delay-1 { animation-delay: 0.1s; }
+.animate-in-delay-2 { animation-delay: 0.2s; }
+.animate-in-delay-3 { animation-delay: 0.3s; }
+.animate-in-delay-4 { animation-delay: 0.4s; }
+
+/* ── MOBILE — 900px ───────────────────────────────── */
+
+@media (max-width: 900px) {
+  .page-shell {
+    width: calc(100% - 32px);
+    max-width: 100%;
+  }
+
+  .jf-box {
+    box-shadow: 5px 5px 0 var(--yellow);
+  }
+
+  .top-scan {
+    display: none !important;
+  }
+
+  .section-pad { padding-block: 48px; }
+
+  h1.headline, .headline.text-5xl, .headline.text-6xl, .headline.text-7xl, .headline.text-8xl {
+    font-size: clamp(32px, 8vw, 48px) !important;
+  }
+
+  h2.headline, .headline.text-4xl {
+    font-size: clamp(24px, 6vw, 36px) !important;
+  }
+
+  .grid.md\:grid-cols-2,
+  .grid.lg\:grid-cols-2,
+  .grid.lg\:grid-cols-3,
+  .grid.lg\:grid-cols-4,
+  .grid.md\:grid-cols-3,
+  .grid.md\:grid-cols-4,
+  .grid.md\:grid-cols-5 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .grid.sm\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lg\:grid-cols-\[1fr_420px\],
+  .lg\:grid-cols-\[1fr_400px\] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .lg\:items-end, .lg\:items-center {
+    align-items: start !important;
+  }
+}
+
+/* ── MOBILE — 640px ───────────────────────────────── */
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: calc(100% - 24px);
+  }
+
+  .section-pad { padding-block: 36px; }
+
+  .jf-box {
+    box-shadow: 4px 4px 0 var(--yellow);
+    padding: 1rem !important;
+  }
+
+  .jf-button {
+    padding: 0.625rem 1rem;
+    font-size: 13px;
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .field-input {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .flex.flex-wrap.gap-2,
+  .flex.flex-wrap.gap-3,
+  .flex.flex-wrap.gap-4 {
+    flex-direction: column;
+  }
+
+  .flex.flex-wrap.gap-2 > *,
+  .flex.flex-wrap.gap-3 > *,
+  .flex.flex-wrap.gap-4 > * {
+    width: 100%;
+  }
+}
