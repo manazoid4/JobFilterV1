@@ -249,21 +249,21 @@ export function CityPage({ city }: CityPageProps) {
           </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <div className="jf-box bg-[var(--bg-main)] p-7">
-              <span className="headline block" style={{ fontSize: 42, color: 'var(--yellow)' }}>01</span>
+              <span className="headline block" style={{ fontSize: 42, color: 'var(--navy)' }}>01</span>
               <h3 className="mt-3 text-lg font-black text-[var(--navy)]">ENTER YOUR {city.name} POSTCODE</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">
                 We cover every {city.areaCodes.slice(0, 3).join(', ')} postcode and beyond. Tell us where you work and what trade you're in.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-7">
-              <span className="headline block" style={{ fontSize: 42, color: 'var(--yellow)' }}>02</span>
+              <span className="headline block" style={{ fontSize: 42, color: 'var(--navy)' }}>02</span>
               <h3 className="mt-3 text-lg font-black text-[var(--navy)]">WE SCAN THREE SOURCES</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">
                 Planning applications across {city.region}, EPC ratings for every property, council contracts open to local trades. All scored.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-7">
-              <span className="headline block" style={{ fontSize: 42, color: 'var(--yellow)' }}>03</span>
+              <span className="headline block" style={{ fontSize: 42, color: 'var(--navy)' }}>03</span>
               <h3 className="mt-3 text-lg font-black text-[var(--navy)]">GOLD LEADS HIT WHATSAPP</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">
                 When a job scores 80+, it fires to your phone within minutes. Not batched. Not delayed. Before anyone else sees it.

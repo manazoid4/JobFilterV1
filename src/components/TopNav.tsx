@@ -13,6 +13,8 @@ const links = [
   { to: '/free-tools', label: 'Free Tools' },
 ];
 
+const mobileLinks = links.filter((l) => !['/find-jobs', '/chase', '/win'].includes(l.to));
+
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
@@ -46,13 +48,13 @@ export function TopNav() {
             const isWin = link.to === '/win';
             const badge = isChase && activeChaseCount > 0 ? activeChaseCount : isWin && monthlyWinCount > 0 ? monthlyWinCount : null;
             return (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `nav-link relative ${isActive ? 'text-[var(--muted)]' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`
-                }
-              >
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `nav-link relative ${isActive ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`
+                  }
+                >
                 {link.label}
                 {badge !== null && (
                   <span className="absolute -top-1 -right-2 h-4 min-w-4 rounded-full bg-[var(--yellow)] text-[var(--ink)] text-[9px] font-black flex items-center justify-center px-1">
@@ -68,7 +70,7 @@ export function TopNav() {
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="flex items-center gap-2">
               <span className="text-xs font-black uppercase text-[var(--green)]">
-                {foundingSlots}/30 left
+                {foundingSlots} left
               </span>
               <span className="text-xs font-black text-[var(--yellow)] bg-[var(--navy)] px-2 py-0.5">
                 £6.99/wk
@@ -123,7 +125,7 @@ export function TopNav() {
             </div>
           )}
           <div className="max-h-[60vh] overflow-y-auto">
-            {links.map((link) => (
+            {mobileLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}

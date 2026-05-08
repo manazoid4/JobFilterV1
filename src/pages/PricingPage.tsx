@@ -115,7 +115,7 @@ export function PricingPage() {
 
         {/* Competitor FOMO */}
         <div className="mx-auto mt-5 max-w-lg border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/5 px-5 py-4">
-          <p className="text-sm font-black text-[var(--yellow)]">
+          <p className="text-sm font-black text-white">
             SOMEONE IN YOUR POSTCODE AREA IS ALREADY SEEING THESE JOBS BEFORE THEY HIT CHECKATRADE.
           </p>
           <p className="mt-2 text-sm font-black text-white/70">

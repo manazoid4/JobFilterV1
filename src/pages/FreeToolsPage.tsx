@@ -172,7 +172,7 @@ export function FreeToolsPage() {
             <div className="jf-box bg-white p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="micro-label text-[var(--yellow)]">UNLOCK MORE FREE SCANS</p>
+                  <p className="micro-label text-[var(--navy)]">UNLOCK MORE FREE SCANS</p>
                   <h3 className="headline mt-2 text-2xl">3 MORE SCANS + WEEKLY SIGNALS.</h3>
                 </div>
                 <button className="ml-4 text-2xl font-black text-[var(--muted)]" onClick={() => setShowEmailCapture(false)}>×</button>
@@ -203,7 +203,7 @@ export function FreeToolsPage() {
                   UNLOCK 3 MORE SCANS
                 </button>
                 <p className="text-center text-xs font-black text-[var(--muted)]">
-                  Or go <Link className="text-[var(--yellow)] underline" to="/pricing">straight to Founding 30</Link> for unlimited.
+                  Or go <Link className="text-[var(--navy)] underline font-black" to="/pricing">straight to Founding 30</Link> for unlimited.
                 </p>
               </form>
             </div>
@@ -276,7 +276,7 @@ export function FreeToolsPage() {
               <tr className="border-b-2 border-[var(--navy)]">
                 <th className="pb-3 text-left text-[var(--muted)]"></th>
                 <th className="pb-3 text-left text-[var(--green)]">FREE</th>
-                <th className="pb-3 text-left text-[var(--yellow)]">FOUNDING 30</th>
+                <th className="pb-3 text-left text-[var(--navy)]">FOUNDING 30</th>
               </tr>
             </thead>
             <tbody>
@@ -297,7 +297,7 @@ export function FreeToolsPage() {
                 <tr key={i} className="border-b border-[var(--line)]/30">
                   <td className="py-2.5 text-[var(--ink)]">{feature}</td>
                   <td className="py-2.5 text-[var(--green)]">{free || '—'}</td>
-                  <td className="py-2.5 text-[var(--yellow)]">{paid || '—'}</td>
+                  <td className="py-2.5 text-[var(--navy)]">{paid || '—'}</td>
                 </tr>
               ))}
             </tbody>
@@ -483,7 +483,7 @@ function TyreKickerTool() {
   }, [daysToStart, hasBudget, hasPhotos, jobDistance, jobValue]);
 
   const verdict = leadScore >= 75 ? 'PRICE IT' : leadScore >= 50 ? 'CHECK FIRST' : 'BIN IT';
-  const verdictColor = leadScore >= 75 ? 'text-[var(--green)]' : leadScore >= 50 ? 'text-[var(--yellow)]' : 'text-[var(--orange)]';
+  const verdictColor = leadScore >= 75 ? 'text-[var(--green)]' : leadScore >= 50 ? 'text-[var(--navy)]' : 'text-[var(--orange)]';
 
   return (
     <section className="jf-box bg-white p-6">

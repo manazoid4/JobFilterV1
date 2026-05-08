@@ -168,7 +168,7 @@ export function CodexPage() {
                       'Pressure relief valve discharges safely to outside',
                     ].map((item) => (
                       <li key={item} className="flex items-start gap-2 text-[14px] text-[var(--navy)]">
-                        <span style={{ color: 'var(--yellow)', fontWeight: 900, marginTop: 2 }}>▶</span>
+                        <span style={{ color: 'var(--navy)', fontWeight: 900, marginTop: 2 }}>▶</span>
                         {item}
                       </li>
                     ))}

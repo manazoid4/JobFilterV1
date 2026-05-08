@@ -113,7 +113,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {data.howItWorks.map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--bg-main)] p-6">
-                <span className="headline block text-5xl text-[var(--yellow)]">{step}</span>
+                <span className="headline block text-5xl text-[var(--navy)]">{step}</span>
                 <h3 className="mt-3 headline text-xl text-[var(--navy)]">{title}</h3>
                 <p className="mt-2 font-black text-[var(--muted)] leading-relaxed">{body}</p>
               </div>

@@ -8,7 +8,7 @@
   --yellow: #FACC15;
   --green: #22C55E;
   --orange: #EF4444;
-  --line: #0F172A;
+  --line: #1E293B;
   --muted: #475569;
   --white: #FFFFFF;
   --paper: #F8FAFC;
@@ -328,10 +328,6 @@ select {
     grid-template-columns: 1fr !important;
   }
 
-  .grid.sm\:grid-cols-2 {
-    grid-template-columns: 1fr !important;
-  }
-
   .lg\:grid-cols-\[1fr_420px\],
   .lg\:grid-cols-\[1fr_400px\] {
     grid-template-columns: 1fr !important;
@@ -360,23 +356,10 @@ select {
     padding: 0.625rem 1rem;
     font-size: 13px;
     min-height: 44px;
-    width: 100%;
   }
 
   .field-input {
     min-height: 48px;
     font-size: 16px;
-  }
-
-  .flex.flex-wrap.gap-2,
-  .flex.flex-wrap.gap-3,
-  .flex.flex-wrap.gap-4 {
-    flex-direction: column;
-  }
-
-  .flex.flex-wrap.gap-2 > *,
-  .flex.flex-wrap.gap-3 > *,
-  .flex.flex-wrap.gap-4 > * {
-    width: 100%;
   }
 }

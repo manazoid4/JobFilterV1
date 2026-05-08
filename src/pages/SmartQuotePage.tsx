@@ -124,7 +124,7 @@ export function SmartQuotePage() {
           <div className="page-shell">
             <p className="field-label mb-4">QUOTE STARTER PREVIEW</p>
             <div className="jf-box p-6 max-w-2xl">
-              <p className="micro-label text-[var(--yellow)] mb-3">{trade} — {job}</p>
+              <p className="micro-label text-[var(--navy)] mb-3">{trade} — {job}</p>
               <p className="font-semibold text-[var(--ink)] mb-2">{preview[0]}</p>
               <p className="text-[var(--muted)] mb-6">{preview[1]}</p>
               <div className="relative rounded overflow-hidden">

@@ -48,22 +48,25 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
       onDone?.();
     } catch (err: any) {
       setStatus('error');
-      setError(String(err?.message ?? 'Could not join waitlist.'));
+      setError(String(err?.message ?? 'Could not join.'));
     }
   }
 
   if (status === 'done') {
     return (
       <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
-        <p className="headline text-2xl sm:text-3xl">YOU'RE ON THE LIST.</p>
-        <p className="mt-2 font-black">We'll let you know when it's live.</p>
+        <p className="headline text-2xl sm:text-3xl">YOU'RE IN.</p>
+        <p className="mt-2 font-black">Start scanning for jobs now.</p>
+        <a href="/find-jobs" className="mt-3 inline-block jf-button bg-[var(--navy)] text-white text-sm">
+          SCAN MY AREA →
+        </a>
       </div>
     );
   }
 
   return (
     <form onSubmit={submit} className={`jf-box grid gap-3 bg-white ${compact ? 'p-4' : 'p-5'}`}>
-      <p className="micro-label text-[var(--orange)]">JOIN WAITLIST</p>
+      <p className="micro-label text-[var(--orange)]">GET STARTED</p>
       {remaining !== null && remaining <= 30 && (
         <p className="text-sm font-black text-[var(--green)]">{remaining} of 30 Founding slots remaining</p>
       )}
@@ -88,7 +91,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
         </p>
       )}
       <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>
-        {status === 'loading' ? 'JOINING' : 'JOIN WAITLIST'}
+        {status === 'loading' ? 'JOINING' : 'GET STARTED'}
       </button>
     </form>
   );

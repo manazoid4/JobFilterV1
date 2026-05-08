@@ -375,7 +375,7 @@ export function HomePage() {
               >
                 <span
                   className="headline block"
-                  style={{ fontSize: 42, color: 'var(--yellow)' }}
+                  style={{ fontSize: 42, color: 'var(--navy)' }}
                 >
                   {s.n}
                 </span>
