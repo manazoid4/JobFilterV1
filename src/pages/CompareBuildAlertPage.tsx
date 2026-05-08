@@ -12,7 +12,7 @@ const comparison = [
   { feature: 'Exclusive leads', buildalert: 'Yes — planning data access', jobfilter: 'Yes — no one else sees your scan' },
   { feature: 'Delivery speed', buildalert: 'Mail cycle + manual browse', jobfilter: 'Pushed to your phone in minutes' },
   { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '5 — planning, EPC, contracts, sales, businesses' },
-  { feature: 'Price (entry)', buildalert: '£2/letter + time', jobfilter: '£29/mo founding — unlimited scans' },
+  { feature: 'Price (entry)', buildalert: '£2/letter + time', jobfilter: '£6.99/wk founding — unlimited scans' },
 ];
 
 const signals = [
@@ -230,9 +230,9 @@ export function CompareBuildAlertPage() {
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£29/MO UNLIMITED. VS £2 PER LETTER.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£6.99/WK UNLIMITED. VS £2 PER LETTER.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £29/month for unlimited scans across all five signals. One job covers it.
+            BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £6.99/week for unlimited scans across all five signals. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
@@ -242,7 +242,8 @@ export function CompareBuildAlertPage() {
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£29/MO</h3>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£6.99/WK</h3>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£29/mo — locked forever)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
                 <li>Full lead details unlocked</li>
@@ -254,7 +255,7 @@ export function CompareBuildAlertPage() {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £49/MO</h3>
+              <h3 className="headline text-xl text-[var(--navy)]">PRO — £11.29/WK (£49/MO)</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
@@ -302,7 +303,7 @@ export function CompareBuildAlertPage() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £29/MO</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/50">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

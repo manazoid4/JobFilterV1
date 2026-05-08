@@ -2,6 +2,8 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
+import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
+import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
@@ -33,6 +35,9 @@ export function FindJobsPage() {
     const leads = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
     return new Set(leads);
   });
+  const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
+  const [docSearchQuery, setDocSearchQuery] = useState('');
+  const [showDocSearch, setShowDocSearch] = useState(false);
 
   useEffect(() => {
     const tradeParam = searchParams.get('trade');
@@ -185,6 +190,43 @@ export function FindJobsPage() {
         </form>
       </section>
 
+      {/* ── DOCUMENT SEARCH ──────────────────────────── */}
+      <section className="jf-box bg-white p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
+            <h2 className="headline mt-2 text-2xl leading-none sm:text-3xl">SEARCH PLANNING DOCS BY KEYWORD</h2>
+            <p className="mt-2 max-w-2xl font-black text-[var(--muted)]">
+              Type a keyword. We scan planning documents for matches. Find jobs that fit your exact capability.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowDocSearch(!showDocSearch)}
+            className="jf-button bg-[var(--navy)] text-white text-sm shrink-0 ml-4"
+          >
+            {showDocSearch ? 'HIDE' : 'OPEN SEARCH'}
+          </button>
+        </div>
+
+        {showDocSearch && (
+          <div className="mt-5">
+            <KeywordSearch
+              onSearch={(results) => {
+                setDocSearchResults(results);
+              }}
+              searchesRemaining={3}
+              isPro={false}
+            />
+          </div>
+        )}
+      </section>
+
+      {/* ── DOCUMENT SEARCH RESULTS ──────────────────── */}
+      {docSearchResults.length > 0 && (
+        <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
+      )}
+
       {/* ── LOADING ──────────────────────────────────── */}
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
@@ -246,13 +288,16 @@ export function FindJobsPage() {
                     Each includes buyer name, deadline, source link, and contact signal — the detail that decides if a job is worth chasing.
                   </p>
                   <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
-                    <span className="text-[var(--green)]">Founding 30: £29/mo (£6.99/wk)</span>
+                    <span className="text-[var(--green)]">Founding 30: £6.99/wk (£29/mo)</span>
                     <span className="text-white/40">·</span>
                     <span className="text-[var(--yellow)]">Pro: £49/mo</span>
                     <span className="text-white/40">·</span>
-                    <span className="text-white/60">30-day money-back</span>
+                    <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
                   <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £6.99/WK →</Link>
+                  <p className="mt-3 text-xs font-black text-white/50">
+                    30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+                  </p>
                 </div>
               )}
 
@@ -265,6 +310,9 @@ export function FindJobsPage() {
                 <Link to="/pricing" className="jf-button mt-3 bg-[var(--navy)] text-white inline-block">
                   UNLOCK FROM £6.99/WK →
                 </Link>
+                <p className="mt-2 text-xs font-black text-[var(--muted)]">
+                  30-day money-back guarantee. No quibbles, no hoops.
+                </p>
               </div>
             </div>
           )}

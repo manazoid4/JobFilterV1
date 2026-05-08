@@ -68,9 +68,14 @@ export function TopNav() {
 
         <div className="hidden items-center gap-3 xl:flex">
           {foundingSlots !== null && foundingSlots <= 30 && (
-            <span className="text-xs font-black uppercase text-[var(--green)]">
-              Founding 30: {foundingSlots} left
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-black uppercase text-[var(--green)]">
+                {foundingSlots}/30 left
+              </span>
+              <span className="text-xs font-black text-[var(--yellow)] bg-[var(--navy)] px-2 py-0.5">
+                £6.99/wk
+              </span>
+            </div>
           )}
           <NavLink to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
             GET STARTED
@@ -109,9 +114,20 @@ export function TopNav() {
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
-              <span className="text-sm font-black text-[var(--green)]">
-                Founding 30: {foundingSlots} slots left — £29/mo locked forever
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-black text-[var(--green)]">
+                  Founding 30: {foundingSlots} slots left — £6.99/wk locked forever
+                </span>
+                <span className="text-xs font-black text-[var(--orange)]">
+                  {30 - foundingSlots}/30 taken
+                </span>
+              </div>
+              <div className="mt-2 h-2 w-full overflow-hidden border border-[var(--orange)] bg-[var(--orange)]/10">
+                <div
+                  className="h-full bg-[var(--orange)] transition-all duration-500"
+                  style={{ width: `${((30 - foundingSlots) / 30) * 100}%` }}
+                />
+              </div>
             </div>
           )}
           {links.map((link) => (

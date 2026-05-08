@@ -107,11 +107,57 @@
 - Profit check colour-coded (red/green)
 - localStorage scan tracking
 
+#### 15. JobFilter — Conversion Polish (COMPLETED)
+- **TopNav**: Founding 30 slots counter, "GET STARTED" CTA, mobile hamburger menu fixed, weekly pricing in mobile CTA
+- **HomePage**: Weekly pricing framing, removed duplicate sections, added testimonials from Reddit/forums, real WhatsApp message preview, cost-per-job comparison bar
+- **PricingPage**: "Most Popular" badge on Founding 30, weekly pricing on every card, 30-day guarantee banner, annual lock-in urgency, cost-per-job comparison section
+- **FindJobsPage**: Trade presets expanded to 8 trades, form simplified (3→2 fields), preview banner, inline upgrade prompt, weekly pricing on locked CTAs
+- **Footer**: Conversion CTA bar, 4-column link organization, "Built in Birmingham" trust section
+
+#### 16. JobFilter — Triple Engine Integration (COMPLETED)
+- **FindJobsPage → Chase**: "Track This Lead" button on each card, TRACKING badge, "Go to Chase/Win" links in header
+- **ChaseEnginePage → Win**: Auto-creates Win record on "Won", mini ROI summary in header, "View in Win Engine" link
+- **WinEnginePage → Find**: "Find More Like This" button pre-fills scanner, "Your Pipeline" section with live counts
+- **Dashboard**: New /dashboard page showing all three engines at a glance with live counts
+- **TopNav**: Badge counts on Chase (active leads) and Win (monthly wins), mobile nav shows 3-column engine summary
+- **HomePage**: "TRIPLE ENGINE" section with links to all three, WinSummary widget in final CTA
+
+#### 17. JobFilter — Free Tools Funnel Optimization (COMPLETED)
+- **FreeToolsPage**: Social proof badge, urgent scan counter, Quick Start CTA banner, upgraded email capture with weekly signals opt-in, welcome banner after capture, split paywall choice, free vs paid comparison table, cross-tool recommendations
+- **VantagePage**: "Want leads to bid on?" CTA, cross-tool nav
+- **VicinityPage**: "Turn finished jobs into more work" CTA, cross-tool nav
+- **SmartQuotePage**: "Want leads worth quoting on?" CTA, cross-tool nav
+- **TipsPage**: "Ready to find real jobs?" CTA, cross-tool nav
+
+#### 18. Trade Body Partnership Research (COMPLETED)
+- Created `System/Trade Body Partnership Strategy - 8th May 2026.md`
+- Ranked 8 trade bodies by partnership potential
+- Top 3: NAPIT (8/10), ECA (7/10), NFRC (7/10)
+- Partnership model: member benefit programme (£19/mo exclusive rate, 15-25% revenue share)
+- Draft outreach email templates for top 3
+
 ### Pushed to GitHub
 - Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
 - Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
 - Commit 3: `45ada60` — 14 files changed, 1,354 insertions
 - Commit 4: `d668c41` — 12 files changed, 1,238 insertions
+- Commit 5: `8231cff` — Fix: duplicate toFreePreviewLead + Stripe type errors
+- Commit 6: `a367a3f` — Running summary update
+- Commit 7: `0035755` — Conversion polish, Triple Engine integration, Free Tools funnel
+
+### Deployed to Firebase
+- Hosting: jobfilter.uk — LIVE with all mobile fixes + conversion polish
+- Functions: api — LIVE with Stripe integration
+
+### Key Decisions
+- JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
+- AgentDock's wedge: ServiceNow complaint management, compliance-first, visibility-first
+- EPC Signal Engine positioned as £19/mo standalone (legal urgency + Warm Homes Plan)
+- Mobile fixes keep brutalist yellow design intact
+- Triple Engine now complete AND integrated: Find → Chase → Win — all connected
+- Free Tools now have clear conversion paths on every page
+- Pricing uses weekly framing (£6.99/wk) to reduce perceived cost
+- Founding 30 urgency reinforced with slots counter in nav
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer

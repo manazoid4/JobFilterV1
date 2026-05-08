@@ -159,6 +159,9 @@ export function FreeToolsPage() {
               </div>
             </Link>
           </div>
+          <div className="mt-4 border-2 border-[var(--green)] bg-[var(--green)]/10 px-4 py-3 text-center text-sm font-black text-[var(--green)]">
+            30-DAY MONEY-BACK GUARANTEE — If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+          </div>
         </section>
       )}
 
@@ -300,10 +303,10 @@ export function FreeToolsPage() {
             </tbody>
           </table>
         </div>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £29/MO</Link>
-        </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
+          </div>
       </section>
 
       {/* ── Intake Engine paywall CTA ────────────── */}
@@ -315,8 +318,20 @@ export function FreeToolsPage() {
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £29/MO</Link>
+          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
         </div>
+      </section>
+
+      {/* ── Risk Reversal ──────────────────────── */}
+      <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-6 text-center">
+        <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
+        <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
+          Use JobFilter for 30 days. If you don't see at least one job worth chasing, we refund every penny. No quibbles. No hoops. No "but you didn't use feature X."
+        </p>
+        <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+          Built in Birmingham. We stand behind it.
+        </p>
       </section>
     </main>
   );

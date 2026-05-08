@@ -202,7 +202,7 @@ export function SignalsPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
-            3 free scans every week. Founding 30: £29/mo forever.
+            3 free scans every week. Founding 30: £6.99/wk (£29/mo) forever.
           </p>
         </div>
       </section>

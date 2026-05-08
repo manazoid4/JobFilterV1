@@ -97,10 +97,14 @@ export function HomePage() {
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
-            <div className="mt-2 flex items-center gap-3">
-              <span className="text-sm font-black text-[var(--green)]">Founding 30 — £29/mo (£6.99/wk)</span>
-              <span className="text-sm font-black text-[var(--ink)]/40">·</span>
-              <span className="text-sm font-black text-[var(--ink)]/60">30-day money-back. No quibbles.</span>
+            <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-black text-[var(--green)]">£6.99</span>
+                <span className="text-sm font-black text-[var(--green)]">/week</span>
+                <span className="text-sm font-black text-[var(--ink)]/40">(£29/mo)</span>
+              </div>
+              <span className="text-sm font-black text-[var(--ink)]/40 hidden sm:inline">·</span>
+              <span className="text-sm font-black text-[var(--green)]">30-day money-back. No quibbles.</span>
             </div>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA FREE</Link>
@@ -177,7 +181,7 @@ export function HomePage() {
             <div className="jf-box border-4 border-[var(--green)] bg-[var(--yellow)] p-6">
               <h3 className="headline text-2xl text-[var(--ink)]">JOBFILTER</h3>
               <ul className="mt-4 grid gap-3 font-black text-[var(--ink)]">
-                <li>Free preview. £29/month (£6.99/wk) for full access. No per-lead fees.</li>
+                <li>Free preview. £6.99/week (£29/mo) for full access. No per-lead fees.</li>
                 <li>Every signal is exclusive — no one else sees your scan results</li>
                 <li>We score every signal. GOLD means worth chasing. BIN means skip it</li>
                 <li>Official planning data, EPC ratings, council contracts. Not forms. Not ads.</li>
@@ -188,7 +192,7 @@ export function HomePage() {
           </div>
           <div className="mt-6 jf-box bg-[var(--navy)] p-5 text-center">
             <p className="text-sm font-black text-[var(--yellow)]">
-              Cost per job if you win 1/month: JobFilter = £29 &nbsp;·&nbsp; Checkatrade = £50-£150 &nbsp;·&nbsp; MyBuilder = £40-£120
+              Cost per job if you win 1/month: JobFilter = £6.99/wk &nbsp;·&nbsp; Checkatrade = £50-£150 &nbsp;·&nbsp; MyBuilder = £40-£120
             </p>
           </div>
         </div>
@@ -477,7 +481,7 @@ export function HomePage() {
             <div>
               <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">From £6.99/week. One job covers it.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
-                Free shows the signal. Founding 30 (£29/mo, 30 slots) or Pro (£49/mo) unlocks full source links, WhatsApp alerts, buyer name, deadline, and the Letterhead Pack.
+                Free shows the signal. Founding 30 (£6.99/wk, 30 slots) or Pro (£11.29/wk) unlocks full source links, WhatsApp alerts, buyer name, deadline, and the Letterhead Pack.
               </p>
             </div>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
@@ -561,7 +565,7 @@ export function HomePage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
-                Get Founding 30 — £29/mo →
+                Get Founding 30 — £6.99/wk →
               </Link>
               <Link to="/find-jobs" className="jf-button bg-[var(--paper)] text-[var(--navy)]">
                 Scan your area free →

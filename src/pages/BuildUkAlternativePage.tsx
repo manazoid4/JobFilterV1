@@ -216,9 +216,9 @@ export function BuildUkAlternativePage() {
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£29/MO FOREVER. WAS £30+/MO FOR LESS.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£6.99/WK FOREVER. WAS £30+/MO FOR LESS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Founding 30 is locked at £29/month. No price rises. No per-lead fees. No contracts. One job covers it.
+            Founding 30 is locked at £6.99/week (£29/mo). No price rises. No per-lead fees. No contracts. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
@@ -228,7 +228,8 @@ export function BuildUkAlternativePage() {
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£29/MO</h3>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£6.99/WK</h3>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£29/mo — locked forever)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
                 <li>Full lead details unlocked</li>
@@ -240,7 +241,7 @@ export function BuildUkAlternativePage() {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £49/MO</h3>
+              <h3 className="headline text-xl text-[var(--navy)]">PRO — £11.29/WK (£49/MO)</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
