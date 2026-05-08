@@ -1,4 +1,6 @@
+import { BuildUkAlternativePage } from './pages/BuildUkAlternativePage';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { ChaseEnginePage } from './pages/ChaseEnginePage';
 import { Footer } from './components/Footer';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { TopNav } from './components/TopNav';
@@ -20,12 +22,14 @@ import { SmartQuotePage } from './pages/SmartQuotePage';
 import { SignalsPage } from './pages/SignalsPage';
 import { TipsPage } from './pages/TipsPage';
 import { TradieStackPage } from './pages/TradieStackPage';
+import { WinEnginePage } from './pages/WinEnginePage';
 
 export default function App() {
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
       <TopNav />
       <Routes>
+        <Route path="/2builduk-alternative" element={<BuildUkAlternativePage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/my-link" element={<MyLinkPage />} />
         <Route path="/intake/:username" element={<IntakePage />} />
@@ -33,6 +37,8 @@ export default function App() {
         <Route path="/leads" element={<LeadListPage />} />
         <Route path="/leads/:id" element={<LeadDetailPage />} />
         <Route path="/find-jobs" element={<FindJobsPage />} />
+        <Route path="/chase" element={<ChaseEnginePage />} />
+        <Route path="/win" element={<WinEnginePage />} />
         <Route path="/for-your-trade" element={<ForYourTradePage />} />
         <Route path="/epc" element={<EpcPage />} />
         <Route path="/free-tools" element={<FreeToolsPage />} />

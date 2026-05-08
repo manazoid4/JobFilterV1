@@ -96,7 +96,7 @@ export function PricingPage() {
             <p className="p-4 font-black">{founding}</p>
             <p className="p-4 font-black">{pro}</p>
           </div>
-        </div>
+        ))}
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">

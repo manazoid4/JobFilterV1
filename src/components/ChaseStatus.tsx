@@ -1,41 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import type { ChaseStage } from '../lib/types';
+import { updateChaseStage } from '../lib/chaseStore';
 
-export function ChaseStatus({ leadId }: { leadId: string }) {
-  const [status, setStatus] = useState<string>('sent');
-  const [nudged, setNudged] = useState(false);
+const STAGES: { key: ChaseStage; label: string; color: string }[] = [
+  { key: 'not_contacted', label: 'NOT CONTACTED', color: 'bg-[var(--orange)] text-white' },
+  { key: 'contacted', label: 'CONTACTED', color: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { key: 'following_up', label: 'FOLLOWING UP', color: 'bg-[var(--ink)] text-white' },
+  { key: 'won', label: 'WON', color: 'bg-green-600 text-white' },
+  { key: 'lost', label: 'LOST', color: 'bg-gray-400 text-[var(--ink)]' },
+];
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem(`chase-${leadId}`);
-    if (stored) {
-      const data = JSON.parse(stored);
-      setStatus(data.status || 'sent');
-      setNudged(data.nudged || false);
-    }
-  }, [leadId]);
+export function ChaseStatus({ leadId, currentStage, onStageChange }: { leadId: string; currentStage: ChaseStage; onStageChange?: (stage: ChaseStage) => void }) {
+  const [stage, setStage] = useState<ChaseStage>(currentStage);
 
-  async function updateStatus(newStatus: string) {
-    setStatus(newStatus);
-    sessionStorage.setItem(`chase-${leadId}`, JSON.stringify({ status: newStatus, nudged }));
-    await fetch('/api/chase/update', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ leadId, status: newStatus }),
-    }).catch(() => {});
+  function changeStage(newStage: ChaseStage) {
+    setStage(newStage);
+    updateChaseStage(leadId, newStage);
+    onStageChange?.(newStage);
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-xs font-black">
-      <span className="text-[var(--muted)]">STATUS:</span>
-      {['sent', 'contacted', 'quoted', 'won', 'lost'].map((s) => (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="micro-label text-[var(--muted)] mr-1">STATUS:</span>
+      {STAGES.map((s) => (
         <button
-          key={s}
-          onClick={() => updateStatus(s)}
-          className={`px-2 py-1 uppercase border-2 ${status === s ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+          key={s.key}
+          onClick={() => changeStage(s.key)}
+          className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-2 border-[var(--ink)] ${
+            stage === s.key ? s.color : 'bg-white text-[var(--muted)]'
+          }`}
         >
-          {s}
+          {s.label}
         </button>
       ))}
-      {nudged && <span className="text-[var(--green)]">Nudged ✓</span>}
     </div>
   );
 }

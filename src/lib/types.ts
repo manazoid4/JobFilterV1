@@ -55,3 +55,69 @@ export type LeadSearchResponse = {
   lockedCount?: number;
   errors: string[];
 };
+
+export type ChaseStage = 'not_contacted' | 'contacted' | 'following_up' | 'won' | 'lost';
+
+export type NudgeEvent = {
+  id: string;
+  stage: ChaseStage;
+  templateKey: string;
+  message: string;
+  sentAt: string;
+  channel: 'whatsapp' | 'draft';
+};
+
+export type ChaseLead = {
+  leadId: string;
+  leadTitle: string;
+  trade: string;
+  location: string;
+  estimatedValue: string;
+  score: number;
+  stage: ChaseStage;
+  firstSeenAt: string;
+  lastContactAt: string | null;
+  nextNudgeAt: string | null;
+  nudges: NudgeEvent[];
+  notes: string;
+};
+
+export type LostReason = 'price' | 'timing' | 'competition' | 'not_interested' | 'went_elsewhere' | 'other';
+
+export type WinJob = {
+  id: string;
+  leadId: string;
+  title: string;
+  trade: string;
+  location: string;
+  value: number;
+  wonAt: string;
+  source: 'chase' | 'manual';
+};
+
+export type LostJob = {
+  id: string;
+  leadId: string;
+  title: string;
+  trade: string;
+  location: string;
+  estimatedValue: string;
+  lostAt: string;
+  reason: LostReason;
+  notes?: string;
+  source: 'chase' | 'manual';
+};
+
+export type WinEngineData = {
+  wins: WinJob[];
+  losses: LostJob[];
+};
+
+export type MessageTemplate = {
+  key: string;
+  label: string;
+  stage: ChaseStage;
+  timing: string;
+  body: string;
+  purpose: string;
+};
