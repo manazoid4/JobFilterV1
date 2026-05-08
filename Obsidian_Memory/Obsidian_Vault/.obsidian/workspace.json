@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "JobFilter/Product/Competitor Product Lessons.md",
+                "file": "HANDOFF - 8th May 2026.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Competitor Product Lessons"
+              "title": "HANDOFF - 8th May 2026"
             }
           }
         ]
@@ -154,13 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "JobFilter/Product/Competitor Product Lessons.md",
+                "file": "HANDOFF - 8th May 2026.md",
                 "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Competitor Product Lessons"
+              "title": "Outline of HANDOFF - 8th May 2026"
             }
           }
         ],
@@ -183,6 +183,10 @@
   },
   "active": "7dae4a723363899e",
   "lastOpenFiles": [
+    "JobFilter/System/OnsiteHand Analysis - 8th May 2026.md",
+    "JobFilter/System/RonDesignLab Design Inspiration - 8th May 2026.md",
+    "JobFilter/System/Dean Keating Analysis - 8th May 2026.md",
+    "JobFilter/Product/Competitor Product Lessons.md",
     "HANDOFF - 8th May 2026.md",
     "JobFilter/Product/Companies House Signal.md",
     "JobFilter/Product/Land Registry Signal.md",
@@ -205,10 +209,6 @@
     "khutba.io/Competitors/Muslim Pro for Mosques.md",
     "khutba.io/Competitors/Al-Mosque.md",
     "khutba.io/Competitors/MasjidBoard.md",
-    "khutba.io/Research Briefs - 8th May 2026.md",
-    "khutba.io/Competitor Intel - 8th May 2026.md",
-    "JobFilter/Product/Win Engine.md",
-    "JobFilter/Product/Chase Engine.md",
     "AgentDock/System",
     "AgentDock/Sessions",
     "AgentDock/Prompts",

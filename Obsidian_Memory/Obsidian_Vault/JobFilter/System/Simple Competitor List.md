@@ -53,7 +53,13 @@
     
 - **Site Step** – [sitestep.io](https://sitestep.io) (Project tracking and photo documentation).
 
-### **F) Added 5 May 2026**
+### **G) Added 8th May 2026**
+
+- **Dean Keating** (deankeating.com) — 200-page SEO websites for tradesmen at £499 one-time or £200/mo. WhatsApp-first sales. Same audience (plumbers, roofers, cleaners, electricians, builders). Copy: outcome-first copy, comparison tables, scarcity without sleaze, case studies with real numbers, "this is not for everyone" qualification. Beat: Dean builds passive websites that wait for enquiries. JobFilter finds jobs before they're advertised. 5 signals vs 1 (Google). Minutes vs weeks. £29 vs £499. See: [[Dean Keating Analysis - 8th May 2026]]
+
+- **RonDesignLab** (rondesignlab.com) — Design agency (Samsung, Huawei, Ford clients). NOT a competitor. Design inspiration source for JobFilter's brutalist yellow aesthetic. Copy: sticky-scroll layouts, conversational section headers, metric-heavy case studies, trade-segmented entry, process transparency, bold typography. Beat: JobFilter is trades-first, not corporate. Black/yellow, not white/pastel. Sharp edges, not rounded cards. Zero emojis. See: [[RonDesignLab Design Inspiration - 8th May 2026]]
+
+- **OnsiteHand** (onsitehand.com) — UNABLE TO VERIFY. Domain unreachable, zero search results, no indexed pages. Not a competitor. May be defunct, typo, or non-existent. Requires clarification. See: [[OnsiteHand Analysis - 8th May 2026]]
 
 - **SiteStep Software** (sitestepsoftware.com) — Construction site management, forms, compliance. Copy: operational clarity, field-first UX language. Beat: apply same clarity to lead quality not site admin.
 
