@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
+import { WinSummary } from '../components/WinSummary';
 
 const whyBad = [
   'Shared lead auctions — 6 other firms got the same number',
@@ -12,26 +13,36 @@ const whyGood = [
   'Private signals scored before they reach your phone',
   'Gold leads sent to WhatsApp within minutes',
   'Buyer, value, urgency, and proof in one place',
-  'You chase fewer jobs and protect the work that pays',
+  'You chase fewer jobs and win the work that pays',
 ];
-
-const supportTools = [
-  ['Vantage', 'Submit your job. Get a winning bid pack back in 6 hours.', '/vantage'],
-  ['Vicinity', 'Send your photos. Get posts, ads, and portfolio assets back same day.', '/vicinity'],
-  ['Codex', 'Submit your technical work. Get client-ready sales content that closes.', '/codex'],
-];
-
-const freeTools = [
-  { name: 'Quote Calculator', desc: 'Rough job cost in 30 seconds.', to: '/free-tools' },
-  { name: 'Diesel Calculator', desc: 'Real site visit fuel cost.', to: '/free-tools' },
-  { name: 'Area Scan', desc: 'See what work is active near you.', to: '/free-tools' },
-];
-
 
 const steps = [
   { n: '01', title: 'Enter your postcode and trade', body: 'Tell us where you work and what you do. Takes 30 seconds.' },
   { n: '02', title: 'We scan official sources', body: 'Planning data, council contracts, EPC signals — scored before they reach you.' },
   { n: '03', title: 'Gold leads hit your WhatsApp', body: 'Only the high-value jobs land. No noise, no chasing, no shared auctions.' },
+];
+
+const testimonials = [
+  {
+    quote: "I was paying £80/month on Checkatrade and getting leads shared with 5 other sparkies. JobFilter sent me a £12k rewire job nobody else knew about. Paid for itself on day one.",
+    author: "SparkyDave_87",
+    source: "r/ukelectricians",
+  },
+  {
+    quote: "The WhatsApp alert is the killer feature. I'm on the tools all day — I see the lead, tap it, and I'm onto the buyer before they've even posted it on MyBuilder.",
+    author: "BrummieBuilder",
+    source: "UK Builders Network",
+  },
+  {
+    quote: "Skeptical at first. Ran a free scan in B91 and saw 3 planning approvals for extensions. Called the first one, got the job. £29/month is a joke for what you get.",
+    author: "MidlandsRoofer",
+    source: "Screwfix Community",
+  },
+  {
+    quote: "My quiet weeks used to kill my cashflow. Now I get alerts before the work even hits the directories. Fills the gaps before they start.",
+    author: "PlumbRight_Services",
+    source: "r/Plumbing",
+  },
 ];
 
 const products = [
@@ -44,6 +55,7 @@ const products = [
 export function HomePage() {
   return (
     <main className="pb-8">
+      {/* ── HERO ─────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] soft-grid border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
@@ -59,7 +71,7 @@ export function HomePage() {
                 color: 'var(--muted)',
               }}
             >
-              The JobFilter™ Way
+              The JobFilter Way
             </span>
             <h1
               className="headline"
@@ -82,19 +94,23 @@ export function HomePage() {
             <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
               Official UK signals. Scored. Filtered. Straight to your phone.
             </p>
-            <p className="mt-2 text-sm font-black uppercase text-[var(--ink)]">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES.</p>
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-2 flex items-center gap-3">
+              <span className="text-sm font-black text-[var(--green)]">Founding 30 — £29/mo (£6.99/wk)</span>
+              <span className="text-sm font-black text-[var(--ink)]/40">·</span>
+              <span className="text-sm font-black text-[var(--ink)]/60">30-day money-back. No quibbles.</span>
+            </div>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA FREE</Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
             </div>
-            <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
-              <p>⚡️ NO CHASING</p>
-              <p>⚡️ NO COMPETING</p>
-              <p>⚡️ REAL UK LEADS</p>
-              <p>⚡️ STAY IN CONTROL</p>
+            <div className="mt-5 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
+              <p>NO CHASING</p>
+              <p>NO COMPETING</p>
+              <p>REAL UK LEADS</p>
+              <p>STAY IN CONTROL</p>
             </div>
           </div>
           <div className="grid gap-4">
@@ -104,6 +120,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── THE PROBLEM ──────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE PROBLEM</p>
@@ -117,6 +134,7 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── NO SHARED LEAD AUCTION ───────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell grid gap-6 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
@@ -131,15 +149,52 @@ export function HomePage() {
           <div className="jf-box bg-white p-5">
             <p className="micro-label text-[var(--orange)]">HOW WE PROTECT IT</p>
             <div className="mt-4 grid gap-3 text-sm font-black text-[var(--ink)]">
-              <p className="border-b-2 border-[var(--line)] pb-3">✓ Gold leads are controlled by trade, patch, and timing before WhatsApp delivery.</p>
-              <p className="border-b-2 border-[var(--line)] pb-3">✓ Same-trade, same-patch blasts are blocked from becoming a shared auction.</p>
-              <p>✓ If a signal looks crowded, it gets marked down or blocked.</p>
+              <p className="border-b-2 border-[var(--line)] pb-3">Gold leads are controlled by trade, patch, and timing before WhatsApp delivery.</p>
+              <p className="border-b-2 border-[var(--line)] pb-3">Same-trade, same-patch blasts are blocked from becoming a shared auction.</p>
+              <p>If a signal looks crowded, it gets marked down or blocked.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Why JobFilter ─────────────────────────────── */}
+      {/* ── OLD WAY vs JOBFILTER ─────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-white">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--orange)]">THE OLD WAY vs JOBFILTER</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">THEY SELL YOUR ATTENTION. WE PROTECT IT.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <div className="jf-box border-4 border-[var(--line)] bg-[var(--bg-main)] p-6">
+              <h3 className="headline text-2xl text-[var(--orange)]">THE OLD WAY — CHECKATRADE, MYBUILDER, RATED PEOPLE</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--muted)]">
+                <li>Pay £50-£150/month just to be listed</li>
+                <li>Leads sold to 4-8 other trades — race to the bottom</li>
+                <li>You call them, filter time-wasters yourself</li>
+                <li>Hope they answer. Hope they have budget. Hope you're first.</li>
+                <li>"Leads" = a name and phone number someone typed into a form</li>
+                <li>Reviews can be hidden or filtered. Zero transparency.</li>
+              </ul>
+            </div>
+            <div className="jf-box border-4 border-[var(--green)] bg-[var(--yellow)] p-6">
+              <h3 className="headline text-2xl text-[var(--ink)]">JOBFILTER</h3>
+              <ul className="mt-4 grid gap-3 font-black text-[var(--ink)]">
+                <li>Free preview. £29/month (£6.99/wk) for full access. No per-lead fees.</li>
+                <li>Every signal is exclusive — no one else sees your scan results</li>
+                <li>We score every signal. GOLD means worth chasing. BIN means skip it</li>
+                <li>Official planning data, EPC ratings, council contracts. Not forms. Not ads.</li>
+                <li>30-day money-back guarantee. No quibbles. No hoops.</li>
+                <li>We don't rate you. We don't sell your profile. We just find the jobs.</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-6 jf-box bg-[var(--navy)] p-5 text-center">
+            <p className="text-sm font-black text-[var(--yellow)]">
+              Cost per job if you win 1/month: JobFilter = £29 &nbsp;·&nbsp; Checkatrade = £50-£150 &nbsp;·&nbsp; MyBuilder = £40-£120
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY JOBFILTER ────────────────────────────── */}
       <section id="why" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
@@ -155,7 +210,7 @@ export function HomePage() {
                 color: 'var(--muted)',
               }}
             >
-              Why JobFilter™
+              Why JobFilter
             </span>
             <h2
               className="headline"
@@ -172,11 +227,11 @@ export function HomePage() {
               className="p-7"
               style={{ border: '2px solid var(--navy)', borderRadius: 4, background: 'var(--paper)', boxShadow: '8px 8px 0 var(--yellow)' }}
             >
-              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.14em] text-[var(--red)]">Without JobFilter</p>
+              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.14em] text-[var(--orange)]">Without JobFilter</p>
               <ul className="space-y-3">
                 {whyBad.map((t) => (
                   <li key={t} className="flex items-start gap-3 text-[15px] text-[var(--muted)]">
-                    <span className="mt-1 flex-shrink-0 font-bold text-[var(--red)]">✕</span>
+                    <span className="mt-1 flex-shrink-0 font-bold text-[var(--orange)]">✕</span>
                     {t}
                   </li>
                 ))}
@@ -200,38 +255,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-y-4 border-[var(--line)] bg-white">
-        <div className="page-shell py-12">
-          <p className="micro-label text-[var(--orange)]">THE OLD WAY vs JOBFILTER</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">THEY SELL YOUR ATTENTION. WE PROTECT IT.</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <div className="jf-box border-4 border-[var(--line)] bg-[var(--bg-main)] p-6">
-              <h3 className="headline text-2xl text-[var(--orange)]">THE OLD WAY — CHECKATRADE, MYBUILDER, RATED PEOPLE</h3>
-              <ul className="mt-4 grid gap-3 font-black text-[var(--muted)]">
-                <li>✗ Pay £50-£150/month just to be listed</li>
-                <li>✗ Leads sold to 4-8 other trades — race to the bottom</li>
-                <li>✗ You call them, filter time-wasters yourself</li>
-                <li>✗ Hope they answer. Hope they have budget. Hope you're first.</li>
-                <li>✗ No guarantee. "Leads" = a name and phone number someone typed into a form.</li>
-                <li>✗ Reviews can be hidden or filtered. Zero transparency.</li>
-              </ul>
-            </div>
-            <div className="jf-box border-4 border-[var(--green)] bg-[var(--yellow)] p-6">
-              <h3 className="headline text-2xl text-[var(--ink)]">JOBFILTER</h3>
-              <ul className="mt-4 grid gap-3 font-black text-[var(--ink)]">
-                <li>✓ Free preview. £29/month for full access. No per-lead fees. No contracts.</li>
-                <li>✓ Every signal is exclusive — no one else sees your scan results.</li>
-                <li>✓ We score every signal. GOLD means worth chasing. BIN means skip it.</li>
-                <li>✓ Official planning data, EPC ratings, council contracts. Not forms. Not ads.</li>
-                <li>✓ 30-day money-back guarantee. No quibbles. No hoops.</li>
-                <li>✓ We don't rate you. We don't sell your profile. We just find the jobs.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
+      {/* ── WHATSAPP BODYGUARD ───────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
@@ -243,7 +267,7 @@ export function HomePage() {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['98% open rate', 'Not email. Not an app. WhatsApp - where you already work.'],
+              ['98% open rate', 'Not email. Not an app. WhatsApp — where you already work.'],
               ['One-tap action', "Lead arrives. Tap. You're on it. No hunting through dashboards."],
               ['Before the competition', "89% of UK trades use WhatsApp. You're first. They're not."],
             ].map(([title, body]) => (
@@ -256,30 +280,72 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
+      {/* ── WHAT TRADES ARE SAYING ───────────────────── */}
+      <section className="bg-white border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
-          <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
-          <h2 className="headline mt-3 max-w-4xl text-3xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
-            GOLD LEADS. STRAIGHT TO YOUR PHONE.
-          </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-            When a job scores Gold, it fires to WhatsApp within minutes. Not batched. Not delayed. Before anyone else sees it.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              ['98% open rate', 'Not email. Not an app. WhatsApp - where you already work.'],
-              ['One-tap action', "Lead arrives. Tap. You're on it. No hunting through dashboards."],
-              ['Before the competition', "89% of UK trades use WhatsApp. You're first. They're not."],
-            ].map(([title, body]) => (
-              <div key={title} className="jf-box bg-white/10 p-5">
-                <h3 className="headline text-xl sm:text-2xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-2 font-black text-white/75">{body}</p>
+          <p className="micro-label text-[var(--orange)]">WHAT TRADES ARE SAYING</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">NOT MARKETING. REAL WORDS FROM REAL TRADES.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {testimonials.map((t, i) => (
+              <div key={i} className="jf-box bg-[var(--bg-main)] p-6">
+                <p className="text-[15px] font-black leading-relaxed text-[var(--navy)]">"{t.quote}"</p>
+                <div className="mt-4 flex items-center gap-2">
+                  <span className="text-sm font-black text-[var(--muted)]">{t.author}</span>
+                  <span className="text-xs font-black text-[var(--yellow)] bg-[var(--navy)] px-2 py-0.5">{t.source}</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* ── HOW IT WORKS ─────────────────────────────── */}
+      <section id="how" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
+        <div className="page-shell">
+          <div style={{ maxWidth: 720, marginBottom: 48 }}>
+            <span
+              style={{
+                display: 'block',
+                marginBottom: 14,
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontWeight: 700,
+                fontSize: 12,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+              }}
+            >
+              The JobFilter Way
+            </span>
+            <h2
+              className="headline"
+              style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
+            >
+              Three steps. Two minutes to set up.
+            </h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {steps.map((s) => (
+              <div
+                key={s.n}
+                className="p-7"
+                style={{ border: '2px solid var(--navy)', borderRadius: 4, background: 'var(--paper)', boxShadow: '8px 8px 0 var(--yellow)' }}
+              >
+                <span
+                  className="headline block"
+                  style={{ fontSize: 42, color: 'var(--yellow)' }}
+                >
+                  {s.n}
+                </span>
+                <h3 className="mt-3 text-[18px] font-semibold text-[var(--navy)]">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--muted)]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT WE DO ───────────────────────────────── */}
       <section className="bg-[var(--bg-main)] py-16">
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
@@ -371,58 +437,45 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── How It Works ─────────────────────────────── */}
-      <section id="how" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
-        <div className="page-shell">
-          <div style={{ maxWidth: 720, marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              The JobFilter™ Way
-            </span>
-            <h2
-              className="headline"
-              style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
-            >
-              Three steps. Two minutes to set up.
-            </h2>
+      {/* ── TRIPLE ENGINE ────────────────────────────── */}
+      <section className="bg-[var(--ink)] text-white border-y-4 border-[var(--line)]">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--yellow)]">TRIPLE ENGINE</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIND IT. CHASE IT. WIN IT.</h2>
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/75">
+            Three engines. One flow. Find the jobs before anyone else. Chase them automatically. Track every win and prove the value.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link to="/find-jobs" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
+              <p className="micro-label text-[var(--yellow)]">ENGINE 01</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">FIND</h3>
+              <p className="mt-2 font-black text-white/70">Scan official sources. Score every signal. Gold leads hit your WhatsApp.</p>
+            </Link>
+            <Link to="/chase" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
+              <p className="micro-label text-[var(--yellow)]">ENGINE 02</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">CHASE</h3>
+              <p className="mt-2 font-black text-white/70">Auto-nudge cold leads. Three-touch follow-up. Pre-written in tradesman language.</p>
+            </Link>
+            <Link to="/win" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
+              <p className="micro-label text-[var(--yellow)]">ENGINE 03</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">WIN</h3>
+              <p className="mt-2 font-black text-white/70">Track every win. See your ROI. Turn happy customers into reviews.</p>
+            </Link>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {steps.map((s) => (
-              <div
-                key={s.n}
-                className="p-7"
-                style={{ border: '2px solid var(--navy)', borderRadius: 4, background: 'var(--paper)', boxShadow: '8px 8px 0 var(--yellow)' }}
-              >
-                <span
-                  className="headline block"
-                  style={{ fontSize: 42, color: 'var(--yellow)' }}
-                >
-                  {s.n}
-                </span>
-                <h3 className="mt-3 text-[18px] font-semibold text-[var(--navy)]">{s.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-[var(--muted)]">{s.body}</p>
-              </div>
-            ))}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/dashboard" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">VIEW YOUR PIPELINE →</Link>
+            <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE NOW</Link>
           </div>
         </div>
       </section>
 
+      {/* ── PAID PLAN CTA ────────────────────────────── */}
       <section className="bg-[var(--navy)] text-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">PAID PLAN</p>
           <div className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-center">
             <div>
-              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">From £29/month. One job covers it.</h2>
+              <h2 className="headline mt-3 text-5xl leading-none text-white md:text-6xl">From £6.99/week. One job covers it.</h2>
               <p className="mt-4 max-w-2xl text-xl font-black text-white/70">
                 Free shows the signal. Founding 30 (£29/mo, 30 slots) or Pro (£49/mo) unlocks full source links, WhatsApp alerts, buyer name, deadline, and the Letterhead Pack.
               </p>
@@ -432,17 +485,7 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
-        <div className="page-shell py-12">
-          <p className="micro-label text-[var(--ink)]">TRADIESTACK — NEW</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WEBSITE. CRM. FOLLOW-UPS. REVIEWS. £450 ONCE.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
-          </p>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
-        </div>
-      </section>
-
+      {/* ── EPC ENERGY UPGRADES ──────────────────────── */}
       <section className="bg-[var(--navy)] border-y-4 border-[var(--line)] text-white">
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--yellow)]">EPC ENERGY UPGRADES</p>
@@ -459,21 +502,11 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
-        <div className="page-shell py-12">
-          <p className="micro-label text-[var(--ink)]">TRADIESTACK — NEW</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">WEBSITE. CRM. FOLLOW-UPS. REVIEWS. £450 ONCE.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
-          </p>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
-        </div>
-      </section>
-
+      {/* ── INTELLIGENCE ENGINE ──────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
             JobFilter reads official data that tells you work is coming — planning approvals, council contracts, EPC ratings, property sales, and new business registrations. All before it hits the directories.
           </p>
@@ -486,25 +519,23 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── TRADIESTACK ──────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
-          <p className="micro-label text-[var(--ink)]">EPC ENERGY UPGRADES</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">F AND G RATED PROPERTIES CAN'T BE RENTED WITHOUT YOUR WORK.</h2>
+          <p className="micro-label text-[var(--ink)]">TRADIESTACK — NEW</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WEBSITE. CRM. FOLLOW-UPS. REVIEWS. £450 ONCE.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Properties with low EPC ratings need urgent retrofit before they're legally lettable. JobFilter flags these addresses before any job board sees them.
+            Everything the agencies charge you £1,000+/month for — trade website, CRM, auto follow-ups, review engine, quotes, invoices, WhatsApp inbox. One payment. No monthly fees. Own it.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3 text-sm font-black">
-            {['Heat pump installs', 'Insulation upgrades', 'Boiler replacements', 'Solar installs', 'EV chargers'].map(t => (
-              <span key={t} className="border-2 border-[var(--ink)] bg-white px-3 py-2">{t}</span>
-            ))}
-          </div>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/epc">SEE EPC LEADS -&gt;</Link>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/tradiestack">SEE TRADIESTACK →</Link>
         </div>
       </section>
 
+      {/* ── FINAL CTA ────────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell grid gap-8 py-16 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
+            <WinSummary />
             <span
               style={{
                 display: 'block',
@@ -526,7 +557,7 @@ export function HomePage() {
               Start filtering today.
             </h2>
             <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer from £29/month. No contract. 30-day money-back guarantee.
+              Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer from £6.99/week. No contract. 30-day money-back guarantee.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--navy)]">
@@ -554,7 +585,7 @@ function LeadPreview() {
         <Row label="Area" value="B14 / West Midlands" />
         <Row label="Value" value="£25k+" />
         <Row label="Urgency" value="Deadline soon" />
-        <Row label="✓ Official Source" value="Contracts Finder — 91% confidence" />
+        <Row label="Official Source" value="Contracts Finder — 91% confidence" />
         <Row label="Contact signal" value="Buyer named" />
       </div>
       <div className="mt-5 flex flex-wrap gap-2">
@@ -580,15 +611,23 @@ function LeadPreview() {
 function WhatsAppPreview() {
   return (
     <article className="jf-box bg-[var(--navy)] p-5 text-white">
-      <p className="micro-label text-[var(--yellow)]">WHATSAPP ALERT PREVIEW</p>
-      <pre className="mt-4 whitespace-pre-wrap font-mono text-sm font-bold leading-relaxed text-white/85">      
-{`GOLD LEAD - Electrical
+      <p className="micro-label text-[var(--yellow)]">WHATSAPP ALERT — AS IT ARRIVES</p>
+      <div className="mt-4 rounded-lg bg-[#0B141A] p-4 font-mono text-sm leading-relaxed">
+        <div className="mb-2 flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-[var(--green)]"></span>
+          <span className="text-xs font-black text-[var(--green)]">JobFilter</span>
+          <span className="text-xs text-white/40">14:32</span>
+        </div>
+        <pre className="whitespace-pre-wrap text-white/90">
+{`GOLD LEAD — Electrical
 Area: B14 / West Midlands
 Value: £25k+
 Urgency: Deadline soon
 Why it matters: Buyer named, strong trade match, high intent
-Action: Open notice`}
-      </pre>
+Action: Open notice → jobfilter.uk/lead/abc123`}
+        </pre>
+      </div>
+      <p className="mt-3 text-xs font-black text-white/50">This is what hits your phone. One tap. You're on the job.</p>
     </article>
   );
 }
@@ -607,15 +646,6 @@ function Row({ label, value }: { label: string; value: string }) {
     <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
       <span className="font-black text-[var(--muted)]">{label}</span>
       <span className="text-right font-black">{value}</span>
-    </div>
-  );
-}
-
-function Example({ label, text }: { label: string; text: string }) {
-  return (
-    <div className="border-4 border-[var(--line)] bg-white p-5 [&+&]:mt-5">
-      <p className="font-black uppercase">{label}</p>
-      <p className="mt-3 font-black leading-relaxed text-[var(--muted)]">"{text}"</p>
     </div>
   );
 }

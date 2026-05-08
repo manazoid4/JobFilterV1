@@ -282,6 +282,35 @@ export function VicinityPage() {
           </div>
           <WaitlistForm source="vicinity" />
         </section>
+
+        {/* ── Conversion CTA: WhatsApp Alerts ───────── */}
+        <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">WANT TO TURN FINISHED JOBS INTO MORE WORK?</p>
+          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">GET WHATSAPP ALERTS FOR NEW LEADS.</h2>
+          <p className="mt-3 max-w-xl font-black text-white/70">
+            Vicinity proves your work. Intake feeds you the next job. Real leads in your area, sent straight to WhatsApp. No chasing. No competing. STAY IN CONTROL.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+          </div>
+        </section>
+
+        {/* ── Cross-Tool Navigation ─────────────────── */}
+        <section className="mt-6 jf-box bg-white p-5">
+          <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+              ALL FREE TOOLS
+            </Link>
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+              VANTAGE — BID DECKS
+            </Link>
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/tips">
+              TRADE TIPS
+            </Link>
+          </div>
+        </section>
       </div>
 
     </main>

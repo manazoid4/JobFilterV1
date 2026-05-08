@@ -11,6 +11,7 @@ import {
 } from '../lib/chaseStore';
 import { fillTemplate, getTemplateByKey, getTemplatesForStage, MESSAGE_TEMPLATES } from '../lib/chaseTemplates';
 import { getStoredLeads } from '../lib/leadStore';
+import { getMonthlyStats, markWon as markWonInWin } from '../lib/winStore';
 
 type ViewMode = 'board' | 'list';
 
@@ -22,9 +23,11 @@ export function ChaseEnginePage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
   const [filterStage, setFilterStage] = useState<ChaseStage | 'all'>('all');
+  const [monthlyWinStats, setMonthlyWinStats] = useState({ count: 0, totalValue: 0 });
 
   useEffect(() => {
     setChaseLeads(getChaseLeads());
+    setMonthlyWinStats(getMonthlyStats());
   }, []);
 
   useEffect(() => {
@@ -78,6 +81,16 @@ export function ChaseEnginePage() {
         <p className="mt-3 max-w-2xl font-black text-white/70">
           Leads go cold in 2 hours. Chase Engine nudges them so you do not have to. Three-touch follow-up: 2h, 24h, 48h. Pre-written messages in tradesman language. Copy, send, win.
         </p>
+        {monthlyWinStats.count > 0 && (
+          <div className="mt-4 border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-4 py-3">
+            <p className="text-sm font-black text-[var(--yellow)]">
+              YOU'VE WON {monthlyWinStats.count} JOB{monthlyWinStats.count !== 1 ? 'S' : ''} WORTH £{monthlyWinStats.totalValue.toLocaleString()} THIS MONTH
+            </p>
+            <Link to="/win" className="text-xs font-black text-white underline underline-offset-2 mt-1 inline-block">
+              VIEW IN WIN ENGINE →
+            </Link>
+          </div>
+        )}
         <div className="mt-5 flex flex-wrap gap-3">
           <button
             onClick={importAvailableLeads}
@@ -91,6 +104,9 @@ export function ChaseEnginePage() {
           >
             {viewMode === 'board' ? 'LIST VIEW' : 'BOARD VIEW'}
           </button>
+          <Link to="/win" className="jf-button bg-[var(--green)] text-white">
+            GO TO WIN →
+          </Link>
         </div>
       </section>
 
@@ -197,10 +213,24 @@ export function ChaseEnginePage() {
             }
           }}
           onStageChange={(stage) => {
+            if (stage === 'won') {
+              const value = parseInt(selectedLead.estimatedValue.replace(/[^0-9]/g, ''), 10) || 0;
+              if (value > 0) {
+                markWonInWin({
+                  leadId: selectedLead.leadId,
+                  title: selectedLead.leadTitle,
+                  trade: selectedLead.trade,
+                  location: selectedLead.location,
+                  value,
+                  source: 'chase',
+                });
+              }
+            }
             const updated = getChaseLeads().find((l) => l.leadId === selectedLead.leadId);
             if (updated) {
               setSelectedLead(updated);
               setChaseLeads(getChaseLeads());
+              setMonthlyWinStats(getMonthlyStats());
             }
           }}
         />
@@ -288,6 +318,15 @@ function BoardCard({ lead, now, onSelect, onRemove }: { lead: ChaseLead; now: nu
       {lead.nudges.length > 0 && (
         <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">{lead.nudges.length} nudge{lead.nudges.length > 1 ? 's' : ''} sent</p>
       )}
+      {lead.stage === 'won' && (
+        <Link
+          to="/win"
+          onClick={(e) => e.stopPropagation()}
+          className="mt-2 inline-block text-[10px] font-black text-green-700 underline underline-offset-2"
+        >
+          VIEW IN WIN ENGINE →
+        </Link>
+      )}
     </div>
   );
 }
@@ -334,7 +373,16 @@ function ListView({ leads, now, onSelect, onRemove }: { leads: ChaseLead[]; now:
             <div className="col-span-1 flex items-center">
               <span className="text-xs font-black">{lead.nudges.length}</span>
             </div>
-            <div className="col-span-1 flex items-center justify-end">
+            <div className="col-span-1 flex items-center justify-end gap-1">
+              {lead.stage === 'won' && (
+                <Link
+                  to="/win"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[9px] font-black text-green-700 underline underline-offset-2"
+                >
+                  WIN →
+                </Link>
+              )}
               <button
                 onClick={(e) => { e.stopPropagation(); onRemove(lead.leadId); }}
                 className="text-[var(--muted)] hover:text-[var(--orange)] text-xs font-black"

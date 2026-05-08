@@ -1,20 +1,25 @@
-﻿import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+﻿import { FormEvent, useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
+import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 const TRADE_PRESETS: { label: string; trade: Trade }[] = [
-  { label: '⚡ ELECTRICAL', trade: 'electrical' },
-  { label: '🔧 PLUMBING', trade: 'plumbing' },
-  { label: '🏗️ BUILDING', trade: 'building' },
-  { label: '🏠 ROOFING', trade: 'roofing' },
-  { label: '🌿 LANDSCAPING', trade: 'landscaping' },
+  { label: 'ELECTRICAL', trade: 'electrical' },
+  { label: 'PLUMBING', trade: 'plumbing' },
+  { label: 'BUILDING', trade: 'building' },
+  { label: 'ROOFING', trade: 'roofing' },
+  { label: 'LANDSCAPING', trade: 'landscaping' },
+  { label: 'CARPENTRY', trade: 'carpentry' },
+  { label: 'PAINTING', trade: 'painting' },
+  { label: 'HVAC', trade: 'hvac' },
 ];
 
 export function FindJobsPage() {
+  const [searchParams] = useSearchParams();
   const [postcode, setPostcode] = useState('B14 7QH');
   const [trade, setTrade] = useState<Trade>('electrical');
   const [radiusMiles, setRadiusMiles] = useState(25);
@@ -23,12 +28,45 @@ export function FindJobsPage() {
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
   const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
+  const [hasScanned, setHasScanned] = useState(false);
+  const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
+    const leads = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    return new Set(leads);
+  });
+
+  useEffect(() => {
+    const tradeParam = searchParams.get('trade');
+    const areaParam = searchParams.get('area');
+    if (tradeParam && trades.includes(tradeParam as Trade)) {
+      setTrade(tradeParam as Trade);
+    }
+    if (areaParam) {
+      setPostcode(areaParam);
+    }
+  }, [searchParams]);
+
+  const trackLead = (lead: Lead) => {
+    if (trackedLeads.has(lead.id)) return;
+    importLeadToChase({
+      id: lead.id,
+      title: lead.title,
+      trade: String(lead.trade || lead.tradeMatch || 'general'),
+      location: lead.location || lead.postcodeOutward || 'Unknown',
+      estimatedValue: lead.estimatedValue || 'TBC',
+      score: lead.score,
+    });
+    const next = new Set(trackedLeads);
+    next.add(lead.id);
+    setTrackedLeads(next);
+    localStorage.setItem('jobfilter.find.tracked', JSON.stringify([...next]));
+  };
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade }) {
     event?.preventDefault();
     setErrorText('');
     setLoading(true);
     setResult(null);
+    setHasScanned(true);
     try {
       const response = await fetch('/api/leads/search', {
         method: 'POST',
@@ -91,14 +129,25 @@ export function FindJobsPage() {
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
+      {/* ── SCANNER ──────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
         <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Private work signals, filtered before they waste your time. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
+          Pick your trade. Enter your postcode. See what's live near you right now.
         </p>
+        <div className="mt-2 flex items-center gap-3">
+          <Link to="/chase" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
+            GO TO CHASE →
+          </Link>
+          <Link to="/win" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
+            GO TO WIN →
+          </Link>
+        </div>
+
+        {/* Trade presets — one tap to scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">QUICK SCAN</p>
+          <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — INSTANT SCAN</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -106,23 +155,23 @@ export function FindJobsPage() {
                 type="button"
                 disabled={loading}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
-                className="bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
+                className={`px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
+                  trade === preset.trade
+                    ? 'bg-[var(--yellow)] text-[var(--ink)]'
+                    : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
+                }`}
               >
                 {preset.label}
               </button>
             ))}
           </div>
         </div>
-        <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
+
+        {/* Form — postcode + radius only (trade already selected above) */}
+        <form onSubmit={submit} className="mt-5 grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
-          </label>
-          <label className="field-label">
-            Trade
-            <select value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
-              {trades.map((item) => <option key={item} value={item}>{item}</option>)}
-            </select>
           </label>
           <label className="field-label">
             Radius
@@ -131,23 +180,25 @@ export function FindJobsPage() {
             </select>
           </label>
           <button disabled={loading} className="jf-button self-end bg-[var(--navy)] text-white disabled:opacity-60">
-            {loading ? 'SCANNING' : 'SCAN NOW'}
+            {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>
         </form>
       </section>
 
+      {/* ── LOADING ──────────────────────────────────── */}
       {loading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">LEAD ENGINE</p>
-          <p className="mt-2 text-xl font-black">Checking the private signal stack before scoring quality.</p>
+          <p className="micro-label text-[var(--yellow)]">SCANNING</p>
+          <p className="mt-2 text-xl font-black">Checking official sources. Scoring every signal.</p>
         </section>
       )}
 
+      {/* ── RESULTS ──────────────────────────────────── */}
       {result && (
         <section className="grid gap-5">
           {errorText && (
             <div className="jf-box bg-[var(--orange)] p-5 text-white">
-              <p className="font-black">Scan failed cleanly.</p>
+              <p className="font-black">Scan failed.</p>
               <p className="mt-1 font-semibold">{errorText}</p>
               <button onClick={() => void submit()} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
             </div>
@@ -171,16 +222,20 @@ export function FindJobsPage() {
             />
           ) : (
             <div className="grid gap-4">
+              {/* Preview banner */}
               <section className="jf-box bg-[var(--yellow)] p-5">
-                <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
-                <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">HIGHEST VALUE FIRST</h2>
+                <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
+                <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  Free view proves the signal exists. Upgrade from £29/mo to unlock full lead depth, buyer name, deadline, WhatsApp delivery, and direct source links.
+                  What you see above proves the leads exist. Unlock from £6.99/week for buyer name, deadline, source link, WhatsApp alerts, and the full score breakdown.
                 </p>
               </section>
+
               {result.leads.map((lead) => (
-                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} />
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
+
+              {/* Locked leads CTA */}
               {(result.lockedCount ?? 0) > 0 && (
                 <div className="jf-box bg-[var(--ink)] p-8 text-center">
                   <p className="micro-label text-[var(--yellow)]">FULL RESULTS LOCKED</p>
@@ -190,19 +245,47 @@ export function FindJobsPage() {
                   <p className="mt-2 font-black text-white/70">
                     Each includes buyer name, deadline, source link, and contact signal — the detail that decides if a job is worth chasing.
                   </p>
-                  <p className="mt-3 text-sm font-black text-[var(--yellow)]">Founding 30: £29/mo forever &nbsp;·&nbsp; Pro: £49/mo &nbsp;·&nbsp; 30-day money-back</p>
-                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £29/MO →</Link>
+                  <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
+                    <span className="text-[var(--green)]">Founding 30: £29/mo (£6.99/wk)</span>
+                    <span className="text-white/40">·</span>
+                    <span className="text-[var(--yellow)]">Pro: £49/mo</span>
+                    <span className="text-white/40">·</span>
+                    <span className="text-white/60">30-day money-back</span>
+                  </div>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £6.99/WK →</Link>
                 </div>
               )}
+
+              {/* Inline upgrade prompt on each card */}
+              <div className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-5 text-center">
+                <p className="font-black text-[var(--green)]">THIS IS A PREVIEW — UNLOCK FULL DETAILS</p>
+                <p className="mt-1 font-black text-[var(--muted)]">
+                  Buyer name, deadline, source link, and WhatsApp alerts are locked on the free plan.
+                </p>
+                <Link to="/pricing" className="jf-button mt-3 bg-[var(--navy)] text-white inline-block">
+                  UNLOCK FROM £6.99/WK →
+                </Link>
+              </div>
             </div>
           )}
+        </section>
+      )}
+
+      {/* ── NO SCAN YET — PROMPT ─────────────────────── */}
+      {!hasScanned && !loading && (
+        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
+          <p className="micro-label text-[var(--yellow)]">READY?</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
+          <p className="mt-3 font-black text-white/70">
+            Tap a trade above or enter your postcode. Takes 10 seconds. No signup needed.
+          </p>
         </section>
       )}
     </main>
   );
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
   const reasons = lead.reasons?.length ? lead.reasons : ['Official source', `${lead.sourceConfidence}% source confidence`];
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
@@ -217,10 +300,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       <ScoreBadge score={lead.score} />
       <div className="min-w-0">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Tag label={tierLabel(lead.score)} />
           {lead.source && <Tag label="verified_signal" />}
           {lead.urgency && <Tag label={lead.urgency} />}
+          {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
         </div>
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -236,12 +320,21 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
         <LockedValue label="Buyer" value={lead.buyer} />
         <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
         <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
-        {isGold ? (
-          <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
-            {whatsappSent ? 'SENT TO WHATSAPP ✓' : 'SEND TO WHATSAPP'}
+        {isTracked ? (
+          <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
+            TRACKING IN CHASE
           </button>
         ) : (
-          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT ✓' : 'SEND TO WHATSAPP'}</button>
+          <button className="jf-button w-full bg-[var(--ink)] text-white text-xs" onClick={onTrack}>
+            TRACK THIS LEAD
+          </button>
+        )}
+        {isGold ? (
+          <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
+            {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
+          </button>
+        ) : (
+          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
         )}
       </div>
     </article>
@@ -259,7 +352,6 @@ const EPC_RATING_COLOURS: Record<string, string> = {
 };
 
 function EpcSourceBadge({ title }: { title: string }) {
-  // Parse rating from title like "Efficiency Upgrade: Rating F"
   const match = title.match(/Rating\s+([A-G])/i);
   const rating = match ? match[1].toUpperCase() : null;
   const ratingColour = rating ? (EPC_RATING_COLOURS[rating] ?? 'bg-gray-400 text-white') : '';
@@ -286,7 +378,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
-        <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+      <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
@@ -321,7 +413,7 @@ function LockedValue({ label, value, isLink, href }: { label: string; value: str
           to="/pricing"
           className="absolute inset-0 flex items-center justify-center bg-white/80"
         >
-          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">🔒 UNLOCK</span>
+          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">UNLOCK</span>
         </Link>
       </div>
     );
@@ -365,4 +457,3 @@ function tierLabel(score: number) {
   if (score >= 55) return 'WORTH CHECKING';
   return 'LOW SIGNAL';
 }
-

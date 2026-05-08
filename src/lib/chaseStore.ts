@@ -84,6 +84,10 @@ export function importLeadToChase(lead: {
   return chaseLead;
 }
 
+export function isLeadTracked(leadId: string): boolean {
+  return getChaseLeads().some((l) => l.leadId === leadId);
+}
+
 function calcNextNudge(now: string, nudgeCount: number): string | null {
   const base = new Date(now).getTime();
   if (nudgeCount === 0) return new Date(base + 2 * 60 * 60 * 1000).toISOString();

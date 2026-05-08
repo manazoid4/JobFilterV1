@@ -9,6 +9,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ChaseEnginePage } from './pages/ChaseEnginePage';
 import { CompareBuildAlertPage } from './pages/CompareBuildAlertPage';
 import { CompareCheckatradePage } from './pages/CompareCheckatradePage';
+import { DashboardPage } from './pages/DashboardPage';
 import { Footer } from './components/Footer';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { TopNav } from './components/TopNav';
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/find-jobs" element={<FindJobsPage />} />
         <Route path="/chase" element={<ChaseEnginePage />} />
         <Route path="/win" element={<WinEnginePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/for-your-trade" element={<ForYourTradePage />} />
         <Route path="/epc" element={<EpcPage />} />
         <Route path="/free-tools" element={<FreeToolsPage />} />

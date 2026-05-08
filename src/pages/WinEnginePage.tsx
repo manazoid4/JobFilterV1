@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import type { LostJob, LostReason, WinJob } from '../lib/types';
+import { Link, useNavigate } from 'react-router-dom';
+import type { ChaseLead, LostJob, LostReason, WinJob } from '../lib/types';
 import {
   generateReviewMessage,
   getLostReasonBreakdown,
@@ -18,6 +18,7 @@ import { getStoredLeads } from '../lib/leadStore';
 type Tab = 'wins' | 'lost' | 'review' | 'trend';
 
 export function WinEnginePage() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('wins');
   const [wins, setWins] = useState<WinJob[]>([]);
   const [losses, setLosses] = useState<LostJob[]>([]);
@@ -35,6 +36,7 @@ export function WinEnginePage() {
   const [reviewPlatform, setReviewPlatform] = useState<'google' | 'checkatrade'>('google');
   const [reviewSelectedWin, setReviewSelectedWin] = useState<WinJob | null>(null);
   const [untrackedChase, setUntrackedChase] = useState<{ id: string; title: string; trade: string; location: string; estimatedValue: string }[]>([]);
+  const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
 
   const refresh = useCallback(() => {
     const data = getWinData();
@@ -44,9 +46,10 @@ export function WinEnginePage() {
     setYearlyTrend(getYearlyTrend());
     setLostBreakdown(getLostReasonBreakdown());
 
-    const chaseLeads = getChaseLeads();
-    const wonInChase = chaseLeads.filter((l) => l.stage === 'won' && !data.wins.some((w) => w.leadId === l.leadId));
-    const lostInChase = chaseLeads.filter((l) => l.stage === 'lost' && !data.losses.some((l2) => l2.leadId === l.leadId));
+    const cl = getChaseLeads();
+    setChaseLeads(cl);
+    const wonInChase = cl.filter((l) => l.stage === 'won' && !data.wins.some((w) => w.leadId === l.leadId));
+    const lostInChase = cl.filter((l) => l.stage === 'lost' && !data.losses.some((l2) => l2.leadId === l.leadId));
     setUntrackedChase([
       ...wonInChase.map((l) => ({ id: l.leadId, title: l.leadTitle, trade: l.trade, location: l.location, estimatedValue: l.estimatedValue })),
       ...lostInChase.map((l) => ({ id: l.leadId, title: l.leadTitle, trade: l.trade, location: l.location, estimatedValue: l.estimatedValue })),
@@ -280,6 +283,17 @@ export function WinEnginePage() {
                     </span>
                   </div>
                   <div className="col-span-3 flex items-center justify-end gap-2">
+                    <button
+                      onClick={() => {
+                        const params = new URLSearchParams();
+                        params.set('trade', win.trade);
+                        params.set('area', win.location);
+                        navigate(`/find-jobs?${params.toString()}`);
+                      }}
+                      className="jf-button bg-[var(--navy)] text-white text-[10px]"
+                    >
+                      FIND MORE LIKE THIS
+                    </button>
                     <button
                       onClick={() => {
                         setReviewSelectedWin(win);
@@ -539,6 +553,29 @@ export function WinEnginePage() {
           </div>
         </section>
       )}
+
+      {/* Your Pipeline — links back to Chase */}
+      <section className="jf-box bg-[var(--ink)] p-6 text-white">
+        <p className="micro-label text-[var(--yellow)]">YOUR PIPELINE</p>
+        <h2 className="headline mt-2 text-2xl leading-none">FIND → CHASE → WIN</h2>
+        <p className="mt-2 font-black text-white/70">
+          Every job follows the same path. Find it. Chase it. Win it. Keep the pipeline moving.
+        </p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          <Link to="/find-jobs" className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-4 block hover:bg-[var(--yellow)]/20 transition">
+            <p className="text-xs font-black text-[var(--yellow)]">FIND</p>
+            <p className="mt-1 text-sm font-black text-white">Scan for new jobs in your area</p>
+          </Link>
+          <Link to="/chase" className="border-2 border-white/30 bg-white/5 p-4 block hover:bg-white/10 transition">
+            <p className="text-xs font-black text-[var(--yellow)]">CHASE</p>
+            <p className="mt-1 text-sm font-black text-white">{chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length} leads being chased</p>
+          </Link>
+          <div className="border-2 border-green-600/30 bg-green-600/5 p-4">
+            <p className="text-xs font-black text-green-400">WIN</p>
+            <p className="mt-1 text-sm font-black text-white">{wins.length} jobs won all time</p>
+          </div>
+        </div>
+      </section>
 
       {/* Mark Won Modal */}
       {showMarkWon && selectedLeadForWon && (

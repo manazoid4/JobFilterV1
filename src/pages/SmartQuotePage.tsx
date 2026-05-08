@@ -75,7 +75,7 @@ export function SmartQuotePage() {
         </div>
       </section>
 
-      <section className="section-pad">
+      <section className="section-pad pt-0">
         <div className="page-shell">
           <p className="field-label mb-4">SELECT YOUR TRADE</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -155,6 +155,43 @@ export function SmartQuotePage() {
           >
             OPEN QUOTE FLOOR TOOL
           </Link>
+        </div>
+      </section>
+
+      {/* ── Conversion CTA: Intake Engine ─────────── */}
+      <section className="section-pad border-t border-[var(--line)]">
+        <div className="page-shell">
+          <div className="jf-box bg-[var(--navy)] p-6 text-white">
+            <p className="micro-label text-[var(--yellow)]">WANT LEADS WORTH QUOTING ON?</p>
+            <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">SCAN YOUR AREA FREE.</h2>
+            <p className="mt-3 max-w-xl font-black text-white/70">
+              Smart Quote writes the proposal. Intake finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Cross-Tool Navigation ─────────────────── */}
+      <section className="section-pad pt-0">
+        <div className="page-shell">
+          <div className="jf-box bg-white p-5">
+            <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+                ALL FREE TOOLS
+              </Link>
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/tips">
+                TRADE TIPS
+              </Link>
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+                VANTAGE — BID DECKS
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </main>

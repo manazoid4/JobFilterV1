@@ -259,6 +259,35 @@ export function VantagePage() {
           </div>
           <WaitlistForm source="vantage" />
         </section>
+
+        {/* ── Conversion CTA: Intake Engine ─────────── */}
+        <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">WANT LEADS TO BID ON?</p>
+          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">TRY THE INTAKE ENGINE FREE.</h2>
+          <p className="mt-3 max-w-xl font-black text-white/70">
+            Vantage writes the bid. Intake finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+          </div>
+        </section>
+
+        {/* ── Cross-Tool Navigation ─────────────────── */}
+        <section className="mt-6 jf-box bg-white p-5">
+          <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
+          <div className="mt-3 flex flex-wrap gap-3">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+              ALL FREE TOOLS
+            </Link>
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vicinity">
+              VICINITY — PROOF GENERATOR
+            </Link>
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/smart-quote">
+              SMART QUOTE STARTER
+            </Link>
+          </div>
+        </section>
       </div>
 
     </main>
