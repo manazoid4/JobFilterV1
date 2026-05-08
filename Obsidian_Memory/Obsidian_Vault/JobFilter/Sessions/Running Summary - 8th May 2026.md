@@ -252,13 +252,20 @@
 - Share modal: X/Twitter, LinkedIn, WhatsApp, copy text, embed iframe
 - Final CTA: "Scan your postcode" conversion path
 
+#### 34. JobFilter — BuildAlert Comparison Enhanced (COMPLETED)
+- Hero: "BuildAlert sends letters. JobFilter sends jobs." with letter vs WhatsApp visual
+- 17-row feature comparison table (expanded from 12)
+- Interactive cost calculator: slider 1-50 jobs/month, break-even at 15 jobs
+- 4 real user quotes comparing both platforms
+- Honest "What BuildAlert Does Well" section with "speed beats copy" messaging
+
 ### Pushed to GitHub
-- **JobFilterV1**: 16 commits on fix/main-build → main (latest: `f27997d`)
+- **JobFilterV1**: 17 commits on fix/main-build → main (latest: `97a60d4`)
 - **khutba-io**: 1 commit on master (latest: `fcf5854`)
 - **AgentDock**: 1 commit on main (latest: `05edd85`)
 
 ### Deployed to Firebase
-- Hosting: jobfilter.uk — LIVE with all improvements (weekly signals feed, ErrorBoundary, lazy loading, 404 page)
+- Hosting: jobfilter.uk — LIVE with all improvements
 - Functions: api — LIVE with trade-specific scoring + radius support
 
 ### Key Decisions

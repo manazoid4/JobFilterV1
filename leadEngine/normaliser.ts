@@ -79,6 +79,7 @@ function sourceConfidence(sourceSystem: string): number {
     case 'ContractsFinder': return 85;
     case 'PlanningData': return 65;
     case 'DirectorySignal': return 75;
+    case 'LandRegistry': return 70;
     default: return 60;
   }
 }

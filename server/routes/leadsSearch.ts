@@ -71,6 +71,10 @@ function previewTitle(lead: Lead): string {
     return `New ${titleCase(lead.trade)} business signal near ${lead.postcodeOutward}`;
   }
 
+  if (src === 'LandRegistry') {
+    return `New owner nearby — ${titleCase(lead.trade)} renovation likely`;
+  }
+
   // DirectorySignal, EPC: capitalise trade properly
   return `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`;
 }
@@ -132,6 +136,7 @@ function buildReasons(lead: Lead, score: number): string[] {
   else if (lead.source === 'FTS') reasons.push('Find a Tender official notice');
   else if (lead.source === 'PlanningData') reasons.push('Live planning portal signal');
   else if (lead.source === 'CompaniesHouse') reasons.push('Company growth signal');
+  else if (lead.source === 'LandRegistry') reasons.push('Property sale — new owner renovation signal');
   else if (lead.source === 'DirectorySignal') reasons.push('Local trade demand signal');
   reasons.push(titleCase(lead.trade) + ' trade match');
   if (score >= 80) reasons.push('High priority lead');

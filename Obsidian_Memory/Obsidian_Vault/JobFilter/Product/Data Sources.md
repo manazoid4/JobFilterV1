@@ -16,6 +16,7 @@ Visual map:
 | Public Contracts Scotland | Working | No | Scottish tender notices |
 | DirectorySignal | Working fallback | No | Internal structured fallback when live sources are sparse |
 | Companies House | Built, key-gated | Yes | Early fit-out/company/SIC signals |
+| Land Registry | Mock data | No | Property sales = new owner renovation signal |
 
 ## Not Yet / Next
 
