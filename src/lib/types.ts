@@ -81,6 +81,7 @@ export type ChaseLead = {
   nextNudgeAt: string | null;
   nudges: NudgeEvent[];
   notes: string;
+  coldOutreachNeeded: boolean;
 };
 
 export type LostReason = 'price' | 'timing' | 'competition' | 'not_interested' | 'went_elsewhere' | 'other';

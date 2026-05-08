@@ -64,6 +64,7 @@ export function importLeadToChase(lead: {
   location: string;
   estimatedValue: string;
   score: number;
+  coldOutreachNeeded?: boolean;
 }): ChaseLead {
   const now = new Date().toISOString();
   const chaseLead: ChaseLead = {
@@ -79,6 +80,7 @@ export function importLeadToChase(lead: {
     nextNudgeAt: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
     nudges: [],
     notes: '',
+    coldOutreachNeeded: lead.coldOutreachNeeded ?? false,
   };
   saveChaseLead(chaseLead);
   return chaseLead;

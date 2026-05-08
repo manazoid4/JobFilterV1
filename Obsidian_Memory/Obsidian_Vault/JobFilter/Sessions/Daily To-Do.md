@@ -20,7 +20,10 @@
   - Every error has recovery path (reload, report, navigate)
 - [ ] Wire Stripe Checkout (Founding 30 + Pro)
 - [ ] Confirm Twilio env vars in Firebase console
-- [ ] Add "cold outreach needed" flag for planning-only leads (S14 gap)
+- [x] Add "cold outreach needed" flag for planning-only leads (S14 gap)
+  - Added `coldOutreachNeeded` field to ChaseLead type
+  - Added filter button in ChaseEnginePage to surface cold outreach leads
+  - Orange badge on board cards + list view + detail panel warning
 
 ---
 

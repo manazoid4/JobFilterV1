@@ -267,14 +267,36 @@
 - Added to Data Sources table, vault doc created
 - Now 6 signals total: Planning, Contracts, EPC, Property Sales, Businesses, Land Registry
 
+#### 36. JobFilter — Companies House Signal (COMPLETED)
+- Created `leadEngine/fetchers/companiesHouseFetcher.ts` — mock company registrations with SIC codes
+- 72% source confidence (official government data)
+- Trade-specific company names + cross-trade fit-out signals (restaurants, hotels, tech offices, retail)
+- FindJobsPage: "NEW BUSINESS" badge for fit-outs, "NEW FIRM" for trade contractors
+- Green message: "New business nearby — commercial fit-out likely"
+- Now 7 signals total: Planning, Contracts, EPC, Property Sales, Businesses, Land Registry, Companies House
+- Set `COMPANIES_HOUSE_API_KEY` env var to switch to live data
+
+#### 37. khutba.io — Admin + Display Polish (COMPLETED)
+- **Display**: Animated LIVE indicator, smooth requestAnimationFrame auto-scroll, next prayer countdown, text fade-in, language color-coding, hidden scrollbar for TVs, responsive text sizing
+- **Admin**: Session management (Start/Pause/Resume/Stop), embedded live preview, language toggles with checkmarks, test pattern button, volume slider, tab-based mobile layout, copy display URL, WhatsApp share
+- **Settings**: Masjid name/location, screen resolution picker, font size/scroll speed, language ordering, 6 prayer calculation methods (MWL, ISNA, Egypt, Makkah, Karachi, Tehran), kiosk mode toggle, browser/device info
+- Pushed to GitHub: manazoid4/khutba-io (master branch, latest: `c12d055`)
+
+#### 38. AgentDock — Compliance + Audit Polish (COMPLETED)
+- **Audit Log**: Search, filters (date/agent/ticket/action), CSV/PDF export, expandable entries, compliance banner
+- **Compliance Dashboard**: Overall score gauge, FCA DISP metrics (8-week rule, 3-day ack), Ofcom GC metrics, GDPR indicators, data residency status, deadline alerts
+- **Report Generator**: 4 templates (Monthly Compliance, Incident Summary, Agent Performance, Custom), configurable date range, dual export (CSV/PDF), compliance-ready formatting
+- **Approval Workflow**: Required approval/rejection reasons, approval history, escalation rules display, red "ESCALATED" badges for overdue tasks
+- Pushed to GitHub: manazoid4/AgentDock (main branch, latest: `3c64bc7`)
+
 ### Pushed to GitHub
-- **JobFilterV1**: 18 commits on fix/main-build → main (latest: `701b8f7`)
-- **khutba-io**: 1 commit on master (latest: `fcf5854`)
-- **AgentDock**: 1 commit on main (latest: `05edd85`)
+- **JobFilterV1**: 19 commits on fix/main-build → main (latest: `8512d1c`)
+- **khutba-io**: 3 commits on master (latest: `c12d055`)
+- **AgentDock**: 3 commits on main (latest: `3c64bc7`)
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements
-- Functions: api — LIVE with Land Registry signal + trade-specific scoring + radius support
+- Functions: api — LIVE with 7 signal sources + trade-specific scoring + radius support
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
@@ -309,3 +331,35 @@
 - Every feature must fit into Triple Engine: Find → Chase → Win
 - If it doesn't, don't build it
 - Obsidian vault is source of truth — keep it clean
+
+## Session: 8 May 2026 — Final Polish Pass
+
+### What Was Done
+
+#### 1. SEO Polish (COMPLETED)
+- **index.html**: Added Open Graph tags (title, description, image, locale), Twitter Card tags, canonical URL, robots meta, keywords
+- **Structured Data**: Added JSON-LD for Organization (with pricing offers) and SoftwareApplication (with 3 tiers + aggregate rating)
+- **Favicon**: Added proper icon links for SVG favicon and apple-touch-icon
+- **Logo alt text**: Fixed TopNav logo from empty alt to "JobFilter logo"
+
+#### 2. Back to Top Button (COMPLETED)
+- Created `src/components/BackToTop.tsx` — appears after 600px scroll, smooth scroll to top
+- Wired into `App.tsx` — shows on all pages automatically
+- Brutalist yellow design: navy button with "↑ TOP" label
+
+#### 3. Smooth Scroll (COMPLETED)
+- Added `scroll-behavior: smooth` to html/body CSS in `index.css`
+
+#### 4. Cold Outreach Flag (COMPLETED)
+- Added `coldOutreachNeeded: boolean` to ChaseLead type in `types.ts`
+- Updated `importLeadToChase()` in `chaseStore.ts` to accept and store the flag
+- ChaseEnginePage: added filter button, orange badge on board cards + list view, detail panel warning banner
+- Cold outreach count shown in filter button
+
+#### 5. Form Validation (COMPLETED)
+- WaitlistForm: added email regex validation, phone number format validation, empty field checks
+- Errors shown inline before submission attempt
+
+### Build Status
+- `npm run build` passes cleanly — 292.95KB bundle, 3.04s build time
+- All 39 lazy-loaded chunks intact

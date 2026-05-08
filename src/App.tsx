@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from 'r
 import { Route, Routes } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
+import { BackToTop } from './components/BackToTop';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { ToastContainer, useToast, registerApiToastHandler } from './components/Toast';
 import { TopNav } from './components/TopNav';
@@ -127,6 +128,7 @@ function AppContent() {
       <Footer />
       <LaunchWaitlistModal />
       <ToastContainer toasts={toasts} dismiss={dismiss} />
+      <BackToTop />
     </div>
   );
 }

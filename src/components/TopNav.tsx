@@ -37,7 +37,7 @@ export function TopNav() {
           <img
             className="h-10 w-10 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[5px_5px_0_var(--line)]"
             src="/union-flag.svg"
-            alt=""
+            alt="JobFilter logo"
           />
           <span className="headline text-3xl tracking-normal">JOBFILTER</span>
         </NavLink>

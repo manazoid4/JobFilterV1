@@ -17,8 +17,28 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    setStatus('loading');
     setError('');
+
+    if (!name.trim()) {
+      setError('Name is required.');
+      return;
+    }
+    if (!contact.trim()) {
+      setError('Email or phone is required.');
+      return;
+    }
+
+    const isEmail = contact.includes('@');
+    if (isEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (!isEmail && !/^[\d\s+()-]{7,}$/.test(contact)) {
+      setError('Please enter a valid phone number.');
+      return;
+    }
+
+    setStatus('loading');
     try {
       await joinWaitlist({ name, trade, contact, source });
       setStatus('done');

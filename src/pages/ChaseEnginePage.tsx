@@ -23,6 +23,7 @@ export function ChaseEnginePage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
   const [filterStage, setFilterStage] = useState<ChaseStage | 'all'>('all');
+  const [filterColdOutreach, setFilterColdOutreach] = useState(false);
   const [monthlyWinStats, setMonthlyWinStats] = useState({ count: 0, totalValue: 0 });
 
   useEffect(() => {
@@ -64,13 +65,16 @@ export function ChaseEnginePage() {
     }
   }, [chaseLeads]);
 
-  const filteredLeads = filterStage === 'all'
-    ? chaseLeads
-    : chaseLeads.filter((l) => l.stage === filterStage);
+  const filteredLeads = chaseLeads.filter((l) => {
+    if (filterStage !== 'all' && l.stage !== filterStage) return false;
+    if (filterColdOutreach && !l.coldOutreachNeeded) return false;
+    return true;
+  });
 
   const activeCount = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
   const wonCount = chaseLeads.filter((l) => l.stage === 'won').length;
   const overdueCount = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < now && l.stage !== 'won' && l.stage !== 'lost').length;
+  const coldOutreachCount = chaseLeads.filter((l) => l.coldOutreachNeeded && l.stage !== 'won' && l.stage !== 'lost').length;
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24">
@@ -136,6 +140,19 @@ export function ChaseEnginePage() {
             )}
           </button>
         ))}
+        <button
+          onClick={() => setFilterColdOutreach(!filterColdOutreach)}
+          className={`px-3 py-1.5 text-xs font-black uppercase tracking-wider border-2 border-[var(--ink)] ${
+            filterColdOutreach
+              ? 'bg-[var(--orange)] text-white'
+              : 'bg-white text-[var(--muted)]'
+          }`}
+        >
+          COLD OUTREACH
+          {coldOutreachCount > 0 && (
+            <span className="ml-1.5">({coldOutreachCount})</span>
+          )}
+        </button>
       </div>
 
       {/* Board or List */}
@@ -311,9 +328,14 @@ function BoardCard({ lead, now, onSelect, onRemove }: { lead: ChaseLead; now: nu
         <span className="text-[10px] font-black uppercase">
           {lead.lastContactAt ? `${timeSinceContact} since contact` : `${timeSinceContact} since detected`}
         </span>
-        {isOverdue && (
-          <span className="badge bg-[var(--orange)] text-white">OVERDUE</span>
-        )}
+        <div className="flex items-center gap-1">
+          {lead.coldOutreachNeeded && (
+            <span className="badge bg-[var(--orange)] text-white text-[9px]">COLD OUTREACH</span>
+          )}
+          {isOverdue && (
+            <span className="badge bg-[var(--orange)] text-white">OVERDUE</span>
+          )}
+        </div>
       </div>
       {lead.nudges.length > 0 && (
         <p className="mt-1 text-[10px] font-bold text-[var(--muted)]">{lead.nudges.length} nudge{lead.nudges.length > 1 ? 's' : ''} sent</p>
@@ -355,6 +377,9 @@ function ListView({ leads, now, onSelect, onRemove }: { leads: ChaseLead[]; now:
             <div className="col-span-4">
               <p className="text-sm font-black">{lead.leadTitle}</p>
               <p className="text-xs text-[var(--muted)]">{lead.location} · {lead.estimatedValue}</p>
+              {lead.coldOutreachNeeded && (
+                <span className="badge bg-[var(--orange)] text-white text-[9px] mt-1">COLD OUTREACH</span>
+              )}
             </div>
             <div className="col-span-2 flex items-center">
               <StageBadge stage={lead.stage} />
@@ -451,6 +476,14 @@ function LeadDetailPanel({
       <div className="mt-5">
         <ChaseStatus leadId={lead.leadId} currentStage={lead.stage} onStageChange={onStageChange} />
       </div>
+
+      {lead.coldOutreachNeeded && (
+        <div className="mt-4 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-4 py-3">
+          <p className="text-sm font-black text-[var(--orange)]">
+            COLD OUTREACH NEEDED — This lead has no direct contact signal. You'll need to find the buyer through planning docs or council records.
+          </p>
+        </div>
+      )}
 
       {/* Timeline */}
       <div className="mt-5 grid gap-3 sm:grid-cols-3">
