@@ -181,6 +181,25 @@
 - Internal SEO cluster links between all trade pages
 - Vault doc: `Product/Trade SEO Strategy.md`
 
+#### 25. JobFilter — Messaging Angles (COMPLETED)
+- **"Quiet Week Problem"**: New section on HomePage with 4-week calendar visual showing pipeline filling
+- **"First-Mover Advantage"**: Added to both comparison pages with timeline contrast (minutes vs days)
+- **"Stop Paying for Other People's Leads"**: Enhanced CompareCheckatradePage with 1→5→1→4 visual
+- **"Built in Birmingham"**: Dedicated section on HomePage + enhanced Footer with concrete reasons
+- **"Competitor FOMO"**: Added to PricingPage near Founding 30 urgency
+
+#### 26. JobFilter — Feature Roadmap (COMPLETED)
+- Created `Product/Feature Roadmap - 8th May 2026.md`
+- 24 features scored by impact × effort
+- Top 3: Trade-specific scoring (8.0), Radius-based alerts (8.0), Fill My Week button (7.0)
+- 30/60/90 day build plan with quick wins, medium builds, and long-term plays
+
+#### 27. JobFilter — Top Priority Features Built (COMPLETED)
+- **Trade-specific scoring**: Updated scorer with TRADE_KEYWORDS config for 8 trades, high/medium/low keyword tiers, trade match bonuses (+18 max)
+- **Radius-based alerts**: 5/10/15/25/50 mile selector, distance shown on lead cards ("12 miles from B14"), saved to localStorage
+- **"Fill My Week" button**: Aggressive scan with phased loading animation, shows gold count, urgency copy
+- Updated leadEngine/scorer.ts, scan.ts, types.ts, server routes, Firebase functions, FindJobsPage
+
 ### Pushed to GitHub
 - Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
 - Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
@@ -192,10 +211,13 @@
 - Commit 8: `42a5671` — Document search prototype, pricing experiments
 - Commit 9: `525eb50` — AgentDock MVP, khutba.io product build + Ramadan launch plan
 - Commit 10: `21d1c7d` — Integration partnership map, 5 trade SEO pages
+- Commit 11: `e99fd73` — Messaging angles (quiet week, first-mover, competitor FOMO, Birmingham trust)
+- Commit 12: `43f1158` — Feature roadmap (30/60/90 day plan, priority scoring)
+- Commit 13: `2c9a0b5` — Top priority features (trade scoring, radius alerts, Fill My Week)
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements
-- Functions: api — LIVE with Stripe integration
+- Functions: api — LIVE with trade-specific scoring + radius support
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
