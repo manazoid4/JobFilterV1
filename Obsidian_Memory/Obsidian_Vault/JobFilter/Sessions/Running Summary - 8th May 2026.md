@@ -289,14 +289,32 @@
 - **Approval Workflow**: Required approval/rejection reasons, approval history, escalation rules display, red "ESCALATED" badges for overdue tasks
 - Pushed to GitHub: manazoid4/AgentDock (main branch, latest: `3c64bc7`)
 
+#### 39. JobFilter — Final Polish Pass (COMPLETED)
+- **BackToTop**: Appears after 600px scroll, smooth scrolls to top, wired globally
+- **Smooth scroll**: `scroll-behavior: smooth` on html
+- **SEO**: Open Graph tags, Twitter cards, JSON-LD structured data (Organization + SoftwareApplication), canonical URL, robots, keywords
+- **Cold outreach flag**: Added to ChaseLead type, orange filter button, badge on cards, warning banner in detail panel (S14 gap from Daily To-Do)
+- **Form validation**: WaitlistForm email regex, phone format, empty field checks
+- **Logo alt text**: TopNav logo now has proper alt text
+- **Build**: 292.95KB bundle, 39 lazy chunks, 3.12s build time
+
 ### Pushed to GitHub
-- **JobFilterV1**: 19 commits on fix/main-build → main (latest: `8512d1c`)
+- **JobFilterV1**: 20 commits on fix/main-build → main (latest: `70070a3`)
 - **khutba-io**: 3 commits on master (latest: `c12d055`)
 - **AgentDock**: 3 commits on main (latest: `3c64bc7`)
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements
 - Functions: api — LIVE with 7 signal sources + trade-specific scoring + radius support
+
+### Still Open (require founder action)
+- Confirm Twilio env vars (for WhatsApp alerts)
+- Confirm Companies House API key (for live company data)
+- Confirm WhatsApp provider/token
+- Confirm PlanWire interest/key
+- Decide My Link free vs paid
+- Add paid lead proof card
+- Stripe live keys (test mode working, need live keys for production)
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
