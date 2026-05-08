@@ -1,7 +1,8 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const FREE_SCAN_LIMIT = 3;
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+const FREE_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const STORAGE_KEY = 'jf-free-scans-used';
 const SOCIAL_PROOF_KEY = 'jf-social-proof-week';
 
@@ -104,10 +105,10 @@ export function FreeToolsPage() {
   return (
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
       {/* ── Hero ─────────────────────────────────── */}
-      <section className="jf-box bg-[var(--navy)] p-6 text-white">
+      <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
-        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
-        <p className="mt-3 max-w-2xl text-lg font-black text-white/70">
+        <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
+        <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
           Price cleaner. Spot time-wasters. Protect your week. Tools are free. Leads are not.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -138,7 +139,7 @@ export function FreeToolsPage() {
       </section>
 
       {/* ── Paywall (when limit hit + not captured) ── */}
-      {isPaywalled && (
+      {!DEV_MODE && isPaywalled && (
         <section className="jf-box border-4 border-[var(--orange)] bg-[var(--orange)]/10 p-6">
           <p className="micro-label text-[var(--orange)]">FREE LIMIT REACHED</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOU HAVE USED YOUR 3 FREE SCANS.</h2>
@@ -166,7 +167,7 @@ export function FreeToolsPage() {
       )}
 
       {/* ── Email capture modal ──────────────────── */}
-      {showEmailCapture && (
+      {!DEV_MODE && showEmailCapture && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md">
             <div className="jf-box bg-white p-6">
@@ -212,7 +213,7 @@ export function FreeToolsPage() {
       )}
 
       {/* ── Email captured welcome banner ────────── */}
-      {emailDone && (
+      {!DEV_MODE && emailDone && (
         <section className="jf-box bg-[var(--green)]/10 border-2 border-[var(--green)] p-6">
           <p className="micro-label text-[var(--green)]">WELCOME — YOU'RE IN.</p>
           <p className="headline mt-1 text-2xl">3 MORE SCANS ADDED.</p>

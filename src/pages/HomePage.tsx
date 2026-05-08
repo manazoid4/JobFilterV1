@@ -59,25 +59,14 @@ export function HomePage() {
       <section className="bg-[var(--yellow)] soft-grid border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad grid gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              The JobFilter Way
+            <span className="micro-label text-[var(--muted)] block mb-4">
+              THE JOBFILTER WAY
             </span>
             <h1
               className="headline"
               style={{ fontSize: 'clamp(44px, 7vw, 92px)', lineHeight: 0.96, color: 'var(--navy)' }}
             >
-              Stop quoting for{' '}
+              STOP QUOTING FOR{' '}
               <span
                 style={{
                   background: 'var(--yellow)',
@@ -88,11 +77,14 @@ export function HomePage() {
                   lineHeight: 1.05,
                 }}
               >
-                tyre-kickers.
+                TYRE-KICKERS.
               </span>
             </h1>
-            <p className="mt-3 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
-              Official UK signals. Scored. Filtered. Straight to your phone.
+            <p className="mt-4 text-sm font-black uppercase tracking-widest text-[var(--ink)]/60">
+              OFFICIAL UK SIGNALS. SCORED. FILTERED. STRAIGHT TO YOUR PHONE.
+            </p>
+            <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+              Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
             <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
@@ -240,25 +232,14 @@ export function HomePage() {
       <section id="why" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              Why JobFilter
+            <span className="micro-label text-[var(--muted)] block mb-4">
+              WHY JOBFILTER
             </span>
             <h2
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              The lead problem is costing you more than you think.
+              THE LEAD PROBLEM IS COSTING YOU MORE THAN YOU THINK.
             </h2>
             <p className="mt-4 text-[17px] font-medium leading-[1.55] text-[var(--navy)]">
               Every bad lead costs you time, fuel, and the mental energy of getting your hopes up. JobFilter cuts the junk before it reaches you.
@@ -345,25 +326,14 @@ export function HomePage() {
       <section id="how" style={{ background: 'var(--offwhite)', padding: '96px 0' }}>
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              The JobFilter Way
+            <span className="micro-label text-[var(--muted)] block mb-4">
+              THE JOBFILTER WAY
             </span>
             <h2
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              Three steps. Two minutes to set up.
+              THREE STEPS. TWO MINUTES TO SET UP.
             </h2>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
@@ -391,25 +361,14 @@ export function HomePage() {
       <section className="bg-[var(--bg-main)] py-16">
         <div className="page-shell">
           <div style={{ maxWidth: 720, marginBottom: 48 }}>
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              What We Do
+            <span className="micro-label text-[var(--muted)] block mb-4">
+              WHAT WE DO
             </span>
             <h2
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              One subscription. Four tools. Better jobs.
+              ONE SUBSCRIPTION. FOUR TOOLS. BETTER JOBS.
             </h2>
             <p className="mt-4 text-[17px] font-medium leading-[1.55] text-[var(--navy)]">
               The Intake Engine is the core. Vantage, Vicinity, and Codex come with it — because finding the job is only half the problem.
@@ -611,25 +570,14 @@ export function HomePage() {
         <div className="page-shell grid gap-8 py-16 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
             <WinSummary />
-            <span
-              style={{
-                display: 'block',
-                marginBottom: 14,
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontWeight: 700,
-                fontSize: 12,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              Start Filtering
+            <span className="micro-label text-[var(--muted)] block mb-4">
+              START FILTERING
             </span>
             <h2
               className="headline"
               style={{ fontSize: 'clamp(28px, 3.6vw, 42px)', color: 'var(--navy)' }}
             >
-              Start filtering today.
+              START FILTERING TODAY.
             </h2>
             <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
               Scan your area free. Unlock full leads, WhatsApp alerts, and the action layer from £6.99/week. No contract. 30-day money-back guarantee.

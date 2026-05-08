@@ -68,8 +68,8 @@ export function SmartQuotePage() {
       <section className="bg-[var(--navy)] text-white section-pad">
         <div className="page-shell">
           <p className="micro-label text-[var(--yellow)]">SMART QUOTING</p>
-          <h1 className="headline mt-3 text-4xl md:text-5xl text-white">QUOTE FASTER. WIN MORE.</h1>
-          <p className="mt-4 max-w-xl text-lg font-medium text-white/80">
+          <h1 className="headline mt-4 text-5xl md:text-6xl text-white">QUOTE FASTER. WIN MORE.</h1>
+          <p className="mt-5 max-w-xl text-lg font-black text-white/80">
             Stop writing the same quote from scratch every time. Pick your trade, pick the job, get the starter.
           </p>
         </div>

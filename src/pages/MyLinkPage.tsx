@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const username = 'manaz';
-const path = `/intake/${username}`;
-
 export function MyLinkPage() {
+  const [username, setUsername] = useState('');
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem('jobfilter.username');
+    if (stored) {
+      setUsername(stored);
+    } else {
+      const generated = 'trader-' + Math.random().toString(36).slice(2, 8);
+      setUsername(generated);
+      localStorage.setItem('jobfilter.username', generated);
+    }
+  }, []);
+
+  const path = `/intake/${username}`;
   const origin = typeof window === 'undefined' ? 'https://jobfilter.uk' : window.location.origin;
   const link = `${origin}${path}`;
 
@@ -16,9 +27,9 @@ export function MyLinkPage() {
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
-      <section className="jf-box bg-white p-6">
+      <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">MY LINK</p>
-        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">SEND THIS. FILTER EVERYTHING.</h1>
+        <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">SEND THIS. FILTER EVERYTHING.</h1>
         <div className="mt-6 break-all border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 text-lg font-black sm:text-xl">
           {link}
         </div>

@@ -32,7 +32,7 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-white text-[var(--ink)]">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
         <NavLink to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
           <img
             className="h-9 w-9 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[4px_4px_0_var(--line)]"

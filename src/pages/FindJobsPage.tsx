@@ -7,6 +7,8 @@ import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
@@ -209,13 +211,13 @@ export function FindJobsPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       {/* ── SCANNER ──────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
-        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
-        <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
+      <section className="jf-box bg-white p-7">
+        <p className="micro-label text-[var(--orange)]">LIVE LEAD SCANNER</p>
+        <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
+        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
           Pick your trade. Enter your postcode. See what's live near you right now.
         </p>
-        <div className="mt-2 flex items-center gap-3">
+        <div className="mt-3 flex items-center gap-4">
           <Link to="/chase" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
             GO TO CHASE →
           </Link>
@@ -394,20 +396,30 @@ export function FindJobsPage() {
           ) : (
             <div className="grid gap-4">
               {/* Preview banner */}
-              <section className="jf-box bg-[var(--yellow)] p-5">
-                <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
-                <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
-                <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                  What you see above proves the leads exist. Unlock from £6.99/week for buyer name, deadline, source link, WhatsApp alerts, and the full score breakdown.
-                </p>
-              </section>
+              {DEV_MODE ? (
+                <section className="jf-box bg-[var(--green)] p-5">
+                  <p className="micro-label text-white">DEV MODE — ALL FEATURES UNLOCKED</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">FULL ACCESS — TEST EVERYTHING</h2>
+                  <p className="mt-2 max-w-2xl font-black text-white/80">
+                    DEV_MODE is active. All locked fields, WhatsApp alerts, and paid features are fully unlocked for testing.
+                  </p>
+                </section>
+              ) : (
+                <section className="jf-box bg-[var(--yellow)] p-5">
+                  <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
+                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
+                    What you see above proves the leads exist. Unlock from £6.99/week for buyer name, deadline, source link, WhatsApp alerts, and the full score breakdown.
+                  </p>
+                </section>
+              )}
 
               {result.leads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
               {/* Locked leads CTA */}
-              {(result.lockedCount ?? 0) > 0 && (
+              {!DEV_MODE && (result.lockedCount ?? 0) > 0 && (
                 <div className="jf-box bg-[var(--ink)] p-8 text-center">
                   <p className="micro-label text-[var(--yellow)]">FULL RESULTS LOCKED</p>
                   <p className="headline mt-2 text-3xl text-white leading-tight">
@@ -605,6 +617,14 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
 }
 
 function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+  if (DEV_MODE && !value) {
+    return (
+      <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 p-3">
+        <p className="micro-label text-[10px] text-[var(--green)]">{label}</p>
+        <p className="mt-1 font-black text-[var(--green)] text-sm">DEV — data not available in mock mode</p>
+      </div>
+    );
+  }
   if (!value) {
     return (
       <div className="relative border-2 border-[var(--line)] overflow-hidden p-3">

@@ -51,7 +51,7 @@ function ShareModal({ week, onClose }: { week: WeekData; onClose: () => void }) 
   const shareText = planning
     ? `This week: ${planning.thisWeek} planning applications across the UK. ${week.totalGold} GOLD leads. ${week.totalSilver} SILVER.\nDon't chase jobs. Let them find you.`
     : `JobFilter Signals — ${week.weekLabel}\n${week.totalSignals} signals detected. ${week.totalGold} GOLD leads across the UK.`;
-  const url = 'https://jobfilter.co.uk/signals/weekly';
+  const url = 'https://jobfilter.uk/signals/weekly';
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + '\n' + url)}`;
@@ -259,18 +259,18 @@ export function WeeklySignalsPage() {
       {/* 1. Hero — Data Feed Header */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <div className="flex flex-wrap items-center gap-3 mb-4">
+          <div className="flex flex-wrap items-center gap-3 mb-5">
             <p className="micro-label text-[var(--yellow)]">
               {isCurrentWeek ? 'LIVE THIS WEEK' : `ARCHIVE — ${week.weekLabel}`}
             </p>
             {isCurrentWeek && (
-              <span className="h-2 w-2 rounded-full bg-[var(--green)] shadow-[0_0_6px_var(--green)] animate-pulse" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--green)] shadow-[0_0_6px_var(--green)] animate-pulse" />
             )}
           </div>
           <h1 className="headline text-[clamp(2.5rem,7vw,6rem)] leading-[0.88] text-[var(--yellow)]">
             SIGNALS THIS WEEK.
           </h1>
-          <p className="mt-4 max-w-3xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-3xl text-xl font-black text-white/80">
             {week.totalSignals} signals detected across the UK. {week.totalGold} are GOLD. {week.totalSilver} are SILVER. The rest is noise.
           </p>
           {isCurrentWeek && (
@@ -546,6 +546,9 @@ export function WeeklySignalsPage() {
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
             3 free scans every week. Founding 30: £6.99/wk (£29/mo) forever.
+          </p>
+          <p className="mt-2 text-xs font-black text-[var(--ink)]/40">
+            Data shown is illustrative based on UK construction statistics. Live scans show real leads in your area.
           </p>
         </div>
       </section>

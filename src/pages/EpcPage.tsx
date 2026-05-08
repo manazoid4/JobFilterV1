@@ -20,8 +20,8 @@ export function EpcPage() {
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">EPC LEADS</p>
-        <h1 className="headline mt-3 max-w-5xl text-5xl leading-none text-[var(--yellow)] md:text-7xl">
-          EPC ENERGY UPGRADES - FLAGGED BEFORE ANYONE KNOCKS.
+        <h1 className="headline mt-4 max-w-5xl text-5xl leading-none text-[var(--yellow)] md:text-7xl">
+          EPC ENERGY UPGRADES — FLAGGED BEFORE ANYONE KNOCKS.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
           Properties rated F and G cannot be legally rented without energy improvements. JobFilter identifies these addresses and alerts you before they post anywhere.

@@ -56,12 +56,12 @@ export function LeadDetailPage() {
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-28 md:pb-8">
-      <section className="jf-box grid gap-5 bg-white p-6 sm:grid-cols-[auto_1fr]">
+      <section className="jf-box grid gap-5 bg-white p-7 sm:grid-cols-[auto_1fr]">
         <ScoreBadge score={lead.score} large />
         <div>
           <p className="micro-label text-[var(--orange)]">{lead.urgency}</p>
-          <h1 className="headline mt-2 text-4xl leading-none sm:text-5xl">{lead.jobType}</h1>
-          <p className="mt-3 text-xl font-black text-[var(--muted)]">{lead.area}</p>
+          <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">{lead.jobType}</h1>
+          <p className="mt-4 text-xl font-black text-[var(--muted)]">{lead.area}</p>
         </div>
       </section>
 
@@ -72,7 +72,7 @@ export function LeadDetailPage() {
           {lead.flags.includes('Urgent') && <p>YES Urgent</p>}
           {lead.flags.includes('Photos') && <p>YES Photos</p>}
           {lead.flags.includes('Clear') ? <p>YES Clear</p> : <p>NO Low detail</p>}
-          {lead.flags.includes('Budget') && <p>NO Low budget</p>}
+          {lead.flags.includes('Budget') && <p>YES Budget confirmed</p>}
         </div>
       </section>
 

@@ -18,10 +18,10 @@ const tips = [
 export function TipsPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-8">
-      <section className="jf-box bg-white p-6">
+      <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">TIPS FOR TRADESMEN</p>
-        <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl">KEEP YOUR EVENINGS.</h1>
-        <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers.</p>
+        <h1 className="headline mt-4 text-5xl leading-none sm:text-6xl md:text-8xl">KEEP YOUR EVENINGS.</h1>
+        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers.</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2">
         {tips.map(([title, body]) => (

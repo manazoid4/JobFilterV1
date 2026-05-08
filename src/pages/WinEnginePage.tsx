@@ -10,6 +10,8 @@ import {
 } from '../lib/winStore';
 import { getChaseLeads, saveChaseLead } from '../lib/chaseStore';
 
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
 export function WinEnginePage() {
   const [wins, setWins] = useState<WinJob[]>([]);
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
@@ -61,11 +63,11 @@ export function WinEnginePage() {
   const currentMonth = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
   return (
-    <main className="page-shell grid gap-6 py-6 pb-24">
-      <section className="jf-box bg-[var(--ink)] p-5 text-white">
+    <main className="page-shell grid gap-6 py-8 pb-24">
+      <section className="jf-box bg-[var(--ink)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">WIN</p>
-        <h1 className="headline mt-2 text-3xl sm:text-4xl">YOUR SCOREBOARD</h1>
-        <p className="mt-2 text-sm font-black text-white/70">
+        <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">YOUR SCOREBOARD</h1>
+        <p className="mt-3 text-[15px] font-black text-white/70">
           Track wins. Prove the value. Stay subscribed.
         </p>
       </section>
@@ -101,11 +103,36 @@ export function WinEnginePage() {
         </div>
       )}
 
-      <div className="jf-box bg-white p-5">
-        <h2 className="headline text-xl">RECENT WINS</h2>
-        {wins.length === 0 ? (
+      {wins.length === 0 && (
+        <div className="jf-box bg-white p-5">
+          <h2 className="headline text-xl">RECENT WINS</h2>
           <p className="mt-3 text-[var(--muted)]">No wins yet. Mark a lead as won to see it here.</p>
-        ) : (
+          {DEV_MODE && (
+            <div className="mt-4 p-4 bg-[var(--green)]/10 border-2 border-[var(--green)]">
+              <p className="text-sm font-black text-[var(--green)]">DEV MODE: Add sample wins to test the Scoreboard.</p>
+              <button
+                onClick={() => {
+                  const sampleWins = [
+                    { id: 'dev-win-1', leadId: 'dev-1', title: 'Kitchen extension — B15', trade: 'building', location: 'B15 / Birmingham', estimatedValue: '£25,000', value: 25000, wonAt: new Date().toISOString(), source: 'chase' },
+                    { id: 'dev-win-2', leadId: 'dev-2', title: 'Full rewire — 3-bed semi', trade: 'electrical', location: 'B14 / Birmingham', estimatedValue: '£8,500', value: 8500, wonAt: new Date(Date.now() - 86400000 * 3).toISOString(), source: 'chase' },
+                  ];
+                  const data = getWinData();
+                  data.wins = [...sampleWins, ...data.wins];
+                  localStorage.setItem('jobfilter.win', JSON.stringify(data));
+                  refresh();
+                }}
+                className="jf-button mt-3 bg-[var(--green)] text-white text-sm"
+              >
+                ADD 2 SAMPLE WINS
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {wins.length > 0 && (
+        <div className="jf-box bg-white p-5">
+          <h2 className="headline text-xl">RECENT WINS</h2>
           <div className="mt-4 grid gap-3">
             {wins.slice(0, 10).map((w) => (
               <div key={w.id} className="border-2 border-[var(--line)] p-3 flex items-center justify-between gap-3">
@@ -117,8 +144,8 @@ export function WinEnginePage() {
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {lostBreakdown.length > 0 && (
         <div className="jf-box bg-white p-5">

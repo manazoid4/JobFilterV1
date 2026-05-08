@@ -62,8 +62,8 @@ export function IntakePage() {
   }
 
   return (
-    <main className="page-shell grid min-h-[calc(100svh-126px)] content-center py-8 pb-24 md:min-h-[calc(100vh-72px)] md:pb-8">
-      <section className="jf-box bg-white p-6">
+    <main className="page-shell grid min-h-[calc(100svh-126px)] content-center py-10 pb-24 md:min-h-[calc(100vh-72px)] md:pb-8">
+      <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">JOBFILTER FOR {username}</p>
 
         {step === 1 && (

@@ -54,10 +54,10 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
 
   if (status === 'done') {
     return (
-      <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
-        <p className="headline text-2xl sm:text-3xl">YOU'RE IN.</p>
-        <p className="mt-2 font-black">Start scanning for jobs now.</p>
-        <a href="/find-jobs" className="mt-3 inline-block jf-button bg-[var(--navy)] text-white text-sm">
+      <div className="jf-box bg-[var(--yellow)] p-6 text-[var(--ink)]">
+        <p className="headline text-3xl sm:text-4xl">YOU'RE IN.</p>
+        <p className="mt-3 font-black text-lg">Start scanning for jobs now.</p>
+        <a href="/find-jobs" className="mt-4 inline-block jf-button bg-[var(--navy)] text-white">
           SCAN MY AREA →
         </a>
       </div>
@@ -65,7 +65,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   }
 
   return (
-    <form onSubmit={submit} className={`jf-box grid gap-3 bg-white ${compact ? 'p-4' : 'p-5'}`}>
+    <form onSubmit={submit} className={`jf-box grid gap-4 bg-white ${compact ? 'p-5' : 'p-6'}`}>
       <p className="micro-label text-[var(--orange)]">GET STARTED</p>
       {remaining !== null && remaining <= 30 && (
         <p className="text-sm font-black text-[var(--green)]">{remaining} of 30 Founding slots remaining</p>
@@ -87,7 +87,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
       {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
       {remaining !== null && (
         <p className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-3 py-2 text-sm font-black text-[var(--ink)]">
-          🔒 <strong>{remaining} of 30 Founding slots remaining</strong> — price locks at £29/month
+          <strong>{remaining} of 30 Founding slots remaining</strong> — price locks at £29/month
         </p>
       )}
       <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>

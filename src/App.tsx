@@ -43,6 +43,7 @@ const SignalsPage = lazyPage(() => import('./pages/SignalsPage'));
 const WeeklySignalsPage = lazyPage(() => import('./pages/WeeklySignalsPage'));
 const SmartQuotePage = lazyPage(() => import('./pages/SmartQuotePage'));
 const TipsPage = lazyPage(() => import('./pages/TipsPage'));
+const CodexPage = lazyPage(() => import('./pages/CodexPage'));
 const TradieStackPage = lazyPage(() => import('./pages/TradieStackPage'));
 const TradeBuilders = lazyPage(() => import('./pages/TradeBuilders'));
 const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
@@ -105,7 +106,7 @@ function AppContent() {
         <Route path="/smart-quote" element={<LazyPage><SmartQuotePage /></LazyPage>} />
         <Route path="/vantage" element={<LazyPage><ProductAdvantagePage type="vantage" /></LazyPage>} />
         <Route path="/vicinity" element={<LazyPage><ProductAdvantagePage type="vicinity" /></LazyPage>} />
-        <Route path="/codex" element={<LazyPage><ProductAdvantagePage type="codex" /></LazyPage>} />
+        <Route path="/codex" element={<LazyPage><CodexPage /></LazyPage>} />
         <Route path="/signals" element={<LazyPage><SignalsPage /></LazyPage>} />
         <Route path="/signals/weekly" element={<LazyPage><WeeklySignalsPage /></LazyPage>} />
         <Route path="/tradiestack" element={<LazyPage><TradieStackPage /></LazyPage>} />

@@ -24,6 +24,7 @@ export function DashboardPage() {
   const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
   const overdueCount = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost').length;
   const notContacted = chaseLeads.filter((l) => l.stage === 'not_contacted').length;
+  const isEmpty = activeChase === 0 && monthlyStats.count === 0 && winData.wins === 0;
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24">
@@ -35,6 +36,19 @@ export function DashboardPage() {
           One flow. Three engines. Find the jobs. Chase them down. Win the work. This is your pipeline at a glance.
         </p>
       </section>
+
+      {isEmpty && (
+        <section className="jf-box bg-[var(--yellow)] p-8 text-center">
+          <p className="micro-label text-[var(--ink)]">START HERE</p>
+          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR PIPELINE IS EMPTY.</h2>
+          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/75">
+            No data yet because you haven't scanned for jobs. Head to Find Jobs, enter your postcode, and see what's live near you.
+          </p>
+          <Link to="/find-jobs" className="jf-button mt-5 bg-[var(--ink)] text-white inline-block">
+            SCAN FOR JOBS →
+          </Link>
+        </section>
+      )}
 
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">

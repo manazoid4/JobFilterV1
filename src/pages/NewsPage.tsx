@@ -59,12 +59,12 @@ export function NewsPage() {
         </div>
       </section>
 
-      <section className="page-shell grid gap-5 py-10">
+      <section className="page-shell grid gap-6 py-12">
         {tradeSignals.map((item, index) => (
           <article key={item.title} className={`jf-box overflow-hidden ${index % 2 === 0 ? 'bg-white' : 'bg-[var(--navy)] text-white'}`}>
-            <div className="p-5">
+            <div className="p-6">
               <p className="micro-label text-[var(--orange)]">PRIVATE SIGNAL READ</p>
-              <h2 className="headline mt-2 text-4xl leading-none md:text-5xl">{item.title}</h2>
+              <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">{item.title}</h2>
             </div>
             <div className={`grid gap-0 border-t-4 border-[var(--line)] md:grid-cols-3 ${index % 2 === 0 ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--ink)]'}`}>
               <SignalBlock label="Trade affected" value={item.tradeAffected} />

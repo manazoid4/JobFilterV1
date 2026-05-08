@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { CheckoutButton } from '../components/CheckoutButton';
 
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
 const rows = [
   ['Area scans', 'Preview scans', 'Unlimited', 'Unlimited'],
   ['Score band', 'Preview only', 'Full score + reasons', 'Full score + reasons'],
@@ -71,10 +73,10 @@ export function PricingPage() {
       {/* ── HERO ──────────────────────────────────────── */}
       <section className="jf-box bg-[var(--navy)] p-8 text-center text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
-        <h1 className="headline mx-auto mt-3 max-w-4xl text-4xl leading-none sm:text-6xl text-[var(--yellow)] md:text-8xl">
+        <h1 className="headline mx-auto mt-4 max-w-4xl text-4xl leading-none sm:text-6xl text-[var(--yellow)] md:text-8xl">
           ONE PRICE. NO GAMES.
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-xl font-black text-white/80">
+        <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-white/80">
           No lead fees. No bidding wars. No race to the bottom. Free shows the signal. Paid unlocks the money detail.
         </p>
 
@@ -292,24 +294,44 @@ export function PricingPage() {
         </div>
       </section>
 
-      {/* ── LETTERHEAD PACK ──────────────────────────── */}
-      <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
-        <div className="jf-box bg-[var(--yellow)] p-6">
-          <p className="micro-label text-[var(--ink)]">LETTERHEAD PACK</p>
-          <h2 className="headline mt-3 text-5xl leading-none">Send the job pack like a firm that wins.</h2>
-          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
-            Included with Founding 30 and Pro: company letterhead, job-specific blueprint instructions, WhatsApp-ready PDF, printing, and postage.
+      {/* ── LETTERHEAD PACK — UNIQUE SELL ─────────────── */}
+      <section className="jf-box bg-[var(--ink)] p-8 text-white">
+        <p className="micro-label text-[var(--yellow)]">ONLY ON JOBFILTER</p>
+        <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl text-[var(--yellow)]">THE LETTERHEAD PACK.</h2>
+        <p className="mt-4 max-w-3xl text-lg font-black text-white/80">
+          No other lead platform does this. Checkatrade sends you a name and number. MyBuilder sends you a bidding war. JobFilter sends you a <strong>complete job pack</strong> — printed on your letterhead, posted to the buyer, and ready to WhatsApp.
+        </p>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-3">
+          <div className="border-2 border-[var(--yellow)]/40 bg-white/5 p-5">
+            <p className="headline text-2xl text-[var(--yellow)]">YOUR LETTERHEAD</p>
+            <p className="mt-2 font-black text-white/70 text-sm">
+              Your company name, trade, area, phone, email, and proof points — printed on proper letterhead. Looks like a firm that wins. Not a bloke with a van.
+            </p>
+          </div>
+          <div className="border-2 border-[var(--yellow)]/40 bg-white/5 p-5">
+            <p className="headline text-2xl text-[var(--yellow)]">JOB-SPECIFIC BLUEPRINT</p>
+            <p className="mt-2 font-black text-white/70 text-sm">
+              Instructions written for the exact job. Scope of works, materials needed, timeline, and compliance points. The buyer sees you've already thought it through.
+            </p>
+          </div>
+          <div className="border-2 border-[var(--yellow)]/40 bg-white/5 p-5">
+            <p className="headline text-2xl text-[var(--yellow)]">PRINTED + POSTED</p>
+            <p className="mt-2 font-black text-white/70 text-sm">
+              We print it and post it to the buyer. A physical letter stands out in a world of WhatsApp spam. Plus a PDF version for instant WhatsApp delivery.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-5">
+          <p className="text-sm font-black text-[var(--yellow)]">
+            WHY THIS MATTERS: When a homeowner gets 5 WhatsApp messages from tradies, yours is the one that arrived as a proper letter. They remember you. They call you first. You win the job without competing on price.
           </p>
         </div>
-        <article className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--orange)]">WHAT GOES OUT</p>
-          <ul className="mt-4 grid gap-3 text-sm font-black">
-            <li>Company letterhead with trade, area, phone, email, and proof points.</li>
-            <li>Job-specific blueprint instructions written for the exact job.</li>
-            <li>Printed copy posted to the buyer where a proper paper touch helps.</li>
-            <li>WhatsApp-ready PDF for NO CHASING.</li>
-          </ul>
-        </article>
+
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN FREE — SEE IT IN ACTION →</Link>
+        </div>
       </section>
 
       {/* ── ROI CHECK ────────────────────────────────── */}

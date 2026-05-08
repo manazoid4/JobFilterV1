@@ -18,14 +18,14 @@ const content = {
     title: 'VICINITY',
     hero: 'bg-[var(--yellow)] text-[var(--ink)]',
     label: 'text-[var(--ink)]',
-    headline: 'TECHNICAL WORK. COMMERCIAL LANGUAGE.',
-    sub: 'Your schematics, specs, and proposals — translated into documents that close deals.',
-    body: 'Engineers and specialists lose contracts because clients cannot understand the technical value. Codex bridges the gap between your expertise and their decision.',
-    note: 'Built for HVAC engineers, electrical contractors, mechanical specialists, and technical consultants who need their work understood by non-technical buyers.',
-    distinct: 'Codex translates technical complexity into commercial clarity. Not marketing. Not bids. Translation.',
-    problem: 'Technical excellence invisible to the buyer = lost contract to inferior competitor who communicated better.',
-    steps: ['Upload schematics, spec sheets, technical proposals, or complex quotes', 'Specialist team translates technical value into commercial language', 'Client-ready documents delivered within 6 hours'],
-    gets: ['Executive summary for decision-makers', 'Technical-to-commercial translation document', 'Value comparison matrix', 'Scope clarification sheet', 'Client presentation deck'],
+    headline: 'PUT YOUR NAME ON EVERY DOOR IN YOUR PATCH.',
+    sub: 'Hyper-local ads targeting households that need your work right now — based on EPC data, property sales, and planning signals.',
+    body: 'You know your patch. Vicinity puts your brand in the letterboxes of the exact homes that are about to need your trade. No wasted flyers. No blanket coverage. Just the houses with the signal.',
+    note: 'Powered by JobFilter\'s signal engine — we know which homes need work before they post a job.',
+    distinct: 'Vicinity fills your pipeline between big jobs. Micro-ads, hyper-targeted, cheap as chips.',
+    problem: 'Blanket leaflet drops waste 90% of your budget. Vicinity targets only the homes with a trigger signal.',
+    steps: ['Tell us your patch (postcode + radius)', 'We target homes with active signals (EPC F/G, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
+    gets: ['Targeted door-drop campaign', 'EPC-triggered household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
   },
 };
 
@@ -33,13 +33,12 @@ type ProductType = keyof typeof content;
 
 export function ProductAdvantagePage({ type }: { type: ProductType }) {
   const page = content[type];
-  const isCodex = type === 'codex';
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-8">
-      <section className={`jf-box p-7 md:p-9 ${page.hero}`}>
+      <section className={`jf-box p-8 md:p-10 ${page.hero}`}>
         <p className={`micro-label ${page.label}`}>{page.title}</p>
-        <h1 className="headline mt-3 max-w-5xl text-5xl leading-none md:text-7xl">{page.headline}</h1>
+        <h1 className="headline mt-4 max-w-5xl text-5xl leading-none md:text-7xl">{page.headline}</h1>
         <p className="mt-5 max-w-2xl text-xl font-black opacity-80">{page.sub}</p>
       </section>
 
@@ -52,25 +51,6 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
             <p className="mt-4 border-t-2 border-[var(--line)] pt-4 font-black text-[var(--ink)]">{page.note}</p>
             {'problem' in page && <p className="mt-4 font-black text-[var(--orange)]">{page.problem}</p>}
           </article>
-
-          {isCodex && (
-            <article className="jf-box bg-[var(--bg-main)] p-6">
-              <p className="micro-label text-[var(--navy)]">WHO THIS IS FOR</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {[
-                  ['HVAC Engineers', 'Heat pump specs, ventilation designs, energy calculations'],
-                  ['Electrical Contractors', 'Distribution diagrams, load calculations, compliance docs'],
-                  ['Mechanical Specialists', 'Piping schematics, structural calculations, material specs'],
-                  ['Technical Consultants', 'Feasibility studies, risk assessments, technical proposals'],
-                ].map(([role, desc]) => (
-                  <div key={role} className="border-2 border-[var(--line)] bg-white p-4">
-                    <p className="font-black text-[var(--ink)]">{role}</p>
-                    <p className="mt-1 text-sm text-[var(--muted)]">{desc}</p>
-                  </div>
-                ))}
-              </div>
-            </article>
-          )}
 
           <section className="grid gap-4 md:grid-cols-3">
             {page.steps.map((step, index) => (
@@ -93,13 +73,13 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
           </section>
         </div>
 
-        <ServiceForm trade={page.title} isCodex={isCodex} />
+        <ServiceForm trade={page.title} />
       </section>
     </main>
   );
 }
 
-function ServiceForm({ trade, isCodex }: { trade: string; isCodex: boolean }) {
+function ServiceForm({ trade }: { trade: string }) {
   const [submitted, setSubmitted] = useState(false);
   if (submitted) return (
     <div className="jf-box bg-[var(--yellow)] p-6">
@@ -117,11 +97,11 @@ function ServiceForm({ trade, isCodex }: { trade: string; isCodex: boolean }) {
         <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
       </div>
       <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-        <p className="micro-label text-[var(--orange)]">{isCodex ? 'SUBMIT TECHNICAL WORK' : 'SUBMIT TO TEAM'}</p>
+        <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
         <input className="field-input" placeholder="Your name" required />
         <input className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
         <input className="field-input" placeholder="Email or phone" required />
-        <textarea className="field-input min-h-[100px]" placeholder={isCodex ? 'Describe the technical work — what needs translating?' : 'Job details - what do you need help with?'} required />
+        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" required />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (
@@ -131,7 +111,7 @@ function ServiceForm({ trade, isCodex }: { trade: string; isCodex: boolean }) {
             </label>
           ))}
         </fieldset>
-        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">{isCodex ? 'SUBMIT TECHNICAL WORK' : 'SUBMIT TO TEAM'}</button>
+        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SUBMIT TO TEAM</button>
         <p className="text-sm font-black text-[var(--muted)]">Team responds within 6 hours. Usually much faster.</p>
       </form>
     </div>

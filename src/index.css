@@ -62,9 +62,9 @@ select {
 }
 
 .micro-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: 'Barlow Condensed', sans-serif;
 }
@@ -99,16 +99,17 @@ select {
 
 .jf-button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
   border: 2px solid var(--navy);
   border-radius: 3px;
-  padding: 0.75rem 1.375rem;
-  font-family: 'Barlow', sans-serif;
-  font-size: 14.5px;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   box-shadow: 4px 4px 0 var(--navy);
   transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.1s;
   cursor: pointer;
@@ -127,8 +128,8 @@ select {
 }
 
 .jf-button-lg {
-  min-height: 52px;
-  padding: 14px 26px;
+  min-height: 56px;
+  padding: 16px 28px;
   font-size: clamp(15px, 2vw, 17px);
   font-weight: 700;
   line-height: 1.2;
@@ -165,7 +166,7 @@ select {
 .field-label {
   display: grid;
   gap: 0.45rem;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -195,11 +196,12 @@ select {
 
 .nav-link {
   padding: 8px 12px;
-  font-family: 'Barlow', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--navy);
-  letter-spacing: 0.02em;
   border-radius: 4px;
   white-space: nowrap;
   transition: background 0.12s;
@@ -243,7 +245,7 @@ select {
   align-items: center;
   border-radius: 3px;
   padding: 0.35rem 0.5rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -354,8 +356,8 @@ select {
 
   .jf-button {
     padding: 0.625rem 1rem;
-    font-size: 13px;
-    min-height: 44px;
+    font-size: 0.85rem;
+    min-height: 48px;
   }
 
   .field-input {

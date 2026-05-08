@@ -69,7 +69,7 @@ export function SignalsPage() {
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
-          <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
+          <h1 className="headline mt-5 max-w-5xl text-[clamp(3rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
             FIVE REASONS THE JOB IS YOURS BEFORE ANYONE ELSE QUOTES.
           </h1>
           <p className="mt-6 max-w-3xl text-xl font-black leading-tight text-white/80">

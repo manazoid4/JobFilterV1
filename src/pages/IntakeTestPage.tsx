@@ -89,10 +89,10 @@ export function IntakeTestPage() {
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
-      <section className="jf-box bg-white p-6">
+      <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">INTAKE ENGINE — LIVE SCORING</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
-        <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
+        <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
+        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
           Select a job type and see how the engine scores it. Live scoring. Real criteria.
         </p>
       </section>

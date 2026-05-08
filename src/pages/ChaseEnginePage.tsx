@@ -9,6 +9,8 @@ import {
 import { fillTemplate, getTemplateByKey } from '../lib/chaseTemplates';
 import { getStoredLeads } from '../lib/leadStore';
 
+const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+
 const STAGES: { key: ChaseStage | 'all'; label: string; color: string }[] = [
   { key: 'all', label: 'All', color: '' },
   { key: 'not_contacted', label: 'New', color: 'bg-[var(--yellow)]' },
@@ -80,18 +82,18 @@ export function ChaseEnginePage() {
   const wonCount = chaseLeads.filter((l) => l.stage === 'won').length;
 
   return (
-    <main className="page-shell grid gap-6 py-6 pb-24">
-      <section className="jf-box bg-[var(--ink)] p-5 text-white">
+    <main className="page-shell grid gap-6 py-8 pb-24">
+      <section className="jf-box bg-[var(--ink)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">CHASE</p>
-        <h1 className="headline mt-2 text-3xl sm:text-4xl">LEADS YOU'RE CHASING</h1>
-        <p className="mt-2 text-sm font-black text-white/70">
+        <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">LEADS YOU'RE CHASING</h1>
+        <p className="mt-3 text-[15px] font-black text-white/70">
           Copy the message. Paste in WhatsApp. Move to next stage.
         </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button onClick={importAvailableLeads} className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+        <div className="mt-5 flex flex-wrap gap-3">
+          <button onClick={importAvailableLeads} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
             IMPORT FROM INTAKE
           </button>
-          <Link to="/win" className="jf-button bg-[var(--green)] text-white text-sm">
+          <Link to="/win" className="jf-button bg-[var(--green)] text-white">
             WINS ({wonCount}) →
           </Link>
         </div>
@@ -125,6 +127,25 @@ export function ChaseEnginePage() {
         <div className="jf-box bg-white p-8 text-center">
           <p className="headline text-2xl">No leads to chase.</p>
           <p className="mt-2 text-[var(--muted)]">Scan for jobs or import from Intake.</p>
+          {DEV_MODE && (
+            <div className="mt-4 p-4 bg-[var(--green)]/10 border-2 border-[var(--green)]">
+              <p className="text-sm font-black text-[var(--green)]">DEV MODE: Add sample leads to test the Chase engine.</p>
+              <button
+                onClick={() => {
+                  const sampleLeads = [
+                    { leadId: 'dev-1', leadTitle: 'Kitchen extension — B15', trade: 'building', location: 'B15 / Birmingham', estimatedValue: '£25,000', score: 85, stage: 'not_contacted' as ChaseStage, firstSeenAt: new Date().toISOString(), lastContactAt: null, nextNudgeAt: null, nudges: [], notes: '', coldOutreachNeeded: false },
+                    { leadId: 'dev-2', leadTitle: 'Full rewire — 3-bed semi', trade: 'electrical', location: 'B14 / Birmingham', estimatedValue: '£8,500', score: 72, stage: 'contacted' as ChaseStage, firstSeenAt: new Date().toISOString(), lastContactAt: new Date().toISOString(), nextNudgeAt: null, nudges: [], notes: '', coldOutreachNeeded: false },
+                    { leadId: 'dev-3', leadTitle: 'Boiler replacement — landlord', trade: 'plumbing', location: 'B13 / Birmingham', estimatedValue: '£3,200', score: 90, stage: 'following_up' as ChaseStage, firstSeenAt: new Date().toISOString(), lastContactAt: new Date(Date.now() - 86400000).toISOString(), nextNudgeAt: null, nudges: [], notes: '', coldOutreachNeeded: true },
+                  ];
+                  sampleLeads.forEach(l => saveChaseLead(l as ChaseLead));
+                  setChaseLeads(getChaseLeads());
+                }}
+                className="jf-button mt-3 bg-[var(--green)] text-white text-sm"
+              >
+                ADD 3 SAMPLE LEADS
+              </button>
+            </div>
+          )}
           <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] mt-4 inline-block">
             FIND JOBS
           </Link>

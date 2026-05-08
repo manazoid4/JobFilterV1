@@ -8,7 +8,7 @@ export function TradieStackPage() {
         <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">
           EVERYTHING THE AGENCIES CHARGE YOU £1,000/MONTH FOR. NOW £450. ONCE.
         </h1>
-        <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
           Website. CRM. Auto follow-up. Review requests. Quotes. Invoices. WhatsApp inbox. All in one place. No monthly fees. No agency middleman. No contract. One payment. Own it.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
