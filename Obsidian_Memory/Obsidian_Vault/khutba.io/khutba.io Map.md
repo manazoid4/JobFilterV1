@@ -11,6 +11,9 @@
 - [[MinbarLive]]
 - [[Competitor Intel - 8th May 2026]]
 - [[Research Briefs - 8th May 2026]]
+- [[Product Roadmap]]
+- [[Ramadan Launch Plan 2027]]
+- [[UK Mosque Outreach Strategy]]
 
 ## Competitors
 - [[MinbarLive]] — Direct competitor, Bosnia/Europe, phone-first, 7 modules, €59-€299/mo
@@ -47,5 +50,9 @@ https://github.com/manazoid4/khutba-io
 - MinbarLive has moved beyond live captions into a full platform (AI khutba assistant, studio, podcast, meetings)
 - khutba.io should NOT try to match MinbarLive's breadth — win on screen-first simplicity and UK focus
 - The screen-first model is genuinely underserved — every competitor is phone-first
-- Ramadan is the killer seasonal moment — plan launch for 2-3 months before Ramadan
+- Ramadan is the killer seasonal moment — plan launch for 2-3 months before Ramadan (Jan 2027 for Ramadan 2027)
 - Word-of-mouth in the mosque community is extremely powerful — one masjid adoption can cascade to 5-10 others
+- WhatsApp is the distribution channel — not email, not ads, not Product Hunt
+- Unlimited minutes is a massive differentiator — MinbarLive caps at 100 min on Standard
+- £29/mo undercuts MinbarLive's €59/mo entry while offering more (unlimited vs capped)
+- Codebase: https://github.com/manazoid4/khutba-io (React + Vite + Express + Socket.io)

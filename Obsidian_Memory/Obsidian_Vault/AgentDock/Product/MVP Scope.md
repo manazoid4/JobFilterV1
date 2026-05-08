@@ -2,6 +2,40 @@
 
 Updated: 8 May 2026
 
+## Build Progress
+
+### Completed (8 May 2026)
+- [x] Landing page — enterprise B2B design, "Visual command centre" positioning
+- [x] Dashboard layout — sidebar, top nav with live clock, connector status, pending approvals badge
+- [x] Operations Dock — stats, agent board, active tasks, demo mode with live event ticker
+- [x] Agent Board — full agent cards with role, model, status, last action
+- [x] Pipeline View — TRIGGER → TRIAGE → DRAFT → REVIEW → SEND → LOG kanban
+- [x] Handoff Log — timestamped audit entries with action types and approval status
+- [x] Review Gate — pending approval queue with modal for approve/reject
+- [x] Connectors page — ServiceNow, Zendesk, Email status cards
+- [x] Seed data — 4 agents, 6 tasks, 8 handoffs, 3 connectors (complaint management workflow)
+- [x] Component library — AgentCard, TaskCard, StatusBadge, PipelineStage, ReviewGateModal
+- [x] Type definitions — Agent, Task, Handoff, Connector with full TypeScript types
+
+### In Progress
+- [ ] ServiceNow connector (REST API) — read tickets, create records, update status, add work notes
+- [ ] Backend Node.js service — plugin architecture for connectors
+- [ ] Database schema — Postgres/SQLite for tasks, agents, handoffs, audit logs
+- [ ] CSV audit export
+
+### Not Started
+- [ ] Zendesk connector
+- [ ] Jira connector
+- [ ] Email connector (IMAP/SMTP)
+- [ ] Webhook connector
+- [ ] Agent execution layer (OpenAI/Anthropic API integration)
+- [ ] Per-agent memory notes
+- [ ] Workflow-level context files
+- [ ] Run history
+- [ ] SLA risk indicator on task cards
+- [ ] Conflict detection UI
+- [ ] Pipeline templates
+
 ## Must Have
 
 - Operations Dock dashboard — all agents, workflows, and system connections visible.
