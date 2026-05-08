@@ -243,13 +243,22 @@
 - **Landing Page**: Customer logos (BT, Virgin, TalkTalk, Vodafone, Sky, Hyperoptic), 3-step "How it works", video placeholder
 - Pushed to GitHub: manazoid4/AgentDock (main branch)
 
+#### 33. JobFilter — Weekly Signals Feed (COMPLETED)
+- Created `/signals/weekly` — live data feed page
+- Score strip: GOLD (143), SILVER (412), BIN (1292) with trend arrows
+- 5 signal cards: Planning (347), EPC (218), Contracts (89), Property (892), Businesses (301)
+- Regional breakdown: 12 UK regions with bar charts, clickable to city pages
+- Archive: 3 previous weeks with comparison to current week
+- Share modal: X/Twitter, LinkedIn, WhatsApp, copy text, embed iframe
+- Final CTA: "Scan your postcode" conversion path
+
 ### Pushed to GitHub
-- **JobFilterV1**: 15 commits on fix/main-build → main (latest: `d175252`)
+- **JobFilterV1**: 16 commits on fix/main-build → main (latest: `f27997d`)
 - **khutba-io**: 1 commit on master (latest: `fcf5854`)
 - **AgentDock**: 1 commit on main (latest: `05edd85`)
 
 ### Deployed to Firebase
-- Hosting: jobfilter.uk — LIVE with all improvements (ErrorBoundary, lazy loading, 404 page)
+- Hosting: jobfilter.uk — LIVE with all improvements (weekly signals feed, ErrorBoundary, lazy loading, 404 page)
 - Functions: api — LIVE with trade-specific scoring + radius support
 
 ### Key Decisions
