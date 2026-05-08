@@ -35,7 +35,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
   if (status === 'done') {
     return (
       <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
-        <p className="headline text-3xl">YOU'RE ON THE LIST.</p>
+        <p className="headline text-2xl sm:text-3xl">YOU'RE ON THE LIST.</p>
         <p className="mt-2 font-black">We'll let you know when it's live.</p>
       </div>
     );

@@ -82,7 +82,7 @@ export function IntakePage() {
 
         {step === 4 && (
           <div>
-            <h1 className="headline mt-3 text-5xl leading-none">ADD DETAILS</h1>
+            <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">ADD DETAILS</h1>
             <div className="mt-6 grid gap-3">
               <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number" />
               <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Postcode" />
@@ -102,7 +102,7 @@ export function IntakePage() {
 function Step({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <h1 className="headline mt-3 text-5xl leading-none">{title}</h1>
+      <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">{title}</h1>
       <div className="mt-6 grid gap-3">{children}</div>
     </div>
   );

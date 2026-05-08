@@ -16,7 +16,7 @@ export function LeadDetailPage() {
       <main className="page-shell py-8">
         <section className="jf-box bg-white p-6">
           <h1 className="headline text-4xl">LEAD NOT FOUND</h1>
-          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]" to="/leads">BACK</Link>
+          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)] min-h-[44px]" to="/leads">BACK</Link>
         </section>
       </main>
     );
@@ -56,13 +56,13 @@ export function LeadDetailPage() {
         <ScoreBadge score={lead.score} large />
         <div>
           <p className="micro-label text-[var(--orange)]">{lead.urgency}</p>
-          <h1 className="headline mt-2 text-5xl leading-none">{lead.jobType}</h1>
+          <h1 className="headline mt-2 text-4xl leading-none sm:text-5xl">{lead.jobType}</h1>
           <p className="mt-3 text-xl font-black text-[var(--muted)]">{lead.area}</p>
         </div>
       </section>
 
       <section className="jf-box bg-white p-6">
-        <h2 className="headline text-3xl">REASONS</h2>
+        <h2 className="headline text-2xl sm:text-3xl">REASONS</h2>
         <div className="mt-4 grid gap-2 text-xl font-black">
           {lead.flags.includes('Local') && <p>YES Local</p>}
           {lead.flags.includes('Urgent') && <p>YES Urgent</p>}
@@ -74,14 +74,14 @@ export function LeadDetailPage() {
 
       {lead.details && (
         <section className="jf-box bg-white p-6">
-          <h2 className="headline text-3xl">DETAILS</h2>
+          <h2 className="headline text-2xl sm:text-3xl">DETAILS</h2>
           <p className="mt-3 font-bold text-[var(--muted)]">{lead.details}</p>
         </section>
       )}
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">OUTCOME</p>
-        <h2 className="headline mt-2 text-3xl">TRACK THE MONEY</h2>
+        <h2 className="headline mt-2 text-2xl sm:text-3xl">TRACK THE MONEY</h2>
         <p className="mt-2 font-black text-[var(--muted)]">
           Current result: {outcomeLabel(lead.status)}
         </p>
@@ -90,7 +90,7 @@ export function LeadDetailPage() {
             <button
               key={reason}
               onClick={() => setLostReason(reason)}
-              className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+              className={`min-h-[44px] border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
             >
               {reason}
             </button>

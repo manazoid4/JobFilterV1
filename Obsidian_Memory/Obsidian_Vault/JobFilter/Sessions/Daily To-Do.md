@@ -1,6 +1,21 @@
 # Daily To-Do
 
-## Today - 2 May 2026
+## Today - 6 May 2026
+
+- [x] Fix white screen (3 chained ReferenceErrors: LeadPreview, products, steps)
+- [x] Fix TopNav JSX (misplaced closing tags)
+- [x] Trigger Firebase deploy manually (PR #66 never auto-deployed)
+- [x] Unlock lead engine for testing (remove toFreePreviewLead gating)
+- [x] Run scenarios S3, S5, S14 — see [[Launch Scenarios]]
+- [x] Clean Obsidian vault (Recent.md, Learnings.md, Rolling Launch Summary, Vault Map)
+- [ ] Add root ErrorBoundary to App.tsx
+- [ ] Wire Stripe Checkout (Founding 30 + Pro)
+- [ ] Confirm Twilio env vars in Firebase console
+- [ ] Add "cold outreach needed" flag for planning-only leads (S14 gap)
+
+---
+
+## 2 May 2026 (archived)
 
 - [x] Spawn codebase deep-dive agent.
 - [x] Spawn competitor/source research agent.

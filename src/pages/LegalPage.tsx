@@ -29,7 +29,7 @@ export function LegalPage({ type }: { type: keyof typeof copy }) {
   return (
     <main className="page-shell py-8 pb-8">
       <section className="jf-box bg-white p-6">
-        <h1 className="headline text-5xl">{page.title}</h1>
+        <h1 className="headline text-4xl sm:text-5xl">{page.title}</h1>
         <div className="mt-6 grid gap-4">
           {page.sections.map((section) => (
             <section key={section.heading} className="border-t-2 border-[var(--line)] pt-4">

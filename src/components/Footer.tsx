@@ -6,7 +6,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 md:grid-cols-[1fr_auto] md:items-end">
         <div>
           <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
-          <p className="headline mt-2 text-4xl">PROTECT YOUR TIME.</p>
+          <p className="headline mt-2 text-3xl sm:text-4xl">PROTECT YOUR TIME.</p>
           <p className="mt-3 text-sm font-black uppercase text-white/70">© 2026 JobFilter. Built in Birmingham.</p>
         </div>
         <div className="flex flex-wrap gap-4 text-sm font-black uppercase">

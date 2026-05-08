@@ -61,7 +61,27 @@
 
 - **KlipBoard** (klipboard.io) — Field service management, mobile-first job sheets. Copy: zero-friction mobile capture. Beat: JobFilter feeds KlipBoard — we find the job, they manage it.
 
-- **BuildScout** — Research pending. Name implies construction lead scouting. Copy: if they surface planning/tender signals, take the data angle. Beat: deeper scoring + WhatsApp delivery.
+### **G) Added 8 May 2026**
+
+- **BuildScout** (buildscout.co.uk) — Planning data lead gen. **FMB official partner** (12,000 members). £199-499+VAT/mo. Document text search, materials search, Rightmove property values, architect contacts, automated letter campaigns with QR tracking. Part of Searchland Group. **Threat: HIGH.** Copy: success stories with hard numbers, city-specific SEO content, "15 min/day" framing, keyword search in planning docs. Beat: 8x cheaper (£29 vs £239), WhatsApp instant vs letter 2-3 days, EPC + contracts data, self-serve no demo. See [[Competitor Product Lessons#Buildscout — FMB Partnership & Document Search (Updated 8 May 2026)]].
+
+- **2BuildUK** (2builduk.com) — **DEAD (404).** Was planning leads database at £30/mo. Orphaned customer base = acquisition target. Create `/2builduk-alternative` landing page + Google Ads. See [[Competitor Product Lessons#2BuildUK — Dead (404) (Updated 8 May 2026)]].
+
+- **TradeFlow UK** (tradeflowuk.com) — **PARTNER, not competitor.** Downstream enquiry handler. AI phone answering, WhatsApp job tickets, Accept/Decline workflow. TF Assist Ltd, ICO registered. Rolling monthly, 14-day trial. Copy: "acts like office staff without payroll" framing, named testimonials with outcomes. Integration: JobFilter finds lead → TradeFlow handles enquiry. See [[Competitor Product Lessons#TradeFlow UK — Potential Partner (Updated 8 May 2026)]].
+
+- **TradeMatch** (tradematch.co.uk) — **IRRELEVANT.** DVLA information site. Not a trade lead tool. Ignore.
+
+- **BuildAlert** (buildalert.uk) — Planning data, £2/letter pay-per-use. Hub-and-spoke SEO model (proven). 400+ councils, 20,000 weekly applications. No WhatsApp, no scoring, no EPC. **Threat: MEDIUM.** Copy: city-specific SEO pages, comparison content naming competitors. Beat: WhatsApp instant, multi-source scoring, unlimited at £29 vs £40/mo at 20 letters.
+
+- **PlanLead** (planlead.co.uk) — AI planning data + letter generation. Price unknown. No WhatsApp. No EPC. **Threat: LOW-MEDIUM.** Position: "They write the letter. We WhatsApp you first. Speed beats copy."
+
+- **Planning Pipe** (planningpipe.co.uk) — Email digest, £45-90/mo. Long-running. No scoring, no WhatsApp. **Threat: LOW.**
+
+- **UK Planning Leads** (ukplanningleads.co.uk) — Weekly email digest. Post-approval only. New 2025/2026. **Threat: LOW.**
+
+- **Planning.org.uk** (planning.org.uk) — Free/£1/mo radius alerts. 241 LPAs. Resident-focused. **Threat: LOW.**
+
+- **Nimbus Maps** (nimbusmaps.co.uk) — £150-390/mo ex-VAT. Developer audience. 12-month minimum. **Threat: LOW** — price eliminates solo trades.
 
 - **EnhancedAI** — Research pending. Likely AI automation for trades. Copy: AI language trades trust. Beat: show the AI work (source, score, reasoning) not just the output.
 

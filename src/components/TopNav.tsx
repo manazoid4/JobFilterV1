@@ -39,13 +39,27 @@ export function TopNav() {
             </NavLink>
           ))}
         </nav>
+        <button
+          type="button"
+          className="flex h-12 w-12 items-center justify-center border-2 border-[var(--line)] bg-[var(--yellow)] text-[var(--ink)] lg:hidden"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+            {menuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
         <NavLink to="/find-jobs" className="jf-button top-scan hidden bg-[var(--yellow)] text-[var(--ink)] md:inline-flex">
           SCAN FREE
         </NavLink>
       </div>
 
       {menuOpen && (
-        <nav className="grid border-t-2 border-[var(--line)] bg-white lg:hidden">
+        <nav className="grid gap-0 border-t-2 border-[var(--line)] bg-white lg:hidden">
           {links.map((link) => (
             <NavLink
               key={link.to}

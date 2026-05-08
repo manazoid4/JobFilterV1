@@ -18,8 +18,8 @@ export function MyLinkPage() {
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">MY LINK</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">SEND THIS. FILTER EVERYTHING.</h1>
-        <div className="mt-6 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 text-xl font-black">
+        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">SEND THIS. FILTER EVERYTHING.</h1>
+        <div className="mt-6 break-all border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 text-lg font-black sm:text-xl">
           {link}
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -33,7 +33,7 @@ export function MyLinkPage() {
       </section>
 
       <section className="jf-box bg-white p-6">
-        <h2 className="headline text-3xl">USE THIS EVERYWHERE</h2>
+        <h2 className="headline text-2xl sm:text-3xl">USE THIS EVERYWHERE</h2>
         <div className="mt-4 grid gap-3 text-lg font-black">
           <p>WhatsApp</p>
           <p>Instagram</p>

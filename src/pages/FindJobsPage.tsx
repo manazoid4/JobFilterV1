@@ -93,7 +93,7 @@ export function FindJobsPage() {
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">LIVE INTAKE ENGINE</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">FIND JOBS WORTH PRICING</h1>
+        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
           Planning data, tender notices, company signals, and official source proof. JobFilter scores value, urgency, proximity, and completeness before anything hits your phone.
         </p>
@@ -106,14 +106,14 @@ export function FindJobsPage() {
                 type="button"
                 disabled={loading}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
-                className="bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
+                className="min-h-[44px] bg-[var(--ink)] text-white px-3 py-2 text-sm font-black disabled:opacity-60"
               >
                 {preset.label}
               </button>
             ))}
           </div>
         </div>
-        <form onSubmit={submit} className="mt-6 grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
+        <form onSubmit={submit} className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
@@ -173,7 +173,7 @@ export function FindJobsPage() {
             <div className="grid gap-4">
               <section className="jf-box bg-[var(--yellow)] p-5">
                 <p className="micro-label text-[var(--ink)]">RANKED BY MONEY SIGNAL</p>
-                <h2 className="headline mt-2 text-4xl leading-none">HIGHEST VALUE FIRST</h2>
+                <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">HIGHEST VALUE FIRST</h2>
                 <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
                   Free view proves the signal exists. Pro unlocks exact value, buyer detail, deadline, WhatsApp delivery, and the full action workflow.
                 </p>
@@ -209,7 +209,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent }: { key?: string; lead
   const isGold = lead.score >= 80;
 
   return (
-    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr_260px]">
+    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       <ScoreBadge score={lead.score} />
       <div className="min-w-0">
         <div className="flex flex-wrap gap-2">
@@ -285,14 +285,14 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
-      <h2 className="headline mt-2 text-4xl leading-none">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+        <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Source checked" value={result.source === 'lead_engine' ? 'Lead Engine' : 'Contracts Finder'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 grid gap-3 md:grid-cols-3">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
           WIDEN TO {nextRadius} MILES
         </button>

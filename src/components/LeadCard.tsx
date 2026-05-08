@@ -68,7 +68,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
               <button
                 key={value}
                 onClick={(e) => handleStatusClick(e, value)}
-                className={`border-2 px-2 py-1 text-[10px] font-black uppercase tracking-wide ${
+                className={`min-h-[44px] border-2 px-2 py-1 text-[10px] font-black uppercase tracking-wide ${
                   status === value
                     ? 'bg-[var(--yellow)] border-[var(--ink)] text-[var(--ink)]'
                     : 'bg-white border-[var(--line)] text-[var(--muted)]'

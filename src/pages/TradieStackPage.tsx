@@ -5,7 +5,7 @@ export function TradieStackPage() {
     <main className="page-shell grid gap-6 py-8 pb-16">
       <section className="jf-box bg-[var(--yellow)] border-b-4 border-[var(--line)] p-8">
         <p className="micro-label text-[var(--ink)]">NEW — ONE-OFF PURCHASE</p>
-        <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">
+        <h1 className="headline mt-4 text-3xl leading-none sm:text-5xl md:text-7xl">
           EVERYTHING THE AGENCIES CHARGE YOU £1,000/MONTH FOR. NOW £450. ONCE.
         </h1>
         <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]/75">
@@ -19,10 +19,10 @@ export function TradieStackPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">THE AGENCY RACKET</p>
-        <h2 className="headline mt-3 text-4xl leading-none">AGENCIES CHARGE £1,000-£5,500/MO FOR TOOLS THAT SHOULD COST £450 ONCE.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">AGENCIES CHARGE £1,000-£5,500/MO FOR TOOLS THAT SHOULD COST £450 ONCE.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <div className="border-4 border-[var(--line)] bg-[var(--bg-main)] p-5">
-            <h3 className="headline text-2xl text-[var(--orange)]">THE OLD WAY</h3>
+            <h3 className="headline text-xl sm:text-2xl text-[var(--orange)]">THE OLD WAY</h3>
             <ul className="mt-3 grid gap-2 font-black text-[var(--muted)]">
               <li>✗ Agency builds your website — £197-497/mo</li>
               <li>✗ Agency runs your automations — £997-2,500/mo</li>
@@ -33,7 +33,7 @@ export function TradieStackPage() {
             </ul>
           </div>
           <div className="border-4 border-[var(--line)] bg-[var(--yellow)] p-5">
-            <h3 className="headline text-2xl text-[var(--ink)]">TRADIESTACK</h3>
+            <h3 className="headline text-xl sm:text-2xl text-[var(--ink)]">TRADIESTACK</h3>
             <ul className="mt-3 grid gap-2 font-black text-[var(--ink)]">
               <li>✓ Trade website — pick a template, live in 5 minutes</li>
               <li>✓ CRM + pipeline + WhatsApp inbox — all built in</li>
@@ -48,7 +48,7 @@ export function TradieStackPage() {
 
       <section className="jf-box bg-[var(--navy)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">WHAT YOU GET</p>
-        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)]">FULL TRADE OPERATING SYSTEM.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--yellow)]">FULL TRADE OPERATING SYSTEM.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {[
             ['Trade Website', '4 templates — Electrician, Plumber, Builder, Roofer. Mobile-first. Intake form, gallery, reviews, contact buttons. Your domain or ours. Live in 5 minutes.'],
@@ -59,7 +59,7 @@ export function TradieStackPage() {
             ['JobFilter Ready', 'Optional: plug in JobFilter (£29-49/mo) and get planning signals, EPC leads, and council contracts fed straight into your CRM.'],
           ].map(([title, body]) => (
             <div key={title} className="jf-box bg-white/10 p-5">
-              <h3 className="headline text-xl text-[var(--yellow)]">{title}</h3>
+              <h3 className="headline text-lg sm:text-xl text-[var(--yellow)]">{title}</h3>
               <p className="mt-2 font-black text-white/75">{body}</p>
             </div>
           ))}
@@ -68,9 +68,9 @@ export function TradieStackPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">COMPARISON</p>
-        <h2 className="headline mt-3 text-4xl leading-none">ONE PRICE. NO GAMES.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">ONE PRICE. NO GAMES.</h2>
         <div className="mt-6 overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="min-w-[700px] w-full text-left border-collapse">
             <thead>
               <tr className="border-b-4 border-[var(--line)] bg-[var(--navy)] text-white">
                 <th className="p-4 font-black uppercase">Feature</th>
@@ -107,7 +107,7 @@ export function TradieStackPage() {
 
       <section id="buy" className="jf-box bg-[var(--yellow)] p-8 text-center">
         <p className="micro-label text-[var(--ink)]">ONE PAYMENT. OWN IT.</p>
-        <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">£450</h2>
+        <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-6xl">£450</h2>
         <p className="mt-3 text-xl font-black text-[var(--ink)]/75">
           No monthly fees. No per-lead costs. No contracts. One payment. Your trade operating system. Forever.
         </p>
@@ -121,7 +121,7 @@ export function TradieStackPage() {
       </section>
 
       <section className="jf-box bg-[var(--ink)] p-8 text-center text-white">
-        <h2 className="headline text-4xl leading-none text-[var(--yellow)] md:text-5xl">STOP PAYING AGENCY TAX.</h2>
+        <h2 className="headline text-3xl leading-none sm:text-4xl text-[var(--yellow)] md:text-5xl">STOP PAYING AGENCY TAX.</h2>
         <p className="mx-auto mt-4 max-w-2xl text-xl font-black text-white/80">
           Every month you pay an agency is a month you could have owned the tools yourself. £450 once. Never again.
         </p>

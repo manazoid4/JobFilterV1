@@ -8,6 +8,7 @@
 - [[khutba.io APIs]]
 - [[khutba.io Prompts Index]]
 - [[khutba.io Running Log]]
+- [[MinbarLive]]
 
 ## Rule
 - Ship live translation first. Everything else second.

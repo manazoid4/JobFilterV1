@@ -69,7 +69,7 @@ export function SignalsPage() {
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
-          <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
+          <h1 className="headline mt-4 max-w-5xl text-[clamp(2.5rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
             FIVE REASONS THE JOB IS YOURS BEFORE ANYONE ELSE QUOTES.
           </h1>
           <p className="mt-6 max-w-3xl text-xl font-black leading-tight text-white/80">
@@ -82,7 +82,7 @@ export function SignalsPage() {
       <section className="bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE FIVE SIGNALS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIVE ALERTS. EVERY ONE BEFORE THE JOB GOES PUBLIC.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">FIVE ALERTS. EVERY ONE BEFORE THE JOB GOES PUBLIC.</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {signals.map((s) => (
               <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
@@ -91,7 +91,7 @@ export function SignalsPage() {
                     {s.source}
                   </span>
                 </div>
-                <h3 className="headline text-4xl leading-none">{s.name}</h3>
+                <h3 className="headline text-3xl leading-none sm:text-4xl">{s.name}</h3>
                 <p className="font-black text-[var(--muted)] leading-snug">{s.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {s.trades.map((t) => (
@@ -118,7 +118,7 @@ export function SignalsPage() {
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE PIPELINE</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'SIGNAL DETECTED', 'One of five official sources flags activity near your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract.'],
@@ -127,7 +127,7 @@ export function SignalsPage() {
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
-                <h3 className="headline mt-3 text-3xl text-[var(--yellow)]">{title}</h3>
+                <h3 className="headline mt-3 text-2xl sm:text-3xl text-[var(--yellow)]">{title}</h3>
                 <p className="mt-3 font-black text-white/75">{body}</p>
               </div>
             ))}
@@ -159,11 +159,11 @@ export function SignalsPage() {
       <section className="bg-white border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">TRADE TARGETING</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOUR TRADE. YOUR SIGNALS.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-6xl">YOUR TRADE. YOUR SIGNALS.</h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {tradeSignals.map(({ trade, active }) => (
               <article key={trade} className="jf-box bg-[var(--bg-main)] p-5">
-                <h3 className="headline text-2xl">{trade}</h3>
+                <h3 className="headline text-xl sm:text-2xl">{trade}</h3>
                 <div className="mt-4 grid gap-2">
                   {allSignalLabels.map((label) => {
                     const on = active.includes(label);
@@ -190,7 +190,7 @@ export function SignalsPage() {
       <section className="bg-[var(--yellow)] border-t-4 border-[var(--line)]">
         <div className="page-shell section-pad text-center">
           <p className="micro-label text-[var(--ink)]">READY TO SCAN</p>
-          <h2 className="headline mt-4 text-[clamp(3rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
+          <h2 className="headline mt-4 text-[clamp(2.5rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
             SEE WHAT'S LIVE NEAR YOU RIGHT NOW.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">

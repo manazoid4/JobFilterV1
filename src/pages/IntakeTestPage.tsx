@@ -91,7 +91,7 @@ export function IntakeTestPage() {
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">INTAKE ENGINE — LIVE SCORING</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
+        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
           Select a job type and see how the engine scores it. Live scoring. Real criteria.
         </p>
@@ -106,7 +106,7 @@ export function IntakeTestPage() {
               onClick={() => void runScenario(scenario)}
             >
               <p className="micro-label text-[var(--orange)]">SCORE THIS</p>
-              <h2 className="headline mt-2 text-3xl">{scenario.name}</h2>
+              <h2 className="headline mt-2 text-2xl sm:text-3xl">{scenario.name}</h2>
               <p className="mt-2 text-base font-black text-[var(--muted)]">{scenario.verdict}</p>
             </button>
           ))}
@@ -114,7 +114,7 @@ export function IntakeTestPage() {
 
         <section className="jf-box bg-white p-6">
           <p className="micro-label text-[var(--orange)]">CURRENT RESULT</p>
-          <h2 className="headline mt-2 text-4xl">STAY IN CONTROL</h2>
+          <h2 className="headline mt-2 text-3xl sm:text-4xl">STAY IN CONTROL</h2>
           <div className="mt-5 grid gap-3 text-base font-black">
             <ResultRow label="Scenario" value={selected.name} />
             <ResultRow label="Job" value={`${selected.payload.jobType} / ${selected.payload.urgency}`} />

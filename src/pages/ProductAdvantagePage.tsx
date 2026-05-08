@@ -49,7 +49,7 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className={`jf-box p-7 md:p-9 ${page.hero}`}>
         <p className={`micro-label ${page.label}`}>{page.title}</p>
-        <h1 className="headline mt-3 max-w-5xl text-5xl leading-none md:text-7xl">{page.headline}</h1>
+        <h1 className="headline mt-3 max-w-5xl text-3xl leading-none sm:text-5xl md:text-7xl">{page.headline}</h1>
         <p className="mt-5 max-w-2xl text-xl font-black opacity-80">{page.sub}</p>
       </section>
 
@@ -57,7 +57,7 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
         <div className="grid gap-5">
           <article className="jf-box bg-white p-6">
             <p className="micro-label text-[var(--orange)]">HUMAN-STAFFED SERVICE</p>
-            <h2 className="headline mt-3 text-4xl leading-none">{page.distinct}</h2>
+            <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">{page.distinct}</h2>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">{page.body}</p>
             <p className="mt-4 border-t-2 border-[var(--line)] pt-4 font-black text-[var(--ink)]">{page.note}</p>
             {'problem' in page && <p className="mt-4 font-black text-[var(--orange)]">{page.problem}</p>}
@@ -95,7 +95,7 @@ function ServiceForm({ trade }: { trade: string }) {
   if (submitted) return (
     <div className="jf-box bg-[var(--yellow)] p-6">
       <p className="micro-label text-[var(--ink)]">REQUEST RECEIVED</p>
-      <h2 className="headline mt-3 text-4xl">Team responds within 6 hours.</h2>
+      <h2 className="headline mt-3 text-3xl sm:text-4xl">Team responds within 6 hours.</h2>
       <p className="mt-3 font-black text-[var(--ink)]/75">Usually much faster. Check your phone.</p>
     </div>
   );

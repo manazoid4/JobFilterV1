@@ -30,7 +30,7 @@ export function ChaseStatus({ leadId }: { leadId: string }) {
         <button
           key={s}
           onClick={() => updateStatus(s)}
-          className={`px-2 py-1 uppercase border-2 ${status === s ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+          className={`min-h-[44px] px-2 py-1 uppercase border-2 ${status === s ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
         >
           {s}
         </button>

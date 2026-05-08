@@ -80,7 +80,7 @@ export function NewsPage() {
       <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)] py-16">
         <div className="page-shell text-center">
           <p className="micro-label text-[var(--ink)]">TRADE SIGNALS</p>
-          <h1 className="headline mx-auto mt-4 max-w-4xl text-6xl leading-none md:text-8xl">
+          <h1 className="headline mx-auto mt-4 max-w-4xl text-4xl leading-none sm:text-6xl md:text-8xl">
             NEWS THAT CAN MAKE OR SAVE MONEY.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
@@ -95,7 +95,7 @@ export function NewsPage() {
             <div className="grid gap-5 p-5 lg:grid-cols-[1fr_260px]">
               <div>
                 <p className="micro-label text-[var(--orange)]">{item.sourceName}</p>
-                <h2 className="headline mt-2 text-4xl leading-none md:text-5xl">{item.title}</h2>
+                <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl md:text-5xl">{item.title}</h2>
               </div>
               <a className="jf-button self-start bg-[var(--yellow)] text-[var(--ink)]" href={item.sourceUrl} target="_blank" rel="noreferrer">
                 OPEN SOURCE

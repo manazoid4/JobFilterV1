@@ -1028,14 +1028,14 @@ The 15 features TradieStack needs:
 
 # BUILD INSTRUCTIONS SUMMARY
 
-## JobFilter v1 (Immediate — This Week)
-- Wire WhatsApp button on FindJobs — new `/api/leads/notify`, un-disable button when score =80 (1-2h)
-- Add lead status tracking — `sent | contacted | quoted | won | lost | ignored` on LeadCard (30m)
-- Add waitlist slot counter — `/api/waitlist/count` reads JSONL, show "X of 30 remaining" on all forms (20m)
-- Wire Resend confirmation email — auto-reply on waitlist signup. SDK already installed. (30m)
-- Add "Old Way vs JobFilter" comparison table on homepage — name Checkatrade, MyBuilder, Rated People directly (30m)
-- Add 30-day money-back guarantee to hero copy — one sentence, no code (5m)
-- Submit 3 WhatsApp templates to Meta for approval — gold alert, silver alert, welcome message (10m)
+## JobFilter v1 (Immediate ï¿½ This Week)
+- Wire WhatsApp button on FindJobs ï¿½ new `/api/leads/notify`, un-disable button when score =80 (1-2h)
+- Add lead status tracking ï¿½ `sent | contacted | quoted | won | lost | ignored` on LeadCard (30m)
+- Add waitlist slot counter ï¿½ `/api/waitlist/count` reads JSONL, show "X of 30 remaining" on all forms (20m)
+- Wire Resend confirmation email ï¿½ auto-reply on waitlist signup. SDK already installed. (30m)
+- Add "Old Way vs JobFilter" comparison table on homepage ï¿½ name Checkatrade, MyBuilder, Rated People directly (30m)
+- Add 30-day money-back guarantee to hero copy ï¿½ one sentence, no code (5m)
+- Submit 3 WhatsApp templates to Meta for approval ï¿½ gold alert, silver alert, welcome message (10m)
 
 ## JobFilter Chase Engine (Next Week)
 - Auto-nudge: if lead sent but not contacted in 2h ? WhatsApp reminder (2h)
@@ -1043,19 +1043,19 @@ The 15 features TradieStack needs:
 - "Fill My Week" button: aggressive batch scan ? top 5 scored leads ? WhatsApp digest (2h)
 
 ## JobFilter Win Engine (Next Week)
-- Review link generator — `POST /api/leads/review-link`, WhatsApp-ready copy for tradesman to forward (1h)
-- Loss reason collector — 4 quick-tap reasons when marking Lost, feeds scorer over time (30m)
-- Monthly Win Summary — "You won X jobs worth ~£Y this month" on Leads page + WhatsApp digest (1h)
+- Review link generator ï¿½ `POST /api/leads/review-link`, WhatsApp-ready copy for tradesman to forward (1h)
+- Loss reason collector ï¿½ 4 quick-tap reasons when marking Lost, feeds scorer over time (30m)
+- Monthly Win Summary ï¿½ "You won X jobs worth ~ï¿½Y this month" on Leads page + WhatsApp digest (1h)
 
-## Positioning & Copy (No Code — Do Immediately)
+## Positioning & Copy (No Code ï¿½ Do Immediately)
 - Never say "AI-powered", "dashboard", "seamless", "leverage", "optimise"
 - Say: "CONTROL THE JOBS", "REAL LEADS", "NO CHASING", "NO COMPETING"
 - Weekly price framing on all CTAs: "less than a quid a day"
-- Vocabulary: tyre-kickers, time-wasters, chancers — not "unqualified leads"
+- Vocabulary: tyre-kickers, time-wasters, chancers ï¿½ not "unqualified leads"
 - Screenshots of real scan results > stock photos of smiling men in hard hats
 
-## TradieStack (Separate Product — Phase 1 When Ready)
-- 15 features, ~50h total, £29-49/mo. Full spec in [[TradieStack Project Outline]]
-- Trade website builder (4 templates, 5-min setup) — 8h
-- Lightweight CRM + pipeline + contact db — 6h
-- Firebase Auth + Firestore + Stripe Checkout — 4h
+## TradieStack (Separate Product ï¿½ Phase 1 When Ready)
+- 15 features, ~50h total, ï¿½29-49/mo. Full spec in [[TradieStack Project Outline]]
+- Trade website builder (4 templates, 5-min setup) ï¿½ 8h
+- Lightweight CRM + pipeline + contact db ï¿½ 6h
+- Firebase Auth + Firestore + Stripe Checkout ï¿½ 4h

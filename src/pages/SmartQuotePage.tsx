@@ -68,7 +68,7 @@ export function SmartQuotePage() {
       <section className="bg-[var(--navy)] text-white section-pad">
         <div className="page-shell">
           <p className="micro-label text-[var(--yellow)]">SMART QUOTING</p>
-          <h1 className="headline mt-3 text-4xl md:text-5xl text-white">QUOTE FASTER. WIN MORE.</h1>
+          <h1 className="headline mt-3 text-3xl sm:text-4xl md:text-5xl text-white">QUOTE FASTER. WIN MORE.</h1>
           <p className="mt-4 max-w-xl text-lg font-medium text-white/80">
             Stop writing the same quote from scratch every time. Pick your trade, pick the job, get the starter.
           </p>
@@ -83,7 +83,7 @@ export function SmartQuotePage() {
               <button
                 key={t}
                 onClick={() => { setTrade(t); setJob(null); }}
-                className={`jf-box p-4 text-left font-bold text-sm transition-all ${
+                className={`min-h-[44px] jf-box p-4 text-left font-bold text-sm transition-all ${
                   trade === t
                     ? 'border-[var(--yellow)] bg-[var(--yellow)] text-[var(--ink)]'
                     : 'hover:border-[var(--yellow)]'
@@ -105,7 +105,7 @@ export function SmartQuotePage() {
                 <button
                   key={j}
                   onClick={() => setJob(j)}
-                  className={`jf-box px-4 py-2 text-sm font-semibold transition-all ${
+                  className={`min-h-[44px] jf-box px-4 py-2 text-sm font-semibold transition-all ${
                     job === j
                       ? 'border-[var(--yellow)] bg-[var(--yellow)] text-[var(--ink)]'
                       : 'hover:border-[var(--yellow)]'

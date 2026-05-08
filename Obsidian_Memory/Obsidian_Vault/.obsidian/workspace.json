@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "fa8860777ff7a641",
+        "id": "95f9cf174478c6b6",
         "type": "tabs",
         "children": [
           {
-            "id": "ddbb988fe1d91402",
+            "id": "7dae4a723363899e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "JobFilter/Product/Competitor Product Lessons.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Competitor Product Lessons"
             }
           }
         ]
@@ -150,12 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "JobFilter/Product/Competitor Product Lessons.md",
                 "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Competitor Product Lessons"
             }
           }
         ],
@@ -176,46 +181,46 @@
       "bases:Create new base": false
     }
   },
-  "active": "ddbb988fe1d91402",
+  "active": "7dae4a723363899e",
   "lastOpenFiles": [
-    "JobFilter/Product/Design Direction - Brutalist Yellow.md",
-    "JobFilter/JobFilter Control Map.canvas",
-    "JobFilter/JobFilter Control Map.excalidraw.md",
-    "JobFilter/System/System Index.md",
-    "JobFilter/System/Agent Running Model.md",
-    "JobFilter/System/Database Rollback - 2 May 2026.md",
-    "JobFilter/System/Research for Build Agent - 29th April 2026.md",
-    "JobFilter/System/Lead Engine 30 Run Test - 1 May 2026.md",
-    "JobFilter/System/GitHub Production Deploy Fix - 29th April 2026.md",
-    "JobFilter/System/Free Preview Gate Test - 1 May 2026.md",
-    "JobFilter/System/Free Access Audit - 1 May 2026.md",
-    "JobFilter/System/Build Execution - 29th April 2026.md",
+    "AI Knowledge/Voice Control for OpenCode - 8th May 2026.md",
+    "AgentDock/Product/Research Briefs - 8th May 2026.md",
+    "JobFilter/System/Research Briefs - 8th May 2026.md",
+    "JobFilter/System/Key Problems JobFilter Solves - 8th May 2026.md",
+    "JobFilter/System/Mobile Audit - 8th May 2026.md",
+    "JobFilter/Sessions/Site Audit - 5th May 2026.md",
+    "JobFilter/Sessions/Daily To-Do.md",
     "JobFilter/Sessions/Rolling Launch Summary.md",
-    "JobFilter/JobFilter Map.md",
-    "JobFilter/Product/Competitor Research - 2 May 2026.md",
-    "JobFilter/System/Obsidian Visual Maps.md",
-    "JobFilter/Product/Data Sources Flow.excalidraw.md",
-    "JobFilter/Product/Launch Scenarios.md",
-    "khutba.io/khutba.io Map.md",
-    "khutba.io/khutba.io Overview.md",
+    "JobFilter/Progress.md",
+    "JobFilter/PersistentMemory.md",
+    "JobFilter/Product/EPC Signal Engine.md",
+    "AgentDock/Product/Data Model.md",
+    "AgentDock/Product/Launch Scenarios - AgentDock.md",
+    "AgentDock/Product/Complaint Compliance Notes.md",
+    "AgentDock/Product/Competitive Research - 6th May 2026.md",
+    "AgentDock/Product/Service Manager Persona.md",
+    "AgentDock/Product/Competitor Research.md",
+    "AgentDock/System/OpenSwarm Deep Research - 6th May 2026.md",
+    "AgentDock/System/Research for Build Agent - 6th May 2026.md",
+    "AgentDock/Product/Launch Checklist.md",
+    "AgentDock/Product/Launch Scenarios.md",
+    "AgentDock/Product/System Connectors.md",
+    "AgentDock/Product/Operations Dock.md",
+    "AgentDock/Product/Project Outline - AgentDock.md",
+    "AgentDock/Product/AgentDock Product Index.md",
+    "AgentDock/Product/AgentDock Product Overview.md",
+    "JobFilter/JobFilter Control Map.canvas",
+    "AgentDock/Prompts",
+    "AgentDock/Sessions",
+    "AgentDock/System",
+    "AgentDock/Product",
+    "Vault Map.md.tmp.38068.1778027525792",
+    "Vault Map.md.tmp.38068.1778027514894",
+    "AgentDock",
+    "khutba.io/sedtBTA0S",
+    "khutba.io/Competitors",
+    "JobFilter/New Text Document.txt",
     "Airdrop Bot/Airdrop Bot Flow.canvas",
-    "AI Knowledge/AI Knowledge Index.md",
-    "Vault Map.md",
-    "2026-05-02.md",
-    "Untitled.md",
-    "khutba.io/khutba.io APIs.md",
-    "khutba.io/khutba.io Selling Points.md",
-    "JobFilter/Prompts 1/Prompts Index.md",
-    "Untitled.canvas",
-    "JobFilter/Sessions",
-    "Airdrop Bot",
-    "JobFilter/System",
-    "khutba.io/Sessions",
-    "khutba.io/Prompts",
-    "khutba.io",
-    "JobFilter/Prompts 1",
-    "JobFilter/Product",
-    "JobFilter",
-    "AI Knowledge"
+    "Untitled.canvas"
   ]
 }

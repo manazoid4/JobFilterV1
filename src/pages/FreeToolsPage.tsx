@@ -46,7 +46,7 @@ export function FreeToolsPage() {
     <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
       <section className="jf-box bg-[var(--navy)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE DAILY TOOLS</p>
-        <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
+        <h1 className="headline mt-3 text-3xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
         <p className="mt-3 max-w-2xl text-lg font-black text-white/70">
           Tools are free. Leads are not. Use these to price cleaner, spot time-wasters, and protect your week.
         </p>
@@ -95,7 +95,7 @@ export function FreeToolsPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">PAID VALUE STAYS LOCKED</p>
-        <h2 className="headline text-4xl">LIVE LEAD SCANNER</h2>
+        <h2 className="headline text-3xl sm:text-4xl">LIVE LEAD SCANNER</h2>
         <p className="mt-2 max-w-2xl font-black text-[var(--muted)]">
           Free tools help you make better decisions. Full lead detail, WhatsApp alerts, saved leads, and Letterhead Pack stay behind access.
         </p>
@@ -109,7 +109,7 @@ function ToolCard({ title, result, children }: { title: string; result: string; 
   return (
     <section className="jf-box bg-white p-5">
       <p className="micro-label text-[var(--orange)]">{title}</p>
-      <p className="headline mt-3 text-5xl">{result}</p>
+      <p className="headline mt-3 text-4xl sm:text-5xl">{result}</p>
       <div className="mt-5 grid gap-3">{children}</div>
     </section>
   );

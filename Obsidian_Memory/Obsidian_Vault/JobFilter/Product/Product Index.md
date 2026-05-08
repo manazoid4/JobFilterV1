@@ -1,23 +1,32 @@
 # Product Index
 
 ## Core
+
 - [[JobFilter Product overview]]
 - [[Intake Engine]]
+- [[Pricing]]
+- [[Launch Checklist]]
 - [[Data Sources]]
 - [[Data Sources Flow.excalidraw]]
 - [[Launch Scenarios]]
-- [[Competitor Research - 2 May 2026]]
-- [[Design Direction - Brutalist Yellow]]
+
+## Design
+
+- [[Design Direction - Brutalist Yellow]] ⚠️ superseded — V3 canonical design is in `FinalDesignJobFilter/JobFilter Site V3.html`
 
 ## Modules
+
 - [[Free Tools]]
+- [[EPC Signal Engine]]
 - [[Vantage]]
 - [[Vicinity]]
 - [[Codex]]
 - [[Letterhead Pack]]
 
 ## System Links
+
 - [[System Index]]
-- [[Lead Engine 50+ Quality Test - 1 May 2026]]
 - [[Rolling Launch Summary]]
 - [[Daily To-Do]]
+
+> Session logs (Competitor Research, Lead Engine tests) kept in file explorer only — not linked here to keep graph clean.

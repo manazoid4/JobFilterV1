@@ -5,10 +5,12 @@
 - [[AI Knowledge Index]]
 - [[khutba.io Map]]
 - [[Airdrop Bot Map]]
+- [[AgentDock Map]]
 
 ## JobFilter
 - [[Strategic-Signal-EPC]]
 - [[Product Index]]
+- [[EPC Signal Engine]]
 - [[Data Sources]]
 - [[Launch Scenarios]]
 - [[Rolling Launch Summary]]
@@ -20,6 +22,13 @@
 ## Airdrop Bot
 - [[Project Outline]]
 - [[Airdrop Bot Flow.canvas]]
+
+## AgentDock
+- [[AgentDock Product Overview]]
+- [[Project Outline - AgentDock]]
+- [[MVP Scope]]
+- [[System Connectors]]
+- [[Launch Checklist]]
 
 ## Rule
 - Keep project notes in their project folders.

@@ -229,6 +229,37 @@ Source: https://www.gohighlevel.com/
 - Searchland Planning API: https://searchland.co.uk/our-apis/planning-applications
 - UK PlanIt: https://www.planit.org.uk/
 
+## Zeely (Researched 7 May 2026)
+
+Source: https://zeely.app
+
+**What:** AI ad creative platform — generates UGC-style video ads, static ad creatives, and manages paid campaigns across Facebook, Instagram, Google Ads, and TikTok.
+**For:** E-commerce sellers, dropshippers, digital agencies, performance marketers. Trusted by 650,000+ sellers globally. No trades, no UK B2B services focus.
+**Price:** Free tier (limited) → $19.95/2 weeks → $29.95/4 weeks → $49.95/8 weeks (introductory). Renews at $79.95/mo full price. USD-denominated, global product.
+**Overlap with JobFilter:** None
+
+### Threat Level
+Low — completely different market, product, and buyer. Zeely sells ad creation to product sellers. JobFilter sells lead intelligence to UK tradesmen. No meaningful crossover.
+
+### What they do better
+- AI avatar + UGC video generation at scale — a capability JobFilter has no need for
+- Multi-platform ad campaign launch (Facebook, Instagram, Google, TikTok) with AI budget optimisation
+- Huge scale: 650,000+ users, proven conversion templates, batch A/B ad creation
+- Near-zero design skill required — drag-and-drop with AI copy generation
+
+### What JobFilter does better
+- Targets a specific, underserved trade audience (UK plumbers, electricians, builders)
+- Solves a real upstream problem — finding the right leads before competitors see them
+- Uses official data signals (planning permissions, EPC, public contracts) that no ad tool provides
+- £22–49/mo vs Zeely's effective $79.95/mo — comparable price but far higher specificity of value
+- Not dependent on paid ad spend — works without a marketing budget
+- Tradesmen don't sell products online; Zeely is entirely irrelevant to their workflow
+
+### Strategic note
+Zeely is a non-competitor. It appears in searches for "AI tools for small business" which JobFilter may also touch, but the buyer is different (e-commerce vs trades), the pain is different (ad creative vs lead quality), and the product is different. No positioning response required. Worth noting only to confirm it can be dismissed.
+
+---
+
 ## News Feed Rule
 
 Do not build a blog.
