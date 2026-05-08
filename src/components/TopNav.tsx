@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getChaseLeads } from '../lib/chaseStore';
 import { getMonthlyStats } from '../lib/winStore';
+import { useDeviceMode } from '../hooks/useDeviceMode';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
@@ -20,6 +21,8 @@ export function TopNav() {
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
   const [activeChaseCount, setActiveChaseCount] = useState(0);
   const [monthlyWinCount, setMonthlyWinCount] = useState(0);
+  const { mode, toggle, hasOverride } = useDeviceMode();
+  const forceMobile = mode === 'mobile';
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -42,7 +45,7 @@ export function TopNav() {
           <span className="headline text-3xl tracking-normal">JOBFILTER</span>
         </NavLink>
 
-        <nav className="hidden items-center gap-1 xl:flex">
+        <nav className={`hidden items-center gap-1 xl:flex ${forceMobile ? '!hidden' : ''}`}>
           {links.map((link) => {
             const isChase = link.to === '/chase';
             const isWin = link.to === '/win';
@@ -66,7 +69,7 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-3 xl:flex">
+        <div className={`hidden items-center gap-3 xl:flex ${forceMobile ? '!hidden' : ''}`}>
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="flex items-center gap-2">
               <span className="text-xs font-black uppercase text-[var(--green)]">
@@ -84,16 +87,25 @@ export function TopNav() {
 
         <button
           type="button"
-          className="xl:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm"
+          className={`xl:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm ${forceMobile ? '!flex' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
           {menuOpen ? 'CLOSE' : 'MENU'}
         </button>
+
+        <button
+          type="button"
+          className="hidden xl:flex border-2 border-[var(--line)] bg-[var(--bg-main)] px-2 py-1 text-xs font-black"
+          onClick={toggle}
+          aria-label="Toggle device mode"
+        >
+          {hasOverride ? `${mode.toUpperCase()}*` : mode.toUpperCase()}
+        </button>
       </div>
 
-      {menuOpen && (
-        <nav className="grid border-t-2 border-[var(--line)] bg-white lg:hidden">
+      {(menuOpen || forceMobile) && (
+        <nav className={`border-t-2 border-[var(--line)] bg-white lg:hidden ${forceMobile ? 'block' : ''}`}>
           {/* Triple Engine Quick Stats */}
           <div className="grid grid-cols-3 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <NavLink to="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">

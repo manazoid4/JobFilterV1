@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HANDOFF - 8th May 2026.md",
+                "file": "khutba.io/khutba.io Project Outline.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HANDOFF - 8th May 2026"
+              "title": "khutba.io Project Outline"
             }
           }
         ]
@@ -154,13 +154,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HANDOFF - 8th May 2026.md",
+                "file": "khutba.io/khutba.io Project Outline.md",
                 "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of HANDOFF - 8th May 2026"
+              "title": "Outline of khutba.io Project Outline"
             }
           }
         ],
@@ -183,11 +183,19 @@
   },
   "active": "7dae4a723363899e",
   "lastOpenFiles": [
+    "khutba.io/khutba.io APIs.md",
+    "khutba.io/Competitor Intel - 8th May 2026.md",
+    "khutba.io/Research Briefs - 8th May 2026.md",
+    "khutba.io/Product Roadmap.md",
+    "khutba.io/Ramadan Launch Plan 2027.md",
+    "khutba.io/UK Mosque Outreach Strategy.md",
+    "khutba.io/khutba.io Overview.md",
+    "khutba.io/khutba.io Selling Points.md",
+    "HANDOFF - 8th May 2026.md",
     "JobFilter/System/OnsiteHand Analysis - 8th May 2026.md",
     "JobFilter/System/RonDesignLab Design Inspiration - 8th May 2026.md",
     "JobFilter/System/Dean Keating Analysis - 8th May 2026.md",
     "JobFilter/Product/Competitor Product Lessons.md",
-    "HANDOFF - 8th May 2026.md",
     "JobFilter/Product/Companies House Signal.md",
     "JobFilter/Product/Land Registry Signal.md",
     "AgentDock/Product/ServiceNow Connector Spec.md",
@@ -195,20 +203,12 @@
     "JobFilter/Product/Feature Roadmap - 8th May 2026.md",
     "JobFilter/Product/Trade SEO Strategy.md",
     "JobFilter/System/Integration Partnership Map - 8th May 2026.md",
-    "khutba.io/UK Mosque Outreach Strategy.md",
-    "khutba.io/Ramadan Launch Plan 2027.md",
-    "khutba.io/Product Roadmap.md",
     "AgentDock/Product/AgentDock Landing Page Spec.md",
     "JobFilter/Product/Document Search Spec.md",
     "JobFilter/System/Trade Body Partnership Strategy - 8th May 2026.md",
     "AI Knowledge/Voice Control for OpenCode - 8th May 2026.md",
     "JobFilter/Product/Free Tools Strategy.md",
     "JobFilter/Product/Stripe Integration.md",
-    "JobFilter/Product/Comparison Pages.md",
-    "JobFilter/Product/City SEO Strategy.md",
-    "khutba.io/Competitors/Muslim Pro for Mosques.md",
-    "khutba.io/Competitors/Al-Mosque.md",
-    "khutba.io/Competitors/MasjidBoard.md",
     "AgentDock/System",
     "AgentDock/Sessions",
     "AgentDock/Prompts",

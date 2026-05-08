@@ -7,7 +7,7 @@
  * Real endpoint: https://publishing.prh.gov.uk/price-paid-data (CSV, open data)
  * Monthly updates with: address, price, date, property type, tenure, locality
  *
- * For now: mock data. Real API requires parsing large CSV files.
+ * For now: mock data behind DEMO_MODE=true. Real API requires parsing large CSV files.
  * When ready: download monthly CSV, filter by outward postcode, score by price/property type.
  */
 
@@ -91,17 +91,14 @@ export async function landRegistryFetcher(
   outward: string,
   trade: string,
 ): Promise<{ leads: RawLead[]; stats: Record<string, SourceStats> }> {
-  // Check if source is enabled
-  if (!process.env.SOURCE_LR || process.env.SOURCE_LR === 'false') {
-    // Default: enabled in dev, can be disabled via env
-    if (process.env.NODE_ENV === 'production' && process.env.SOURCE_LR !== 'true') {
-      return {
-        leads: [],
-        stats: {
-          LandRegistry: { fetched: 0, passed: 0, dropped: 0, failed: false, error: 'Disabled: No credentials' },
-        },
-      };
-    }
+  // Land Registry is disabled by default — no real API integration yet
+  if (process.env.DEMO_MODE !== 'true') {
+    return {
+      leads: [],
+      stats: {
+        LandRegistry: { fetched: 0, passed: 0, dropped: 0, failed: false, error: 'Disabled: set DEMO_MODE=true for demo data' },
+      },
+    };
   }
 
   try {
@@ -116,7 +113,7 @@ export async function landRegistryFetcher(
     const leads = generateMockSales(outward, trade);
 
     const stats: SourceStats = {
-      fetched: leads.length + Math.floor(Math.random() * 5), // mock "dropped" count
+      fetched: leads.length + Math.floor(Math.random() * 5),
       passed: leads.length,
       dropped: Math.floor(Math.random() * 5),
       failed: false,

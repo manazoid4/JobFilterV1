@@ -1,6 +1,8 @@
 import type { Express, Request, Response } from 'express';
 import { sendWaitlistConfirmation } from '../services/email';
 
+const waitlistStore: Array<Record<string, string>> = [];
+
 export function registerWaitlistRoute(app: Express) {
   app.post('/api/waitlist', async (req: Request, res: Response) => {
     try {
@@ -10,6 +12,7 @@ export function registerWaitlistRoute(app: Express) {
         contact: clean(req.body?.contact, 120),
         contact_type: detectContactType(req.body?.contact),
         source: clean(req.body?.source, 80) || 'site',
+        timestamp: new Date().toISOString(),
       };
 
       if (!entry.name || !entry.trade || !entry.contact) {
@@ -18,7 +21,7 @@ export function registerWaitlistRoute(app: Express) {
 
       const stored = await storeWaitlistEntry(entry);
 
-      if (entry.contactType === 'email') {
+      if (entry.contact_type === 'email') {
         sendWaitlistConfirmation(entry.name, entry.contact).catch(() => {});
       }
 
@@ -27,6 +30,11 @@ export function registerWaitlistRoute(app: Express) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Waitlist failed.') });
     }
   });
+}
+
+async function storeWaitlistEntry(entry: Record<string, string>) {
+  waitlistStore.push(entry);
+  return { id: waitlistStore.length, ...entry };
 }
 
 function clean(input: unknown, max: number) {

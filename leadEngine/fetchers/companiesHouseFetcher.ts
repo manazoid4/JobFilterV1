@@ -18,7 +18,8 @@
  * Auth: HTTP Basic — COMPANIES_HOUSE_API_KEY as username, no password
  * Free key: https://developer.company-information.service.gov.uk/get-started
  *
- * If COMPANIES_HOUSE_API_KEY is not set → returns mock data for demo.
+ * If COMPANIES_HOUSE_API_KEY is not set → returns empty results.
+ * Set DEMO_MODE=true to enable mock data for testing.
  */
 
 import type { RawLead, SourceStats } from '../types';
@@ -257,20 +258,33 @@ export async function companiesHouseFetcher(
   const apiKey = process.env.COMPANIES_HOUSE_API_KEY;
 
   if (!apiKey) {
-    // Mock mode — realistic demo data for scans without API key
-    const leads = generateMockCompanies(outward, trade);
-    const passed = leads.length;
-    const dropped = Math.floor(Math.random() * 3);
-    console.error(`[CH] CompaniesHouse → MOCK MODE fetched=${passed + dropped} passed=${passed} dropped=${dropped}`);
+    if (process.env.DEMO_MODE === 'true') {
+      const leads = generateMockCompanies(outward, trade);
+      const passed = leads.length;
+      const dropped = Math.floor(Math.random() * 3);
+      console.error(`[CH] CompaniesHouse → DEMO MODE fetched=${passed + dropped} passed=${passed} dropped=${dropped}`);
+      return {
+        leads,
+        stats: {
+          CompaniesHouse: {
+            fetched: passed + dropped,
+            passed,
+            dropped,
+            failed: false,
+            error: 'Demo data — set COMPANIES_HOUSE_API_KEY for live results',
+          },
+        },
+      };
+    }
     return {
-      leads,
+      leads: [],
       stats: {
         CompaniesHouse: {
-          fetched: passed + dropped,
-          passed,
-          dropped,
+          fetched: 0,
+          passed: 0,
+          dropped: 0,
           failed: false,
-          error: 'Mock data — set COMPANIES_HOUSE_API_KEY for live results',
+          error: 'COMPANIES_HOUSE_API_KEY not set',
         },
       },
     };

@@ -441,12 +441,11 @@ export function WeeklySignalsPage() {
             {CURRENT_WEEK.regionBreakdown.map((r) => {
               const barWidth = (r.total / maxRegionTotal) * 100;
               const isSelected = activeRegion === r.region;
-              const citySlug = r.region.toLowerCase().replace(/\s+/g, '-');
               return (
-                <Link
+                <button
                   key={r.region}
-                  to={`/construction-leads/${citySlug}`}
-                  className={`jf-box p-4 transition-all cursor-pointer ${
+                  type="button"
+                  className={`jf-box p-4 transition-all cursor-pointer text-left w-full ${
                     isSelected ? 'bg-[var(--yellow)] border-[var(--yellow)]' : 'bg-white hover:bg-[var(--yellow)]/20'
                   }`}
                   onClick={() => setActiveRegion(r.region)}
@@ -465,11 +464,8 @@ export function WeeklySignalsPage() {
                     <span className={`text-xs font-black ${isSelected ? 'text-[var(--ink)]/70' : 'text-[var(--muted)]'}`}>
                       {r.gold} GOLD
                     </span>
-                    <span className={`text-xs font-black ${isSelected ? 'text-[var(--ink)]/50' : 'text-[var(--muted)]/60'}`}>
-                      →
-                    </span>
                   </div>
-                </Link>
+                </button>
               );
             })}
           </div>

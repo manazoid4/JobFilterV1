@@ -15,7 +15,7 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const result = await scan({ postcode: postcode.postcode, trade, tier: 'free' });
+      const result = await scan({ postcode: postcode.postcode, trade, tier: 'free', radiusMiles });
       const leads = result.leads
         .map(toFreePreviewLead);
 

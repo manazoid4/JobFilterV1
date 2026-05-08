@@ -65,10 +65,11 @@ export interface ScanOptions {
   postcode: string;
   trade?: string;
   tier?: 'free' | 'paid';
+  radiusMiles?: number;
 }
 
 export async function scan(opts: ScanOptions): Promise<ScanResult> {
-  const { postcode, trade = '', tier = 'free' } = opts;
+  const { postcode, trade = '', tier = 'free', radiusMiles } = opts;
   const cleanTrade = validateTrade(trade);
 
   // 1. Resolve postcode
@@ -181,18 +182,22 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   });
   const tradeMatched = scored.filter(l => l.trade === cleanTrade);
   const rankingPool = tradeMatched.length ? tradeMatched : scored;
-  rankingPool.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+
+  const radiusFiltered = radiusMiles
+    ? rankingPool.filter(l => (l.distanceMiles ?? 0) <= radiusMiles)
+    : rankingPool;
+  radiusFiltered.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
   // Update passed counts from normalised totals
   for (const source of Object.keys(mergedStats)) {
-    const count = rankingPool.filter(l => l.source === source).length;
+    const count = radiusFiltered.filter(l => l.source === source).length;
     mergedStats[source].passed = count;
   }
 
   // 7. Tier gating
   const limit = tier === 'free' ? CONFIG.freeTierLimit : CONFIG.topN;
-  const top = rankingPool.slice(0, limit);
-  const lockedCount = Math.max(0, rankingPool.length - top.length);
+  const top = radiusFiltered.slice(0, limit);
+  const lockedCount = Math.max(0, radiusFiltered.length - top.length);
 
   // 8. Build errors list from failed sources
   const errors: string[] = [];
@@ -202,7 +207,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   return {
     leads: top,
-    total: rankingPool.length,
+    total: radiusFiltered.length,
     region,
     outward,
     lockedCount,
