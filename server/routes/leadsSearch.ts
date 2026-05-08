@@ -97,6 +97,7 @@ function toFreePreviewLead(lead: Lead) {
     tradeMatch: String(lead.trade),
     score: previewScore(score),
     reasons: buildReasons(lead, score),
+    distanceMiles: lead.distanceMiles,
   };
 }
 

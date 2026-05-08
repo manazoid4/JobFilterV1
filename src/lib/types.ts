@@ -43,6 +43,7 @@ export type Lead = {
   revenueTier?: 'gold' | 'worth-checking' | 'low-signal';
   tradeMatch?: Trade;
   score: number;
+  distanceMiles?: number;
 };
 
 export type LeadSearchResponse = {

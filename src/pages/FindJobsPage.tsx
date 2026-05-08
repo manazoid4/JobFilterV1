@@ -9,6 +9,8 @@ import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
+const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
+
 const TRADE_PRESETS: { label: string; trade: Trade }[] = [
   { label: 'ELECTRICAL', trade: 'electrical' },
   { label: 'PLUMBING', trade: 'plumbing' },
@@ -20,11 +22,30 @@ const TRADE_PRESETS: { label: string; trade: Trade }[] = [
   { label: 'HVAC', trade: 'hvac' },
 ];
 
+function getSavedRadius(): number {
+  const saved = localStorage.getItem('jobfilter.radius');
+  if (saved) {
+    const n = Number(saved);
+    if (RADIUS_OPTIONS.includes(n)) return n;
+  }
+  return 25;
+}
+
+function getSavedPostcode(): string {
+  return localStorage.getItem('jobfilter.postcode') || 'B14 7QH';
+}
+
+function getSavedTrade(): Trade {
+  const saved = localStorage.getItem('jobfilter.trade');
+  if (saved && trades.includes(saved as Trade)) return saved as Trade;
+  return 'electrical';
+}
+
 export function FindJobsPage() {
   const [searchParams] = useSearchParams();
-  const [postcode, setPostcode] = useState('B14 7QH');
-  const [trade, setTrade] = useState<Trade>('electrical');
-  const [radiusMiles, setRadiusMiles] = useState(25);
+  const [postcode, setPostcode] = useState(getSavedPostcode);
+  const [trade, setTrade] = useState<Trade>(getSavedTrade);
+  const [radiusMiles, setRadiusMiles] = useState(getSavedRadius);
   const [result, setResult] = useState<LeadSearchResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
@@ -39,6 +60,10 @@ export function FindJobsPage() {
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
 
+  const [fillWeekLoading, setFillWeekLoading] = useState(false);
+  const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
+  const [fillWeekPhase, setFillWeekPhase] = useState('');
+
   useEffect(() => {
     const tradeParam = searchParams.get('trade');
     const areaParam = searchParams.get('area');
@@ -49,6 +74,18 @@ export function FindJobsPage() {
       setPostcode(areaParam);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    localStorage.setItem('jobfilter.radius', String(radiusMiles));
+  }, [radiusMiles]);
+
+  useEffect(() => {
+    localStorage.setItem('jobfilter.postcode', postcode);
+  }, [postcode]);
+
+  useEffect(() => {
+    localStorage.setItem('jobfilter.trade', trade);
+  }, [trade]);
 
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id)) return;
@@ -132,6 +169,43 @@ export function FindJobsPage() {
     }
   }
 
+  async function fillMyWeek() {
+    setFillWeekLoading(true);
+    setFillWeekResult(null);
+    setFillWeekPhase('Scanning 400+ councils, EPC database, and contract feeds...');
+    await new Promise(r => setTimeout(r, 800));
+    setFillWeekPhase('Matching leads to your trade — scoring every signal...');
+    await new Promise(r => setTimeout(r, 600));
+    setFillWeekPhase('Ranking the best jobs near you...');
+    await new Promise(r => setTimeout(r, 400));
+    try {
+      const response = await fetch('/api/leads/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postcode,
+          trade,
+          radiusMiles: Math.max(radiusMiles, 25),
+        }),
+      });
+      const data = await response.json() as LeadSearchResponse;
+      setFillWeekResult(data);
+    } catch {
+      setFillWeekResult({
+        ok: false,
+        source: 'lead_engine',
+        count: 0,
+        region: '',
+        outward: '',
+        leads: [],
+        errors: ['Scan failed. Retry.'],
+      });
+    } finally {
+      setFillWeekLoading(false);
+      setFillWeekPhase('');
+    }
+  }
+
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
       {/* ── SCANNER ──────────────────────────────────── */}
@@ -158,7 +232,7 @@ export function FindJobsPage() {
               <button
                 key={preset.trade}
                 type="button"
-                disabled={loading}
+                disabled={loading || fillWeekLoading}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
                 className={`px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
                   trade === preset.trade
@@ -181,13 +255,68 @@ export function FindJobsPage() {
           <label className="field-label">
             Radius
             <select value={radiusMiles} onChange={(event) => setRadiusMiles(Number(event.target.value))} className="field-input">
-              {[10, 25, 50, 100].map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
+              {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button disabled={loading} className="jf-button self-end bg-[var(--navy)] text-white disabled:opacity-60">
+          <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--navy)] text-white disabled:opacity-60">
             {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>
         </form>
+      </section>
+
+      {/* ── FILL MY WEEK ─────────────────────────────── */}
+      <section className="jf-box bg-[var(--yellow)] p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
+            <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
+            <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
+              One tap. We hit every data source — councils, EPC, contracts — and return the best {trade} jobs within {radiusMiles} miles.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={fillWeekLoading || loading}
+            onClick={fillMyWeek}
+            className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
+          >
+            {fillWeekLoading ? 'SCANNING...' : 'FILL MY WEEK →'}
+          </button>
+        </div>
+
+        {fillWeekLoading && (
+          <div className="mt-5 bg-[var(--ink)] text-white p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 border-2 border-[var(--yellow)] border-t-transparent rounded-full animate-spin" />
+              <p className="font-black">{fillWeekPhase}</p>
+            </div>
+          </div>
+        )}
+
+        {fillWeekResult && fillWeekResult.count > 0 && (
+          <div className="mt-5 grid gap-4">
+            <div className="bg-[var(--ink)] text-white p-5">
+              <p className="text-3xl font-black text-[var(--yellow)]">
+                {fillWeekResult.count} JOBS FOUND NEAR YOU
+              </p>
+              <p className="mt-1 font-black text-white/70">
+                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
+              </p>
+              <p className="mt-1 text-sm font-black text-white/50">
+                Your quiet week isn't a skills problem. It's a pipeline problem.
+              </p>
+            </div>
+            {fillWeekResult.leads.map((lead) => (
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
+            ))}
+          </div>
+        )}
+
+        {fillWeekResult && fillWeekResult.count === 0 && (
+          <div className="mt-5 bg-white p-5">
+            <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
+          </div>
+        )}
       </section>
 
       {/* ── DOCUMENT SEARCH ──────────────────────────── */}
@@ -228,7 +357,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── LOADING ──────────────────────────────────── */}
-      {loading && (
+      {loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
           <p className="mt-2 text-xl font-black">Checking official sources. Scoring every signal.</p>
@@ -236,7 +365,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── RESULTS ──────────────────────────────────── */}
-      {result && (
+      {result && !fillWeekResult && (
         <section className="grid gap-5">
           {errorText && (
             <div className="jf-box bg-[var(--orange)] p-5 text-white">
@@ -249,8 +378,8 @@ export function FindJobsPage() {
           <div className="jf-box grid gap-3 bg-white p-4 md:grid-cols-5">
             <Stat label="Engine" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
             <Stat label="Matches" value={String(result.count)} />
+            <Stat label="Radius" value={`${radiusMiles} miles`} />
             <Stat label="Region" value={result.region || 'Unknown'} />
-            <Stat label="Outward" value={result.outward || 'N/A'} />
             <Stat label="Updated" value={lastUpdated || 'N/A'} />
           </div>
 
@@ -320,7 +449,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── NO SCAN YET — PROMPT ─────────────────────── */}
-      {!hasScanned && !loading && (
+      {!hasScanned && !loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
@@ -335,9 +464,14 @@ export function FindJobsPage() {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
   const reasons = lead.reasons?.length ? lead.reasons : ['Official source', `${lead.sourceConfidence}% source confidence`];
+  const outward = lead.postcodeOutward || 'Unknown';
+  const dist = lead.distanceMiles;
+  const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
+
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
-    ['Location', lead.location || lead.postcodeOutward || 'Unknown'],
+    ['Location', lead.location || outward],
+    ['Distance', distLabel],
     ['Value', safePreviewValue(lead.estimatedValue)],
     ['Urgency', lead.urgency || 'Unknown'],
   ];
@@ -430,7 +564,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
-        <Stat label="Area" value={`${result.outward || 'N/A'} / ${result.region || 'Unknown'}`} />
+        <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3">

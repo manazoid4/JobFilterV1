@@ -23,6 +23,7 @@ export interface Lead {
   cpvCodes?: string[];
   score?: number;
   scoreReasons?: string[];
+  distanceMiles?: number;
 }
 
 export interface LeadStoreEntry {

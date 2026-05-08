@@ -426,6 +426,7 @@ function toFreePreviewLead(lead: any) {
     contactSignal: 'none',
     score: previewScore(lead.score),
     reasons: ['Paid preview - unlock buyer, deadline, exact value, and action route'],
+    distanceMiles: lead.distanceMiles,
   };
 }
 

@@ -1,30 +1,63 @@
-﻿import type { Lead } from './types';
+﻿import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
 
-/**
- * Score each lead 0â€“100.
- *
- * Factors:
- *  - source confidence        (0â€“20)
- *  - urgency                  (0â€“20)
- *  - proximity                (0â€“30)
- *  - contact signal           (0â€“15)
- *  - value bracket            (0â€“25)
- */
-export function scoreLead(lead: Lead, userRegion: string): number {
-  return scoreLeadBreakdown(lead, userRegion).score;
+const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
+  plumbing: {
+    high: ['boiler', 'bathroom', 'plumb', 'heating', 'radiator', 'hot water', 'central heating', 'gas safe', 'unvented', 'pressurised'],
+    medium: ['kitchen', 'wet room', 'shower', 'pipe', 'drain', 'sanitary', 'water supply', 'mechanical services'],
+    low: ['rewire', 'solar panel', 'roof', 'extension', 'landscap', 'paint', 'carpentry', 'joinery'],
+  },
+  electrical: {
+    high: ['rewire', 'electrical', 'wiring', 'ev charger', 'electric vehicle', 'solar', 'consumer unit', 'fuse board', 'lighting', 'fire alarm'],
+    medium: ['kitchen', 'bathroom', 'smart home', 'data cabling', 'security system', 'cctv', 'access control'],
+    low: ['boiler', 'plumb', 'roof', 'flat roof', 'tiling', 'landscap', 'paint', 'decorat'],
+  },
+  roofing: {
+    high: ['roof', 'roofing', 'flat roof', 'velux', 'slate', 'tile roof', 'gutter', 'fascia', 'soffit', 'cladding', 'felt roof'],
+    medium: ['loft', 'chimney', 'lead work', 'flashings', 'ridge tile', 'dormer', 'loft conversion'],
+    low: ['rewire', 'boiler', 'plumb', 'kitchen', 'bathroom', 'landscap', 'paint', 'ev charger'],
+  },
+  building: {
+    high: ['extension', 'new build', 'loft conversion', 'garage', 'structural', 'building work', 'construction', 'refurbishment', 'renovation'],
+    medium: ['kitchen', 'bathroom', 'basement', 'conversion', 'knock through', 'steel beam', 'foundation'],
+    low: ['boiler', 'rewire', 'ev charger', 'gutter', 'fascia', 'landscap', 'paint', 'decorat'],
+  },
+  carpentry: {
+    high: ['carpentry', 'joinery', 'staircase', 'bespoke', 'fitted wardrob', 'kitchen fitting', 'door hanging', 'skirting', 'architrave', 'wood floor'],
+    medium: ['loft', 'stud partition', 'door', 'window', 'decking', 'fencing', 'shelving', 'cabinet'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'landscap', 'paint'],
+  },
+  painting: {
+    high: ['paint', 'decorat', 'plaster', 'render', 'wallpaper', 'exterior paint', 'interior paint', 'magnolia', 'emulsion', 'gloss'],
+    medium: ['refurbishment', 'renovation', 'kitchen', 'bathroom', 'ceiling', 'skimming', 'coving'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'ev charger', 'landscap'],
+  },
+  hvac: {
+    high: ['heat pump', 'air conditioning', 'ventilation', 'hvac', 'mechanical', 'ductwork', 'extractor', 'mvhr', 'air source', 'ground source'],
+    medium: ['boiler', 'heating', 'radiator', 'bathroom', 'kitchen', 'commercial', 'refrigeration'],
+    low: ['rewire', 'electrical', 'roof', 'flat roof', 'paint', 'decorat', 'landscap', 'carpentry'],
+  },
+  landscaping: {
+    high: ['landscape', 'grounds', 'garden', 'paving', 'decking', 'fencing', 'turf', 'retaining wall', 'patio', 'driveway', 'groundwork'],
+    medium: ['tree', 'hedge', 'irrigation', 'shed', 'gazebo', 'pergola', 'planting', 'boundary'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'kitchen', 'bathroom'],
+  },
+};
+
+const HIGH_INTENT_KEYWORDS = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
+
+export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey): number {
+  return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = ''): { score: number; reasons: string[] } {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[] } {
   let score = 0;
   const reasons: string[] = [];
 
-  // Source confidence (max 20)
   const sourcePts = Math.round((lead.sourceConfidence / 100) * 20);
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
 
-  // Urgency (max 20)
   if (lead.urgency === 'high') {
     score += 20;
     reasons.push('Urgent timeline (+20)');
@@ -38,14 +71,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('Lower urgency (+4)');
   }
 
-  // Proximity (max 30)
   const exactOutward = Boolean(userOutward && lead.postcodeOutward && lead.postcodeOutward.toUpperCase() === userOutward.toUpperCase());
   const sim = exactOutward ? 1 : regionSimilarity(`${lead.location} ${lead.postcodeOutward}`, userRegion);
   const proximityPts = Math.round(sim * 30);
   score += proximityPts;
   reasons.push(`Proximity fit ${(sim * 100).toFixed(0)}% (+${proximityPts})`);
 
-  // Contact signal (max 15)
   if (lead.contactSignal === 'strong') {
     score += 15;
     reasons.push('Strong contact signal (+15)');
@@ -58,7 +89,6 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('No contact signal (+0)');
   }
 
-  // Value bracket (max 25) — one paid lead must be worth chasing.
   const raw = parseValueToMidpoint(lead.estimatedValue);
   if (raw >= 5_000 && raw <= 150_000) {
     score += 25;
@@ -76,18 +106,40 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('Low/unknown value (+0)');
   }
 
-  // High Intent Keywords (max 10 bonus)
-  const highIntentKeywords = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
+  if (userTrade && TRADE_KEYWORDS[userTrade]) {
+    const text = `${lead.title} ${lead.description ?? ''} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
+    const tradeKw = TRADE_KEYWORDS[userTrade];
+    const highHits = tradeKw.high.filter(k => text.includes(k));
+    const medHits = tradeKw.medium.filter(k => text.includes(k));
+    const lowHits = tradeKw.low.filter(k => text.includes(k));
+
+    if (highHits.length > 0) {
+      const bonus = Math.min(highHits.length * 6, 18);
+      score += bonus;
+      reasons.push(`Trade match: ${highHits.join(', ')} (+${bonus})`);
+    }
+    if (medHits.length > 0) {
+      const bonus = Math.min(medHits.length * 3, 9);
+      score += bonus;
+      reasons.push(`Related: ${medHits.join(', ')} (+${bonus})`);
+    }
+    if (lowHits.length > 0) {
+      const penalty = Math.min(lowHits.length * 3, 8);
+      score -= penalty;
+      reasons.push(`Not your trade: ${lowHits.join(', ')} (-${penalty})`);
+    }
+  }
+
   const text = `${lead.title} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
-  const matched = highIntentKeywords.filter(k => text.includes(k));
+  const matched = HIGH_INTENT_KEYWORDS.filter(k => text.includes(k));
   if (matched.length > 0) {
     const bonus = Math.min(matched.length * 5, 10);
     score += bonus;
     reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
   }
 
-  return { score: Math.min(score, 100), reasons };
-  }
+  return { score: Math.min(Math.max(score, 0), 100), reasons };
+}
 
 function parseValueToMidpoint(val: string): number {
   if (!val || val === 'POA') return 0;
