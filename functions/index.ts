@@ -114,10 +114,6 @@ app.post('/api/leads/search', async (req, res) => {
   }
 });
 
-function toFreePreviewLead(lead: any): any {
-  return { ...lead, buyer: undefined, url: '', deadlineAt: '', contactSignal: 'none' };
-}
-
 app.post('/api/intake/score', async (req, res) => {
   try {
     const jobType = clean(req.body?.jobType, 60);

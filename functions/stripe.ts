@@ -13,7 +13,7 @@ const stripe = stripeSecret
 const PRICES = {
   founding: { monthly: 2900, annual: 24000 },
   pro: { monthly: 4900, annual: 40800 },
-  epc: { monthly: 1900 },
+  epc: { monthly: 1900, annual: 1900 },
 };
 
 const FOUNDING_MAX = 30;
@@ -70,19 +70,19 @@ export async function handleStripeWebhook(rawBody: string, signature: string) {
   const event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session;
+    const session = event.data.object as any;
     await handleCheckoutCompleted(session);
   }
 
   if (event.type === 'invoice.payment_failed') {
-    const invoice = event.data.object as Stripe.Invoice;
+    const invoice = event.data.object as any;
     await handlePaymentFailed(invoice);
   }
 
   return { received: true };
 }
 
-async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+async function handleCheckoutCompleted(session: any) {
   const { metadata, customer_email, subscription } = session;
   const tier = metadata?.tier || 'pro';
   const billing = metadata?.billing || 'monthly';
@@ -130,7 +130,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   console.log('[stripe] Payment completed:', { tier, billing, email: customer_email });
 }
 
-async function handlePaymentFailed(invoice: Stripe.Invoice) {
+async function handlePaymentFailed(invoice: any) {
   const customerId = String(invoice.customer || '');
   const userSnap = await getFirestore()
     .collection('users')
