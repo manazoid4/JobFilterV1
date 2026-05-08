@@ -39,6 +39,7 @@ const NotFoundPage = lazyPage(() => import('./pages/NotFoundPage'));
 const PricingPage = lazyPage(() => import('./pages/PricingPage'));
 const ProductAdvantagePage = lazyPage(() => import('./pages/ProductAdvantagePage'));
 const SignalsPage = lazyPage(() => import('./pages/SignalsPage'));
+const WeeklySignalsPage = lazyPage(() => import('./pages/WeeklySignalsPage'));
 const SmartQuotePage = lazyPage(() => import('./pages/SmartQuotePage'));
 const TipsPage = lazyPage(() => import('./pages/TipsPage'));
 const TradieStackPage = lazyPage(() => import('./pages/TradieStackPage'));
@@ -105,6 +106,7 @@ function AppContent() {
         <Route path="/vicinity" element={<LazyPage><ProductAdvantagePage type="vicinity" /></LazyPage>} />
         <Route path="/codex" element={<LazyPage><ProductAdvantagePage type="codex" /></LazyPage>} />
         <Route path="/signals" element={<LazyPage><SignalsPage /></LazyPage>} />
+        <Route path="/signals/weekly" element={<LazyPage><WeeklySignalsPage /></LazyPage>} />
         <Route path="/tradiestack" element={<LazyPage><TradieStackPage /></LazyPage>} />
         <Route path="/construction-leads/birmingham" element={<LazyPage><CityBirmingham /></LazyPage>} />
         <Route path="/construction-leads/london" element={<LazyPage><CityLondon /></LazyPage>} />

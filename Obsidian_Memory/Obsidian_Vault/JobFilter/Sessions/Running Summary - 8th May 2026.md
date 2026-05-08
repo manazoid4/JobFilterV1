@@ -225,12 +225,31 @@
 - UK trust signals bar (Birmingham · London · Manchester, 5 languages, GDPR, no app needed)
 - Pushed to GitHub: manazoid4/khutba-io (master branch)
 
+#### 31. JobFilter — Stability + Error Handling (COMPLETED)
+- **ErrorBoundary**: Wraps entire App — no white screens, friendly error page with reload + report
+- **API Client**: Centralized `api.ts` with error handling for network, 400-503, rate limits, timeouts
+- **Toast System**: Bottom-right notifications (error/success/info) with 5s auto-dismiss
+- **Skeleton Loaders**: Shimmer animation for cards, pricing, pages — no blank screens
+- **404 Page**: Friendly "page doesn't exist" with 6 navigation cards
+- **Performance**: All 30+ pages lazy-loaded as separate chunks (39 total), 292KB initial bundle
+
+#### 32. AgentDock — Dashboard Polish (COMPLETED)
+- **P1 Demo Scenario**: 10-phase realistic fibre outage simulation (47 B2B customers down)
+- **Approval Gates**: Interactive modals at REVIEW phases requiring user Approve/Reject
+- **Live Audit Feed**: Real-time audit log with severity coloring
+- **Command Centre**: Live clock, 6 KPI cards, compliance score indicator
+- **Kanban Pipeline**: Drag-and-drop visual with stage descriptions
+- **Connector Status Page**: Health metrics per connector (latency, uptime, errors, last sync)
+- **Landing Page**: Customer logos (BT, Virgin, TalkTalk, Vodafone, Sky, Hyperoptic), 3-step "How it works", video placeholder
+- Pushed to GitHub: manazoid4/AgentDock (main branch)
+
 ### Pushed to GitHub
-- **JobFilterV1**: 14 commits on fix/main-build → main (latest: `eb9b234`)
+- **JobFilterV1**: 15 commits on fix/main-build → main (latest: `d175252`)
 - **khutba-io**: 1 commit on master (latest: `fcf5854`)
+- **AgentDock**: 1 commit on main (latest: `05edd85`)
 
 ### Deployed to Firebase
-- Hosting: jobfilter.uk — LIVE with all improvements
+- Hosting: jobfilter.uk — LIVE with all improvements (ErrorBoundary, lazy loading, 404 page)
 - Functions: api — LIVE with trade-specific scoring + radius support
 
 ### Key Decisions
