@@ -8,6 +8,7 @@ import { registerLeadNotifyRoute } from './routes/leadNotify';
 import { registerWaitlistCountRoute } from './routes/waitlistCount';
 import { registerChaseCheckRoute } from './routes/chaseCheck';
 import { registerOutcomeReportRoute } from './routes/outcomeReport';
+import { registerStripeRoutes } from './routes/stripe';
 
 export async function createApp() {
   const app = express();
@@ -25,6 +26,7 @@ export async function createApp() {
   registerWaitlistCountRoute(app);
   registerChaseCheckRoute(app);
   registerOutcomeReportRoute(app);
+  registerStripeRoutes(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });

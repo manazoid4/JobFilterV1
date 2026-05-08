@@ -76,6 +76,25 @@
 - Added competitor files: MasjidBoard.md, Al-Mosque.md, Muslim Pro for Mosques.md
 - **Key finding**: Screen-first is the moat, unlimited minutes is pricing weapon, Ramadan is killer acquisition moment
 
+#### 11. JobFilter — City SEO Pages (COMPLETED)
+- Created reusable `src/components/CityPage.tsx` with CITIES config array
+- Built 6 city pages: Birmingham, London, Manchester, Bristol, Leeds, Glasgow
+- Routes: `/construction-leads/{city}`
+- Each page: unique copy, real stats, local angle, postcode scanner CTA, internal SEO cluster links
+- Meta titles + descriptions for SEO
+- Vault doc: `Product/City SEO Strategy.md`
+
+#### 12. JobFilter — Comparison Pages (COMPLETED)
+- Created `src/pages/CompareBuildAlertPage.tsx` — `/vs/buildalert`
+- Created `src/pages/CompareCheckatradePage.tsx` — `/vs/checkatrade`
+- Honest comparisons, 12-row tables, five signals breakdown, WhatsApp delivery section
+- Vault doc: `Product/Comparison Pages.md`
+
+### Pushed to GitHub
+- Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
+- Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
+- Commit 3: `45ada60` — 14 files changed, 1,354 insertions
+
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
 - AgentDock's wedge: ServiceNow complaint management, compliance-first, visibility-first
@@ -84,13 +103,14 @@
 - Triple Engine now complete: Find → Chase → Win — all built and working
 
 ### Next Loop Priorities
-1. City SEO pages (Birmingham, London, Manchester, Bristol) — organic growth
-2. Comparison pages (JobFilter vs BuildAlert, vs Checkatrade) — capture comparison traffic
-3. Stripe checkout integration (Founding 30 + Pro) — revenue
+1. Stripe checkout integration (Founding 30 + Pro) — revenue
+2. Twilio WhatsApp key setup — make Chase/Win engines live
+3. Free tools expansion — lead magnet for signup conversion
 4. AgentDock MVP: ServiceNow connector + Review Gate + audit log
-5. Twilio WhatsApp key setup — make Chase/Win engines live
-6. BuildAlert comparison page (they're the closest direct competitor)
-7. Free tools expansion — lead magnet for signup conversion
+5. Land Registry signal integration (already in vault — not yet built)
+6. Companies House signal (built, key-gated — needs API key)
+7. Weekly trade-signal feed logic (SEO + engagement)
+8. Root ErrorBoundary for App.tsx (stability)
 
 ### Rule
 - Every feature must fit into Triple Engine: Find → Chase → Win

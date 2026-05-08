@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
+import { CheckoutButton } from '../components/CheckoutButton';
 
 const rows = [
   ['Area scans', 'Preview scans', 'Unlimited', 'Unlimited'],
@@ -25,10 +26,25 @@ const contrasts = [
   ['Enterprise controls', 'Morta is powerful project data infrastructure, not a tradesman lead filter.'],
 ];
 
+type BillingCycle = 'monthly' | 'annual';
+
 export function PricingPage() {
   const [hours, setHours] = useState(5);
   const [miles, setMiles] = useState(50);
+  const [billing, setBilling] = useState<BillingCycle>('monthly');
+  const [foundingSlots, setFoundingSlots] = useState<{ remaining: number } | null>(null);
+
   const annualCost = useMemo(() => Math.round((hours * 35 + miles * 0.45) * 52), [hours, miles]);
+
+  const foundingMonthly = 29;
+  const foundingAnnual = 20;
+  const proMonthly = 49;
+  const proAnnual = 34;
+
+  const foundingPrice = billing === 'annual' ? `£${foundingAnnual}/mo` : `£${foundingMonthly}/mo`;
+  const proPrice = billing === 'annual' ? `£${proAnnual}/mo` : `£${proMonthly}/mo`;
+  const foundingTotal = billing === 'annual' ? '£240/yr' : `${foundingMonthly}/mo`;
+  const proTotal = billing === 'annual' ? '£408/yr' : `${proMonthly}/mo`;
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24 md:pb-8">
@@ -43,6 +59,24 @@ export function PricingPage() {
         <div className="mx-auto mt-6 inline-flex border-4 border-[var(--line)] bg-[var(--yellow)] px-6 py-4 text-center text-sm font-black uppercase text-[var(--ink)]">
           One avoided wasted evening covers the month.
         </div>
+
+        <div className="mt-6 inline-flex items-center gap-2 border-2 border-[var(--line)] p-1">
+          <button
+            type="button"
+            className={`rounded px-5 py-2 text-sm font-black uppercase transition ${billing === 'monthly' ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-white/60 hover:text-white'}`}
+            onClick={() => setBilling('monthly')}
+          >
+            Monthly
+          </button>
+          <button
+            type="button"
+            className={`rounded px-5 py-2 text-sm font-black uppercase transition ${billing === 'annual' ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-white/60 hover:text-white'}`}
+            onClick={() => setBilling('annual')}
+          >
+            Annual — save 30%
+          </button>
+        </div>
+
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#waitlist">GET WHATSAPP ALERTS</a>
           <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FIRST</Link>
@@ -60,23 +94,25 @@ export function PricingPage() {
         />
         <Plan
           name="Founding 30"
-          price="£29/mo forever"
-          weekly="£29/mo - that's £6.71/week"
-          body="Hard cap: 30 users only. First 30 only. Once full, gone forever."
+          price={foundingPrice}
+          priceNote={billing === 'annual' ? 'Billed £240/year — locked forever' : 'Billed monthly — locked forever'}
+          weekly={`£${billing === 'annual' ? foundingAnnual : foundingMonthly}/mo — that's £${billing === 'annual' ? '4.61' : '6.71'}/week`}
+          body={`Hard cap: 30 users only.${foundingSlots && foundingSlots.remaining <= 30 ? ` ${foundingSlots.remaining} slots left.` : ''} Once full, gone forever.`}
           items={['Unlimited scans', 'Full lead score + reasons', 'Official source link + buyer', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
-          cta="LOCK £29 FOREVER"
-          to="#waitlist"
+          tier="founding"
+          billing={billing}
           yellow
           paid
         />
         <Plan
           name="Pro"
-          price="£49/mo"
-          weekly="£49/mo - that's £11.29/week"
+          price={proPrice}
+          priceNote={billing === 'annual' ? 'Billed £408/year' : 'Billed monthly'}
+          weekly={`£${billing === 'annual' ? proAnnual : proMonthly}/mo — that's £${billing === 'annual' ? '7.85' : '11.29'}/week`}
           body="Full paid access for trades who want the jobs worth checking sent straight to WhatsApp."
           items={['Unlimited scans', 'Full lead score + reasons', 'Official source link + buyer', 'Contact signal', 'WhatsApp alerts', 'Saved leads', 'Vantage', 'Vicinity', 'Codex', 'Letterhead Pack']}
-          cta="JOIN PRO WAITLIST"
-          to="#waitlist"
+          tier="pro"
+          billing={billing}
           dark
           paid
         />
@@ -86,8 +122,8 @@ export function PricingPage() {
         <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
           <p className="p-4">Feature</p>
           <p className="p-4">Free</p>
-          <p className="p-4">Founding 30 (£29)</p>
-          <p className="p-4">Pro (£49)</p>
+          <p className="p-4">Founding 30 ({billing === 'annual' ? '£240/yr' : '£29/mo'})</p>
+          <p className="p-4">Pro ({billing === 'annual' ? '£408/yr' : '£49/mo'})</p>
         </div>
         {rows.map(([feature, free, founding, pro]) => (
           <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
@@ -151,7 +187,7 @@ export function PricingPage() {
           <p className="micro-label text-[var(--ink)]">PRO WAITLIST</p>
           <h2 className="headline mt-3 text-5xl leading-none">Founding 30 slots filling fast.</h2>
           <p className="mt-4 max-w-xl text-lg font-black text-[var(--ink)]/75">
-            Lock £29 forever or join Pro at £49.
+            Lock £{billing === 'annual' ? '240/year' : '29/month'} forever or join Pro at £{billing === 'annual' ? '408/year' : '49/month'}.
           </p>
         </div>
         <WaitlistForm source="pricing-whatsapp-alerts" />
@@ -169,27 +205,37 @@ export function PricingPage() {
   );
 }
 
-function Plan({ name, price, weekly, body, items, cta, to, dark = false, yellow = false, paid = false }: {
+function Plan({ name, price, priceNote, weekly, body, items, cta, to, tier, billing, dark = false, yellow = false, paid = false }: {
   name: string;
   price: string;
+  priceNote?: string;
   weekly?: string;
   body: string;
   items: string[];
-  cta: string;
-  to: string;
+  cta?: string;
+  to?: string;
+  tier?: 'founding' | 'pro' | 'epc';
+  billing?: 'monthly' | 'annual';
   dark?: boolean;
   yellow?: boolean;
   paid?: boolean;
 }) {
   const box = yellow ? 'bg-[var(--yellow)] text-[var(--ink)]' : dark ? 'bg-[var(--navy)] text-white' : 'bg-white';
   const button = yellow ? 'bg-[var(--navy)] text-white' : dark ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--navy)] text-white';
-  const link = to.startsWith('#') ? <a className={`jf-button mt-6 ${button}`} href={to}>{cta}</a> : <Link className={`jf-button mt-6 ${button}`} to={to}>{cta}</Link>;
+
+  const hasCheckout = tier && billing;
+  const checkoutLabel = tier === 'founding'
+    ? `LOCK £${billing === 'annual' ? '240/yr' : '29/mo'} FOREVER`
+    : tier === 'epc'
+    ? 'GET EPC SIGNALS'
+    : `JOIN PRO — £${billing === 'annual' ? '408/yr' : '49/mo'}`;
 
   return (
     <section className={`jf-box p-6 ${box}`}>
       <p className="micro-label text-[var(--orange)]">{name}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
-      {weekly && <p className={`mt-1 text-sm font-black uppercase ${dark ? 'text-[var(--yellow)]' : 'text-[var(--ink)]'}`}>{weekly}</p>}
+      {priceNote && <p className={`mt-1 text-xs font-black uppercase ${dark ? 'text-[var(--yellow)]' : yellow ? 'text-[var(--ink)]/70' : 'text-[var(--muted)]'}`}>{priceNote}</p>}
+      {weekly && <p className={`mt-1 text-sm font-black uppercase ${dark ? 'text-[var(--yellow)]' : yellow ? 'text-[var(--ink)]/75' : 'text-[var(--ink)]'}`}>{weekly}</p>}
       <p className={`mt-2 font-black ${dark ? 'text-white/70' : yellow ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>{body}</p>
       {paid && (
         <div className={`mt-4 border-4 px-4 py-3 text-center text-sm font-black uppercase ${dark ? 'border-[var(--yellow)] text-white' : 'border-[var(--line)] text-[var(--ink)]'}`}>
@@ -199,7 +245,18 @@ function Plan({ name, price, weekly, body, items, cta, to, dark = false, yellow 
       <ul className="mt-5 grid gap-2">
         {items.map((item) => <li key={item} className="font-black">✓ {item}</li>)}
       </ul>
-      {link}
+      {hasCheckout ? (
+        <CheckoutButton
+          tier={tier!}
+          billing={billing!}
+          label={checkoutLabel}
+          className={`jf-button mt-6 ${button}`}
+        />
+      ) : to ? (
+        to.startsWith('#')
+          ? <a className={`jf-button mt-6 ${button}`} href={to}>{cta}</a>
+          : <Link className={`jf-button mt-6 ${button}`} to={to}>{cta}</Link>
+      ) : null}
     </section>
   );
 }

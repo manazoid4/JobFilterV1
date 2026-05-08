@@ -1,16 +1,10 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import express from 'express';
-import Stripe from 'stripe';
 import { getApps, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { scan } from './leadEngine/scan';
 import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadEngine/postcode';
-
-const DEFAULT_ORIGIN = process.env.APP_URL || 'https://jobfilter.uk';
-const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
-const stripe = stripeSecret
-  ? new Stripe(stripeSecret, { apiVersion: '2023-10-16' as any })
-  : null;
+import { createCheckoutSession, handleStripeWebhook } from './stripe';
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 function checkRateLimit(ip: string): boolean {
@@ -182,37 +176,21 @@ app.post('/api/waitlist', async (req, res) => {
 
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
-    if (!stripe) throw new Error('Stripe not configured');
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [{ price_data: { currency: 'gbp', product_data: { name: 'JobFilter Intake Engine', description: 'REAL LEADS. NO CHASING. NO CONTRACTS.' }, unit_amount: 4900, recurring: { interval: 'month' } }, quantity: 1 }],
-      mode: 'subscription',
-      subscription_data: { trial_period_days: 7 },
-      success_url: `${req.headers.origin || DEFAULT_ORIGIN}/activation-pending?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin || DEFAULT_ORIGIN}/#pricing`,
-      customer_email: req.body?.email,
-    });
-    res.json({ url: session.url });
+    const result = await createCheckoutSession(req.body ?? {});
+    res.json(result);
   } catch (err: any) {
     res.status(503).json({ error: err.message });
   }
 });
 
-app.post('/api/stripe/priority-pass', async (req, res) => {
+app.post('/api/stripe/webhook', async (req, res) => {
   try {
-    if (!stripe) throw new Error('Stripe not configured');
-    const amount = Math.min(Math.max(Math.round(Number(req.body?.amount ?? 5000)), 1000), 20000);
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [{ price_data: { currency: 'gbp', product_data: { name: 'Priority Booking Deposit', description: 'Fully deductible against final invoice.' }, unit_amount: amount }, quantity: 1 }],
-      mode: 'payment',
-      success_url: `${req.headers.origin || DEFAULT_ORIGIN}/dashboard?payment=success`,
-      cancel_url: `${req.headers.origin || DEFAULT_ORIGIN}/dashboard?payment=cancelled`,
-      metadata: { tradie_id: String(req.body?.tradie_id ?? '') },
-    });
-    res.json({ url: session.url });
+    const rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+    const signature = req.headers['stripe-signature'] as string;
+    const result = await handleStripeWebhook(rawBody, signature);
+    res.json(result);
   } catch (err: any) {
-    res.status(503).json({ error: err.message });
+    res.status(err.message?.includes('signature') ? 400 : 500).json({ error: err.message });
   }
 });
 
