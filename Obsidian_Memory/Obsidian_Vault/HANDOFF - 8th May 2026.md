@@ -149,6 +149,8 @@ Vault Map.md                    ← Start here
 6. **JobFilter design**: Brutalist Yellow — don't change it
 7. **AgentDock design**: Enterprise B2B dark theme
 8. **khutba.io design**: Dark theme with emerald accents
+9. **ALWAYS deploy JobFilter to Firebase hosting after every change** — live at jobfilter.uk
+10. **ALWAYS run `firebase deploy --only hosting`** after `npm run build` passes
 
 ---
 

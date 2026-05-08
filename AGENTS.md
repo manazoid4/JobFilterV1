@@ -85,3 +85,16 @@ All agents must also read:
 - `Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md` before product copy, pricing, lead delivery, lead gating, or customer trust changes
 
 Keep Obsidian notes short, linked, and in the right folder.
+
+## DEPLOYMENT RULE — READ THIS
+
+After EVERY change to JobFilter:
+1. `npm run build` — must pass
+2. `npm run lint` — must pass
+3. `git add -A && git commit -m "..." && git push origin fix/main-build:main`
+4. `firebase deploy --only hosting` — ALWAYS deploy to Firebase hosting
+
+Live URL: **jobfilter.uk** (custom domain on Firebase project `jobfilter-uk`)
+Firebase URL: https://jobfilter-uk.web.app
+
+If you skip the Firebase deploy, the live site does NOT update.
