@@ -477,17 +477,23 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   ];
 
   const isGold = lead.score >= 80;
+  const isCompaniesHouse = lead.source === 'CompaniesHouse';
 
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       <ScoreBadge score={lead.score} />
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <Tag label={tierLabel(lead.score)} />
-          {lead.source && <Tag label="verified_signal" />}
+          {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
+          {lead.source && !isCompaniesHouse && <Tag label="verified_signal" />}
           {lead.urgency && <Tag label={lead.urgency} />}
           {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
         </div>
+        {isCompaniesHouse && (
+          <p className="mt-2 text-sm font-black text-[var(--green)]">
+            New business nearby — commercial fit-out likely
+          </p>
+        )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
           {fields.map(([label, value]) => (
@@ -543,6 +549,19 @@ function EpcSourceBadge({ title }: { title: string }) {
       {rating && (
         <span className={`badge font-black text-xs px-2 py-1 ${ratingColour}`}>{rating}</span>
       )}
+    </span>
+  );
+}
+
+function CompaniesHouseSourceBadge({ title }: { title: string }) {
+  const isFitOut = /restaurant|hotel|retail|tech company|office|fit.out|opening/i.test(title);
+  const isContractor = /contractor|plumbing|electrical|building|carpentry|painting|roofing|hvac/i.test(title);
+  const label = isFitOut ? 'NEW BUSINESS' : isContractor ? 'NEW FIRM' : 'COMPANIES HOUSE';
+
+  return (
+    <span className="flex items-center gap-1">
+      <span className="badge bg-[var(--green)] text-white font-black text-xs px-2 py-1">{label}</span>
+      <span className="badge bg-[var(--navy)] text-white font-black text-xs px-2 py-1">CH</span>
     </span>
   );
 }

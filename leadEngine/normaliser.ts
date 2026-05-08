@@ -80,6 +80,7 @@ function sourceConfidence(sourceSystem: string): number {
     case 'PlanningData': return 65;
     case 'DirectorySignal': return 75;
     case 'LandRegistry': return 70;
+    case 'CompaniesHouse': return 72;
     default: return 60;
   }
 }

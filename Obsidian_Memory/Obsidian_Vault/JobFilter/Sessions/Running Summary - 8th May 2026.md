@@ -259,14 +259,22 @@
 - 4 real user quotes comparing both platforms
 - Honest "What BuildAlert Does Well" section with "speed beats copy" messaging
 
+#### 35. JobFilter — Land Registry Signal (COMPLETED)
+- Created `leadEngine/fetchers/landRegistryFetcher.ts` — mock property sales with realistic prices, dates, property types
+- Integrated into scan pipeline (parallel fetch with other sources)
+- 70% source confidence for LandRegistry signals
+- Preview title: "New owner nearby — [trade] renovation likely"
+- Added to Data Sources table, vault doc created
+- Now 6 signals total: Planning, Contracts, EPC, Property Sales, Businesses, Land Registry
+
 ### Pushed to GitHub
-- **JobFilterV1**: 17 commits on fix/main-build → main (latest: `97a60d4`)
+- **JobFilterV1**: 18 commits on fix/main-build → main (latest: `701b8f7`)
 - **khutba-io**: 1 commit on master (latest: `fcf5854`)
 - **AgentDock**: 1 commit on main (latest: `05edd85`)
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements
-- Functions: api — LIVE with trade-specific scoring + radius support
+- Functions: api — LIVE with Land Registry signal + trade-specific scoring + radius support
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
