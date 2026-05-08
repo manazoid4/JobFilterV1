@@ -11,6 +11,10 @@
   --line: #0F172A;
   --muted: #475569;
   --white: #FFFFFF;
+  --paper: #F8FAFC;
+  --offwhite: #F8FAFC;
+  --rule: #E2E8F0;
+  --yellow-2: #FDE047;
 }
 
 * {
@@ -251,3 +255,20 @@ select {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 var(--navy);
 }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-main) 25%, #E2E8F0 50%, var(--bg-main) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 3px;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-line { height: 1rem; }
+.skeleton-line-lg { height: 1.5rem; }
+.skeleton-title { height: 2rem; }
+.skeleton-box { min-height: 120px; }

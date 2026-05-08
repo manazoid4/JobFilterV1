@@ -200,20 +200,34 @@
 - **"Fill My Week" button**: Aggressive scan with phased loading animation, shows gold count, urgency copy
 - Updated leadEngine/scorer.ts, scan.ts, types.ts, server routes, Firebase functions, FindJobsPage
 
+#### 28. JobFilter — Community Intelligence (COMPLETED)
+- Created `System/Community Intelligence - 8th May 2026.md`
+- 10 verbatim quotes from Reddit, ElectriciansForums, Screwfix, MSE
+- Pricing sensitivity: trades will pay £25-£80/mo, £29/mo is sweet spot
+- Competitor weaknesses mapped from trade mouths
+- 5 validated messaging angles confirmed by community intel
+- Monthly monitoring plan established
+
+#### 29. AgentDock — ServiceNow Connector Spec (COMPLETED)
+- Created `AgentDock/Product/ServiceNow Connector Spec.md` (992 lines)
+- Table API selected as primary, Scripted REST for custom endpoints
+- OAuth 2.0 auth flow with full diagram
+- Complete data model mapping (ServiceNow → AgentDock)
+- 14-item compliance checklist (FCA DISP, Ofcom, GDPR, UK data residency)
+- Standalone connector approach (not scoped app) — 17 working days
+- 8 complete TypeScript code examples
+
+#### 30. khutba.io — Landing Page Polish (COMPLETED)
+- Screen-first hero with mosque screen mock (LIVE badge, trilingual display)
+- Side-by-side comparison cards (khutba.io vs MinbarLive)
+- Ramadan 2027 countdown with urgency badge ("Set up before Rajab — 3 months free")
+- WhatsApp share button with pre-filled message
+- UK trust signals bar (Birmingham · London · Manchester, 5 languages, GDPR, no app needed)
+- Pushed to GitHub: manazoid4/khutba-io (master branch)
+
 ### Pushed to GitHub
-- Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
-- Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
-- Commit 3: `45ada60` — 14 files changed, 1,354 insertions
-- Commit 4: `d668c41` — 12 files changed, 1,238 insertions
-- Commit 5: `8231cff` — Fix: duplicate toFreePreviewLead + Stripe type errors
-- Commit 6: `a367a3f` — Running summary update
-- Commit 7: `0035755` — Conversion polish, Triple Engine integration, Free Tools funnel
-- Commit 8: `42a5671` — Document search prototype, pricing experiments
-- Commit 9: `525eb50` — AgentDock MVP, khutba.io product build + Ramadan launch plan
-- Commit 10: `21d1c7d` — Integration partnership map, 5 trade SEO pages
-- Commit 11: `e99fd73` — Messaging angles (quiet week, first-mover, competitor FOMO, Birmingham trust)
-- Commit 12: `43f1158` — Feature roadmap (30/60/90 day plan, priority scoring)
-- Commit 13: `2c9a0b5` — Top priority features (trade scoring, radius alerts, Fill My Week)
+- **JobFilterV1**: 14 commits on fix/main-build → main (latest: `eb9b234`)
+- **khutba-io**: 1 commit on master (latest: `fcf5854`)
 
 ### Deployed to Firebase
 - Hosting: jobfilter.uk — LIVE with all improvements

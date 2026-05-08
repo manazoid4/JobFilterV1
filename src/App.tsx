@@ -1,92 +1,139 @@
-import { BuildUkAlternativePage } from './pages/BuildUkAlternativePage';
-import { CityBirmingham } from './pages/CityBirmingham';
-import { CityBristol } from './pages/CityBristol';
-import { CityGlasgow } from './pages/CityGlasgow';
-import { CityLeeds } from './pages/CityLeeds';
-import { CityLondon } from './pages/CityLondon';
-import { CityManchester } from './pages/CityManchester';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import { ChaseEnginePage } from './pages/ChaseEnginePage';
-import { CompareBuildAlertPage } from './pages/CompareBuildAlertPage';
-import { CompareCheckatradePage } from './pages/CompareCheckatradePage';
-import { DashboardPage } from './pages/DashboardPage';
+import { lazy, Suspense, useEffect, type ComponentType, type ReactNode } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Footer } from './components/Footer';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
+import { ToastContainer, useToast, registerApiToastHandler } from './components/Toast';
 import { TopNav } from './components/TopNav';
-import { FindJobsPage } from './pages/FindJobsPage';
-import { ForYourTradePage } from './pages/ForYourTradePage';
-import { FreeToolsPage } from './pages/FreeToolsPage';
 import { HomePage } from './pages/HomePage';
-import { EpcPage } from './pages/EpcPage';
-import { IntakePage } from './pages/IntakePage';
-import { IntakeTestPage } from './pages/IntakeTestPage';
-import { LeadDetailPage } from './pages/LeadDetailPage';
-import { LeadListPage } from './pages/LeadListPage';
-import { LegalPage } from './pages/LegalPage';
-import { MyLinkPage } from './pages/MyLinkPage';
-import { NewsPage } from './pages/NewsPage';
-import { PricingPage } from './pages/PricingPage';
-import { ProductAdvantagePage } from './pages/ProductAdvantagePage';
-import { SmartQuotePage } from './pages/SmartQuotePage';
-import { SignalsPage } from './pages/SignalsPage';
-import { TipsPage } from './pages/TipsPage';
-import { TradieStackPage } from './pages/TradieStackPage';
-import { TradePlumbers } from './pages/TradePlumbers';
-import { TradeElectricians } from './pages/TradeElectricians';
-import { TradeBuilders } from './pages/TradeBuilders';
-import { TradeHeatPumps } from './pages/TradeHeatPumps';
-import { TradeRoofers } from './pages/TradeRoofers';
-import { WinEnginePage } from './pages/WinEnginePage';
 
-export default function App() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return lazy(() => loader().then((m) => ({ default: Object.values(m)[0] as ComponentType<any> })));
+}
+
+const BuildUkAlternativePage = lazyPage(() => import('./pages/BuildUkAlternativePage'));
+const ChaseEnginePage = lazyPage(() => import('./pages/ChaseEnginePage'));
+const CityBirmingham = lazyPage(() => import('./pages/CityBirmingham'));
+const CityBristol = lazyPage(() => import('./pages/CityBristol'));
+const CityGlasgow = lazyPage(() => import('./pages/CityGlasgow'));
+const CityLeeds = lazyPage(() => import('./pages/CityLeeds'));
+const CityLondon = lazyPage(() => import('./pages/CityLondon'));
+const CityManchester = lazyPage(() => import('./pages/CityManchester'));
+const CompareBuildAlertPage = lazyPage(() => import('./pages/CompareBuildAlertPage'));
+const CompareCheckatradePage = lazyPage(() => import('./pages/CompareCheckatradePage'));
+const DashboardPage = lazyPage(() => import('./pages/DashboardPage'));
+const EpcPage = lazyPage(() => import('./pages/EpcPage'));
+const FindJobsPage = lazyPage(() => import('./pages/FindJobsPage'));
+const ForYourTradePage = lazyPage(() => import('./pages/ForYourTradePage'));
+const FreeToolsPage = lazyPage(() => import('./pages/FreeToolsPage'));
+const IntakePage = lazyPage(() => import('./pages/IntakePage'));
+const IntakeTestPage = lazyPage(() => import('./pages/IntakeTestPage'));
+const LeadDetailPage = lazyPage(() => import('./pages/LeadDetailPage'));
+const LeadListPage = lazyPage(() => import('./pages/LeadListPage'));
+const LegalPage = lazyPage(() => import('./pages/LegalPage'));
+const MyLinkPage = lazyPage(() => import('./pages/MyLinkPage'));
+const NewsPage = lazyPage(() => import('./pages/NewsPage'));
+const NotFoundPage = lazyPage(() => import('./pages/NotFoundPage'));
+const PricingPage = lazyPage(() => import('./pages/PricingPage'));
+const ProductAdvantagePage = lazyPage(() => import('./pages/ProductAdvantagePage'));
+const SignalsPage = lazyPage(() => import('./pages/SignalsPage'));
+const SmartQuotePage = lazyPage(() => import('./pages/SmartQuotePage'));
+const TipsPage = lazyPage(() => import('./pages/TipsPage'));
+const TradieStackPage = lazyPage(() => import('./pages/TradieStackPage'));
+const TradeBuilders = lazyPage(() => import('./pages/TradeBuilders'));
+const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
+const TradeHeatPumps = lazyPage(() => import('./pages/TradeHeatPumps'));
+const TradePlumbers = lazyPage(() => import('./pages/TradePlumbers'));
+const TradeRoofers = lazyPage(() => import('./pages/TradeRoofers'));
+const WinEnginePage = lazyPage(() => import('./pages/WinEnginePage'));
+
+function PageLoader() {
+  return (
+    <main className="page-shell py-16">
+      <section className="jf-box bg-white p-8 text-center">
+        <div className="inline-flex items-center gap-3">
+          <div className="w-6 h-6 border-3 border-[var(--navy)] border-t-[var(--yellow)] rounded-full animate-spin" />
+          <p className="font-black text-[var(--navy)] text-lg">Loading...</p>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function LazyPage({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      {children}
+    </Suspense>
+  );
+}
+
+function AppContent() {
+  const { toasts, dismiss } = useToast();
+
+  useEffect(() => {
+    registerApiToastHandler();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
       <TopNav />
       <Routes>
-        <Route path="/2builduk-alternative" element={<BuildUkAlternativePage />} />
-        <Route path="/vs/buildalert" element={<CompareBuildAlertPage />} />
-        <Route path="/vs/checkatrade" element={<CompareCheckatradePage />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/my-link" element={<MyLinkPage />} />
-        <Route path="/intake/:username" element={<IntakePage />} />
-        <Route path="/intake-test" element={<IntakeTestPage />} />
-        <Route path="/leads" element={<LeadListPage />} />
-        <Route path="/leads/:id" element={<LeadDetailPage />} />
-        <Route path="/find-jobs" element={<FindJobsPage />} />
-        <Route path="/chase" element={<ChaseEnginePage />} />
-        <Route path="/win" element={<WinEnginePage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/for-your-trade" element={<ForYourTradePage />} />
-        <Route path="/epc" element={<EpcPage />} />
-        <Route path="/free-tools" element={<FreeToolsPage />} />
-        <Route path="/tips" element={<TipsPage />} />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/smart-quote" element={<SmartQuotePage />} />
-        <Route path="/vantage" element={<ProductAdvantagePage type="vantage" />} />
-        <Route path="/vicinity" element={<ProductAdvantagePage type="vicinity" />} />
-        <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
-        <Route path="/signals" element={<SignalsPage />} />
-        <Route path="/tradiestack" element={<TradieStackPage />} />
-        <Route path="/construction-leads/birmingham" element={<CityBirmingham />} />
-        <Route path="/construction-leads/london" element={<CityLondon />} />
-        <Route path="/construction-leads/manchester" element={<CityManchester />} />
-        <Route path="/construction-leads/bristol" element={<CityBristol />} />
-        <Route path="/construction-leads/leeds" element={<CityLeeds />} />
-        <Route path="/construction-leads/glasgow" element={<CityGlasgow />} />
-        <Route path="/trade/plumbers" element={<TradePlumbers />} />
-        <Route path="/trade/electricians" element={<TradeElectricians />} />
-        <Route path="/trade/builders" element={<TradeBuilders />} />
-        <Route path="/trade/heat-pump-installers" element={<TradeHeatPumps />} />
-        <Route path="/trade/roofers" element={<TradeRoofers />} />
-        <Route path="/privacy" element={<LegalPage type="privacy" />} />
-        <Route path="/terms" element={<LegalPage type="terms" />} />
+        <Route path="/2builduk-alternative" element={<LazyPage><BuildUkAlternativePage /></LazyPage>} />
+        <Route path="/vs/buildalert" element={<LazyPage><CompareBuildAlertPage /></LazyPage>} />
+        <Route path="/vs/checkatrade" element={<LazyPage><CompareCheckatradePage /></LazyPage>} />
+        <Route path="/my-link" element={<LazyPage><MyLinkPage /></LazyPage>} />
+        <Route path="/intake/:username" element={<LazyPage><IntakePage /></LazyPage>} />
+        <Route path="/intake-test" element={<LazyPage><IntakeTestPage /></LazyPage>} />
+        <Route path="/leads" element={<LazyPage><LeadListPage /></LazyPage>} />
+        <Route path="/leads/:id" element={<LazyPage><LeadDetailPage /></LazyPage>} />
+        <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />
+        <Route path="/chase" element={<LazyPage><ChaseEnginePage /></LazyPage>} />
+        <Route path="/win" element={<LazyPage><WinEnginePage /></LazyPage>} />
+        <Route path="/dashboard" element={<LazyPage><DashboardPage /></LazyPage>} />
+        <Route path="/for-your-trade" element={<LazyPage><ForYourTradePage /></LazyPage>} />
+        <Route path="/epc" element={<LazyPage><EpcPage /></LazyPage>} />
+        <Route path="/free-tools" element={<LazyPage><FreeToolsPage /></LazyPage>} />
+        <Route path="/tips" element={<LazyPage><TipsPage /></LazyPage>} />
+        <Route path="/news" element={<LazyPage><NewsPage /></LazyPage>} />
+        <Route path="/pricing" element={<LazyPage><PricingPage /></LazyPage>} />
+        <Route path="/smart-quote" element={<LazyPage><SmartQuotePage /></LazyPage>} />
+        <Route path="/vantage" element={<LazyPage><ProductAdvantagePage type="vantage" /></LazyPage>} />
+        <Route path="/vicinity" element={<LazyPage><ProductAdvantagePage type="vicinity" /></LazyPage>} />
+        <Route path="/codex" element={<LazyPage><ProductAdvantagePage type="codex" /></LazyPage>} />
+        <Route path="/signals" element={<LazyPage><SignalsPage /></LazyPage>} />
+        <Route path="/tradiestack" element={<LazyPage><TradieStackPage /></LazyPage>} />
+        <Route path="/construction-leads/birmingham" element={<LazyPage><CityBirmingham /></LazyPage>} />
+        <Route path="/construction-leads/london" element={<LazyPage><CityLondon /></LazyPage>} />
+        <Route path="/construction-leads/manchester" element={<LazyPage><CityManchester /></LazyPage>} />
+        <Route path="/construction-leads/bristol" element={<LazyPage><CityBristol /></LazyPage>} />
+        <Route path="/construction-leads/leeds" element={<LazyPage><CityLeeds /></LazyPage>} />
+        <Route path="/construction-leads/glasgow" element={<LazyPage><CityGlasgow /></LazyPage>} />
+        <Route path="/trade/plumbers" element={<LazyPage><TradePlumbers /></LazyPage>} />
+        <Route path="/trade/electricians" element={<LazyPage><TradeElectricians /></LazyPage>} />
+        <Route path="/trade/builders" element={<LazyPage><TradeBuilders /></LazyPage>} />
+        <Route path="/trade/heat-pump-installers" element={<LazyPage><TradeHeatPumps /></LazyPage>} />
+        <Route path="/trade/roofers" element={<LazyPage><TradeRoofers /></LazyPage>} />
+        <Route path="/privacy" element={<LazyPage><LegalPage type="privacy" /></LazyPage>} />
+        <Route path="/terms" element={<LazyPage><LegalPage type="terms" /></LazyPage>} />
         <Route path="/health" element={<HealthPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<LazyPage><NotFoundPage /></LazyPage>} />
       </Routes>
       <Footer />
       <LaunchWaitlistModal />
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <AppContent />
+    </ErrorBoundary>
   );
 }
 

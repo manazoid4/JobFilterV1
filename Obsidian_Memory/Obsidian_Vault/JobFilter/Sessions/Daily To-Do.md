@@ -8,7 +8,16 @@
 - [x] Unlock lead engine for testing (remove toFreePreviewLead gating)
 - [x] Run scenarios S3, S5, S14 — see [[Launch Scenarios]]
 - [x] Clean Obsidian vault (Recent.md, Learnings.md, Rolling Launch Summary, Vault Map)
-- [ ] Add root ErrorBoundary to App.tsx
+- [x] Add root ErrorBoundary to App.tsx
+  - Created `ErrorBoundary.tsx` — catches React errors, shows friendly message, reload + report buttons
+  - Created `api.ts` — centralized API client with error handling (network, 404, 500, rate limits)
+  - Created `Toast.tsx` — toast notifications for API errors (no console errors)
+  - Created `Skeleton.tsx` — reusable skeleton loaders for cards, pricing, pages
+  - Created `NotFoundPage.tsx` — friendly 404 with brutalist yellow design + navigation links
+  - Code-split all non-critical pages (lazy loading) — 39 separate chunks
+  - Added missing CSS variables (`--paper`, `--offwhite`, `--rule`, `--yellow-2`)
+  - Added `@types/react` and `@types/react-dom` to fix type errors
+  - Every error has recovery path (reload, report, navigate)
 - [ ] Wire Stripe Checkout (Founding 30 + Pro)
 - [ ] Confirm Twilio env vars in Firebase console
 - [ ] Add "cold outreach needed" flag for planning-only leads (S14 gap)
