@@ -90,10 +90,28 @@
 - Honest comparisons, 12-row tables, five signals breakdown, WhatsApp delivery section
 - Vault doc: `Product/Comparison Pages.md`
 
+#### 13. JobFilter — Stripe Checkout (COMPLETED)
+- Created `functions/stripe.ts` + `server/routes/stripe.ts` — checkout session + webhook handler
+- Created `src/components/CheckoutButton.tsx` — triggers Stripe Checkout
+- Updated PricingPage with monthly/annual toggle, real checkout buttons, dynamic pricing
+- Founding 30 slot enforcement (409 if full)
+- Webhook signature verification, payment status updates in Firestore
+- Test mode only — needs `STRIPE_PUBLISHABLE_KEY` + `STRIPE_WEBHOOK_SECRET` in env
+
+#### 14. JobFilter — Free Tools Expansion (COMPLETED)
+- Rewrote FreeToolsPage as hub with 6 tool cards, click-to-expand
+- "3 free scans remaining" counter in hero
+- Email capture modal on 3rd scan (name, trade, email for 3 more free scans)
+- Paywall section when limit hit without email capture
+- Every tool result has CTAs to /pricing, /find-jobs
+- Profit check colour-coded (red/green)
+- localStorage scan tracking
+
 ### Pushed to GitHub
 - Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
 - Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
 - Commit 3: `45ada60` — 14 files changed, 1,354 insertions
+- Commit 4: `d668c41` — 12 files changed, 1,238 insertions
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
@@ -103,14 +121,14 @@
 - Triple Engine now complete: Find → Chase → Win — all built and working
 
 ### Next Loop Priorities
-1. Stripe checkout integration (Founding 30 + Pro) — revenue
-2. Twilio WhatsApp key setup — make Chase/Win engines live
-3. Free tools expansion — lead magnet for signup conversion
+1. Twilio WhatsApp key setup — make Chase/Win engines live (needs `TWILIO_ACCOUNT_SID` + `TWILIO_AUTH_TOKEN`)
+2. Stripe live keys + webhook deployment — activate checkout
+3. Root ErrorBoundary for App.tsx (stability)
 4. AgentDock MVP: ServiceNow connector + Review Gate + audit log
 5. Land Registry signal integration (already in vault — not yet built)
 6. Companies House signal (built, key-gated — needs API key)
 7. Weekly trade-signal feed logic (SEO + engagement)
-8. Root ErrorBoundary for App.tsx (stability)
+8. PlanWire integration (fresh planning alerts + webhooks)
 
 ### Rule
 - Every feature must fit into Triple Engine: Find → Chase → Win
