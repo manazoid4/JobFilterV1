@@ -1,6 +1,14 @@
 import { BuildUkAlternativePage } from './pages/BuildUkAlternativePage';
+import { CityBirmingham } from './pages/CityBirmingham';
+import { CityBristol } from './pages/CityBristol';
+import { CityGlasgow } from './pages/CityGlasgow';
+import { CityLeeds } from './pages/CityLeeds';
+import { CityLondon } from './pages/CityLondon';
+import { CityManchester } from './pages/CityManchester';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ChaseEnginePage } from './pages/ChaseEnginePage';
+import { CompareBuildAlertPage } from './pages/CompareBuildAlertPage';
+import { CompareCheckatradePage } from './pages/CompareCheckatradePage';
 import { Footer } from './components/Footer';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { TopNav } from './components/TopNav';
@@ -30,6 +38,8 @@ export default function App() {
       <TopNav />
       <Routes>
         <Route path="/2builduk-alternative" element={<BuildUkAlternativePage />} />
+        <Route path="/vs/buildalert" element={<CompareBuildAlertPage />} />
+        <Route path="/vs/checkatrade" element={<CompareCheckatradePage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/my-link" element={<MyLinkPage />} />
         <Route path="/intake/:username" element={<IntakePage />} />
@@ -51,6 +61,12 @@ export default function App() {
         <Route path="/codex" element={<ProductAdvantagePage type="codex" />} />
         <Route path="/signals" element={<SignalsPage />} />
         <Route path="/tradiestack" element={<TradieStackPage />} />
+        <Route path="/construction-leads/birmingham" element={<CityBirmingham />} />
+        <Route path="/construction-leads/london" element={<CityLondon />} />
+        <Route path="/construction-leads/manchester" element={<CityManchester />} />
+        <Route path="/construction-leads/bristol" element={<CityBristol />} />
+        <Route path="/construction-leads/leeds" element={<CityLeeds />} />
+        <Route path="/construction-leads/glasgow" element={<CityGlasgow />} />
         <Route path="/privacy" element={<LegalPage type="privacy" />} />
         <Route path="/terms" element={<LegalPage type="terms" />} />
         <Route path="/health" element={<HealthPage />} />

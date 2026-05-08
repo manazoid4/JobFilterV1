@@ -47,23 +47,50 @@
 - Implementation roadmap: POC 1-2 weeks, production 4-5 weeks
 
 ### Pushed to GitHub
-- Branch: fix/main-build → main
-- Commit: `33fbcae` — 85 files changed, 7,495 insertions
+- Commit 1: `33fbcae` — 85 files changed, 7,495 insertions
+- Commit 2: `ae04d90` — 22 files changed, 2,852 insertions
+
+#### 7. JobFilter — Chase Engine (COMPLETED)
+- Created `src/lib/chaseStore.ts` — localStorage persistence
+- Created `src/lib/chaseTemplates.ts` — 6 pre-written templates in tradesman language
+- Rewrote `src/components/ChaseStatus.tsx` — colour-coded stage badges
+- Created `src/pages/ChaseEnginePage.tsx` — board + list view, detail panel, template picker
+- Added `/chase` route + TopNav link
+- **Features**: Import leads, Kanban/List toggle, 3-touch escalation (2h→24h→48h), copy-to-clipboard WhatsApp templates, stats dashboard
+
+#### 8. JobFilter — Win Engine (COMPLETED)
+- Created `src/lib/winStore.ts` — full CRUD + monthly/yearly stats + review generator
+- Created `src/pages/WinEnginePage.tsx` — 4 tabs: Wins, Lost, Review Links, Trend
+- Updated `src/components/WinSummary.tsx` — uses winStore
+- Added `/win` route + TopNav link
+- **Features**: Monthly ROI dashboard, won job timeline, review link generator (Google/Checkatrade), lost job analysis (tap-to-select reason), 12-month trend chart, untracked detection
+
+#### 9. JobFilter — 2BuildUK Alternative Page (COMPLETED)
+- Created `src/pages/BuildUkAlternativePage.tsx` — route `/2builduk-alternative`
+- 10-row comparison table, 5 signals breakdown, scoring explainer, pricing cards
+- Purpose: Capture orphaned 2BuildUK customer base
+
+#### 10. khutba.io — Deep Research (COMPLETED)
+- Created `khutba.io/Competitor Intel - 8th May 2026.md` — MinbarLive deep dive, 6 market gaps, 12 monetization opportunities
+- Created `khutba.io/Research Briefs - 8th May 2026.md` — 10 strategic briefs
+- Added competitor files: MasjidBoard.md, Al-Mosque.md, Muslim Pro for Mosques.md
+- **Key finding**: Screen-first is the moat, unlimited minutes is pricing weapon, Ramadan is killer acquisition moment
 
 ### Key Decisions
 - JobFilter's 5 unfair advantages: WhatsApp push, multi-source scoring, no login needed, no per-action cost, EPC + contracts layer
 - AgentDock's wedge: ServiceNow complaint management, compliance-first, visibility-first
 - EPC Signal Engine positioned as £19/mo standalone (legal urgency + Warm Homes Plan)
 - Mobile fixes keep brutalist yellow design intact
+- Triple Engine now complete: Find → Chase → Win — all built and working
 
 ### Next Loop Priorities
-1. Implement Chase Engine (auto-nudge, templates, multi-touch) — highest-impact gap
-2. Implement Win Engine (review links, ROI tracking, won job summaries)
-3. Build 2BuildUK alternative landing page (orphaned customer acquisition)
-4. City SEO pages (Birmingham, London, Manchester, Bristol)
-5. Comparison pages (JobFilter vs BuildAlert, vs Checkatrade)
-6. AgentDock MVP: ServiceNow connector + Review Gate + audit log
-7. khutba.io research (MinbarLive competitor analysis)
+1. City SEO pages (Birmingham, London, Manchester, Bristol) — organic growth
+2. Comparison pages (JobFilter vs BuildAlert, vs Checkatrade) — capture comparison traffic
+3. Stripe checkout integration (Founding 30 + Pro) — revenue
+4. AgentDock MVP: ServiceNow connector + Review Gate + audit log
+5. Twilio WhatsApp key setup — make Chase/Win engines live
+6. BuildAlert comparison page (they're the closest direct competitor)
+7. Free tools expansion — lead magnet for signup conversion
 
 ### Rule
 - Every feature must fit into Triple Engine: Find → Chase → Win
