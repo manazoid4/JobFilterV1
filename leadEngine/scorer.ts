@@ -138,6 +138,30 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
   }
 
+  // Freshness decay — older leads lose score
+  const publishedMs = lead.published ? new Date(lead.published).getTime() : 0;
+  if (publishedMs > 0) {
+    const ageDays = (Date.now() - publishedMs) / 86_400_000;
+    if (ageDays <= 3) {
+      score += 5;
+      reasons.push(`Fresh lead ${Math.round(ageDays)}d old (+5)`);
+    } else if (ageDays <= 7) {
+      reasons.push(`Lead ${Math.round(ageDays)}d old — still fresh (+0)`);
+    } else if (ageDays <= 14) {
+      const penalty = Math.round((ageDays - 7) * 1.5);
+      score -= penalty;
+      reasons.push(`Stale lead ${Math.round(ageDays)}d old (-${penalty})`);
+    } else if (ageDays <= 30) {
+      const penalty = Math.round(10 + (ageDays - 14) * 0.8);
+      score -= penalty;
+      reasons.push(`Old lead ${Math.round(ageDays)}d old (-${penalty})`);
+    } else {
+      const penalty = Math.min(25, 20 + Math.round((ageDays - 30) * 0.3));
+      score -= penalty;
+      reasons.push(`Very old lead ${Math.round(ageDays)}d old (-${penalty})`);
+    }
+  }
+
   return { score: Math.min(Math.max(score, 0), 100), reasons };
 }
 

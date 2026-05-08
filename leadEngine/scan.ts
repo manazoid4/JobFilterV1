@@ -23,6 +23,8 @@ import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher';
 import { pcsS2wFetcher } from './fetchers/pcsS2wFetcher';
 import { epcFetcher } from './fetchers/epcFetcher';
 import { landRegistryFetcher } from './fetchers/landRegistryFetcher';
+import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher';
+import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher';
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 
@@ -59,6 +61,14 @@ export const SOURCE_ENDPOINTS: Record<string, string[]> = {
     'CSV  https://publishing.prh.gov.uk/price-paid-data  (monthly Price Paid Data download)',
     'Open data — no API key needed. CSV parsed locally, filtered by outward postcode.',
   ],
+  CharityCommission: [
+    'GET  https://register-of-charities.charitycommission.gov.uk  (new charity registrations)',
+    'Public register — new charities signal premises setup, renovation, adaptation work.',
+  ],
+  ForestryCommission: [
+    'GET  https://www.gov.uk/guidance/tree-felling-licence-when-you-need-to-apply  (felling licence applications)',
+    'Public register — tree clearance signals for landscapers, groundworkers, fencing contractors.',
+  ],
 };
 
 export interface ScanOptions {
@@ -77,7 +87,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
-  const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult] = await Promise.allSettled([
+  const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult, ccResult, fcResult] = await Promise.allSettled([
     CONFIG.sources.contractsFinder || CONFIG.sources.fts
       ? contractsFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
@@ -96,6 +106,12 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     CONFIG.sources.landRegistry
       ? landRegistryFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['LandRegistry'])),
+    CONFIG.sources.charityCommission
+      ? charityCommissionFetcher(outward, cleanTrade)
+      : Promise.resolve(disabledSources(['CharityCommission'])),
+    CONFIG.sources.forestryCommission
+      ? forestryCommissionFetcher(outward, cleanTrade)
+      : Promise.resolve(disabledSources(['ForestryCommission'])),
   ]);
 
   const dirResult = directorySignalFetcher(region, cleanTrade, outward); // sync
@@ -108,6 +124,8 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     ...(pcsResult.status === 'fulfilled' ? pcsResult.value.leads : []),
     ...(epcResult.status === 'fulfilled' ? epcResult.value.leads : []),
     ...(lrResult.status === 'fulfilled' ? lrResult.value.leads : []),
+    ...(ccResult.status === 'fulfilled' ? ccResult.value.leads : []),
+    ...(fcResult.status === 'fulfilled' ? fcResult.value.leads : []),
     ...dirResult.leads,
   ];
 
@@ -151,19 +169,38 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     mergedStats['LandRegistry'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'LandRegistry settled as rejected' };
   }
 
+  if (ccResult.status === 'fulfilled') {
+    Object.assign(mergedStats, ccResult.value.stats);
+  } else {
+    mergedStats['CharityCommission'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'CharityCommission settled as rejected' };
+  }
+
+  if (fcResult.status === 'fulfilled') {
+    Object.assign(mergedStats, fcResult.value.stats);
+  } else {
+    mergedStats['ForestryCommission'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'ForestryCommission settled as rejected' };
+  }
+
   Object.assign(mergedStats, dirResult.stats);
 
   // 4. Normalise
   const normalised: Lead[] = normaliseAll(allRaw, cleanTrade);
 
-  // 5. Deduplicate by id
-  const seen = new Set<string>();
+  // 5. Deduplicate — exact ID match + fuzzy title+postcode match
+  const seenIds = new Set<string>();
+  const seenSignatures: string[] = [];
   const unique: Lead[] = [];
   for (const lead of normalised) {
-    if (!seen.has(lead.id)) {
-      seen.add(lead.id);
-      unique.push(lead);
-    }
+    if (seenIds.has(lead.id)) continue;
+
+    // Fuzzy dedup: normalise title + outward postcode into a signature
+    const sig = `${lead.title?.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim()}|${lead.postcodeOutward?.toUpperCase() ?? ''}`;
+    const isDuplicate = seenSignatures.some(existing => signatureOverlap(existing, sig));
+    if (isDuplicate) continue;
+
+    seenIds.add(lead.id);
+    seenSignatures.push(sig);
+    unique.push(lead);
   }
 
   // 6. Score, update stats.passed, rank
@@ -230,6 +267,32 @@ function disabledSources(names: string[]): { leads: RawLead[]; stats: Record<str
     stats[name] = { fetched: 0, passed: 0, dropped: 0, failed: false };
   }
   return { leads: [], stats };
+}
+
+// Fuzzy dedup: returns true if two signatures overlap enough to be the same lead
+// Signature format: "normalised title|OUTWARD"
+function signatureOverlap(a: string, b: string): boolean {
+  if (a === b) return true;
+  const [titleA, pcA] = a.split('|');
+  const [titleB, pcB] = b.split('|');
+
+  // Same outward postcode + significant title overlap
+  if (pcA && pcA === pcB) {
+    const wordsA = titleA.split(' ').filter(w => w.length > 2);
+    const wordsB = titleB.split(' ').filter(w => w.length > 2);
+    if (wordsA.length === 0 || wordsB.length === 0) return false;
+    const shared = wordsA.filter(w => wordsB.includes(w)).length;
+    const overlapRatio = shared / Math.min(wordsA.length, wordsB.length);
+    return overlapRatio >= 0.5;
+  }
+
+  // No postcode match — require near-identical titles
+  const wordsA = titleA.split(' ').filter(w => w.length > 2);
+  const wordsB = titleB.split(' ').filter(w => w.length > 2);
+  if (wordsA.length === 0 || wordsB.length === 0) return false;
+  const shared = wordsA.filter(w => wordsB.includes(w)).length;
+  const overlapRatio = shared / Math.min(wordsA.length, wordsB.length);
+  return overlapRatio >= 0.75;
 }
 
 // ── CLI runner ────────────────────────────────────────────────────────────────
