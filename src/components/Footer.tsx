@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FeedbackPrompt } from './FeedbackPrompt';
 
 export function Footer() {
   return (
@@ -14,6 +15,10 @@ export function Footer() {
             <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE</Link>
             <Link to="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PRICING</Link>
           </div>
+        </div>
+
+        <div className="mb-12">
+          <FeedbackPrompt compact />
         </div>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">

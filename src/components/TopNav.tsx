@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/find-jobs', label: 'Scan Area' },
-  { to: '/territories', label: 'Territories' },
+  { to: '/find-jobs', label: 'Scan' },
+  { to: '/territories', label: 'PatchLock' },
   { to: '/signals', label: 'Signals' },
   { to: '/dashboard', label: 'Pipeline' },
-  { to: '/post-job', label: 'Post A Job' },
-  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/post-job', label: 'Post Job' },
+  { to: '/free-tools', label: 'Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
@@ -26,23 +26,23 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-[var(--paper)] text-[var(--ink)]">
-      <div className="ops-strip hidden border-b-2 border-[var(--line)] px-4 py-1 text-center text-xs font-black uppercase tracking-[0.12em] text-[var(--ink)] sm:block">
+      <div className="ops-strip hidden border-b-2 border-[var(--line)] px-4 py-1 text-center text-xs font-black uppercase tracking-[0.08em] text-[var(--ink)] sm:block">
         Founding patches now opening - one dominant trade partner per area
       </div>
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
-        <NavLink to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
+        <NavLink to="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}>
           <img
-            className="h-9 w-9 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[4px_4px_0_var(--line)]"
+            className="h-8 w-8 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[3px_3px_0_var(--line)] sm:h-9 sm:w-9"
             src="/union-flag.svg"
             alt="JobFilter logo"
           />
-          <span className="headline text-2xl sm:text-3xl tracking-normal">JOBFILTER</span>
-          <span className="hidden border-l-2 border-[var(--line)] pl-3 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--muted)] md:block">
+          <span className="headline text-2xl tracking-normal sm:text-3xl">JOBFILTER</span>
+          <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
             Construction Intelligence
           </span>
         </NavLink>
 
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
           {links.map((link) => {
             return (
                 <NavLink
@@ -58,9 +58,9 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="hidden xl:flex items-center gap-3">
+        <div className="hidden shrink-0 items-center gap-2 xl:flex">
           {foundingSlots !== null && foundingSlots <= 30 && (
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 2xl:flex">
               <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
               </span>
@@ -69,8 +69,8 @@ export function TopNav() {
               </span>
             </div>
           )}
-          <NavLink to="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
-            CLAIM YOUR PATCH
+          <NavLink to="/territories" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+            CLAIM PATCH
           </NavLink>
         </div>
 
@@ -100,7 +100,7 @@ export function TopNav() {
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
-              <span className="text-sm font-black text-[var(--green)]">
+              <span className="text-sm font-black text-[var(--ink)]">
                 PatchLock: {foundingSlots} founder slots left - £39/mo
               </span>
               <div className="mt-2 h-2 w-full overflow-hidden border border-[var(--orange)] bg-[var(--orange)]/10">

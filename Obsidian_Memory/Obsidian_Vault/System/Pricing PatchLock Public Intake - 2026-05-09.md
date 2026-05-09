@@ -72,3 +72,31 @@ GitHub remains the deployment/history source. Obsidian is the product memory sou
 - `npm run lint` passed.
 - `npm run build` passed.
 - Local route checks returned 200 for `/pricing`, `/post-job`, `/territories`, `/tradiestack`, and `/activation-pending`.
+
+## 2026-05-09 Feedback, Nav, Signals Patch
+
+- Added visible feedback prompts to homepage, pricing, and footer.
+- Feedback message: JobFilter is not a detached tech company; we want tradesmen to tell us what wastes time, what leads are rubbish, and what would make the product worth paying for.
+- Feedback action is one-click email to `contact@jobfilter.uk` with a prefilled structure:
+  - trade
+  - area
+  - biggest problem
+  - what would make JobFilter worth paying for
+  - optional phone number for reply
+- Top navigation issue fixed:
+  - shortened labels to reduce crowding
+  - prevented desktop nav words from wrapping/breaking
+  - tightened brand spacing
+  - hid secondary strapline until wide screens
+  - changed mobile founder slot text away from green
+- Signals page expanded from five to ten signal classes:
+  - HMO licensing
+  - building control
+  - auction property
+  - insolvency / void works
+  - retrofit grants
+- Added visible notes under expansion signals where manual/API setup is still needed so the product does not imply automation that is not wired yet.
+- Pricing page visual pass:
+  - reduced heavy bright-yellow usage
+  - kept yellow as accent/CTA colour
+  - improved Standard GBP 79/month card contrast so wording is readable

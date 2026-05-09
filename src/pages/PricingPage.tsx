@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { WaitlistForm } from '../components/WaitlistForm';
+import { FeedbackPrompt } from '../components/FeedbackPrompt';
 
 const plans = {
   founderMonthly: 39,
@@ -31,7 +32,7 @@ export function PricingPage() {
     <main className="page-shell grid gap-6 py-8 pb-16">
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
-        <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-[var(--yellow)] md:text-8xl">
+        <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
           STANDARD PRICE IS £79/MO. FOUNDERS PAY £39/MO.
         </h1>
         <p className="mt-5 max-w-3xl text-xl font-black text-white/78">
@@ -48,6 +49,8 @@ export function PricingPage() {
           <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">SCAN FIRST</Link>
         </div>
       </section>
+
+      <FeedbackPrompt />
 
       <section className="grid gap-4 lg:grid-cols-3">
         <PlanCard
@@ -71,12 +74,12 @@ export function PricingPage() {
           body="The normal price after founder slots are gone."
           items={included}
           dark
-          cta={<CheckoutButton tier="pro" billing="monthly" label="JOIN STANDARD" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="pro" billing="monthly" label="JOIN STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}
         />
       </section>
 
-      <section className="ops-panel bg-[var(--yellow)] p-7">
-        <p className="micro-label text-[var(--ink)]">THE LETTER ADVANTAGE</p>
+      <section className="ops-panel bg-white p-7">
+        <p className="micro-label text-[var(--orange)]">THE LETTER ADVANTAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">WE DO NOT JUST SEND YOU A LEAD. WE HELP YOU APPROACH IT PROPERLY.</h2>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
           {[
@@ -124,10 +127,10 @@ export function PricingPage() {
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
-        <div className="ops-panel bg-[var(--yellow)] p-6">
-          <p className="micro-label text-[var(--ink)]">PATCHLOCK</p>
+        <div className="ops-panel bg-[var(--steel)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">PATCHLOCK</p>
           <h2 className="headline mt-3 text-5xl leading-none">Claim first look in your trade area.</h2>
-          <p className="mt-4 text-lg font-black text-[var(--ink)]/75">
+          <p className="mt-4 text-lg font-black text-white/72">
             PatchLock is not an advert slot. It is priority routing for scored jobs in one trade and postcode cluster. If your patch is valuable, do not leave it open.
           </p>
         </div>
@@ -139,7 +142,7 @@ export function PricingPage() {
 
 function PriceStat({ label, value, note, hot = false }: { label: string; value: string; note: string; hot?: boolean }) {
   return (
-    <div className={`border-2 p-4 ${hot ? 'border-[var(--yellow)] bg-[var(--yellow)] text-[var(--ink)]' : 'border-white/25 bg-white/8 text-white'}`}>
+    <div className={`border-2 p-4 ${hot ? 'border-[var(--yellow)] bg-white text-[var(--ink)]' : 'border-white/25 bg-white/8 text-white'}`}>
       <p className="text-xs font-black uppercase tracking-[0.08em]">{label}</p>
       <p className="headline mt-1 text-4xl">{value}</p>
       <p className="text-sm font-black opacity-75">{note}</p>
@@ -159,11 +162,11 @@ function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
   return (
     <section className={`ops-panel relative p-6 ${dark ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)]'}`}>
       {highlight && <span className="absolute -top-3 left-5 border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)]">{highlight}</span>}
-      <p className="micro-label text-[var(--orange)]">{title}</p>
-      <h2 className={`headline mt-3 text-5xl ${dark ? 'text-[var(--yellow)]' : ''}`}>{price}</h2>
-      <p className={`mt-3 font-black ${dark ? 'text-white/72' : 'text-[var(--muted)]'}`}>{body}</p>
+      <p className={`micro-label ${dark ? 'text-[var(--yellow)]' : 'text-[var(--orange)]'}`}>{title}</p>
+      <h2 className={`headline mt-3 text-5xl ${dark ? 'text-white' : ''}`}>{price}</h2>
+      <p className={`mt-3 font-black ${dark ? 'text-white' : 'text-[var(--muted)]'}`}>{body}</p>
       <ul className="mt-5 grid gap-2">
-        {items.map((item) => <li key={item} className="font-black">✓ {item}</li>)}
+        {items.map((item) => <li key={item} className={`font-black ${dark ? 'text-white' : ''}`}>✓ {item}</li>)}
       </ul>
       {cta}
     </section>

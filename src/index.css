@@ -255,19 +255,21 @@ select {
 /* ── NAVIGATION ─────────────────────────────────────── */
 
 .nav-link {
-  padding: 8px 10px;
+  padding: 8px 9px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--navy);
   border-radius: 0;
-  white-space: normal;
+  white-space: nowrap;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
   transition: background 0.12s;
+  overflow-wrap: normal;
+  text-wrap: nowrap;
 }
 
 .nav-link:hover { background: var(--offwhite); }
