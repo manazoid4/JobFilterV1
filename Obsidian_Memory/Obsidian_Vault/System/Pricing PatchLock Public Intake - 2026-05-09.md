@@ -100,3 +100,12 @@ GitHub remains the deployment/history source. Obsidian is the product memory sou
   - reduced heavy bright-yellow usage
   - kept yellow as accent/CTA colour
   - improved Standard GBP 79/month card contrast so wording is readable
+
+## 2026-05-09 Pricing Visibility Fix
+
+- User reported pricing text was hard to read against white sections.
+- Site-wide muted text token was darkened to improve readability across cards and supporting copy.
+- Pricing page cards and support panels now use paper/off-white backgrounds instead of plain white where the contrast was too flat.
+- Feedback prompt background moved off pure white so the CTA and supporting text remain legible.
+- Shared list/status components also had weak inactive-state contrast, so `LeadCard` and `ChaseStatus` now use the paper/ink pair instead of pale gray-on-white.
+- Public job intake copy was cleaned up to remove the awkward “why trades want this” framing and replace it with plain “what happens next” wording that still signals trade value.

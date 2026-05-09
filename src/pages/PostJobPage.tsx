@@ -40,11 +40,11 @@ export function PostJobPage() {
             </p>
           </div>
           <div className="ops-panel bg-white p-5 text-[var(--ink)]">
-            <p className="micro-label text-[var(--orange)]">WHY TRADES WANT THIS</p>
+            <p className="micro-label text-[var(--orange)]">WHAT HAPPENS NEXT</p>
             <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
-              <p>Public job intake creates cleaner repeat demand, not recycled directory enquiries.</p>
-              <p>Every submitted job is another owned JobFilter lead we can route, score, and monetise.</p>
-              <p>Trades can add first-month local campaigns to bring more homeowners into their patch.</p>
+              <p>We review the job and send it to a suitable local firm.</p>
+              <p>Clear details mean faster replies, better quotes, and less back-and-forth.</p>
+              <p>Trades can also add local campaigns to keep their patch busy with more repeat work.</p>
             </div>
           </div>
         </div>
@@ -64,8 +64,8 @@ export function PostJobPage() {
         <aside className="grid gap-4">
           {[
             ['No public bidding war', 'We do not make you fight through dozens of calls. The job gets checked and routed.'],
-            ['Better for trades', 'Serious job details mean less wasted quoting and better first conversations.'],
-            ['Extra demand engine', 'PatchLock firms can fund local sticker, leaflet, letter and neighbour campaigns in month one.'],
+            ['Better matching', 'Serious job details mean less wasted quoting and better first conversations.'],
+            ['More local demand', 'PatchLock firms can fund local sticker, leaflet, letter and neighbour campaigns in month one.'],
           ].map(([title, body]) => (
             <article key={title} className="ops-panel bg-white p-5">
               <h2 className="headline text-3xl">{title}</h2>

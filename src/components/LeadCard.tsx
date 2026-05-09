@@ -47,7 +47,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
   }
 
   const content = (
-    <article className="jf-box mobile-stack grid grid-cols-[auto_1fr] gap-4 bg-white p-4 sm:grid-cols-[auto_1fr]">
+    <article className="jf-box mobile-stack grid grid-cols-[auto_1fr] gap-4 bg-[var(--paper)] p-4 sm:grid-cols-[auto_1fr]">
       <ScoreBadge score={score} />
       <div className="min-w-0">
         <p className="micro-label text-[var(--muted)]">{meta ?? 'Decision'}</p>
@@ -70,8 +70,8 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
                 className={`min-h-[44px] border-2 px-2 py-1 text-[10px] font-black uppercase tracking-wide ${
                   status === value
                     ? 'bg-[var(--yellow)] border-[var(--ink)] text-[var(--ink)]'
-                    : 'bg-white border-[var(--line)] text-[var(--muted)]'
-                }`}
+                : 'bg-[var(--paper)] border-[var(--line)] text-[var(--ink)]'
+              }`}
               >
                 {label}
               </button>

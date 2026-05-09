@@ -27,7 +27,7 @@ export function ChaseStatus({ leadId, currentStage, onStageChange }: { leadId: s
           key={s.key}
           onClick={() => changeStage(s.key)}
           className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-wider border-2 border-[var(--ink)] ${
-            stage === s.key ? s.color : 'bg-white text-[var(--muted)]'
+            stage === s.key ? s.color : 'bg-[var(--paper)] text-[var(--ink)]'
           }`}
         >
           {s.label}

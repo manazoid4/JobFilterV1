@@ -7,7 +7,7 @@ const feedbackBody = encodeURIComponent(
 
 export function FeedbackPrompt({ compact = false }: { compact?: boolean }) {
   return (
-    <aside className={`ops-panel bg-white text-[var(--ink)] ${compact ? 'p-4' : 'p-5 md:p-6'}`}>
+    <aside className={`ops-panel bg-[var(--paper)] text-[var(--ink)] ${compact ? 'p-4' : 'p-5 md:p-6'}`}>
       <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
         <div>
           <p className="micro-label text-[var(--orange)]">TELL US STRAIGHT</p>
@@ -19,7 +19,7 @@ export function FeedbackPrompt({ compact = false }: { compact?: boolean }) {
           </p>
         </div>
         <a
-          className="jf-button bg-[var(--yellow)] text-[var(--ink)]"
+          className="jf-button bg-[var(--yellow)] text-[var(--ink)] shadow-[4px_4px_0_var(--line)]"
           href={`mailto:contact@jobfilter.uk?subject=${feedbackSubject}&body=${feedbackBody}`}
         >
           <Mail size={18} strokeWidth={3} />

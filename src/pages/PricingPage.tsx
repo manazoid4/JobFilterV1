@@ -29,7 +29,7 @@ const addOns = [
 
 export function PricingPage() {
   return (
-    <main className="page-shell grid gap-6 py-8 pb-16">
+    <main className="page-shell grid gap-6 py-8 pb-16 text-[var(--ink)]">
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
@@ -78,7 +78,7 @@ export function PricingPage() {
         />
       </section>
 
-      <section className="ops-panel bg-white p-7">
+      <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">THE LETTER ADVANTAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">WE DO NOT JUST SEND YOU A LEAD. WE HELP YOU APPROACH IT PROPERLY.</h2>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
@@ -87,7 +87,7 @@ export function PricingPage() {
             ['Branded as your firm', 'Your company name, trade, patch, phone and proof points go on the letter, not JobFilter branding.'],
             ['Included monthly', 'Selected Gold leads get letter copy and a WhatsApp-ready PDF included in the monthly price. Extra print/post packs are paid add-ons.'],
           ].map(([title, body]) => (
-            <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+            <article key={title} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5 shadow-[4px_4px_0_var(--line)]">
               <h3 className="headline text-2xl">{title}</h3>
               <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
             </article>
@@ -95,16 +95,16 @@ export function PricingPage() {
         </div>
       </section>
 
-      <section className="ops-panel bg-white p-7">
+      <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">ANNUAL DISCOUNTS</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">PAY YEARLY IF YOU WANT THE CHEAPEST PATCH.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
+          <div className="border-2 border-[var(--line)] bg-white p-5">
             <h3 className="headline text-3xl">Founder Annual</h3>
             <p className="headline mt-2 text-5xl text-[var(--ink)]">£390/yr</p>
             <p className="mt-2 font-black text-[var(--muted)]">Saves £78/year vs founder monthly. Effective £32.50/month.</p>
           </div>
-          <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
+          <div className="border-2 border-[var(--line)] bg-white p-5">
             <h3 className="headline text-3xl">Standard Annual</h3>
             <p className="headline mt-2 text-5xl text-[var(--ink)]">£790/yr</p>
             <p className="mt-2 font-black text-[var(--muted)]">Saves £158/year vs standard monthly. Effective £65.83/month.</p>
@@ -142,7 +142,7 @@ export function PricingPage() {
 
 function PriceStat({ label, value, note, hot = false }: { label: string; value: string; note: string; hot?: boolean }) {
   return (
-    <div className={`border-2 p-4 ${hot ? 'border-[var(--yellow)] bg-white text-[var(--ink)]' : 'border-white/25 bg-white/8 text-white'}`}>
+    <div className={`border-2 p-4 ${hot ? 'border-[var(--yellow)] bg-[var(--paper)] text-[var(--ink)]' : 'border-white/25 bg-white/8 text-white'}`}>
       <p className="text-xs font-black uppercase tracking-[0.08em]">{label}</p>
       <p className="headline mt-1 text-4xl">{value}</p>
       <p className="text-sm font-black opacity-75">{note}</p>
@@ -160,13 +160,13 @@ function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
   dark?: boolean;
 }) {
   return (
-    <section className={`ops-panel relative p-6 ${dark ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)]'}`}>
+    <section className={`ops-panel relative p-6 ${dark ? 'bg-[var(--ink)] text-white' : 'bg-[var(--paper)] text-[var(--ink)]'}`}>
       {highlight && <span className="absolute -top-3 left-5 border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)]">{highlight}</span>}
       <p className={`micro-label ${dark ? 'text-[var(--yellow)]' : 'text-[var(--orange)]'}`}>{title}</p>
       <h2 className={`headline mt-3 text-5xl ${dark ? 'text-white' : ''}`}>{price}</h2>
-      <p className={`mt-3 font-black ${dark ? 'text-white' : 'text-[var(--muted)]'}`}>{body}</p>
+      <p className={`mt-3 font-black ${dark ? 'text-white/90' : 'text-[var(--muted)]'}`}>{body}</p>
       <ul className="mt-5 grid gap-2">
-        {items.map((item) => <li key={item} className={`font-black ${dark ? 'text-white' : ''}`}>✓ {item}</li>)}
+        {items.map((item) => <li key={item} className={`font-black ${dark ? 'text-white' : 'text-[var(--ink)]'}`}>✓ {item}</li>)}
       </ul>
       {cta}
     </section>
