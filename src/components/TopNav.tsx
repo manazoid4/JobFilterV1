@@ -1,33 +1,25 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getChaseLeads } from '../lib/chaseStore';
-import { getMonthlyStats } from '../lib/winStore';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/chase', label: 'Chase' },
-  { to: '/win', label: 'Win' },
   { to: '/dashboard', label: 'Pipeline' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/signals', label: 'Signals' },
   { to: '/free-tools', label: 'Free Tools' },
 ];
 
-const mobileLinks = links.filter((l) => !['/find-jobs', '/chase', '/win'].includes(l.to));
+const mobileLinks = links.filter((l) => !['/find-jobs'].includes(l.to));
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
-  const [activeChaseCount, setActiveChaseCount] = useState(0);
-  const [monthlyWinCount, setMonthlyWinCount] = useState(0);
 
   useEffect(() => {
     fetch('/api/waitlist/count')
       .then((r) => r.json())
       .then((data) => setFoundingSlots(data.remaining ?? null))
       .catch(() => {});
-    setActiveChaseCount(getChaseLeads().filter((l) => l.stage !== 'won' && l.stage !== 'lost').length);
-    setMonthlyWinCount(getMonthlyStats().count);
   }, []);
 
   return (
@@ -44,9 +36,6 @@ export function TopNav() {
 
         <nav className="hidden xl:flex items-center gap-1">
           {links.map((link) => {
-            const isChase = link.to === '/chase';
-            const isWin = link.to === '/win';
-            const badge = isChase && activeChaseCount > 0 ? activeChaseCount : isWin && monthlyWinCount > 0 ? monthlyWinCount : null;
             return (
                 <NavLink
                   key={link.to}
@@ -56,11 +45,6 @@ export function TopNav() {
                   }
                 >
                 {link.label}
-                {badge !== null && (
-                  <span className="absolute -top-1 -right-2 h-4 min-w-4 rounded-full bg-[var(--yellow)] text-[var(--ink)] text-[9px] font-black flex items-center justify-center px-1">
-                    {badge}
-                  </span>
-                )}
               </NavLink>
             );
           })}
@@ -101,16 +85,9 @@ export function TopNav() {
               <p className="text-[10px] font-black text-[var(--muted)]">FIND</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </NavLink>
-            <NavLink to="/chase" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center relative">
-              <p className="text-[10px] font-black text-[var(--muted)]">CHASE</p>
-              <p className="text-base font-black text-[var(--ink)]">{activeChaseCount}</p>
-              {activeChaseCount > 0 && (
-                <span className="absolute top-1 right-1 h-3 w-3 rounded-full bg-[var(--yellow)]" />
-              )}
-            </NavLink>
-            <NavLink to="/win" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">WIN</p>
-              <p className="text-base font-black text-green-700">{monthlyWinCount}</p>
+            <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+              <p className="text-[10px] font-black text-[var(--muted)]">PIPELINE</p>
+              <p className="text-base font-black text-[var(--ink)]">VIEW</p>
             </NavLink>
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (

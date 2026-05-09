@@ -11,14 +11,10 @@
             "id": "7dae4a723363899e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "khutba.io/khutba.io Project Outline.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "khutba.io Project Outline"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -154,13 +150,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "khutba.io/khutba.io Project Outline.md",
                 "followCursor": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of khutba.io Project Outline"
+              "title": "Outline"
             }
           }
         ],
@@ -183,6 +178,7 @@
   },
   "active": "7dae4a723363899e",
   "lastOpenFiles": [
+    "khutba.io/khutba.io Project Outline.md",
     "JobFilter/System/Google Ads Cost Report - Competitor Alternatives - 8th May 2026.md",
     "khutba.io/khutba.io APIs.md",
     "khutba.io/Competitor Intel - 8th May 2026.md",
@@ -208,7 +204,6 @@
     "JobFilter/Product/Document Search Spec.md",
     "JobFilter/System/Trade Body Partnership Strategy - 8th May 2026.md",
     "AI Knowledge/Voice Control for OpenCode - 8th May 2026.md",
-    "JobFilter/Product/Free Tools Strategy.md",
     "AgentDock/System",
     "AgentDock/Sessions",
     "AgentDock/Prompts",

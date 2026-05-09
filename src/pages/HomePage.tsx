@@ -13,13 +13,13 @@ const whyGood = [
   'Private signals scored before they reach your phone',
   'Gold leads sent to WhatsApp within minutes',
   'Buyer, value, urgency, and proof in one place',
-  'You chase fewer jobs and win the work that pays',
+  'You track fewer jobs and close the work that pays',
 ];
 
 const steps = [
   { n: '01', title: 'Enter your postcode and trade', body: 'Tell us where you work and what you do. Takes 30 seconds.' },
   { n: '02', title: 'We scan official sources', body: 'Planning data, council contracts, EPC signals — scored before they reach you.' },
-  { n: '03', title: 'Gold leads hit your WhatsApp', body: 'Only the high-value jobs land. No noise, no chasing, no shared auctions.' },
+  { n: '03', title: 'Gold leads hit your WhatsApp', body: 'Only the high-value jobs land. No noise, no wasted calls, no shared auctions.' },
 ];
 
 const testimonials = [
@@ -435,30 +435,30 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── TRIPLE ENGINE ────────────────────────────── */}
+      {/* ── HOW IT WORKS ────────────────────────────── */}
       <section className="bg-[var(--ink)] text-white border-y-4 border-[var(--line)]">
         <div className="page-shell py-12">
-          <p className="micro-label text-[var(--yellow)]">TRIPLE ENGINE</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIND IT. CHASE IT. WIN IT.</h2>
+          <p className="micro-label text-[var(--yellow)]">HOW IT WORKS</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">SCAN. TRACK. CLOSE.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-white/75">
-            Three engines. One flow. Find the jobs before anyone else. Chase them automatically. Track every win and prove the value.
+            One flow. Three steps. Find the jobs before anyone else. Track them in your pipeline. Close the work and prove the value.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <Link to="/find-jobs" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
-              <p className="micro-label text-[var(--yellow)]">ENGINE 01</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">FIND</h3>
+              <p className="micro-label text-[var(--yellow)]">STEP 01</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">SCAN</h3>
               <p className="mt-2 font-black text-white/70">Scan official sources. Score every signal. Gold leads hit your WhatsApp.</p>
             </Link>
-            <Link to="/chase" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
-              <p className="micro-label text-[var(--yellow)]">ENGINE 02</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">CHASE</h3>
+            <div className="jf-box bg-white/10 p-6 block">
+              <p className="micro-label text-[var(--yellow)]">STEP 02</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">TRACK</h3>
               <p className="mt-2 font-black text-white/70">Auto-nudge cold leads. Three-touch follow-up. Pre-written in tradesman language.</p>
-            </Link>
-            <Link to="/win" className="jf-box bg-white/10 p-6 block hover:bg-white/15 transition">
-              <p className="micro-label text-[var(--yellow)]">ENGINE 03</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">WIN</h3>
+            </div>
+            <div className="jf-box bg-white/10 p-6 block">
+              <p className="micro-label text-[var(--yellow)]">STEP 03</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">CLOSE</h3>
               <p className="mt-2 font-black text-white/70">Track every win. See your ROI. Turn happy customers into reviews.</p>
-            </Link>
+            </div>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to="/dashboard" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">VIEW YOUR PIPELINE →</Link>

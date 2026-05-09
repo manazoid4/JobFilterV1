@@ -31,9 +31,9 @@ export function NotFoundPage() {
             <p className="micro-label text-[var(--green)]">PRICING</p>
             <p className="mt-2 font-black text-[var(--navy)]">From £6.99/week. No contracts.</p>
           </Link>
-          <Link to="/chase" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">CHASE ENGINE</p>
-            <p className="mt-2 font-black text-[var(--navy)]">Auto follow-up on leads</p>
+          <Link to="/dashboard" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
+            <p className="micro-label text-[var(--green)]">PIPELINE</p>
+            <p className="mt-2 font-black text-[var(--navy)]">Track your leads and results</p>
           </Link>
           <Link to="/signals" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
             <p className="micro-label text-[var(--green)]">SIGNALS</p>

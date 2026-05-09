@@ -5,7 +5,7 @@
   --bg-main: #F1F5F9;
   --ink: #0F172A;
   --navy: #0F172A;
-  --yellow: #D4A017;
+  --yellow: #B8860B;
   --green: #22C55E;
   --orange: #EF4444;
   --line: #1E293B;
@@ -124,7 +124,7 @@ select {
 .jf-box {
   border: 2px solid var(--navy);
   border-radius: 4px;
-  box-shadow: 8px 8px 0 var(--yellow);
+  box-shadow: 4px 4px 0 var(--yellow);
   background: var(--white);
   max-width: 100%;
   min-width: 0;
@@ -357,7 +357,7 @@ select {
   }
 
   .jf-box {
-    box-shadow: 5px 5px 0 var(--yellow);
+    box-shadow: 3px 3px 0 var(--yellow);
   }
 
   .top-scan {
@@ -410,7 +410,7 @@ select {
   .section-pad { padding-block: 36px; }
 
   .jf-box {
-    box-shadow: 4px 4px 0 var(--yellow);
+    box-shadow: 3px 3px 0 var(--yellow);
     padding: 1rem !important;
   }
 

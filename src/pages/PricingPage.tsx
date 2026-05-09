@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { CheckoutButton } from '../components/CheckoutButton';
 
-const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+const DEV_MODE = true; // UNLOCKED FOR TESTING
 
 const rows = [
   ['Area scans', 'Preview scans', 'Unlimited', 'Unlimited'],

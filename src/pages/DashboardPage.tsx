@@ -30,10 +30,10 @@ export function DashboardPage() {
     <main className="page-shell grid gap-6 py-8 pb-24">
       {/* Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">TRIPLE ENGINE</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">FIND → CHASE → WIN</h1>
+        <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
         <p className="mt-3 max-w-2xl font-black text-white/70">
-          One flow. Three engines. Find the jobs. Chase them down. Win the work. This is your pipeline at a glance.
+          Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
         </p>
       </section>
 
@@ -54,23 +54,23 @@ export function DashboardPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
           <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)]/20 transition">
-            <p className="micro-label text-[var(--muted)]">FIND ENGINE</p>
+            <p className="micro-label text-[var(--muted)]">SCAN</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">Find jobs worth pricing</p>
           </Link>
-          <Link to="/chase" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)]/20 transition relative">
-            <p className="micro-label text-[var(--muted)]">CHASE ENGINE</p>
+          <div className="block border-2 border-[var(--ink)] bg-white p-5 relative">
+            <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">leads being chased</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">leads tracked</p>
             {overdueCount > 0 && (
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
-          </Link>
-          <Link to="/win" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)]/20 transition">
-            <p className="micro-label text-[var(--muted)]">WIN ENGINE</p>
+          </div>
+          <div className="block border-2 border-[var(--ink)] bg-white p-5">
+            <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-green-700">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">won this month · £{monthlyStats.totalValue.toLocaleString()}</p>
-          </Link>
+          </div>
         </div>
       </section>
 
@@ -79,7 +79,7 @@ export function DashboardPage() {
         {/* Find Summary */}
         <section className="jf-box bg-white p-5">
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">FIND ENGINE</p>
+            <p className="micro-label text-[var(--muted)]">SCAN</p>
             <Link to="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
@@ -92,8 +92,7 @@ export function DashboardPage() {
         {/* Chase Summary */}
         <section className="jf-box bg-white p-5">
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">CHASE ENGINE</p>
-            <Link to="/chase" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
+            <p className="micro-label text-[var(--muted)]">TRACKING</p>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR PIPELINE</p>
           <div className="mt-4 grid gap-3 text-sm">
@@ -107,8 +106,7 @@ export function DashboardPage() {
         {/* Win Summary */}
         <section className="jf-box bg-white p-5">
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">WIN ENGINE</p>
-            <Link to="/win" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
+            <p className="micro-label text-[var(--muted)]">RESULTS</p>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR SCOREBOARD</p>
           <div className="mt-4 grid gap-3 text-sm">
@@ -125,12 +123,6 @@ export function DashboardPage() {
           <div className="mt-4 grid gap-3">
             <Link to="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
               SCAN FOR JOBS
-            </Link>
-            <Link to="/chase" className="jf-button w-full bg-white text-[var(--ink)] text-center">
-              CHECK CHASE ({activeChase} ACTIVE)
-            </Link>
-            <Link to="/win" className="jf-button w-full bg-[var(--green)] text-white text-center">
-              VIEW SCOREBOARD
             </Link>
           </div>
         </section>

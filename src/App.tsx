@@ -15,7 +15,7 @@ function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
 }
 
 const BuildUkAlternativePage = lazyPage(() => import('./pages/BuildUkAlternativePage'));
-const ChaseEnginePage = lazyPage(() => import('./pages/ChaseEnginePage'));
+// Removed ChaseEnginePage - integrated into Dashboard
 const CityBirmingham = lazyPage(() => import('./pages/CityBirmingham'));
 const CityBristol = lazyPage(() => import('./pages/CityBristol'));
 const CityGlasgow = lazyPage(() => import('./pages/CityGlasgow'));
@@ -50,7 +50,7 @@ const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
 const TradeHeatPumps = lazyPage(() => import('./pages/TradeHeatPumps'));
 const TradePlumbers = lazyPage(() => import('./pages/TradePlumbers'));
 const TradeRoofers = lazyPage(() => import('./pages/TradeRoofers'));
-const WinEnginePage = lazyPage(() => import('./pages/WinEnginePage'));
+// Removed WinEnginePage - integrated into Dashboard
 
 function PageLoader() {
   return (
@@ -94,8 +94,7 @@ function AppContent() {
         <Route path="/leads" element={<LazyPage><LeadListPage /></LazyPage>} />
         <Route path="/leads/:id" element={<LazyPage><LeadDetailPage /></LazyPage>} />
         <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />
-        <Route path="/chase" element={<LazyPage><ChaseEnginePage /></LazyPage>} />
-        <Route path="/win" element={<LazyPage><WinEnginePage /></LazyPage>} />
+        {/* Chase and Win routes removed - functionality integrated into /dashboard */}
         <Route path="/dashboard" element={<LazyPage><DashboardPage /></LazyPage>} />
         <Route path="/for-your-trade" element={<LazyPage><ForYourTradePage /></LazyPage>} />
         <Route path="/epc" element={<LazyPage><EpcPage /></LazyPage>} />

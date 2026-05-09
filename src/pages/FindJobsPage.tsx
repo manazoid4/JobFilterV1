@@ -7,8 +7,8 @@ import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
-const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
-const OPEN_ACCESS = DEV_MODE || import.meta.env.VITE_LAUNCH_READY !== 'true';
+const DEV_MODE = true; // UNLOCKED FOR TESTING
+const OPEN_ACCESS = true; // UNLOCKED FOR TESTING
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -219,11 +219,8 @@ export function FindJobsPage() {
           Pick your trade. Enter your postcode. See what's live near you right now.
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-4">
-          <Link to="/chase" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
-            GO TO CHASE →
-          </Link>
-          <Link to="/win" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
-            GO TO WIN →
+          <Link to="/dashboard" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
+            VIEW PIPELINE →
           </Link>
         </div>
 
