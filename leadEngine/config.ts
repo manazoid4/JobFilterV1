@@ -12,6 +12,8 @@ export interface LeadEngineConfig {
     sell2wales: boolean;
     publicContractsScotland: boolean;
     landRegistry: boolean;
+    charityCommission: boolean;
+    forestryCommission: boolean;
   };
   cpvAllowPrefixes: Record<TradeKey, string[]>;
   cpvBlockPrefixes: string[];
@@ -53,7 +55,75 @@ export const CONFIG: LeadEngineConfig = {
     landRegistry:             process.env.DEMO_MODE === 'true',       // disabled — real CSV parsing pending
     charityCommission:        process.env.DEMO_MODE === 'true',       // disabled — real API integration pending
     forestryCommission:       process.env.DEMO_MODE === 'true',       // disabled — real felling licence register pending
-  };
+  },
+
+  cpvAllowPrefixes: CPV_ALLOW,
+
+  // Block non-trade CPV top-level divisions (first 2 digits)
+  cpvBlockPrefixes: [
+    '60', '61', '62', '63', '64', '65', '66',
+    '70',
+    '71',
+    '72', '73', '74',
+    '75', '76',
+    '79',
+    '80', '81', '82', '83', '84', '85',
+    '90', '91', '92', '93', '94', '95', '96', '98',
+  ],
+
+  keywordAllow: [
+    'plumb', 'heating', 'boiler', 'hvac', 'ventilation', 'air condition',
+    'electrical', 'rewire', 'wiring', 'lighting', 'ev charger', 'solar',
+    'roof', 'roofing', 'flat roof', 'tile', 'gutter', 'fascia', 'soffit',
+    'building work', 'construction', 'refurb', 'renovation', 'extension', 'conversion',
+    'carpentry', 'joinery', 'floor', 'window', 'door fitting',
+    'paint', 'decorat', 'plaster', 'render',
+    'landscape', 'grounds maintenance', 'groundwork',
+    'repair', 'maintenance', 'install', 'fit out', 'fit-out',
+    'drain', 'sanitary', 'mechanical',
+  ],
+
+  keywordBlock: [
+    'software', 'saas', 'cloud hosting', 'it services', 'digital platform',
+    'consultancy only', 'advisory service', 'legal service', 'audit service',
+    'recruitment', 'staffing agency', 'marketing campaign', 'public relations',
+    'research study', 'data analytics platform', 'insurance brok',
+    'translation', 'catering supply', 'food supply',
+  ],
+
+  minValueByTrade: {
+    plumbing: 500,
+    electrical: 500,
+    roofing: 1_000,
+    building: 2_000,
+    carpentry: 500,
+    painting: 300,
+    hvac: 1_000,
+    landscaping: 500,
+    all: 500,
+  },
+
+  maxValueByTrade: {
+    plumbing: 5_000_000,
+    electrical: 3_000_000,
+    roofing: 5_000_000,
+    building: 50_000_000,
+    carpentry: 2_000_000,
+    painting: 2_000_000,
+    hvac: 10_000_000,
+    landscaping: 5_000_000,
+    all: 50_000_000,
+  },
+
+  minDeadlineDaysFromNow: 0,
+  maxDeadlineDaysFromNow: 180,
+
+  topN: 25,
+  freeTierLimit: 5,
+  fetchTimeoutMs: 9_000,
+  retryAttempts: 2,
+  lookbackDays: 14,
+};
 
 export const TRADE_KEYS: TradeKey[] = [
   'plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping', 'all',

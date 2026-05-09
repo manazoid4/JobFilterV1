@@ -94,7 +94,11 @@ export function LeadListPage() {
       ) : (
         <div className="flex flex-col gap-5">
           {visible.map((lead) => {
-            const urgencyColor = lead.urgency === 'high' ? 'bg-[var(--orange)] text-white' : lead.urgency === 'medium' ? 'bg-[var(--yellow)] text-[var(--navy)]' : 'bg-[var(--offwhite)] text-[var(--muted)]';
+            const urgencyColor = lead.urgency === 'Emergency'
+              ? 'bg-[var(--orange)] text-white'
+              : lead.urgency === 'This week'
+                ? 'bg-[var(--yellow)] text-[var(--navy)]'
+                : 'bg-[var(--offwhite)] text-[var(--muted)]';
             return (
               <div key={lead.id} className="jf-box bg-white">
                 {/* Card header */}

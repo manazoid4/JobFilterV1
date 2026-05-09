@@ -142,6 +142,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     contactSignal,
     status: 'new',
     description: raw.rawDescription?.substring(0, 300) ?? '',
+    publishedAt: published,
     deadlineAt: deadline,
     buyerName: raw.rawBuyer ?? '',
     cpvCodes,

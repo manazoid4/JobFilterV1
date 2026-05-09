@@ -17,7 +17,7 @@ const POPULAR_KEYWORDS = [
 ];
 
 interface KeywordSearchProps {
-  onSearch: (results: DocumentSearchResult[]) => void;
+  onSearch: (results: DocumentSearchResult[], query: string) => void;
   searchesRemaining?: number;
   isPro?: boolean;
 }
@@ -33,9 +33,10 @@ export function KeywordSearch({ onSearch, searchesRemaining = 3, isPro = false }
 
     setSearching(true);
     setHasSearched(true);
-    const results = await searchDocuments(keyword.trim());
+    const cleanKeyword = keyword.trim();
+    const results = await searchDocuments(cleanKeyword);
     setSearching(false);
-    onSearch(results);
+    onSearch(results, cleanKeyword);
   }, [isPro, searchesRemaining, onSearch]);
 
   const handleSubmit = (e: FormEvent) => {
@@ -57,7 +58,7 @@ export function KeywordSearch({ onSearch, searchesRemaining = 3, isPro = false }
       </p>
 
       {!isPro && (
-        <div className="mt-3 flex items-center gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="badge bg-[var(--yellow)] text-[var(--ink)] text-xs font-black">
             {searchesRemaining} FREE SEARCH{searchesRemaining !== 1 ? 'ES' : ''} LEFT
           </span>
@@ -73,7 +74,7 @@ export function KeywordSearch({ onSearch, searchesRemaining = 3, isPro = false }
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
+      <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2 sm:flex-row">
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -84,7 +85,7 @@ export function KeywordSearch({ onSearch, searchesRemaining = 3, isPro = false }
         <button
           type="submit"
           disabled={searching || !query.trim() || (!isPro && searchesRemaining <= 0)}
-          className="jf-button bg-[var(--navy)] text-white disabled:opacity-60 self-end"
+          className="jf-button bg-[var(--navy)] text-white disabled:opacity-60 sm:self-end sm:w-auto"
         >
           {searching ? 'SEARCHING...' : 'SEARCH'}
         </button>

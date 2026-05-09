@@ -86,9 +86,6 @@ export function HomePage() {
             <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
               Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
             </p>
-            <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
-              Real UK trade leads. No competing on price. No shared auctions. Just high-value construction signals delivered to your phone.
-            </p>
             <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
               <div className="flex items-center gap-2">
                 <span className="text-2xl font-black text-[var(--green)]">£6.99</span>
@@ -388,7 +385,7 @@ export function HomePage() {
                   textDecoration: 'none',
                 }}
               >
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
                     <span
                       className="inline-block px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
@@ -641,7 +638,7 @@ function WhatsAppPreview() {
           <span className="text-xs font-black text-[var(--green)]">JobFilter</span>
           <span className="text-xs text-white/40">14:32</span>
         </div>
-        <pre className="whitespace-pre-wrap text-white/90">
+        <pre className="whitespace-pre-wrap break-words text-xs text-white/90 sm:text-sm">
 {`GOLD LEAD — Electrical
 Area: B14 / West Midlands
 Value: £25k+

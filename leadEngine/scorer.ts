@@ -139,7 +139,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   }
 
   // Freshness decay — older leads lose score
-  const publishedMs = lead.published ? new Date(lead.published).getTime() : 0;
+  const publishedMs = lead.publishedAt ? new Date(lead.publishedAt).getTime() : 0;
   if (publishedMs > 0) {
     const ageDays = (Date.now() - publishedMs) / 86_400_000;
     if (ageDays <= 3) {

@@ -47,7 +47,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
   }
 
   const content = (
-    <article className="jf-box grid grid-cols-[auto_1fr] gap-4 bg-white p-4">
+    <article className="jf-box mobile-stack grid grid-cols-[auto_1fr] gap-4 bg-white p-4 sm:grid-cols-[auto_1fr]">
       <ScoreBadge score={score} />
       <div className="min-w-0">
         <p className="micro-label text-[var(--muted)]">{meta ?? 'Decision'}</p>

@@ -8,6 +8,7 @@ import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
+const OPEN_ACCESS = DEV_MODE || import.meta.env.VITE_LAUNCH_READY !== 'true';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -217,7 +218,7 @@ export function FindJobsPage() {
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
           Pick your trade. Enter your postcode. See what's live near you right now.
         </p>
-        <div className="mt-3 flex items-center gap-4">
+        <div className="mt-3 flex flex-wrap items-center gap-4">
           <Link to="/chase" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
             GO TO CHASE →
           </Link>
@@ -229,7 +230,7 @@ export function FindJobsPage() {
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
           <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — INSTANT SCAN</p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
                 key={preset.trade}
@@ -249,7 +250,7 @@ export function FindJobsPage() {
         </div>
 
         {/* Form — postcode + radius only (trade already selected above) */}
-        <form onSubmit={submit} className="mt-5 grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
+        <form onSubmit={submit} className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
@@ -323,7 +324,7 @@ export function FindJobsPage() {
 
       {/* ── DOCUMENT SEARCH ──────────────────────────── */}
       <section className="jf-box bg-white p-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
             <h2 className="headline mt-2 text-2xl leading-none sm:text-3xl">SEARCH PLANNING DOCS BY KEYWORD</h2>
@@ -334,7 +335,7 @@ export function FindJobsPage() {
           <button
             type="button"
             onClick={() => setShowDocSearch(!showDocSearch)}
-            className="jf-button bg-[var(--navy)] text-white text-sm shrink-0 ml-4"
+            className="jf-button bg-[var(--navy)] text-white text-sm shrink-0 sm:ml-4"
           >
             {showDocSearch ? 'HIDE' : 'OPEN SEARCH'}
           </button>
@@ -343,11 +344,12 @@ export function FindJobsPage() {
         {showDocSearch && (
           <div className="mt-5">
             <KeywordSearch
-              onSearch={(results) => {
+              onSearch={(results, query) => {
                 setDocSearchResults(results);
+                setDocSearchQuery(query);
               }}
               searchesRemaining={3}
-              isPro={false}
+              isPro={OPEN_ACCESS}
             />
           </div>
         )}
@@ -402,6 +404,14 @@ export function FindJobsPage() {
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">FULL ACCESS — TEST EVERYTHING</h2>
                   <p className="mt-2 max-w-2xl font-black text-white/80">
                     DEV_MODE is active. All locked fields, WhatsApp alerts, and paid features are fully unlocked for testing.
+                  </p>
+                </section>
+              ) : OPEN_ACCESS ? (
+                <section className="jf-box bg-[var(--green)] p-5">
+                  <p className="micro-label text-white">PRE-LAUNCH — OPEN ACCESS</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">SCAN, TRACK, AND TEST EVERYTHING</h2>
+                  <p className="mt-2 max-w-2xl font-black text-white/80">
+                    Launch gates are off until the product is ready. Set VITE_LAUNCH_READY=true to lock paid details for public release.
                   </p>
                 </section>
               ) : (
@@ -520,21 +530,29 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         <LockedValue label="Buyer" value={lead.buyer} />
         <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
         <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
-        {isTracked ? (
-          <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
-            TRACKING IN CHASE
-          </button>
+        {OPEN_ACCESS ? (
+          <>
+            {isTracked ? (
+              <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
+                TRACKING IN CHASE
+              </button>
+            ) : (
+              <button className="jf-button w-full bg-[var(--ink)] text-white text-xs" onClick={onTrack}>
+                TRACK THIS LEAD
+              </button>
+            )}
+            {isGold ? (
+              <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
+                {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
+              </button>
+            ) : (
+              <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
+            )}
+          </>
         ) : (
-          <button className="jf-button w-full bg-[var(--ink)] text-white text-xs" onClick={onTrack}>
-            TRACK THIS LEAD
-          </button>
-        )}
-        {isGold ? (
-          <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
-            {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
-          </button>
-        ) : (
-          <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
+          <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
+            UNLOCK FULL LEAD
+          </Link>
         )}
       </div>
     </article>

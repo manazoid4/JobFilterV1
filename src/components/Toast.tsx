@@ -65,7 +65,7 @@ export function ToastContainer({ toasts, dismiss }: { toasts: ToastMessage[]; di
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 grid gap-3 max-w-sm w-full pointer-events-none">
+    <div className="fixed inset-x-3 bottom-4 z-50 mx-auto grid w-auto max-w-sm gap-3 pointer-events-none sm:left-auto sm:right-4 sm:mx-0 sm:w-full">
       {toasts.map((t) => {
         const c = colors[t.type];
         return (

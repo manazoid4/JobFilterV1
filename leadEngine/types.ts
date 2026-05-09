@@ -18,6 +18,7 @@ export interface Lead {
   contactSignal: ContactSignal;
   status: LeadStatus;
   description?: string;
+  publishedAt?: string;
   deadlineAt?: string;
   buyerName?: string;
   cpvCodes?: string[];

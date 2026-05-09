@@ -81,18 +81,18 @@ export function PricingPage() {
         </p>
 
         {/* Weekly price — PRIMARY */}
-        <div className="mx-auto mt-6 inline-flex items-baseline gap-2 border-4 border-[var(--yellow)] bg-[var(--yellow)]/10 px-6 py-4">
+        <div className="phone-wrap mx-auto mt-6 inline-flex items-baseline gap-2 border-4 border-[var(--yellow)] bg-[var(--yellow)]/10 px-6 py-4">
           <span className="text-5xl font-black text-[var(--yellow)] md:text-6xl">£{foundingWeekly}</span>
           <span className="text-lg font-black text-[var(--yellow)]/80">/week</span>
-          <span className="ml-2 text-sm font-black text-white/50">({foundingPrice} billed {billing === 'annual' ? 'yearly' : 'monthly'})</span>
+          <span className="text-sm font-black text-white/50 sm:ml-2">({foundingPrice} billed {billing === 'annual' ? 'yearly' : 'monthly'})</span>
         </div>
 
         {/* 30-day guarantee */}
-        <div className="mx-auto mt-5 inline-flex items-center gap-2 border-2 border-[var(--green)] bg-[var(--green)]/10 px-5 py-3 text-sm font-black uppercase text-[var(--green)]">
+        <div className="phone-wrap mx-auto mt-5 inline-flex items-center gap-2 border-2 border-[var(--green)] bg-[var(--green)]/10 px-5 py-3 text-sm font-black uppercase text-[var(--green)]">
           30-DAY MONEY-BACK GUARANTEE — NO QUIBBLES, NO HOOPS
         </div>
 
-        <div className="mx-auto mt-4 inline-flex border-4 border-[var(--line)] bg-[var(--yellow)] px-6 py-4 text-center text-sm font-black uppercase text-[var(--ink)]">
+        <div className="phone-wrap mx-auto mt-4 inline-flex border-4 border-[var(--line)] bg-[var(--yellow)] px-6 py-4 text-center text-sm font-black uppercase text-[var(--ink)]">
           One avoided wasted evening covers the week.
         </div>
 
@@ -128,7 +128,7 @@ export function PricingPage() {
           </p>
         </div>
 
-        <div className="mt-6 inline-flex items-center gap-2 border-2 border-[var(--line)] p-1">
+        <div className="mt-6 grid w-full max-w-md grid-cols-1 gap-1 border-2 border-[var(--line)] p-1 sm:inline-grid sm:grid-cols-2">
           <button
             type="button"
             className={`rounded px-5 py-2 text-sm font-black uppercase transition ${billing === 'monthly' ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-white/60 hover:text-white'}`}
@@ -156,7 +156,12 @@ export function PricingPage() {
         )}
 
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-          <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#waitlist">GET WHATSAPP ALERTS</a>
+          <CheckoutButton
+            tier="founding"
+            billing={billing}
+            label={billing === 'annual' ? 'LOCK FOUNDING PRICE — £240/YR' : 'LOCK FOUNDING PRICE — £29/MO'}
+            className="bg-[var(--yellow)] text-[var(--ink)]"
+          />
           <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FIRST</Link>
         </div>
       </section>
@@ -208,21 +213,25 @@ export function PricingPage() {
       </section>
 
       {/* ── COMPARISON TABLE ─────────────────────────── */}
-      <section className="jf-box overflow-hidden bg-white">
-        <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
-          <p className="p-4">Feature</p>
-          <p className="p-4">Free</p>
-          <p className="p-4">Founding 30</p>
-          <p className="p-4">Pro</p>
-        </div>
-        {rows.map(([feature, free, founding, pro]) => (
-          <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
-            <p className="p-4 font-black">{feature}</p>
-            <p className="p-4 font-black text-[var(--muted)]">{free}</p>
-            <p className="p-4 font-black text-[var(--green)]">{founding}</p>
-            <p className="p-4 font-black">{pro}</p>
+      <section className="jf-box bg-white p-0">
+        <div className="mobile-scroll">
+          <div className="min-w-[640px]">
+            <div className="grid grid-cols-4 border-b-2 border-[var(--line)] bg-[var(--yellow)] text-sm font-black uppercase">
+              <p className="p-4">Feature</p>
+              <p className="p-4">Free</p>
+              <p className="p-4">Founding 30</p>
+              <p className="p-4">Pro</p>
+            </div>
+            {rows.map(([feature, free, founding, pro]) => (
+              <div key={feature} className="grid grid-cols-4 border-b-2 border-[var(--line)] last:border-b-0">
+                <p className="p-4 font-black">{feature}</p>
+                <p className="p-4 font-black text-[var(--muted)]">{free}</p>
+                <p className="p-4 font-black text-[var(--green)]">{founding}</p>
+                <p className="p-4 font-black">{pro}</p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </section>
 
       {/* ── COST PER JOB ─────────────────────────────── */}

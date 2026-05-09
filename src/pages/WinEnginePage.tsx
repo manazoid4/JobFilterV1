@@ -72,7 +72,7 @@ export function WinEnginePage() {
         </p>
       </section>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div className="jf-box bg-[var(--yellow)] p-5">
           <p className="text-xs font-black uppercase text-[var(--ink)]/60">JOBS WON</p>
           <p className="headline text-4xl mt-1">{monthlyStats.count}</p>
@@ -80,7 +80,7 @@ export function WinEnginePage() {
         </div>
         <div className="jf-box bg-[var(--yellow)] p-5">
           <p className="text-xs font-black uppercase text-[var(--ink)]/60">VALUE WON</p>
-          <p className="headline text-4xl mt-1">£{monthlyStats.totalValue.toLocaleString()}</p>
+          <p className="headline mt-1 break-words text-3xl sm:text-4xl">£{monthlyStats.totalValue.toLocaleString()}</p>
         </div>
       </div>
 
@@ -112,9 +112,9 @@ export function WinEnginePage() {
               <p className="text-sm font-black text-[var(--green)]">DEV MODE: Add sample wins to test the Scoreboard.</p>
               <button
                 onClick={() => {
-                  const sampleWins = [
-                    { id: 'dev-win-1', leadId: 'dev-1', title: 'Kitchen extension — B15', trade: 'building', location: 'B15 / Birmingham', estimatedValue: '£25,000', value: 25000, wonAt: new Date().toISOString(), source: 'chase' },
-                    { id: 'dev-win-2', leadId: 'dev-2', title: 'Full rewire — 3-bed semi', trade: 'electrical', location: 'B14 / Birmingham', estimatedValue: '£8,500', value: 8500, wonAt: new Date(Date.now() - 86400000 * 3).toISOString(), source: 'chase' },
+                  const sampleWins: WinJob[] = [
+                    { id: 'dev-win-1', leadId: 'dev-1', title: 'Kitchen extension — B15', trade: 'building', location: 'B15 / Birmingham', value: 25000, wonAt: new Date().toISOString(), source: 'chase' },
+                    { id: 'dev-win-2', leadId: 'dev-2', title: 'Full rewire — 3-bed semi', trade: 'electrical', location: 'B14 / Birmingham', value: 8500, wonAt: new Date(Date.now() - 86400000 * 3).toISOString(), source: 'chase' },
                   ];
                   const data = getWinData();
                   data.wins = [...sampleWins, ...data.wins];

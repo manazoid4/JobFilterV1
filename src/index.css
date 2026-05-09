@@ -21,10 +21,16 @@
   box-sizing: border-box;
 }
 
+*,
+*::before,
+*::after {
+  min-width: 0;
+}
+
 html,
 body {
   margin: 0;
-  min-width: 320px;
+  width: 100%;
   overflow-x: hidden;
   max-width: 100%;
   background: var(--paper);
@@ -37,12 +43,33 @@ body {
   scroll-behavior: smooth;
 }
 
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 a {
   text-decoration: none;
 }
 
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+pre,
+code {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 main {
   padding-bottom: 2rem;
+  max-width: 100%;
 }
 
 button,
@@ -55,10 +82,12 @@ select {
 
 .headline {
   font-family: 'Barlow Condensed', sans-serif;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   text-transform: uppercase;
   font-weight: 800;
   line-height: 1;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .micro-label {
@@ -67,6 +96,7 @@ select {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: 'Barlow Condensed', sans-serif;
+  overflow-wrap: anywhere;
 }
 
 .copy {
@@ -80,8 +110,9 @@ select {
 /* ── LAYOUT ─────────────────────────────────────────── */
 
 .page-shell {
-  width: min(1180px, calc(100vw - 40px));
+  width: min(1180px, calc(100% - 40px));
   margin-inline: auto;
+  max-width: 100%;
 }
 
 .section-pad {
@@ -95,6 +126,8 @@ select {
   border-radius: 4px;
   box-shadow: 8px 8px 0 var(--yellow);
   background: var(--white);
+  max-width: 100%;
+  min-width: 0;
 }
 
 .jf-button {
@@ -114,7 +147,11 @@ select {
   transition: transform 0.06s ease, box-shadow 0.06s ease, background 0.1s;
   cursor: pointer;
   text-decoration: none;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .jf-button:hover {
@@ -185,6 +222,7 @@ select {
   letter-spacing: 0;
   text-transform: none;
   outline: none;
+  min-width: 0;
 }
 
 .field-input:focus {
@@ -203,7 +241,10 @@ select {
   text-transform: uppercase;
   color: var(--navy);
   border-radius: 4px;
-  white-space: nowrap;
+  white-space: normal;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   transition: background 0.12s;
 }
 
@@ -224,6 +265,19 @@ select {
 .mobile-nav a {
   flex: 0 0 auto;
   white-space: nowrap;
+}
+
+.mobile-fit {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.mobile-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 /* ── UTILITIES ──────────────────────────────────────── */
@@ -314,6 +368,7 @@ select {
 
   h1.headline, .headline.text-5xl, .headline.text-6xl, .headline.text-7xl, .headline.text-8xl {
     font-size: clamp(32px, 8vw, 48px) !important;
+    line-height: 0.95 !important;
   }
 
   h2.headline, .headline.text-4xl {
@@ -338,6 +393,11 @@ select {
   .lg\:items-end, .lg\:items-center {
     align-items: start !important;
   }
+
+  .jf-button-lg,
+  .choice-button {
+    min-height: 52px;
+  }
 }
 
 /* ── MOBILE — 640px ───────────────────────────────── */
@@ -354,14 +414,46 @@ select {
     padding: 1rem !important;
   }
 
+  .jf-box.p-0,
+  .jf-box[class*="p-0"] {
+    padding: 0 !important;
+  }
+
   .jf-button {
     padding: 0.625rem 1rem;
     font-size: 0.85rem;
     min-height: 48px;
+    width: 100%;
+  }
+
+  .jf-button.inline-block,
+  .jf-button.inline-flex {
+    display: flex;
   }
 
   .field-input {
     min-height: 48px;
     font-size: 16px;
+  }
+
+  .micro-label {
+    letter-spacing: 0.08em;
+  }
+
+  .mobile-stack {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .phone-wrap {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .phone-wrap > * {
+    min-width: 0;
+    max-width: 100%;
   }
 }
