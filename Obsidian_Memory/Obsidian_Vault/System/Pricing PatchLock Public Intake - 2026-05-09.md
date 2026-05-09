@@ -109,3 +109,4 @@ GitHub remains the deployment/history source. Obsidian is the product memory sou
 - Feedback prompt background moved off pure white so the CTA and supporting text remain legible.
 - Shared list/status components also had weak inactive-state contrast, so `LeadCard` and `ChaseStatus` now use the paper/ink pair instead of pale gray-on-white.
 - Public job intake copy was cleaned up to remove the awkward “why trades want this” framing and replace it with plain “what happens next” wording that still signals trade value.
+- Site-wide accent tokens were softened slightly so yellow and orange text reads less harshly across Free Tools, pricing, and comparison surfaces.
