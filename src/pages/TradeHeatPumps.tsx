@@ -56,7 +56,7 @@ Action: Open notice → jobfilter.uk/lead/jkl012`,
     'No way to get alerts when a property becomes eligible',
   ],
   comparisonNew: [
-    '£6.99/week — all EPC and retrofit signals, unlimited',
+    '£39/month founder — all EPC and retrofit signals, unlimited',
     'F/G rated properties flagged by postcode automatically',
     'Cross-referenced with planning data for higher intent',
     'BUS grant eligibility shown on every lead',
@@ -71,3 +71,5 @@ Action: Open notice → jobfilter.uk/lead/jkl012`,
 export function TradeHeatPumps() {
   return <TradePage data={data} />;
 }
+
+

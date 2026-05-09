@@ -306,7 +306,7 @@ export function FreeToolsPage() {
         </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
       </section>
 
@@ -319,7 +319,7 @@ export function FreeToolsPage() {
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
+          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
         </div>
       </section>
 
@@ -580,3 +580,5 @@ function NumberField({ label, value, step = 1, max, onChange }: { label: string;
     </label>
   );
 }
+
+

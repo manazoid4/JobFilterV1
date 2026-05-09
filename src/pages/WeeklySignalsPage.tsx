@@ -545,7 +545,7 @@ export function WeeklySignalsPage() {
             </button>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
-            3 free scans every week. Founding 30: £6.99/wk (£29/mo) forever.
+            3 free scans every week. Founding 30: £39/mo while active.
           </p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">
             Data shown is illustrative based on UK construction statistics. Live scans show real leads in your area.
@@ -560,3 +560,5 @@ export function WeeklySignalsPage() {
     </main>
   );
 }
+
+

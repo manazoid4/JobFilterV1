@@ -442,7 +442,7 @@ export function FindJobsPage() {
                     <span className="text-white/40">·</span>
                     <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
-                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/MO →</Link>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/mo →</Link>
                   <p className="mt-3 text-xs font-black text-white/50">
                     30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
                   </p>
@@ -456,7 +456,7 @@ export function FindJobsPage() {
                   Buyer detail, deadline, verification proof, direct letters, and WhatsApp alerts are locked on the free plan.
                 </p>
                 <Link to="/pricing" className="jf-button mt-3 bg-[var(--navy)] text-white inline-block">
-                  UNLOCK FROM £39/MO →
+                  UNLOCK FROM £39/mo →
                 </Link>
                 <p className="mt-2 text-xs font-black text-[var(--muted)]">
                   30-day money-back guarantee. No quibbles, no hoops.
@@ -693,3 +693,4 @@ function tierLabel(score: number) {
   if (score >= 55) return 'WORTH CHECKING';
   return 'LOW SIGNAL';
 }
+

@@ -56,7 +56,7 @@ Action: Open notice → jobfilter.uk/lead/mno345`,
     'No way to pipeline work 2-3 months out',
   ],
   comparisonNew: [
-    '£6.99/week — all roofing signals, unlimited scans',
+    '£39/month founder — all roofing signals, unlimited scans',
     'Exclusive scans — no one else sees your results',
     'Planning data shows roofing jobs before they\'re posted',
     'Estimated value shown before you pick up the phone',
@@ -71,3 +71,5 @@ Action: Open notice → jobfilter.uk/lead/mno345`,
 export function TradeRoofers() {
   return <TradePage data={data} />;
 }
+
+

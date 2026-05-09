@@ -33,7 +33,7 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
-          STANDARD PRICE IS £79/MO. FOUNDERS PAY £39/MO.
+          STANDARD PRICE IS £79/MO. FOUNDERS PAY £39/mo.
         </h1>
         <p className="mt-5 max-w-3xl text-xl font-black text-white/78">
           We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
@@ -44,7 +44,7 @@ export function PricingPage() {
           <PriceStat label="Founder annual" value="£390/yr" note="two months free" hot />
         </div>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
+          <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/mo" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <CheckoutButton tier="founding" billing="annual" label="SAVE MORE — £390/YR" className="bg-white text-[var(--ink)]" />
           <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">SCAN FIRST</Link>
         </div>
@@ -66,7 +66,7 @@ export function PricingPage() {
           body="Cheaper founder price. Same working system. Locked while you stay active."
           items={included}
           highlight="BEST VALUE"
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK £39/MO" className="mt-5 bg-[var(--ink)] text-white" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK £39/mo" className="mt-5 bg-[var(--ink)] text-white" />}
         />
         <PlanCard
           title="Standard"
@@ -172,3 +172,4 @@ function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
     </section>
   );
 }
+

@@ -249,7 +249,7 @@ export function TradePage({ data }: { data: TradePageData }) {
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£6.99/WK ALL-IN. ONE {data.trade.toUpperCase()} JOB COVERS IT.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. ONE {data.trade.toUpperCase()} JOB COVERS IT.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
             Free shows you the signals. Founding 30 unlocks full details, WhatsApp alerts, source proof, and buyer names. 30-day money-back. No quibbles.
           </p>
@@ -261,8 +261,8 @@ export function TradePage({ data }: { data: TradePageData }) {
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£6.99/WK</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£29/mo — locked forever)</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
                 <li>Full lead details unlocked</li>
@@ -274,7 +274,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £11.29/WK</h3>
+              <h3 className="headline text-xl text-[var(--navy)]">PRO — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
@@ -296,7 +296,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to={`/find-jobs?trade=${data.slug}&postcode=${data.ctaPostcode}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/50">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
         </div>
@@ -304,3 +304,6 @@ export function TradePage({ data }: { data: TradePageData }) {
     </main>
   );
 }
+
+
+

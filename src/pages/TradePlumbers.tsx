@@ -56,7 +56,7 @@ Action: Open notice → jobfilter.uk/lead/abc123`,
     'No idea if it\'s a real job or a tyre-kicker',
   ],
   comparisonNew: [
-    '£6.99/week (£29/mo) — all plumbing signals, unlimited',
+    '£39/month founder — all plumbing signals, unlimited',
     'Every signal is exclusive — no one else sees your scan',
     'We score every signal. GOLD means worth chasing',
     'Official planning data, EPC ratings, council contracts',
@@ -71,3 +71,5 @@ Action: Open notice → jobfilter.uk/lead/abc123`,
 export function TradePlumbers() {
   return <TradePage data={data} />;
 }
+
+

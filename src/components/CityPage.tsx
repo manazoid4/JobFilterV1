@@ -48,7 +48,7 @@ export const CITIES: CityData[] = [
     areaCodes: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8', 'E9', 'E10', 'E11', 'E12', 'E13', 'E14', 'E15', 'E16', 'E17', 'E18', 'EC1', 'EC2', 'EC3', 'EC4', 'N1', 'N2', 'N3', 'N4', 'N5', 'N6', 'N7', 'N8', 'N9', 'N10', 'N11', 'N12', 'N13', 'N14', 'N15', 'N16', 'N17', 'N18', 'N19', 'N20', 'N21', 'N22', 'NW1', 'NW2', 'NW3', 'NW4', 'NW5', 'NW6', 'NW7', 'NW8', 'NW9', 'NW10', 'NW11', 'SE1', 'SE2', 'SE3', 'SE4', 'SE5', 'SE6', 'SE7', 'SE8', 'SE9', 'SE10', 'SE11', 'SE12', 'SE13', 'SE14', 'SE15', 'SE16', 'SE17', 'SE18', 'SE19', 'SE20', 'SE21', 'SE22', 'SE23', 'SE24', 'SE25', 'SE26', 'SE27', 'SE28', 'SW1', 'SW2', 'SW3', 'SW4', 'SW5', 'SW6', 'SW7', 'SW8', 'SW9', 'SW10', 'SW11', 'SW12', 'SW13', 'SW14', 'SW15', 'SW16', 'SW17', 'SW18', 'SW19', 'SW20', 'W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12', 'W13', 'W14', 'WC1', 'WC2'],
     tradeDensity: 'Largest construction market in the UK — 45,000+ active trades competing across 32 boroughs',
     heroH1: 'Find construction leads in London before every other trade quotes.',
-    heroSub: '820 planning applications a week. 387 live council contracts. 120,000 F/G-rated properties needing retrofit. JobFilter scans all three sources across every London postcode — and scores the leads worth chasing. No shared leads. No per-lead fees. £29/month.',
+    heroSub: '820 planning applications a week. 387 live council contracts. 120,000 F/G-rated properties needing retrofit. JobFilter scans all three sources across every London postcode — and scores the leads worth chasing. No shared leads. No per-lead fees. £39/month.',
     statsNote: 'London has more planning applications than any UK city by a massive margin. But 45,000+ trades are fighting for the same work. The ones who win are the ones who see the jobs first.',
     localAngle: 'London moves fast. The first quote wins 70% of jobs.',
     localAngleBody: 'Every borough in London has a different planning portal, different council contract process, different timeline. JobFilter reads them all — 32 boroughs, every planning application, every EPC assessment, every tender notice. When something scores GOLD, it hits your WhatsApp within minutes. Not batched. Not delayed. Before the directories even know about it.',
@@ -233,7 +233,7 @@ export function CityPage({ city }: CityPageProps) {
                 <li>✓ Every scan is private — nobody else sees your results</li>
                 <li>✓ Three data sources — planning, EPC, council contracts</li>
                 <li>✓ GOLD scoring — only the jobs worth chasing hit WhatsApp</li>
-                <li>✓ £29/month unlimited — cheaper than 15 Checkatrade leads</li>
+                <li>✓ £39/month unlimited — cheaper than 15 Checkatrade leads</li>
               </ul>
             </div>
           </div>
@@ -313,7 +313,7 @@ export function CityPage({ city }: CityPageProps) {
             </div>
           </div>
           <p className="mt-6 text-lg font-black text-white/60">
-            These are real signal types. Free scan shows they exist. £29/month unlocks the full detail — buyer name, source link, contact signal.
+            These are real signal types. Free scan shows they exist. £39/month unlocks the full detail — buyer name, source link, contact signal.
           </p>
           <button onClick={handleScan} className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]">
             {city.ctaText.toUpperCase()}
@@ -388,7 +388,7 @@ export function CityPage({ city }: CityPageProps) {
             SEE WHAT IS LIVE IN {city.name.toUpperCase()} RIGHT NOW.
           </h2>
           <p className="mt-4 max-w-xl text-xl font-black text-white/70">
-            Free scan shows the signals. £29/month unlocks full detail, WhatsApp alerts, and unlimited scans. 30-day money-back guarantee.
+            Free scan shows the signals. £39/month unlocks full detail, WhatsApp alerts, and unlimited scans. 30-day money-back guarantee.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <button onClick={handleScan} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
@@ -408,3 +408,4 @@ export function CityPage({ city }: CityPageProps) {
     </main>
   );
 }
+

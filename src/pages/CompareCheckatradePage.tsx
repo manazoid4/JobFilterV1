@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const comparison = [
   { feature: 'Lead model', checkatrade: 'Shared — sold to 4-8 trades', jobfilter: 'Exclusive — no one else sees your scan' },
-  { feature: 'Monthly fee', checkatrade: '£50-£90/mo per category', jobfilter: '£6.99/wk (£29/mo) — all trades, all signals' },
+  { feature: 'Monthly fee', checkatrade: '£50-£90/mo per category', jobfilter: '£39/mo — all trades, all signals' },
   { feature: 'Per-lead cost', checkatrade: 'Yes — pay-per-lead on top', jobfilter: 'No — unlimited scans, one price' },
   { feature: 'Lead quality', checkatrade: 'Name + phone number from a form', jobfilter: 'Official signals with buyer, value, urgency' },
   { feature: 'Budget visibility', checkatrade: 'None — you find out on the call', jobfilter: 'Estimated value shown before you chase' },
@@ -242,7 +242,7 @@ export function CompareCheckatradePage() {
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <h3 className="headline text-xl text-[var(--yellow)]">JOBFILTER</h3>
               <ul className="mt-4 grid gap-3 font-black text-white/85">
-                <li>£6.99/week (£29/mo) — all trades, all signals</li>
+                <li>£39/month (£39/mo) — all trades, all signals</li>
                 <li>Every signal is exclusive — no one else sees it</li>
                 <li>We score every signal. GOLD means worth chasing</li>
                 <li>Official data — planning, EPC, contracts. Not forms</li>
@@ -371,9 +371,9 @@ export function CompareCheckatradePage() {
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£6.99/WK ALL-IN. VS £50-£90/MO + PER-LEAD FEES.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. VS £50-£90/MO + PER-LEAD FEES.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-            Checkatrade charges £50-£90/month per category, then charges per-lead on top. Trades report £200+/month before any work arrives. JobFilter is £6.99/week flat. Unlimited scans. No per-lead fees. No category restrictions.
+            Checkatrade charges £50-£90/month per category, then charges per-lead on top. Trades report £200+/month before any work arrives. JobFilter is £39/month flat. Unlimited scans. No per-lead fees. No category restrictions.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
@@ -383,8 +383,8 @@ export function CompareCheckatradePage() {
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£6.99/WK</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£29/mo — locked forever)</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£39/mo — locked forever)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
                 <li>Full lead details unlocked</li>
@@ -396,7 +396,7 @@ export function CompareCheckatradePage() {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £11.29/WK (£49/MO)</h3>
+              <h3 className="headline text-xl text-[var(--navy)]">PRO — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
@@ -443,7 +443,7 @@ export function CompareCheckatradePage() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £6.99/WK</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/50">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.
@@ -453,3 +453,6 @@ export function CompareCheckatradePage() {
     </main>
   );
 }
+
+
+

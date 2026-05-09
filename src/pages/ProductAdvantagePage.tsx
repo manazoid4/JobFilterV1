@@ -92,7 +92,7 @@ function ServiceForm({ trade }: { trade: string }) {
     <div className="grid gap-4">
       <div className="jf-box border-4 border-[var(--yellow)] bg-white p-4">
         <p className="micro-label text-[var(--orange)]">PRICING</p>
-        <p className="mt-2 text-lg font-black text-[var(--ink)]">Included with Founding 30 (£6.99/wk) and Pro (£11.29/wk).</p>
+        <p className="mt-2 text-lg font-black text-[var(--ink)]">Included with Founding 30 (£39/mo) and Pro (£79/mo).</p>
         <p className="mt-1 font-black text-[var(--muted)]">Free tier: free tools only. Paid plan unlocks this service.</p>
         <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
       </div>
@@ -117,3 +117,5 @@ function ServiceForm({ trade }: { trade: string }) {
     </div>
   );
 }
+
+

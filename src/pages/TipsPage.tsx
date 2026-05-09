@@ -49,7 +49,7 @@ export function TipsPage() {
         <p className="micro-label text-[var(--yellow)]">THE FILTER</p>
         <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">CONTROL THE JOBS. NO CHASING. NO COMPETING.</h2>
         <p className="mt-4 max-w-2xl text-lg font-black text-white/75">
-          Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £49/month to unlock.
+          Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
@@ -75,3 +75,4 @@ export function TipsPage() {
     </main>
   );
 }
+

@@ -56,7 +56,7 @@ Action: Open notice → jobfilter.uk/lead/ghi789`,
     'Contracts lock you in during quiet months',
   ],
   comparisonNew: [
-    '£6.99/week — all building signals, unlimited scans',
+    '£39/month founder — all building signals, unlimited scans',
     'Exclusive — no one else sees your scan results',
     'Estimated value and project scope shown upfront',
     'Official planning data — approved applications only',
@@ -71,3 +71,5 @@ Action: Open notice → jobfilter.uk/lead/ghi789`,
 export function TradeBuilders() {
   return <TradePage data={data} />;
 }
+
+

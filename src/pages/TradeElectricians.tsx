@@ -56,7 +56,7 @@ Action: Open notice → jobfilter.uk/lead/def456`,
     '12-month contracts with no cancellation',
   ],
   comparisonNew: [
-    '£6.99/week flat — all electrical signals, unlimited',
+    '£39/month founder flat — all electrical signals, unlimited',
     'Exclusive scans — no one else sees your results',
     'Estimated value shown before you chase',
     'EPC data shows which properties actually need work',
@@ -71,3 +71,5 @@ Action: Open notice → jobfilter.uk/lead/def456`,
 export function TradeElectricians() {
   return <TradePage data={data} />;
 }
+
+
