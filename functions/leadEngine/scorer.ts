@@ -1,6 +1,31 @@
 import type { Lead } from './types';
 import { regionSimilarity } from './postcode';
 
+const HIGH_INTENT_KEYWORDS = [
+  'emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure',
+  'approved', 'commencement', 'building control', 'licence renewal', 'hmo',
+  'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession',
+];
+
+const SOURCE_CLASS_BONUS: Record<string, number> = {
+  BuildingControl: 10,
+  PlanAPI: 8,
+  PlanNexus: 8,
+  PlanWire: 8,
+  PlanningData: 7,
+  ContractsFinder: 7,
+  FTS: 7,
+  PublicContractsScotland: 7,
+  EPC: 6,
+  HMOLicensing: 6,
+  RetrofitSchemes: 6,
+  LandRegistry: 4,
+  CompaniesHouse: 3,
+  AuctionProperty: 3,
+  DirectorySignal: -8,
+  PortalTrendIntelligence: -4,
+};
+
 /**
  * Score each lead 0–100.
  *
@@ -23,6 +48,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   const sourcePts = Math.round((lead.sourceConfidence / 100) * 20);
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
+
+  const sourceClassBonus = SOURCE_CLASS_BONUS[lead.source] ?? 0;
+  if (sourceClassBonus !== 0) {
+    score += sourceClassBonus;
+    reasons.push(`Source class ${lead.source} (${sourceClassBonus > 0 ? '+' : ''}${sourceClassBonus})`);
+  }
 
   // Urgency (max 20)
   if (lead.urgency === 'high') {
@@ -77,9 +108,8 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   }
 
   // High Intent Keywords (max 10 bonus)
-  const highIntentKeywords = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
   const text = `${lead.title} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
-  const matched = highIntentKeywords.filter(k => text.includes(k));
+  const matched = HIGH_INTENT_KEYWORDS.filter(k => text.includes(k));
   if (matched.length > 0) {
     const bonus = Math.min(matched.length * 5, 10);
     score += bonus;

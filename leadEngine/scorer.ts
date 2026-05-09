@@ -44,7 +44,30 @@ const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: st
   },
 };
 
-const HIGH_INTENT_KEYWORDS = ['emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure'];
+const HIGH_INTENT_KEYWORDS = [
+  'emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure',
+  'approved', 'commencement', 'building control', 'licence renewal', 'hmo',
+  'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession',
+];
+
+const SOURCE_CLASS_BONUS: Record<string, number> = {
+  BuildingControl: 10,
+  PlanAPI: 8,
+  PlanNexus: 8,
+  PlanWire: 8,
+  PlanningData: 7,
+  ContractsFinder: 7,
+  FTS: 7,
+  PublicContractsScotland: 7,
+  EPC: 6,
+  HMOLicensing: 6,
+  RetrofitSchemes: 6,
+  LandRegistry: 4,
+  CompaniesHouse: 3,
+  AuctionProperty: 3,
+  DirectorySignal: -8,
+  PortalTrendIntelligence: -4,
+};
 
 export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey): number {
   return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
@@ -57,6 +80,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   const sourcePts = Math.round((lead.sourceConfidence / 100) * 20);
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
+
+  const sourceClassBonus = SOURCE_CLASS_BONUS[lead.source] ?? 0;
+  if (sourceClassBonus !== 0) {
+    score += sourceClassBonus;
+    reasons.push(`Source class ${lead.source} (${sourceClassBonus > 0 ? '+' : ''}${sourceClassBonus})`);
+  }
 
   if (lead.urgency === 'high') {
     score += 20;

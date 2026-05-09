@@ -49,7 +49,7 @@ export function registerOutcomeReportRoute(app: Express) {
         totalValue: totalValue > 0 ? `£${totalValue.toLocaleString()}` : 'N/A',
         monthlyCost: 29,
         summary: wonCount > 0
-          ? `${wonCount} jobs won. ~£${totalValue.toLocaleString()} total. £29 subscription.`
+          ? `${wonCount} jobs won. ~£${totalValue.toLocaleString()} total. £39 founder subscription.`
           : 'No won jobs tracked yet. Start tracking outcomes to see your ROI.',
       });
     } catch (error: any) {

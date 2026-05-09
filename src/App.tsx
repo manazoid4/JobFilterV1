@@ -15,6 +15,7 @@ function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
 }
 
 const BuildUkAlternativePage = lazyPage(() => import('./pages/BuildUkAlternativePage'));
+const ActivationPendingPage = lazyPage(() => import('./pages/ActivationPendingPage'));
 // Removed ChaseEnginePage - integrated into Dashboard
 const CityBirmingham = lazyPage(() => import('./pages/CityBirmingham'));
 const CityBristol = lazyPage(() => import('./pages/CityBristol'));
@@ -38,6 +39,7 @@ const MyLinkPage = lazyPage(() => import('./pages/MyLinkPage'));
 const NewsPage = lazyPage(() => import('./pages/NewsPage'));
 const NotFoundPage = lazyPage(() => import('./pages/NotFoundPage'));
 const PricingPage = lazyPage(() => import('./pages/PricingPage'));
+const PostJobPage = lazyPage(() => import('./pages/PostJobPage'));
 const ProductAdvantagePage = lazyPage(() => import('./pages/ProductAdvantagePage'));
 const SignalsPage = lazyPage(() => import('./pages/SignalsPage'));
 const WeeklySignalsPage = lazyPage(() => import('./pages/WeeklySignalsPage'));
@@ -103,6 +105,8 @@ function AppContent() {
         <Route path="/tips" element={<LazyPage><TipsPage /></LazyPage>} />
         <Route path="/news" element={<LazyPage><NewsPage /></LazyPage>} />
         <Route path="/pricing" element={<LazyPage><PricingPage /></LazyPage>} />
+        <Route path="/post-job" element={<LazyPage><PostJobPage /></LazyPage>} />
+        <Route path="/activation-pending" element={<LazyPage><ActivationPendingPage /></LazyPage>} />
         <Route path="/territories" element={<LazyPage><TerritoriesPage /></LazyPage>} />
         <Route path="/claim" element={<LazyPage><TerritoriesPage /></LazyPage>} />
         <Route path="/trade-map" element={<LazyPage><TerritoriesPage /></LazyPage>} />

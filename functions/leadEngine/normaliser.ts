@@ -78,7 +78,19 @@ function sourceConfidence(sourceSystem: string): number {
     case 'FTS': return 88;
     case 'ContractsFinder': return 85;
     case 'PlanningData': return 65;
+    case 'PlanAPI': return 82;
+    case 'PlanNexus': return 82;
+    case 'PlanWire': return 82;
+    case 'Searchland': return 80;
     case 'DirectorySignal': return 75;
+    case 'HMOLicensing': return 78;
+    case 'BuildingControl': return 82;
+    case 'LandRegistry': return 70;
+    case 'CompaniesHouse': return 72;
+    case 'AuctionProperty': return 68;
+    case 'InsolvencySignals': return 70;
+    case 'RetrofitSchemes': return 76;
+    case 'PortalTrendIntelligence': return 62;
     default: return 60;
   }
 }

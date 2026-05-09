@@ -276,7 +276,7 @@ app.get('/api/leads/summary', (_req, res) => {
     const won = all.filter((o) => o.status === 'won');
     const wonCount = won.length;
     const totalValue = won.reduce((sum, o) => { const v = parseFloat((o.value || '0').replace(/[^0-9.]/g, '')); return sum + (isNaN(v) ? 0 : v); }, 0);
-    return res.json({ ok: true, wonCount, totalValue: totalValue > 0 ? `Â£${totalValue.toLocaleString()}` : 'N/A', monthlyCost: 29, summary: wonCount > 0 ? `${wonCount} jobs won. ~Â£${totalValue.toLocaleString()} total. Â£29 subscription.` : 'No won jobs tracked yet.' });
+    return res.json({ ok: true, wonCount, totalValue: totalValue > 0 ? `Â£${totalValue.toLocaleString()}` : 'N/A', monthlyCost: 39, summary: wonCount > 0 ? `${wonCount} jobs won. ~Â£${totalValue.toLocaleString()} total. Â£39 founder subscription.` : 'No won jobs tracked yet.' });
   } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
 });
 

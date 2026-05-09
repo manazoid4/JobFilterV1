@@ -27,9 +27,11 @@ import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher';
 import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher';
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
+import { sourceRegistryEndpoints } from './sourceRegistry';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
+  ...sourceRegistryEndpoints(),
   ContractsFinder: [
     'GET  https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search',
   ],
@@ -68,6 +70,30 @@ export const SOURCE_ENDPOINTS: Record<string, string[]> = {
   ForestryCommission: [
     'GET  https://www.gov.uk/guidance/tree-felling-licence-when-you-need-to-apply  (felling licence applications)',
     'Public register — tree clearance signals for landscapers, groundworkers, fencing contractors.',
+  ],
+  HMOLicensing: [
+    'Council HMO public registers and open-data portals',
+    'High-value compliance trigger: fire alarms, emergency lighting, EICR, heating, bathrooms, and licence renewal works.',
+  ],
+  BuildingControl: [
+    'Council building-control public registers/open-data portals',
+    'Commencement/completion signals identify work happening now, after planning intent becomes real.',
+  ],
+  AuctionProperty: [
+    'Licensed auction-house and portal feeds only',
+    'Distress/refurb trigger for roof, damp, electrical, clearance, HMO conversion, and general building work.',
+  ],
+  InsolvencySignals: [
+    'Official insolvency/Gazette-style feeds or licensed partners',
+    'Distressed business/property movement triggers refit, security, clearance, and takeover maintenance work.',
+  ],
+  RetrofitSchemes: [
+    'DESNZ/Ofgem/MCS/BUS and local-authority retrofit programme data',
+    'Grant-backed demand for heat pumps, insulation, solar, glazing, and boiler replacement.',
+  ],
+  PortalTrendIntelligence: [
+    'Licensed Rightmove/Zoopla/portal trend feeds only',
+    'Listing age, sale/rent churn, and price-drop pressure identify owners likely to spend on works.',
   ],
 };
 

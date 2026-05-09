@@ -6,6 +6,7 @@ const links = [
   { to: '/territories', label: 'Territories' },
   { to: '/signals', label: 'Signals' },
   { to: '/dashboard', label: 'Pipeline' },
+  { to: '/post-job', label: 'Post A Job' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];
@@ -60,11 +61,11 @@ export function TopNav() {
         <div className="hidden xl:flex items-center gap-3">
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase text-[var(--green)]">
+              <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
               </span>
-              <span className="text-xs font-black text-[var(--yellow)] bg-[var(--navy)] px-2 py-0.5">
-                £6.99/wk
+              <span className="text-xs font-black text-[var(--yellow)] bg-[var(--navy)] px-2 py-1">
+                Founder £39/mo
               </span>
             </div>
           )}
@@ -100,7 +101,7 @@ export function TopNav() {
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
               <span className="text-sm font-black text-[var(--green)]">
-                Founding 30: {foundingSlots} left — £6.99/wk
+                PatchLock: {foundingSlots} founder slots left - £39/mo
               </span>
               <div className="mt-2 h-2 w-full overflow-hidden border border-[var(--orange)] bg-[var(--orange)]/10">
                 <div
@@ -131,7 +132,7 @@ export function TopNav() {
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            CLAIM YOUR PATCH
+            CLAIM PATCHLOCK
           </NavLink>
           <NavLink
             to="/find-jobs"

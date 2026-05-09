@@ -29,7 +29,7 @@ export function NotFoundPage() {
           </Link>
           <Link to="/pricing" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
             <p className="micro-label text-[var(--green)]">PRICING</p>
-            <p className="mt-2 font-black text-[var(--navy)]">From £6.99/week. No contracts.</p>
+            <p className="mt-2 font-black text-[var(--navy)]">Founder £39/month. Standard £79/month.</p>
           </Link>
           <Link to="/dashboard" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
             <p className="micro-label text-[var(--green)]">PIPELINE</p>
@@ -37,7 +37,7 @@ export function NotFoundPage() {
           </Link>
           <Link to="/signals" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
             <p className="micro-label text-[var(--green)]">SIGNALS</p>
-            <p className="mt-2 font-black text-[var(--navy)]">See the data sources we scan</p>
+            <p className="mt-2 font-black text-[var(--navy)]">See how the opportunity network works</p>
           </Link>
           <Link to="/free-tools" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
             <p className="micro-label text-[var(--green)]">FREE TOOLS</p>

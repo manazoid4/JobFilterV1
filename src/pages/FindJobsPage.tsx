@@ -1,4 +1,4 @@
-﻿import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
@@ -175,7 +175,7 @@ export function FindJobsPage() {
   async function fillMyWeek() {
     setFillWeekLoading(true);
     setFillWeekResult(null);
-    setFillWeekPhase('Scanning 400+ councils, EPC database, and contract feeds...');
+    setFillWeekPhase('Checking verified job signals across your patch...');
     await new Promise(r => setTimeout(r, 800));
     setFillWeekPhase('Matching leads to your trade — scoring every signal...');
     await new Promise(r => setTimeout(r, 600));
@@ -271,7 +271,7 @@ export function FindJobsPage() {
             <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
             <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
             <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              One tap. We hit every data source — councils, EPC, contracts — and return the best {trade} jobs within {radiusMiles} miles.
+              One tap. We check the opportunity network and return the best {trade} jobs within {radiusMiles} miles.
             </p>
           </div>
           <button
@@ -361,7 +361,7 @@ export function FindJobsPage() {
       {loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
-          <p className="mt-2 text-xl font-black">Checking official sources. Scoring every signal.</p>
+          <p className="mt-2 text-xl font-black">Checking verified signals. Running the Money Filter.</p>
         </section>
       )}
 
@@ -416,7 +416,7 @@ export function FindJobsPage() {
                   <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    What you see above proves the leads exist. Unlock from £6.99/week for buyer name, deadline, source link, WhatsApp alerts, and the full score breakdown.
+                    What you see above proves the leads exist. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
                   </p>
                 </section>
               )}
@@ -433,16 +433,16 @@ export function FindJobsPage() {
                     {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
                   </p>
                   <p className="mt-2 font-black text-white/70">
-                    Each includes buyer name, deadline, source link, and contact signal — the detail that decides if a job is worth chasing.
+                    Each includes buyer detail, deadline, verification proof, and contact signal - the detail that decides if a job is worth chasing.
                   </p>
                   <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
-                    <span className="text-[var(--green)]">Founding 30: £6.99/wk (£29/mo)</span>
+                    <span className="text-[var(--green)]">Founder: £39/mo</span>
                     <span className="text-white/40">·</span>
-                    <span className="text-[var(--yellow)]">Pro: £49/mo</span>
+                    <span className="text-[var(--yellow)]">Standard: £79/mo</span>
                     <span className="text-white/40">·</span>
                     <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
-                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £6.99/WK →</Link>
+                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/MO →</Link>
                   <p className="mt-3 text-xs font-black text-white/50">
                     30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
                   </p>
@@ -453,10 +453,10 @@ export function FindJobsPage() {
               <div className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-5 text-center">
                 <p className="font-black text-[var(--green)]">THIS IS A PREVIEW — UNLOCK FULL DETAILS</p>
                 <p className="mt-1 font-black text-[var(--muted)]">
-                  Buyer name, deadline, source link, and WhatsApp alerts are locked on the free plan.
+                  Buyer detail, deadline, verification proof, direct letters, and WhatsApp alerts are locked on the free plan.
                 </p>
                 <Link to="/pricing" className="jf-button mt-3 bg-[var(--navy)] text-white inline-block">
-                  UNLOCK FROM £6.99/WK →
+                  UNLOCK FROM £39/MO →
                 </Link>
                 <p className="mt-2 text-xs font-black text-[var(--muted)]">
                   30-day money-back guarantee. No quibbles, no hoops.
@@ -482,7 +482,7 @@ export function FindJobsPage() {
 }
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
-  const reasons = lead.reasons?.length ? lead.reasons : ['Official source', `${lead.sourceConfidence}% source confidence`];
+  const reasons = lead.reasons?.length ? lead.reasons : ['Verification proof', `${lead.sourceConfidence}% confidence`];
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
@@ -658,7 +658,7 @@ function LockedValue({ label, value, isLink, href }: { label: string; value: str
     return (
       <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <a href={href} target="_blank" rel="noreferrer" className="mt-1 block font-black text-[var(--navy)] underline underline-offset-2 truncate text-sm">VIEW SOURCE →</a>
+        <a href={href} target="_blank" rel="noreferrer" className="mt-1 block font-black text-[var(--navy)] underline underline-offset-2 truncate text-sm">VIEW PROOF</a>
       </div>
     );
   }

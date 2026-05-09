@@ -20,12 +20,12 @@ const operatingSteps = [
   {
     icon: Radio,
     title: 'Signals come in',
-    body: 'Planning, EPC, contracts, brownfield land, and property movement are normalised before a tradesman sees anything.',
+    body: 'Verified job signals are cleaned, matched, and scored before a tradesman sees anything.',
   },
   {
     icon: Target,
-    title: 'PQQ-Sieve scores intent',
-    body: 'Urgency, value, proximity, completeness, and source confidence decide whether the signal is worth your time.',
+    title: 'Money Filter ranks the job',
+    body: 'Urgency, value, distance, confidence, and detail decide if it reaches your WhatsApp.',
   },
   {
     icon: ShieldCheck,
@@ -68,6 +68,9 @@ export function HomePage() {
               <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
                 Claim Territory
               </Link>
+              <Link className="jf-button bg-[var(--steel-2)] text-white" to="/post-job">
+                Post A Job
+              </Link>
             </div>
           </div>
 
@@ -100,7 +103,7 @@ export function HomePage() {
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
           <span>FETCH - NORMALISE - FILTER</span>
-          <span>SCORE - STORE - DELIVER</span>
+              <span>MONEY FILTER - STORE - DELIVER</span>
           <span>WhatsApp first. Dashboard second.</span>
         </div>
       </section>
@@ -145,7 +148,7 @@ export function HomePage() {
               SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              One dominant trade partner per area. Founding firms keep pricing forever and get first call on their postcode cluster.
+              PatchLock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
             <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/territories">
               Open Territory Grid
@@ -163,6 +166,30 @@ export function HomePage() {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white">
+        <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
+          <div>
+            <p className="micro-label text-[var(--orange)]">PUBLIC DEMAND ENGINE</p>
+            <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
+              WE ARE NOT ONLY FINDING SIGNALS. WE ARE PULLING JOBS IN.
+            </h2>
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
+              Homeowners and property owners can submit jobs directly. PatchLock firms get routed opportunities, while first-month guerilla campaigns drive more local demand into the system.
+            </p>
+          </div>
+          <div className="ops-panel bg-[var(--paper)] p-5">
+            <p className="micro-label text-[var(--ink)]">FIRST MONTH CAMPAIGN ADD-ONS</p>
+            <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
+              <p>Sticker campaign around your patch</p>
+              <p>Direct letters to selected local opportunities</p>
+              <p>Neighbour Signal door-drop after won jobs</p>
+              <p>Public “post a job” intake page for repeat demand</p>
+            </div>
+            <Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/post-job">See Public Intake</Link>
           </div>
         </div>
       </section>
@@ -196,7 +223,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
-              Free scan shows the signal. Paid unlocks source depth, WhatsApp alerts, priority routing, and the territory claim.
+              Paid unlocks verification proof, WhatsApp alerts, priority routing, and company-branded letters written for selected Gold leads.
             </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>

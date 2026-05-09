@@ -11,8 +11,8 @@ const stripe = stripeSecret
   : null;
 
 const PRICES = {
-  founding: { monthly: 2900, annual: 24000 },
-  pro: { monthly: 4900, annual: 40800 },
+  founding: { monthly: 3900, annual: 39000 },
+  pro: { monthly: 7900, annual: 79000 },
   epc: { monthly: 1900, annual: 1900 },
 };
 
@@ -37,7 +37,7 @@ export async function createCheckoutSession(data: { tier: string; billing: strin
     product_data: {
       name: tierKey === 'founding' ? 'JobFilter Founding 30' : tierKey === 'epc' ? 'EPC Signal Engine' : 'JobFilter Pro',
       description: tierKey === 'founding'
-        ? 'Unlimited scans. Full leads. WhatsApp alerts. £29/mo locked forever.'
+        ? 'Unlimited scans. Full leads. WhatsApp alerts. Direct letters. £39/mo locked forever.'
         : tierKey === 'epc'
         ? 'EPC data signals for your area. £19/mo.'
         : 'Unlimited scans. Full leads. WhatsApp alerts. All tools.',

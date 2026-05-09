@@ -14,6 +14,16 @@ export interface LeadEngineConfig {
     landRegistry: boolean;
     charityCommission: boolean;
     forestryCommission: boolean;
+    hmoLicensing: boolean;
+    buildingControl: boolean;
+    planApi: boolean;
+    planNexus: boolean;
+    planWire: boolean;
+    searchland: boolean;
+    auctionProperty: boolean;
+    insolvencySignals: boolean;
+    retrofitSchemes: boolean;
+    portalTrendIntelligence: boolean;
   };
   cpvAllowPrefixes: Record<TradeKey, string[]>;
   cpvBlockPrefixes: string[];
@@ -55,6 +65,16 @@ export const CONFIG: LeadEngineConfig = {
     landRegistry:             process.env.DEMO_MODE === 'true',       // disabled — real CSV parsing pending
     charityCommission:        process.env.DEMO_MODE === 'true',       // disabled — real API integration pending
     forestryCommission:       process.env.DEMO_MODE === 'true',       // disabled — real felling licence register pending
+    hmoLicensing:             process.env.SOURCE_HMO === 'true',
+    buildingControl:          process.env.SOURCE_BUILDING_CONTROL === 'true',
+    planApi:                  Boolean(process.env.PLANAPI_KEY),
+    planNexus:                Boolean(process.env.PLANNEXUS_API_KEY),
+    planWire:                 Boolean(process.env.PLANWIRE_API_KEY),
+    searchland:               Boolean(process.env.SEARCHLAND_API_KEY),
+    auctionProperty:          process.env.SOURCE_AUCTIONS === 'true',
+    insolvencySignals:        process.env.SOURCE_INSOLVENCY === 'true',
+    retrofitSchemes:          process.env.SOURCE_RETROFIT_SCHEMES === 'true',
+    portalTrendIntelligence:  process.env.SOURCE_PORTAL_TRENDS === 'true',
   },
 
   cpvAllowPrefixes: CPV_ALLOW,
@@ -76,11 +96,14 @@ export const CONFIG: LeadEngineConfig = {
     'electrical', 'rewire', 'wiring', 'lighting', 'ev charger', 'solar',
     'roof', 'roofing', 'flat roof', 'tile', 'gutter', 'fascia', 'soffit',
     'building work', 'construction', 'refurb', 'renovation', 'extension', 'conversion',
+    'planning approved', 'prior approval', 'lawful development', 'building control',
+    'brownfield', 'change of use', 'loft conversion', 'garage conversion', 'hmo',
     'carpentry', 'joinery', 'floor', 'window', 'door fitting',
     'paint', 'decorat', 'plaster', 'render',
-    'landscape', 'grounds maintenance', 'groundwork',
+    'landscape', 'grounds maintenance', 'groundwork', 'fencing', 'driveway',
     'repair', 'maintenance', 'install', 'fit out', 'fit-out',
-    'drain', 'sanitary', 'mechanical',
+    'drain', 'sanitary', 'mechanical', 'insulation', 'retrofit', 'heat pump',
+    'epc', 'fire alarm', 'emergency lighting', 'eicr', 'void works',
   ],
 
   keywordBlock: [

@@ -11,7 +11,7 @@ export function LaunchWaitlistModal() {
   useEffect(() => {
     if (location.pathname !== '/') return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
-    const timer = window.setTimeout(() => setOpen(true), 350);
+    const timer = window.setTimeout(() => setOpen(true), 18000);
     return () => window.clearTimeout(timer);
   }, [location.pathname]);
 
@@ -32,9 +32,9 @@ export function LaunchWaitlistModal() {
         <div className="jf-box bg-[var(--navy)] p-5 text-white">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
-              <h2 className="headline mt-2 text-4xl leading-none">STOP WASTING EVENINGS.</h2>
-              <p className="mt-3 font-black text-white/70">Lock your Founding 30 slot. £6.99/wk (£29/mo) forever.</p>
+              <p className="micro-label text-[var(--yellow)]">PATCHLOCK EARLY ACCESS</p>
+              <h2 className="headline mt-2 text-4xl leading-none">LOCK YOUR PATCH.</h2>
+              <p className="mt-3 font-black text-white/70">Founder price: £39/month. About a tenner a week. Includes WhatsApp alerts and company-branded letters to selected leads.</p>
             </div>
             <button className="min-h-[44px] min-w-[44px] border-2 border-white px-3 py-1 font-black" onClick={close} aria-label="Close waitlist">
               X
