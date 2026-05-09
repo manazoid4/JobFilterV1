@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/dashboard', label: 'Pipeline' },
-  { to: '/pricing', label: 'Pricing' },
+  { to: '/find-jobs', label: 'Scan Area' },
+  { to: '/territories', label: 'Territories' },
   { to: '/signals', label: 'Signals' },
+  { to: '/dashboard', label: 'Pipeline' },
   { to: '/free-tools', label: 'Free Tools' },
+  { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = links.filter((l) => !['/find-jobs'].includes(l.to));
+const mobileLinks = links.filter((l) => !['/find-jobs', '/territories'].includes(l.to));
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +24,10 @@ export function TopNav() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-white text-[var(--ink)]">
+    <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-[var(--paper)] text-[var(--ink)]">
+      <div className="ops-strip hidden border-b-2 border-[var(--line)] px-4 py-1 text-center text-xs font-black uppercase tracking-[0.12em] text-[var(--ink)] sm:block">
+        Founding patches now opening - one dominant trade partner per area
+      </div>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5">
         <NavLink to="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
           <img
@@ -32,6 +36,9 @@ export function TopNav() {
             alt="JobFilter logo"
           />
           <span className="headline text-2xl sm:text-3xl tracking-normal">JOBFILTER</span>
+          <span className="hidden border-l-2 border-[var(--line)] pl-3 text-[10px] font-black uppercase tracking-[0.12em] text-[var(--muted)] md:block">
+            Construction Intelligence
+          </span>
         </NavLink>
 
         <nav className="hidden xl:flex items-center gap-1">
@@ -61,8 +68,8 @@ export function TopNav() {
               </span>
             </div>
           )}
-          <NavLink to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
-            GET STARTED
+          <NavLink to="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+            CLAIM YOUR PATCH
           </NavLink>
         </div>
 
@@ -80,14 +87,14 @@ export function TopNav() {
 
       {menuOpen && (
         <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
-          <div className="grid grid-cols-3 border-b border-[var(--line)] bg-[var(--bg-main)]">
+          <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <NavLink to="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">FIND</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </NavLink>
-            <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">PIPELINE</p>
-              <p className="text-base font-black text-[var(--ink)]">VIEW</p>
+            <NavLink to="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+              <p className="text-[10px] font-black text-[var(--muted)]">PATCH</p>
+              <p className="text-base font-black text-[var(--ink)]">CLAIM</p>
             </NavLink>
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
@@ -124,7 +131,7 @@ export function TopNav() {
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            GET STARTED — £6.99/WK
+            CLAIM YOUR PATCH
           </NavLink>
           <NavLink
             to="/find-jobs"

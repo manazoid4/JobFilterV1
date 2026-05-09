@@ -45,6 +45,7 @@ const SmartQuotePage = lazyPage(() => import('./pages/SmartQuotePage'));
 const TipsPage = lazyPage(() => import('./pages/TipsPage'));
 const CodexPage = lazyPage(() => import('./pages/CodexPage'));
 const TradieStackPage = lazyPage(() => import('./pages/TradieStackPage'));
+const TerritoriesPage = lazyPage(() => import('./pages/TerritoriesPage'));
 const TradeBuilders = lazyPage(() => import('./pages/TradeBuilders'));
 const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
 const TradeHeatPumps = lazyPage(() => import('./pages/TradeHeatPumps'));
@@ -102,6 +103,10 @@ function AppContent() {
         <Route path="/tips" element={<LazyPage><TipsPage /></LazyPage>} />
         <Route path="/news" element={<LazyPage><NewsPage /></LazyPage>} />
         <Route path="/pricing" element={<LazyPage><PricingPage /></LazyPage>} />
+        <Route path="/territories" element={<LazyPage><TerritoriesPage /></LazyPage>} />
+        <Route path="/claim" element={<LazyPage><TerritoriesPage /></LazyPage>} />
+        <Route path="/trade-map" element={<LazyPage><TerritoriesPage /></LazyPage>} />
+        <Route path="/uk-grid" element={<LazyPage><TerritoriesPage /></LazyPage>} />
         <Route path="/smart-quote" element={<LazyPage><SmartQuotePage /></LazyPage>} />
         <Route path="/vantage" element={<LazyPage><ProductAdvantagePage type="vantage" /></LazyPage>} />
         <Route path="/vicinity" element={<LazyPage><ProductAdvantagePage type="vicinity" /></LazyPage>} />

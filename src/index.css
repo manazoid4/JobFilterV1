@@ -2,19 +2,21 @@
 @import "tailwindcss";
 
 :root {
-  --bg-main: #F1F5F9;
-  --ink: #0F172A;
-  --navy: #0F172A;
-  --yellow: #B8860B;
+  --bg-main: #F3F1EA;
+  --ink: #080808;
+  --navy: #080808;
+  --yellow: #FFD21F;
   --green: #22C55E;
-  --orange: #EF4444;
-  --line: #1E293B;
-  --muted: #475569;
+  --orange: #D94A28;
+  --line: #080808;
+  --muted: #4A4A43;
   --white: #FFFFFF;
-  --paper: #F8FAFC;
-  --offwhite: #F8FAFC;
-  --rule: #E2E8F0;
-  --yellow-2: #E5B83A;
+  --paper: #FFFDF4;
+  --offwhite: #E8E5DA;
+  --rule: #C9C4B6;
+  --yellow-2: #FFE05A;
+  --steel: #222629;
+  --steel-2: #343A40;
 }
 
 * {
@@ -119,11 +121,31 @@ select {
   padding-block: 96px;
 }
 
+.ops-panel {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  box-shadow: 4px 4px 0 var(--yellow);
+}
+
+.ops-strip {
+  border-block: 2px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(8, 8, 8, 0.08) 25%, transparent 25%) 0 0 / 18px 18px,
+    var(--yellow);
+}
+
+.map-grid {
+  background-image:
+    linear-gradient(rgba(255, 210, 31, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 210, 31, 0.22) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
 /* ── COMPONENTS ─────────────────────────────────────── */
 
 .jf-box {
   border: 2px solid var(--navy);
-  border-radius: 4px;
+  border-radius: 2px;
   box-shadow: 4px 4px 0 var(--yellow);
   background: var(--white);
   max-width: 100%;
@@ -233,14 +255,14 @@ select {
 /* ── NAVIGATION ─────────────────────────────────────── */
 
 .nav-link {
-  padding: 8px 12px;
+  padding: 8px 10px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--navy);
-  border-radius: 4px;
+  border-radius: 0;
   white-space: normal;
   min-height: 44px;
   display: inline-flex;
