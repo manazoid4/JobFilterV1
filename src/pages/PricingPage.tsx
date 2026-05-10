@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { WaitlistForm } from '../components/WaitlistForm';
-import { FeedbackPrompt } from '../components/FeedbackPrompt';
 
 const plans = {
   founderMonthly: 39,
@@ -49,8 +48,6 @@ export function PricingPage() {
           <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">SCAN FIRST</Link>
         </div>
       </section>
-
-      <FeedbackPrompt />
 
       <section className="grid gap-4 lg:grid-cols-3">
         <PlanCard
