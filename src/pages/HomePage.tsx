@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AlertTriangle, Radio, ShieldCheck, Target } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
-import { FeedbackPrompt } from '../components/FeedbackPrompt';
 
 const proofPoints = [
   'Real planning signals',
@@ -69,9 +68,6 @@ export function HomePage() {
               <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
                 Claim Territory
               </Link>
-              <Link className="jf-button bg-[var(--steel-2)] text-white" to="/post-job">
-                Post A Job
-              </Link>
             </div>
           </div>
 
@@ -106,12 +102,6 @@ export function HomePage() {
           <span>FETCH - NORMALISE - FILTER</span>
               <span>MONEY FILTER - STORE - DELIVER</span>
           <span>WhatsApp first. Dashboard second.</span>
-        </div>
-      </section>
-
-      <section className="bg-[var(--paper)]">
-        <div className="page-shell py-6">
-          <FeedbackPrompt />
         </div>
       </section>
 

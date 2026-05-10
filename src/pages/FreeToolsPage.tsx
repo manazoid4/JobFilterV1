@@ -1,7 +1,7 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const DEV_MODE = true; // UNLOCKED FOR TESTING
+const DEV_MODE = false;
 const FREE_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const STORAGE_KEY = 'jf-free-scans-used';
 const SOCIAL_PROOF_KEY = 'jf-social-proof-week';

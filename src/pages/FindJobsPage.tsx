@@ -7,8 +7,8 @@ import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
-const DEV_MODE = true; // UNLOCKED FOR TESTING
-const OPEN_ACCESS = true; // UNLOCKED FOR TESTING
+const DEV_MODE = false;
+const OPEN_ACCESS = false;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
