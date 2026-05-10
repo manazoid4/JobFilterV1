@@ -416,7 +416,7 @@ export function FindJobsPage() {
                   <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    What you see above proves the leads exist. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
+                    Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
                   </p>
                 </section>
               )}
@@ -524,9 +524,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer} />
-        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
-        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
+        <LockedValue label="Buyer" value={lead.buyer} lockedText="Unlock buyer" />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} lockedText="Unlock timing" />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} lockedText="Unlock proof" />
         {OPEN_ACCESS ? (
           <>
             {isTracked ? (
@@ -631,7 +631,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+function LockedValue({ label, value, isLink, href, lockedText = 'UNLOCK' }: { label: string; value: string | undefined; isLink?: boolean; href?: string; lockedText?: string }) {
   if (DEV_MODE && !value) {
     return (
       <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 p-3">
@@ -644,12 +644,13 @@ function LockedValue({ label, value, isLink, href }: { label: string; value: str
     return (
       <div className="relative border-2 border-[var(--line)] overflow-hidden p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+        {label === 'Deadline' && <p className="mt-1 text-xs font-black text-[var(--muted)]">Timing locked</p>}
         <p className="mt-1 font-black blur-sm select-none text-[var(--ink)] pointer-events-none">████████████████</p>
         <Link
           to="/pricing"
           className="absolute inset-0 flex items-center justify-center bg-white/80"
         >
-          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">UNLOCK</span>
+          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">{lockedText}</span>
         </Link>
       </div>
     );

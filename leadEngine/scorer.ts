@@ -115,7 +115,8 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push('Weak contact signal (+8)');
   }
   if (lead.contactSignal === 'none') {
-    reasons.push('No contact signal (+0)');
+    score -= 12;
+    reasons.push('No contact signal (-12)');
   }
 
   const raw = parseValueToMidpoint(lead.estimatedValue);

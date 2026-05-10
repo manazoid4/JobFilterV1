@@ -249,7 +249,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const radiusFiltered = radiusMiles
     ? rankingPool.filter(l => (l.distanceMiles ?? 0) <= radiusMiles)
     : rankingPool;
-  radiusFiltered.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  radiusFiltered.sort((a, b) => compareLeadRank(a, b));
 
   // Update passed counts from normalised totals
   for (const source of Object.keys(mergedStats)) {
@@ -293,6 +293,19 @@ function disabledSources(names: string[]): { leads: RawLead[]; stats: Record<str
     stats[name] = { fetched: 0, passed: 0, dropped: 0, failed: false };
   }
   return { leads: [], stats };
+}
+
+function contactRank(lead: Lead): number {
+  if (lead.contactSignal === 'strong') return 2;
+  if (lead.contactSignal === 'weak') return 1;
+  return 0;
+}
+
+function compareLeadRank(a: Lead, b: Lead): number {
+  return (b.score ?? 0) - (a.score ?? 0)
+    || contactRank(b) - contactRank(a)
+    || b.sourceConfidence - a.sourceConfidence
+    || Number(b.estimatedValue !== 'POA') - Number(a.estimatedValue !== 'POA');
 }
 
 // Fuzzy dedup: returns true if two signatures overlap enough to be the same lead

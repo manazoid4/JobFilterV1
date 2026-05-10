@@ -130,18 +130,8 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(lead: Lead, score: number): string[] {
-  const reasons: string[] = [];
-  if (lead.source === 'ContractsFinder') reasons.push('Official government tender source');
-  else if (lead.source === 'FTS') reasons.push('Find a Tender official notice');
-  else if (lead.source === 'PlanningData') reasons.push('Live planning portal signal');
-  else if (lead.source === 'CompaniesHouse') reasons.push('Company growth signal');
-  else if (lead.source === 'LandRegistry') reasons.push('Property sale — new owner renovation signal');
-  else if (lead.source === 'DirectorySignal') reasons.push('Local trade demand signal');
-  reasons.push(titleCase(lead.trade) + ' trade match');
-  if (score >= 80) reasons.push('High priority lead');
-  else if (score >= 55) reasons.push('Worth checking');
-  return reasons.slice(0, 3);
+function buildReasons(_lead: Lead, _score: number): string[] {
+  return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
 }
 
 function sanitizeTrade(input: unknown) {
