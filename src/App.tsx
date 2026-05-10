@@ -16,6 +16,7 @@ function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
 
 const BuildUkAlternativePage = lazyPage(() => import('./pages/BuildUkAlternativePage'));
 const ActivationPendingPage = lazyPage(() => import('./pages/ActivationPendingPage'));
+const BlueprintPage = lazyPage(() => import('./pages/BlueprintPage'));
 // Removed ChaseEnginePage - integrated into Dashboard
 const CityBirmingham = lazyPage(() => import('./pages/CityBirmingham'));
 const CityBristol = lazyPage(() => import('./pages/CityBristol'));
@@ -26,6 +27,7 @@ const CityManchester = lazyPage(() => import('./pages/CityManchester'));
 const CompareBuildAlertPage = lazyPage(() => import('./pages/CompareBuildAlertPage'));
 const CompareCheckatradePage = lazyPage(() => import('./pages/CompareCheckatradePage'));
 const DashboardPage = lazyPage(() => import('./pages/DashboardPage'));
+const DevPortalPage = lazyPage(() => import('./pages/DevPortalPage'));
 const EpcPage = lazyPage(() => import('./pages/EpcPage'));
 const FindJobsPage = lazyPage(() => import('./pages/FindJobsPage'));
 const ForYourTradePage = lazyPage(() => import('./pages/ForYourTradePage'));
@@ -89,6 +91,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/2builduk-alternative" element={<LazyPage><BuildUkAlternativePage /></LazyPage>} />
+        <Route path="/blueprint" element={<LazyPage><BlueprintPage /></LazyPage>} />
         <Route path="/vs/buildalert" element={<LazyPage><CompareBuildAlertPage /></LazyPage>} />
         <Route path="/vs/checkatrade" element={<LazyPage><CompareCheckatradePage /></LazyPage>} />
         <Route path="/my-link" element={<LazyPage><MyLinkPage /></LazyPage>} />
@@ -99,6 +102,7 @@ function AppContent() {
         <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />
         {/* Chase and Win routes removed - functionality integrated into /dashboard */}
         <Route path="/dashboard" element={<LazyPage><DashboardPage /></LazyPage>} />
+        <Route path="/dev-portal" element={<LazyPage><DevPortalPage /></LazyPage>} />
         <Route path="/for-your-trade" element={<LazyPage><ForYourTradePage /></LazyPage>} />
         <Route path="/epc" element={<LazyPage><EpcPage /></LazyPage>} />
         <Route path="/free-tools" element={<LazyPage><FreeToolsPage /></LazyPage>} />

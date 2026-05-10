@@ -65,6 +65,7 @@ async function sendEmail(to: string, subject: string, html: string) {
 const app = express();
 app.use(express.json());
 if (!getApps().length) initializeApp();
+const FULL_ACCESS_TEST_MODE = true;
 
 app.post('/api/leads/scan', async (req, res) => {
   const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
@@ -96,8 +97,8 @@ app.post('/api/leads/search', async (req, res) => {
     const allLeads = result.leads;
 
     const FREE_LIMIT = 2;
-    const visibleLeads = allLeads.slice(0, FREE_LIMIT).map(toFreePreviewLead);
-    const lockedCount = Math.max(0, allLeads.length - FREE_LIMIT);
+    const visibleLeads = FULL_ACCESS_TEST_MODE ? allLeads : allLeads.slice(0, FREE_LIMIT).map(toFreePreviewLead);
+    const lockedCount = FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, allLeads.length - FREE_LIMIT);
 
     return res.json({
       ok: true,
@@ -107,6 +108,7 @@ app.post('/api/leads/search', async (req, res) => {
       outward: result.outward,
       leads: visibleLeads,
       lockedCount,
+      accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
       errors: result.errors ?? [],
     });
   } catch (err: any) {

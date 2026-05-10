@@ -1,0 +1,66 @@
+JOBFILTER SESSION HANDOFF - 2026-05-11
+
+Repo:
+C:\Users\manaz\Desktop\JobFilter\JobFilterV1
+
+Branch:
+fix/main-build
+
+What changed:
+1. Full access test mode is enabled.
+   - Frontend already had DEV_MODE/OPEN_ACCESS enabled in FindJobsPage and FreeToolsPage.
+   - server/routes/leadsSearch.ts now returns paid/full leads in test mode.
+   - functions/index.ts now returns paid/full leads in test mode.
+   - API responses include accessMode: full-test-access and lockedCount: 0.
+
+2. Added dev portal:
+   - Route: /dev-portal
+   - File: src/pages/DevPortalPage.tsx
+   - Purpose: one page to test scanner, tools, dashboard, PatchLock, signals, blueprint, homeowner intake, pricing.
+
+3. Brought back Blueprint as a standalone product page:
+   - Route: /blueprint
+   - File: src/pages/BlueprintPage.tsx
+   - Positioning: JobFilter is a UPRN-centered UK construction signal graph, not a marketplace.
+   - Includes homeowner-friendly explanation: no quote circus, matched not blasted.
+
+4. Improved homeowner-facing content:
+   - src/pages/PostJobPage.tsx now explains the job matching flow more clearly and positions it as a better alternative to shared quote forms.
+   - Home page links to Blueprint.
+
+5. Removed paid-only testing copy from:
+   - src/pages/ProductAdvantagePage.tsx
+   - src/pages/CodexPage.tsx
+
+6. Added vault research notes:
+   - Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Growth Playbook - Worldwide and UK.md
+   - Obsidian_Memory/Obsidian_Vault/JobFilter/System/Earliest Buying Signals Research Brief - 2026-05-11.md
+   - Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Signal Scoreboard.md
+   - Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Fastest Wins.md
+   - Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Unfair Advantage Stack.md
+
+7. Updated vault indexes:
+   - Vault Map.md
+   - JobFilter/JobFilter Map.md
+   - JobFilter/Product/Product Index.md
+   - JobFilter/System/System Index.md
+   - Recent.md
+
+Next best work:
+1. Run real browser check for /blueprint, /dev-portal, /find-jobs, /post-job.
+2. Build first UPRN graph schema.
+3. Add Planning Data pending/submitted query improvements.
+4. Add EPC F/G retrofit enrichment.
+5. Research first scaffold/skip official permit connector.
+
+Verification done:
+1. npm run lint passed.
+2. npm run build passed.
+3. Firebase hosting deploy passed.
+4. Live route checks returned HTTP 200 for:
+   - https://jobfilter-uk.web.app/blueprint
+   - https://jobfilter-uk.web.app/dev-portal
+   - https://jobfilter-uk.web.app/post-job
+
+Known note:
+functions TypeScript compile currently reports existing errors inside functions/leadEngine/scan.ts. Hosting is deployed. Function source has full-access test mode changes, but functions were not deployed in this pass.

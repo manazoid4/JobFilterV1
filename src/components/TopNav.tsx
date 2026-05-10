@@ -5,9 +5,11 @@ const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/territories', label: 'PatchLock' },
   { to: '/signals', label: 'Signals' },
+  { to: '/blueprint', label: 'Blueprint' },
   { to: '/dashboard', label: 'Pipeline' },
   { to: '/post-job', label: 'Post Job' },
   { to: '/free-tools', label: 'Tools' },
+  { to: '/dev-portal', label: 'Dev' },
   { to: '/pricing', label: 'Pricing' },
 ];
 

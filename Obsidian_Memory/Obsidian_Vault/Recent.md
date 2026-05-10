@@ -12,3 +12,8 @@
 - Resumed JobFilter from the vault handoff and fixed free scanner redaction regressions.
 - Free preview now returns only the paid-preview marker for reasons and locks buyer, URL, deadline, contact signal, exact value, and exact score detail.
 - Lead ranking now penalises no-contact leads and uses contact strength as a score tie-breaker, restoring the 50+ lead quality suite to 42/42 one-lead-rule passes.
+
+## 2026-05-11
+- Added Growth Playbook, Earliest Buying Signals brief, Signal Scoreboard, Fastest Wins, and Unfair Advantage Stack notes to the JobFilter vault.
+- Added `/blueprint` to explain JobFilter as a UPRN-centred construction intelligence graph and homeowner matching layer.
+- Added `/dev-portal` and switched lead search endpoints into full-access test mode so product flows can be tested without paywall redaction.

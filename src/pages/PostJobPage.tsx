@@ -1,7 +1,13 @@
 import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ClipboardCheck, MapPin, Radar, ShieldCheck } from 'lucide-react';
 
 const trades = ['Builder', 'Roofer', 'Electrician', 'Plumber', 'Heat pump installer', 'Bathroom fitter', 'Landscaper', 'Not sure'];
+const proofCards = [
+  { icon: ShieldCheck, label: 'No quote circus' },
+  { icon: Radar, label: 'Signal-matched' },
+  { icon: MapPin, label: 'Local patch fit' },
+];
 
 export function PostJobPage() {
   const [sent, setSent] = useState(false);
@@ -36,15 +42,25 @@ export function PostJobPage() {
               NEED A SERIOUS TRADE? SKIP THE QUOTE LOTTERY.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-              Tell us the job once. We route it to a suitable local firm instead of blasting it around a shared lead market.
+              Tell us the job once. JobFilter packages it properly, checks local fit, and routes it to a serious firm instead of blasting your details around a shared lead market.
             </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {proofCards.map(({ icon: RealIcon, label }) => {
+                return (
+                  <div key={label} className="border-2 border-white/20 bg-white/8 p-3">
+                    <RealIcon className="text-[var(--yellow)]" size={22} strokeWidth={3} />
+                    <p className="mt-2 text-sm font-black uppercase">{label}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="ops-panel bg-white p-5 text-[var(--ink)]">
             <p className="micro-label text-[var(--orange)]">WHAT HAPPENS NEXT</p>
             <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
-              <p>We review the job and send it to a suitable local firm.</p>
-              <p>Clear details mean faster replies, better quotes, and less back-and-forth.</p>
-              <p>Trades can also add local campaigns to keep their patch busy with more repeat work.</p>
+              <p>We review the job and score urgency, trade fit, location, and detail quality.</p>
+              <p>Clear jobs get routed to local firms who can actually price the work.</p>
+              <p>The system is designed to reduce spam, weak quotes, and wasted visits.</p>
             </div>
           </div>
         </div>
@@ -63,11 +79,12 @@ export function PostJobPage() {
 
         <aside className="grid gap-4">
           {[
-            ['No public bidding war', 'We do not make you fight through dozens of calls. The job gets checked and routed.'],
-            ['Better matching', 'Serious job details mean less wasted quoting and better first conversations.'],
-            ['More local demand', 'PatchLock firms can fund local sticker, leaflet, letter and neighbour campaigns in month one.'],
+            ['No public bidding war', 'Your job is treated like a signal, not bait for a lead auction.'],
+            ['Better first call', 'The right context means the first reply can be practical, not a generic sales script.'],
+            ['Built on intelligence', 'Planning, EPC, patch demand, and local trade capacity make the matching smarter over time.'],
           ].map(([title, body]) => (
             <article key={title} className="ops-panel bg-white p-5">
+              <ClipboardCheck className="text-[var(--orange)]" size={24} strokeWidth={3} />
               <h2 className="headline text-3xl">{title}</h2>
               <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
             </article>

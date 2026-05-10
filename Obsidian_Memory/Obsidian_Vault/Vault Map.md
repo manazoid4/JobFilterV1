@@ -16,6 +16,8 @@
 - [[Product Index]]
 - [[EPC Signal Engine]]
 - [[Data Sources]]
+- [[Growth Playbook - Worldwide and UK]]
+- [[Unfair Advantage Stack]]
 - [[Launch Scenarios]]
 - [[Rolling Launch Summary]]
 - [[Daily To-Do]]

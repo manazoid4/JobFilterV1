@@ -91,10 +91,10 @@ function ServiceForm({ trade }: { trade: string }) {
   return (
     <div className="grid gap-4">
       <div className="jf-box border-4 border-[var(--yellow)] bg-white p-4">
-        <p className="micro-label text-[var(--orange)]">PRICING</p>
-        <p className="mt-2 text-lg font-black text-[var(--ink)]">Included with Founding 30 (£39/mo) and Pro (£79/mo).</p>
-        <p className="mt-1 font-black text-[var(--muted)]">Free tier: free tools only. Paid plan unlocks this service.</p>
-        <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
+        <p className="micro-label text-[var(--orange)]">FULL ACCESS TEST MODE</p>
+        <p className="mt-2 text-lg font-black text-[var(--ink)]">This service is unlocked for testing.</p>
+        <p className="mt-1 font-black text-[var(--muted)]">Submit the form and test the complete flow without plan gating.</p>
+        <Link to="/dev-portal" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">Open dev portal →</Link>
       </div>
       <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
         <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>

@@ -65,6 +65,9 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
                 Scan My Area
               </Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/blueprint">
+                See Blueprint
+              </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
                 Claim Territory
               </Link>
@@ -186,7 +189,10 @@ export function HomePage() {
               <p>Neighbour Signal door-drop after won jobs</p>
               <p>Public “post a job” intake page for repeat demand</p>
             </div>
-            <Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/post-job">See Public Intake</Link>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <Link className="jf-button bg-[var(--ink)] text-white" to="/post-job">See Public Intake</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/blueprint">Why This Is Different</Link>
+            </div>
           </div>
         </div>
       </section>

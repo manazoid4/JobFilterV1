@@ -6,6 +6,7 @@ import { parseUkPostcode } from '../utils/postcode';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
+const FULL_ACCESS_TEST_MODE = true;
 
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
@@ -15,9 +16,8 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const result = await scan({ postcode: postcode.postcode, trade, tier: 'free', radiusMiles });
-      const leads = result.leads
-        .map(toFreePreviewLead);
+      const result = await scan({ postcode: postcode.postcode, trade, tier: FULL_ACCESS_TEST_MODE ? 'paid' : 'free', radiusMiles });
+      const leads = FULL_ACCESS_TEST_MODE ? result.leads : result.leads.map(toFreePreviewLead);
 
       console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, ms: Date.now() - started });
       return res.json({
@@ -27,6 +27,8 @@ export function registerLeadSearchRoute(app: Express) {
         region: result.region,
         outward: result.outward,
         leads,
+        lockedCount: FULL_ACCESS_TEST_MODE ? 0 : result.lockedCount,
+        accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
         errors: result.errors,
       });
     } catch (error: any) {

@@ -5,6 +5,7 @@
 - [[Agent Running Model]]
 - [[Obsidian Visual Maps]]
 - [[Simple Competitor List]]
+- [[Earliest Buying Signals Research Brief - 2026-05-11]]
 
 ## Product
 

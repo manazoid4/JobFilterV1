@@ -164,10 +164,10 @@ export function CodexPage() {
           </div>
 
           <div className="jf-box border-4 border-[var(--yellow)] bg-white p-5">
-            <p className="micro-label text-[var(--orange)]">PRICING</p>
-            <p className="mt-2 text-lg font-black text-[var(--ink)]">Included with Founding 30 (£39/mo) and Pro (£79/mo).</p>
-            <p className="mt-1 font-black text-[var(--muted)]">Free tier: free tools only. Paid plan unlocks this service.</p>
-            <Link to="/pricing" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">See full pricing →</Link>
+            <p className="micro-label text-[var(--orange)]">FULL ACCESS TEST MODE</p>
+            <p className="mt-2 text-lg font-black text-[var(--ink)]">Codex is unlocked for testing.</p>
+            <p className="mt-1 font-black text-[var(--muted)]">Paste text, generate an output, and test WhatsApp-ready copy without a paywall.</p>
+            <Link to="/dev-portal" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">Open dev portal →</Link>
           </div>
         </div>
       </div>
@@ -175,15 +175,15 @@ export function CodexPage() {
       {/* ── CTA ───────────────────────────────────── */}
       <section className="grid gap-6 lg:grid-cols-[1fr_420px] lg:items-start">
         <div className="jf-box bg-[var(--yellow)] p-7">
-          <p className="micro-label text-[var(--ink)]">COMING SOON</p>
+          <p className="micro-label text-[var(--ink)]">TEST NOW</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl text-[var(--ink)]">
             TURN TECHNICAL WORK INTO SALES ASSETS.
           </h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
             Codex takes the stuff only you understand and turns it into plain English that closes jobs. No copywriter. No waffle.
           </p>
-          <Link to="/intake-test" className="jf-button mt-6 bg-[var(--navy)] text-white">
-            JOIN WAITLIST FOR EARLY ACCESS →
+          <Link to="/dev-portal" className="jf-button mt-6 bg-[var(--navy)] text-white">
+            OPEN FULL ACCESS DEV PORTAL →
           </Link>
         </div>
         <WaitlistForm source="codex" />

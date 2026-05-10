@@ -140,4 +140,3 @@ async function getFoundingCount() {
         .get();
     return snapshot.data().count || 0;
 }
-
