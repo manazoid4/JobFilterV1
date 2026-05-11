@@ -225,7 +225,7 @@ export function BlueprintPage() {
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
               We find the work before it hits the bid boards.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/82 md:text-2xl">
+            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               JobFilter scans official UK construction signals — planning applications, permits, EPC records, streetworks, company filings — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared leads. No homeowner posts. Just early, exclusive signals routed to the right trade.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

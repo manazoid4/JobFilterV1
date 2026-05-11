@@ -544,7 +544,7 @@ export function WeeklySignalsPage() {
               SHARE THIS FEED →
             </button>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
+          <p className="mt-4 text-sm font-black text-[var(--ink)]/80">
             3 free scans every week. Founding 30: £39/mo while active.
           </p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">

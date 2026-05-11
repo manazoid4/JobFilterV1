@@ -302,7 +302,7 @@ export function FindJobsPage() {
               <p className="mt-1 font-black text-white/70">
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
-              <p className="mt-1 text-sm font-black text-white/50">
+              <p className="mt-1 text-sm font-black text-white/75">
                 Your quiet week isn't a skills problem. It's a pipeline problem.
               </p>
             </div>
@@ -443,7 +443,7 @@ export function FindJobsPage() {
                     <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
                   <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/mo →</Link>
-                  <p className="mt-3 text-xs font-black text-white/50">
+                  <p className="mt-3 text-xs font-black text-white/75">
                     30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
                   </p>
                 </div>

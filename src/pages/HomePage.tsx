@@ -51,7 +51,7 @@ export function HomePage() {
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
               STOP QUOTING FOR TYRE-KICKERS.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/82 md:text-2xl">
+            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               Claim your trade territory before competitors do. JobFilter finds real construction signals, scores the money, and sends the best leads to WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
