@@ -242,7 +242,7 @@ export function CompareCheckatradePage() {
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <h3 className="headline text-xl text-[var(--yellow)]">JOBFILTER</h3>
               <ul className="mt-4 grid gap-3 font-black text-white/85">
-                <li>£39/month (£39/mo) — all trades, all signals</li>
+                <li>£39/mo — all trades, all signals</li>
                 <li>Every signal is exclusive — no one else sees it</li>
                 <li>We score every signal. GOLD means worth chasing</li>
                 <li>Official data — planning, EPC, contracts. Not forms</li>
@@ -396,9 +396,9 @@ export function CompareCheckatradePage() {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
-              <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
+              <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">
