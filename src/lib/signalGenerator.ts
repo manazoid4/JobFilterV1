@@ -378,7 +378,7 @@ export function generateEmailSummary(week: WeekData, trade?: string): string {
 
   body += `\nTop region: ${topRegion.region} with ${topRegion.total} signals (${topRegion.gold} GOLD).\n`;
   body += `\nTrend: ${week.weekOverWeekTrend > 0 ? 'up' : week.weekOverWeekTrend < 0 ? 'down' : 'flat'} ${Math.abs(week.weekOverWeekTrend)}% vs last week.\n`;
-  body += `\nSee what's live in your area: https://jobfilter.co.uk/signals/weekly`;
+  body += `\nSee what's live in your area: https://jobfilter.uk/signals/weekly`;
 
   return body;
 }
@@ -393,7 +393,7 @@ export function generateRSSFeed(week: WeekData): string {
     return `
     <item>
       <title>${s.label}: ${s.thisWeek} signals (${s.gold} GOLD)</title>
-      <link>https://jobfilter.co.uk/signals/weekly</link>
+      <link>https://jobfilter.uk/signals/weekly</link>
       <description>${desc}</description>
       <pubDate>${pubDate}</pubDate>
       <guid>jobfilter-${s.key}-${week.weekNumber}-${new Date().getFullYear()}</guid>
@@ -404,7 +404,7 @@ export function generateRSSFeed(week: WeekData): string {
 <rss version="2.0">
   <channel>
     <title>JobFilter Weekly Signals</title>
-    <link>https://jobfilter.co.uk/signals/weekly</link>
+    <link>https://jobfilter.uk/signals/weekly</link>
     <description>Weekly construction signals from official UK data sources. Planning applications, EPC ratings, council contracts, property sales, and new business registrations.</description>
     <language>en-GB</language>
     <lastBuildDate>${pubDate}</lastBuildDate>
@@ -416,7 +416,7 @@ export function generateRSSFeed(week: WeekData): string {
 // ─── Embed HTML Generator ────────────────────────────────────────────────────
 
 export function generateEmbedCode(week: WeekData): string {
-  return `<iframe src="https://jobfilter.co.uk/signals/weekly/embed?week=${week.weekNumber}" width="100%" height="600" style="border:2px solid #0F172A;border-radius:4px;" title="JobFilter Weekly Signals"></iframe>`;
+  return `<iframe src="https://jobfilter.uk/signals/weekly/embed?week=${week.weekNumber}" width="100%" height="600" style="border:2px solid #0F172A;border-radius:4px;" title="JobFilter Weekly Signals"></iframe>`;
 }
 
 // ─── Export ──────────────────────────────────────────────────────────────────
