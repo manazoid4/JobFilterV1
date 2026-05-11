@@ -14,6 +14,7 @@
 - [[Signal Scoreboard]]
 - [[Fastest Wins]]
 - [[Unfair Advantage Stack]]
+- [[Competitive Intelligence - Belvoir and FixFlo]]
 
 ## Design
 
