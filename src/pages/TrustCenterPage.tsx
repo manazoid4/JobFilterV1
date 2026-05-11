@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare } from 'lucide-react';
+import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Eye, Crown } from 'lucide-react';
 
 const dataSources = [
   'Planning applications and approvals',
@@ -91,17 +91,33 @@ export function TrustCenterPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { score: '90-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--green)] text-white' },
-            { score: '75-89', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]' },
-            { score: '60-74', label: 'BRONZE', action: 'Verify first', color: 'bg-[var(--orange)] text-white' },
-            { score: 'Below 60', label: 'CHECK', action: 'Proceed with caution', color: 'bg-[var(--muted)] text-white' },
-          ].map((tier) => (
-            <div key={tier.label} className={`jf-box p-5 ${tier.color}`}>
-              <p className="micro-label opacity-80">{tier.score}</p>
-              <p className="headline mt-1 text-2xl">{tier.label}</p>
-              <p className="mt-2 text-sm font-black opacity-90">{tier.action}</p>
-            </div>
-          ))}
+            { score: '90-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--green)] text-white', icon: Trophy, tag: '90% of revenue comes from GOLD' },
+            { score: '75-89', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]', icon: Medal, tag: 'Worth watching' },
+            { score: '60-74', label: 'BRONZE', action: 'Verify first', color: 'bg-[var(--orange)] text-white', icon: AlertTriangle, tag: 'Check before quoting' },
+            { score: 'Below 60', label: 'CHECK', action: 'Proceed with caution', color: 'bg-[var(--muted)] text-white', icon: Eye, tag: 'Low confidence signal' },
+          ].map((tier) => {
+            const Icon = tier.icon;
+            const isGold = tier.label === 'GOLD';
+            return (
+              <div key={tier.label} className={`jf-box p-5 ${tier.color} ${isGold ? 'ring-4 ring-[var(--yellow)] ring-offset-2' : ''}`}>
+                <div className="flex items-center gap-2">
+                  <Icon size={isGold ? 28 : 22} strokeWidth={3} />
+                  <p className="micro-label opacity-80">{tier.score}</p>
+                </div>
+                <p className={`headline mt-2 ${isGold ? 'text-3xl' : 'text-2xl'}`}>{tier.label}</p>
+                <p className="mt-2 text-sm font-black opacity-90">{tier.action}</p>
+                {isGold && (
+                  <div className="mt-3 inline-flex items-center gap-1 border border-white/40 bg-white/15 px-2 py-1 text-[10px] font-black uppercase">
+                    <Crown size={12} strokeWidth={3} />
+                    {tier.tag}
+                  </div>
+                )}
+                {!isGold && (
+                  <p className="mt-3 text-[10px] font-black uppercase opacity-70">{tier.tag}</p>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-6 jf-box bg-[var(--bg-main)] p-6">

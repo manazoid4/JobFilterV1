@@ -267,6 +267,28 @@ export function PricingPage() {
         </div>
       </section>
 
+      {/* ── GUARANTEE + OBJECTIONS ─────────────────────── */}
+      <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-8">
+        <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
+        <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
+          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.
+        </p>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { q: 'What if my patch has no signals?', a: 'Every patch we list has verified live signals. If signals drop below viable levels for 60 days, we release the lock and refund that month.' },
+            { q: 'Can I cancel anytime?', a: 'Yes — no contract. Cancel whenever you want. But founder price only locks while active. Cancel and rejoin later, you pay the new rate.' },
+            { q: 'What if my competitor takes my patch?', a: 'First come, first served. Once you lock it, no one else gets priority routing for your trade in that postcode cluster.' },
+            { q: 'Is £39/mo really worth it?', a: 'One £2,000 job covers 51 months of JobFilter. Most founders close their first lead within 14 days. The maths is simple.' },
+          ].map(({ q, a }) => (
+            <div key={q} className="jf-box bg-white p-4">
+              <p className="headline text-sm">{q}</p>
+              <p className="mt-2 text-xs font-black text-[var(--muted)]">{a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <div className="ops-panel bg-[var(--steel)] p-6 text-white">
             <p className="micro-label text-[var(--yellow)]">TERRITORIES</p>

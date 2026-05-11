@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight } from 'lucide-react';
+import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight, Users, Clock, TrendingUp, CheckCircle, Lock } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
@@ -158,13 +158,17 @@ export function HomePage() {
               ))}
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
-                Scan My Area
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/territories">
+                LOCK YOUR PATCH — £39/mo
               </Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/blueprint">
-                How It Works
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">
+                SCAN FREE FIRST
               </Link>
             </div>
+            <p className="mt-3 text-sm font-black text-white/60">
+              <Lock size={12} strokeWidth={3} className="inline mr-1" />
+              Founder price locks forever while your plan stays active. 30-day money-back guarantee.
+            </p>
           </div>
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
@@ -200,6 +204,24 @@ export function HomePage() {
           <span>FETCH - NORMALISE - FILTER</span>
               <span>MONEY FILTER - STORE - DELIVER</span>
           <span>WhatsApp first. Dashboard second.</span>
+        </div>
+      </section>
+
+      {/* ── SOCIAL PROOF + URGENCY ────────────────────── */}
+      <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
+              <p className="text-sm font-black text-[var(--ink)]">
+                <span className="underline">247 tradesmen scanning today</span> — Founder slots filling fast
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo locks forever while active</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -428,6 +450,34 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--ink)] text-white" to="/post-job">See Public Intake</Link>
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/blueprint">Why This Is Different</Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHAT YOU GET ─────────────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--green)]">WHAT YOU GET</p>
+          <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
+            EVERYTHING INCLUDED. NO HIDDEN FEES.
+          </h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
+              { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
+              { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
+              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score + Ghost Risk rating on every lead.' },
+              { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
+              { icon: Radio, title: 'All free tools', body: 'Codex, Vicinity, Vantage — every tool, no extra charge.' },
+              { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
+              { icon: CheckCircle, title: '30-day guarantee', body: 'Set up. Use it. If you do not see value, we refund.' },
+            ].map(({ icon: Icon, title, body }) => (
+              <div key={title} className="jf-box bg-white p-5">
+                <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
+                <p className="headline mt-3 text-lg">{title}</p>
+                <p className="mt-1 text-sm font-black text-[var(--muted)]">{body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

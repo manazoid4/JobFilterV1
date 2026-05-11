@@ -1,9 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, Target } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
+import { GhostRiskBadge } from '../components/GhostRiskBadge';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
@@ -659,6 +660,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           )}
           {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
+          <GhostRiskBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
+          <span className={`inline-flex items-center gap-1 border-2 px-2 py-0.5 text-[10px] font-black uppercase ${lead.score >= 90 ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]' : lead.score >= 75 ? 'border-[var(--yellow)] bg-[var(--yellow)]/10 text-[var(--yellow)]' : lead.score >= 60 ? 'border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--orange)]' : 'border-[var(--muted)] bg-[var(--muted)]/10 text-[var(--muted)]'}`}>
+            <Target size={10} strokeWidth={3} />
+            {lead.score} {lead.score >= 90 ? 'GOLD' : lead.score >= 75 ? 'SILVER' : lead.score >= 60 ? 'BRONZE' : 'CHECK'}
+          </span>
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
