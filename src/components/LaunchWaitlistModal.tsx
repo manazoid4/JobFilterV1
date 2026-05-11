@@ -27,24 +27,28 @@ export function LaunchWaitlistModal() {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] grid place-items-center bg-black/70 px-4 py-6">
+    <div className="fixed inset-0 z-[100] grid place-items-center bg-black/80 px-4 py-6 backdrop-blur-sm">
       <div className="w-full max-w-lg">
-        <div className="jf-box bg-[var(--navy)] p-5 text-white">
+        <div className="jf-box bg-[var(--paper)] p-6 text-[var(--ink)] shadow-[8px_8px_0_var(--yellow)]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
-              <h2 className="headline mt-2 text-4xl leading-none">LOCK YOUR PATCH.</h2>
-              <p className="mt-3 font-black text-white/90">Founder price: £39/month. About a tenner a week. Includes WhatsApp alerts and company-branded letters to selected leads.</p>
+              <p className="micro-label text-[var(--orange)]">EARLY ACCESS</p>
+              <h2 className="headline mt-2 text-4xl leading-none">FOUNDER PRICE: £39/MO.</h2>
+              <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. One trade partner per postcode. No shared leads. No ghosts.</p>
             </div>
-            <button className="min-h-[44px] min-w-[44px] border-2 border-white px-3 py-1 font-black" onClick={close} aria-label="Close waitlist">
-              X
+            <button
+              className="min-h-[44px] min-w-[44px] border-2 border-[var(--line)] bg-white px-3 py-1 text-[var(--ink)] shadow-[2px_2px_0_var(--line)] hover:bg-[var(--yellow)] transition-colors"
+              onClick={close}
+              aria-label="Close waitlist"
+            >
+              ✕
             </button>
           </div>
-          <div className="mt-4">
+          <div className="mt-5">
             <WaitlistForm source="launch-popup" compact onDone={markSeen} />
           </div>
-          <button className="mt-4 w-full text-center text-sm font-black uppercase text-white/90" onClick={close}>
-            Not now
+          <button className="mt-4 w-full text-center text-sm font-black uppercase text-[var(--muted)] hover:text-[var(--ink)]" onClick={close}>
+            Not right now
           </button>
         </div>
       </div>
