@@ -26,7 +26,7 @@ export function TradieStackPage() {
         <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">
           OWN THE SYSTEM THAT TURNS LOCAL ATTENTION INTO BOOKED WORK.
         </h1>
-        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
           Website, public intake, CRM, WhatsApp follow-up, reviews, quotes and neighbour campaigns. Built to catch homeowners, route jobs, and keep customers coming back.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -72,7 +72,7 @@ export function TradieStackPage() {
       <section className="ops-panel bg-[var(--yellow)] p-8" id="buy">
         <p className="micro-label text-[var(--ink)]">ONE PAYMENT</p>
         <h2 className="headline mt-3 text-6xl leading-none">£450 ONCE</h2>
-        <p className="mt-3 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-3 max-w-2xl text-xl font-black text-[var(--ink)]">
           No agency retainer. No monthly website tax. Own the capture system, then plug in JobFilter monthly when you want intelligence and routed leads.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">

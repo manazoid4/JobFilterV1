@@ -287,7 +287,7 @@ export function VicinityPage() {
         <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">WANT TO TURN FINISHED JOBS INTO MORE WORK?</p>
           <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">GET WHATSAPP ALERTS FOR NEW LEADS.</h2>
-          <p className="mt-3 max-w-xl font-black text-white/70">
+          <p className="mt-3 max-w-xl font-black text-white/90">
             Vicinity proves your work. Intake feeds you the next job. Real leads in your area, sent straight to WhatsApp. No chasing. No competing. STAY IN CONTROL.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">

@@ -14,7 +14,7 @@ export function NotFoundPage() {
         <p className="mt-4 text-2xl font-black text-[var(--ink)]">
           This page doesn't exist.
         </p>
-        <p className="mt-2 text-lg font-black text-[var(--ink)]/80">
+        <p className="mt-2 text-lg font-black text-[var(--ink)]">
           Here's where you can go instead:
         </p>
 

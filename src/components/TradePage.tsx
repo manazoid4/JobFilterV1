@@ -57,7 +57,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               </span>
             ))}
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]/80">
+          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
             {data.sub}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -98,7 +98,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             {data.stats.map(([num, label]) => (
               <div key={label} className="jf-box bg-white/10 p-5 text-center">
                 <p className="headline text-4xl text-[var(--yellow)]">{num}</p>
-                <p className="mt-2 font-black text-white/70 text-sm">{label}</p>
+                <p className="mt-2 font-black text-white/90 text-sm">{label}</p>
               </div>
             ))}
           </div>
@@ -128,7 +128,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div>
             <p className="micro-label text-[var(--ink)]">WHAT A {data.trade.toUpperCase()} LEAD LOOKS LIKE</p>
             <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THIS IS WHAT HITS YOUR SCREEN BEFORE ANYONE ELSE SEES IT.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
               Not a form submission. Not a shared lead. An official signal — scored, filtered, and sent to you because it matches your trade.
             </p>
           </div>
@@ -179,7 +179,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
               When a job scores Gold for your trade, it fires to WhatsApp within minutes. You're on the tools — you don't need another app to check.
             </p>
-            <div className="mt-6 grid gap-3 text-sm font-black text-white/70 sm:grid-cols-3">
+            <div className="mt-6 grid gap-3 text-sm font-black text-white/90 sm:grid-cols-3">
               <p>98% OPEN RATE</p>
               <p>WITHIN MINUTES</p>
               <p>BEFORE THE COMPETITION</p>
@@ -195,7 +195,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               </div>
               <pre className="whitespace-pre-wrap text-white/90">{data.whatsappMessage}</pre>
             </div>
-            <p className="mt-3 text-xs font-black text-white/50">This is what hits your phone. One tap. You're on the job.</p>
+            <p className="mt-3 text-xs font-black text-white/85">This is what hits your phone. One tap. You're on the job.</p>
           </div>
         </div>
       </section>
@@ -250,7 +250,7 @@ export function TradePage({ data }: { data: TradePageData }) {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. ONE {data.trade.toUpperCase()} JOB COVERS IT.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             Free shows you the signals. Founding 30 unlocks full details, WhatsApp alerts, source proof, and buyer names. 30-day money-back. No quibbles.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -264,7 +264,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
               <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
-              <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
+              <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
@@ -279,7 +279,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
           </div>
-          <p className="mt-6 font-black text-[var(--ink)]/60">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.</p>
+          <p className="mt-6 font-black text-[var(--ink)]/90">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.</p>
         </div>
       </section>
 
@@ -291,14 +291,14 @@ export function TradePage({ data }: { data: TradePageData }) {
             STOP WAITING.{' '}
             <span style={{ color: 'var(--yellow)' }}>START FILTERING.</span>
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/70">
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
             Scan your area free. See what {data.trade} work is active near you — before it hits the directories. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to={`/find-jobs?trade=${data.slug}&postcode=${data.ctaPostcode}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
-          <p className="mt-6 text-sm font-black text-white/50">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
+          <p className="mt-6 text-sm font-black text-white/85">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
         </div>
       </section>
     </main>

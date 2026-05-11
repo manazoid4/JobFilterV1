@@ -53,7 +53,7 @@ export function EpcPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <p className="micro-label text-[var(--ink)]">LETTER SERVICE</p>
         <h2 className="headline mt-3 text-5xl leading-none">INTRODUCTORY LETTER SERVICE.</h2>
-        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
           JobFilter can send a professional introductory letter to F/G rated property owners on your behalf. Company details, trade specialisation, compliance proof, and direct contact - before five other tradesmen are fighting for the same job.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-4">
@@ -78,7 +78,7 @@ export function EpcPage() {
         <div className="jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">GET EPC ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
-          <p className="mt-4 max-w-xl text-lg font-black text-white/75">
+          <p className="mt-4 max-w-xl text-lg font-black text-white/90">
             Join the EPC lead list. Gold signals go to WhatsApp when the paid alert flow opens.
           </p>
           <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>

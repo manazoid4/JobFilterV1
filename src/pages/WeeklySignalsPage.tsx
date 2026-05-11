@@ -433,7 +433,7 @@ export function WeeklySignalsPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">BY REGION</p>
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl text-white">WHERE THE WORK IS.</h2>
-          <p className="mt-4 max-w-2xl text-lg font-black text-white/60">
+          <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
             Click a region to see construction leads in that area.
           </p>
 
@@ -530,7 +530,7 @@ export function WeeklySignalsPage() {
           <h2 className="headline mt-4 text-[clamp(2.5rem,7vw,5rem)] leading-[0.88] text-[var(--ink)]">
             SCAN YOUR POSTCODE. SEE WHAT'S LIVE.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             {CURRENT_WEEK.totalGold} GOLD leads are waiting somewhere in the UK. How many are in your postcode?
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -544,7 +544,7 @@ export function WeeklySignalsPage() {
               SHARE THIS FEED →
             </button>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]/80">
+          <p className="mt-4 text-sm font-black text-[var(--ink)]">
             3 free scans every week. Founding 30: £39/mo while active.
           </p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">

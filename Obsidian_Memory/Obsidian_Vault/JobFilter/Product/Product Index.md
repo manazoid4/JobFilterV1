@@ -15,6 +15,8 @@
 - [[Fastest Wins]]
 - [[Unfair Advantage Stack]]
 - [[Competitive Intelligence - Belvoir and FixFlo]]
+- [[Landlord Data Moat]]
+- [[FixFlo Competitor Research]]
 
 ## Design
 

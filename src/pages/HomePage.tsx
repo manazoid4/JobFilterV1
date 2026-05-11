@@ -89,7 +89,7 @@ export function HomePage() {
                     </div>
                     <span className="border border-[var(--yellow)] px-2 py-1 font-mono text-xs font-black text-[var(--yellow)]">{row.score}</span>
                   </div>
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black uppercase text-white/70">
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black uppercase text-white/90">
                     <span>{row.trade}</span>
                     <span className="text-right">{row.value}</span>
                   </div>
@@ -147,7 +147,7 @@ export function HomePage() {
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
               SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
             </h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
               PatchLock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
             <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/territories">

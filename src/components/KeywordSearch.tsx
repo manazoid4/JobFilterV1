@@ -130,7 +130,7 @@ export function KeywordSearchResults({ results, query }: { results: DocumentSear
       <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
         <p className="micro-label text-[var(--yellow)]">NO MATCHES</p>
         <h3 className="headline mt-2 text-2xl">NO PLANNING DOCS FOUND FOR "{query.toUpperCase()}"</h3>
-        <p className="mt-2 font-black text-white/70">
+        <p className="mt-2 font-black text-white/90">
           Try a different keyword or widen your search area.
         </p>
       </section>

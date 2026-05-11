@@ -104,7 +104,7 @@ export function CompareBuildAlertPage() {
               jobs.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]/80">
+          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
             BuildAlert mails you planning applications. JobFilter scans five data sources, scores them, and fires Gold leads to your WhatsApp before the letter even lands.
           </p>
 
@@ -130,12 +130,12 @@ export function CompareBuildAlertPage() {
                 <span className="text-3xl">💬</span>
                 <div>
                   <p className="font-black text-[var(--yellow)]">WhatsApp alert on your phone</p>
-                  <p className="mt-1 font-black text-white/70 text-sm">Within minutes. Scored. Buyer named. Value shown. One tap to act.</p>
+                  <p className="mt-1 font-black text-white/90 text-sm">Within minutes. Scored. Buyer named. Value shown. One tap to act.</p>
                 </div>
               </div>
               <div className="mt-4 jf-box bg-white/10 p-3">
                 <p className="font-black text-[var(--yellow)] text-sm">£39/month × unlimited jobs = <span className="text-[var(--green)]">£39</span></p>
-                <p className="font-black text-white/50 text-xs mt-1">One price. Every signal. No per-action cost. Ever.</p>
+                <p className="font-black text-white/85 text-xs mt-1">One price. Every signal. No per-action cost. Ever.</p>
               </div>
             </div>
           </div>
@@ -215,7 +215,7 @@ export function CompareBuildAlertPage() {
               <div className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">JOBFILTER COST</p>
                 <p className="mt-2 headline text-5xl text-[var(--yellow)]">£{jobFilterCost}<span className="text-2xl text-[var(--yellow)]/60">/mo</span></p>
-                <p className="mt-1 font-black text-white/70 text-sm">
+                <p className="mt-1 font-black text-white/90 text-sm">
                   Unlimited scans. All 5 signals. WhatsApp alerts.
                 </p>
                 {jobsPerMonth > breakEven && (
@@ -224,7 +224,7 @@ export function CompareBuildAlertPage() {
                   </p>
                 )}
                 {jobsPerMonth <= breakEven && (
-                  <p className="mt-2 font-black text-white/50 text-sm">
+                  <p className="mt-2 font-black text-white/85 text-sm">
                     Slightly more at this volume — but you get 5 signals, scoring, and WhatsApp.
                   </p>
                 )}
@@ -326,7 +326,7 @@ export function CompareBuildAlertPage() {
               </div>
             </div>
           </div>
-          <p className="mt-6 text-sm font-black text-white/50">
+          <p className="mt-6 text-sm font-black text-white/85">
             Speed wins. Letters don't win. WhatsApp does.
           </p>
         </div>
@@ -342,7 +342,7 @@ export function CompareBuildAlertPage() {
               <thead>
                 <tr className="bg-[var(--navy)] text-white">
                   <th className="px-4 py-3 text-left">Feature</th>
-                  <th className="px-4 py-3 text-left text-white/60">BuildAlert</th>
+                  <th className="px-4 py-3 text-left text-white/90">BuildAlert</th>
                   <th className="px-4 py-3 text-left text-[var(--yellow)]">JobFilter</th>
                 </tr>
               </thead>
@@ -373,7 +373,7 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             BuildAlert shows you planning applications. JobFilter shows you planning plus four more sources that tell you work is coming — and scores them so you know which ones to chase.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -399,7 +399,7 @@ export function CompareBuildAlertPage() {
             <div className="jf-box bg-[var(--yellow)] p-6">
               <p className="micro-label text-[var(--ink)]">GOLD</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH CHASING</h3>
-              <p className="mt-3 font-black text-[var(--ink)]/80">
+              <p className="mt-3 font-black text-[var(--ink)]">
                 High value, real urgency, official source confirmed. Drop everything for this one.
               </p>
             </div>
@@ -461,7 +461,7 @@ export function CompareBuildAlertPage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-white/10 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-2 font-black text-white/75">{body}</p>
+                <p className="mt-2 font-black text-white/90">{body}</p>
               </div>
             ))}
           </div>
@@ -473,7 +473,7 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo UNLIMITED. VS £2 PER LETTER.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £39/month for unlimited scans across all five signals. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -487,7 +487,7 @@ export function CompareBuildAlertPage() {
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
               <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£39/mo — locked forever)</p>
               <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
-              <ul className="mt-4 grid gap-2 text-sm font-black text-white/70">
+              <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
@@ -502,7 +502,7 @@ export function CompareBuildAlertPage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
             </div>
           </div>
-          <p className="mt-6 font-black text-[var(--ink)]/60">
+          <p className="mt-6 font-black text-[var(--ink)]/90">
             30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.
           </p>
         </div>
@@ -540,14 +540,14 @@ export function CompareBuildAlertPage() {
             <span style={{ color: 'var(--yellow)' }}>WHAT'S PLANNED.</span>{' '}
             WE SHOW YOU WHAT'S WORTH CHASING.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/70">
+          <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
             Scan your area free. See what work is active near you — including the signals BuildAlert doesn't cover. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
-          <p className="mt-6 text-sm font-black text-white/50">
+          <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.
           </p>
         </div>

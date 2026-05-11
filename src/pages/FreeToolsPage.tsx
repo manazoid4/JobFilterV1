@@ -108,7 +108,7 @@ export function FreeToolsPage() {
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
-        <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
+        <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
           Price cleaner. Spot time-wasters. Protect your week. Tools are free. Leads are not.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -118,7 +118,7 @@ export function FreeToolsPage() {
               {scansRemaining} free {scansRemaining === 1 ? 'scan' : 'scans'} remaining
             </div>
           )}
-          <div className="inline-flex items-center gap-2 border border-white/20 px-3 py-1.5 text-xs font-black text-white/50">
+          <div className="inline-flex items-center gap-2 border border-white/20 px-3 py-1.5 text-xs font-black text-white/85">
             <span className="h-2 w-2 rounded-full bg-[var(--green)]" />
             {socialProof} trades used these tools this week
           </div>
@@ -150,13 +150,13 @@ export function FreeToolsPage() {
             <button className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-left h-auto py-4" onClick={() => setShowEmailCapture(true)}>
               <div>
                 <span className="block text-sm">UNLOCK 3 MORE FREE</span>
-                <span className="block text-xs font-black text-[var(--ink)]/80 mt-0.5">Enter email. Get 3 more scans + weekly trade signals.</span>
+                <span className="block text-xs font-black text-[var(--ink)] mt-0.5">Enter email. Get 3 more scans + weekly trade signals.</span>
               </div>
             </button>
             <Link className="jf-button bg-[var(--navy)] text-white text-left h-auto py-4" to="/pricing">
               <div>
                 <span className="block text-sm">UNLIMITED — £6.99/WEEK</span>
-                <span className="block text-xs font-black text-white/60 mt-0.5">Founding 30 access. No contracts. Cancel anytime.</span>
+                <span className="block text-xs font-black text-white/90 mt-0.5">Founding 30 access. No contracts. Cancel anytime.</span>
               </div>
             </Link>
           </div>
@@ -255,10 +255,10 @@ export function FreeToolsPage() {
       <section className="jf-box bg-[var(--navy)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOL — SMART QUOTING</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--yellow)]">QUOTE STARTER IN 10 SECONDS.</h2>
-        <p className="mt-3 max-w-2xl font-black text-white/75">
+        <p className="mt-3 max-w-2xl font-black text-white/90">
           Pick your trade and job type. Get a professional opening paragraph ready to paste into your quote. Covers 6 trades and 30+ job types. Free. No login.
         </p>
-        <div className="mt-4 flex flex-wrap gap-2 text-sm font-black text-white/60">
+        <div className="mt-4 flex flex-wrap gap-2 text-sm font-black text-white/90">
           {['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry'].map((t) => (
             <span key={t} className="border border-white/20 px-2 py-1">{t}</span>
           ))}
@@ -330,7 +330,7 @@ export function FreeToolsPage() {
         <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
           Use JobFilter for 30 days. If you don't see at least one job worth chasing, we refund every penny. No quibbles. No hoops. No "but you didn't use feature X."
         </p>
-        <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
+        <p className="mt-2 text-sm font-black text-[var(--ink)]">
           Built in Birmingham. We stand behind it.
         </p>
       </section>
@@ -355,7 +355,7 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
       }`}
       onClick={() => { if (!isPaywalled) { onActivate(); onUse(); } }}
     >
-      <p className={`micro-label ${isActive ? 'text-[var(--ink)]/80' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
+      <p className={`micro-label ${isActive ? 'text-[var(--ink)]' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
       <h3 className={`headline mt-2 text-2xl sm:text-3xl ${isActive ? 'text-[var(--ink)]' : ''}`}>{tool.title}</h3>
       <p className={`mt-2 text-sm font-black ${isActive ? 'text-[var(--ink)]/70' : 'text-[var(--muted)]'}`}>{tool.desc}</p>
       <p className={`mt-3 text-xs font-black ${isActive ? 'text-[var(--ink)]/50' : 'text-[var(--orange)]'}`}>{tool.pain}</p>
@@ -387,7 +387,7 @@ function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: 
       })()}
       {rec && (
         <div className="mt-4 jf-box bg-[var(--navy)] p-4 text-white">
-          <p className="text-xs font-black text-white/50 uppercase tracking-wider">IF YOU LIKED THIS, TRY</p>
+          <p className="text-xs font-black text-white/85 uppercase tracking-wider">IF YOU LIKED THIS, TRY</p>
           <a href={rec.to} className="mt-1 inline-block text-sm font-black text-[var(--yellow)] hover:underline">
             → {rec.label}
           </a>

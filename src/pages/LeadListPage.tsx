@@ -29,7 +29,7 @@ export function LeadListPage() {
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
-        <p className="mt-3 max-w-xl text-lg font-black text-white/70">
+        <p className="mt-3 max-w-xl text-lg font-black text-white/90">
           Scored leads from your filter link. Gold means act now. Silver means worth watching. Bin means skip it.
         </p>
       </div>

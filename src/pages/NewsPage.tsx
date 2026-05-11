@@ -53,7 +53,7 @@ export function NewsPage() {
           <h1 className="headline mx-auto mt-4 max-w-4xl text-4xl leading-none sm:text-6xl md:text-8xl">
             NEWS THAT CAN MAKE OR SAVE MONEY.
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             No blog fluff. Just the market signals that change quote risk, job timing, and where demand is moving.
           </p>
         </div>
@@ -79,7 +79,7 @@ export function NewsPage() {
         <div className="page-shell py-10">
           <p className="micro-label text-[var(--ink)]">TRADE TIPS</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">PRACTICAL RULES FOR AVOIDING TYRE-KICKERS.</h2>
-          <p className="mt-4 max-w-xl font-black text-[var(--ink)]/75">Ask budget before you travel. Charge for surveys. Invoice the day the job finishes. 12 rules that protect your time and margin.</p>
+          <p className="mt-4 max-w-xl font-black text-[var(--ink)]">Ask budget before you travel. Charge for surveys. Invoice the day the job finishes. 12 rules that protect your time and margin.</p>
           <a className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/tips">READ TRADE TIPS →</a>
         </div>
       </section>

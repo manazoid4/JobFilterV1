@@ -25,7 +25,7 @@ export function Footer() {
           {/* Product */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">PRODUCT</p>
-            <div className="grid gap-2.5 text-sm font-black uppercase text-white/70">
+            <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link to="/find-jobs" className="hover:text-[var(--yellow)]">Find Jobs</Link>
               <Link to="/signals" className="hover:text-[var(--yellow)]">Signals</Link>
               <Link to="/epc" className="hover:text-[var(--yellow)]">EPC Leads</Link>
@@ -37,7 +37,7 @@ export function Footer() {
           {/* Tools */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">TOOLS</p>
-            <div className="grid gap-2.5 text-sm font-black uppercase text-white/70">
+            <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link to="/vantage" className="hover:text-[var(--yellow)]">Vantage</Link>
               <Link to="/vicinity" className="hover:text-[var(--yellow)]">Vicinity</Link>
               <Link to="/codex" className="hover:text-[var(--yellow)]">Codex</Link>
@@ -48,7 +48,7 @@ export function Footer() {
           {/* Company */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">COMPANY</p>
-            <div className="grid gap-2.5 text-sm font-black uppercase text-white/70">
+            <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link to="/privacy" className="hover:text-[var(--yellow)]">Privacy</Link>
               <Link to="/terms" className="hover:text-[var(--yellow)]">Terms</Link>
             </div>
@@ -57,10 +57,10 @@ export function Footer() {
           {/* Trust */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">BUILT IN BIRMINGHAM</p>
-            <p className="text-sm font-black text-white/60 leading-relaxed">
+            <p className="text-sm font-black text-white/90 leading-relaxed">
               Not a London startup guessing. Built by people who know how trades work.
             </p>
-            <div className="mt-4 grid gap-2 text-xs font-black text-white/50">
+            <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
               <p>Local knowledge baked into every signal score.</p>
               <p>WhatsApp-first because that's where you actually work.</p>
               <p>Founder £39/month. Standard £79/month. Direct letters included.</p>
@@ -72,8 +72,8 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between gap-3">
-          <p className="text-sm font-black uppercase text-white/50">© 2026 JobFilter. All rights reserved.</p>
-          <p className="text-sm font-black uppercase text-white/50">PROTECT YOUR TIME.</p>
+          <p className="text-sm font-black uppercase text-white/85">© 2026 JobFilter. All rights reserved.</p>
+          <p className="text-sm font-black uppercase text-white/85">PROTECT YOUR TIME.</p>
         </div>
       </div>
     </footer>

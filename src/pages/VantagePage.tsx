@@ -195,7 +195,7 @@ export function VantagePage() {
                   <h4 className="text-[13px] font-bold uppercase leading-tight text-white">
                     {bid.title}
                   </h4>
-                  <p className="text-[10px] uppercase text-white/60">Success Score: {bid.score}%</p>
+                  <p className="text-[10px] uppercase text-white/90">Success Score: {bid.score}%</p>
                 </div>
               ))}
             </div>
@@ -264,7 +264,7 @@ export function VantagePage() {
         <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">WANT LEADS TO BID ON?</p>
           <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">TRY THE INTAKE ENGINE FREE.</h2>
-          <p className="mt-3 max-w-xl font-black text-white/70">
+          <p className="mt-3 max-w-xl font-black text-white/90">
             Vantage writes the bid. Intake finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">

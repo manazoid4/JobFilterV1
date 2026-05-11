@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import { Radio, FileText, Camera, Mail, MapPinned, Phone, Check, X, Zap, FileSearch, Eye, LayoutGrid } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { WaitlistForm } from '../components/WaitlistForm';
 
@@ -17,6 +18,9 @@ const included = [
   'Company-branded letters written for selected leads',
   'PDF approach pack for WhatsApp follow-up',
   'Saved pipeline and weekly opportunity digest',
+  'Codex — technical document simplifier',
+  'Vicinity — social proof generator from job photos',
+  'Vantage — bid deck generator from tender docs',
 ];
 
 const addOns = [
@@ -24,6 +28,56 @@ const addOns = [
   ['Buyer Pack Plus', 'Extra printed approach packs for bigger jobs.', '£5/lead'],
   ['Vantage Fast Pack', 'Bid angle, proof points and scope pack within 6 hours.', '£49 each'],
   ['Neighbour Signal', 'Turn one job into nearby door-drop demand.', 'from £99'],
+];
+
+const featureCategories = [
+  {
+    icon: Radio,
+    title: 'Leads & Alerts',
+    points: ['WhatsApp alerts', 'Gold scoring', 'PatchLock priority'],
+  },
+  {
+    icon: FileText,
+    title: 'Documents',
+    points: ['Codex simplifier', 'Vantage bid decks'],
+  },
+  {
+    icon: Camera,
+    title: 'Social Proof',
+    points: ['Vicinity photo-to-post generator'],
+  },
+  {
+    icon: Mail,
+    title: 'Letters',
+    points: ['Company-branded approach letters', 'PDF follow-up packs'],
+  },
+  {
+    icon: MapPinned,
+    title: 'Territory',
+    points: ['Postcode exclusivity', 'Priority routing'],
+  },
+  {
+    icon: Phone,
+    title: 'Support',
+    points: ['Direct support', 'Weekly digest'],
+  },
+];
+
+const comparisonRows = [
+  { feature: 'JobFilter Leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'Codex', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vicinity', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vantage', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'PatchLock', free: false, founder: true, standard: true },
+  { feature: 'Letters', free: false, founder: true, standard: true },
+];
+
+const toolIcons = [
+  { name: 'JobFilter Leads', icon: Zap },
+  { name: 'Codex', icon: FileSearch },
+  { name: 'Vicinity', icon: Camera },
+  { name: 'Vantage', icon: LayoutGrid },
+  { name: 'PatchLock', icon: MapPinned },
 ];
 
 export function PricingPage() {
@@ -54,7 +108,7 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="Check if your patch has work signals before you pay."
-          items={['Preview signals', 'Score band only', 'Limited detail', 'No WhatsApp alerts', 'No letters']}
+          items={['Preview signals', 'Score band only', 'Limited detail', 'No WhatsApp alerts', 'No letters', 'Try Codex free (3 docs)']}
           cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA</Link>}
         />
         <PlanCard
@@ -75,6 +129,50 @@ export function PricingPage() {
         />
       </section>
 
+      {/* ── ALL TOOLS, ONE PRICE BANNER ──────────────────── */}
+      <section className="ops-strip flex flex-col items-center gap-6 px-6 py-10 text-center text-[var(--ink)]">
+        <p className="micro-label">ALL TOOLS, ONE PRICE</p>
+        <h2 className="headline max-w-3xl text-4xl leading-none md:text-6xl">
+          Everything you need to find, win, and showcase work.
+        </h2>
+        <p className="max-w-2xl text-lg font-black text-[var(--muted)]">
+          No separate subscriptions. No per-tool fees. One price, every feature.
+        </p>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
+          {toolIcons.map(({ name, icon: Icon }) => (
+            <div key={name} className="flex flex-col items-center gap-2">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[3px_3px_0_var(--ink)]">
+                <Icon className="h-6 w-6 text-[var(--ink)]" strokeWidth={2.5} />
+              </div>
+              <span className="text-xs font-black uppercase tracking-wide">{name}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── WHAT'S INCLUDED GRID ──────────────────────────── */}
+      <section className="ops-panel bg-[var(--paper)] p-7">
+        <p className="micro-label text-[var(--orange)]">WHAT'S INCLUDED</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">SIX CATEGORIES. ONE SUBSCRIPTION.</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featureCategories.map(({ icon: Icon, title, points }) => (
+            <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--yellow)]">
+                  <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+                </div>
+                <h3 className="headline text-2xl">{title}</h3>
+              </div>
+              <ul className="mt-3 grid gap-1">
+                {points.map((point) => (
+                  <li key={point} className="font-black text-[var(--muted)]">✓ {point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">THE LETTER ADVANTAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">WE DO NOT JUST SEND YOU A LEAD. WE HELP YOU APPROACH IT PROPERLY.</h2>
@@ -89,6 +187,52 @@ export function PricingPage() {
               <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      {/* ── COMPARISON TABLE ──────────────────────────────── */}
+      <section className="ops-panel bg-[var(--paper)] p-7">
+        <p className="micro-label text-[var(--orange)]">COMPARE PLANS</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">SEE EXACTLY WHAT YOU GET AT EACH TIER.</h2>
+        <div className="mt-6 overflow-x-auto">
+          <table className="w-full min-w-[480px] border-collapse text-left">
+            <thead>
+              <tr className="border-b-2 border-[var(--line)]">
+                <th className="pb-3 pr-4 font-black uppercase tracking-wide text-[var(--muted)]" />
+                <th className="pb-3 px-4 text-center font-black uppercase tracking-wide">Free Scan</th>
+                <th className="pb-3 px-4 text-center font-black uppercase tracking-wide bg-[var(--yellow)]">Founder</th>
+                <th className="pb-3 px-4 text-center font-black uppercase tracking-wide">Standard</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map(({ feature, free, founder, standard }) => (
+                <tr key={feature} className="border-b border-[var(--line)]/30">
+                  <td className="py-3 pr-4 font-black">{feature}</td>
+                  <td className="py-3 px-4 text-center">
+                    {typeof free === 'boolean' ? (
+                      free ? <Check className="mx-auto h-5 w-5 text-[var(--green)]" /> : <X className="mx-auto h-5 w-5 text-[var(--muted)]/40" />
+                    ) : (
+                      <span className="font-black text-[var(--muted)]">{free}</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center bg-[var(--yellow)]/10">
+                    {typeof founder === 'boolean' ? (
+                      founder ? <Check className="mx-auto h-5 w-5 text-[var(--green)]" /> : <X className="mx-auto h-5 w-5 text-[var(--muted)]/40" />
+                    ) : (
+                      <span className="font-black">{founder}</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    {typeof standard === 'boolean' ? (
+                      standard ? <Check className="mx-auto h-5 w-5 text-[var(--green)]" /> : <X className="mx-auto h-5 w-5 text-[var(--muted)]/40" />
+                    ) : (
+                      <span className="font-black text-[var(--muted)]">{standard}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -169,4 +313,3 @@ function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
     </section>
   );
 }
-

@@ -159,7 +159,7 @@ export function CityPage({ city }: CityPageProps) {
           >
             {city.heroH1}
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]/80">
+          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
             {city.heroSub}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -214,7 +214,7 @@ export function CityPage({ city }: CityPageProps) {
           <h2 className="headline mt-3 max-w-3xl text-4xl leading-[0.9] sm:text-5xl md:text-6xl">
             {city.localAngle}
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             {city.localAngleBody}
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -284,7 +284,7 @@ export function CityPage({ city }: CityPageProps) {
             <div className="jf-box bg-white/10 p-5">
               <p className="micro-label text-[var(--yellow)]">PLANNING LEAD</p>
               <h3 className="mt-3 text-xl font-black text-white">Two-storey side extension</h3>
-              <div className="mt-4 grid gap-2 text-sm font-black text-white/75">
+              <div className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <p>Area: {city.postcode} / {city.region}</p>
                 <p>Value: £45k-£80k</p>
                 <p>Status: Approved</p>
@@ -294,7 +294,7 @@ export function CityPage({ city }: CityPageProps) {
             <div className="jf-box bg-white/10 p-5">
               <p className="micro-label text-[var(--yellow)]">EPC LEAD</p>
               <h3 className="mt-3 text-xl font-black text-white">Efficiency Upgrade: Rating F</h3>
-              <div className="mt-4 grid gap-2 text-sm font-black text-white/75">
+              <div className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <p>Area: {city.postcode} / {city.region}</p>
                 <p>Work needed: Insulation, heating upgrade</p>
                 <p>Value: £8k-£25k</p>
@@ -304,7 +304,7 @@ export function CityPage({ city }: CityPageProps) {
             <div className="jf-box bg-white/10 p-5">
               <p className="micro-label text-[var(--yellow)]">COUNCIL CONTRACT</p>
               <h3 className="mt-3 text-xl font-black text-white">School roof replacement</h3>
-              <div className="mt-4 grid gap-2 text-sm font-black text-white/75">
+              <div className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <p>Area: {city.region}</p>
                 <p>Value: £120k+</p>
                 <p>Deadline: 6 weeks</p>
@@ -312,7 +312,7 @@ export function CityPage({ city }: CityPageProps) {
               </div>
             </div>
           </div>
-          <p className="mt-6 text-lg font-black text-white/60">
+          <p className="mt-6 text-lg font-black text-white/90">
             These are real signal types. Free scan shows they exist. £39/month unlocks the full detail — buyer name, source link, contact signal.
           </p>
           <button onClick={handleScan} className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]">
@@ -328,7 +328,7 @@ export function CityPage({ city }: CityPageProps) {
           <h2 className="headline mt-3 text-4xl leading-[0.9] sm:text-5xl md:text-6xl">
             EVERY {city.name.toUpperCase()} POSTCODE. THREE DATA SOURCES.
           </h2>
-          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]">
             JobFilter covers all {city.areaCodes.length} {city.name} postcode districts for planning applications, EPC data, and council contracts.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
@@ -387,7 +387,7 @@ export function CityPage({ city }: CityPageProps) {
           <h2 className="headline mt-3 max-w-3xl text-4xl leading-[0.9] sm:text-5xl md:text-6xl text-white">
             SEE WHAT IS LIVE IN {city.name.toUpperCase()} RIGHT NOW.
           </h2>
-          <p className="mt-4 max-w-xl text-xl font-black text-white/70">
+          <p className="mt-4 max-w-xl text-xl font-black text-white/90">
             Free scan shows the signals. £39/month unlocks full detail, WhatsApp alerts, and unlimited scans. 30-day money-back guarantee.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -398,7 +398,7 @@ export function CityPage({ city }: CityPageProps) {
               SEE PRICING
             </a>
           </div>
-          <div className="mt-6 grid gap-2 text-sm font-black text-white/50 sm:grid-cols-3">
+          <div className="mt-6 grid gap-2 text-sm font-black text-white/85 sm:grid-cols-3">
             <p>3 FREE SCANS EVERY WEEK</p>
             <p>NO CARD REQUIRED</p>
             <p>30-DAY MONEY-BACK</p>

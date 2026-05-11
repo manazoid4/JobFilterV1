@@ -85,7 +85,7 @@ function ServiceForm({ trade }: { trade: string }) {
     <div className="jf-box bg-[var(--yellow)] p-6">
       <p className="micro-label text-[var(--ink)]">REQUEST RECEIVED</p>
       <h2 className="headline mt-3 text-4xl">Team responds within 6 hours.</h2>
-      <p className="mt-3 font-black text-[var(--ink)]/75">Usually much faster. Check your phone.</p>
+      <p className="mt-3 font-black text-[var(--ink)]">Usually much faster. Check your phone.</p>
     </div>
   );
   return (

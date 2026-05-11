@@ -32,7 +32,7 @@ export function DashboardPage() {
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
-        <p className="mt-3 max-w-2xl font-black text-white/70">
+        <p className="mt-3 max-w-2xl font-black text-white/90">
           Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
         </p>
       </section>
@@ -41,7 +41,7 @@ export function DashboardPage() {
         <section className="jf-box bg-[var(--yellow)] p-8 text-center">
           <p className="micro-label text-[var(--ink)]">START HERE</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR PIPELINE IS EMPTY.</h2>
-          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/75">
+          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]">
             No data yet because you haven't scanned for jobs. Head to Find Jobs, enter your postcode, and see what's live near you.
           </p>
           <Link to="/find-jobs" className="jf-button mt-5 bg-[var(--ink)] text-white inline-block">

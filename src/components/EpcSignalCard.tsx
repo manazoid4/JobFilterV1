@@ -27,7 +27,7 @@ export function EpcSignalCard({ address, rating, potentialRating, trade, signal,
     <article className="border-2 border-white/20 bg-white/5 p-4">
       <div className="flex items-start justify-between">
         <div>
-          <p className="micro-label text-white/50">{urgencyLabel} SIGNAL</p>
+          <p className="micro-label text-white/85">{urgencyLabel} SIGNAL</p>
           <h3 className="mt-1 text-lg font-black text-white">{address}</h3>
         </div>
         <div className={`grid h-14 w-14 place-items-center border-2 border-white/20 ${scoreColor} text-[var(--ink)]`}>
@@ -38,18 +38,18 @@ export function EpcSignalCard({ address, rating, potentialRating, trade, signal,
       <div className="mt-4 flex items-center gap-3">
         <div className="flex items-center gap-2">
           <span className={`inline-block h-6 w-6 rounded-sm ${RING_COLORS[rating]}`} />
-          <span className="text-sm font-black text-white/70">Current: {rating}</span>
+          <span className="text-sm font-black text-white/90">Current: {rating}</span>
         </div>
         <span className="text-white/30">→</span>
         <div className="flex items-center gap-2">
           <span className={`inline-block h-6 w-6 rounded-sm ${RING_COLORS[potentialRating] ?? 'bg-[#84CC16]'}`} />
-          <span className="text-sm font-black text-white/70">Potential: {potentialRating}</span>
+          <span className="text-sm font-black text-white/90">Potential: {potentialRating}</span>
         </div>
       </div>
 
       <div className="mt-4 border-t border-white/10 pt-3">
         <p className="text-sm font-black text-[var(--yellow)]">{trade}</p>
-        <p className="mt-1 text-sm font-black text-white/60">{signal}</p>
+        <p className="mt-1 text-sm font-black text-white/90">{signal}</p>
       </div>
 
       <div className="mt-3">

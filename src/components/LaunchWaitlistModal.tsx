@@ -34,7 +34,7 @@ export function LaunchWaitlistModal() {
             <div>
               <p className="micro-label text-[var(--yellow)]">PATCHLOCK EARLY ACCESS</p>
               <h2 className="headline mt-2 text-4xl leading-none">LOCK YOUR PATCH.</h2>
-              <p className="mt-3 font-black text-white/70">Founder price: £39/month. About a tenner a week. Includes WhatsApp alerts and company-branded letters to selected leads.</p>
+              <p className="mt-3 font-black text-white/90">Founder price: £39/month. About a tenner a week. Includes WhatsApp alerts and company-branded letters to selected leads.</p>
             </div>
             <button className="min-h-[44px] min-w-[44px] border-2 border-white px-3 py-1 font-black" onClick={close} aria-label="Close waitlist">
               X
@@ -43,7 +43,7 @@ export function LaunchWaitlistModal() {
           <div className="mt-4">
             <WaitlistForm source="launch-popup" compact onDone={markSeen} />
           </div>
-          <button className="mt-4 w-full text-center text-sm font-black uppercase text-white/60" onClick={close}>
+          <button className="mt-4 w-full text-center text-sm font-black uppercase text-white/90" onClick={close}>
             Not now
           </button>
         </div>

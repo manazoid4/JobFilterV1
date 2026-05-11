@@ -6,7 +6,7 @@ export function ActivationPendingPage() {
       <section className="ops-panel bg-[var(--yellow)] p-8">
         <p className="micro-label text-[var(--ink)]">PAYMENT RECEIVED</p>
         <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">PATCHLOCK ACTIVATION PENDING.</h1>
-        <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
           Your account is being activated. Next step: confirm your trade, postcode cluster, company details, WhatsApp number, and letterhead details.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">

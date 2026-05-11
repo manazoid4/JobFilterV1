@@ -299,10 +299,10 @@ export function FindJobsPage() {
               <p className="text-3xl font-black text-[var(--yellow)]">
                 {fillWeekResult.count} JOBS FOUND NEAR YOU
               </p>
-              <p className="mt-1 font-black text-white/70">
+              <p className="mt-1 font-black text-white/90">
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
-              <p className="mt-1 text-sm font-black text-white/75">
+              <p className="mt-1 text-sm font-black text-white/90">
                 Your quiet week isn't a skills problem. It's a pipeline problem.
               </p>
             </div>
@@ -415,7 +415,7 @@ export function FindJobsPage() {
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
-                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
+                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]">
                     Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
                   </p>
                 </section>
@@ -432,7 +432,7 @@ export function FindJobsPage() {
                   <p className="headline mt-2 text-3xl text-white leading-tight">
                     {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
                   </p>
-                  <p className="mt-2 font-black text-white/70">
+                  <p className="mt-2 font-black text-white/90">
                     Each includes buyer detail, deadline, verification proof, and contact signal - the detail that decides if a job is worth chasing.
                   </p>
                   <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
@@ -443,7 +443,7 @@ export function FindJobsPage() {
                     <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
                   <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/mo →</Link>
-                  <p className="mt-3 text-xs font-black text-white/75">
+                  <p className="mt-3 text-xs font-black text-white/90">
                     30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
                   </p>
                 </div>
@@ -472,7 +472,7 @@ export function FindJobsPage() {
         <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
-          <p className="mt-3 font-black text-white/70">
+          <p className="mt-3 font-black text-white/90">
             Tap a trade above or enter your postcode. Takes 10 seconds. No signup needed.
           </p>
         </section>

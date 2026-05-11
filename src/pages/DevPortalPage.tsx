@@ -31,7 +31,7 @@ export function DevPortalPage() {
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">DEV PORTAL</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">FULL ACCESS TEST MODE.</h1>
-        <p className="mt-4 max-w-3xl text-xl font-black text-white/75">
+        <p className="mt-4 max-w-3xl text-xl font-black text-white/90">
           Use this page when continuing from another machine. Every key product surface is linked here, and the backend lead search is configured for full test access.
         </p>
       </section>

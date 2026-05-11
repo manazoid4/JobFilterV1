@@ -23,7 +23,7 @@ export function PostJobPage() {
         <section className="ops-panel bg-[var(--yellow)] p-8">
           <p className="micro-label text-[var(--ink)]">JOB RECEIVED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">WE WILL MATCH THIS TO A VERIFIED LOCAL FIRM.</h1>
-          <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
             No lead auction. No spam. We check the job, route it by trade and patch, and only send it where it makes sense.
           </p>
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/">Back to JobFilter</Link>

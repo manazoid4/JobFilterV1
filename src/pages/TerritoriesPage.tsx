@@ -59,7 +59,7 @@ export function TerritoriesPage() {
                   <span className="font-mono text-lg font-black text-[var(--yellow)]">{territory.postcode}</span>
                   <div>
                     <p className="font-black uppercase text-white">{territory.trade}</p>
-                    <p className="text-xs font-black uppercase text-white/75">{territory.patch}</p>
+                    <p className="text-xs font-black uppercase text-white/90">{territory.patch}</p>
                   </div>
                   <span className="font-mono text-sm font-black text-white">{territory.signalStrength}</span>
                 </div>
@@ -140,7 +140,7 @@ export function TerritoriesPage() {
           <div>
             <p className="micro-label text-[var(--ink)]">PATCHLOCK</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">CLAIM FIRST LOOK IN YOUR WORKING AREA.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
               Founder monthly includes one PatchLock, WhatsApp alerts, and direct letters for selected Gold leads. Extra patch is +GBP 19/month.
             </p>
           </div>

@@ -188,7 +188,7 @@ export function SignalsPage() {
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
                 <h3 className="headline mt-3 text-3xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-3 font-black text-white/75">{body}</p>
+                <p className="mt-3 font-black text-white/90">{body}</p>
               </div>
             ))}
           </div>
@@ -209,7 +209,7 @@ export function SignalsPage() {
               </span>
             ))}
           </div>
-          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/75">
+          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
             CORE SIGNALS LIVE · EXPANSION SIGNALS NEED API/MANUAL SETUP · NO SHARED LEADS
           </p>
         </div>
@@ -253,7 +253,7 @@ export function SignalsPage() {
           <h2 className="headline mt-4 text-[clamp(3rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
             SEE WHAT'S LIVE NEAR YOU RIGHT NOW.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
           </p>
           <div className="mt-8">
@@ -261,7 +261,7 @@ export function SignalsPage() {
               RUN MY FREE SCAN →
             </Link>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]/80">
+          <p className="mt-4 text-sm font-black text-[var(--ink)]">
             3 free scans every week. Founder access: £39/month while PatchLock slots remain.
           </p>
         </div>

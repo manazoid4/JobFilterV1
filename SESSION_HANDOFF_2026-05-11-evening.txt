@@ -1,0 +1,60 @@
+JOBFILTER SESSION HANDOFF - 2026-05-11 (Evening)
+
+Repo:
+C:\Users\manaz\Desktop\JobFilter\JobFilterV1
+
+Branch:
+fix/main-build
+
+What changed:
+1. Researched Belvoir Maintenance and FixFlo competitive landscape.
+   - Discovered both are purely reactive (wait for tenant reports)
+   - £29.7bn UK rental maintenance market with zero proactive competition
+   - JobFilter's angle: detect work before tenant complains
+
+2. Updated Blueprint page with "Reactive vs Proactive" section.
+   - Contrasts Belvoir/FixFlo reactive model vs JobFilter proactive signals
+   - Shows 5 reactive weaknesses vs 5 proactive advantages
+   - Positions JobFilter as early signal intelligence, not maintenance app
+
+3. Added Leicester city page.
+   - Route: /construction-leads/leicester
+   - File: src/pages/CityLeicester.tsx
+   - Includes FixFlo/Belvoir positioning in local angle copy
+   - 145 planning apps/week, 28,000 F/G properties, 61 council contracts
+
+4. Created competitive intelligence vault note.
+   - File: Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Competitive Intelligence - Belvoir and FixFlo.md
+   - Full breakdown of Belvoir (150 offices, 65k properties, reactive)
+   - Full breakdown of FixFlo (40% agent market share, 70k contractors, reactive)
+   - Market size: £29.7bn, 10.6m rental properties
+   - Strategic implications and marketing quotes
+
+5. Updated vault indexes:
+   - Product Index.md (added Competitive Intelligence note)
+   - Recent.md (added today's work)
+
+Files modified:
+- src/pages/BlueprintPage.tsx (added Reactive vs Proactive section)
+- src/components/CityPage.tsx (added Leicester to CITIES array)
+- src/App.tsx (added CityLeicester import and route)
+- src/pages/CityLeicester.tsx (new file)
+- Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Competitive Intelligence - Belvoir and FixFlo.md (new)
+- Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Product Index.md
+- Obsidian_Memory/Obsidian_Vault/Recent.md
+
+Next best work:
+1. Deploy the build to Firebase hosting.
+2. Create comparison landing page: JobFilter vs FixFlo vs Belvoir.
+3. Build maintenance-specific signal stack (leak risk, boiler age, weather damage).
+4. Research Leicester City Council planning API + Manchester procurement portal.
+5. Add landlord/agent value proposition to homepage.
+
+Verification done:
+1. npm run build passed (1750 modules transformed, all chunks rendered).
+2. CityLeicester chunk generated successfully: 0.20 kB.
+3. BlueprintPage chunk generated successfully.
+
+Known note:
+- No lint run performed this session. Build passed cleanly.
+- Working tree has unstaged changes in .claude/worktrees/romantic-stonebraker-e59f61 and Obsidian_Memory/Obsidian_Vault/.obsidian/workspace.json (pre-existing).

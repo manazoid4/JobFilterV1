@@ -142,7 +142,7 @@ export function CodexPage() {
                   <h4 className="mt-1 text-[14px] font-black uppercase leading-tight text-white">
                     {item.title}
                   </h4>
-                  <p className="mt-1 text-xs font-black text-white/60">Tone: {item.tone}</p>
+                  <p className="mt-1 text-xs font-black text-white/90">Tone: {item.tone}</p>
                 </div>
               ))}
             </div>
@@ -179,7 +179,7 @@ export function CodexPage() {
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl text-[var(--ink)]">
             TURN TECHNICAL WORK INTO SALES ASSETS.
           </h2>
-          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]">
             Codex takes the stuff only you understand and turns it into plain English that closes jobs. No copywriter. No waffle.
           </p>
           <Link to="/dev-portal" className="jf-button mt-6 bg-[var(--navy)] text-white">

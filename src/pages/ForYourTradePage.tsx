@@ -23,7 +23,7 @@ export function ForYourTradePage() {
         <h1 className="headline mt-4 max-w-5xl text-5xl leading-none md:text-7xl">
           JOBS FOR YOUR TRADE. BEFORE ANYONE ELSE SEES THEM.
         </h1>
-        <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+        <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
           Pick your trade. See the signals JobFilter ranks before it sends anything to WhatsApp.
         </p>
       </section>
