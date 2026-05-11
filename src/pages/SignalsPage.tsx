@@ -209,7 +209,7 @@ export function SignalsPage() {
               </span>
             ))}
           </div>
-          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/50">
+          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/75">
             CORE SIGNALS LIVE · EXPANSION SIGNALS NEED API/MANUAL SETUP · NO SHARED LEADS
           </p>
         </div>
@@ -261,7 +261,7 @@ export function SignalsPage() {
               RUN MY FREE SCAN →
             </Link>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]/60">
+          <p className="mt-4 text-sm font-black text-[var(--ink)]/80">
             3 free scans every week. Founder access: £39/month while PatchLock slots remain.
           </p>
         </div>

@@ -17,3 +17,7 @@
 - Added Growth Playbook, Earliest Buying Signals brief, Signal Scoreboard, Fastest Wins, and Unfair Advantage Stack notes to the JobFilter vault.
 - Added `/blueprint` to explain JobFilter as a UPRN-centred construction intelligence graph and homeowner matching layer.
 - Added `/dev-portal` and switched lead search endpoints into full-access test mode so product flows can be tested without paywall redaction.
+- Updated Blueprint page with "Reactive vs Proactive" section positioning JobFilter against Belvoir Maintenance and FixFlo.
+- Added Leicester city page (`/construction-leads/leicester`) with FixFlo/Belvoir competitive positioning.
+- Created Competitive Intelligence vault note on Belvoir and FixFlo models, weaknesses, and market disruption strategy.
+- Build passes. Ready for deploy.

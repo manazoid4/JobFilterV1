@@ -59,7 +59,7 @@ export function TerritoriesPage() {
                   <span className="font-mono text-lg font-black text-[var(--yellow)]">{territory.postcode}</span>
                   <div>
                     <p className="font-black uppercase text-white">{territory.trade}</p>
-                    <p className="text-xs font-black uppercase text-white/50">{territory.patch}</p>
+                    <p className="text-xs font-black uppercase text-white/75">{territory.patch}</p>
                   </div>
                   <span className="font-mono text-sm font-black text-white">{territory.signalStrength}</span>
                 </div>

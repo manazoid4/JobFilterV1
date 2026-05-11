@@ -150,7 +150,7 @@ export function FreeToolsPage() {
             <button className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-left h-auto py-4" onClick={() => setShowEmailCapture(true)}>
               <div>
                 <span className="block text-sm">UNLOCK 3 MORE FREE</span>
-                <span className="block text-xs font-black text-[var(--ink)]/60 mt-0.5">Enter email. Get 3 more scans + weekly trade signals.</span>
+                <span className="block text-xs font-black text-[var(--ink)]/80 mt-0.5">Enter email. Get 3 more scans + weekly trade signals.</span>
               </div>
             </button>
             <Link className="jf-button bg-[var(--navy)] text-white text-left h-auto py-4" to="/pricing">
@@ -330,7 +330,7 @@ export function FreeToolsPage() {
         <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
           Use JobFilter for 30 days. If you don't see at least one job worth chasing, we refund every penny. No quibbles. No hoops. No "but you didn't use feature X."
         </p>
-        <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+        <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
           Built in Birmingham. We stand behind it.
         </p>
       </section>
@@ -355,7 +355,7 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
       }`}
       onClick={() => { if (!isPaywalled) { onActivate(); onUse(); } }}
     >
-      <p className={`micro-label ${isActive ? 'text-[var(--ink)]/60' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
+      <p className={`micro-label ${isActive ? 'text-[var(--ink)]/80' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
       <h3 className={`headline mt-2 text-2xl sm:text-3xl ${isActive ? 'text-[var(--ink)]' : ''}`}>{tool.title}</h3>
       <p className={`mt-2 text-sm font-black ${isActive ? 'text-[var(--ink)]/70' : 'text-[var(--muted)]'}`}>{tool.desc}</p>
       <p className={`mt-3 text-xs font-black ${isActive ? 'text-[var(--ink)]/50' : 'text-[var(--orange)]'}`}>{tool.pain}</p>
