@@ -63,7 +63,7 @@ export function NewsPage() {
         {tradeSignals.map((item, index) => (
           <article key={item.title} className={`jf-box overflow-hidden ${index % 2 === 0 ? 'bg-white' : 'bg-[var(--navy)] text-white'}`}>
             <div className="p-6">
-              <p className="micro-label text-[var(--orange)]">PRIVATE SIGNAL READ</p>
+              <p className="micro-label text-[var(--orange)]">MARKET INTELLIGENCE</p>
               <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">{item.title}</h2>
             </div>
             <div className={`grid gap-0 border-t-4 border-[var(--line)] md:grid-cols-3 ${index % 2 === 0 ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--ink)]'}`}>
