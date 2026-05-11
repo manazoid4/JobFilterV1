@@ -44,6 +44,7 @@ function TrendIndicator({ thisWeek, lastWeek }: { thisWeek: number; lastWeek: nu
 function ShareModal({ week, onClose }: { week: WeekData; onClose: () => void }) {
   const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
+  const [copiedRSS, setCopiedRSS] = useState(false);
   const [showEmbed, setShowEmbed] = useState(false);
   const [showRSS, setShowRSS] = useState(false);
 
@@ -72,7 +73,8 @@ function ShareModal({ week, onClose }: { week: WeekData; onClose: () => void }) 
 
   const handleCopyRSS = () => {
     navigator.clipboard.writeText(rssFeed);
-    setTimeout(() => {}, 2000);
+    setCopiedRSS(true);
+    setTimeout(() => setCopiedRSS(false), 2000);
   };
 
   return (
@@ -124,9 +126,9 @@ function ShareModal({ week, onClose }: { week: WeekData; onClose: () => void }) 
           {showRSS && (
             <div className="jf-box bg-[var(--bg-main)] p-4">
               <p className="micro-label text-[var(--muted)] mb-2">RSS FEED URL</p>
-              <p className="font-mono text-sm bg-white p-3 border border-[var(--line)] break-all">https://jobfilter.co.uk/signals/weekly/feed.xml</p>
+              <p className="font-mono text-sm bg-white p-3 border border-[var(--line)] break-all">https://jobfilter.uk/signals/weekly/feed.xml</p>
               <button onClick={handleCopyRSS} className="jf-button bg-[var(--navy)] text-white text-xs mt-3 w-full">
-                COPY RSS XML
+                {copiedRSS ? 'COPIED' : 'COPY RSS XML'}
               </button>
             </div>
           )}
