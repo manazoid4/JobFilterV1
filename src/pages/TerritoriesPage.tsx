@@ -108,7 +108,7 @@ export function TerritoriesPage() {
             <span>Patch</span>
             <span>Trade</span>
             <span>Area value</span>
-            <span>Signals</span>
+            <span>Live signals</span>
             <span>Status</span>
           </div>
           <div className="divide-y-2 divide-[var(--line)]">
