@@ -11,10 +11,32 @@ const proofCards = [
 
 export function PostJobPage() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  function submit(event: FormEvent) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    setSending(true);
+    setError('');
+    const fd = new FormData(event.currentTarget);
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('name'),
+          trade: fd.get('trade'),
+          contact: fd.get('contact'),
+          source: `post-job-${String(fd.get('postcode') ?? '').toUpperCase()}`,
+        }),
+      });
+      if (!res.ok) throw new Error('Submit failed');
+      setSent(true);
+    } catch {
+      setError('Could not send — please try again or call us directly.');
+    } finally {
+      setSending(false);
+    }
   }
 
   if (sent) {
@@ -69,12 +91,13 @@ export function PostJobPage() {
       <section className="page-shell grid gap-6 py-10 lg:grid-cols-[1fr_440px]">
         <form onSubmit={submit} className="ops-panel grid gap-4 bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">POST A JOB</p>
-          <label className="field-label">Your name<input className="field-input bg-white" required placeholder="Name" /></label>
-          <label className="field-label">Phone or email<input className="field-input bg-white" required placeholder="So the trade can contact you" /></label>
-          <label className="field-label">Postcode<input className="field-input bg-white" required placeholder="B14 7QH" /></label>
-          <label className="field-label">Trade needed<select className="field-input bg-white">{trades.map((trade) => <option key={trade}>{trade}</option>)}</select></label>
-          <label className="field-label">Job details<textarea className="field-input min-h-32 bg-white" required placeholder="What needs doing, when, and any useful details" /></label>
-          <button className="jf-button bg-[var(--ink)] text-white">Send Job For Matching</button>
+          <label className="field-label">Your name<input name="name" className="field-input bg-white" required placeholder="Name" /></label>
+          <label className="field-label">Phone or email<input name="contact" className="field-input bg-white" required placeholder="So the trade can contact you" /></label>
+          <label className="field-label">Postcode<input name="postcode" className="field-input bg-white" required placeholder="B14 7QH" /></label>
+          <label className="field-label">Trade needed<select name="trade" className="field-input bg-white">{trades.map((trade) => <option key={trade}>{trade}</option>)}</select></label>
+          <label className="field-label">Job details<textarea name="details" className="field-input min-h-32 bg-white" required placeholder="What needs doing, when, and any useful details" /></label>
+          {error && <p className="text-sm font-black text-[var(--orange)]">{error}</p>}
+          <button disabled={sending} className="jf-button bg-[var(--ink)] text-white disabled:opacity-50">{sending ? 'SENDING...' : 'Send Job For Matching'}</button>
         </form>
 
         <aside className="grid gap-4">
