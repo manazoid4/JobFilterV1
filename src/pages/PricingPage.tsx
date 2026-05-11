@@ -92,7 +92,7 @@ export function PricingPage() {
           We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
-          <PriceStat label="Founder monthly" value="£39/mo" note="about a tenner a week" hot />
+          <PriceStat label="Founder monthly" value="£39/mo" note="locked in while active" hot />
           <PriceStat label="Standard monthly" value="£79/mo" note="after founder slots" />
           <PriceStat label="Founder annual" value="£390/yr" note="two months free" hot />
         </div>
@@ -114,7 +114,7 @@ export function PricingPage() {
         <PlanCard
           title="Founder"
           price="£39/mo"
-          body="Cheaper founder price. Same working system. Locked while you stay active."
+          body="£39/mo stays locked as long as your plan is active. If you cancel and rejoin, standard price applies."
           items={included}
           highlight="BEST VALUE"
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK £39/mo" className="mt-5 bg-[var(--ink)] text-white" />}
@@ -122,7 +122,7 @@ export function PricingPage() {
         <PlanCard
           title="Standard"
           price="£79/mo"
-          body="The normal price after founder slots are gone."
+          body="Full access. No founder discount. Same system, standard rate."
           items={included}
           dark
           cta={<CheckoutButton tier="pro" billing="monthly" label="JOIN STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}

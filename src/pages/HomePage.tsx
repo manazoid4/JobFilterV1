@@ -147,7 +147,7 @@ export function HomePage() {
               STOP QUOTING FOR TYRE-KICKERS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Claim your trade territory before competitors do. JobFilter finds real construction signals, scores the money, and sends the best leads to WhatsApp.
+              Real construction jobs, near you, before they're advertised. Scored by value and urgency. Sent to WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -162,9 +162,6 @@ export function HomePage() {
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/blueprint">
                 How It Works
-              </Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
-                Claim Territory
               </Link>
             </div>
           </div>
