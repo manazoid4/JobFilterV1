@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
+import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
   'Real planning signals',
@@ -144,10 +145,10 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">TACTICAL CONSTRUCTION INTELLIGENCE</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
-              STOP QUOTING FOR TYRE-KICKERS.
+              STOP QUOTING FOR GHOSTS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Real construction jobs, near you, before they're advertised. Scored by value and urgency. Sent to WhatsApp.
+              Real jobs. Scored. Sent to your WhatsApp before anyone else knows they exist.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -214,6 +215,22 @@ export function HomePage() {
             ))}
           </div>
           <p className="mt-4 text-sm font-bold text-[var(--muted)]">And 200+ postcodes across the UK</p>
+        </div>
+      </section>
+
+      {/* ── SAMPLE LEAD ───────────────────────────────── */}
+      <section className="bg-[var(--bg-main)] border-b-2 border-[var(--line)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--orange)]">THIS IS WHAT A GOLD LEAD LOOKS LIKE</p>
+          <h2 className="headline mt-3 text-4xl leading-none">
+            SEE THE PRODUCT BEFORE YOU PAY.
+          </h2>
+          <p className="mt-4 max-w-2xl copy">
+            Real planning signal. Real score. Real recommended action. This is exactly what lands in your WhatsApp.
+          </p>
+          <div className="mt-8 max-w-3xl">
+            <SampleLeadCard />
+          </div>
         </div>
       </section>
 

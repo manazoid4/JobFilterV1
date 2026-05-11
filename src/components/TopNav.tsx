@@ -9,6 +9,9 @@ const links = [
   { to: '/post-job', label: 'Post Job' },
   { to: '/free-tools', label: 'Tools' },
   { to: '/tradie-zone', label: 'Zone' },
+  { to: '/trust', label: 'Trust' },
+  { to: '/methodology', label: 'Method' },
+  { to: '/faq', label: 'FAQ' },
   { to: '/dev-portal', label: 'Dev' },
   { to: '/pricing', label: 'Pricing' },
 ];
