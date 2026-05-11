@@ -89,6 +89,9 @@ export function ForYourTradePage() {
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW
           </Link>
+          <Link className="jf-button mt-3 bg-white text-[var(--ink)]" to="/pricing">
+            SEE PRICING — FROM £39/MO
+          </Link>
         </div>
         <WaitlistForm source="for-your-trade" />
       </section>

@@ -63,6 +63,9 @@ export function EpcPage() {
             </div>
           ))}
         </div>
+        <div className="mt-6">
+          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Service%20Enquiry">ENQUIRE ABOUT LETTER SERVICE</a>
+        </div>
       </section>
 
       <section className="jf-box bg-white p-6">
