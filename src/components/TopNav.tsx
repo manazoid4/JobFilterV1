@@ -5,6 +5,7 @@ const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/territories', label: 'Territories' },
   { to: '/signals', label: 'Signals' },
+  { to: '/codex', label: 'Codex' },
   { to: '/post-job', label: 'Post Job' },
   { to: '/free-tools', label: 'Tools' },
   { to: '/tradie-zone', label: 'Zone' },
