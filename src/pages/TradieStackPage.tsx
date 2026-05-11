@@ -76,7 +76,7 @@ export function TradieStackPage() {
           No agency retainer. No monthly website tax. Own the capture system, then plug in JobFilter monthly when you want intelligence and routed leads.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=TradieStack%20Purchase">Buy Now — Email Us</a>
+          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=TradieStack%20Purchase">ENQUIRE — EMAIL US</a>
           <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">Add JobFilter Monthly</Link>
         </div>
       </section>
