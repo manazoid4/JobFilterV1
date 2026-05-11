@@ -32,7 +32,6 @@ const FindJobsPage = lazyPage(() => import('./pages/FindJobsPage'));
 const ForYourTradePage = lazyPage(() => import('./pages/ForYourTradePage'));
 const FreeToolsPage = lazyPage(() => import('./pages/FreeToolsPage'));
 const IntakePage = lazyPage(() => import('./pages/IntakePage'));
-const IntakeTestPage = lazyPage(() => import('./pages/IntakeTestPage'));
 const LeadDetailPage = lazyPage(() => import('./pages/LeadDetailPage'));
 const LeadListPage = lazyPage(() => import('./pages/LeadListPage'));
 const LegalPage = lazyPage(() => import('./pages/LegalPage'));
@@ -95,7 +94,6 @@ function AppContent() {
         <Route path="/vs/checkatrade" element={<LazyPage><CompareCheckatradePage /></LazyPage>} />
         <Route path="/my-link" element={<LazyPage><MyLinkPage /></LazyPage>} />
         <Route path="/intake/:username" element={<LazyPage><IntakePage /></LazyPage>} />
-        <Route path="/intake-test" element={<LazyPage><IntakeTestPage /></LazyPage>} />
         <Route path="/leads" element={<LazyPage><LeadListPage /></LazyPage>} />
         <Route path="/leads/:id" element={<LazyPage><LeadDetailPage /></LazyPage>} />
         <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />

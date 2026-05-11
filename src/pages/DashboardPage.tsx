@@ -42,7 +42,7 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--ink)]">START HERE</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR PIPELINE IS EMPTY.</h2>
           <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]">
-            No data yet because you haven't scanned for jobs. Head to Find Jobs, enter your postcode, and see what's live near you.
+            Enter your postcode. Pick your trade. See what jobs are live near you — then track the ones worth chasing.
           </p>
           <Link to="/find-jobs" className="jf-button mt-5 bg-[var(--ink)] text-white inline-block">
             SCAN FOR JOBS →
