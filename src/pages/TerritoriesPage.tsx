@@ -17,11 +17,11 @@ type Territory = {
 };
 
 const territories: Territory[] = [
-  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'GBP 38k-62k', liveSignals: 14, confidence: 'High', claimNote: 'One roofing PatchLock open' },
+  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'GBP 38k-62k', liveSignals: 14, confidence: 'High',     claimNote: 'One roofing territory open' },
   { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: 'GBP 55k-90k', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot available' },
   { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: 'GBP 24k-40k', liveSignals: 9, confidence: 'Medium', claimNote: 'Held until Friday' },
   { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: 'GBP 18k-32k', liveSignals: 7, confidence: 'Medium', claimNote: 'Manchester batch pending' },
-  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'GBP 32k-58k', liveSignals: 13, confidence: 'High', claimNote: 'Retrofit PatchLock open' },
+  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'GBP 32k-58k', liveSignals: 13, confidence: 'High',     claimNote: 'Retrofit territory open' },
   { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: 'GBP 70k-120k', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },
 ];
 
@@ -39,7 +39,7 @@ export function TerritoriesPage() {
       <section className="border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_460px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">PATCHLOCK REGISTER</p>
+            <p className="micro-label text-[var(--yellow)]">TERRITORY REGISTER</p>
             <h1 className="headline mt-4 text-[clamp(44px,8vw,98px)] leading-[0.88]">
               ONE TRADE. ONE POSTCODE CLUSTER. FIRST CALL ON GOLD LEADS.
             </h1>
@@ -138,10 +138,10 @@ export function TerritoriesPage() {
       <section id="claim" className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
-            <p className="micro-label text-[var(--ink)]">PATCHLOCK</p>
+            <p className="micro-label text-[var(--ink)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">CLAIM FIRST LOOK IN YOUR WORKING AREA.</h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-              Founder monthly includes one PatchLock, WhatsApp alerts, and direct letters for selected Gold leads. Extra patch is +GBP 19/month.
+              Founder monthly includes one territory lock, WhatsApp alerts, and direct letters for selected Gold leads. Extra territory is +GBP 19/month.
             </p>
           </div>
           <div className="ops-panel bg-white p-5">

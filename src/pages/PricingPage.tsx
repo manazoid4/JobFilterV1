@@ -14,7 +14,7 @@ const plans = {
 const included = [
   'Gold lead alerts sent to WhatsApp',
   'Lead score, urgency, value, trade fit and next action',
-  'PatchLock priority for your trade and postcode cluster',
+  'Territory priority for your trade and postcode cluster',
   'Company-branded letters written for selected leads',
   'PDF approach pack for WhatsApp follow-up',
   'Saved pipeline and weekly opportunity digest',
@@ -34,7 +34,7 @@ const featureCategories = [
   {
     icon: Radio,
     title: 'Leads & Alerts',
-    points: ['WhatsApp alerts', 'Gold scoring', 'PatchLock priority'],
+    points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
   },
   {
     icon: FileText,
@@ -68,7 +68,7 @@ const comparisonRows = [
   { feature: 'Codex', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vicinity', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'PatchLock', free: false, founder: true, standard: true },
+  { feature: 'Territory', free: false, founder: true, standard: true },
   { feature: 'Letters', free: false, founder: true, standard: true },
 ];
 
@@ -77,7 +77,7 @@ const toolIcons = [
   { name: 'Codex', icon: FileSearch },
   { name: 'Vicinity', icon: Camera },
   { name: 'Vantage', icon: LayoutGrid },
-  { name: 'PatchLock', icon: MapPinned },
+  { name: 'Territory', icon: MapPinned },
 ];
 
 export function PricingPage() {
@@ -269,13 +269,13 @@ export function PricingPage() {
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px]">
         <div className="ops-panel bg-[var(--steel)] p-6 text-white">
-          <p className="micro-label text-[var(--yellow)]">PATCHLOCK</p>
-          <h2 className="headline mt-3 text-5xl leading-none">Claim first look in your trade area.</h2>
-          <p className="mt-4 text-lg font-black text-white/72">
-            PatchLock is not an advert slot. It is priority routing for scored jobs in one trade and postcode cluster. If your patch is valuable, do not leave it open.
-          </p>
+            <p className="micro-label text-[var(--yellow)]">TERRITORIES</p>
+            <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">LOCK YOUR AREA.</h2>
+            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+              Territory lock is priority routing for scored jobs in one trade and postcode cluster. If your area is valuable, do not leave it open.
+            </p>
         </div>
-        <WaitlistForm source="pricing-patchlock" />
+        <WaitlistForm source="pricing-territory" />
       </section>
     </main>
   );

@@ -44,7 +44,7 @@ const territoryCards = [
   ['Manchester Bathrooms', 'COMING SOON', '79'],
 ] as const;
 
-const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow'];
+const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];
 
 function ScoreBadge({ score, trend }: { score: number; trend: 'up' | 'down' }) {
   const bg = score >= 90 ? 'bg-[var(--yellow)] text-[var(--ink)]' : score >= 80 ? 'bg-white text-[var(--ink)]' : 'bg-[var(--muted)]/15 text-[var(--muted)]';
@@ -353,7 +353,7 @@ export function HomePage() {
               SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              PatchLock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
+              Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
             <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/territories">
               Open Territory Grid
@@ -398,7 +398,7 @@ export function HomePage() {
               WE ARE NOT ONLY FINDING SIGNALS. WE ARE PULLING JOBS IN.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
-              Homeowners and property owners can submit jobs directly. PatchLock firms get routed opportunities, while first-month guerilla campaigns drive more local demand into the system.
+              Homeowners and property owners can submit jobs directly. Territory-locked firms get routed opportunities, while first-month guerilla campaigns drive more local demand into the system.
             </p>
           </div>
           <div className="ops-panel bg-[var(--paper)] p-5">

@@ -49,6 +49,7 @@ const SmartQuotePage = lazyPage(() => import('./pages/SmartQuotePage'));
 const TipsPage = lazyPage(() => import('./pages/TipsPage'));
 const CodexPage = lazyPage(() => import('./pages/CodexPage'));
 const TradieStackPage = lazyPage(() => import('./pages/TradieStackPage'));
+const TradieZonePage = lazyPage(() => import('./pages/TradieZonePage'));
 const TerritoriesPage = lazyPage(() => import('./pages/TerritoriesPage'));
 const TradeBuilders = lazyPage(() => import('./pages/TradeBuilders'));
 const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
@@ -122,6 +123,7 @@ function AppContent() {
         <Route path="/signals" element={<LazyPage><SignalsPage /></LazyPage>} />
         <Route path="/signals/weekly" element={<LazyPage><WeeklySignalsPage /></LazyPage>} />
         <Route path="/tradiestack" element={<LazyPage><TradieStackPage /></LazyPage>} />
+        <Route path="/tradie-zone" element={<LazyPage><TradieZonePage /></LazyPage>} />
         <Route path="/construction-leads/birmingham" element={<LazyPage><CityBirmingham /></LazyPage>} />
         <Route path="/construction-leads/london" element={<LazyPage><CityLondon /></LazyPage>} />
         <Route path="/construction-leads/manchester" element={<LazyPage><CityManchester /></LazyPage>} />

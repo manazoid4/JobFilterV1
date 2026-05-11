@@ -78,22 +78,15 @@ export function FreeToolsPage() {
   const [optInSignals, setOptInSignals] = useState(true);
   const [socialProof] = useState(getSocialProof);
 
-  const scansRemaining = Math.max(0, FREE_SCAN_LIMIT - scansUsed);
-  const isPaywalled = scansRemaining === 0 && !emailDone;
-  const isUrgent = scansRemaining === 1;
+  const isPaywalled = false;
 
   useEffect(() => {
     setScansUsed(getScansUsed());
   }, []);
 
   const handleToolUse = useCallback(() => {
-    if (isPaywalled) return;
-    const next = recordScan();
-    setScansUsed(next);
-    if (next >= FREE_SCAN_LIMIT) {
-      setShowEmailCapture(true);
-    }
-  }, [isPaywalled]);
+    // Free tools are unlimited — no scan gate
+  }, []);
 
   const handleEmailSubmit = (e: FormEvent) => {
     e.preventDefault();

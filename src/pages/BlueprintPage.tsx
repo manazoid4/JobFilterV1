@@ -27,19 +27,19 @@ const pipelineSteps = [
     num: '01',
     label: 'FETCH',
     icon: Radar,
-    body: 'Scan official sources — Planning Data API, Planning London Datahub, Scottish warrants, Contracts Finder, EPC registers, Land Registry, streetworks, Companies House, council weekly lists, skip and scaffold permits.',
+    body: 'Scan official sources — planning applications, government contracts, energy ratings, land registry, company filings, council notices, and streetworks permits.',
   },
   {
     num: '02',
     label: 'NORMALISE',
     icon: Database,
-    body: 'Join every signal to UPRN — the unique property reference number — as the persistent join key, plus postcode and company number. No orphan records. No guesswork.',
+    body: 'Join every signal to a persistent property key — postcode, UPRN, and company number. No orphan records. No guesswork.',
   },
   {
     num: '03',
     label: 'ENRICH',
     icon: Layers,
-    body: 'Add EPC rating, property type, floor area, price-paid history, trade-fit classification, and affluent postcode indicators. Context turns a signal into a lead.',
+    body: 'Add property type, floor area, price-paid history, trade-fit classification, and local demand indicators. Context turns a signal into a lead.',
   },
   {
     num: '04',
@@ -57,7 +57,7 @@ const pipelineSteps = [
     num: '06',
     label: 'DELIVER',
     icon: Send,
-    body: 'Gold signals route to WhatsApp, direct letters, PatchLock territory locks, and follow-up tracking. The right trade gets the right lead at the right time.',
+    body: 'Gold signals route to WhatsApp, direct letters, territory locks, and follow-up tracking. The right trade gets the right lead at the right time.',
   },
 ];
 
@@ -169,7 +169,7 @@ const deliverySteps = [
   {
     icon: Phone,
     title: 'Delivered to you',
-    body: 'WhatsApp alert, direct letter, or PatchLock territory notification. You choose the channel.',
+    body: 'WhatsApp alert, direct letter, or territory notification. You choose the channel.',
   },
   {
     icon: CheckCircle,

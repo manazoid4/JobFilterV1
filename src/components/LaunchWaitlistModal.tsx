@@ -32,7 +32,7 @@ export function LaunchWaitlistModal() {
         <div className="jf-box bg-[var(--navy)] p-5 text-white">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="micro-label text-[var(--yellow)]">PATCHLOCK EARLY ACCESS</p>
+              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
               <h2 className="headline mt-2 text-4xl leading-none">LOCK YOUR PATCH.</h2>
               <p className="mt-3 font-black text-white/90">Founder price: £39/month. About a tenner a week. Includes WhatsApp alerts and company-branded letters to selected leads.</p>
             </div>

@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
@@ -14,16 +15,18 @@ const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpe
 
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
 
-const TRADE_PRESETS: { label: string; trade: Trade }[] = [
-  { label: 'ELECTRICAL', trade: 'electrical' },
-  { label: 'PLUMBING', trade: 'plumbing' },
-  { label: 'BUILDING', trade: 'building' },
-  { label: 'ROOFING', trade: 'roofing' },
-  { label: 'LANDSCAPING', trade: 'landscaping' },
-  { label: 'CARPENTRY', trade: 'carpentry' },
-  { label: 'PAINTING', trade: 'painting' },
-  { label: 'HVAC', trade: 'hvac' },
+const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = [
+  { label: 'ELECTRICAL', trade: 'electrical', icon: <Zap className="w-4 h-4" /> },
+  { label: 'PLUMBING', trade: 'plumbing', icon: <Wrench className="w-4 h-4" /> },
+  { label: 'BUILDING', trade: 'building', icon: <Hammer className="w-4 h-4" /> },
+  { label: 'ROOFING', trade: 'roofing', icon: <Home className="w-4 h-4" /> },
+  { label: 'LANDSCAPING', trade: 'landscaping', icon: <TreePine className="w-4 h-4" /> },
+  { label: 'CARPENTRY', trade: 'carpentry', icon: <Hammer className="w-4 h-4" /> },
+  { label: 'PAINTING', trade: 'painting', icon: <Paintbrush className="w-4 h-4" /> },
+  { label: 'HVAC', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
 ];
+
+const RECENT_SEARCHES = ['B14 7QH', 'SW1A 1AA', 'M1 1AE', 'EH1 1AA', 'CF10 1DN'];
 
 function getSavedRadius(): number {
   const saved = localStorage.getItem('jobfilter.radius');
@@ -42,6 +45,22 @@ function getSavedTrade(): Trade {
   const saved = localStorage.getItem('jobfilter.trade');
   if (saved && trades.includes(saved as Trade)) return saved as Trade;
   return 'electrical';
+}
+
+function isNewLead(publishedAt: string): boolean {
+  const published = new Date(publishedAt);
+  const now = new Date();
+  const hoursDiff = (now.getTime() - published.getTime()) / (1000 * 60 * 60);
+  return hoursDiff < 24;
+}
+
+function getSourceIcon(source: string): React.ReactNode {
+  const src = source.toLowerCase();
+  if (src.includes('planning') || src.includes('planning_application')) return <FileText className="w-3.5 h-3.5" />;
+  if (src.includes('epc') || src.includes('energy')) return <Home className="w-3.5 h-3.5" />;
+  if (src.includes('companies') || src.includes('ch')) return <Building2 className="w-3.5 h-3.5" />;
+  if (src.includes('contract')) return <ShieldCheck className="w-3.5 h-3.5" />;
+  return <TrendingUp className="w-3.5 h-3.5" />;
 }
 
 export function FindJobsPage() {
@@ -209,20 +228,84 @@ export function FindJobsPage() {
     }
   }
 
+  const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
+  const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
+  const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
+  const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
+  const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
+
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
+
+      {/* ── HERO SECTION ──────────────────────────────── */}
+      <section className="relative overflow-hidden border-2 border-[var(--line)] bg-[var(--ink)] p-7 md:p-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h40v40H0z\' fill=\'none\'/%3E%3Cpath d=\'M0 40L40 0\' stroke=\'%23E3B72A\' stroke-width=\'0.5\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
+        <div className="relative z-10">
+          <p className="micro-label text-[var(--yellow)]">LIVE LEAD SCANNER</p>
+          <h1 className="headline mt-3 text-5xl leading-[0.9] sm:text-6xl md:text-8xl text-white">
+            FIND JOBS<br />WORTH PRICING
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
+            Pick your trade. Enter your postcode. See what's live near you right now.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-4">
+            <Link to="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
+              VIEW PIPELINE →
+            </Link>
+          </div>
+
+          {/* SVG illustration: magnifying glass over UK map with pins */}
+          <div className="mt-6 hidden md:block">
+            <svg viewBox="0 0 320 180" className="w-64 h-auto opacity-30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* UK outline */}
+              <path d="M140 20 C130 25, 115 40, 110 55 C105 70, 100 80, 105 95 C108 105, 115 115, 120 130 C125 140, 130 150, 140 155 C148 158, 155 155, 160 148 C165 140, 170 130, 175 120 C180 110, 185 100, 190 90 C195 80, 200 70, 195 55 C190 40, 175 30, 160 22 C150 18, 145 18, 140 20Z" stroke="var(--yellow)" strokeWidth="1.5" opacity="0.6" />
+              {/* Pins */}
+              <circle cx="135" cy="50" r="4" fill="#E3B72A" />
+              <circle cx="155" cy="75" r="4" fill="#E3B72A" />
+              <circle cx="145" cy="110" r="4" fill="#E3B72A" />
+              <circle cx="170" cy="95" r="4" fill="#E3B72A" />
+              {/* Magnifying glass */}
+              <circle cx="200" cy="60" r="25" stroke="#E3B72A" strokeWidth="2.5" fill="none" />
+              <line x1="218" y1="78" x2="240" y2="100" stroke="#E3B72A" strokeWidth="3" strokeLinecap="round" />
+              {/* Search lines inside glass */}
+              <line x1="192" y1="52" x2="208" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="208" y1="52" x2="192" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW IT WORKS ──────────────────────────────── */}
+      <section className="jf-box bg-white p-6">
+        <p className="micro-label text-[var(--muted)]">HOW IT WORKS</p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
+            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
+              <MapPin className="w-6 h-6 text-[var(--ink)]" />
+            </div>
+            <p className="micro-label text-[var(--ink)]">1. ENTER POSTCODE</p>
+            <p className="text-sm font-semibold text-[var(--muted)]">Your patch. Your area. We scan what's live.</p>
+          </div>
+          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
+            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
+              <Wrench className="w-6 h-6 text-[var(--ink)]" />
+            </div>
+            <p className="micro-label text-[var(--ink)]">2. SELECT TRADE</p>
+            <p className="text-sm font-semibold text-[var(--muted)]">Pick your trade. One tap. Instant scan.</p>
+          </div>
+          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
+            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]">
+              <TrendingUp className="w-6 h-6 text-[var(--ink)]" />
+            </div>
+            <p className="micro-label text-[var(--ink)]">3. SEE GOLD LEADS</p>
+            <p className="text-sm font-semibold text-[var(--muted)]">Scored, verified, ranked. The jobs worth pricing.</p>
+          </div>
+        </div>
+      </section>
+
       {/* ── SCANNER ──────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">LIVE LEAD SCANNER</p>
-        <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl">FIND JOBS WORTH PRICING</h1>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Pick your trade. Enter your postcode. See what's live near you right now.
-        </p>
-        <div className="mt-3 flex flex-wrap items-center gap-4">
-          <Link to="/dashboard" className="text-sm font-black text-[var(--navy)] underline underline-offset-4 hover:text-[var(--ink)]">
-            VIEW PIPELINE →
-          </Link>
-        </div>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
@@ -234,19 +317,20 @@ export function FindJobsPage() {
                 type="button"
                 disabled={loading || fillWeekLoading}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
-                className={`px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
+                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
                   trade === preset.trade
                     ? 'bg-[var(--yellow)] text-[var(--ink)]'
                     : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
                 }`}
               >
+                {preset.icon}
                 {preset.label}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Form — postcode + radius only (trade already selected above) */}
+        {/* Form — postcode + radius */}
         <form onSubmit={submit} className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
@@ -259,10 +343,44 @@ export function FindJobsPage() {
             </select>
           </label>
           <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--navy)] text-white disabled:opacity-60">
+            <Search className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>
         </form>
+
+        {/* Recent Searches */}
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="micro-label text-[var(--muted)] text-[10px]">RECENT:</span>
+          {RECENT_SEARCHES.map((pc) => (
+            <button
+              key={pc}
+              type="button"
+              onClick={() => setPostcode(pc)}
+              className="border-2 border-[var(--line)] bg-[var(--paper)] px-2 py-0.5 text-xs font-bold text-[var(--muted)] hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors"
+            >
+              {pc}
+            </button>
+          ))}
+        </div>
       </section>
+
+      {/* ── STATS BAR ──────────────────────────────────── */}
+      {result && result.count > 0 && (
+        <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
+          <div className="border-r-2 border-[var(--line)] p-4 text-center">
+            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{planningCount}</p>
+            <p className="micro-label text-[10px] text-white/60 mt-1">PLANNING APPS</p>
+          </div>
+          <div className="border-r-2 border-[var(--line)] p-4 text-center">
+            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
+            <p className="micro-label text-[10px] text-white/60 mt-1">EPC F/G PROPERTIES</p>
+          </div>
+          <div className="p-4 text-center">
+            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
+            <p className="micro-label text-[10px] text-white/60 mt-1">COUNCIL CONTRACTS</p>
+          </div>
+        </section>
+      )}
 
       {/* ── FILL MY WEEK ─────────────────────────────── */}
       <section className="jf-box bg-[var(--yellow)] p-6">
@@ -299,10 +417,10 @@ export function FindJobsPage() {
               <p className="text-3xl font-black text-[var(--yellow)]">
                 {fillWeekResult.count} JOBS FOUND NEAR YOU
               </p>
-              <p className="mt-1 font-black text-white/90">
+              <p className="mt-1 font-black text-white/70">
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
-              <p className="mt-1 text-sm font-black text-white/90">
+              <p className="mt-1 text-sm font-black text-white/75">
                 Your quiet week isn't a skills problem. It's a pipeline problem.
               </p>
             </div>
@@ -415,7 +533,7 @@ export function FindJobsPage() {
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
-                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]">
+                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
                     Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
                   </p>
                 </section>
@@ -432,7 +550,7 @@ export function FindJobsPage() {
                   <p className="headline mt-2 text-3xl text-white leading-tight">
                     {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
                   </p>
-                  <p className="mt-2 font-black text-white/90">
+                  <p className="mt-2 font-black text-white/70">
                     Each includes buyer detail, deadline, verification proof, and contact signal - the detail that decides if a job is worth chasing.
                   </p>
                   <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
@@ -443,7 +561,7 @@ export function FindJobsPage() {
                     <span className="text-[var(--green)]">30-day money-back</span>
                   </div>
                   <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/mo →</Link>
-                  <p className="mt-3 text-xs font-black text-white/90">
+                  <p className="mt-3 text-xs font-black text-white/75">
                     30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
                   </p>
                 </div>
@@ -469,12 +587,33 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ─────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
+        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
+          {/* Empty map illustration */}
+          <div className="flex justify-center mb-4">
+            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
+              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
+              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
+              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
+              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
+              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
+              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
+              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
+            </svg>
+          </div>
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
-          <p className="mt-3 font-black text-white/90">
+          <p className="mt-3 font-black text-white/70">
             Tap a trade above or enter your postcode. Takes 10 seconds. No signup needed.
           </p>
+          <div className="mt-4 flex flex-wrap justify-center gap-3">
+            <button onClick={() => void submit()} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+              TRY A DIFFERENT POSTCODE
+            </button>
+            <button onClick={() => { setTrade('building'); void submit(undefined, { trade: 'building' }); }} className="jf-button bg-white text-[var(--ink)]">
+              WIDEN YOUR TRADE SEARCH
+            </button>
+          </div>
         </section>
       )}
     </main>
@@ -496,16 +635,44 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   ];
 
   const isGold = lead.score >= 80;
+  const isSilver = lead.score >= 50 && lead.score < 80;
   const isCompaniesHouse = lead.source === 'CompaniesHouse';
+  const isNew = lead.publishedAt && isNewLead(lead.publishedAt);
+
+  // Color-coded score badge
+  const scoreBadgeClass = isGold
+    ? 'bg-[var(--yellow)] text-[var(--ink)]'
+    : isSilver
+      ? 'bg-white text-[var(--ink)]'
+      : 'bg-[var(--muted)]/15 text-[var(--muted)]';
 
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
-      <ScoreBadge score={lead.score} />
+      {/* Enhanced score badge with color coding */}
+      <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
+        <div className="flex flex-col items-center">
+          <span className="headline leading-none text-3xl">{lead.score}</span>
+          <span className="text-[10px] font-black uppercase">
+            {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
+          </span>
+        </div>
+      </div>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
-          {lead.source && !isCompaniesHouse && <Tag label="verified_signal" />}
+          {lead.source && !isCompaniesHouse && (
+            <span className="inline-flex items-center gap-1 border-2 border-[var(--line)] bg-white px-2 py-1 text-xs font-black uppercase">
+              {getSourceIcon(lead.source)}
+              {lead.source}
+            </span>
+          )}
           {lead.urgency && <Tag label={lead.urgency} />}
+          {isNew && (
+            <span className="inline-flex items-center gap-1 bg-[var(--orange)] text-white px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
+              <Clock className="w-3 h-3" />
+              NEW
+            </span>
+          )}
           {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
         </div>
         {isCompaniesHouse && (
@@ -605,6 +772,25 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
 
   return (
     <section className="jf-box bg-white p-6">
+      {/* Empty state illustration */}
+      <div className="flex justify-center mb-4">
+        <svg viewBox="0 0 240 140" className="w-48 h-28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="10" width="220" height="120" rx="4" stroke="var(--line)" strokeWidth="2" strokeDasharray="8 4" />
+          {/* Empty map pins */}
+          <circle cx="70" cy="55" r="6" fill="var(--muted)" opacity="0.15" />
+          <circle cx="120" cy="70" r="6" fill="var(--muted)" opacity="0.15" />
+          <circle cx="170" cy="50" r="6" fill="var(--muted)" opacity="0.15" />
+          {/* Pin stems */}
+          <line x1="70" y1="61" x2="70" y2="85" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
+          <line x1="120" y1="76" x2="120" y2="100" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
+          <line x1="170" y1="56" x2="170" y2="80" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
+          {/* Magnifying glass with X */}
+          <circle cx="190" cy="35" r="14" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
+          <line x1="183" y1="28" x2="197" y2="42" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
+          <line x1="197" y1="28" x2="183" y2="42" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
+          <line x1="200" y1="45" x2="215" y2="60" stroke="var(--muted)" strokeWidth="2.5" opacity="0.3" strokeLinecap="round" />
+        </svg>
+      </div>
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
       <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
@@ -694,4 +880,3 @@ function tierLabel(score: number) {
   if (score >= 55) return 'WORTH CHECKING';
   return 'LOW SIGNAL';
 }
-

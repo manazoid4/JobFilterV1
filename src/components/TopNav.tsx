@@ -3,12 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/find-jobs', label: 'Scan' },
-  { to: '/territories', label: 'PatchLock' },
+  { to: '/territories', label: 'Territories' },
   { to: '/signals', label: 'Signals' },
   { to: '/blueprint', label: 'Blueprint' },
   { to: '/dashboard', label: 'Pipeline' },
   { to: '/post-job', label: 'Post Job' },
   { to: '/free-tools', label: 'Tools' },
+  { to: '/tradie-zone', label: 'Zone' },
   { to: '/dev-portal', label: 'Dev' },
   { to: '/pricing', label: 'Pricing' },
 ];
@@ -96,14 +97,14 @@ export function TopNav() {
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </NavLink>
             <NavLink to="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">PATCH</p>
-              <p className="text-base font-black text-[var(--ink)]">CLAIM</p>
+              <p className="text-[10px] font-black text-[var(--muted)]">ZONE</p>
+              <p className="text-base font-black text-[var(--ink)]">ACCESS</p>
             </NavLink>
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
               <span className="text-sm font-black text-[var(--ink)]">
-                PatchLock: {foundingSlots} founder slots left - £39/mo
+                Early Access: {foundingSlots} founder slots left — £39/mo
               </span>
               <div className="mt-2 h-2 w-full overflow-hidden border border-[var(--orange)] bg-[var(--orange)]/10">
                 <div
@@ -134,7 +135,7 @@ export function TopNav() {
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            CLAIM PATCHLOCK
+            GET EARLY ACCESS
           </NavLink>
           <NavLink
             to="/find-jobs"

@@ -5,7 +5,7 @@ const routes = [
   ['/find-jobs', 'Full lead scanner'],
   ['/free-tools', 'All free tools unlocked'],
   ['/dashboard', 'Pipeline dashboard'],
-  ['/territories', 'PatchLock register'],
+  ['/territories', 'Territory register'],
   ['/signals', 'Signal taxonomy'],
   ['/blueprint', 'Blueprint page'],
   ['/post-job', 'Homeowner intake'],
@@ -15,7 +15,7 @@ const routes = [
 const systems = [
   ['Frontend gates', 'DEV_MODE and OPEN_ACCESS are enabled in scanner and tools.'],
   ['API lead search', 'Express and Firebase search endpoints return full paid-mode leads with lockedCount 0.'],
-  ['Product access', 'No UI paywall should block testing of scanner, WhatsApp actions, tools, PatchLock, or dashboard flows.'],
+  ['Product access', 'No UI paywall should block testing of scanner, WhatsApp actions, tools, territories, or dashboard flows.'],
   ['Research memory', 'The UK growth playbook and earliest buying-signal pack are stored in the Obsidian vault.'],
 ];
 

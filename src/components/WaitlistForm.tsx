@@ -66,8 +66,8 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
 
   return (
     <form onSubmit={submit} className={`jf-box grid gap-4 border-4 border-[var(--line)] bg-[var(--yellow)] text-[var(--ink)] shadow-[6px_6px_0_var(--line)] ${compact ? 'p-5' : 'p-6'}`}>
-      <p className="micro-label text-[var(--ink)]">CLAIM PATCHLOCK</p>
-      <h3 className="headline text-3xl leading-none">Get leads plus letters.</h3>
+      <p className="micro-label text-[var(--ink)]">EARLY ACCESS</p>
+      <h3 className="headline text-3xl leading-none">Lock in founder pricing.</h3>
       {remaining !== null && remaining <= 30 && (
         <p className="border-2 border-[var(--line)] bg-white px-3 py-2 text-sm font-black text-[var(--ink)]">{remaining} founder slots left at £39/month</p>
       )}
@@ -88,11 +88,11 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
       {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
       {remaining !== null && (
         <p className="border-2 border-[var(--line)] bg-white px-3 py-2 text-sm font-black text-[var(--ink)]">
-          <strong>Founder price locks at £39/month</strong> — about a tenner a week, including WhatsApp lead alerts and company-branded letters to selected leads.
+          <strong>Founder price locks at £39/month</strong> — about a tenner a week, including WhatsApp lead alerts and scored leads in your area.
         </p>
       )}
       <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>
-        {status === 'loading' ? 'JOINING' : 'CLAIM MY PATCH'}
+        {status === 'loading' ? 'JOINING' : 'GET EARLY ACCESS'}
       </button>
     </form>
   );

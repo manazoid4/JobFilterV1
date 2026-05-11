@@ -8,7 +8,7 @@ const features = [
   ['Quote and invoice flow', 'Simple trade quotes, invoice handoff, deposit links and job notes without agency bloat.'],
   ['Review engine', 'Ask for Google reviews after won jobs and route complaints privately before they become public.'],
   ['Neighbour Signal campaigns', 'Turn one completed job into nearby leaflets, letters and local remarketing.'],
-  ['PatchLock ready', 'Connect your JobFilter patch so Gold leads, letters and follow-ups land in your own system.'],
+  ['Territory ready', 'Connect your JobFilter territory so Gold leads, letters and follow-ups land in your own system.'],
 ];
 
 const revenueHooks = [

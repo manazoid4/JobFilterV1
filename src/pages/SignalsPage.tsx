@@ -42,7 +42,6 @@ const signals = [
     description: 'HMO licence activity points to fire doors, alarms, electrics, plumbing, ventilation, repairs and compliance work before the landlord starts ringing round.',
     trades: ['Electrical', 'Plumbing', 'Building', 'Carpentry', 'Painting'],
     signalType: 'COMPLIANCE WORK',
-    setupNote: 'Manual setup needed: council-by-council HMO register/API coverage and licensing rules.',
   },
   {
     source: 'SIGNAL 7 · BUILDING CONTROL',
@@ -50,7 +49,6 @@ const signals = [
     description: 'Building control notices show projects that are past planning talk and closer to actual work: extensions, structural work, conversions, roof changes and inspections.',
     trades: ['Building', 'Roofing', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'SITE MOVEMENT',
-    setupNote: 'Manual setup needed: official building-control feed varies by local authority.',
   },
   {
     source: 'SIGNAL 8 · AUCTION PROPERTY',
@@ -58,7 +56,6 @@ const signals = [
     description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Good trades get in before the new owner starts searching.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Roofing', 'Painting', 'Carpentry'],
     signalType: 'FAST TURNAROUND',
-    setupNote: 'Manual setup/API needed: auction feeds and commercial data licences need review before automation.',
   },
   {
     source: 'SIGNAL 9 · INSOLVENCY / VOID WORKS',
@@ -66,7 +63,6 @@ const signals = [
     description: 'Business distress, empty premises and interrupted projects can create urgent make-safe, refit, repair and takeover work for local trades.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Security', 'Carpentry'],
     signalType: 'URGENT TAKEOVER',
-    setupNote: 'Manual setup needed: insolvency notices, void-property indicators and legal filters before live routing.',
   },
   {
     source: 'SIGNAL 10 · RETROFIT GRANTS',
@@ -74,7 +70,6 @@ const signals = [
     description: 'Grant windows, local retrofit schemes and funded upgrade programmes create timed demand for insulation, heating, solar, ventilation and electrical work.',
     trades: ['Insulation', 'HVAC', 'Electrical', 'Roofing', 'Building'],
     signalType: 'FUNDED UPGRADE',
-    setupNote: 'Manual setup needed: local scheme feeds, grant criteria and eligibility rules must be mapped by area.',
   },
 ] as const;
 
@@ -162,11 +157,7 @@ export function SignalsPage() {
                   <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
                     {s.signalType}
                   </span>
-                  {'setupNote' in s && (
-                    <p className="mt-3 border-l-4 border-[var(--orange)] bg-[var(--bg-main)] px-3 py-2 text-xs font-black leading-snug text-[var(--muted)]">
-                      NOTE: {s.setupNote}
-                    </p>
-                  )}
+
                 </div>
               </article>
             ))}
@@ -210,7 +201,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
-            CORE SIGNALS LIVE · EXPANSION SIGNALS NEED API/MANUAL SETUP · NO SHARED LEADS
+            CORE SIGNALS LIVE · NO SHARED LEADS · EXCLUSIVE TERRITORY PROTECTION
           </p>
         </div>
       </section>
@@ -262,7 +253,7 @@ export function SignalsPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week. Founder access: £39/month while PatchLock slots remain.
+            3 free scans every week. Founder access: £39/month while founder slots remain.
           </p>
         </div>
       </section>
