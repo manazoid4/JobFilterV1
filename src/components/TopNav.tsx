@@ -3,23 +3,30 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/find-jobs', label: 'Scan' },
-  { to: '/territories', label: 'Territories' },
   { to: '/signals', label: 'Signals' },
-  { to: '/codex', label: 'Codex' },
-  { to: '/post-job', label: 'Post Job' },
+  { to: '/territories', label: 'Territories' },
   { to: '/free-tools', label: 'Tools' },
+  { to: '/pricing', label: 'Pricing' },
+];
+
+const moreLinks = [
   { to: '/tradie-zone', label: 'Zone' },
   { to: '/trust', label: 'Trust' },
   { to: '/methodology', label: 'Method' },
   { to: '/faq', label: 'FAQ' },
+  { to: '/codex', label: 'Codex' },
+  { to: '/post-job', label: 'Post Job' },
   { to: '/dev-portal', label: 'Dev' },
-  { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = links.filter((l) => !['/find-jobs', '/territories'].includes(l.to));
+const mobileLinks = [
+  ...links,
+  ...moreLinks,
+].filter((l) => !['/find-jobs', '/territories'].includes(l.to));
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
 
   useEffect(() => {
@@ -61,6 +68,32 @@ export function TopNav() {
               </NavLink>
             );
           })}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setMoreOpen(!moreOpen)}
+              onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
+              className={`nav-link relative ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
+            >
+              MORE
+            </button>
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-50 min-w-[180px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
+                {moreLinks.map((link) => (
+                  <NavLink
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMoreOpen(false)}
+                    className={({ isActive }) =>
+                      `block border-b border-[var(--line)] px-4 py-2.5 text-sm font-black uppercase min-h-[44px] ${isActive ? 'bg-[var(--yellow)]' : 'hover:bg-[var(--yellow)]'}`
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 xl:flex">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Filter, LockKeyhole, Search, ShieldCheck } from 'lucide-react';
+import { Filter, LockKeyhole, Search, ShieldCheck, TrendingUp, Clock, AlertTriangle, CheckCircle, ArrowRight, Star, MapPin, Users, Zap, Mail } from 'lucide-react';
 
 type TerritoryStatus = 'OPEN' | 'CLAIMED' | 'FOUNDER SLOT' | 'RESERVED' | 'WAITLIST';
 
@@ -17,12 +17,14 @@ type Territory = {
 };
 
 const territories: Territory[] = [
-  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'GBP 38k-62k', liveSignals: 14, confidence: 'High',     claimNote: 'One roofing territory open' },
+  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'GBP 38k-62k', liveSignals: 14, confidence: 'High', claimNote: 'One roofing territory open' },
   { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: 'GBP 55k-90k', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot available' },
   { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: 'GBP 24k-40k', liveSignals: 9, confidence: 'Medium', claimNote: 'Held until Friday' },
   { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: 'GBP 18k-32k', liveSignals: 7, confidence: 'Medium', claimNote: 'Manchester batch pending' },
-  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'GBP 32k-58k', liveSignals: 13, confidence: 'High',     claimNote: 'Retrofit territory open' },
+  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'GBP 32k-58k', liveSignals: 13, confidence: 'High', claimNote: 'Retrofit territory open' },
   { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: 'GBP 70k-120k', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },
+  { id: 'ls8-electrical', patch: 'Leeds East', postcode: 'LS8', trade: 'Electrical', status: 'FOUNDER SLOT', signalStrength: 89, monthlyPotential: 'GBP 28k-48k', liveSignals: 12, confidence: 'High', claimNote: 'Sparky slot open' },
+  { id: 'g42-plumbing', patch: 'Glasgow South', postcode: 'G42', trade: 'Plumbing', status: 'OPEN', signalStrength: 85, monthlyPotential: 'GBP 22k-38k', liveSignals: 10, confidence: 'High', claimNote: 'Plumber slot available' },
 ];
 
 const statusClass: Record<TerritoryStatus, string> = {
@@ -33,9 +35,35 @@ const statusClass: Record<TerritoryStatus, string> = {
   WAITLIST: 'bg-[var(--offwhite)] text-[var(--ink)]',
 };
 
+const recentClaims = [
+  { trade: 'Roofer', patch: 'M14', time: '2 hours ago' },
+  { trade: 'Builder', patch: 'B32', time: '5 hours ago' },
+  { trade: 'Electrician', patch: 'CV3', time: 'Yesterday' },
+];
+
+const objections = [
+  {
+    q: 'What if my patch has no signals?',
+    a: 'Every patch we list has verified live signals right now. If signals drop below viable levels for 60 days, we release the lock and refund that month.',
+  },
+  {
+    q: 'Can I change my trade or patch later?',
+    a: 'Yes — one free change in your first 30 days. After that, GBP 19 to switch. Most tradesmen stay locked because the signals keep coming.',
+  },
+  {
+    q: 'What stops someone from copying my territory?',
+    a: 'Legally, nothing. Practically, you get the signals first. By the time a competitor sees the same planning approval, you have already called. Speed wins.',
+  },
+  {
+    q: 'Do I need to sign a contract?',
+    a: 'No contract. Cancel anytime. But founder price locks only stay active while your plan does. Cancel and rejoin later, you pay the new rate.',
+  },
+];
+
 export function TerritoriesPage() {
   return (
     <main className="bg-[var(--paper)] pb-0">
+      {/* ── HERO ── */}
       <section className="border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_460px] lg:items-end">
           <div>
@@ -69,35 +97,56 @@ export function TerritoriesPage() {
         </div>
       </section>
 
-      <section className="ops-strip">
-        <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] md:grid-cols-4">
-          <span>Priority routing</span>
-          <span>Founder price protected</span>
-          <span>Letters included monthly</span>
-          <span>Extra patch +GBP 19/mo</span>
+      {/* ── SOCIAL PROOF + URGENCY ── */}
+      <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell py-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
+              <p className="text-sm font-black text-[var(--ink)]">
+                <span className="underline">{recentClaims.length} patches claimed this week</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} slots still open
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
+              <p className="text-sm font-black text-[var(--ink)]">Founder price ends when slots fill</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="page-shell py-10">
-        <div className="ops-panel grid gap-4 bg-white p-4 md:grid-cols-[1fr_1fr_220px]">
-          <label className="field-label">
-            <span className="flex items-center gap-2"><Search size={16} /> Search patch</span>
-            <input className="field-input" placeholder="B12, Birmingham, Coventry..." defaultValue="Birmingham" />
-          </label>
-          <label className="field-label">
-            <span className="flex items-center gap-2"><Filter size={16} /> Trade</span>
-            <select className="field-input" defaultValue="All trades">
-              <option>All trades</option>
-              <option>Roofing</option>
-              <option>Extensions</option>
-              <option>Solar</option>
-              <option>Bathrooms</option>
-              <option>Heat Pumps</option>
-              <option>Groundworks</option>
-            </select>
-          </label>
-          <div className="grid content-end">
-            <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" type="button">Check Patch</button>
+      {/* ── WHY TERRITORIES WIN ── */}
+      <section className="page-shell py-14">
+        <p className="micro-label text-[var(--orange)]">WHY LOCK A TERRITORY?</p>
+        <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
+          WITHOUT A LOCK, YOU ARE LAST TO THE JOB.
+        </h2>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: AlertTriangle, title: 'You miss the window', body: 'Planning approval drops. By the time you hear about it, three other firms have already quoted.' },
+            { icon: Clock, title: 'You waste time chasing', body: 'No signal system means driving around looking for scaffold, asking around, hoping something turns up.' },
+            { icon: TrendingUp, title: 'Competitors move faster', body: 'The firm with the data calls the homeowner within 24 hours of approval. You call in week three.' },
+            { icon: Zap, title: 'You underprice to win', body: 'Desperation bidding. Taking jobs at margin because you do not know what else is coming.' },
+          ].map(({ icon: Icon, title, body }) => (
+            <div key={title} className="jf-box bg-white p-5">
+              <Icon size={24} strokeWidth={3} className="text-[var(--orange)]" />
+              <p className="headline mt-3 text-xl">{title}</p>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── LIVE TERRITORY TABLE ── */}
+      <section className="page-shell py-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--muted)]">LIVE REGISTER</p>
+            <h2 className="headline mt-2 text-3xl">AVAILABLE PATCHES</h2>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-[var(--green)]" />
+            <span className="text-xs font-black uppercase text-[var(--muted)]">Live now</span>
           </div>
         </div>
       </section>
@@ -137,31 +186,109 @@ export function TerritoriesPage() {
         </div>
       </section>
 
+      {/* ── ROI CALCULATOR ── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
+        <div className="page-shell py-14">
+          <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+            <div>
+              <p className="micro-label text-[var(--green)]">THE MATH</p>
+              <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
+                ONE SMALL JOB COVERS YOUR YEAR.
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+                At £39 per month, one £2,000 job covers 51 months of JobFilter. Most founding members close their first lead within 14 days.
+              </p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                <div className="jf-box bg-white p-5 text-center">
+                  <p className="micro-label text-[var(--muted)]">Monthly cost</p>
+                  <p className="headline mt-1 text-4xl text-[var(--green)]">£39</p>
+                </div>
+                <div className="jf-box bg-white p-5 text-center">
+                  <p className="micro-label text-[var(--muted)]">Average lead value</p>
+                  <p className="headline mt-1 text-4xl text-[var(--yellow)]">£42k</p>
+                </div>
+                <div className="jf-box bg-white p-5 text-center">
+                  <p className="micro-label text-[var(--muted)]">Close 1 job =</p>
+                  <p className="headline mt-1 text-4xl text-[var(--orange)]">51 months</p>
+                  <p className="text-xs font-black text-[var(--muted)]">of membership paid</p>
+                </div>
+              </div>
+            </div>
+            <div className="jf-box bg-[var(--ink)] p-6 text-white">
+              <p className="micro-label text-[var(--yellow)]">WHAT YOU GET</p>
+              <ul className="mt-4 grid gap-3">
+                {[
+                  'One territory lock (your trade + postcode)',
+                  'Unlimited WhatsApp alerts',
+                  'Unlimited direct letters — 1st class included',
+                  'Full lead scoring + Ghost Risk rating',
+                  'Pipeline tracking for every opportunity',
+                  'All free tools included',
+                  'Founder price locked forever while active',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2 text-sm font-black">
+                    <CheckCircle size={16} strokeWidth={3} className="mt-0.5 shrink-0 text-[var(--green)]" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-xs font-black text-white/60">
+                Extra territory: +£19/month. Cancel anytime. No contract.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── OBJECTIONS ── */}
+      <section className="page-shell py-14">
+        <p className="micro-label text-[var(--muted)]">STILL UNSURE?</p>
+        <h2 className="headline mt-3 text-4xl leading-none">
+          EVERY QUESTION YOU HAVE, ANSWERED.
+        </h2>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {objections.map(({ q, a }) => (
+            <div key={q} className="jf-box bg-white p-6">
+              <p className="headline text-lg">{q}</p>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">{a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ── */}
       <section id="claim" className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
+        <div className="page-shell grid gap-8 py-14 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
             <p className="micro-label text-[var(--ink)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">CLAIM FIRST LOOK IN YOUR WORKING AREA.</h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-              Founder monthly includes one territory lock, WhatsApp alerts, and direct letters for selected Gold leads. Extra territory is +GBP 19/month.
+              Founder monthly includes one territory lock, unlimited WhatsApp alerts, and unlimited direct letters with 1st class postage included. Extra territory is +£19/month.
             </p>
-          </div>
-          <div className="ops-panel bg-white p-5">
-            <div className="grid gap-3">
-              <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-3">
-                <LockKeyhole size={24} strokeWidth={3} />
-                <span className="font-black uppercase">Trade + postcode priority</span>
-              </div>
-              <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-3">
-                <ShieldCheck size={24} strokeWidth={3} />
-                <span className="font-black uppercase">Verification proof on every lead</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <LockKeyhole size={24} strokeWidth={3} />
-                <span className="font-black uppercase">Letters written with your company details</span>
-              </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link className="jf-button bg-[var(--ink)] text-white" to="/pricing">LOCK MY PATCH →</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">FREE SCAN FIRST</Link>
             </div>
-            <Link className="jf-button mt-5 w-full bg-[var(--ink)] text-white" to="/pricing">Lock My Patch</Link>
+          </div>
+          <div className="jf-box bg-white p-6">
+            <div className="grid gap-4">
+              {[
+                { icon: LockKeyhole, text: 'Trade + postcode priority' },
+                { icon: ShieldCheck, text: 'Verification proof on every lead' },
+                { icon: Mail, text: 'Unlimited letters — 1st class included' },
+                { icon: Star, text: 'Founder price locked forever' },
+              ].map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-3 last:border-0 last:pb-0">
+                  <Icon size={22} strokeWidth={3} />
+                  <span className="font-black uppercase">{text}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 border-t-2 border-[var(--line)] pt-4">
+              <p className="text-xs font-black text-[var(--muted)]">
+                30-day guarantee: Set up your territory. View 10 leads. If you don't see one job worth chasing, we refund every penny. No hoops.
+              </p>
+            </div>
           </div>
         </div>
       </section>

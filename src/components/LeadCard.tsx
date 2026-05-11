@@ -1,8 +1,11 @@
 import { useState, type MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
 import { ScoreBadge } from './ScoreBadge';
 import { Tag } from './Tag';
+import { GhostRiskBadge } from './GhostRiskBadge';
+import { ScoreBadgeCompact } from './SeriousBuyerScore';
 
 type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'ignored';
 
@@ -25,9 +28,12 @@ type LeadCardProps = {
   href?: string;
   meta?: string;
   showStatus?: boolean;
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  buyerScore?: number;
+  freshness?: string;
 };
 
-export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false }: LeadCardProps) {
+export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, ghostRisk, buyerScore, freshness }: LeadCardProps) {
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
@@ -57,7 +63,19 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
             <Tag key={tag} label={tag} />
           ))}
           {meta && <Tag label="verified_signal" />}
+          {freshness && (
+            <span className="inline-flex items-center gap-1 border-2 border-[var(--green)] bg-[var(--green)]/10 px-2 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">
+              <ClockIcon size={10} strokeWidth={3} />
+              {freshness}
+            </span>
+          )}
         </div>
+        {(ghostRisk || buyerScore !== undefined) && (
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            {ghostRisk && <GhostRiskBadge level={ghostRisk} size="sm" />}
+            {buyerScore !== undefined && <ScoreBadgeCompact score={buyerScore} />}
+          </div>
+        )}
         <div className="mt-4">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
         </div>

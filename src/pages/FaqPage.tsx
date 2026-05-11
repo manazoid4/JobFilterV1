@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'One territory lock, unlimited WhatsApp alerts, 5 direct letters per month, full lead scoring, pipeline tracking, and all free tools. Founder price locks forever.',
+    a: 'One territory lock, unlimited WhatsApp alerts, unlimited direct letters sent 1st class on your behalf, full lead scoring, Ghost Risk ratings, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. If you do not see at least one job worth chasing, we refund every penny. No quibbles. No hoops.',
+    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely do not see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.',
   },
   {
     q: 'How does territory exclusivity work?',

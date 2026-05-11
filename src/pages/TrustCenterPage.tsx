@@ -52,7 +52,11 @@ const guaranteeFeatures = [
   'One territory lock per founding member',
   'Unlimited lead alerts within locked territory',
   'Unlimited WhatsApp alerts',
-  '5 direct letters per month',
+  'Unlimited direct letters — 1st class postage included',
+  'Full lead scoring + Ghost Risk rating',
+  'Pipeline tracking for every opportunity',
+  'All free tools included',
+  'Founder price locked forever while active',
   '30-day money-back guarantee',
 ];
 
@@ -71,7 +75,7 @@ export function TrustCenterPage() {
           We scan official data. Score every signal. Send the good ones to your WhatsApp.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--yellow)]">
-          If you don't see one job worth chasing in 30 days, we refund every penny. No quibbles.
+          Use JobFilter for 30 days. Set up your territory. View your leads. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
         </p>
       </section>
 
@@ -202,7 +206,7 @@ export function TrustCenterPage() {
           30-DAY MONEY-BACK GUARANTEE.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Use JobFilter for 30 days. If you don't see at least one job worth chasing, we refund every penny. No quibbles. No hoops. No "but you didn't use feature X."
+          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops. We just ask that you actually use the system — this filter exists to stop tyre-kickers, not tradesmen.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

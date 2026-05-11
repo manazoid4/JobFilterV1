@@ -147,7 +147,7 @@ select {
   border: 2px solid var(--navy);
   border-radius: 2px;
   box-shadow: 4px 4px 0 var(--yellow);
-  background: var(--white);
+  background-color: var(--white);
   max-width: 100%;
   min-width: 0;
 }

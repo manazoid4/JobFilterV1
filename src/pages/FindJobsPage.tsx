@@ -9,7 +9,7 @@ import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
 const DEV_MODE = false;
-const OPEN_ACCESS = false;
+const OPEN_ACCESS = true;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -543,26 +543,11 @@ export function FindJobsPage() {
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
-              {/* Locked leads CTA */}
-              {!DEV_MODE && (result.lockedCount ?? 0) > 0 && (
-                <div className="jf-box bg-[var(--ink)] p-8 text-center">
-                  <p className="micro-label text-[var(--yellow)]">FULL RESULTS LOCKED</p>
-                  <p className="headline mt-2 text-3xl text-white leading-tight">
-                    {result.lockedCount} MORE LEAD{(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN YOUR AREA
-                  </p>
-                  <p className="mt-2 font-black text-white/70">
-                    Each includes buyer detail, deadline, verification proof, and contact signal - the detail that decides if a job is worth chasing.
-                  </p>
-                  <div className="mt-4 flex flex-wrap justify-center gap-3 text-sm font-black">
-                    <span className="text-[var(--green)]">Founder: £39/mo</span>
-                    <span className="text-white/40">·</span>
-                    <span className="text-[var(--yellow)]">Standard: £79/mo</span>
-                    <span className="text-white/40">·</span>
-                    <span className="text-[var(--green)]">30-day money-back</span>
-                  </div>
-                  <Link to="/pricing" className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)] inline-block">UNLOCK FOR £39/mo →</Link>
-                  <p className="mt-3 text-xs font-black text-white/75">
-                    30-day money-back guarantee. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+              {/* Results footer */}
+              {result.leads.length > 0 && (
+                <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
+                  <p className="text-sm font-black text-[var(--muted)]">
+                    Showing {result.leads.length} lead{result.leads.length > 1 ? 's' : ''} in your area. Results update daily.
                   </p>
                 </div>
               )}
@@ -817,27 +802,12 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-function LockedValue({ label, value, isLink, href, lockedText = 'UNLOCK' }: { label: string; value: string | undefined; isLink?: boolean; href?: string; lockedText?: string }) {
-  if (DEV_MODE && !value) {
-    return (
-      <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 p-3">
-        <p className="micro-label text-[10px] text-[var(--green)]">{label}</p>
-        <p className="mt-1 font-black text-[var(--green)] text-sm">DEV — data not available in mock mode</p>
-      </div>
-    );
-  }
+function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
   if (!value) {
     return (
-      <div className="relative border-2 border-[var(--line)] overflow-hidden p-3">
+      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        {label === 'Deadline' && <p className="mt-1 text-xs font-black text-[var(--muted)]">Timing locked</p>}
-        <p className="mt-1 font-black blur-sm select-none text-[var(--ink)] pointer-events-none">████████████████</p>
-        <Link
-          to="/pricing"
-          className="absolute inset-0 flex items-center justify-center bg-white/80"
-        >
-          <span className="bg-[var(--navy)] text-white text-[10px] font-black px-2 py-1 tracking-widest">{lockedText}</span>
-        </Link>
+        <p className="mt-1 font-black text-[var(--muted)] text-sm">—</p>
       </div>
     );
   }

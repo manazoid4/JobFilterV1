@@ -154,7 +154,7 @@ export function FreeToolsPage() {
             </Link>
           </div>
           <div className="mt-4 border-2 border-[var(--green)] bg-[var(--green)]/10 px-4 py-3 text-center text-sm font-black text-[var(--green)]">
-            30-DAY MONEY-BACK GUARANTEE — If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+            30-DAY MONEY-BACK GUARANTEE — Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops.
           </div>
         </section>
       )}
@@ -321,7 +321,7 @@ export function FreeToolsPage() {
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
         <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
-          Use JobFilter for 30 days. If you don't see at least one job worth chasing, we refund every penny. No quibbles. No hoops. No "but you didn't use feature X."
+          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.
         </p>
         <p className="mt-2 text-sm font-black text-[var(--ink)]">
           Built in Birmingham. We stand behind it.
