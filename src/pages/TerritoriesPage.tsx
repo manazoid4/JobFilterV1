@@ -39,7 +39,7 @@ export function TerritoriesPage() {
       <section className="border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_460px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">PATCHLOCK REGISTER</p>
+            <p className="micro-label text-[var(--yellow)]">FIND YOUR PATCH</p>
             <h1 className="headline mt-4 text-[clamp(44px,8vw,98px)] leading-[0.88]">
               ONE TRADE. ONE POSTCODE CLUSTER. FIRST CALL ON GOLD LEADS.
             </h1>
@@ -107,7 +107,7 @@ export function TerritoriesPage() {
           <div className="grid grid-cols-[1.1fr_0.8fr_0.8fr_0.6fr_0.7fr] border-b-2 border-[var(--line)] bg-[var(--ink)] p-4 text-xs font-black uppercase tracking-[0.08em] text-white max-lg:hidden">
             <span>Patch</span>
             <span>Trade</span>
-            <span>Monthly potential</span>
+            <span>Area value</span>
             <span>Signals</span>
             <span>Status</span>
           </div>
@@ -123,7 +123,9 @@ export function TerritoriesPage() {
                 <div className="font-mono font-black">{territory.monthlyPotential}</div>
                 <div>
                   <p className="font-mono text-2xl font-black">{territory.liveSignals}</p>
-                  <p className="text-xs font-black uppercase text-[var(--muted)]">{territory.confidence} confidence</p>
+                  <p className={`text-xs font-black uppercase ${territory.confidence === 'High' ? 'text-[var(--green)]' : 'text-[var(--orange)]'}`}>
+                    {territory.confidence === 'High' ? '● Strong' : '● Growing'}
+                  </p>
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
