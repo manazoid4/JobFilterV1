@@ -31,7 +31,7 @@ const signals = [
 
 const quotes = [
   {
-    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £29. The maths is simple.",
+    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £39 and five more signals. The maths is simple.",
     role: "Builder, West Midlands",
   },
   {
@@ -497,9 +497,9 @@ export function CompareBuildAlertPage() {
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
-              <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
+              <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">
