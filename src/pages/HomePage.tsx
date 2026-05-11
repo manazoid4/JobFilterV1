@@ -161,7 +161,7 @@ export function HomePage() {
                 Scan My Area
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/blueprint">
-                See Blueprint
+                How It Works
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
                 Claim Territory

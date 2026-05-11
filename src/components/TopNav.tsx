@@ -5,11 +5,8 @@ const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/territories', label: 'PatchLock' },
   { to: '/signals', label: 'Signals' },
-  { to: '/blueprint', label: 'Blueprint' },
-  { to: '/dashboard', label: 'Pipeline' },
   { to: '/post-job', label: 'Post Job' },
   { to: '/free-tools', label: 'Tools' },
-  { to: '/dev-portal', label: 'Dev' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
@@ -134,7 +131,7 @@ export function TopNav() {
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            CLAIM PATCHLOCK
+            CLAIM PATCH
           </NavLink>
           <NavLink
             to="/find-jobs"
