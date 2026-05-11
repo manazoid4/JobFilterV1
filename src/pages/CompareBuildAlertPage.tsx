@@ -31,7 +31,7 @@ const signals = [
 
 const quotes = [
   {
-    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £29. The maths is simple.",
+    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £39 and five more signals. The maths is simple.",
     role: "Builder, West Midlands",
   },
   {
@@ -485,21 +485,21 @@ export function CompareBuildAlertPage() {
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(£39/mo — locked forever)</p>
-              <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Locked price forever.</p>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
+              <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
                 <li>Buyer names & deadlines</li>
-                <li>Price locked — never rises</li>
+                <li>Price locked while active</li>
               </ul>
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
-              <h3 className="headline text-xl text-[var(--navy)]">PRO — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Everything in Founding 30 plus Letterhead Pack and multi-trade scanning.</p>
-              <p className="mt-3 text-sm font-black text-[var(--muted)]">For growing businesses</p>
+              <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
+              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">

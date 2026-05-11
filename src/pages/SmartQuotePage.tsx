@@ -135,9 +135,9 @@ export function SmartQuotePage() {
                   <p>SECTION 3 — TERMS AND PAYMENT: [Stage payment schedule, retention, and variation clause]</p>
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm">
-                  <p className="badge mb-3">PRO ONLY</p>
+                  <p className="badge mb-3">FOUNDER ACCESS</p>
                   <Link to="/pricing" className="jf-button text-sm px-5 py-2">
-                    UNLOCK FULL STARTER — PRO ONLY
+                    UNLOCK FULL STARTER — FROM £39/mo
                   </Link>
                 </div>
               </div>

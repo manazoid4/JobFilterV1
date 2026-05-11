@@ -546,7 +546,7 @@ function TimeWasterTool() {
         <NumberField label="Bad visits/week" value={badVisits} onChange={setBadVisits} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">STOP THE BLEED — £29/MO →</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">STOP THE BLEED — FROM £39/MO →</Link>
       </div>
     </section>
   );

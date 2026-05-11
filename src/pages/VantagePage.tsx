@@ -253,8 +253,8 @@ export function VantagePage() {
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
               Good tradesmen lose work when buyers can't see the value. Vantage closes the presentation gap without turning you into a marketing agency.
             </p>
-            <Link to="/intake-test" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
-              Join waitlist for early access →
+            <Link to="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
+              Scan Jobs Free →
             </Link>
           </div>
           <WaitlistForm source="vantage" />

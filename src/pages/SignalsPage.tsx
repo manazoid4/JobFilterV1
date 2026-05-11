@@ -157,10 +157,22 @@ export function SignalsPage() {
                   <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
                     {s.signalType}
                   </span>
-
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2b. Pricing bridge */}
+      <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
+        <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
+          <p className="text-base font-black text-[var(--ink)]">
+            All 10 signals included. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
+          </p>
+          <div className="flex shrink-0 gap-3">
+            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" to="/find-jobs">Scan Free →</Link>
+            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" to="/pricing">See Pricing</Link>
           </div>
         </div>
       </section>

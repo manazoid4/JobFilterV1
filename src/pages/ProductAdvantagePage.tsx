@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const content = {
   vantage: {
@@ -81,6 +80,9 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
 
 function ServiceForm({ trade }: { trade: string }) {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+
   if (submitted) return (
     <div className="jf-box bg-[var(--yellow)] p-6">
       <p className="micro-label text-[var(--ink)]">REQUEST RECEIVED</p>
@@ -88,20 +90,40 @@ function ServiceForm({ trade }: { trade: string }) {
       <p className="mt-3 font-black text-[var(--ink)]">Usually much faster. Check your phone.</p>
     </div>
   );
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setError('');
+    const fd = new FormData(e.currentTarget);
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('name'),
+          trade: fd.get('company'),
+          contact: fd.get('contact'),
+          source: `service-form-${trade.toLowerCase().replace(/\s+/g, '-')}`,
+        }),
+      });
+      if (!res.ok) throw new Error('Submit failed');
+      setSubmitted(true);
+    } catch {
+      setError('Could not send — please call or email us directly.');
+    } finally {
+      setSending(false);
+    }
+  }
+
   return (
     <div className="grid gap-4">
-      <div className="jf-box border-4 border-[var(--yellow)] bg-white p-4">
-        <p className="micro-label text-[var(--orange)]">FULL ACCESS TEST MODE</p>
-        <p className="mt-2 text-lg font-black text-[var(--ink)]">This service is unlocked for testing.</p>
-        <p className="mt-1 font-black text-[var(--muted)]">Submit the form and test the complete flow without plan gating.</p>
-        <Link to="/dev-portal" className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] underline underline-offset-2">Open dev portal →</Link>
-      </div>
-      <form className="jf-box bg-white p-6 grid gap-4" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+      <form className="jf-box bg-white p-6 grid gap-4" onSubmit={handleSubmit}>
         <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
-        <input className="field-input" placeholder="Your name" required />
-        <input className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
-        <input className="field-input" placeholder="Email or phone" required />
-        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" required />
+        <input name="name" className="field-input" placeholder="Your name" required />
+        <input name="company" className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
+        <input name="contact" className="field-input" placeholder="Email or phone" required />
+        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (
@@ -111,7 +133,10 @@ function ServiceForm({ trade }: { trade: string }) {
             </label>
           ))}
         </fieldset>
-        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SUBMIT TO TEAM</button>
+        {error && <p className="text-sm font-black text-[var(--orange)]">{error}</p>}
+        <button type="submit" disabled={sending} className="jf-button bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-50">
+          {sending ? 'SENDING...' : 'SUBMIT TO TEAM'}
+        </button>
         <p className="text-sm font-black text-[var(--muted)]">Team responds within 6 hours. Usually much faster.</p>
       </form>
     </div>

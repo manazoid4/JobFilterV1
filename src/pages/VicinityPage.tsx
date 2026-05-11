@@ -688,8 +688,8 @@ export function VicinityPage() {
             <div className="mt-4 flex items-center gap-2 px-4 py-3" style={{ background: 'var(--yellow)', border: '2px solid var(--navy)' }}>
               <span className="text-[13px] font-bold uppercase tracking-wide text-[var(--navy)]">✓ Included free with JobFilter subscription</span>
             </div>
-            <Link to="/intake-test" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
-              Start Creating Proof →
+            <Link to="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
+              Scan Jobs Free →
             </Link>
           </div>
           <WaitlistForm source="vicinity" />

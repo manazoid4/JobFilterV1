@@ -209,8 +209,11 @@ export function CodexPage() {
             Paste your spec sheets, compliance docs, or technical notes. Codex strips the jargon and writes plain English your clients understand — and actually read.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/dev-portal" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
-              TRY CODEX FREE
+            <Link to="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
+              GET CODEX — FROM £39/MO
+            </Link>
+            <Link to="/find-jobs" className="jf-button jf-button-lg bg-white text-[var(--ink)]">
+              TRY FREE SCAN FIRST
             </Link>
           </div>
           <HeroIllustration />
@@ -395,8 +398,8 @@ export function CodexPage() {
             Free for JobFilter subscribers. £9/month standalone.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link to="/dev-portal" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
-              TRY CODEX NOW
+            <Link to="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
+              GET CODEX — FROM £39/MO
             </Link>
           </div>
         </div>
