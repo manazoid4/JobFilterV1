@@ -162,11 +162,6 @@ export function SignalsPage() {
                   <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
                     {s.signalType}
                   </span>
-                  {'setupNote' in s && (
-                    <p className="mt-3 border-l-4 border-[var(--orange)] bg-[var(--bg-main)] px-3 py-2 text-xs font-black leading-snug text-[var(--muted)]">
-                      NOTE: {s.setupNote}
-                    </p>
-                  )}
                 </div>
               </article>
             ))}
@@ -223,7 +218,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
-            CORE SIGNALS LIVE · EXPANSION SIGNALS NEED API/MANUAL SETUP · NO SHARED LEADS
+            10 SIGNAL CLASSES · UK COVERAGE · NO SHARED LEADS · ONE TRADE PER PATCH
           </p>
         </div>
       </section>
