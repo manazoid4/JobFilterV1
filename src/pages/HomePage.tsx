@@ -10,10 +10,10 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: 'GBP 42k', score: 94, trend: 'up' as const },
-  { source: 'EPC', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'GBP 18k', score: 87, trend: 'up' as const },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'GBP 65k', score: 91, trend: 'up' as const },
-  { source: 'Land', signal: 'Brownfield site live', trade: 'Groundworks', value: 'GBP 120k', score: 82, trend: 'down' as const },
+  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: 'GBP 42k', score: 94, trend: 'up' as const, location: 'B12' },
+  { source: 'EPC', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'GBP 18k', score: 87, trend: 'up' as const, location: 'M14' },
+  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'GBP 65k', score: 91, trend: 'up' as const, location: 'LS1' },
+  { source: 'Land', signal: 'Brownfield site live', trade: 'Groundworks', value: 'GBP 120k', score: 82, trend: 'down' as const, location: 'G41' },
 ];
 
 const operatingSteps = [
@@ -168,7 +168,7 @@ export function HomePage() {
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
-              <p className="micro-label text-[var(--yellow)]">LIVE SIGNAL BOARD</p>
+              <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
               <span className="bg-[var(--yellow)] px-2 py-1 text-xs font-black text-[var(--ink)]">BETA</span>
             </div>
             <div className="mt-4 grid gap-3">
@@ -181,8 +181,9 @@ export function HomePage() {
                     </div>
                     <ScoreBadge score={row.score} trend={row.trend} />
                   </div>
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black uppercase text-white/70">
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-xs font-black uppercase text-white/70">
                     <span>{row.trade}</span>
+                    <span className="text-center text-[var(--yellow)]">{row.location}</span>
                     <span className="text-right">{row.value}</span>
                   </div>
                 </div>
