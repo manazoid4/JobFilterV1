@@ -10,13 +10,11 @@ const links = [
 ];
 
 const moreLinks = [
-  { to: '/tradie-zone', label: 'Zone' },
+  { to: '/tradie-zone', label: 'Tradie Zone' },
   { to: '/trust', label: 'Trust' },
-  { to: '/methodology', label: 'Method' },
+  { to: '/methodology', label: 'How It Works' },
   { to: '/faq', label: 'FAQ' },
   { to: '/codex', label: 'Codex' },
-  { to: '/post-job', label: 'Post Job' },
-  { to: '/dev-portal', label: 'Dev' },
 ];
 
 const mobileLinks = [
