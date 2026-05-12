@@ -262,11 +262,11 @@ export function TrustCenterPage() {
               <p className="text-sm font-black text-[var(--muted)]">support@jobfilter.uk</p>
             </div>
           </a>
-          <a href="https://wa.me/447123456789" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--green)]">
+          <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--green)]">
             <MessageSquare size={24} strokeWidth={2.5} className="text-[var(--green)]" />
             <div>
-              <p className="headline text-lg">WhatsApp</p>
-              <p className="text-sm font-black text-[var(--muted)]">Direct message</p>
+              <p className="headline text-lg">Support</p>
+              <p className="text-sm font-black text-[var(--muted)]">Same-day reply</p>
             </div>
           </a>
         </div>

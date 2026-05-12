@@ -179,13 +179,9 @@ export function TradieZonePage() {
         <p className="micro-label text-[var(--muted)]">SUPPORT</p>
         <h2 className="headline mt-2 text-2xl">NEED HELP?</h2>
         <p className="mt-2 font-black text-[var(--muted)]">
-          WhatsApp us directly. We respond within 4 hours, Mon-Fri.
+          Email us directly. We reply same day, Mon-Fri.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-3">
-          <a href="https://wa.me/447123456789" className="jf-button bg-[var(--green)] text-white inline-flex items-center gap-2">
-            <MessageSquare size={18} strokeWidth={2.5} />
-            WHATSAPP SUPPORT
-          </a>
           <a href="mailto:support@jobfilter.uk" className="jf-button bg-[var(--navy)] text-white">EMAIL SUPPORT</a>
         </div>
       </section>
