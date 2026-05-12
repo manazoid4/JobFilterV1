@@ -19,7 +19,7 @@ type Territory = {
 const territories: Territory[] = [
   { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'GBP 38k-62k', liveSignals: 14, confidence: 'High', claimNote: 'One roofing territory open' },
   { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: 'GBP 55k-90k', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot available' },
-  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: 'GBP 24k-40k', liveSignals: 9, confidence: 'Medium', claimNote: 'Held until Friday' },
+  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: 'GBP 24k-40k', liveSignals: 9, confidence: 'Medium', claimNote: 'Interest registered — decision pending' },
   { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: 'GBP 18k-32k', liveSignals: 7, confidence: 'Medium', claimNote: 'Manchester batch pending' },
   { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'GBP 32k-58k', liveSignals: 13, confidence: 'High', claimNote: 'Retrofit territory open' },
   { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: 'GBP 70k-120k', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },

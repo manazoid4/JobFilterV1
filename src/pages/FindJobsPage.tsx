@@ -351,7 +351,7 @@ export function FindJobsPage() {
 
         {/* Recent Searches */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="micro-label text-[var(--muted)] text-[10px]">RECENT:</span>
+          <span className="micro-label text-[var(--muted)] text-[10px]">TRY:</span>
           {RECENT_SEARCHES.map((pc) => (
             <button
               key={pc}
