@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MessageCircle, Mail, ChevronRight } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 const faqs = [
   {
@@ -87,16 +87,12 @@ export function FaqPage() {
       <section className="jf-box bg-[var(--yellow)] p-8">
         <h2 className="headline text-3xl">STILL HAVE QUESTIONS?</h2>
         <p className="mt-3 max-w-xl text-lg font-black text-[var(--ink)]/75">
-          Talk to us directly. WhatsApp or email. Real person. No chatbot.
+          Email us directly. Real person. No chatbot. We reply same day.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="https://wa.me/447123456789" className="jf-button bg-[var(--green)] text-white inline-flex items-center gap-2">
-            <MessageCircle size={18} strokeWidth={2.5} />
-            WHATSAPP US
-          </a>
           <a href="mailto:support@jobfilter.uk" className="jf-button bg-[var(--navy)] text-white inline-flex items-center gap-2">
             <Mail size={18} strokeWidth={2.5} />
-            EMAIL US
+            EMAIL SUPPORT
           </a>
           <Link to="/trust" className="jf-button bg-white text-[var(--ink)]">
             TRUST CENTER →
