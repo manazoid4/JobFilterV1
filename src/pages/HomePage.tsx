@@ -214,7 +214,7 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                <span className="underline">247 tradesmen scanning today</span> — Founder slots filling fast
+                Founding 30 — one dominant trade partner per postcode cluster
               </p>
             </div>
             <div className="flex items-center gap-2">
