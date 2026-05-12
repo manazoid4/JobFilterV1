@@ -201,9 +201,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>FETCH - NORMALISE - FILTER</span>
-              <span>MONEY FILTER - STORE - DELIVER</span>
-          <span>WhatsApp first. Dashboard second.</span>
+          <span>Signals from planning, EPC and contracts</span>
+          <span>Scored by value, trade fit and urgency</span>
+          <span>WhatsApp alert — before the job goes public</span>
         </div>
       </section>
 
