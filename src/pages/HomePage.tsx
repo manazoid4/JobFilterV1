@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight, Users, Clock, TrendingUp, CheckCircle, Lock } from 'lucide-react';
+import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 

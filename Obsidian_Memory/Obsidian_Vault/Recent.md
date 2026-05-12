@@ -20,4 +20,10 @@
 - Updated Blueprint page with "Reactive vs Proactive" section positioning JobFilter against Belvoir Maintenance and FixFlo.
 - Added Leicester city page (`/construction-leads/leicester`) with FixFlo/Belvoir competitive positioning.
 - Created Competitive Intelligence vault note on Belvoir and FixFlo models, weaknesses, and market disruption strategy.
-- Build passes. Ready for deploy.
+- **22 commits** landed in last 24h — see [[Changelog 2026-05-11]] for full breakdown.
+- Trust-first MVP deployed: Trust Center, Methodology, FAQ, Sample Lead, Trust Badges, Nav fixes.
+- Ralph loop v2: Trust badges in leads, scoring card icons, What You Get section, Pricing guarantee+objections, homepage urgency.
+- Content loops 10–18: fixed pricing contradictions, dead links, domain refs, CTAs.
+- PostJobPage wired to real API endpoint.
+- `/dev-portal` and `/intake-test` removed from public routing.
+- Build passes. Launch-ready.
