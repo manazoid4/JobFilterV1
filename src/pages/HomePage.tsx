@@ -430,25 +430,25 @@ export function HomePage() {
       <section className="bg-white">
         <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>
-            <p className="micro-label text-[var(--orange)]">PUBLIC DEMAND ENGINE</p>
+            <p className="micro-label text-[var(--orange)]">MORE THAN SIGNALS</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              WE ARE NOT ONLY FINDING SIGNALS. WE ARE PULLING JOBS IN.
+              WE ALSO PULL JOBS DIRECTLY INTO YOUR PATCH.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
-              Homeowners and property owners can submit jobs directly. Territory-locked firms get routed opportunities, while first-month guerilla campaigns drive more local demand into the system.
+              Homeowners can post jobs straight into the system. Territory-locked firms get first look — no directory, no competition, no shared auction.
             </p>
           </div>
           <div className="ops-panel bg-[var(--paper)] p-5">
-            <p className="micro-label text-[var(--ink)]">FIRST MONTH CAMPAIGN ADD-ONS</p>
+            <p className="micro-label text-[var(--ink)]">INCLUDED WITH YOUR TERRITORY</p>
             <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
-              <p>Sticker campaign around your patch</p>
-              <p>Direct letters to selected local opportunities</p>
-              <p>Neighbour Signal door-drop after won jobs</p>
-              <p>Public "post a job" intake page for repeat demand</p>
+              <p>✓ Homeowner jobs routed to your trade and postcode</p>
+              <p>✓ Company-branded letters for high-value signals</p>
+              <p>✓ Neighbour Signal — turn one job into local demand</p>
+              <p>✓ Weekly digest of your area's best opportunities</p>
             </div>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--ink)] text-white" to="/post-job">See Public Intake</Link>
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/blueprint">Why This Is Different</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">See What's Included</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" to="/blueprint">How It Works</Link>
             </div>
           </div>
         </div>
