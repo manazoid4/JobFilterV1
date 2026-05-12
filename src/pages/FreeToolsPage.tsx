@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 const DEV_MODE = false;
 const FREE_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const STORAGE_KEY = 'jf-free-scans-used';
-const SOCIAL_PROOF_KEY = 'jf-social-proof-week';
-
 function getScansUsed(): number {
   try {
     return Number(localStorage.getItem(STORAGE_KEY)) || 0;
@@ -20,22 +18,6 @@ function recordScan(): number {
     localStorage.setItem(STORAGE_KEY, String(next));
   } catch { /* ignore */ }
   return next;
-}
-
-function getSocialProof(): number {
-  try {
-    const stored = localStorage.getItem(SOCIAL_PROOF_KEY);
-    if (stored) {
-      const { count, week } = JSON.parse(stored);
-      const currentWeek = new Date().toISOString().slice(0, 7);
-      if (week === currentWeek) return count;
-    }
-    const base = 147 + Math.floor(Math.random() * 60);
-    localStorage.setItem(SOCIAL_PROOF_KEY, JSON.stringify({ count: base, week: new Date().toISOString().slice(0, 7) }));
-    return base;
-  } catch {
-    return 173;
-  }
 }
 
 type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote';
@@ -76,7 +58,6 @@ export function FreeToolsPage() {
   const [emailTrade, setEmailTrade] = useState('Electrician');
   const [emailName, setEmailName] = useState('');
   const [optInSignals, setOptInSignals] = useState(true);
-  const [socialProof] = useState(getSocialProof);
 
   const isPaywalled = false;
 
@@ -113,7 +94,7 @@ export function FreeToolsPage() {
           )}
           <div className="inline-flex items-center gap-2 border border-white/20 px-3 py-1.5 text-xs font-black text-white/85">
             <span className="h-2 w-2 rounded-full bg-[var(--green)]" />
-            {socialProof} trades used these tools this week
+            Free to use — no account needed
           </div>
         </div>
       </section>
