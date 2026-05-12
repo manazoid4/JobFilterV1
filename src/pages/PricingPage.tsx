@@ -86,7 +86,7 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">PRICING</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
-          STANDARD PRICE IS £79/MO. FOUNDERS PAY £39/mo.
+          LOCK IN AT £39/MO. STANDARD GOES TO £79.
         </h1>
         <p className="mt-5 max-w-3xl text-xl font-black text-white/78">
           We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
