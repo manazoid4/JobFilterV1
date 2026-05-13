@@ -314,7 +314,7 @@ export function FreeToolsPage() {
   );
 }
 
-/* ── Tool Card ──────────────────────────────────────────────────────── */}
+/* ── Tool Card ──────────────────────────────────────────────────────── */
 function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   tool: ToolDef;
   isActive: boolean;
@@ -342,7 +342,7 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   );
 }
 
-/* ── Tool Workspace (inline calculator) ──────────────────────────────────── */}
+/* ── Tool Workspace (inline calculator) ──────────────────────────────────── */
 function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: () => void; isPaywalled: boolean }) {
   if (isPaywalled) return null;
 
@@ -373,7 +373,7 @@ function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: 
   );
 }
 
-/* ── Quote Floor ──────────────────────────────────────────────────────── */}
+/* ── Quote Floor ──────────────────────────────────────────────────────── */
 function QuoteFloorTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
@@ -405,7 +405,7 @@ function QuoteFloorTool() {
   );
 }
 
-/* ── Profit Check ──────────────────────────────────────────────────────── */}
+/* ── Profit Check ──────────────────────────────────────────────────────── */
 function ProfitCheckTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
@@ -439,7 +439,7 @@ function ProfitCheckTool() {
   );
 }
 
-/* ── Tyre-Kicker Check ──────────────────────────────────────────────────────── */}
+/* ── Tyre-Kicker Check ──────────────────────────────────────────────────────── */
 function TyreKickerTool() {
   const [jobValue, setJobValue] = useState(4500);
   const [jobDistance, setJobDistance] = useState(18);
@@ -482,7 +482,7 @@ function TyreKickerTool() {
   );
 }
 
-/* ── Travel Cost ──────────────────────────────────────────────────────── */}
+/* ── Travel Cost ──────────────────────────────────────────────────────── */
 function TravelCostTool() {
   const [fuelMiles, setFuelMiles] = useState(85);
   const [mpg, setMpg] = useState(32);
@@ -510,7 +510,7 @@ function TravelCostTool() {
   );
 }
 
-/* ── Time-Waster Cost ──────────────────────────────────────────────────────── */}
+/* ── Time-Waster Cost ──────────────────────────────────────────────────────── */
 function TimeWasterTool() {
   const [wastedHours, setWastedHours] = useState(5);
   const [wastedMiles, setWastedMiles] = useState(40);
@@ -535,7 +535,7 @@ function TimeWasterTool() {
   );
 }
 
-/* ── Smart Quote Teaser ──────────────────────────────────────────────────────── */}
+/* ── Smart Quote Teaser ──────────────────────────────────────────────────────── */
 function SmartQuoteTeaser() {
   return (
     <section className="jf-box bg-white p-6">
@@ -547,7 +547,7 @@ function SmartQuoteTeaser() {
   );
 }
 
-/* ── NumberField ──────────────────────────────────────────────────────── */}
+/* ── NumberField ──────────────────────────────────────────────────────── */
 function NumberField({ label, value, step = 1, max, onChange }: { label: string; value: number; step?: number; max?: number; onChange: (value: number) => void }) {
   return (
     <label className="field-label">
