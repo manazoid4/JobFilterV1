@@ -117,6 +117,7 @@ export function PricingPage() {
           body="£39/mo stays locked as long as your plan is active. If you cancel and rejoin, standard price applies."
           items={included}
           highlight="BEST VALUE"
+          featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK £39/mo" className="mt-5 bg-[var(--ink)] text-white" />}
         />
         <PlanCard
@@ -190,7 +191,7 @@ export function PricingPage() {
         </div>
       </section>
 
-      {/* ── COMPARISON TABLE ──────────────────────────────── */}
+      {/* ── COMPARISON TABLE ────────────────────────────── */}
       <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">COMPARE PLANS</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">SEE EXACTLY WHAT YOU GET AT EACH TIER.</h2>
@@ -267,7 +268,7 @@ export function PricingPage() {
         </div>
       </section>
 
-      {/* ── GUARANTEE + OBJECTIONS ─────────────────────── */}
+      {/* ── GUARANTEE + OBJECTIONS ───────────────────────── */}
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-8">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
@@ -313,7 +314,7 @@ function PriceStat({ label, value, note, hot = false }: { label: string; value: 
   );
 }
 
-function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
+function PlanCard({ title, price, body, items, cta, highlight, dark = false, featured = false }: {
   title: string;
   price: string;
   body: string;
@@ -321,10 +322,16 @@ function PlanCard({ title, price, body, items, cta, highlight, dark = false }: {
   cta: ReactNode;
   highlight?: string;
   dark?: boolean;
+  featured?: boolean;
 }) {
+  const wrapClass = dark
+    ? 'bg-[var(--ink)] text-white'
+    : featured
+      ? 'bg-white text-[var(--ink)] border-4 border-[var(--ink)] shadow-[6px_6px_0_var(--yellow)]'
+      : 'bg-[var(--paper)] text-[var(--ink)]';
   return (
-    <section className={`ops-panel relative p-6 ${dark ? 'bg-[var(--ink)] text-white' : 'bg-[var(--paper)] text-[var(--ink)]'}`}>
-      {highlight && <span className="absolute -top-3 left-5 border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)]">{highlight}</span>}
+    <section className={`ops-panel relative p-6 ${wrapClass}`}>
+      {highlight && <span className="absolute -top-3 left-5 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)]">{highlight}</span>}
       <p className={`micro-label ${dark ? 'text-[var(--yellow)]' : 'text-[var(--orange)]'}`}>{title}</p>
       <h2 className={`headline mt-3 text-5xl ${dark ? 'text-white' : ''}`}>{price}</h2>
       <p className={`mt-3 font-black ${dark ? 'text-white/90' : 'text-[var(--muted)]'}`}>{body}</p>
