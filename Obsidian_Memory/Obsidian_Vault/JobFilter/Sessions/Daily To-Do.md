@@ -1,14 +1,29 @@
 # Daily To-Do
 
-## Today - 13 May 2026
+## Today - 14 May 2026
+
+- [x] Trade-specific scoring UX — parseTradeReasons() in FindJobsPage, electrician sees EV CHARGER — YOUR TRADE, plumber sees BOILER — YOUR TRADE
+- [x] Fix scoreReasons → reasons mapping in leadsSearch.ts (frontend was always showing fallback)
+- [x] ICS calendar export — LeadDetailPage ADD TO CALENDAR button, FOLLOW-UP REMINDER section
+- [x] LeadListPage copy polish — remove fake 98.4% stat, fix live ticker, better empty CTAs, SEND WHATSAPP
+- [x] LeadDetailPage copy polish — WHY THIS LEAD, DID YOU WIN IT?, plain-English flag explanations
+- [x] HomePage CTA hierarchy — SCAN FREE — NO CARD NEEDED as single primary CTA, demote other CTAs to text links
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-14 written
+- [ ] Wire Stripe Checkout (Founding 30 + Pro)
+- [ ] Confirm Twilio env vars in Firebase console
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] DashboardPage: add territory status line ("Territory: Not Locked" or "Territory: B12 Roofing") before scan CTA
+- [ ] PricingPage: make Founder card visually dominant (bolder border or background) vs Free tier
+
+---
+
+## 13 May 2026 (archived)
 
 - [x] Fix FreeToolsPage.tsx TS1128 errors (9 spurious `}` after section comments)
 - [x] Fix outcomeReport.ts `${'£'}` encoding artifact in win stats message
 - [x] Merge FindJobsPage — preserve remote visual features, add NightlyBuild additions (WinStatsBanner, OPEN_ACCESS env var, weekly scan counter)
 - [x] Verify TypeScript clean before push
-- [ ] Wire Stripe Checkout (Founding 30 + Pro)
-- [ ] Confirm Twilio env vars in Firebase console
-- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
 
 ---
 
