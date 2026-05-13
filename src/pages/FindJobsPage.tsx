@@ -339,7 +339,7 @@ export function FindJobsPage() {
             <p className="micro-label text-[var(--ink)]">2. SELECT TRADE</p>
             <p className="text-sm font-semibold text-[var(--muted)]">Pick your trade. One tap. Instant scan.</p>
           </div>
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
+          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)] border-[var(--yellow)]">
             <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]">
               <TrendingUp className="w-6 h-6 text-[var(--ink)]" />
             </div>
