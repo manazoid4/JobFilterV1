@@ -5,16 +5,53 @@ import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
 import { GhostRiskBadge } from '../components/GhostRiskBadge';
+import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 
 const DEV_MODE = false;
-const OPEN_ACCESS = true;
+const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
+
+const WEEKLY_SCAN_LIMIT = DEV_MODE ? 999 : 3;
+const SCAN_COUNT_KEY = 'jf-weekly-scans-used';
+const SCAN_WEEK_KEY = 'jf-weekly-scans-week';
+
+function getMondayKey(): string {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = (day === 0 ? -6 : 1 - day);
+  const monday = new Date(d);
+  monday.setDate(d.getDate() + diff);
+  return monday.toISOString().slice(0, 10);
+}
+
+function getWeeklyScansUsed(): number {
+  try {
+    const storedWeek = localStorage.getItem(SCAN_WEEK_KEY);
+    const thisWeek = getMondayKey();
+    if (storedWeek !== thisWeek) {
+      localStorage.setItem(SCAN_WEEK_KEY, thisWeek);
+      localStorage.setItem(SCAN_COUNT_KEY, '0');
+      return 0;
+    }
+    return Number(localStorage.getItem(SCAN_COUNT_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function recordWeeklyScan(): number {
+  const next = getWeeklyScansUsed() + 1;
+  try {
+    localStorage.setItem(SCAN_COUNT_KEY, String(next));
+  } catch { /* ignore */ }
+  return next;
+}
 
 const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = [
   { label: 'ELECTRICAL', trade: 'electrical', icon: <Zap className="w-4 h-4" /> },
@@ -75,6 +112,7 @@ export function FindJobsPage() {
   const [lastUpdated, setLastUpdated] = useState('');
   const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
   const [hasScanned, setHasScanned] = useState(false);
+  const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
     const leads = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
     return new Set(leads);
@@ -86,6 +124,8 @@ export function FindJobsPage() {
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
+
+  const weeklyScansRemaining = Math.max(0, WEEKLY_SCAN_LIMIT - weeklyScansUsed);
 
   useEffect(() => {
     const tradeParam = searchParams.get('trade');
@@ -110,6 +150,10 @@ export function FindJobsPage() {
     localStorage.setItem('jobfilter.trade', trade);
   }, [trade]);
 
+  useEffect(() => {
+    setWeeklyScansUsed(getWeeklyScansUsed());
+  }, []);
+
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id)) return;
     importLeadToChase({
@@ -132,6 +176,8 @@ export function FindJobsPage() {
     setLoading(true);
     setResult(null);
     setHasScanned(true);
+    const used = recordWeeklyScan();
+    setWeeklyScansUsed(used);
     try {
       const response = await fetch('/api/leads/search', {
         method: 'POST',
@@ -365,6 +411,20 @@ export function FindJobsPage() {
         </div>
       </section>
 
+      {/* ── WIN STATS + SCAN COUNTER ──────────────────── */}
+      <WinStatsBanner postcode={postcode} />
+      {!OPEN_ACCESS && weeklyScansUsed > 0 && (
+        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
+          <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
+          <p className="text-sm font-black text-[var(--ink)]">
+            {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week` : 'Weekly free scans used. Upgrade for unlimited.'}
+          </p>
+          {weeklyScansRemaining === 0 && (
+            <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+          )}
+        </div>
+      )}
+
       {/* ── STATS BAR ──────────────────────────────────── */}
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
@@ -527,7 +587,7 @@ export function FindJobsPage() {
                   <p className="micro-label text-white">PRE-LAUNCH — OPEN ACCESS</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">SCAN, TRACK, AND TEST EVERYTHING</h2>
                   <p className="mt-2 max-w-2xl font-black text-white/80">
-                    Launch gates are off until the product is ready. Set VITE_LAUNCH_READY=true to lock paid details for public release.
+                    Launch gates are off until the product is ready. Set VITE_OPEN_ACCESS=true to enable open access for pre-launch testing.
                   </p>
                 </section>
               ) : (
@@ -682,9 +742,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer} lockedText="Unlock buyer" />
-        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} lockedText="Unlock timing" />
-        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} lockedText="Unlock proof" />
+        <LockedValue label="Buyer" value={lead.buyer} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
         {OPEN_ACCESS ? (
           <>
             {isTracked ? (
