@@ -158,11 +158,11 @@ export function HomePage() {
               ))}
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/territories">
-                LOCK YOUR PATCH — £39/mo
-              </Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
                 SCAN FREE FIRST
+              </Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
+                LOCK YOUR PATCH BEFORE RIVALS DO — £39/mo
               </Link>
             </div>
             <p className="mt-3 text-sm font-black text-white/60">
