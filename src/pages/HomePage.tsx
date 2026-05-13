@@ -157,13 +157,18 @@ export function HomePage() {
                 </div>
               ))}
             </div>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
-                SCAN FREE FIRST
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" to="/find-jobs">
+                SCAN FREE — NO CARD NEEDED
               </Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/territories">
-                LOCK YOUR PATCH BEFORE RIVALS DO — £39/mo
-              </Link>
+              <div className="flex gap-4">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/blueprint">
+                  See Blueprint →
+                </Link>
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/territories">
+                  Claim Territory →
+                </Link>
+              </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/60">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />

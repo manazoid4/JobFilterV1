@@ -666,8 +666,40 @@ export function FindJobsPage() {
   );
 }
 
+function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+  const out: Array<{ label: string; highlight: boolean }> = [];
+  for (const r of raw) {
+    const tradeMatch = r.match(/^Trade match: (.+?) \(/);
+    if (tradeMatch) {
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      continue;
+    }
+    const related = r.match(/^Related: (.+?) \(/);
+    if (related) {
+      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      continue;
+    }
+    if (r.startsWith('Not your trade')) continue;
+    if (r.match(/^Source (confidence|class)/)) continue;
+    if (r.match(/^Proximity fit/)) continue;
+    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false }); continue; }
+    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false }); continue; }
+    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false }); continue; }
+    if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false }); continue; }
+    if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false }); continue; }
+    if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
+    const intent = r.match(/^High intent keywords: (.+?) \(/);
+    if (intent) {
+      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      continue;
+    }
+  }
+  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+}
+
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
-  const reasons = lead.reasons?.length ? lead.reasons : ['Verification proof', `${lead.sourceConfidence}% confidence`];
+  const rawReasons = lead.reasons?.length ? lead.reasons : [];
+  const parsedReasons = parseTradeReasons(rawReasons);
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
@@ -738,7 +770,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           ))}
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {reasons.map((reason) => <span key={reason} className="badge bg-[var(--bg-main)] text-[var(--ink)]">{reason}</span>)}
+          {parsedReasons.map((r) => (
+            <span
+              key={r.label}
+              className={`badge font-black ${r.highlight ? 'bg-[var(--yellow)] text-[var(--ink)] border border-[var(--ink)]' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
+            >
+              {r.label}
+            </span>
+          ))}
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
