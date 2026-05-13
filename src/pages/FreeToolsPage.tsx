@@ -60,6 +60,8 @@ export function FreeToolsPage() {
   const [optInSignals, setOptInSignals] = useState(true);
 
   const isPaywalled = false;
+  const scansRemaining = Math.max(0, FREE_SCAN_LIMIT - scansUsed);
+  const isUrgent = scansRemaining === 1;
 
   useEffect(() => {
     setScansUsed(getScansUsed());
@@ -78,7 +80,7 @@ export function FreeToolsPage() {
 
   return (
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
-      {/* ── Hero ─────────────────────────────────── */}
+      {/* ── Hero ──────────────────────────────────────────── */}
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
@@ -99,7 +101,7 @@ export function FreeToolsPage() {
         </div>
       </section>
 
-      {/* ── Quick Start CTA ──────────────────────── */}
+      {/* ── Quick Start CTA ──────────────────────────────────────────── */}
       <section className="jf-box bg-[var(--yellow)] p-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
@@ -140,7 +142,7 @@ export function FreeToolsPage() {
         </section>
       )}
 
-      {/* ── Email capture modal ──────────────────── */}
+      {/* ── Email capture modal ──────────────────────────────────────────── */}
       {!DEV_MODE && showEmailCapture && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md">
@@ -186,7 +188,7 @@ export function FreeToolsPage() {
         </div>
       )}
 
-      {/* ── Email captured welcome banner ────────── */}
+      {/* ── Email captured welcome banner ──────────────────────────────────────────── */}
       {!DEV_MODE && emailDone && (
         <section className="jf-box bg-[var(--green)]/10 border-2 border-[var(--green)] p-6">
           <p className="micro-label text-[var(--green)]">WELCOME — YOU'RE IN.</p>
@@ -204,7 +206,7 @@ export function FreeToolsPage() {
         </section>
       )}
 
-      {/* ── Tool cards grid ──────────────────────── */}
+      {/* ── Tool cards grid ──────────────────────────────────────────── */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((tool) => (
           <ToolCard
@@ -220,7 +222,7 @@ export function FreeToolsPage() {
         ))}
       </section>
 
-      {/* ── Active tool workspace ────────────────── */}
+      {/* ── Active tool workspace ──────────────────────────────────────────── */}
       {activeTool && (
         <ToolWorkspace toolId={activeTool} onUse={handleToolUse} isPaywalled={isPaywalled} />
       )}
@@ -240,7 +242,7 @@ export function FreeToolsPage() {
         <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">OPEN SMART QUOTE →</Link>
       </section>
 
-      {/* ── Free vs Paid Comparison ──────────────── */}
+      {/* ── Free vs Paid Comparison ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">WHAT IS FREE. WHAT IS NOT.</p>
         <h2 className="headline mt-2 text-3xl leading-none">FREE VS PAID.</h2>
@@ -284,7 +286,7 @@ export function FreeToolsPage() {
           </div>
       </section>
 
-      {/* ── Intake Engine paywall CTA ────────────── */}
+      {/* ── Intake Engine paywall CTA ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">THE INTAKE ENGINE</p>
         <h2 className="headline text-3xl sm:text-4xl">REAL LEADS. SCORED. SENT TO YOUR PHONE.</h2>
@@ -297,7 +299,7 @@ export function FreeToolsPage() {
         </div>
       </section>
 
-      {/* ── Risk Reversal ──────────────────────── */}
+      {/* ── Risk Reversal ──────────────────────────────────────────── */}
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-6 text-center">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
@@ -312,7 +314,7 @@ export function FreeToolsPage() {
   );
 }
 
-/* ── Tool Card ──────────────────────────────────── */
+/* ── Tool Card ──────────────────────────────────────────────────────── */}
 function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   tool: ToolDef;
   isActive: boolean;
@@ -340,7 +342,7 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   );
 }
 
-/* ── Tool Workspace (inline calculator) ─────────── */
+/* ── Tool Workspace (inline calculator) ──────────────────────────────────── */}
 function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: () => void; isPaywalled: boolean }) {
   if (isPaywalled) return null;
 
@@ -371,7 +373,7 @@ function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: 
   );
 }
 
-/* ── Quote Floor ────────────────────────────────── */
+/* ── Quote Floor ──────────────────────────────────────────────────────── */}
 function QuoteFloorTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
@@ -403,7 +405,7 @@ function QuoteFloorTool() {
   );
 }
 
-/* ── Profit Check ───────────────────────────────── */
+/* ── Profit Check ──────────────────────────────────────────────────────── */}
 function ProfitCheckTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
@@ -437,7 +439,7 @@ function ProfitCheckTool() {
   );
 }
 
-/* ── Tyre-Kicker Check ──────────────────────────── */
+/* ── Tyre-Kicker Check ──────────────────────────────────────────────────────── */}
 function TyreKickerTool() {
   const [jobValue, setJobValue] = useState(4500);
   const [jobDistance, setJobDistance] = useState(18);
@@ -480,7 +482,7 @@ function TyreKickerTool() {
   );
 }
 
-/* ── Travel Cost ────────────────────────────────── */
+/* ── Travel Cost ──────────────────────────────────────────────────────── */}
 function TravelCostTool() {
   const [fuelMiles, setFuelMiles] = useState(85);
   const [mpg, setMpg] = useState(32);
@@ -508,7 +510,7 @@ function TravelCostTool() {
   );
 }
 
-/* ── Time-Waster Cost ───────────────────────────── */
+/* ── Time-Waster Cost ──────────────────────────────────────────────────────── */}
 function TimeWasterTool() {
   const [wastedHours, setWastedHours] = useState(5);
   const [wastedMiles, setWastedMiles] = useState(40);
@@ -533,7 +535,7 @@ function TimeWasterTool() {
   );
 }
 
-/* ── Smart Quote Teaser ─────────────────────────── */
+/* ── Smart Quote Teaser ──────────────────────────────────────────────────────── */}
 function SmartQuoteTeaser() {
   return (
     <section className="jf-box bg-white p-6">
@@ -545,7 +547,7 @@ function SmartQuoteTeaser() {
   );
 }
 
-/* ── NumberField ────────────────────────────────── */
+/* ── NumberField ──────────────────────────────────────────────────────── */}
 function NumberField({ label, value, step = 1, max, onChange }: { label: string; value: number; step?: number; max?: number; onChange: (value: number) => void }) {
   return (
     <label className="field-label">
@@ -555,4 +557,6 @@ function NumberField({ label, value, step = 1, max, onChange }: { label: string;
   );
 }
 
-
+// suppress unused import warning
+void recordScan;
+void ReactNode;
