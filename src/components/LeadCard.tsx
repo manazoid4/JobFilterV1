@@ -65,7 +65,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
           {meta && <Tag label="verified_signal" />}
           {freshness && (
             <span className="inline-flex items-center gap-1 border-2 border-[var(--green)] bg-[var(--green)]/10 px-2 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">
-              <ClockIcon size={10} strokeWidth={3} />
+              <Clock size={10} strokeWidth={3} />
               {freshness}
             </span>
           )}

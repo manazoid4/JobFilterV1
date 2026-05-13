@@ -3,7 +3,58 @@ import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
-import type { LeadDecisionStatus } from '../lib/types';
+import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
+
+function buildIcs(lead: LeadDecision): string {
+  const now = new Date();
+  // Schedule follow-up at 9am the next working day
+  const start = new Date(now);
+  start.setDate(start.getDate() + 1);
+  start.setHours(9, 0, 0, 0);
+  const end = new Date(start);
+  end.setHours(10, 0, 0, 0);
+
+  const fmt = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+
+  const description = [
+    `Area: ${lead.area}`,
+    lead.budget ? `Budget: ${lead.budget}` : '',
+    `Urgency: ${lead.urgency}`,
+    `Score: ${lead.score}/100`,
+    lead.details ? `Details: ${lead.details}` : '',
+  ]
+    .filter(Boolean)
+    .join('\\n');
+
+  return [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//JobFilter//Lead Calendar//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `DTSTART:${fmt(start)}`,
+    `DTEND:${fmt(end)}`,
+    `DTSTAMP:${fmt(now)}`,
+    `UID:jf-lead-${lead.id}@jobfilter.co.uk`,
+    `SUMMARY:Follow up: ${lead.jobType} – ${lead.postcode}`,
+    `DESCRIPTION:${description}`,
+    `LOCATION:${lead.postcode}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n');
+}
+
+function downloadIcs(lead: LeadDecision) {
+  const blob = new Blob([buildIcs(lead)], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `jobfilter-lead-${lead.postcode.replace(/\s+/, '')}.ics`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
 
 export function LeadDetailPage() {
   const { id = '' } = useParams();
@@ -82,6 +133,17 @@ export function LeadDetailPage() {
           <p className="mt-3 font-bold text-[var(--muted)]">{lead.details}</p>
         </section>
       )}
+
+      <section className="jf-box bg-white p-6">
+        <h2 className="headline text-2xl sm:text-3xl">CALENDAR</h2>
+        <p className="mt-2 font-black text-[var(--muted)] text-sm">Save a follow-up reminder to your calendar.</p>
+        <button
+          className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]"
+          onClick={() => downloadIcs(lead)}
+        >
+          ADD TO CALENDAR
+        </button>
+      </section>
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">OUTCOME</p>
