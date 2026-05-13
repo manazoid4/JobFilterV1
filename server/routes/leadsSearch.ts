@@ -17,7 +17,9 @@ export function registerLeadSearchRoute(app: Express) {
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
       const result = await scan({ postcode: postcode.postcode, trade, tier: FULL_ACCESS_TEST_MODE ? 'paid' : 'free', radiusMiles });
-      const leads = FULL_ACCESS_TEST_MODE ? result.leads : result.leads.map(toFreePreviewLead);
+      const leads = FULL_ACCESS_TEST_MODE
+        ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
+        : result.leads.map(toFreePreviewLead);
 
       console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, ms: Date.now() - started });
       return res.json({

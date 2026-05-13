@@ -23,46 +23,44 @@ export function LeadListPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-8">
 
-      {/* ── Header ─────────────────────────────── */}
+      {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">INTAKE ENGINE</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Scored leads from your filter link. Gold means act now. Silver means worth watching. Bin means skip it.
+          Every lead scored before it reaches you. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
         </p>
       </div>
 
-      {/* ── Vantage Insight card ────────────────── */}
+      {/* ── How scoring works ────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-5 text-white">
         <div className="flex items-center gap-5">
           <div className="flex flex-shrink-0 flex-col items-center justify-center w-16 h-16 bg-[var(--yellow)] border-2 border-[var(--navy)]">
-            <span className="headline text-xl leading-none text-[var(--navy)]">98.4%</span>
-            <span className="mt-0.5 text-[9px] font-black uppercase text-[var(--navy)]">Accuracy</span>
+            <span className="headline text-xl leading-none text-[var(--navy)]">100</span>
+            <span className="mt-0.5 text-[9px] font-black uppercase text-[var(--navy)]">Max score</span>
           </div>
           <div>
-            <p className="micro-label text-[var(--yellow)]">
-              VANTAGE INSIGHT
-            </p>
+            <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Based on your trade and area, GOLD leads this week are 98.4% likely to convert at your quoted rate.
+              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means it's worth your time. BRONZE means it probably isn't.
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── Live feed ticker ────────────────────── */}
+      {/* ── Tip banner ────────────────────────────────────── */}
       <div className="flex items-center gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
         <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1">
-          LIVE
+          TIP
         </span>
         <p className="truncate text-sm font-black text-[var(--navy)]">
-          New GOLD lead — E8 · Bathroom refit · £3,200 est. · 4 mins ago
+          Call GOLD leads the same day. Response rate drops 60% after 24 hours.
         </p>
       </div>
 
-      {/* ── Tabs ────────────────────────────────── */}
+      {/* ── Tabs ────────────────────────────────────────────── */}
       <div className="flex border-2 border-[var(--navy)] bg-[var(--paper)]">
         {tabs.map((t, i) => (
           <button
@@ -82,14 +80,19 @@ export function LeadListPage() {
         ))}
       </div>
 
-      {/* ── Lead cards ──────────────────────────── */}
+      {/* ── Lead cards ────────────────────────────────────────── */}
       {visible.length === 0 ? (
         <div className="jf-box bg-white p-8 text-center">
           <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab} LEADS YET</h2>
-          <p className="mt-2 text-[15px] text-[var(--muted)]">Share your filter link to start receiving leads.</p>
-          <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--navy)]" to="/my-link">
-            GET MY LINK
-          </Link>
+          <p className="mt-2 text-[15px] text-[var(--muted)]">Run a scan to pull in live jobs near you — or check back after your next scan.</p>
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--navy)]" to="/find-jobs">
+              SCAN FOR JOBS NOW
+            </Link>
+            <Link className="jf-button bg-white border-2 border-[var(--navy)] text-[var(--navy)]" to="/my-link">
+              GET MY FILTER LINK
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-5">
@@ -133,12 +136,12 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Hi, I saw your job on JobFilter — ${lead.jobType} in ${lead.area}. Happy to quote.`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(`Hi, saw your ${lead.jobType} job in ${lead.area}. I'm local and can quote this week — happy to pop round. Let me know.`)}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
                   >
-                    WHATSAPP PING
+                    SEND WHATSAPP
                   </a>
                   <Link to={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →
