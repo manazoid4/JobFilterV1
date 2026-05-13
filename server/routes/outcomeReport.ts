@@ -63,7 +63,7 @@ export function registerOutcomeReportRoute(app: Express) {
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
         message: totalWonCount > 0
-          ? `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth ${'£'}${totalValue.toLocaleString()} via JobFilter`
+          ? `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`
           : 'Be the first trade in your area to log a win.',
       });
     } catch (error: any) {
