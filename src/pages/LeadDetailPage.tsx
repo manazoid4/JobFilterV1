@@ -7,7 +7,6 @@ import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
 
 function buildIcs(lead: LeadDecision): string {
   const now = new Date();
-  // Schedule follow-up at 9am the next working day
   const start = new Date(now);
   start.setDate(start.getDate() + 1);
   start.setHours(9, 0, 0, 0);
@@ -97,7 +96,7 @@ export function LeadDetailPage() {
         const data = await res.json();
         if (data.ok && data.message) {
           setReviewLink(data.message);
-          return; // Stay on page so tradesman can copy the review link
+          return;
         }
       } catch {}
     }
@@ -117,13 +116,13 @@ export function LeadDetailPage() {
       </section>
 
       <section className="jf-box bg-white p-6">
-        <h2 className="headline text-2xl sm:text-3xl">REASONS</h2>
-        <div className="mt-4 grid gap-2 text-xl font-black">
-          {lead.flags.includes('Local') && <p>YES Local</p>}
-          {lead.flags.includes('Urgent') && <p>YES Urgent</p>}
-          {lead.flags.includes('Photos') && <p>YES Photos</p>}
-          {lead.flags.includes('Clear') ? <p>YES Clear</p> : <p>NO Low detail</p>}
-          {lead.flags.includes('Budget') && <p>YES Budget confirmed</p>}
+        <h2 className="headline text-2xl sm:text-3xl">WHY THIS LEAD</h2>
+        <div className="mt-4 grid gap-2 text-base font-black">
+          {lead.flags.includes('Local') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Within your area</p>}
+          {lead.flags.includes('Urgent') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">YES</span> Urgent — customer wants it done fast</p>}
+          {lead.flags.includes('Photos') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Photos provided — serious enquiry</p>}
+          {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
+          {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
       </section>
 
@@ -135,8 +134,8 @@ export function LeadDetailPage() {
       )}
 
       <section className="jf-box bg-white p-6">
-        <h2 className="headline text-2xl sm:text-3xl">CALENDAR</h2>
-        <p className="mt-2 font-black text-[var(--muted)] text-sm">Save a follow-up reminder to your calendar.</p>
+        <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>
+        <p className="mt-2 font-black text-[var(--muted)] text-sm">Block time to chase this job. Adds a 9am reminder for tomorrow — works with Google Calendar, Apple Calendar, and Outlook.</p>
         <button
           className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]"
           onClick={() => downloadIcs(lead)}
@@ -147,9 +146,9 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">OUTCOME</p>
-        <h2 className="headline mt-2 text-2xl sm:text-3xl">TRACK THE MONEY</h2>
+        <h2 className="headline mt-2 text-2xl sm:text-3xl">DID YOU WIN IT?</h2>
         <p className="mt-2 font-black text-[var(--muted)]">
-          Current result: {outcomeLabel(lead.status)}
+          Status: {outcomeLabel(lead.status)} — mark the result so your wins build up over time.
         </p>
         <div className="mt-2 grid gap-2 sm:grid-cols-4">
           {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
