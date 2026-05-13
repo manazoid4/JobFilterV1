@@ -80,6 +80,7 @@ export function FreeToolsPage() {
 
   return (
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
+      {/* ── Hero ──────────────────────────────────────────── */}
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
@@ -100,6 +101,7 @@ export function FreeToolsPage() {
         </div>
       </section>
 
+      {/* ── Quick Start CTA ──────────────────────────────────────────── */}
       <section className="jf-box bg-[var(--yellow)] p-5">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
@@ -112,11 +114,14 @@ export function FreeToolsPage() {
         </div>
       </section>
 
+      {/* ── Paywall (when limit hit + not captured) ── */}
       {!DEV_MODE && isPaywalled && (
         <section className="jf-box border-4 border-[var(--orange)] bg-[var(--orange)]/10 p-6">
           <p className="micro-label text-[var(--orange)]">FREE LIMIT REACHED</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOU HAVE USED YOUR 3 FREE SCANS.</h2>
-          <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">Choose your path — both are fair.</p>
+          <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
+            Choose your path — both are fair.
+          </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <button className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-left h-auto py-4" onClick={() => setShowEmailCapture(true)}>
               <div>
@@ -137,6 +142,7 @@ export function FreeToolsPage() {
         </section>
       )}
 
+      {/* ── Email capture modal ──────────────────────────────────────────── */}
       {!DEV_MODE && showEmailCapture && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="w-full max-w-md">
@@ -170,7 +176,9 @@ export function FreeToolsPage() {
                   <input type="checkbox" checked={optInSignals} onChange={(e) => setOptInSignals(e.target.checked)} className="mt-1 h-5 w-5 accent-[var(--yellow)]" />
                   <span className="text-sm font-black text-[var(--muted)]">Send me weekly trade signals — real jobs in my area. Free.</span>
                 </label>
-                <button className="jf-button mt-2 bg-[var(--navy)] text-white" type="submit">UNLOCK 3 MORE SCANS</button>
+                <button className="jf-button mt-2 bg-[var(--navy)] text-white" type="submit">
+                  UNLOCK 3 MORE SCANS
+                </button>
                 <p className="text-center text-xs font-black text-[var(--muted)]">
                   Or go <Link className="text-[var(--navy)] underline font-black" to="/pricing">straight to Founding 30</Link> for unlimited.
                 </p>
@@ -180,6 +188,7 @@ export function FreeToolsPage() {
         </div>
       )}
 
+      {/* ── Email captured welcome banner ──────────────────────────────────────────── */}
       {!DEV_MODE && emailDone && (
         <section className="jf-box bg-[var(--green)]/10 border-2 border-[var(--green)] p-6">
           <p className="micro-label text-[var(--green)]">WELCOME — YOU'RE IN.</p>
@@ -197,6 +206,7 @@ export function FreeToolsPage() {
         </section>
       )}
 
+      {/* ── Tool cards grid ──────────────────────────────────────────── */}
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((tool) => (
           <ToolCard
@@ -204,16 +214,20 @@ export function FreeToolsPage() {
             tool={tool}
             isActive={activeTool === tool.id}
             isPaywalled={isPaywalled}
-            onActivate={() => { if (!isPaywalled) setActiveTool(activeTool === tool.id ? null : tool.id); }}
+            onActivate={() => {
+              if (!isPaywalled) setActiveTool(activeTool === tool.id ? null : tool.id);
+            }}
             onUse={handleToolUse}
           />
         ))}
       </section>
 
+      {/* ── Active tool workspace ──────────────────────────────────────────── */}
       {activeTool && (
         <ToolWorkspace toolId={activeTool} onUse={handleToolUse} isPaywalled={isPaywalled} />
       )}
 
+      {/* ── Smart Quote teaser (always visible) ─── */}
       <section className="jf-box bg-[var(--navy)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOL — SMART QUOTING</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--yellow)]">QUOTE STARTER IN 10 SECONDS.</h2>
@@ -228,6 +242,7 @@ export function FreeToolsPage() {
         <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">OPEN SMART QUOTE →</Link>
       </section>
 
+      {/* ── Free vs Paid Comparison ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">WHAT IS FREE. WHAT IS NOT.</p>
         <h2 className="headline mt-2 text-3xl leading-none">FREE VS PAID.</h2>
@@ -265,12 +280,13 @@ export function FreeToolsPage() {
             </tbody>
           </table>
         </div>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
-        </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+          </div>
       </section>
 
+      {/* ── Intake Engine paywall CTA ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">THE INTAKE ENGINE</p>
         <h2 className="headline text-3xl sm:text-4xl">REAL LEADS. SCORED. SENT TO YOUR PHONE.</h2>
@@ -283,18 +299,22 @@ export function FreeToolsPage() {
         </div>
       </section>
 
+      {/* ── Risk Reversal ──────────────────────────────────────────── */}
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-6 text-center">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl text-[var(--green)]">TRY IT RISK-FREE.</h2>
         <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
           Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.
         </p>
-        <p className="mt-2 text-sm font-black text-[var(--ink)]">Built in Birmingham. We stand behind it.</p>
+        <p className="mt-2 text-sm font-black text-[var(--ink)]">
+          Built in Birmingham. We stand behind it.
+        </p>
       </section>
     </main>
   );
 }
 
+/* ── Tool Card ──────────────────────────────────────────────────────── */}
 function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   tool: ToolDef;
   isActive: boolean;
@@ -322,9 +342,12 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   );
 }
 
+/* ── Tool Workspace (inline calculator) ──────────────────────────────────── */}
 function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: () => void; isPaywalled: boolean }) {
   if (isPaywalled) return null;
+
   const rec = TOOL_RECS[toolId];
+
   return (
     <div>
       {(() => {
@@ -341,23 +364,28 @@ function ToolWorkspace({ toolId, onUse, isPaywalled }: { toolId: ToolId; onUse: 
       {rec && (
         <div className="mt-4 jf-box bg-[var(--navy)] p-4 text-white">
           <p className="text-xs font-black text-white/85 uppercase tracking-wider">IF YOU LIKED THIS, TRY</p>
-          <a href={rec.to} className="mt-1 inline-block text-sm font-black text-[var(--yellow)] hover:underline">→ {rec.label}</a>
+          <a href={rec.to} className="mt-1 inline-block text-sm font-black text-[var(--yellow)] hover:underline">
+            → {rec.label}
+          </a>
         </div>
       )}
     </div>
   );
 }
 
+/* ── Quote Floor ──────────────────────────────────────────────────────── */}
 function QuoteFloorTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
   const [materials, setMaterials] = useState(650);
   const [margin, setMargin] = useState(22);
+
   const quoteFloor = useMemo(() => {
     const labour = labourHours * hourRate;
     const subtotal = labour + materials;
     return Math.round(subtotal * (1 + margin / 100));
   }, [hourRate, labourHours, materials, margin]);
+
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">QUOTE FLOOR</p>
@@ -377,17 +405,20 @@ function QuoteFloorTool() {
   );
 }
 
+/* ── Profit Check ──────────────────────────────────────────────────────── */}
 function ProfitCheckTool() {
   const [labourHours, setLabourHours] = useState(14);
   const [hourRate, setHourRate] = useState(45);
   const [materials, setMaterials] = useState(650);
   const [margin, setMargin] = useState(22);
+
   const profit = useMemo(() => {
     const labour = labourHours * hourRate;
     const subtotal = labour + materials;
     const quote = Math.round(subtotal * (1 + margin / 100));
     return Math.max(0, quote - materials - labour);
   }, [hourRate, labourHours, materials, margin]);
+
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">PROFIT CHECK</p>
@@ -408,12 +439,14 @@ function ProfitCheckTool() {
   );
 }
 
+/* ── Tyre-Kicker Check ──────────────────────────────────────────────────────── */}
 function TyreKickerTool() {
   const [jobValue, setJobValue] = useState(4500);
   const [jobDistance, setJobDistance] = useState(18);
   const [daysToStart, setDaysToStart] = useState(10);
   const [hasBudget, setHasBudget] = useState(1);
   const [hasPhotos, setHasPhotos] = useState(1);
+
   const leadScore = useMemo(() => {
     let score = 0;
     if (jobValue >= 2000) score += 35;
@@ -425,8 +458,10 @@ function TyreKickerTool() {
     if (hasPhotos) score += 7;
     return Math.min(100, score);
   }, [daysToStart, hasBudget, hasPhotos, jobDistance, jobValue]);
+
   const verdict = leadScore >= 75 ? 'PRICE IT' : leadScore >= 50 ? 'CHECK FIRST' : 'BIN IT';
   const verdictColor = leadScore >= 75 ? 'text-[var(--green)]' : leadScore >= 50 ? 'text-[var(--navy)]' : 'text-[var(--orange)]';
+
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">TYRE-KICKER CHECK</p>
@@ -447,14 +482,17 @@ function TyreKickerTool() {
   );
 }
 
+/* ── Travel Cost ──────────────────────────────────────────────────────── */}
 function TravelCostTool() {
   const [fuelMiles, setFuelMiles] = useState(85);
   const [mpg, setMpg] = useState(32);
   const [dieselPrice, setDieselPrice] = useState(1.55);
+
   const dieselCost = useMemo(() => {
     const litres = mpg > 0 ? (fuelMiles / mpg) * 4.54609 : 0;
     return Math.round(litres * dieselPrice);
   }, [dieselPrice, fuelMiles, mpg]);
+
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">TRAVEL COST</p>
@@ -472,11 +510,14 @@ function TravelCostTool() {
   );
 }
 
+/* ── Time-Waster Cost ──────────────────────────────────────────────────────── */}
 function TimeWasterTool() {
   const [wastedHours, setWastedHours] = useState(5);
   const [wastedMiles, setWastedMiles] = useState(40);
   const [badVisits, setBadVisits] = useState(2);
+
   const wastedCost = useMemo(() => Math.round((wastedHours * 35 + wastedMiles * 0.45 + badVisits * 40) * 52), [badVisits, wastedHours, wastedMiles]);
+
   return (
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">TIME-WASTER COST</p>
@@ -494,6 +535,7 @@ function TimeWasterTool() {
   );
 }
 
+/* ── Smart Quote Teaser ──────────────────────────────────────────────────────── */}
 function SmartQuoteTeaser() {
   return (
     <section className="jf-box bg-white p-6">
@@ -505,6 +547,7 @@ function SmartQuoteTeaser() {
   );
 }
 
+/* ── NumberField ──────────────────────────────────────────────────────── */}
 function NumberField({ label, value, step = 1, max, onChange }: { label: string; value: number; step?: number; max?: number; onChange: (value: number) => void }) {
   return (
     <label className="field-label">
@@ -513,7 +556,3 @@ function NumberField({ label, value, step = 1, max, onChange }: { label: string;
     </label>
   );
 }
-
-// keep unused imports quiet
-export type { ReactNode as _ReactNode };
-void recordScan;
