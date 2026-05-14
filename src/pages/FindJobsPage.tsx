@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, Target } from 'lucide-react';
+import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
@@ -284,7 +284,7 @@ export function FindJobsPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
 
-      {/* ── HERO SECTION ──────────────────────────────── */}
+      {/* ── HERO SECTION ──────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-2 border-[var(--line)] bg-[var(--ink)] p-7 md:p-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h40v40H0z\' fill=\'none\'/%3E%3Cpath d=\'M0 40L40 0\' stroke=\'%23E3B72A\' stroke-width=\'0.5\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
         <div className="relative z-10">
           <p className="micro-label text-[var(--yellow)]">LIVE LEAD SCANNER</p>
@@ -321,7 +321,7 @@ export function FindJobsPage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────── */}
+      {/* ── HOW IT WORKS ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--muted)]">HOW IT WORKS</p>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
@@ -349,7 +349,7 @@ export function FindJobsPage() {
         </div>
       </section>
 
-      {/* ── SCANNER ──────────────────────────────────── */}
+      {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">LIVE LEAD SCANNER</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
@@ -411,7 +411,7 @@ export function FindJobsPage() {
         </div>
       </section>
 
-      {/* ── WIN STATS + SCAN COUNTER ──────────────────── */}
+      {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
       {!OPEN_ACCESS && weeklyScansUsed > 0 && (
         <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -425,7 +425,7 @@ export function FindJobsPage() {
         </div>
       )}
 
-      {/* ── STATS BAR ──────────────────────────────────── */}
+      {/* ── STATS BAR ────────────────────────────────────────────────── */}
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-4 text-center">
@@ -443,7 +443,7 @@ export function FindJobsPage() {
         </section>
       )}
 
-      {/* ── FILL MY WEEK ─────────────────────────────── */}
+      {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -498,7 +498,7 @@ export function FindJobsPage() {
         )}
       </section>
 
-      {/* ── DOCUMENT SEARCH ──────────────────────────── */}
+      {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -531,12 +531,12 @@ export function FindJobsPage() {
         )}
       </section>
 
-      {/* ── DOCUMENT SEARCH RESULTS ──────────────────── */}
+      {/* ── DOCUMENT SEARCH RESULTS ──────────────────────────────────────── */}
       {docSearchResults.length > 0 && (
         <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
       )}
 
-      {/* ── LOADING ──────────────────────────────────── */}
+      {/* ── LOADING ─────────────────────────────────────────────────── */}
       {loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
@@ -544,7 +544,7 @@ export function FindJobsPage() {
         </section>
       )}
 
-      {/* ── RESULTS ──────────────────────────────────── */}
+      {/* ── RESULTS ─────────────────────────────────────────────────── */}
       {result && !fillWeekResult && (
         <section className="grid gap-5">
           {errorText && (
@@ -631,7 +631,7 @@ export function FindJobsPage() {
         </section>
       )}
 
-      {/* ── NO SCAN YET — PROMPT ─────────────────────── */}
+      {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
           {/* Empty map illustration */}
@@ -753,10 +753,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           )}
           {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
           <GhostRiskBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
-          <span className={`inline-flex items-center gap-1 border-2 px-2 py-0.5 text-[10px] font-black uppercase ${lead.score >= 90 ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]' : lead.score >= 75 ? 'border-[var(--yellow)] bg-[var(--yellow)]/10 text-[var(--yellow)]' : lead.score >= 60 ? 'border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--orange)]' : 'border-[var(--muted)] bg-[var(--muted)]/10 text-[var(--muted)]'}`}>
-            <Target size={10} strokeWidth={3} />
-            {lead.score} {lead.score >= 90 ? 'GOLD' : lead.score >= 75 ? 'SILVER' : lead.score >= 60 ? 'BRONZE' : 'CHECK'}
-          </span>
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
