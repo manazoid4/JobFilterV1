@@ -443,61 +443,6 @@ export function FindJobsPage() {
         </section>
       )}
 
-      {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      <section className="jf-box bg-[var(--yellow)] p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
-            <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
-            <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              One tap. We check the opportunity network and return the best {trade} jobs within {radiusMiles} miles.
-            </p>
-          </div>
-          <button
-            type="button"
-            disabled={fillWeekLoading || loading}
-            onClick={fillMyWeek}
-            className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
-          >
-            {fillWeekLoading ? 'SCANNING...' : 'FILL MY WEEK →'}
-          </button>
-        </div>
-
-        {fillWeekLoading && (
-          <div className="mt-5 bg-[var(--ink)] text-white p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 border-2 border-[var(--yellow)] border-t-transparent rounded-full animate-spin" />
-              <p className="font-black">{fillWeekPhase}</p>
-            </div>
-          </div>
-        )}
-
-        {fillWeekResult && fillWeekResult.count > 0 && (
-          <div className="mt-5 grid gap-4">
-            <div className="bg-[var(--ink)] text-white p-5">
-              <p className="text-3xl font-black text-[var(--yellow)]">
-                {fillWeekResult.count} JOBS FOUND NEAR YOU
-              </p>
-              <p className="mt-1 font-black text-white/70">
-                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
-              </p>
-              <p className="mt-1 text-sm font-black text-white/75">
-                Your quiet week isn't a skills problem. It's a pipeline problem.
-              </p>
-            </div>
-            {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
-            ))}
-          </div>
-        )}
-
-        {fillWeekResult && fillWeekResult.count === 0 && (
-          <div className="mt-5 bg-white p-5">
-            <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
-          </div>
-        )}
-      </section>
-
       {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
       <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -630,6 +575,61 @@ export function FindJobsPage() {
           )}
         </section>
       )}
+
+      {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
+      <section className="jf-box bg-[var(--yellow)] p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
+            <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
+            <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
+              One tap. We check the opportunity network and return the best {trade} jobs within {radiusMiles} miles.
+            </p>
+          </div>
+          <button
+            type="button"
+            disabled={fillWeekLoading || loading}
+            onClick={fillMyWeek}
+            className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
+          >
+            {fillWeekLoading ? 'SCANNING...' : 'FILL MY WEEK →'}
+          </button>
+        </div>
+
+        {fillWeekLoading && (
+          <div className="mt-5 bg-[var(--ink)] text-white p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 border-2 border-[var(--yellow)] border-t-transparent rounded-full animate-spin" />
+              <p className="font-black">{fillWeekPhase}</p>
+            </div>
+          </div>
+        )}
+
+        {fillWeekResult && fillWeekResult.count > 0 && (
+          <div className="mt-5 grid gap-4">
+            <div className="bg-[var(--ink)] text-white p-5">
+              <p className="text-3xl font-black text-[var(--yellow)]">
+                {fillWeekResult.count} JOBS FOUND NEAR YOU
+              </p>
+              <p className="mt-1 font-black text-white/70">
+                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
+              </p>
+              <p className="mt-1 text-sm font-black text-white/75">
+                Your quiet week isn&apos;t a skills problem. It&apos;s a pipeline problem.
+              </p>
+            </div>
+            {fillWeekResult.leads.map((lead) => (
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
+            ))}
+          </div>
+        )}
+
+        {fillWeekResult && fillWeekResult.count === 0 && (
+          <div className="mt-5 bg-white p-5">
+            <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
+          </div>
+        )}
+      </section>
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (

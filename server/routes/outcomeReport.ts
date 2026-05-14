@@ -1,6 +1,37 @@
 import type { Express, Request, Response } from 'express';
+import { readFileSync, appendFileSync, existsSync, mkdirSync } from 'fs';
+import path from 'path';
 
-const outcomes: Record<string, { id: string; title: string; status: string; value?: string; postcode?: string; createdAt: string; lostReason?: string }> = {};
+type OutcomeRecord = { id: string; title: string; status: string; value?: string; postcode?: string; createdAt: string; lostReason?: string };
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const OUTCOMES_FILE = path.join(DATA_DIR, 'outcomes.jsonl');
+
+const outcomes: Record<string, OutcomeRecord> = {};
+
+// Load persisted outcomes on startup
+function loadOutcomes() {
+  try {
+    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+    if (!existsSync(OUTCOMES_FILE)) return;
+    const lines = readFileSync(OUTCOMES_FILE, 'utf8').split('\n').filter(Boolean);
+    for (const line of lines) {
+      try {
+        const record: OutcomeRecord = JSON.parse(line);
+        if (record.id) outcomes[record.id] = record;
+      } catch { /* skip malformed line */ }
+    }
+  } catch { /* non-fatal — fresh start */ }
+}
+
+function persistOutcome(record: OutcomeRecord) {
+  try {
+    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
+    appendFileSync(OUTCOMES_FILE, JSON.stringify(record) + '\n', 'utf8');
+  } catch { /* non-fatal */ }
+}
+
+loadOutcomes();
 
 // Baseline seed so the leaderboard shows real-feeling data from day one
 const SEED_WINS = [
@@ -21,7 +52,7 @@ export function registerOutcomeReportRoute(app: Express) {
       if (!leadId || !status) {
         return res.status(422).json({ ok: false, error: 'leadId and status required.' });
       }
-      outcomes[leadId] = {
+      const record: OutcomeRecord = {
         id: leadId,
         title: title || 'Unknown job',
         status,
@@ -30,6 +61,8 @@ export function registerOutcomeReportRoute(app: Express) {
         createdAt: outcomes[leadId]?.createdAt || new Date().toISOString(),
         lostReason: status === 'lost' ? lostReason : undefined,
       };
+      outcomes[leadId] = record;
+      persistOutcome(record);
       return res.json({ ok: true });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Outcome failed.') });

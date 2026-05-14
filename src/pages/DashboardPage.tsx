@@ -37,15 +37,24 @@ export function DashboardPage() {
         <p className="mt-3 max-w-2xl font-black text-white/90">
           Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
         </p>
-        <div className="mt-4 inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
-          <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
-          <span className="font-mono text-xs font-black uppercase text-white/80">
-            Territory: {territory ?? 'Not Locked'}
-          </span>
-          {!territory && (
-            <Link to="/territories" className="ml-1 text-xs font-black text-[var(--yellow)] underline underline-offset-2">
-              CLAIM →
-            </Link>
+        <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
+            <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
+            <span className="font-mono text-xs font-black uppercase text-white/80">
+              Territory: {territory ?? 'Not Locked'}
+            </span>
+          </div>
+          {territory ? (
+            <p className="text-xs font-black text-white/60">
+              Locked — Gold leads in this patch won&apos;t go to other {territory.split(' ')[1] || 'trades'} before you.
+            </p>
+          ) : (
+            <p className="text-xs font-black text-white/60">
+              No territory = same leads as everyone else.{' '}
+              <Link to="/territories" className="text-[var(--yellow)] underline underline-offset-2">
+                Lock yours →
+              </Link>
+            </p>
           )}
         </div>
       </section>
@@ -134,17 +143,11 @@ export function DashboardPage() {
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
-            <div className="border-2 border-white/20 bg-white/10 px-3 py-2">
-              <p className="micro-label text-[10px] text-[var(--yellow)]">TERRITORY</p>
-              <div className="mt-1 flex items-center justify-between gap-2">
-                <p className="font-black text-sm text-white">{territory ?? 'Not Locked'}</p>
-                {!territory && (
-                  <Link to="/territories" className="text-[10px] font-black text-[var(--yellow)] underline underline-offset-2 whitespace-nowrap">
-                    CLAIM YOURS →
-                  </Link>
-                )}
-              </div>
-            </div>
+            {!territory && (
+              <Link to="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+                LOCK YOUR TERRITORY →
+              </Link>
+            )}
             <Link to="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
               SCAN FOR JOBS
             </Link>
