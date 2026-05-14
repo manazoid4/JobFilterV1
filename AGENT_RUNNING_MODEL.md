@@ -38,6 +38,7 @@ This file is for Claude, Codex, and any other agent working in this repo.
 - Always read `Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md` before product copy, pricing, lead delivery, lead gating, or customer trust changes.
 - Add short Obsidian notes for meaningful changes.
 - Link notes into the right folder index.
+- Instagram saved-post inspiration memory lives in `Obsidian_Memory/Obsidian_Vault/AI Knowledge/Instagram Saved Posts Memory.md`; raw media stays private under `data/instagram-saved/`.
 - For Obsidian visual maps, create native `.canvas` boards first. Only use Excalidraw when the plugin is installed and enabled.
 - Run targeted tests before claiming work is done.
 - Push only intentional changes.

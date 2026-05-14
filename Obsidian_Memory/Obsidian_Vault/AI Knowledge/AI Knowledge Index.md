@@ -5,6 +5,7 @@
 - [[Multi-Model Pipelines]]
 - [[Claude Code Workflows]]
 - [[AI Cost Optimization]]
+- [[Instagram Saved Posts Memory]]
 
 ## Rules
 - Use these notes for model workflow ideas only.

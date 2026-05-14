@@ -83,6 +83,7 @@ All agents must also read:
 - `CLAUDE.md` when operating through Claude or Claude-like tools
 - `Obsidian_Memory/Obsidian_Vault/Vault Map.md` for linked memory
 - `Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md` before product copy, pricing, lead delivery, lead gating, or customer trust changes
+- `Obsidian_Memory/Obsidian_Vault/AI Knowledge/Instagram Saved Posts Memory.md` for private Instagram saved-post inspiration when creative source material is needed
 
 Keep Obsidian notes short, linked, and in the right folder.
 

@@ -9,7 +9,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "instagram:install": "python -m pip install -r tools/instagram-memory/requirements.txt",
+    "instagram:download": "python tools/instagram-memory/download_saved.py",
+    "instagram:memory": "python tools/instagram-memory/build_memory.py --write-obsidian"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
