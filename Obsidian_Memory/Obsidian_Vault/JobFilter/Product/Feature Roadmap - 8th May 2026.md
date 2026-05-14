@@ -46,7 +46,7 @@ Higher score = build first.
 | 13 | WhatsApp Business API (deeper) | Integration | 7 | 8 | 4 | **3.75** | Partial (basic alerts) |
 | 14 | TradeFlow UK integration | Integration | 6 | 8 | 4 | **3.5** | Not built (partnership) |
 | 15 | Multi-channel follow-up | Chase | 6 | 7 | 4 | **3.25** | Not built |
-| 16 | Won job leaderboard | Win | 5 | 6 | 3 | **3.67** | Not built |
+| 16 | Won job leaderboard | Win | 5 | 6 | 3 | **3.67** | BUILT (WinStatsBanner + outcomes.jsonl persistence) |
 | 17 | Job value tracking | Win | 6 | 7 | 4 | **3.25** | Not built |
 | 18 | PlanWire integration | Find | 6 | 6 | 4 | **3.0** | Not built |
 

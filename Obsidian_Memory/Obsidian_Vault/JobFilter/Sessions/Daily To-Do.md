@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 15 May 2026
+
+- [x] data/outcomes.jsonl persistence — wins survive server restart, WinStatsBanner data is durable
+- [x] DashboardPage: territory header explains WHY lock matters; Quick Actions removes duplicate status block → single LOCK MY PATCH CTA
+- [x] TerritoriesPage: GBP→£, hero free CTA gets NO CARD NEEDED, WHY section names Checkatrade/Bark/MyBuilder, WHAT YOU GET adds no-shared-auction promise
+- [x] FindJobsPage: FILL MY WEEK moved below scan results — no more competing scan flows
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-15 written
+- [ ] Fix lead card right column on mobile (currently lg: only — loses unlock CTA context on small screens)
+- [ ] Empty scan state: anchor upgrade prompt higher — "Pro users get WhatsApp alerts for emerging signals" should appear before "WIDEN RADIUS"
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+
+---
+
 ## Today - 14 May 2026
 
 - [x] Trade-specific scoring UX — parseTradeReasons() in FindJobsPage, electrician sees EV CHARGER — YOUR TRADE, plumber sees BOILER — YOUR TRADE
