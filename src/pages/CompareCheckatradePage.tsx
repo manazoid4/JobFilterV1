@@ -27,14 +27,14 @@ const signals = [
   ['Planning data', 'Approved applications before they hit any directory.'],
   ['EPC signals', 'F/G rated properties legally need retrofit work.'],
   ['Council contracts', 'Public tenders with buyer names and values.'],
-  ['Property sales', 'Land Registry data showing who just bought.'],
-  ['New businesses', 'Companies House registrations needing fit-out.'],
+  ['Property activity', 'Recent sales show where owners are ready to invest.'],
+  ['Business starts', 'New commercial premises needing fit-out work.'],
 ];
 
 export function CompareCheckatradePage() {
   return (
     <main className="pb-8">
-      {/* ── HERO ─────────────────────────────────────── */}
+      {/* ── HERO ───────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] soft-grid border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <span
@@ -84,7 +84,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── THE PAIN ─────────────────────────────────── */}
+      {/* ── THE PAIN ────────────────────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE PROBLEM YOU ALREADY KNOW</p>
@@ -103,7 +103,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── THE LEAD AUCTION VISUAL ──────────────────── */}
+      {/* ── THE LEAD AUCTION VISUAL ────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">THE LEAD AUCTION</p>
@@ -162,7 +162,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── FIRST MOVER ADVANTAGE ────────────────────── */}
+      {/* ── FIRST MOVER ADVANTAGE ───────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--navy)] text-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">FIRST MOVER ADVANTAGE</p>
@@ -222,7 +222,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── THE FIX ──────────────────────────────────── */}
+      {/* ── THE FIX ────────────────────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">THE JOBFILTER WAY</p>
@@ -254,7 +254,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── COMPARISON TABLE ─────────────────────────── */}
+      {/* ── COMPARISON TABLE ───────────────────────────────────── */}
       <section id="comparison" className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">CHECKATRADE vs JOBFILTER</p>
@@ -280,13 +280,13 @@ export function CompareCheckatradePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
           </div>
         </div>
       </section>
 
-      {/* ── FIVE SIGNALS ─────────────────────────────── */}
+      {/* ── FIVE SIGNALS ──────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
@@ -308,7 +308,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── SCORING ──────────────────────────────────── */}
+      {/* ── SCORING ────────────────────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE DIFFERENCE</p>
@@ -342,7 +342,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── WHATSAPP DELIVERY ────────────────────────── */}
+      {/* ── WHATSAPP DELIVERY ──────────────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--ink)] text-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
@@ -367,7 +367,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── PRICING ──────────────────────────────────── */}
+      {/* ── PRICING ────────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
@@ -407,7 +407,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── WHAT YOU GET ─────────────────────────────── */}
+      {/* ── WHAT YOU GET ────────────────────────────────────────────── */}
       <section className="bg-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">WHAT YOU GET</p>
@@ -430,7 +430,7 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ────────────────────────────────── */}
+      {/* ── FINAL CTA ────────────────────────────────────────────── */}
       <section className="bg-[var(--navy)] text-white">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">ENTER THE INTAKE</p>
@@ -453,6 +453,3 @@ export function CompareCheckatradePage() {
     </main>
   );
 }
-
-
-
