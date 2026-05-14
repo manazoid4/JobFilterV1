@@ -99,7 +99,7 @@ export function PricingPage() {
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/mo" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <CheckoutButton tier="founding" billing="annual" label="SAVE MORE — £390/YR" className="bg-white text-[var(--ink)]" />
-          <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">SCAN FIRST</Link>
+          <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">TRY FREE — NO CARD</Link>
         </div>
       </section>
 
@@ -109,7 +109,7 @@ export function PricingPage() {
           price="£0"
           body="Check if your patch has work signals before you pay."
           items={['Preview signals', 'Score band only', 'Limited detail', 'No WhatsApp alerts', 'No letters', 'Try Codex free (3 docs)']}
-          cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA</Link>}
+          cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>}
         />
         <PlanCard
           title="Founder"

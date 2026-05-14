@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
+import { getChaseLeads } from '../lib/chaseStore';
+import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
 
 function buildIcs(lead: LeadDecision): string {
@@ -61,6 +63,7 @@ export function LeadDetailPage() {
   const lead = getStoredLeads().find((item) => item.id === id);
   const [lostReason, setLostReason] = useState('');
   const [reviewLink, setReviewLink] = useState('');
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
 
   if (!lead) {
     return (
@@ -72,6 +75,16 @@ export function LeadDetailPage() {
       </main>
     );
   }
+
+  const chaseLead = getChaseLeads().find((cl) => cl.leadId === id);
+  const chaseStage = chaseLead?.stage ?? 'not_contacted';
+  const waTemplates = MESSAGE_TEMPLATES.filter((t) => {
+    if (chaseStage === 'won') return t.stage === 'won';
+    if (chaseStage === 'following_up' || chaseStage === 'contacted') return t.stage === 'following_up';
+    return t.stage === 'not_contacted';
+  });
+  const selectedTemplate = waTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
+  const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
 
   async function setStatus(status: LeadDecisionStatus) {
     const outcome: Record<string, string> = {};
@@ -132,6 +145,39 @@ export function LeadDetailPage() {
           <p className="mt-3 font-bold text-[var(--muted)]">{lead.details}</p>
         </section>
       )}
+
+      <section className="jf-box bg-white p-6">
+        <h2 className="headline text-2xl sm:text-3xl">SEND WHATSAPP</h2>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">Pick a message — we fill in the job details. Tap SEND to open WhatsApp.</p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {waTemplates.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setSelectedTemplateKey(selectedTemplateKey === t.key ? null : t.key)}
+              className={`px-3 py-1.5 text-xs font-black uppercase border-2 ${
+                selectedTemplateKey === t.key
+                  ? 'bg-[var(--yellow)] border-[var(--ink)]'
+                  : 'bg-white border-[var(--line)] text-[var(--ink)]'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        {filledMessage && (
+          <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
+            <a
+              className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+              href={`https://wa.me/?text=${encodeURIComponent(filledMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              SEND WHATSAPP
+            </a>
+          </div>
+        )}
+      </section>
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>
