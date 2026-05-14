@@ -13,8 +13,12 @@
 - [ ] Wire Stripe Checkout (Founding 30 + Pro)
 - [ ] Confirm Twilio env vars in Firebase console
 - [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
-- [ ] DashboardPage: add territory status line ("Territory: Not Locked" or "Territory: B12 Roofing") before scan CTA
-- [ ] PricingPage: make Founder card visually dominant (bolder border or background) vs Free tier
+- [x] DashboardPage: add territory status line ("Territory: Not Locked" or "Territory: B12 Roofing") before scan CTA
+- [x] PricingPage: make Founder card visually dominant (bolder border or background) vs Free tier
+- [x] WhatsApp template picker in LeadDetailPage — stage-aware, toggle UX, wa.me deep link
+- [x] PricingPage + CompareCheckatradePage copy polish — SCAN FREE — NO CARD NEEDED CTAs
+- [x] CompareCheckatradePage data source naming fix (Land Registry, Companies House removed)
+- [x] FindJobsPage duplicate Target badge removed (bundle −580 B)
 
 ---
 
@@ -80,3 +84,5 @@
 - [ ] Add paid lead proof card.
 - [ ] Add lead outcome tracking.
 - [ ] Add weekly trade-signal feed logic.
+- [ ] FindJobsPage: move FILL MY WEEK section below scan results (currently above — creates competing scan flows)
+- [ ] DashboardPage: territory shown in two places — add connecting copy explaining why territory lock matters

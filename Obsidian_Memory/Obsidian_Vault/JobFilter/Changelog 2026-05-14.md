@@ -96,3 +96,69 @@ NEEDLE agent identified: 3 equal CTAs with no hierarchy (Scan My Area, See Bluep
 - [[Changelog 2026-05-13]]
 - [[Feature Roadmap - 8th May 2026]]
 - [[Sessions/Daily To-Do]]
+
+---
+
+# JobFilter Changelog — 2026-05-14 (Run 2)
+
+## Summary
+Second NightlyBuildAgent session same day. Build: GREEN. TypeScript: CLEAN. 4 files changed across 3 phases.
+
+## Commits Pushed
+
+| Commit | Files | Change |
+|--------|-------|--------|
+| MCP #1 | `src/pages/LeadDetailPage.tsx`, `src/pages/PricingPage.tsx` | WhatsApp template picker + PricingPage free CTA copy |
+| MCP #2 | `src/pages/CompareCheckatradePage.tsx` | Data source naming fix + comparison table CTA copy |
+| MCP #3 | `src/pages/FindJobsPage.tsx` | Duplicate Target badge removal |
+
+---
+
+## Key Changes Detail
+
+### src/pages/LeadDetailPage.tsx — SEND WHATSAPP section (PHASE 2 Tier 1)
+- New SEND WHATSAPP section between DETAILS and FOLLOW-UP REMINDER
+- Stage-aware template filtering: shows `not_contacted` templates by default, switches to `following_up` templates when chase stage is contacted/following_up, `won` templates when stage is won
+- Reads `chaseStage` from `getChaseLeads()` in chaseStore — no new state required, derives from existing chase pipeline
+- Template picker buttons: selected = yellow highlight, deselected = white/line border
+- Toggle UX: clicking selected template deselects it (hides the preview)
+- Preview box: shows filled message with `{job_type}` and `{area}` substituted
+- SEND WHATSAPP button opens `wa.me/?text=...` deep link in new tab
+- Wires up all 6 existing templates from `chaseTemplates.ts` (first_touch_2h, follow_up_24h, final_nudge_48h, won_thanks, quick_quote_offer, availability_check)
+
+### src/pages/PricingPage.tsx — Free CTA copy (PHASE 3)
+- Free plan CTA: `"SCAN MY AREA"` → `"SCAN FREE — NO CARD NEEDED"` (copy rule: add no-credit-card signal to every free CTA)
+- Hero secondary CTA: `"SCAN FIRST"` → `"TRY FREE — NO CARD"` (same rule, shorter for hero)
+
+### src/pages/CompareCheckatradePage.tsx — Data source naming fix + CTA (PHASE 3)
+- Signal `'Property sales', 'Land Registry data showing who just bought.'` → `'Property activity', 'Recent sales show where owners are ready to invest.'` — removes explicit "Land Registry" source name
+- Signal `'New businesses', 'Companies House registrations needing fit-out.'` → `'Business starts', 'New commercial premises needing fit-out work.'` — removes explicit "Companies House" source name
+- Rule: never expose specific data sources publicly (Problems and Solutions.md)
+- Comparison table CTA: `"SCAN YOUR AREA FREE"` → `"SCAN FREE — NO CARD NEEDED"` (copy consistency)
+
+### src/pages/FindJobsPage.tsx — Duplicate Target badge removal (PHASE 4 BUILDER)
+- Removed inline Target-icon score tier badge from lead cards (was duplicate of the large 80×80 score box already on every card)
+- Removed `Target` from lucide-react import (was unused after removal)
+- Bundle size: 46.30 KB → 45.74 KB (−580 bytes)
+
+---
+
+## PHASE 4 — Site Health Check Results (Run 2)
+
+**NEEDLE findings (new):**
+1. FindJobsPage: FILL MY WEEK section appears above scan results — creates competing scan flows (MEDIUM) → logged for next session
+2. DashboardPage: territory shown in two places without connecting copy explaining why it matters (LOW) → logged for next session
+
+**BUILDER:** Duplicate score badge removed, no visual regression.
+**CRITIC:** WhatsApp toggle UX clear in <3 seconds? YES (selected = yellow, preview appears inline)
+**REVENUE:** Template picker reduces friction for first contact → supports retention
+
+---
+
+## Build Status
+- `npm run build`: ✅ PASS
+- `npx tsc --noEmit`: ✅ CLEAN (0 errors)
+
+## Roadmap Updates
+- WhatsApp template picker in lead detail: BUILT ✅
+- Data source copy audit (CompareCheckatradePage): DONE ✅
