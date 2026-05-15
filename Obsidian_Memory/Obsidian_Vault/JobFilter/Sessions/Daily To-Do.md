@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 17 May 2026
+
+- [x] Job value tracking — clicking WON shows value capture panel (£ input), calls markWon() into winStore, posts actual value to backend — DashboardPage scoreboard now shows real wins
+- [x] BuildUkAlternativePage: EPC / Land Registry / Companies House naming removed from comparison tables and signals — replaced with signal-type descriptions
+- [x] CompareBuildAlertPage: same source naming fix + NO CARD NEEDED added to free CTAs
+- [x] FindJobsPage: FILL MY WEEK copy — "opportunity network" jargon replaced with plain trade language
+- [x] WinStatsBanner + GhostRiskBadge components recovered (dropped by PR #108 merge)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-17 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] Commercial lead detection (Tier 2 — next high-value feature, scores 3.25)
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build)
+- [ ] Investigate PR #108 merge strategy — caused LeadDetailPage / FindJobsPage regression (features dropped)
+
+---
+
 ## Today - 16 May 2026
 
 - [x] GET /api/leads/calendar.ics server route — query-param ICS, shareable link for WhatsApp
