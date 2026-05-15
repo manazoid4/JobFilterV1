@@ -775,6 +775,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
+        {!OPEN_ACCESS && (
+          <Link to="/pricing" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center lg:hidden">
+            UNLOCK FULL LEAD
+          </Link>
+        )}
       </div>
       <div className="grid gap-3 md:self-start">
         <LockedValue label="Buyer" value={lead.buyer} />
@@ -885,19 +890,22 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
+        <p className="font-black text-[var(--navy)] text-sm">Pro users get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
+        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" to="/pricing">
+          GET WHATSAPP ALERTS — FROM £39/MO
+        </Link>
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
           WIDEN TO {nextRadius} MILES
         </button>
         <button className="jf-button bg-white text-[var(--ink)]" onClick={() => onWiden(100)}>
           INCLUDE REGIONAL JOBS
         </button>
-        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">
-          GET WHATSAPP ALERTS
-        </Link>
       </div>
       <p className="mt-5 font-black text-[var(--muted)]">
-        Next best move: watch this trade automatically, widen the radius, or scan adjacent {adjacentTrade} work. Pro alerts send the match when it appears.
+        Next best move: watch this trade automatically, widen the radius, or scan adjacent {adjacentTrade} work.
       </p>
     </section>
   );

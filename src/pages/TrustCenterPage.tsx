@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Eye, Crown } from 'lucide-react';
 
-const dataSources = [
-  'Planning applications and approvals',
-  'Energy Performance Certificates (EPC)',
-  'Land Registry property transactions',
-  'Companies House business registrations',
-  'UK government and council contracts',
-  'Building control notices',
-  'HMO licensing activity',
-  'Property auction results',
-  'Retrofit grant schemes',
+const verifiedSignals = [
+  'Planning approvals in your postcode cluster',
+  'Energy upgrade demand across your patch',
+  'Recent property ownership changes nearby',
+  'New commercial premises activity',
+  'Public sector and housing association work',
+  'Active building work notifications',
+  'Rental market upgrade signals',
+  'Property change-of-use activity',
+  'Government retrofit and grant-funded work',
 ];
 
 const antiGhostSteps = [
@@ -29,7 +29,7 @@ const antiGhostSteps = [
   {
     num: '03',
     title: 'Evidence stack',
-    body: 'You see why a lead is scored before you call. Planning dates. Sale timings. EPC ratings.',
+    body: 'You see why a lead is scored before you call. Approval timing. Sale recency. Energy demand. You decide if it is worth your time.',
     icon: FileText,
   },
   {
@@ -72,7 +72,10 @@ export function TrustCenterPage() {
           WE DON'T LOCK YOU IN.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
-          We scan official data. Score every signal. Send the good ones to your WhatsApp.
+          Checkatrade blasts the same lead to 5 trades. Bark sells you a name then makes you fight for it. MyBuilder runs the auction in public. JobFilter does none of that.
+        </p>
+        <p className="mt-4 max-w-2xl text-lg font-black text-white/80">
+          We scan verified signals. Score every opportunity. Send the good ones to your WhatsApp — controlled by trade, patch, and timing. No shared auction. No five-trade blast.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--yellow)]">
           Use JobFilter for 30 days. Set up your territory. View your leads. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
@@ -86,7 +89,7 @@ export function TrustCenterPage() {
           EVERY SIGNAL GETS A SERIOUS BUYER SCORE FROM 0 TO 100.
         </h2>
         <p className="mt-4 max-w-2xl copy">
-          Not guesswork. Data. Planning approval date. Property sale timing. EPC rating. Council contract status. All combined into one score.
+          Not guesswork. Verified signals. Approval timing. Sale recency. Energy demand. Contract status. All combined into one score — 0 to 100.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -123,33 +126,33 @@ export function TrustCenterPage() {
         <div className="mt-6 jf-box bg-[var(--bg-main)] p-6">
           <p className="micro-label text-[var(--muted)]">TRANSPARENCY NOTE</p>
           <p className="mt-2 font-black text-[var(--muted)]">
-            We show you the evidence behind every score. Planning approval date. Property sale timing. EPC rating. You see what we see.
+            We show you the evidence behind every score — approval timing, sale recency, energy demand level, contract status. You see what we see. You decide if it's worth your time.
           </p>
         </div>
       </section>
 
-      {/* 3. Data Sources */}
+      {/* 3. Verified Signals */}
       <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">DATA SOURCES</p>
+        <p className="micro-label text-[var(--ink)]">VERIFIED SIGNALS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          OFFICIAL UK GOVERNMENT AND PUBLIC REGISTERS.
+          NINE TYPES OF SIGNAL. ALL VERIFIED. ALL BEFORE IT REACHES YOUR PHONE.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
-          No scraping. No private data. All sources used under the Open Government Licence.
+          No scraped directories. No user-submitted enquiries. Every signal comes from verified official UK sources.
         </p>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {dataSources.map((source) => (
-            <div key={source} className="flex items-center gap-3 jf-box bg-white p-4">
+          {verifiedSignals.map((signal) => (
+            <div key={signal} className="flex items-center gap-3 jf-box bg-white p-4">
               <CheckCircle size={20} strokeWidth={3} className="text-[var(--green)] shrink-0" />
-              <span className="font-black text-[var(--ink)] text-sm">{source}</span>
+              <span className="font-black text-[var(--ink)] text-sm">{signal}</span>
             </div>
           ))}
         </div>
 
         <div className="mt-6 p-4 border-2 border-[var(--ink)] bg-white">
           <p className="text-sm font-black text-[var(--ink)]">
-            <strong>Legal note:</strong> All data is used under the Open Government Licence v3.0. We do not scrape private homeowner data. We do not sell your information.
+            <strong>Our rule:</strong> We do not scrape private homeowner data. We do not sell your information. We do not share which signals we monitor — that is how the filter stays private.
           </p>
         </div>
       </section>

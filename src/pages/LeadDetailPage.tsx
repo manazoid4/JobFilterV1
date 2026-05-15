@@ -57,6 +57,34 @@ function downloadIcs(lead: LeadDecision) {
   URL.revokeObjectURL(url);
 }
 
+function CalendarCopyLink({ lead }: { lead: LeadDecision }) {
+  const [copied, setCopied] = useState(false);
+
+  const calendarUrl = `/api/leads/calendar.ics?${new URLSearchParams({
+    leadId: lead.id,
+    jobType: lead.jobType,
+    postcode: lead.postcode,
+    area: lead.area,
+    score: String(lead.score),
+    urgency: lead.urgency,
+    ...(lead.details ? { details: lead.details } : {}),
+  }).toString()}`;
+
+  function copyLink() {
+    const fullUrl = window.location.origin + calendarUrl;
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  }
+
+  return (
+    <button className="jf-button bg-white text-[var(--ink)]" onClick={copyLink}>
+      {copied ? 'LINK COPIED' : 'COPY CALENDAR LINK'}
+    </button>
+  );
+}
+
 export function LeadDetailPage() {
   const { id = '' } = useParams();
   const navigate = useNavigate();
@@ -182,12 +210,15 @@ export function LeadDetailPage() {
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>
         <p className="mt-2 font-black text-[var(--muted)] text-sm">Block time to chase this job. Adds a 9am reminder for tomorrow — works with Google Calendar, Apple Calendar, and Outlook.</p>
-        <button
-          className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]"
-          onClick={() => downloadIcs(lead)}
-        >
-          ADD TO CALENDAR
-        </button>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <button
+            className="jf-button bg-[var(--yellow)] text-[var(--ink)]"
+            onClick={() => downloadIcs(lead)}
+          >
+            ADD TO CALENDAR
+          </button>
+          <CalendarCopyLink lead={lead} />
+        </div>
       </section>
 
       <section className="jf-box bg-white p-6">
