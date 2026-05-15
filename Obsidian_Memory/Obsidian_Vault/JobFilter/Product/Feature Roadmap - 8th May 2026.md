@@ -34,7 +34,7 @@ Higher score = build first.
 | 6 | "Did you win this job?" follow-up | Win | 6 | 8 | 2 | **7.0** | ALREADY BUILT |
 | 7 | Monthly ROI summary | Win | 7 | 8 | 2 | **7.5** | ALREADY BUILT |
 | 8 | Review link generator | Win | 5 | 7 | 2 | **6.0** | ALREADY BUILT |
-| 9 | Google Calendar integration | Integration | 5 | 6 | 2 | **5.5** | Not built |
+| 9 | Google Calendar integration | Integration | 5 | 6 | 2 | **5.5** | BUILT (GET /api/leads/calendar.ics + COPY CALENDAR LINK in LeadDetailPage) |
 | 10 | Companies House signals | Integration | 6 | 6 | 2 | **6.0** | Built (key-gated) |
 | 11 | Document/keyword search | Find | 9 | 8 | 4 | **4.25** | Prototype built |
 

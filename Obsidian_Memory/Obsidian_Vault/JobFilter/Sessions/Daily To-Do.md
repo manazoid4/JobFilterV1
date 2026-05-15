@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 16 May 2026
+
+- [x] GET /api/leads/calendar.ics server route — query-param ICS, shareable link for WhatsApp
+- [x] LeadDetailPage: COPY CALENDAR LINK button uses server route URL
+- [x] TrustCenterPage: fix product rule violation — dataSources replaced with verifiedSignals (no longer names EPC/Land Registry/Companies House publicly)
+- [x] TrustCenterPage: hero gets competitor naming (Checkatrade/Bark/MyBuilder) + no-shared-auction promise
+- [x] PricingPage: competitor naming paragraph in hero (Checkatrade/Bark/BuildAlert)
+- [x] FindJobsPage: empty scan upgrade prompt anchored BEFORE widen radius buttons
+- [x] FindJobsPage: mobile lead card gets inline UNLOCK FULL LEAD CTA (lg:hidden) — CTA visible without scrolling
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-16 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] Commercial lead detection (Tier 2 — next high-value feature, scores 3.25)
+- [ ] Job value tracking — when marking Won, capture actual £ value vs estimated
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build)
+
+---
+
 ## Today - 15 May 2026
 
 - [x] data/outcomes.jsonl persistence — wins survive server restart, WinStatsBanner data is durable
@@ -8,8 +27,8 @@
 - [x] FindJobsPage: FILL MY WEEK moved below scan results — no more competing scan flows
 - [x] Build: GREEN, TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-15 written
-- [ ] Fix lead card right column on mobile (currently lg: only — loses unlock CTA context on small screens)
-- [ ] Empty scan state: anchor upgrade prompt higher — "Pro users get WhatsApp alerts for emerging signals" should appear before "WIDEN RADIUS"
+- [x] Fix lead card right column on mobile — UNLOCK CTA added inline (lg:hidden) ✅
+- [x] Empty scan state: upgrade prompt anchored before WIDEN RADIUS ✅
 - [ ] Wire Stripe Checkout live test end-to-end with test key
 - [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
 
