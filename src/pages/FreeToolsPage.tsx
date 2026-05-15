@@ -131,8 +131,8 @@ export function FreeToolsPage() {
             </button>
             <Link className="jf-button bg-[var(--navy)] text-white text-left h-auto py-4" to="/pricing">
               <div>
-                <span className="block text-sm">UNLIMITED — £6.99/WEEK</span>
-                <span className="block text-xs font-black text-white/90 mt-0.5">Founding 30 access. No contracts. Cancel anytime.</span>
+                <span className="block text-sm">UNLIMITED — FROM £39/MO</span>
+                <span className="block text-xs font-black text-white/90 mt-0.5">Founding price. No contracts. Cancel anytime.</span>
               </div>
             </Link>
           </div>

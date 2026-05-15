@@ -11,10 +11,10 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: 'GBP 42k', score: 94, trend: 'up' as const, location: 'B12' },
-  { source: 'EPC', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'GBP 18k', score: 87, trend: 'up' as const, location: 'M14' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'GBP 65k', score: 91, trend: 'up' as const, location: 'LS1' },
-  { source: 'Land', signal: 'Brownfield site live', trade: 'Groundworks', value: 'GBP 120k', score: 82, trend: 'down' as const, location: 'G41' },
+  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: '£42k', score: 94, trend: 'up' as const, location: 'B12' },
+  { source: 'EPC', signal: 'F-rated rental cluster', trade: 'Insulation', value: '£18k', score: 87, trend: 'up' as const, location: 'M14' },
+  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: '£65k', score: 91, trend: 'up' as const, location: 'LS1' },
+  { source: 'Land', signal: 'Brownfield site live', trade: 'Groundworks', value: '£120k', score: 82, trend: 'down' as const, location: 'G41' },
 ];
 
 const operatingSteps = [
@@ -337,7 +337,7 @@ export function HomePage() {
               <div className="mx-2 mb-2 overflow-hidden rounded-lg border-2 border-[var(--yellow)] bg-[var(--steel)] p-3">
                 <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]">JobFilter GOLD</p>
                 <p className="mt-1 text-xs font-bold text-white">B12 - Rear extension</p>
-                <p className="text-[10px] text-white/60">Builder needed - GBP 42k</p>
+                <p className="text-[10px] text-white/60">Builder needed — £42k</p>
                 <div className="mt-2 flex items-center gap-1">
                   <span className="rounded-sm bg-[var(--yellow)] px-1.5 py-0.5 text-[9px] font-black text-[var(--ink)]">SCORE 94</span>
                   <span className="rounded-sm bg-[var(--green)] px-1.5 py-0.5 text-[9px] font-black text-white">NEW</span>

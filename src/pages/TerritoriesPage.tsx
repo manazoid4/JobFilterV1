@@ -48,7 +48,7 @@ const objections = [
   },
   {
     q: 'Can I change my trade or patch later?',
-    a: 'Yes — one free change in your first 30 days. After that, GBP 19 to switch. Most tradesmen stay locked because the signals keep coming.',
+    a: 'Yes — one free change in your first 30 days. After that, £19 to switch. Most tradesmen stay locked because the signals keep coming.',
   },
   {
     q: 'What stops someone from copying my territory?',
