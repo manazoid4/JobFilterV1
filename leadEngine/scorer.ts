@@ -168,6 +168,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
   }
 
+  if (lead.isCommercial) {
+    const commercialBonus = (userTrade === 'hvac' || userTrade === 'building' || userTrade === 'electrical') ? 5 : 2;
+    score += commercialBonus;
+    reasons.push(`Commercial project (+${commercialBonus})`);
+  }
+
   // Freshness decay — older leads lose score
   const publishedMs = lead.publishedAt ? new Date(lead.publishedAt).getTime() : 0;
   if (publishedMs > 0) {

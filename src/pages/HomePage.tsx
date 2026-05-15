@@ -12,9 +12,9 @@ const proofPoints = [
 
 const signalRows = [
   { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: '£42k', score: 94, trend: 'up' as const, location: 'B12' },
-  { source: 'EPC', signal: 'F-rated rental cluster', trade: 'Insulation', value: '£18k', score: 87, trend: 'up' as const, location: 'M14' },
+  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: '£18k', score: 87, trend: 'up' as const, location: 'M14' },
   { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: '£65k', score: 91, trend: 'up' as const, location: 'LS1' },
-  { source: 'Land', signal: 'Brownfield site live', trade: 'Groundworks', value: '£120k', score: 82, trend: 'down' as const, location: 'G41' },
+  { source: 'Property', signal: 'Brownfield site live', trade: 'Groundworks', value: '£120k', score: 82, trend: 'down' as const, location: 'G41' },
 ];
 
 const operatingSteps = [
@@ -206,8 +206,8 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Signals from planning, EPC and contracts</span>
-          <span>Scored by value, trade fit and urgency</span>
+          <span>Signals from planning approvals, energy upgrades, and public tenders</span>
+          <span>Scored by value, trade fit, and urgency</span>
           <span>WhatsApp alert — before the job goes public</span>
         </div>
       </section>
@@ -362,7 +362,7 @@ export function HomePage() {
               A WAR ROOM FOR FINDING WORK BEFORE IT GOES PUBLIC.
             </h2>
             <p className="mt-5 max-w-xl text-lg font-bold text-[var(--muted)]">
-              Shared lead sites wait until a homeowner fills a form in. JobFilter watches upstream signals: approvals, tenders, property condition, local activity, and timing.
+              Checkatrade, MyBuilder, Bark — they wait until a homeowner fills a form in. By then, four other trades already got the same lead. JobFilter watches upstream signals before the job goes public: planning approvals, energy upgrade demand, tenders, and new businesses needing fit-out.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1">

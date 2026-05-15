@@ -27,7 +27,7 @@ const addOns = [
   ['Hotlist', 'Only urgent, high-value jobs wake you up.', '£9/mo'],
   ['Buyer Pack Plus', 'Extra printed approach packs for bigger jobs.', '£5/lead'],
   ['Vantage Fast Pack', 'Bid angle, proof points and scope pack within 6 hours.', '£49 each'],
-  ['Neighbour Signal', 'Turn one job into nearby door-drop demand.', 'from £99'],
+  ['Neighbour Signal', 'Turn one won job into door-drop demand on the same street — same trade, same area, while you are already there.', 'from £99'],
 ];
 
 const featureCategories = [
@@ -126,7 +126,7 @@ export function PricingPage() {
         <PlanCard
           title="Standard"
           price="£79/mo"
-          body="Full access. No founder discount. Same system, standard rate."
+          body="Full access at standard rate. If you missed the founder window, this is still cheaper than one month on Checkatrade — and it finds you jobs instead of sharing them."
           items={included}
           dark
           cta={<CheckoutButton tier="pro" billing="monthly" label="JOIN STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}

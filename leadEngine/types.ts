@@ -25,6 +25,7 @@ export interface Lead {
   score?: number;
   scoreReasons?: string[];
   distanceMiles?: number;
+  isCommercial?: boolean;
 }
 
 export interface LeadStoreEntry {

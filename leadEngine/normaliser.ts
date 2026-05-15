@@ -73,6 +73,28 @@ function calcContactSignal(raw: RawLead): 'none' | 'weak' | 'strong' {
   return 'none';
 }
 
+const COMMERCIAL_KEYWORDS = [
+  'office', 'offices', 'retail', 'shop ', 'shops', 'shopping', 'supermarket',
+  'warehouse', 'factory', 'factories', 'industrial', 'commercial premises',
+  'restaurant', 'cafe', 'bar ', 'pub ', 'hotel', 'gym', 'fitness centre',
+  'school', 'college', 'university', 'hospital', 'clinic', 'care home',
+  'surgery', 'depot', 'workshop', 'showroom', 'studio', 'theatre', 'stadium',
+  'business park', 'trading estate', 'mixed use', 'change of use', 'fit-out',
+  'fit out', 'fitout', 'leisure centre', 'sports hall', 'community centre',
+];
+
+const COMMERCIAL_BUYER_PATTERNS = /\b(ltd|limited|plc|llp|nhs|council|borough|county\s+council|district\s+council|university|college|trust|housing\s+association|group\s+plc)\b/i;
+
+const COMMERCIAL_CPV_PREFIXES = ['45210', '45212', '45213'];
+
+function detectCommercial(title: string, description: string, buyerName: string, cpvCodes: string[]): boolean {
+  const text = `${title} ${description}`.toLowerCase();
+  if (COMMERCIAL_KEYWORDS.some(k => text.includes(k))) return true;
+  if (buyerName && COMMERCIAL_BUYER_PATTERNS.test(buyerName)) return true;
+  if (cpvCodes.some(c => COMMERCIAL_CPV_PREFIXES.some(p => c.startsWith(p)))) return true;
+  return false;
+}
+
 function sourceConfidence(sourceSystem: string): number {
   switch (sourceSystem) {
     case 'FTS': return 88;
@@ -138,6 +160,9 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const urgency = calcUrgency(deadline, rawVal);
   const contactSignal = calcContactSignal(raw);
 
+  const buyer = raw.rawBuyer ?? '';
+  const isCommercial = detectCommercial(title, raw.rawDescription ?? '', buyer, cpvCodes);
+
   return {
     id: `${raw.sourceSystem.toLowerCase()}-${raw.rawId}`,
     title,
@@ -154,8 +179,9 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     description: raw.rawDescription?.substring(0, 300) ?? '',
     publishedAt: published,
     deadlineAt: deadline,
-    buyerName: raw.rawBuyer ?? '',
+    buyerName: buyer,
     cpvCodes,
+    isCommercial,
   };
 }
 

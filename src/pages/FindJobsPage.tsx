@@ -428,17 +428,17 @@ export function FindJobsPage() {
       {/* ── STATS BAR ────────────────────────────────────────────────── */}
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
-          <div className="border-r-2 border-[var(--line)] p-4 text-center">
-            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{planningCount}</p>
-            <p className="micro-label text-[10px] text-white/60 mt-1">PLANNING APPS</p>
+          <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{planningCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">PLANNING</p>
           </div>
-          <div className="border-r-2 border-[var(--line)] p-4 text-center">
-            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
-            <p className="micro-label text-[10px] text-white/60 mt-1">EPC F/G PROPERTIES</p>
+          <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">ENERGY</p>
           </div>
-          <div className="p-4 text-center">
-            <p className="headline text-3xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
-            <p className="micro-label text-[10px] text-white/60 mt-1">COUNCIL CONTRACTS</p>
+          <div className="p-3 sm:p-4 text-center">
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">CONTRACTS</p>
           </div>
         </section>
       )}
@@ -558,19 +558,20 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {/* Inline upgrade prompt on each card */}
-              <div className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-5 text-center">
-                <p className="font-black text-[var(--green)]">THIS IS A PREVIEW — UNLOCK FULL DETAILS</p>
-                <p className="mt-1 font-black text-[var(--muted)]">
-                  Buyer detail, deadline, verification proof, direct letters, and WhatsApp alerts are locked on the free plan.
-                </p>
-                <Link to="/pricing" className="jf-button mt-3 bg-[var(--navy)] text-white inline-block">
-                  UNLOCK FROM £39/mo →
-                </Link>
-                <p className="mt-2 text-xs font-black text-[var(--muted)]">
-                  30-day money-back guarantee. No quibbles, no hoops.
-                </p>
-              </div>
+              {!OPEN_ACCESS && (
+                <div className="jf-box bg-[var(--ink)] p-5 text-center">
+                  <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
+                  <p className="mt-1 font-black text-white/75">
+                    Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
+                  </p>
+                  <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
+                    LOCK £39/mo — NO CARD NEEDED
+                  </Link>
+                  <p className="mt-2 text-xs font-black text-white/50">
+                    30-day money-back guarantee. No quibbles, no hoops.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -752,6 +753,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           )}
           {isTracked && <span className="badge bg-[var(--navy)] text-white text-[10px] font-black">TRACKING</span>}
+          {lead.isCommercial && (
+            <span className="inline-flex items-center gap-1 border-2 border-[var(--ink)] bg-[var(--ink)] px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]">
+              <Building2 className="w-3 h-3" />
+              COMMERCIAL
+            </span>
+          )}
           <GhostRiskBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
         </div>
         {isCompaniesHouse && (

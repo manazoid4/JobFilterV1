@@ -44,6 +44,7 @@ export type Lead = {
   tradeMatch?: Trade;
   score: number;
   distanceMiles?: number;
+  isCommercial?: boolean;
 };
 
 export type LeadSearchResponse = {
