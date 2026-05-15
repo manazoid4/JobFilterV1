@@ -583,7 +583,7 @@ export function FindJobsPage() {
             <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
             <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
             <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              One tap. We check the opportunity network and return the best {trade} jobs within {radiusMiles} miles.
+              One tap. Full scan — planning approvals, energy upgrades, public contracts. Top {trade} jobs within {radiusMiles} miles, ranked by score, ready to chase.
             </p>
           </div>
           <button

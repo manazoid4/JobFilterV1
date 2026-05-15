@@ -5,6 +5,7 @@ import { ScoreBadge } from '../components/ScoreBadge';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
+import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
 
 function buildIcs(lead: LeadDecision): string {
@@ -92,6 +93,8 @@ export function LeadDetailPage() {
   const [lostReason, setLostReason] = useState('');
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
+  const [showWonCapture, setShowWonCapture] = useState(false);
+  const [wonValueInput, setWonValueInput] = useState('');
 
   if (!lead) {
     return (
@@ -142,6 +145,49 @@ export function LeadDetailPage() {
       } catch {}
     }
 
+    navigate('/leads');
+  }
+
+  function handleWonClick() {
+    const stripped = (lead?.budget ?? '').replace(/[^0-9]/g, '');
+    setWonValueInput(stripped);
+    setShowWonCapture(true);
+  }
+
+  async function confirmWon() {
+    const parsedValue = parseInt(wonValueInput.replace(/[^0-9]/g, ''), 10) || 0;
+    markWon({
+      leadId: lead!.id,
+      title: lead!.jobType,
+      trade: lead!.jobType,
+      location: lead!.area,
+      value: parsedValue,
+      source: 'chase',
+    });
+    updateStoredLead(lead!.id, { status: 'won' });
+    await fetch('/api/leads/outcome', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        leadId: lead!.id,
+        status: 'won',
+        title: lead!.jobType,
+        value: parsedValue > 0 ? `£${parsedValue.toLocaleString()}` : lead!.budget,
+      }),
+    }).catch(() => {});
+    setShowWonCapture(false);
+    try {
+      const res = await fetch('/api/leads/review-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: lead!.id, customerName: 'your customer', trade: lead!.jobType }),
+      });
+      const data = await res.json();
+      if (data.ok && data.message) {
+        setReviewLink(data.message);
+        return;
+      }
+    } catch {}
     navigate('/leads');
   }
 
@@ -239,10 +285,31 @@ export function LeadDetailPage() {
           ))}
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => setStatus('won')}>WON</button>
+          <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={handleWonClick}>WON</button>
           <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setStatus('lost')}>LOST</button>
           <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('no_answer')}>NO ANSWER</button>
         </div>
+        {showWonCapture && (
+          <div className="mt-4 border-2 border-[var(--ink)] bg-[var(--yellow)] p-5">
+            <p className="headline text-xl">WHAT WAS THE JOB WORTH?</p>
+            <p className="mt-1 text-sm font-black">Enter the actual value — leave blank if you're not sure.</p>
+            <div className="mt-3 flex items-center gap-2">
+              <span className="font-black text-2xl">£</span>
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder={lead.budget?.replace(/[^0-9]/g, '') || '0'}
+                value={wonValueInput}
+                onChange={(e) => setWonValueInput(e.target.value)}
+                className="w-36 border-2 border-[var(--ink)] bg-white px-3 py-2 font-black text-xl"
+              />
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button className="jf-button bg-[var(--ink)] text-white" onClick={confirmWon}>CONFIRM WIN</button>
+              <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setShowWonCapture(false)}>CANCEL</button>
+            </div>
+          </div>
+        )}
         {reviewLink && (
           <div className="mt-4 border-4 border-[var(--green)] bg-[var(--yellow)] p-4">
             <p className="font-black uppercase text-[var(--ink)]">Review request ready — send this to your customer:</p>

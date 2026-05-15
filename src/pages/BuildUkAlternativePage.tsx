@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 
 const comparison = [
   { feature: 'Planning applications', old: 'Yes — raw data', new: 'Yes — scored & filtered' },
-  { feature: 'EPC retrofit signals', old: 'No', new: 'Yes — F/G rated properties flagged' },
+  { feature: 'Energy upgrade signals', old: 'No', new: 'Yes — energy demand mapped to your patch' },
   { feature: 'Council contracts', old: 'No', new: 'Yes — buyer named, value shown' },
-  { feature: 'Property sales data', old: 'No', new: 'Yes — Land Registry signals' },
-  { feature: 'New business registrations', old: 'No', new: 'Yes — Companies House data' },
+  { feature: 'Ownership change signals', old: 'No', new: 'Yes — who just bought and needs work' },
+  { feature: 'New business signals', old: 'No', new: 'Yes — new businesses needing premises work' },
   { feature: 'GOLD / SILVER / BIN scoring', old: 'No', new: 'Yes — chase only what pays' },
   { feature: 'WhatsApp alerts', old: 'No', new: 'Yes — within minutes, not batched' },
   { feature: 'Exclusive leads', old: 'Browse only', new: 'No one else sees your scan' },
@@ -15,10 +15,10 @@ const comparison = [
 
 const signals = [
   ['Planning data', 'Approved applications before they hit any directory.'],
-  ['EPC signals', 'F/G rated properties legally need retrofit work.'],
+  ['Energy upgrade signals', 'Properties legally required to upgrade — retrofit work confirmed.'],
   ['Council contracts', 'Public tenders with buyer names and values.'],
-  ['Property sales', 'Land Registry data showing who just bought.'],
-  ['New businesses', 'Companies House registrations needing fit-out.'],
+  ['Ownership changes', 'New owners renovate. We catch the signal before the job goes up anywhere.'],
+  ['New businesses', 'Newly registered businesses needing premises work done.'],
 ];
 
 export function BuildUkAlternativePage() {
@@ -92,7 +92,7 @@ export function BuildUkAlternativePage() {
             <div className="jf-box bg-[var(--yellow)] p-6">
               <h3 className="headline text-xl text-[var(--ink)]">THE FIX</h3>
               <p className="mt-3 font-black text-[var(--ink)] leading-relaxed">
-                JobFilter scans the same planning data 2BuildUK showed — plus EPC ratings, council contracts, property sales, and new business registrations. Then we score every signal so you only chase the ones worth your time.
+                JobFilter scans the same planning data 2BuildUK showed — plus energy upgrade demand, public contracts, ownership changes, and new business signals. Then we score every lead so you only chase the ones worth your time.
               </p>
               <p className="mt-3 font-black text-[var(--ink)] leading-relaxed">
                 Gold leads hit your WhatsApp within minutes. No manual browsing. No downloading spreadsheets. Just jobs that pay, delivered to where you already work.
@@ -128,7 +128,7 @@ export function BuildUkAlternativePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
           </div>
         </div>

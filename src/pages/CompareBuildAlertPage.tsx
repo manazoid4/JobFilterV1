@@ -3,16 +3,16 @@ import { Link } from 'react-router-dom';
 
 const comparison = [
   { feature: 'Planning applications', buildalert: 'Yes', jobfilter: 'Yes — scored & filtered', jf: true },
-  { feature: 'EPC retrofit signals', buildalert: 'No', jobfilter: 'Yes — F/G rated properties', jf: true },
+  { feature: 'Energy upgrade signals', buildalert: 'No', jobfilter: 'Yes — energy demand mapped to your patch', jf: true },
   { feature: 'Council contracts', buildalert: 'No', jobfilter: 'Yes — buyer named, value shown', jf: true },
-  { feature: 'Property sales data', buildalert: 'No', jobfilter: 'Yes — Land Registry signals', jf: true },
-  { feature: 'New business registrations', buildalert: 'No', jobfilter: 'Yes — Companies House data', jf: true },
+  { feature: 'Ownership change signals', buildalert: 'No', jobfilter: 'Yes — who just bought and needs work', jf: true },
+  { feature: 'New business signals', buildalert: 'No', jobfilter: 'Yes — new businesses needing premises work', jf: true },
   { feature: 'GOLD / SILVER / BIN scoring', buildalert: 'No', jobfilter: 'Yes — chase only what pays', jf: true },
   { feature: 'WhatsApp alerts', buildalert: 'No', jobfilter: 'Yes — within minutes', jf: true },
   { feature: 'Letter delivery', buildalert: 'Yes — £2 per letter', jobfilter: 'No — instant digital delivery', jf: false },
   { feature: 'Exclusive leads', buildalert: 'Yes — planning access', jobfilter: 'Yes — no one sees your scan', jf: true },
   { feature: 'Delivery speed', buildalert: 'Days — mail cycle + browse', jobfilter: 'Minutes — pushed to your phone', jf: true },
-  { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '5 — planning, EPC, contracts, sales, businesses', jf: true },
+  { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '5 — planning, energy, contracts, ownership, business', jf: true },
   { feature: 'Pricing model', buildalert: '£2 per letter — pay per action', jobfilter: '£39/mo — unlimited everything', jf: true },
   { feature: 'Per-action cost', buildalert: 'Yes — every letter costs', jobfilter: 'No — scan as much as you want', jf: true },
   { feature: 'Subscription lock-in', buildalert: 'No — pay as you go', jobfilter: 'No — cancel anytime', jf: false },
@@ -23,10 +23,10 @@ const comparison = [
 
 const signals = [
   ['Planning data', 'Approved applications before they hit any directory. BuildAlert does this too.'],
-  ['EPC signals', 'F/G rated properties legally need retrofit work. BuildAlert does not cover this.'],
+  ['Energy upgrade signals', 'Properties legally required to upgrade — retrofit work coming. BuildAlert does not cover this.'],
   ['Council contracts', 'Public tenders with buyer names and values. Not in BuildAlert.'],
-  ['Property sales', 'Land Registry data showing who just bought and needs work. BuildAlert misses this.'],
-  ['New businesses', 'Companies House registrations needing fit-out. Another signal BuildAlert does not have.'],
+  ['Ownership changes', 'New owners renovate. We catch the signal before they call anyone. BuildAlert misses this.'],
+  ['New businesses', 'Newly registered businesses needing premises work. Another signal BuildAlert does not have.'],
 ];
 
 const quotes = [
@@ -362,7 +362,7 @@ export function CompareBuildAlertPage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
           </div>
         </div>
@@ -544,7 +544,7 @@ export function CompareBuildAlertPage() {
             Scan your area free. See what work is active near you — including the signals BuildAlert doesn't cover. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
