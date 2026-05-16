@@ -296,7 +296,7 @@ export function HomePage() {
               <div className="grid h-20 w-80 place-items-center border-2 border-[var(--line)] bg-[var(--ink)] shadow-[4px_4px_0_var(--yellow)]">
                 <div>
                   <p className="font-mono text-xs font-black uppercase text-[var(--yellow)]">02</p>
-                  <p className="headline text-lg text-white">Get GOLD alerts</p>
+                  <p className="headline text-lg text-white">Gold hits your WhatsApp</p>
                 </div>
               </div>
             </div>

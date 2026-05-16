@@ -75,10 +75,10 @@ export function DashboardPage() {
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)]/20 transition">
-            <p className="micro-label text-[var(--muted)]">SCAN</p>
+          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+            <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">Find jobs worth pricing</p>
+            <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
           </Link>
           <div className="block border-2 border-[var(--ink)] bg-white p-5 relative">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
