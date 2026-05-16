@@ -1,24 +1,5 @@
-import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { FormEvent, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const DEV_MODE = false;
-const FREE_SCAN_LIMIT = DEV_MODE ? 999 : 3;
-const STORAGE_KEY = 'jf-free-scans-used';
-function getScansUsed(): number {
-  try {
-    return Number(localStorage.getItem(STORAGE_KEY)) || 0;
-  } catch {
-    return 0;
-  }
-}
-
-function recordScan(): number {
-  const next = getScansUsed() + 1;
-  try {
-    localStorage.setItem(STORAGE_KEY, String(next));
-  } catch { /* ignore */ }
-  return next;
-}
 
 type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote';
 
@@ -50,7 +31,6 @@ const TOOL_RECS: Record<ToolId, { label: string; to: string }> = {
 };
 
 export function FreeToolsPage() {
-  const [scansUsed, setScansUsed] = useState(getScansUsed);
   const [activeTool, setActiveTool] = useState<ToolId | null>(null);
   const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [emailDone, setEmailDone] = useState(false);
@@ -60,16 +40,8 @@ export function FreeToolsPage() {
   const [optInSignals, setOptInSignals] = useState(true);
 
   const isPaywalled = false;
-  const scansRemaining = Math.max(0, FREE_SCAN_LIMIT - scansUsed);
-  const isUrgent = scansRemaining === 1;
 
-  useEffect(() => {
-    setScansUsed(getScansUsed());
-  }, []);
-
-  const handleToolUse = useCallback(() => {
-    // Free tools are unlimited — no scan gate
-  }, []);
+  const handleToolUse = useCallback(() => {}, []);
 
   const handleEmailSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -95,12 +67,10 @@ export function FreeToolsPage() {
           Price cleaner. Spot time-wasters. Protect your week. Checkatrade, Bark, and MyBuilder charge for these — we give them away. Leads are the paid part.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
-          {scansRemaining > 0 && (
-            <div className={`inline-flex items-center gap-2 border-2 px-4 py-2 text-sm font-black ${isUrgent ? 'border-[var(--orange)] text-[var(--orange)] animate-pulse' : 'border-[var(--yellow)] text-[var(--yellow)]'}`}>
-              <span className={`h-2 w-2 rounded-full ${isUrgent ? 'bg-[var(--orange)]' : 'bg-[var(--yellow)]'}`} />
-              {scansRemaining} free {scansRemaining === 1 ? 'scan' : 'scans'} remaining
-            </div>
-          )}
+          <div className="inline-flex items-center gap-2 border-2 border-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--yellow)]">
+            <span className="h-2 w-2 rounded-full bg-[var(--yellow)]" />
+            Unlimited — no signup required
+          </div>
           <div className="inline-flex items-center gap-2 border border-white/20 px-3 py-1.5 text-xs font-black text-white/85">
             <span className="h-2 w-2 rounded-full bg-[var(--green)]" />
             Free to use — no account needed
