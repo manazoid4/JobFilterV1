@@ -807,11 +807,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
-        {!OPEN_ACCESS && (
-          <Link to="/pricing" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center lg:hidden">
-            UNLOCK FULL LEAD
-          </Link>
-        )}
       </div>
       <div className="grid gap-3 md:self-start">
         <LockedValue label="Buyer" value={lead.buyer} />
