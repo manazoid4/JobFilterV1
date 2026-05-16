@@ -1,5 +1,26 @@
 # Daily To-Do
 
+## Today - 20 May 2026
+
+- [x] TypeScript: fix TS18004 reviewUrl undefined in outcomeReport.ts
+- [x] TypeScript: fix TS2304 DEV_MODE undefined in FreeToolsPage.tsx
+- [x] FindJobsPage: FILL MY WEEK now resets commercialOnly filter (matches regular scan)
+- [x] FindJobsPage: tierLabel() returns GOLD/SILVER/BRONZE — matches score badge labels (was WORTH CHECKING/LOW SIGNAL)
+- [x] TradeElectricians: remove all source naming violations (EPC data/register/Planning Portal)
+- [x] TradeElectricians: fix "Exclusive scans" product rule violation → "No shared auction — lead goes to you, not five other sparkies"
+- [x] TradePage (shared): "EPC signals" → "energy signals" in Other Trades section
+- [x] TradePage (shared): "No credit card required" added under hero SCAN FREE CTA (all 5 trade pages)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-20 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] Check TradePlumbers / TradeRoofers / TradeBuilders / TradeHeatPumps for same source naming violations as TradeElectricians (EPC / Planning Portal naming)
+- [ ] DashboardPage action boxes: improve visual hierarchy between SCAN / TRACKING / RESULTS
+- [ ] HomePage Step 02 (WhatsApp alerts): increase visual weight to match Step 01 and Step 03
+
+---
+
 ## Today - 19 May 2026
 
 - [x] FindJobsPage: COMMERCIAL ONLY filter toggle — shows count, resets on new scan, filters displayedLeads
