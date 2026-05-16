@@ -245,6 +245,7 @@ export function FindJobsPage() {
   async function fillMyWeek() {
     setFillWeekLoading(true);
     setFillWeekResult(null);
+    setCommercialOnly(false);
     setFillWeekPhase('Checking verified job signals across your patch...');
     await new Promise(r => setTimeout(r, 800));
     setFillWeekPhase('Matching leads to your trade — scoring every signal...');
@@ -983,6 +984,6 @@ function titleCase(value: string) {
 
 function tierLabel(score: number) {
   if (score >= 80) return 'GOLD';
-  if (score >= 55) return 'WORTH CHECKING';
-  return 'LOW SIGNAL';
+  if (score >= 50) return 'SILVER';
+  return 'BRONZE';
 }

@@ -40,6 +40,7 @@ export function FreeToolsPage() {
   const [optInSignals, setOptInSignals] = useState(true);
 
   const isPaywalled = false;
+  const DEV_MODE = import.meta.env.DEV;
 
   const handleToolUse = useCallback(() => {}, []);
 

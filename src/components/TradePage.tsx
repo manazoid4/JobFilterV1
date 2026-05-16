@@ -61,7 +61,10 @@ export function TradePage({ data }: { data: TradePageData }) {
             {data.sub}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to={`/find-jobs?trade=${data.slug}&postcode=${data.ctaPostcode}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+            <div className="flex flex-col gap-1">
+              <Link className="jf-button bg-[var(--ink)] text-white" to={`/find-jobs?trade=${data.slug}&postcode=${data.ctaPostcode}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+              <span className="text-[10px] font-black uppercase tracking-wider text-[var(--ink)]/50">No credit card required</span>
+            </div>
             <Link className="jf-button bg-white text-[var(--ink)]" to="#how-it-works">SEE HOW IT WORKS</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
@@ -232,7 +235,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <p className="micro-label text-[var(--orange)]">BUILT FOR EVERY TRADE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">NOT JUST {data.tradePlural.toUpperCase()}. EVERY TRADE.</h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
-            JobFilter scans planning data, EPC signals, and council contracts — then filters by your trade. Whatever you do, there's work waiting.
+            JobFilter scans planning approvals, energy signals, and public contracts — then filters by your trade. Whatever you do, there's work waiting.
           </p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {ALL_TRADES.filter((t) => t.slug !== data.slug).map((t) => (

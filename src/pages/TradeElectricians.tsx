@@ -21,13 +21,13 @@ const data: TradePageData = {
   ],
   signals: [
     ['Planning applications', 'Every extension, loft conversion, and new build needs full electrical installation. We flag approved applications before the homeowner posts the job anywhere.'],
-    ['EPC data', 'F-rated properties often need consumer unit upgrades, rewires, and heating system electrics. EPC data shows which properties need work — and who owns them.'],
-    ['Council contracts', 'School rewires, social housing electrical upgrades, street lighting contracts — public tenders with named buyers and defined scopes.'],
+    ['Energy efficiency signals', 'Low-rated properties often need consumer unit upgrades, rewires, and heating system electrics. Verified official signals show which properties need work — before they post anywhere.'],
+    ['Public contracts', 'School rewires, social housing electrical upgrades, street lighting contracts — public tenders with named buyers and defined scopes.'],
   ],
   howItWorks: [
-    ['01', 'Set your patch', 'Enter your postcode and radius. We scan every planning application, EPC register, and council contract in your area.'],
+    ['01', 'Set your patch', 'Enter your postcode and radius. We scan verified signals across planning approvals, energy ratings, and public contracts in your area.'],
     ['02', 'Electrical signals get scored', 'Rewires, consumer unit upgrades, EV charger installs, new-build electrics — we flag the ones worth chasing and bin the rest.'],
-    ['03', 'Gold alerts fire to WhatsApp', 'Planning approved for a loft conversion? EPC shows an F-rated rental needing an EICR? You know within minutes — before the job is posted anywhere.'],
+    ['03', 'Gold alerts fire to WhatsApp', 'Planning approved for a loft conversion? Verified signal shows a low-rated rental needing an EICR? You know within minutes — before the job is posted anywhere.'],
   ],
   tradeLeadExample: {
     title: 'Full house rewire — Victorian terrace, 4 bed',
@@ -36,8 +36,8 @@ const data: TradePageData = {
       ['Area', 'M20 / Manchester'],
       ['Value', '£6k-£10k rewire'],
       ['Urgency', 'Planning approved — homeowner actively searching'],
-      ['Official Source', 'Planning Portal + EPC F-rating — 91% confidence'],
-      ['Signal', 'Extension approved, existing F-rated EPC, no contractor'],
+      ['Signal type', 'Verified planning + energy signal — 91% confidence'],
+      ['Detail', 'Extension approved, low energy rating, no contractor yet'],
     ],
     tags: ['Verified signal', 'High intent', 'Free preview'],
   },
@@ -45,7 +45,7 @@ const data: TradePageData = {
 Area: M20 / Manchester
 Value: £6k-£10k rewire
 Urgency: Planning approved — homeowner actively searching
-Why it matters: Victorian terrace, F-rated EPC, extension approved
+Why it matters: Victorian terrace, low energy rating, extension approved
 Action: Open notice → jobfilter.uk/lead/def456`,
   comparisonOld: [
     '£50-£150/month per category on directories',
@@ -57,10 +57,10 @@ Action: Open notice → jobfilter.uk/lead/def456`,
   ],
   comparisonNew: [
     '£39/month founder flat — all electrical signals, unlimited',
-    'Exclusive scans — no one else sees your results',
+    'No shared auction — lead goes to you, not five other sparkies',
     'Estimated value shown before you chase',
-    'EPC data shows which properties actually need work',
-    'Planning data shows jobs before they\'re posted',
+    'Verified signals show which properties actually need work',
+    'Planning approvals surface jobs before they\'re posted',
     'No contracts. Cancel anytime. 30-day guarantee',
   ],
   ctaPostcode: 'M1',
