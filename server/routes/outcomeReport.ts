@@ -64,8 +64,8 @@ export function registerOutcomeReportRoute(app: Express) {
       const areaPrefix = postcodePrefix.slice(0, 2);
       const won = Object.values(outcomes).filter((o) => {
         if (o.status !== 'won') return false;
-        if (!areaPrefix) return true;
-        return (o.postcode || '').toUpperCase().startsWith(areaPrefix);
+        if (!areaPrefix || !o.postcode) return true;
+        return o.postcode.toUpperCase().startsWith(areaPrefix);
       });
 
       const totalWonCount = won.length;
