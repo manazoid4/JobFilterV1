@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const trades = [
-  { id: 'electrical', label: 'Electrical', signals: 'EPC F/G retrofit, rewires, EV charger installs from planning approvals, EICR compliance jobs', value: '£800 - £50k', example: { title: 'Consumer unit + rewire - rental compliance', area: 'B14 / West Midlands', value: '£4,500', urgency: 'Tenant move-in deadline', source: 'EPC Register + Council Planning' } },
-  { id: 'plumbing', label: 'Plumbing', signals: 'Boiler replacements, bathroom fits, commercial maintenance tenders, heat pump installs', value: '£500 - £15k', example: { title: 'Full bathroom refit - budget confirmed', area: 'SW17 / London', value: '£6,200', urgency: 'Start within 2 weeks', source: 'Contracts Finder' } },
-  { id: 'roofing', label: 'Roofing', signals: 'Planning-approved extensions needing roof work, flat roof replacements, commercial re-roofs from Contracts Finder', value: '£2k - £80k', example: { title: 'Commercial flat roof replacement', area: 'M4 / Manchester', value: '£22,000', urgency: 'Pre-winter deadline', source: 'Contracts Finder - Official tender' } },
-  { id: 'building', label: 'Building', signals: 'Extensions, loft conversions, commercial refurbs from planning data, Contracts Finder public tenders', value: '£15k - £500k', example: { title: 'Double extension - planning approved', area: 'LS6 / Leeds', value: '£45,000', urgency: 'Planning approval expires', source: 'Planning Data - Verified approval' } },
-  { id: 'hvac', label: 'HVAC', signals: 'Heat pump installs for EPC F/G properties, commercial HVAC maintenance contracts, air con tenders', value: '£3k - £100k', example: { title: 'Heat pump install - EPC G rated property', area: 'BS5 / Bristol', value: '£11,500', urgency: 'Landlord compliance deadline', source: 'EPC Register' } },
-  { id: 'landscaping', label: 'Landscaping', signals: 'Planning approvals for new builds, commercial grounds maintenance contracts, council tenders', value: '£1k - £20k', example: { title: 'Commercial grounds contract - council', area: 'OX1 / Oxford', value: '£8,400/year', urgency: 'Contract renewal window', source: 'Contracts Finder' } },
+  { id: 'electrical', label: 'Electrical', signals: 'Energy upgrade retrofit, rewires, EV charger installs from planning approvals, compliance jobs for landlords', value: '£800 - £50k', example: { title: 'Consumer unit + rewire - rental compliance', area: 'B14 / West Midlands', value: '£4,500', urgency: 'Tenant move-in deadline', source: 'Verified official signals' } },
+  { id: 'plumbing', label: 'Plumbing', signals: 'Boiler replacements, bathroom fits, commercial maintenance tenders, heat pump installs', value: '£500 - £15k', example: { title: 'Full bathroom refit - budget confirmed', area: 'SW17 / London', value: '£6,200', urgency: 'Start within 2 weeks', source: 'Verified tender record' } },
+  { id: 'roofing', label: 'Roofing', signals: 'Planning-approved extensions needing roof work, flat roof replacements, commercial re-roofs from public tenders', value: '£2k - £80k', example: { title: 'Commercial flat roof replacement', area: 'M4 / Manchester', value: '£22,000', urgency: 'Pre-winter deadline', source: 'Official public tender' } },
+  { id: 'building', label: 'Building', signals: 'Extensions, loft conversions, commercial refurbs from approved planning, public procurement tenders', value: '£15k - £500k', example: { title: 'Double extension - planning approved', area: 'LS6 / Leeds', value: '£45,000', urgency: 'Planning approval expires', source: 'Verified planning approval' } },
+  { id: 'hvac', label: 'HVAC', signals: 'Heat pump installs for low-efficiency properties, commercial HVAC maintenance contracts, air con tenders', value: '£3k - £100k', example: { title: 'Heat pump install - low-rated property', area: 'BS5 / Bristol', value: '£11,500', urgency: 'Landlord compliance deadline', source: 'Verified official signals' } },
+  { id: 'landscaping', label: 'Landscaping', signals: 'Planning approvals for new builds, commercial grounds maintenance contracts, council tenders', value: '£1k - £20k', example: { title: 'Commercial grounds contract - council', area: 'OX1 / Oxford', value: '£8,400/year', urgency: 'Contract renewal window', source: 'Official public tender' } },
 ];
 
 type Trade = typeof trades[number];
@@ -85,10 +85,12 @@ export function ForYourTradePage() {
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
         <div className="jf-box bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">SCAN YOUR PATCH</p>
-          <h2 className="headline mt-3 text-5xl leading-none">NO FAKE LEADS. NO CHASING.</h2>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/find-jobs">
+          <h2 className="headline mt-3 text-5xl leading-none">NO SHARED LEADS. NO FIVE-TRADE BLAST.</h2>
+          <p className="mt-3 font-black text-[var(--ink)]/70">Checkatrade and Bark sell the same lead to five trades and call it a service. Gold leads here are controlled by trade, patch, and timing.</p>
+          <Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW
           </Link>
+          <p className="mt-1.5 text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</p>
           <Link className="jf-button mt-3 bg-white text-[var(--ink)]" to="/pricing">
             SEE PRICING — FROM £39/MO
           </Link>

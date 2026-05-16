@@ -71,9 +71,16 @@ export function FreeToolsPage() {
     // Free tools are unlimited — no scan gate
   }, []);
 
-  const handleEmailSubmit = (e: FormEvent) => {
+  const handleEmailSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email || !emailName) return;
+    try {
+      await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: emailName, trade: emailTrade, contact: email, source: 'free-tools-email-capture', optIn: optInSignals }),
+      });
+    } catch { /* proceed even on network error */ }
     setEmailDone(true);
     setShowEmailCapture(false);
   };
@@ -85,7 +92,7 @@ export function FreeToolsPage() {
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
         <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
-          Price cleaner. Spot time-wasters. Protect your week. Tools are free. Leads are not.
+          Price cleaner. Spot time-wasters. Protect your week. Checkatrade, Bark, and MyBuilder charge for these — we give them away. Leads are the paid part.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           {scansRemaining > 0 && (
@@ -108,9 +115,12 @@ export function FreeToolsPage() {
             <h2 className="headline text-2xl leading-none text-[var(--ink)]">START WITH A FREE SCAN.</h2>
             <p className="mt-1 text-sm font-black text-[var(--ink)]/70">See real leads in your area. No email needed.</p>
           </div>
-          <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" to="/find-jobs">
-            SCAN MY AREA →
-          </Link>
+          <div className="flex flex-col items-start sm:items-end gap-1">
+            <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" to="/find-jobs">
+              SCAN MY AREA →
+            </Link>
+            <span className="text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</span>
+          </div>
         </div>
       </section>
 
@@ -280,8 +290,11 @@ export function FreeToolsPage() {
             </tbody>
           </table>
         </div>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+          <div className="mt-5 flex flex-wrap gap-3 items-center">
+            <div className="flex flex-col items-start gap-0.5">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+              <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
+            </div>
             <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
       </section>
@@ -293,8 +306,11 @@ export function FreeToolsPage() {
         <p className="mt-2 max-w-2xl font-black text-[var(--muted)]">
           Free tools help you make better decisions. Full lead detail, WhatsApp alerts, saved leads, and Letterhead Pack stay behind access.
         </p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+        <div className="mt-4 flex flex-wrap gap-3 items-center">
+          <div className="flex flex-col items-start gap-0.5">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+            <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
+          </div>
           <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
         </div>
       </section>

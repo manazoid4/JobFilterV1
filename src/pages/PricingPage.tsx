@@ -99,10 +99,20 @@ export function PricingPage() {
           <PriceStat label="Standard monthly" value="£79/mo" note="after founder slots" />
           <PriceStat label="Founder annual" value="£390/yr" note="two months free" hot />
         </div>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/mo" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <CheckoutButton tier="founding" billing="annual" label="SAVE MORE — £390/YR" className="bg-white text-[var(--ink)]" />
-          <Link className="jf-button bg-[var(--steel-2)] text-white" to="/find-jobs">TRY FREE — NO CARD</Link>
+        <div className="mt-6 grid gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/mo" className="bg-[var(--yellow)] text-[var(--ink)]" />
+            <CheckoutButton tier="founding" billing="annual" label="SAVE MORE — £390/YR" className="bg-white text-[var(--ink)]" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex-1 border-t-2 border-white/20" />
+            <span className="text-xs font-black text-white/40 uppercase">or</span>
+            <div className="flex-1 border-t-2 border-white/20" />
+          </div>
+          <div className="flex items-center gap-4">
+            <Link className="jf-button bg-transparent border-2 border-white/40 text-white hover:border-white" to="/find-jobs">SCAN FREE FIRST →</Link>
+            <span className="text-sm font-black text-white/60">See real leads in your patch before you pay. No card needed.</span>
+          </div>
         </div>
       </section>
 

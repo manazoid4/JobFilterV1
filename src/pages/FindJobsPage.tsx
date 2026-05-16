@@ -124,8 +124,11 @@ export function FindJobsPage() {
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
+  const [commercialOnly, setCommercialOnly] = useState(false);
 
   const weeklyScansRemaining = Math.max(0, WEEKLY_SCAN_LIMIT - weeklyScansUsed);
+  const commercialCount = result?.leads.filter((l) => l.isCommercial).length ?? 0;
+  const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);
 
   useEffect(() => {
     const tradeParam = searchParams.get('trade');
@@ -176,6 +179,7 @@ export function FindJobsPage() {
     setLoading(true);
     setResult(null);
     setHasScanned(true);
+    setCommercialOnly(false);
     const used = recordWeeklyScan();
     setWeeklyScansUsed(used);
     try {
@@ -545,15 +549,36 @@ export function FindJobsPage() {
                 </section>
               )}
 
-              {result.leads.map((lead) => (
+              {/* COMMERCIAL FILTER TOGGLE */}
+              {commercialCount > 0 && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    type="button"
+                    onClick={() => setCommercialOnly(false)}
+                    className={`border-2 border-[var(--line)] px-3 py-1.5 text-xs font-black uppercase transition-colors ${!commercialOnly ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
+                  >
+                    ALL LEADS ({result.leads.length})
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCommercialOnly(true)}
+                    className={`border-2 border-[var(--ink)] inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase transition-colors ${commercialOnly ? 'bg-[var(--ink)] text-[var(--yellow)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
+                  >
+                    <Building2 className="w-3 h-3" />
+                    COMMERCIAL ONLY ({commercialCount})
+                  </button>
+                </div>
+              )}
+
+              {displayedLeads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
               {/* Results footer */}
-              {result.leads.length > 0 && (
+              {displayedLeads.length > 0 && (
                 <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
                   <p className="text-sm font-black text-[var(--muted)]">
-                    Showing {result.leads.length} lead{result.leads.length > 1 ? 's' : ''} in your area. Results update daily.
+                    Showing {displayedLeads.length} lead{displayedLeads.length > 1 ? 's' : ''}{commercialOnly ? ' — COMMERCIAL ONLY' : ''} in your area. Results update daily.
                   </p>
                 </div>
               )}
