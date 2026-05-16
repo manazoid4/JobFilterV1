@@ -90,8 +90,7 @@ export function registerOutcomeReportRoute(app: Express) {
   app.post('/api/leads/review-link', (req: Request, res: Response) => {
     try {
       const { leadId, customerName, trade } = req.body || {};
-      const reviewUrl = 'https://g.page/r/yourbusiness/review';
-      const message = `Hi ${customerName || 'there'}, thanks for choosing us for your ${trade || 'trade'} work. If you're happy with the job, a quick review here would mean the world: ${reviewUrl}`;
+      const message = `Hi ${customerName || 'there'}, thanks for choosing us for your ${trade || 'trade'} work. If you're happy with the job, a quick Google review would mean the world — just paste your review link here before sending: [YOUR GOOGLE REVIEW LINK]`;
       return res.json({ ok: true, reviewUrl, message });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Review link failed.') });
