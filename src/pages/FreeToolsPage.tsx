@@ -1,6 +1,8 @@
 import { FormEvent, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const DEV_MODE = false;
+
 type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote';
 
 interface ToolDef {
