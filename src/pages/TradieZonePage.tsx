@@ -23,6 +23,7 @@ export function TradieZonePage() {
   const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [memberName, setMemberName] = useState<string>('');
+  const [memberTerritory, setMemberTerritory] = useState<string>('');
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -32,6 +33,8 @@ export function TradieZonePage() {
     try {
       const stored = localStorage.getItem('jf-member-name');
       if (stored) setMemberName(stored);
+      const territory = localStorage.getItem('jf-territory');
+      if (territory) setMemberTerritory(territory);
     } catch { /* ignore */ }
   }, []);
 
@@ -44,7 +47,7 @@ export function TradieZonePage() {
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
       {/* Welcome Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">TRADIE ZONE</p>
+        <p className="micro-label text-[var(--yellow)]">TRADE HUB</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">
           {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'WELCOME TO YOUR ZONE.'}
         </h1>
@@ -72,8 +75,17 @@ export function TradieZonePage() {
         </div>
         <div className="jf-box bg-white p-5">
           <p className="micro-label text-[var(--orange)]">TERRITORY</p>
-          <p className="headline mt-2 text-4xl">LOCKED</p>
-          <p className="mt-1 text-sm font-black text-[var(--muted)]">B17 Harborne</p>
+          {memberTerritory ? (
+            <>
+              <p className="headline mt-2 text-4xl">LOCKED</p>
+              <p className="mt-1 text-sm font-black text-[var(--muted)]">{memberTerritory}</p>
+            </>
+          ) : (
+            <>
+              <p className="headline mt-2 text-4xl">OPEN</p>
+              <p className="mt-1 text-sm font-black text-[var(--muted)]">No patch claimed yet</p>
+            </>
+          )}
         </div>
       </section>
 
@@ -164,11 +176,20 @@ export function TradieZonePage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="micro-label text-[var(--ink)]">MY TERRITORY</p>
-            <h2 className="headline mt-1 text-2xl">B17 HARBORNE, BIRMINGHAM</h2>
-            <p className="mt-1 text-sm font-black text-[var(--ink)]/70">Roofing · Locked · 14 live signals</p>
+            {memberTerritory ? (
+              <>
+                <h2 className="headline mt-1 text-2xl">{memberTerritory.toUpperCase()}</h2>
+                <p className="mt-1 text-sm font-black text-[var(--ink)]/70">Locked · Priority routing active</p>
+              </>
+            ) : (
+              <>
+                <h2 className="headline mt-1 text-2xl">NO PATCH CLAIMED YET</h2>
+                <p className="mt-1 text-sm font-black text-[var(--ink)]/70">Lock your area before another trade does.</p>
+              </>
+            )}
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/territories" className="jf-button bg-[var(--navy)] text-white">MANAGE TERRITORY</Link>
+            <Link to="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
             <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
           </div>
         </div>
