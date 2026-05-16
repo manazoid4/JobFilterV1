@@ -61,16 +61,18 @@ export function registerOutcomeReportRoute(app: Express) {
   app.get('/api/wins/stats', (req: Request, res: Response) => {
     try {
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const won = Object.values(outcomes).filter((o) => o.status === 'won');
+      const areaPrefix = postcodePrefix.slice(0, 2);
+      const won = Object.values(outcomes).filter((o) => {
+        if (o.status !== 'won') return false;
+        if (!areaPrefix) return true;
+        return (o.postcode || '').toUpperCase().startsWith(areaPrefix);
+      });
 
-      const liveWonCount = won.length;
-      const liveTotal = won.reduce((sum, o) => {
-        const v = parseFloat(o.value?.replace(/[^0-9.]/g, '') || '0');
+      const totalWonCount = won.length;
+      const totalValue = won.reduce((sum, o) => {
+        const v = parseFloat((o.value || '').replace(/[^0-9.]/g, ''));
         return sum + (isNaN(v) ? 0 : v);
       }, 0);
-
-      const totalWonCount = liveWonCount;
-      const totalValue = liveTotal;
 
       return res.json({
         ok: true,
