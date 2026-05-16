@@ -33,17 +33,6 @@ function persistOutcome(record: OutcomeRecord) {
 
 loadOutcomes();
 
-// Baseline seed so the leaderboard shows real-feeling data from day one
-const SEED_WINS = [
-  { postcode: 'B14', value: 3200 },
-  { postcode: 'B14', value: 5800 },
-  { postcode: 'B12', value: 4100 },
-  { postcode: 'SW', value: 6200 },
-  { postcode: 'M1', value: 2900 },
-  { postcode: 'LS', value: 3700 },
-  { postcode: 'B14', value: 8500 },
-  { postcode: 'WS', value: 2400 },
-];
 
 export function registerOutcomeReportRoute(app: Express) {
   app.post('/api/leads/outcome', (req: Request, res: Response) => {
@@ -80,14 +69,8 @@ export function registerOutcomeReportRoute(app: Express) {
         return sum + (isNaN(v) ? 0 : v);
       }, 0);
 
-      const seedForArea = SEED_WINS.filter((s) =>
-        postcodePrefix ? s.postcode.startsWith(postcodePrefix.slice(0, 2)) : true
-      );
-      const seedCount = seedForArea.length;
-      const seedTotal = seedForArea.reduce((sum, s) => sum + s.value, 0);
-
-      const totalWonCount = liveWonCount + seedCount;
-      const totalValue = liveTotal + seedTotal;
+      const totalWonCount = liveWonCount;
+      const totalValue = liveTotal;
 
       return res.json({
         ok: true,
