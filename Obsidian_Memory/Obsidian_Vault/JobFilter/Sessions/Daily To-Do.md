@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 19 May 2026
+
+- [x] FindJobsPage: COMMERCIAL ONLY filter toggle — shows count, resets on new scan, filters displayedLeads
+- [x] FreeToolsPage: wire email capture form to /api/waitlist (was fake setEmailDone(true))
+- [x] FreeToolsPage: competitor naming in hero + "No credit card required" on all free CTAs
+- [x] ForYourTradePage: fix data source naming violations (EPC Register, Contracts Finder → "Verified official signals" etc.)
+- [x] ForYourTradePage: competitor naming + no-shared-auction copy in CTA section + "No credit card required"
+- [x] PricingPage: separate free vs paid CTAs with visual divider; free option has explanatory copy
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-19 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] Commercial lead detection UX — investigate: does FILL MY WEEK reset commercialOnly filter? (check fillMyWeek function)
+
+---
+
 ## Today - 18 May 2026
 
 - [x] Commercial lead detection — `detectCommercial()` in normaliser (keywords + buyer org + CPV); `isCommercial` field on Lead type; COMMERCIAL badge on FindJobsPage lead cards; scorer reason "Commercial project (+N)"
