@@ -125,12 +125,12 @@ export function TopNav() {
         <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <NavLink to="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">FIND</p>
+              <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </NavLink>
             <NavLink to="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">ZONE</p>
-              <p className="text-base font-black text-[var(--ink)]">ACCESS</p>
+              <p className="text-[10px] font-black text-[var(--muted)]">YOUR AREA</p>
+              <p className="text-base font-black text-[var(--ink)]">CLAIM PATCH</p>
             </NavLink>
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
@@ -163,16 +163,9 @@ export function TopNav() {
             ))}
           </div>
           <NavLink
-            to="/pricing"
-            onClick={() => setMenuOpen(false)}
-            className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
-          >
-            GET EARLY ACCESS
-          </NavLink>
-          <NavLink
             to="/find-jobs"
             onClick={() => setMenuOpen(false)}
-            className="bg-[var(--navy)] px-4 py-4 text-sm font-black uppercase text-white text-center min-h-[44px] flex items-center justify-center"
+            className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
             SCAN MY AREA FREE
           </NavLink>
