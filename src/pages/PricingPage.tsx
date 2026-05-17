@@ -307,7 +307,7 @@ export function PricingPage() {
         <div className="ops-panel bg-[var(--steel)] p-6 text-white">
             <p className="micro-label text-[var(--yellow)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">LOCK YOUR AREA.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+            <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
               Territory lock is priority routing for scored jobs in one trade and postcode cluster. If your area is valuable, do not leave it open.
             </p>
         </div>
