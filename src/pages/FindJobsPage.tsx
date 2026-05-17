@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
@@ -325,34 +325,6 @@ export function FindJobsPage() {
               <line x1="192" y1="52" x2="208" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
               <line x1="208" y1="52" x2="192" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--muted)]">HOW IT WORKS</p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
-              <MapPin className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">1. ENTER POSTCODE</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Your patch. Your area. We scan what's live.</p>
-          </div>
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
-              <Wrench className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">2. SELECT TRADE</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Pick your trade. One tap. Instant scan.</p>
-          </div>
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)] border-[var(--yellow)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]">
-              <TrendingUp className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">3. SEE GOLD LEADS</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Scored, verified, ranked. The jobs worth pricing.</p>
           </div>
         </div>
       </section>
