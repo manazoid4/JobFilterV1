@@ -16,22 +16,22 @@ const signals = [
     signalType: 'LIVE TENDER',
   },
   {
-    source: 'SIGNAL 3 · EPC',
+    source: 'SIGNAL 3 · ENERGY',
     name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
     description: 'F and G rated rental properties cannot be legally let without energy improvements. JobFilter identifies them before the landlord posts anywhere. First trade to call wins.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
   },
   {
-    source: 'SIGNAL 4 · LAND REGISTRY',
+    source: 'SIGNAL 4 · PROPERTY SALES',
     name: 'JUST BOUGHT IT. HASN\'T CALLED ANYONE.',
-    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just appeared on Land Registry.',
+    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just cleared.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'FRESH PURCHASE',
   },
   {
-    source: 'SIGNAL 5 · COMPANIES HOUSE',
-    name: 'NEW BUSINESS. NEEDS A FIT-OUT.',
+    source: 'SIGNAL 5 · NEW BUSINESS',
+    name: 'NEW COMPANY. NEEDS A FIT-OUT.',
     description: 'New company registered near you in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'NEW BUSINESS',
@@ -99,17 +99,17 @@ const signalTypeStyle: Record<SignalType, string> = {
 };
 
 const tradeSignals: Array<{ trade: string; active: string[] }> = [
-  { trade: 'Electrician', active: ['Planning', 'Contracts', 'EPC', 'Land Registry', 'Companies House', 'HMO', 'Building Control', 'Retrofit Grants'] },
-  { trade: 'Plumber',     active: ['Planning', 'Contracts', 'EPC', 'Land Registry', 'Companies House', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Builder',     active: ['Planning', 'Contracts', 'EPC', 'Land Registry', 'Companies House', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
-  { trade: 'Roofer',      active: ['Planning', 'EPC', 'Land Registry', 'Building Control', 'Auction', 'Retrofit Grants'] },
-  { trade: 'HVAC',        active: ['Planning', 'Contracts', 'EPC', 'Land Registry', 'HMO', 'Retrofit Grants'] },
-  { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Land Registry', 'Auction'] },
-  { trade: 'Carpenter',   active: ['Planning', 'Land Registry', 'Companies House', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Painter',     active: ['Planning', 'Land Registry', 'HMO', 'Auction', 'Insolvency'] },
+  { trade: 'Electrician', active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Retrofit Grants'] },
+  { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
+  { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
+  { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
+  { trade: 'HVAC',        active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
+  { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
+  { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
+  { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
 ];
 
-const allSignalLabels = ['Planning', 'Contracts', 'EPC', 'Land Registry', 'Companies House', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
+const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
 
 export function SignalsPage() {
   return (
@@ -205,7 +205,7 @@ export function SignalsPage() {
       <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
         <div className="page-shell py-5">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            {['PLANNING', 'CONTRACTS', 'EPC', 'LAND REGISTRY', 'COMPANIES HOUSE', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
+            {['PLANNING', 'CONTRACTS', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
               <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white">
                 <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
                 {src}

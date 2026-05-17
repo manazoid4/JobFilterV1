@@ -299,6 +299,9 @@ export function FindJobsPage() {
           <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
             Pick your trade. Enter your postcode. See what's live near you right now.
           </p>
+          <p className="mt-2 text-sm font-black text-[var(--yellow)]">
+            No Checkatrade membership. No Bark credits. No card needed — free first scan.
+          </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <Link to="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
               VIEW PIPELINE →

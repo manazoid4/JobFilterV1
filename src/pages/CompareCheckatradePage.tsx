@@ -415,7 +415,7 @@ export function CompareCheckatradePage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
               ['Exclusive scans', 'No one else sees your results. Not shared. Not resold. Not blasted to five other trades.'],
-              ['Official sources only', 'Planning portals, contracts finders, EPC registers. Not forms. Not ads. Not guesses.'],
+              ['Verified signals only', 'Planning approvals, public contracts, energy efficiency data. Not forms. Not ads. Not guesses.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No per-lead fees. No category charges.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands. Not for corporate sales teams.'],
               ['Cancel anytime', 'No contracts. No lock-in. No 12-month memberships. Leave if it doesn\'t work for you.'],
