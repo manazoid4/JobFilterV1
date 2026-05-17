@@ -914,12 +914,19 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
+const LOCKED_PLACEHOLDERS: Record<string, string> = {
+  'Buyer': 'J████ Ltd',
+  'Deadline': '██ / ██ / 20██',
+  'Source URL': 'planning.gov.uk/████',
+};
+
 function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
   if (!value) {
+    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className="mt-1 font-black text-[var(--muted)] text-sm">—</p>
+        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
       </div>
     );
   }
