@@ -89,7 +89,9 @@ export function DashboardPage() {
           <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">leads in your pipeline</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">
+              {activeChase === 0 ? 'Scan for jobs → add them here to track' : 'leads in your pipeline'}
+            </p>
             <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View chase list →</p>
             {overdueCount > 0 && (
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
@@ -98,8 +100,9 @@ export function DashboardPage() {
           <div className="block border-2 border-[var(--ink)] bg-white p-5">
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">won this month · £{monthlyStats.totalValue.toLocaleString()}</p>
-            <p className="mt-2 text-xs font-black text-[var(--muted)]">Mark leads Won as you close jobs</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">
+              {monthlyStats.count === 0 ? 'Open any lead → mark it Won to record value' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
+            </p>
           </div>
         </div>
       </section>

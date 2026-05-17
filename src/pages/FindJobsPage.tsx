@@ -559,17 +559,17 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {!OPEN_ACCESS && (
+              {!DEV_MODE && !OPEN_ACCESS && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
                   <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
                   <p className="mt-1 font-black text-white/75">
                     Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
                   </p>
                   <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
-                    LOCK £39/mo — NO CARD NEEDED
+                    LOCK FOUNDER PRICE — £39/MO →
                   </Link>
                   <p className="mt-2 text-xs font-black text-white/50">
-                    30-day money-back guarantee. No quibbles, no hoops.
+                    30-day money-back guarantee. Founding rate stays locked while you stay active.
                   </p>
                 </div>
               )}
