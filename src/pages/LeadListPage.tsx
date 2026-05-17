@@ -44,7 +44,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means it's worth your time. BRONZE means it probably isn't.
+              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
             </p>
           </div>
         </div>
