@@ -86,6 +86,15 @@ export function importLeadToChase(lead: {
   return chaseLead;
 }
 
+export function snoozeChaseLead(leadId: string) {
+  const leads = getChaseLeads();
+  const updated = leads.map((l) => {
+    if (l.leadId !== leadId) return l;
+    return { ...l, nextNudgeAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() };
+  });
+  localStorage.setItem(KEY, JSON.stringify(updated));
+}
+
 export function isLeadTracked(leadId: string): boolean {
   return getChaseLeads().some((l) => l.leadId === leadId);
 }
