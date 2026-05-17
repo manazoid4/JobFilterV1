@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getChaseLeads } from '../lib/chaseStore';
+import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { getMonthlyStats, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
@@ -24,9 +24,15 @@ export function DashboardPage() {
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
   const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
-  const overdueCount = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost').length;
+  const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
+  const overdueCount = overdueLeads.length;
   const notContacted = chaseLeads.filter((l) => l.stage === 'not_contacted').length;
   const isEmpty = activeChase === 0 && monthlyStats.count === 0 && winData.wins === 0;
+
+  function handleSnooze(leadId: string) {
+    snoozeChaseLead(leadId);
+    setChaseLeads(getChaseLeads());
+  }
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24">
@@ -97,6 +103,39 @@ export function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {/* Overdue leads */}
+      {overdueLeads.length > 0 && (
+        <section className="jf-box bg-white p-5">
+          <div className="flex items-center gap-3 border-b-2 border-[var(--orange)] pb-3">
+            <span className="bg-[var(--orange)] px-2 py-1 text-xs font-black text-white uppercase">OVERDUE</span>
+            <p className="font-black text-[var(--ink)]">
+              {overdueLeads.length} lead{overdueLeads.length === 1 ? '' : 's'} need chasing — snooze 24h or open to act now
+            </p>
+          </div>
+          <div className="mt-3 grid gap-2">
+            {overdueLeads.map((l) => (
+              <div key={l.leadId} className="flex items-center justify-between gap-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+                <div className="min-w-0">
+                  <p className="truncate font-black text-[var(--ink)]">{l.leadTitle}</p>
+                  <p className="text-xs font-black text-[var(--muted)]">{l.location} · {l.stage.replace('_', ' ')}</p>
+                </div>
+                <div className="flex flex-shrink-0 gap-2">
+                  <button
+                    onClick={() => handleSnooze(l.leadId)}
+                    className="jf-button bg-white text-[var(--ink)] text-sm"
+                  >
+                    SNOOZE 24H
+                  </button>
+                  <Link to={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
+                    VIEW →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">

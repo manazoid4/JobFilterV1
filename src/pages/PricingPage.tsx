@@ -155,7 +155,7 @@ export function PricingPage() {
         <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
           {toolIcons.map(({ name, icon: Icon }) => (
             <div key={name} className="flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[3px_3px_0_var(--ink)]">
+              <div className="flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[4px_4px_0_var(--ink)]">
                 <Icon className="h-6 w-6 text-[var(--ink)]" strokeWidth={2.5} />
               </div>
               <span className="text-xs font-black uppercase tracking-wide">{name}</span>
@@ -172,7 +172,7 @@ export function PricingPage() {
           {featureCategories.map(({ icon: Icon, title, points }) => (
             <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--yellow)]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
                   <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                 </div>
                 <h3 className="headline text-2xl">{title}</h3>

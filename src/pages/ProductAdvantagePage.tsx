@@ -18,13 +18,13 @@ const content = {
     hero: 'bg-[var(--yellow)] text-[var(--ink)]',
     label: 'text-[var(--ink)]',
     headline: 'PUT YOUR NAME ON EVERY DOOR IN YOUR PATCH.',
-    sub: 'Hyper-local ads targeting households that need your work right now — based on EPC data, property sales, and planning signals.',
+    sub: 'Hyper-local ads targeting households that need your work right now — based on verified job signals, property sales, and planning approvals.',
     body: 'You know your patch. Vicinity puts your brand in the letterboxes of the exact homes that are about to need your trade. No wasted flyers. No blanket coverage. Just the houses with the signal.',
     note: 'Powered by JobFilter\'s signal engine — we know which homes need work before they post a job.',
     distinct: 'Vicinity fills your pipeline between big jobs. Micro-ads, hyper-targeted, cheap as chips.',
     problem: 'Blanket leaflet drops waste 90% of your budget. Vicinity targets only the homes with a trigger signal.',
-    steps: ['Tell us your patch (postcode + radius)', 'We target homes with active signals (EPC F/G, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
-    gets: ['Targeted door-drop campaign', 'EPC-triggered household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
+    steps: ['Tell us your patch (postcode + radius)', 'We target homes with active job signals (low energy ratings, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
+    gets: ['Targeted door-drop campaign', 'Signal-matched household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
   },
 };
 
