@@ -58,7 +58,7 @@ Action: Open notice → jobfilter.uk/lead/mno345`,
   comparisonNew: [
     '£39/month founder — all roofing signals, unlimited scans',
     'No shared auction — lead goes to you, not five other roofers',
-    'Planning data shows roofing jobs before they\'re posted',
+    'Planning approvals show roofing jobs before they\'re posted',
     'Estimated value shown before you pick up the phone',
     'WhatsApp alerts within minutes of planning approval',
     'No contracts. Cancel anytime. 30-day guarantee',
