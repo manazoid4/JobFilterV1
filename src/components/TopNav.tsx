@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/signals', label: 'Signals' },
+  { to: '/news', label: 'News' },
   { to: '/free-tools', label: 'Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];

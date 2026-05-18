@@ -833,9 +833,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         </div>
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer} />
-        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
-        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
+        <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} devUnlocked={cardOpenAccess} />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} devUnlocked={cardOpenAccess} />
         {cardOpenAccess ? (
           <>
             {isTracked ? (
@@ -971,13 +971,17 @@ const LOCKED_PLACEHOLDERS: Record<string, string> = {
   'Source URL': 'planning.gov.uk/████',
 };
 
-function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
   if (!value) {
-    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
+    const placeholder = devUnlocked
+      ? label === 'Source URL'
+        ? 'No source URL returned in preview payload'
+        : `${label} not returned in preview payload`
+      : LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
+      <div className={`border-2 p-3 ${devUnlocked ? 'border-[var(--line)] bg-[var(--bg-main)]' : 'border-[var(--orange)]/40 bg-[var(--orange)]/5'}`}>
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
+        <p className={`mt-1 font-black text-[var(--ink)] text-sm ${devUnlocked ? '' : 'select-none blur-[3px]'}`}>{placeholder}</p>
       </div>
     );
   }
