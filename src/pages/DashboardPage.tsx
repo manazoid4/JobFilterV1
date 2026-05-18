@@ -149,6 +149,27 @@ export function DashboardPage() {
         </section>
       )}
 
+      {/* Admin Guard Entry Card */}
+      <section className="jf-box bg-[var(--yellow)] p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--ink)]">TRADE COMMAND CENTRE</p>
+            <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)]">ADMIN GUARD</h2>
+            <p className="mt-2 font-black text-[var(--ink)]/80 text-sm max-w-sm">
+              HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link to="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
+              OPEN ADMIN GUARD →
+            </Link>
+            <Link to="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
+              LEARN MORE
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Find Summary */}
