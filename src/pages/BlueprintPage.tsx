@@ -68,7 +68,7 @@ const fusionStacks = [
     icon: Home,
     signals: [
       'Planning application',
-      'EPC F/G rating',
+      'Energy efficiency rating',
       'Affluent postcode',
       'Detached or semi-detached',
       'High floor area',
@@ -104,7 +104,7 @@ const fusionStacks = [
       'Probate notice',
       'Auction listing',
       'Vacant home flag',
-      'Low EPC',
+      'Low energy rating',
       'Recent price-paid',
       'Storm or flood cluster',
     ],
@@ -114,7 +114,7 @@ const fusionStacks = [
 /* ── SIGNAL SCOREBOARD ───────────────────────────────── */
 const signalScores = [
   { name: 'Planning before approval', cost: 2, ease: 7, quality: 9, speed: 8, moat: 8 },
-  { name: 'EPC F/G retrofit clusters', cost: 2, ease: 8, quality: 8, speed: 9, moat: 7 },
+  { name: 'Retrofit clusters (low-rated)', cost: 2, ease: 8, quality: 8, speed: 9, moat: 7 },
   { name: 'Scaffold / road occupation', cost: 3, ease: 5, quality: 9, speed: 6, moat: 9 },
   { name: 'Skip permits / waste', cost: 2, ease: 5, quality: 8, speed: 6, moat: 8 },
   { name: 'Commercial fit-out licences', cost: 2, ease: 6, quality: 8, speed: 7, moat: 8 },
@@ -135,7 +135,7 @@ const dataSources = [
   {
     category: 'Property',
     icon: Home,
-    items: ['EPC registers', 'HM Land Registry price-paid', 'Council tax bands'],
+    items: ['Energy efficiency signals', 'Property price-paid data', 'Council tax bands'],
   },
   {
     category: 'Site Activity',
@@ -159,7 +159,7 @@ const deliverySteps = [
   {
     icon: Radar,
     title: 'Signal detected',
-    body: 'Planning submitted, EPC registered, permit filed. The raw event lands in the pipeline.',
+    body: 'Planning submitted, energy signal filed, permit issued. The raw event lands in the pipeline.',
   },
   {
     icon: Target,
@@ -568,7 +568,7 @@ function ReactiveProactiveSvg() {
           </li>
           <li className="flex items-start gap-2 text-sm font-bold text-white/80">
             <Zap className="mt-0.5 h-4 w-4 shrink-0 text-[var(--yellow)]" />
-            Flag EPC F/G ratings as retrofit opportunities
+            Flag low-rated properties as retrofit opportunities
           </li>
           <li className="flex items-start gap-2 text-sm font-bold text-white/80">
             <Zap className="mt-0.5 h-4 w-4 shrink-0 text-[var(--yellow)]" />
@@ -629,7 +629,7 @@ function WhatsAppMockup() {
           <div className="bg-[var(--yellow)] rounded-sm px-3 py-2 max-w-[85%] ml-auto shadow-[2px_2px_0_var(--ink)]">
             <p className="micro-label text-[var(--ink)] text-[9px]">SIGNAL</p>
             <p className="text-[var(--ink)] text-xs font-bold leading-snug mt-0.5">
-              EPC F rated, detached, M20 2AR. Retrofit opportunity. 3 bed, 95sqm.
+              Low-rated property, detached, M20 2AR. Retrofit opportunity. 3 bed, 95sqm.
             </p>
             <p className="text-[var(--ink)]/90 text-[9px] mt-1 text-right">14:33</p>
           </div>
@@ -667,7 +667,7 @@ export function BlueprintPage() {
               We find the work before it hits the bid boards.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans official UK construction signals — planning applications, permits, EPC records, streetworks, company filings — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared leads. No homeowner posts. Just early, exclusive signals routed to the right trade.
+              JobFilter scans verified UK construction signals — planning applications, permits, energy signals, streetworks, company activity — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared leads. No homeowner posts. Just early, exclusive signals routed to the right trade.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
@@ -746,7 +746,7 @@ export function BlueprintPage() {
             Single signals are easy. Fusion is the moat.
           </h2>
           <p className="mt-4 max-w-3xl text-lg font-black leading-snug text-[var(--ink)]">
-            A planning application on its own tells you almost nothing. A planning application plus low EPC, recent sale, scaffold permit, affluent postcode, and solar orientation is a money signal competitors cannot cheaply copy.
+            A planning application on its own tells you almost nothing. A planning application plus low energy rating, recent sale, scaffold permit, affluent postcode, and solar orientation is a money signal competitors cannot cheaply copy.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {fusionStacks.map((stack, i) => (

@@ -11,7 +11,7 @@ const data: TradePageData = {
     ['Directories sell the same lead to 6 sparkies', 'You pay £90/month for a "lead" that five other electricians also get. The homeowner compares prices and picks the lowest. You undercut yourself.'],
     ['EV charger leads are commoditised', 'Bark and Checkatrade flood you with "need EV charger" enquiries. Half the people haven\'t even got off-street parking. You waste fuel driving to surveys that go nowhere.'],
     ['Rewire jobs go to whoever turns up first', 'A homeowner needs a full rewire. The first electrician who surveys gets the job 70% of the time. If you\'re waiting for a directory alert, you\'re already late.'],
-    ['Part P compliance work is invisible online', 'Landlord EICR tests, consumer unit upgrades, fuse board replacements — these don\'t get posted on job boards. But they show up in planning and EPC data.'],
+    ['Part P compliance work is invisible online', 'Landlord EICR tests, consumer unit upgrades, fuse board replacements — these don\'t get posted on job boards. But they show up in planning approvals and verified energy signals.'],
   ],
   stats: [
     ['90,500', 'Monthly searches for "electrician near me"'],
@@ -65,7 +65,7 @@ Action: Open notice → jobfilter.uk/lead/def456`,
   ],
   ctaPostcode: 'M1',
   metaTitle: 'How Electricians Find Planning-Approved Jobs Before Anyone Quotes — JobFilter',
-  metaDescription: 'JobFilter finds electrical jobs from planning applications, EPC data, and council contracts. Gold leads sent to WhatsApp before they hit directories. Free scan for electricians.',
+  metaDescription: 'JobFilter finds electrical jobs from planning applications, verified energy signals, and council contracts. Gold leads sent to WhatsApp before they hit directories. Free scan for electricians.',
 };
 
 export function TradeElectricians() {

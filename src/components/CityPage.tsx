@@ -31,10 +31,10 @@ export const CITIES: CityData[] = [
     areaCodes: ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14', 'B15', 'B16', 'B17', 'B18', 'B19', 'B20', 'B21', 'B23', 'B24', 'B25', 'B26', 'B27', 'B28', 'B29', 'B30', 'B31', 'B32', 'B33', 'B34', 'B35', 'B36', 'B37', 'B38', 'B40', 'B42', 'B43', 'B44', 'B45', 'B46', 'B47', 'B48', 'B49', 'B50', 'B60', 'B61', 'B62', 'B63', 'B64', 'B65', 'B66', 'B67', 'B68', 'B69', 'B70', 'B71', 'B72', 'B73', 'B74', 'B75', 'B76', 'B77', 'B78', 'B79', 'B80', 'B90', 'B91', 'B92', 'B93', 'B94', 'B95', 'B96', 'B97', 'B98'],
     tradeDensity: 'Highest trade density outside London — 12,000+ registered builders in the West Midlands',
     heroH1: 'Find building work in Birmingham before it hits the directories.',
-    heroSub: 'JobFilter scans official planning applications, EPC data, and council contract notices across Birmingham and the West Midlands — and sends the ones worth chasing straight to your phone. Built here. No shared leads. No per-lead fees.',
+    heroSub: 'JobFilter scans official planning applications, verified energy signals, and council contract notices across Birmingham and the West Midlands — and sends the ones worth chasing straight to your phone. Built here. No shared leads. No per-lead fees.',
     statsNote: 'Birmingham generates more planning applications per week than any UK city outside London. The Big City Plan and HS2 fallout mean thousands of trades are competing for the same jobs. JobFilter finds the ones nobody else sees.',
     localAngle: 'Built in Birmingham. Not London.',
-    localAngleBody: 'We know how this city works. From Erdington to Selly Oak, from Solihull to Walsall — the jobs are here. The problem is finding them before 8 other blokes quote. JobFilter was built in Birmingham for Birmingham trades. We scan every planning application, every EPC rating, every council contract notice across the B postcodes — and score them before they reach you.',
+    localAngleBody: 'We know how this city works. From Erdington to Selly Oak, from Solihull to Walsall — the jobs are here. The problem is finding them before 8 other blokes quote. JobFilter was built in Birmingham for Birmingham trades. We scan every planning application, every energy signal, every council contract notice across the B postcodes — and score them before they reach you.',
     ctaText: 'Scan Birmingham now — free',
   },
   {
@@ -51,7 +51,7 @@ export const CITIES: CityData[] = [
     heroSub: '820 planning applications a week. 387 live council contracts. 120,000 F/G-rated properties needing retrofit. JobFilter scans all three sources across every London postcode — and scores the leads worth chasing. No shared leads. No per-lead fees. £39/month.',
     statsNote: 'London has more planning applications than any UK city by a massive margin. But 45,000+ trades are fighting for the same work. The ones who win are the ones who see the jobs first.',
     localAngle: 'London moves fast. The first quote wins 70% of jobs.',
-    localAngleBody: 'Every borough in London has a different planning portal, different council contract process, different timeline. JobFilter reads them all — 32 boroughs, every planning application, every EPC assessment, every tender notice. When something scores GOLD, it hits your WhatsApp within minutes. Not batched. Not delayed. Before the directories even know about it.',
+    localAngleBody: 'Every borough in London has a different planning portal, different council contract process, different timeline. JobFilter reads them all — 32 boroughs, every planning application, every energy signal, every tender notice. When something scores GOLD, it hits your WhatsApp within minutes. Not batched. Not delayed. Before the directories even know about it.',
     ctaText: 'Scan London now — free',
   },
   {
@@ -64,11 +64,11 @@ export const CITIES: CityData[] = [
     councilContractsActive: 98,
     areaCodes: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M11', 'M12', 'M13', 'M14', 'M15', 'M16', 'M17', 'M18', 'M19', 'M20', 'M21', 'M22', 'M23', 'M24', 'M25', 'M26', 'M27', 'M28', 'M29', 'M30', 'M31', 'M32', 'M33', 'M34', 'M35', 'M38', 'M40', 'M41', 'M43', 'M44', 'M45', 'M46', 'M50', 'M60', 'M90'],
     tradeDensity: 'Fastest-growing construction market in the North — £8bn+ in active development projects',
-    heroH1: 'Construction leads in Manchester — planning, EPC and council contracts.',
-    heroSub: 'Manchester is the fastest-growing construction market in the North. £8 billion in active projects. JobFilter scans every planning application across Greater Manchester, every EPC rating, every council tender — and sends GOLD leads to your WhatsApp. No shared leads. No per-lead fees.',
+    heroH1: 'Construction leads in Manchester — planning, energy signals and council contracts.',
+    heroSub: 'Manchester is the fastest-growing construction market in the North. £8 billion in active projects. JobFilter scans every planning application across Greater Manchester, every energy signal, every council tender — and sends GOLD leads to your WhatsApp. No shared leads. No per-lead fees.',
     statsNote: 'Manchester has more active development projects than any northern city. From Salford Quays to Stockport, the work is real. The question is who sees it first.',
     localAngle: 'The North is building. Manchester leads the way.',
-    localAngleBody: 'Manchester has more planning applications per week than Birmingham. The city is growing — new builds, conversions, retrofit work, council contracts. But most trades still rely on Checkatrade and word of mouth. JobFilter scans every M postcode for planning approvals, EPC upgrades, and council tenders. When a job scores GOLD, you know about it before anyone else.',
+    localAngleBody: 'Manchester has more planning applications per week than Birmingham. The city is growing — new builds, conversions, retrofit work, council contracts. But most trades still rely on Checkatrade and word of mouth. JobFilter scans every M postcode for planning approvals, energy upgrades, and council tenders. When a job scores GOLD, you know about it before anyone else.',
     ctaText: 'Scan Manchester now — free',
   },
   {
@@ -82,10 +82,10 @@ export const CITIES: CityData[] = [
     areaCodes: ['BS1', 'BS2', 'BS3', 'BS4', 'BS5', 'BS6', 'BS7', 'BS8', 'BS9', 'BS10', 'BS11', 'BS13', 'BS14', 'BS15', 'BS16', 'BS20', 'BS21', 'BS22', 'BS23', 'BS24', 'BS25', 'BS26', 'BS27', 'BS28', 'BS29', 'BS30', 'BS31', 'BS32', 'BS34', 'BS35', 'BS36', 'BS37', 'BS39', 'BS40', 'BS41', 'BS48', 'BS49'],
     tradeDensity: 'High-value retrofit market — 22,000 F/G properties and strong green building standards',
     heroH1: 'Bristol construction leads — find retrofit, extension and council work.',
-    heroSub: 'Bristol has some of the strictest energy efficiency standards in the UK. 22,000 F/G-rated properties need upgrading. JobFilter scans every planning application, every EPC assessment, and every council contract across the BS postcodes — and sends the best leads to your phone. No shared leads. No per-lead fees.',
+    heroSub: 'Bristol has some of the strictest energy efficiency standards in the UK. 22,000 F/G-rated properties need upgrading. JobFilter scans every planning application, every energy signal, and every council contract across the BS postcodes — and sends the best leads to your phone. No shared leads. No per-lead fees.',
     statsNote: 'Bristol leads the UK on green building standards. The city council has committed to carbon neutrality by 2030 — meaning massive demand for retrofit, insulation, and heat pump work.',
     localAngle: 'Bristol is the retrofit capital. The work is guaranteed.',
-    localAngleBody: 'Bristol council has committed to carbon neutrality by 2030. That means thousands of properties need insulation, heat pumps, solar panels, and EPC upgrades before the deadline. JobFilter flags every F/G-rated property, every planning application for energy-efficient builds, and every council contract for retrofit work across the South West. The work is guaranteed. The question is who gets there first.',
+    localAngleBody: 'Bristol council has committed to carbon neutrality by 2030. That means thousands of properties need insulation, heat pumps, solar panels, and retrofit upgrades before the deadline. JobFilter flags every low-rated property, every planning application for energy-efficient builds, and every council contract for retrofit work across the South West. The work is guaranteed. The question is who gets there first.',
     ctaText: 'Scan Bristol now — free',
   },
   {
@@ -99,10 +99,10 @@ export const CITIES: CityData[] = [
     areaCodes: ['LS1', 'LS2', 'LS3', 'LS4', 'LS5', 'LS6', 'LS7', 'LS8', 'LS9', 'LS10', 'LS11', 'LS12', 'LS13', 'LS14', 'LS15', 'LS16', 'LS17', 'LS18', 'LS19', 'LS20', 'LS21', 'LS22', 'LS23', 'LS24', 'LS25', 'LS26', 'LS27', 'LS28', 'LS29', 'LS31', 'LS32', 'LS33', 'LS34', 'LS35', 'LS36', 'LS37', 'LS38', 'LS39', 'LS40', 'LS41', 'LS42', 'LS43', 'LS44', 'LS45', 'LS46', 'LS47', 'LS48', 'LS49', 'LS50', 'LS51', 'LS52', 'LS53', 'LS54', 'LS55', 'LS56', 'LS57', 'LS58', 'LS59', 'LS60', 'LS61', 'LS62', 'LS63', 'LS64', 'LS65', 'LS66', 'LS67', 'LS68', 'LS69', 'LS70', 'LS71', 'LS72', 'LS73', 'LS74', 'LS75', 'LS76', 'LS77', 'LS78', 'LS79', 'LS80', 'LS81', 'LS82', 'LS83', 'LS84', 'LS85', 'LS86', 'LS87', 'LS88'],
     tradeDensity: 'Major northern trade hub — 8,000+ registered builders across West Yorkshire',
     heroH1: 'Construction leads in Leeds — planning applications and council contracts.',
-    heroSub: 'Leeds is the construction hub of Yorkshire. 220 planning applications a week. 78 active council contracts. 31,000 F/G-rated properties needing work. JobFilter scans every LS postcode for planning approvals, EPC signals, and council tenders — and scores them before they reach you. No shared leads. No per-lead fees.',
+    heroSub: 'Leeds is the construction hub of Yorkshire. 220 planning applications a week. 78 active council contracts. 31,000 F/G-rated properties needing work. JobFilter scans every LS postcode for planning approvals, energy signals, and council tenders — and scores them before they reach you. No shared leads. No per-lead fees.',
     statsNote: 'Leeds has the largest construction economy in Yorkshire. South Bank regeneration alone is a £2.5bn project. The work is here — but most trades never see it coming.',
     localAngle: 'Yorkshire builds different. The jobs are bigger, the competition is fierce.',
-    localAngleBody: 'Leeds is the economic engine of the North. South Bank regeneration, South Leeds Industrial Strategy, the Aire Valley enterprise zone — billions in construction work. But 8,000+ builders across West Yorkshire are competing for it. JobFilter scans every planning application, every council contract, every EPC upgrade across the LS postcodes. When a job scores GOLD, it hits your WhatsApp. Not email. Not a dashboard. WhatsApp.',
+    localAngleBody: 'Leeds is the economic engine of the North. South Bank regeneration, South Leeds Industrial Strategy, the Aire Valley enterprise zone — billions in construction work. But 8,000+ builders across West Yorkshire are competing for it. JobFilter scans every planning application, every council contract, every energy upgrade across the LS postcodes. When a job scores GOLD, it hits your WhatsApp. Not email. Not a dashboard. WhatsApp.',
     ctaText: 'Scan Leeds now — free',
   },
   {
@@ -116,10 +116,10 @@ export const CITIES: CityData[] = [
     areaCodes: ['G1', 'G2', 'G3', 'G4', 'G5', 'G11', 'G12', 'G13', 'G14', 'G15', 'G20', 'G21', 'G22', 'G23', 'G31', 'G32', 'G33', 'G34', 'G40', 'G41', 'G42', 'G43', 'G44', 'G45', 'G46', 'G51', 'G52', 'G53', 'G58', 'G60', 'G61', 'G62', 'G63', 'G64', 'G65', 'G66', 'G67', 'G68', 'G69', 'G70', 'G71', 'G72', 'G73', 'G74', 'G75', 'G76', 'G77', 'G78', 'G79', 'G80', 'G81', 'G82', 'G83', 'G84'],
     tradeDensity: 'Scotland\'s largest construction market — 38,000 F/G properties and growing retrofit demand',
     heroH1: 'Construction leads in Glasgow — Scotland\'s biggest retrofit and building market.',
-    heroSub: 'Glasgow has 38,000 F/G-rated properties — the highest of any Scottish city. Scottish building regulations are tightening. The work is coming. JobFilter scans every planning application, every EPC assessment, and every council contract across the G postcodes — and sends GOLD leads to your phone. No shared leads. No per-lead fees.',
-    statsNote: 'Scotland has its own planning system, its own EPC regulations, and its own council procurement. JobFilter covers all three for Glasgow and the Central Belt.',
+    heroSub: 'Glasgow has 38,000 F/G-rated properties — the highest of any Scottish city. Scottish building regulations are tightening. The work is coming. JobFilter scans every planning application, every energy signal, and every council contract across the G postcodes — and sends GOLD leads to your phone. No shared leads. No per-lead fees.',
+    statsNote: 'Scotland has its own planning system, its own energy efficiency regulations, and its own council procurement. JobFilter covers all three for Glasgow and the Central Belt.',
     localAngle: 'Scotland plays by different rules. JobFilter knows them.',
-    localAngleBody: 'Scottish planning applications go through ePlanning Scotland, not the English system. EPC regulations are different. Council procurement follows Scottish public contract rules. Most lead platforms ignore Scotland entirely. JobFilter doesn\'t. We scan every G postcode for planning approvals, EPC upgrades, and council tenders — scored and delivered to WhatsApp. The retrofit wave is coming to Glasgow. Be ready for it.',
+    localAngleBody: 'Scottish planning applications go through ePlanning Scotland, not the English system. Energy regulations are different. Council procurement follows Scottish public contract rules. Most lead platforms ignore Scotland entirely. JobFilter doesn\'t. We scan every G postcode for planning approvals, energy upgrades, and council tenders — scored and delivered to WhatsApp. The retrofit wave is coming to Glasgow. Be ready for it.',
     ctaText: 'Scan Glasgow now — free',
   },
 ];
@@ -133,12 +133,12 @@ export function CityPage({ city }: CityPageProps) {
   const otherCities = CITIES.filter((c) => c.slug !== city.slug);
 
   useEffect(() => {
-    document.title = `Construction Leads in ${city.name} — Planning, EPC & Council Contracts | JobFilter`;
+    document.title = `Construction Leads in ${city.name} — Planning, Energy & Council Contracts | JobFilter`;
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute(
         'content',
-        `Find ${city.name.toLowerCase()} construction leads from planning applications, EPC data, and council contracts. ${city.planningAppsPerWeek}+ planning apps per week. Scan free — no card required.`
+        `Find ${city.name.toLowerCase()} construction leads from planning applications, verified energy signals, and council contracts. ${city.planningAppsPerWeek}+ planning apps per week. Scan free — no card required.`
       );
     }
   }, [city]);
@@ -193,7 +193,7 @@ export function CityPage({ city }: CityPageProps) {
               <p className="mt-2 font-black text-[var(--muted)]">New extensions, conversions, and builds every week across {city.name}</p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
-              <p className="micro-label text-[var(--muted)]">EPC F/G PROPERTIES</p>
+              <p className="micro-label text-[var(--muted)]">LOW-RATED PROPERTIES</p>
               <p className="headline mt-2 text-5xl text-[var(--navy)]">{city.epcFGProperties.toLocaleString()}</p>
               <p className="mt-2 font-black text-[var(--muted)]">Properties that legally need retrofit work before they can be rented</p>
             </div>
@@ -231,7 +231,7 @@ export function CityPage({ city }: CityPageProps) {
               <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
               <ul className="mt-4 grid gap-3 font-black text-white/85">
                 <li>✓ Every scan is private — nobody else sees your results</li>
-                <li>✓ Three data sources — planning, EPC, council contracts</li>
+                <li>✓ Three data sources — planning, energy signals, council contracts</li>
                 <li>✓ GOLD scoring — only the jobs worth chasing hit WhatsApp</li>
                 <li>✓ £39/month unlimited — cheaper than 15 Checkatrade leads</li>
               </ul>
@@ -259,7 +259,7 @@ export function CityPage({ city }: CityPageProps) {
               <span className="headline block" style={{ fontSize: 42, color: 'var(--navy)' }}>02</span>
               <h3 className="mt-3 text-lg font-black text-[var(--navy)]">WE SCAN THREE SOURCES</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">
-                Planning applications across {city.region}, EPC ratings for every property, council contracts open to local trades. All scored.
+                Planning applications across {city.region}, energy signals for every property, council contracts open to local trades. All scored.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-7">
@@ -292,8 +292,8 @@ export function CityPage({ city }: CityPageProps) {
               </div>
             </div>
             <div className="jf-box bg-white/10 p-5">
-              <p className="micro-label text-[var(--yellow)]">EPC LEAD</p>
-              <h3 className="mt-3 text-xl font-black text-white">Efficiency Upgrade: Rating F</h3>
+              <p className="micro-label text-[var(--yellow)]">RETROFIT LEAD</p>
+              <h3 className="mt-3 text-xl font-black text-white">Efficiency Upgrade: Low-Rated Property</h3>
               <div className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <p>Area: {city.postcode} / {city.region}</p>
                 <p>Work needed: Insulation, heating upgrade</p>
@@ -329,7 +329,7 @@ export function CityPage({ city }: CityPageProps) {
             EVERY {city.name.toUpperCase()} POSTCODE. THREE DATA SOURCES.
           </h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]">
-            JobFilter covers all {city.areaCodes.length} {city.name} postcode districts for planning applications, EPC data, and council contracts.
+            JobFilter covers all {city.areaCodes.length} {city.name} postcode districts for planning applications, energy signals, and council contracts.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {city.areaCodes.slice(0, 20).map((code) => (
@@ -354,7 +354,7 @@ export function CityPage({ city }: CityPageProps) {
             CONSTRUCTION LEADS ACROSS THE UK
           </h2>
           <p className="mt-3 max-w-xl text-lg font-black text-[var(--muted)]">
-            JobFilter scans planning, EPC, and council data in every major UK city.
+            JobFilter scans planning applications, energy signals, and council data in every major UK city.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {otherCities.map((c) => (
@@ -368,7 +368,7 @@ export function CityPage({ city }: CityPageProps) {
                 <h3 className="mt-2 text-2xl font-black text-[var(--navy)]">{c.name}</h3>
                 <div className="mt-3 grid gap-1 text-sm font-black text-[var(--muted)]">
                   <p>{c.planningAppsPerWeek} planning apps/week</p>
-                  <p>{c.epcFGProperties.toLocaleString()} F/G properties</p>
+                  <p>{c.epcFGProperties.toLocaleString()} retrofit properties</p>
                   <p>{c.councilContractsActive} council contracts</p>
                 </div>
                 <p className="mt-4 text-sm font-black text-[var(--navy)]">

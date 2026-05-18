@@ -28,7 +28,7 @@ export function Footer() {
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link to="/find-jobs" className="hover:text-[var(--yellow)]">Find Jobs</Link>
               <Link to="/signals" className="hover:text-[var(--yellow)]">Signals</Link>
-              <Link to="/epc" className="hover:text-[var(--yellow)]">EPC Leads</Link>
+              <Link to="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
               <Link to="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
               <Link to="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
             </div>

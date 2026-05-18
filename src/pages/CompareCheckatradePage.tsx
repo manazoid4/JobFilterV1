@@ -8,7 +8,7 @@ const comparison = [
   { feature: 'Budget visibility', checkatrade: 'None — you find out on the call', jobfilter: 'Estimated value shown before you chase' },
   { feature: 'Urgency scoring', checkatrade: 'None — all leads look the same', jobfilter: 'GOLD / SILVER / BIN — chase what pays' },
   { feature: 'Planning data', checkatrade: 'No', jobfilter: 'Yes — approved applications' },
-  { feature: 'EPC signals', checkatrade: 'No', jobfilter: 'Yes — F/G rated properties flagged' },
+  { feature: 'Energy signals', checkatrade: 'No', jobfilter: 'Yes — retrofit properties flagged' },
   { feature: 'Council contracts', checkatrade: 'No', jobfilter: 'Yes — buyer named, value shown' },
   { feature: 'WhatsApp alerts', checkatrade: 'No', jobfilter: 'Yes — within minutes, not batched' },
   { feature: 'Contract lock-in', checkatrade: '12-month memberships reported', jobfilter: 'No contracts. Cancel anytime.' },
@@ -25,7 +25,7 @@ const painPoints = [
 
 const signals = [
   ['Planning data', 'Approved applications before they hit any directory.'],
-  ['EPC signals', 'F/G rated properties legally need retrofit work.'],
+  ['Energy signals', 'Low-rated properties legally need retrofit work.'],
   ['Council contracts', 'Public tenders with buyer names and values.'],
   ['Property activity', 'Recent sales show where owners are ready to invest.'],
   ['Business starts', 'New commercial premises needing fit-out work.'],
@@ -245,7 +245,7 @@ export function CompareCheckatradePage() {
                 <li>£39/mo — all trades, all signals</li>
                 <li>Every signal is exclusive — no one else sees it</li>
                 <li>We score every signal. GOLD means worth chasing</li>
-                <li>Official data — planning, EPC, contracts. Not forms</li>
+                <li>Verified signals — planning, energy, contracts. Not forms</li>
                 <li>Buyer name, value, urgency shown before you act</li>
                 <li>No contracts. Cancel anytime. 30-day guarantee</li>
               </ul>

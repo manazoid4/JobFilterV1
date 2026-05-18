@@ -393,15 +393,17 @@ export function FindJobsPage() {
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!OPEN_ACCESS && weeklyScansUsed > 0 && (
-        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
+      {!OPEN_ACCESS && (
+        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--line)] bg-[var(--bg-main)]'}`}>
           <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
           <p className="text-sm font-black text-[var(--ink)]">
-            {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week` : 'Weekly free scans used. Upgrade for unlimited.'}
+            {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — no credit card required` : 'Weekly free scans used. Upgrade for unlimited.'}
           </p>
-          {weeklyScansRemaining === 0 && (
+          {weeklyScansRemaining === 0 ? (
             <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          )}
+          ) : weeklyScansUsed === 0 ? (
+            <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
+          ) : null}
         </div>
       )}
 
@@ -652,14 +654,14 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No signup needed.
+            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => void submit()} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              TRY A DIFFERENT POSTCODE
+              SCAN MY AREA →
             </button>
             <button onClick={() => { setTrade('building'); void submit(undefined, { trade: 'building' }); }} className="jf-button bg-white text-[var(--ink)]">
-              WIDEN YOUR TRADE SEARCH
+              SCAN BUILDING WORK
             </button>
           </div>
         </section>

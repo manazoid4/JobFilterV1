@@ -257,7 +257,7 @@ export function CompareBuildAlertPage() {
               <h3 className="headline text-xl text-[var(--ink)]">THE PROBLEM</h3>
               <ul className="mt-3 grid gap-3 font-black text-[var(--ink)]/85">
                 <li>A well-written letter sent a day late still loses to whoever turned up first</li>
-                <li>No EPC signals — misses F/G retrofit demand</li>
+                <li>No energy signals — misses retrofit demand entirely</li>
                 <li>No council contracts — buyer names and values hidden</li>
                 <li>No scoring — every application looks the same</li>
                 <li>No WhatsApp — letters take days, jobs move in hours</li>
@@ -288,7 +288,7 @@ export function CompareBuildAlertPage() {
               <div className="mt-4 grid gap-3 font-black text-white/85">
                 <div className="flex items-start gap-3">
                   <span className="flex-shrink-0 font-bold text-[var(--green)]">08:14</span>
-                  <span>Signal detected — planning, EPC, or contract</span>
+                  <span>Signal detected — planning, energy, or contract</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="flex-shrink-0 font-bold text-[var(--green)]">08:16</span>
@@ -516,7 +516,7 @@ export function CompareBuildAlertPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
               ['Exclusive scans', 'No one else sees your results. Not shared. Not resold.'],
-              ['Official sources only', 'Planning portals, contracts finders, EPC registers. Not forms. Not ads.'],
+              ['Verified signals only', 'Planning approvals, public contracts, verified energy signals. Not forms. Not ads.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No per-letter fees.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands.'],
               ['Cancel anytime', 'No contracts. No lock-in. Leave if it doesn\'t work for you.'],
