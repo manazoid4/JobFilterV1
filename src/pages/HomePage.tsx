@@ -26,8 +26,8 @@ const operatingSteps = [
   },
   {
     icon: Target,
-    title: 'Money Filter ranks the job',
-    body: 'Urgency, value, distance, confidence, and detail decide if it reaches your WhatsApp.',
+    title: 'We rank every job by value',
+    body: 'Gold-rated jobs go straight to your WhatsApp. Low-value signals never bother you.',
     svgId: 'funnel' as const,
   },
   {
@@ -134,7 +134,7 @@ export function HomePage() {
             Energy: F/G
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
-            Warrant: Approved
+            Extension: Approved
           </div>
           <div className="absolute right-[6%] bottom-[30%] animate-[float_8s_ease-in-out_infinite_2s] rounded-full border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--orange)]">
             Tender: Live
@@ -143,7 +143,7 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">TACTICAL CONSTRUCTION INTELLIGENCE</p>
+            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
               STOP QUOTING FOR GHOSTS.
             </h1>
@@ -162,8 +162,8 @@ export function HomePage() {
                 SCAN FREE — NO CARD NEEDED
               </Link>
               <div className="flex gap-4">
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/blueprint">
-                  See Blueprint →
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/methodology">
+                  How it works →
                 </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/territories">
                   Claim Territory →
