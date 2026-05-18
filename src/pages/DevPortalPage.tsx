@@ -24,6 +24,15 @@ const systems = [
   ['Research memory', 'The UK growth playbook and earliest buying-signal pack are stored in the Obsidian vault.'],
 ];
 
+const testMatrix = [
+  ['Unlock UI', 'Click UNLOCK EVERYTHING, then open /find-jobs. Scan limits and paid action buttons should be open in this browser.'],
+  ['Full lead payload', 'Run the server with FULL_ACCESS_TEST_MODE=true. Without it, the frontend unlock is local only and API data stays preview-safe.'],
+  ['Lead scanner', 'Use B14 7QH + electrical, then check Signal Intelligence, trust badges, Patch Pulse, and WhatsApp send.'],
+  ['Territory API', 'Call /api/territories/summary?postcode=B14&trade=electrical and expect a pending-scan fallback if Supabase has no metric row.'],
+  ['Payments surface', 'Open /pricing and test checkout creation with Stripe test keys configured.'],
+  ['Regression gate', 'Before deploy: npm run lint, npm run build, then firebase deploy --only hosting.'],
+];
+
 const checkCards = [
   { icon: FlaskConical, title: 'Regression', body: 'Run npm run lint and npm run build before deploying.' },
   { icon: Database, title: 'Data Priority', body: 'Lead quality and official-source reliability stay above UI decoration.' },
@@ -53,6 +62,9 @@ export function DevPortalPage() {
         <p className="mt-4 max-w-3xl text-xl font-black text-white/90">
           Use this page while building. Enable the local unlimited tester to remove frontend scan limits and open paid actions without changing production entitlement logic.
         </p>
+        <div className="mt-5 inline-flex border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 font-mono text-xs font-black uppercase text-[var(--ink)]">
+          Deployed build: signal-graph-api-9800c16
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_420px]">
@@ -114,6 +126,34 @@ export function DevPortalPage() {
             </article>
           );
         })}
+      </section>
+
+      <section className="mt-6 ops-panel bg-white p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="micro-label text-[var(--orange)]">FULL TESTING GUIDE</p>
+            <h2 className="headline mt-2 text-3xl">Dev Hub Checklist</h2>
+          </div>
+          <span className={`border-2 px-3 py-1 text-xs font-black uppercase ${unlocked ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]' : 'border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--orange)]'}`}>
+            {unlocked ? 'Local tester active' : 'Local tester off'}
+          </span>
+        </div>
+        <div className="mt-5 grid gap-3">
+          {testMatrix.map(([title, body]) => (
+            <div key={title} className="grid gap-2 border-2 border-[var(--line)] bg-[var(--paper)] p-3 md:grid-cols-[180px_1fr]">
+              <p className="font-black uppercase text-[var(--ink)]">{title}</p>
+              <p className="text-sm font-bold text-[var(--muted)]">{body}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-5 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
+          <p className="micro-label text-[var(--yellow)]">ENV FLAGS</p>
+          <p className="mt-2 font-mono text-sm font-black">VITE_OPEN_ACCESS=true</p>
+          <p className="font-mono text-sm font-black">FULL_ACCESS_TEST_MODE=true</p>
+          <p className="mt-2 text-xs font-bold text-white/70">
+            Local tester unlocks the browser. These env flags unlock open-access UI at build time and full backend lead payloads at runtime.
+          </p>
+        </div>
       </section>
 
       <section className="mt-6 ops-panel bg-[var(--navy)] p-5 text-white">

@@ -145,7 +145,7 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
-              STOP QUOTING FOR GHOSTS.
+              STOP PRICING DEAD LEADS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               Find real building work using planning, EPC and council data — sent to your WhatsApp before competitors call.
@@ -161,9 +161,15 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" to="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
+              <a className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
+                FOLLOW ON INSTAGRAM
+              </a>
               <div className="flex gap-4">
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/methodology">
                   How it works →
+                </Link>
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/news">
+                  Trade news →
                 </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/territories">
                   Claim Territory →
@@ -209,6 +215,23 @@ export function HomePage() {
           <span>Signals from planning approvals, energy upgrades, and public tenders</span>
           <span>Scored by value, trade fit, and urgency</span>
           <span>WhatsApp alert — before the job goes public</span>
+        </div>
+      </section>
+
+      <section className="border-b-4 border-[var(--line)] bg-white">
+        <div className="page-shell grid gap-5 py-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="micro-label text-[var(--orange)]">TRADE CONTENT HUB</p>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">DAILY SIGNALS. PRACTICAL TRADE ADVICE. NO FLUFF.</h2>
+            <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+              Follow practical trade intelligence: short posts, real signal breakdowns, pricing rules, and weekly ideas for finding better work.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/news">READ NEWS</Link>
+            <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">CLAIM PATCH</Link>
+          </div>
         </div>
       </section>
 
@@ -471,7 +494,7 @@ export function HomePage() {
               { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
               { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
-              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score + Ghost Risk rating on every lead.' },
+              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score plus a clear chase recommendation on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'All free tools', body: 'Codex, Vicinity, Vantage — every tool, no extra charge.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },

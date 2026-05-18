@@ -17,7 +17,7 @@ export function registerLeadNotifyRoute(app: Express) {
         budget: leadData.value || leadData.estimatedValue,
         phone: phoneNumber,
         postcode: leadData.postcodeOutward,
-        ghostRisk: leadData.ghostRisk,
+        leadReadiness: leadData.leadReadiness,
         qualityLabel: leadData.qualityLabel,
       };
 

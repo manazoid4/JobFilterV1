@@ -35,7 +35,7 @@ export function LaunchWaitlistModal() {
             <div>
               <p className="micro-label text-[var(--orange)]">EARLY ACCESS</p>
               <h2 className="headline mt-2 text-4xl leading-none">FOUNDER PRICE: £39/MO.</h2>
-              <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. One trade partner per postcode. No shared leads. No ghosts.</p>
+              <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. One trade partner per postcode. No shared leads. No dead leads.</p>
             </div>
             <button
               type="button"

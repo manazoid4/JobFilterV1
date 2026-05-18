@@ -46,7 +46,7 @@ create table if not exists leads (
   deadline_at timestamptz,
   score integer,
   quality_label text,
-  ghost_risk text,
+  lead_readiness text,
   signal_class text,
   signal_stack text[],
   evidence_badges text[],

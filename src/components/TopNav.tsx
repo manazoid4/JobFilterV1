@@ -4,11 +4,13 @@ import { NavLink } from 'react-router-dom';
 const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/signals', label: 'Signals' },
+  { to: '/news', label: 'News' },
   { to: '/free-tools', label: 'Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
 const moreLinks = [
+  { to: '/dev-portal', label: 'Dev Hub' },
   { to: '/tradie-zone', label: 'Trade Hub' },
   { to: '/trust', label: 'Trust' },
   { to: '/methodology', label: 'How It Works' },

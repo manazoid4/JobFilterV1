@@ -18,11 +18,21 @@ export interface Lead {
   contactSignal: ContactSignal;
   status: LeadStatus;
   description?: string;
+  publishedAt?: string;
   deadlineAt?: string;
   buyerName?: string;
   cpvCodes?: string[];
   score?: number;
   scoreReasons?: string[];
+  distanceMiles?: number;
+  isCommercial?: boolean;
+  fusionKey?: string;
+  signalStack?: string[];
+  signalClass?: 'homeowner_retrofit' | 'active_site' | 'commercial_fitout' | 'distressed_property' | 'public_contract' | 'internal_fallback';
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  evidenceBadges?: string[];
 }
 
 export interface LeadStoreEntry {

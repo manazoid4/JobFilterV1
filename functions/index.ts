@@ -7,6 +7,12 @@ import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadE
 import { createCheckoutSession, handleStripeWebhook } from './stripe';
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const deliveredSet = new Set<string>();
+function clientIp(req: express.Request): string {
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const forwardedIp = Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor;
+  return String(forwardedIp ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
+}
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
@@ -65,10 +71,10 @@ async function sendEmail(to: string, subject: string, html: string) {
 const app = express();
 app.use(express.json());
 if (!getApps().length) initializeApp();
-const FULL_ACCESS_TEST_MODE = true;
+const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
 app.post('/api/leads/scan', async (req, res) => {
-  const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
+  const ip = clientIp(req);
   if (!checkRateLimit(ip)) return res.status(429).json({ error: 'Too many requests.', leads: [], total: 0, errors: ['Too many requests.'] });
   try {
     const { postcode, trade = 'all', tier = 'free' } = req.body ?? {};
@@ -82,7 +88,7 @@ app.post('/api/leads/scan', async (req, res) => {
 });
 
 app.post('/api/leads/search', async (req, res) => {
-  const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown').split(',')[0].trim();
+  const ip = clientIp(req);
   if (!checkRateLimit(ip)) {
     return res.status(429).json({ ok: false, source: 'lead_engine', count: 0, region: '', outward: '', leads: [], lockedCount: 0, errors: ['Too many requests.'] });
   }
@@ -93,7 +99,8 @@ app.post('/api/leads/search', async (req, res) => {
       return res.status(400).json({ ok: false, source: 'lead_engine', count: 0, region: '', outward: '', leads: [], lockedCount: 0, errors: ['valid UK postcode required'] });
     }
 
-    const result = await scan({ postcode: postcode.trim(), trade: String(trade || 'electrical'), tier: 'paid' });
+    const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
+    const result = await scan({ postcode: postcode.trim(), trade: String(trade || 'electrical'), tier: FULL_ACCESS_TEST_MODE ? 'paid' : 'free', radiusMiles });
     const allLeads = result.leads;
 
     const FREE_LIMIT = 2;
@@ -109,6 +116,7 @@ app.post('/api/leads/search', async (req, res) => {
       leads: visibleLeads,
       lockedCount,
       accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
+      sources: result.sources,
       errors: result.errors ?? [],
     });
   } catch (err: any) {
@@ -117,6 +125,8 @@ app.post('/api/leads/search', async (req, res) => {
 });
 
 app.post('/api/intake/score', async (req, res) => {
+  const ip = clientIp(req);
+  if (!checkRateLimit(ip)) return res.status(429).json({ ok: false, errors: ['Too many requests.'] });
   try {
     const jobType = clean(req.body?.jobType, 60);
     const urgency = clean(req.body?.urgency, 40) as 'Emergency' | 'This week' | 'Later';
@@ -150,6 +160,8 @@ app.post('/api/intake/score', async (req, res) => {
 });
 
 app.post('/api/waitlist', async (req, res) => {
+  const ip = clientIp(req);
+  if (!checkRateLimit(ip)) return res.status(429).json({ ok: false, error: 'Too many requests.' });
   try {
     const entry = {
       name: clean(req.body?.name, 80),
@@ -173,6 +185,8 @@ app.post('/api/waitlist', async (req, res) => {
 });
 
 app.post('/api/create-checkout-session', async (req, res) => {
+  const ip = clientIp(req);
+  if (!checkRateLimit(ip)) return res.status(429).json({ error: 'Too many requests.' });
   try {
     const result = await createCheckoutSession(req.body ?? {});
     res.json(result);
@@ -196,7 +210,9 @@ app.post('/api/onboarding/submit', (req, res) => { res.json({ ok: true }); });
 app.post('/api/email-gate/unlock', (req, res) => { res.json({ ok: true }); });
 app.post('/api/calendar/sync', (_req, res) => { res.status(501).json({ status: 'not_implemented' }); });
 
-app.get('/api/waitlist/count', async (_req, res) => {
+app.get('/api/waitlist/count', async (req, res) => {
+  const ip = clientIp(req);
+  if (!checkRateLimit(ip)) return res.status(429).json({ ok: false, error: 'Too many requests.' });
   try {
     const snapshot = await getFirestore().collection('waitlist').count().get();
     const count = snapshot.data().count || 0;
@@ -210,12 +226,52 @@ app.post('/api/leads/notify', async (req, res) => {
   try {
     const { phoneNumber, leadData } = req.body || {};
     if (!phoneNumber || !leadData) return res.status(422).json({ ok: false, error: 'phoneNumber and leadData required.' });
+    const leadId = leadData.id || leadData.leadId || `${leadData.trade || 'trade'}:${leadData.area || leadData.location || 'area'}:${leadData.score || 80}`;
+    const deliveryKey = `${leadId}:${phoneNumber}`;
+    if (deliveredSet.has(deliveryKey)) return res.json({ ok: true, result: { triggered: false, provider: 'stub', reason: 'duplicate' } });
     const trade = leadData.trade || 'Trade';
     const area = leadData.area || leadData.location || 'Unknown';
     const value = leadData.value || leadData.estimatedValue || 'Not specified';
-    const message = `NEW GOLD LEAD\nJob: ${trade}\nArea: ${area}\nValue: ${value}\nScore: ${leadData.score || 80}/100\nSource: ${leadData.source || 'Official'}`;
+    const readiness = leadData.leadReadiness || 'READY';
+    const message = `GOLD LEAD\nTrade: ${trade}\nArea: ${area}\nValue: ${value}\nLead Readiness: ${readiness}\nNext Action: Call within 24 hours`;
     const result = await twilioWhatsApp(message);
+    deliveredSet.add(deliveryKey);
+    await getFirestore().collection('delivery_events').doc(deliveryKey.replace(/[\/]/g, '_')).set({
+      leadId,
+      phone: phoneNumber,
+      provider: result.provider,
+      messageBody: message,
+      status: result.triggered ? 'sent' : 'stub',
+      sentAt: new Date().toISOString(),
+      isDuplicate: false,
+    }, { merge: true });
     return res.json({ ok: true, result });
+  } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
+});
+
+app.get('/api/territories/summary', async (req, res) => {
+  const postcode = String(req.query.postcode ?? '').trim().toUpperCase();
+  const trade = String(req.query.trade ?? '').trim().toLowerCase();
+  try {
+    const docId = `${postcode}_${trade}`;
+    const snap = postcode && trade ? await getFirestore().collection('territory_metrics').doc(docId).get() : null;
+    const data = snap?.exists ? snap.data() : null;
+    if (data) {
+      return res.json({
+        ok: true,
+        postcode,
+        trade,
+        label: data.label ?? 'STEADY',
+        signalsThisWeek: data.signalsThisWeek ?? data.signals_this_week ?? 0,
+        planningCount: data.planningCount ?? data.planning_count ?? 0,
+        epcCount: data.epcCount ?? data.epc_count ?? 0,
+        contractCount: data.contractCount ?? data.contract_count ?? 0,
+        avgEstimatedValue: Number(data.avgEstimatedValue ?? data.avg_estimated_value ?? 0),
+        lockStatus: data.lockStatus ?? data.lock_status ?? 'open',
+        readiness: 'ready',
+      });
+    }
+    return res.json(defaultTerritorySummary(postcode, trade));
   } catch (e: any) { return res.status(500).json({ ok: false, error: String(e?.message) }); }
 });
 
@@ -333,6 +389,30 @@ function scoreIntake(input: { urgency: string; details: string; postcode: string
   }
 
   return { score: Math.max(0, Math.min(100, score)), flags: flags.slice(0, 4) };
+}
+
+function sanitizeRadius(input: unknown) {
+  const radius = Number(input ?? 25);
+  if (!Number.isFinite(radius) || radius < 1 || radius > 100) {
+    throw new Error('radiusMiles must be between 1 and 100');
+  }
+  return radius;
+}
+
+function defaultTerritorySummary(postcode: string, trade: string) {
+  return {
+    ok: true,
+    postcode,
+    trade,
+    label: 'STEADY',
+    signalsThisWeek: 0,
+    planningCount: 0,
+    epcCount: 0,
+    contractCount: 0,
+    avgEstimatedValue: 0,
+    lockStatus: 'open',
+    readiness: 'pending-scan',
+  };
 }
 
 async function fetchContractsFinderSearch(trade: string, outward: string, region: string, radiusMiles: number) {

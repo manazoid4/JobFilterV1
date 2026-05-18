@@ -77,7 +77,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   score: number;
   reasons: string[];
   qualityLabel: NonNullable<Lead['qualityLabel']>;
-  ghostRisk: NonNullable<Lead['ghostRisk']>;
+  leadReadiness: NonNullable<Lead['leadReadiness']>;
   recommendedAction: string;
   evidenceBadges: string[];
 } {
@@ -219,7 +219,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
 
   const source = String(lead.source ?? '').toLowerCase();
   const directoryFallback = lead.source === 'DirectorySignal';
-  const ghostRisk: NonNullable<Lead['ghostRisk']> = score >= 65
+  const leadReadiness: NonNullable<Lead['leadReadiness']> = score >= 65
     && lead.sourceConfidence >= 60
     && lead.contactSignal !== 'none'
     && !directoryFallback
@@ -230,9 +230,9 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
         ? 'WASTE'
         : 'MAYBE';
 
-  const recommendedAction = ghostRisk === 'READY'
+  const recommendedAction = leadReadiness === 'READY'
     ? 'Call within 24 hours'
-    : ghostRisk === 'MAYBE'
+    : leadReadiness === 'MAYBE'
       ? 'Verify by phone before quoting'
       : 'Do not spend site-visit time yet';
 
@@ -248,7 +248,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   if (lead.estimatedValue && lead.estimatedValue !== 'POA') evidenceBadges.push('Budget Band');
   evidenceBadges.push('Exclusive');
 
-  return { score, reasons, qualityLabel, ghostRisk, recommendedAction, evidenceBadges };
+  return { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges };
 }
 
 function parseValueToMidpoint(val: string): number {

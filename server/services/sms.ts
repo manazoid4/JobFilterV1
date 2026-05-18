@@ -8,7 +8,7 @@ type WhatsAppPayload = {
   budget?: string;
   phone?: string;
   postcode?: string;
-  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
 };
 
@@ -19,13 +19,13 @@ export async function triggerGoldLeadWhatsApp(payload: WhatsAppPayload) {
   const phone = payload.phone || 'unknown';
   const deliveryKey = `${leadId}:${phone}`;
   const budgetText = payload.budget || 'Not specified';
-  const ghostRisk = payload.ghostRisk || 'READY';
+  const leadReadiness = payload.leadReadiness || 'READY';
 
   const message = `GOLD LEAD
 Trade: ${payload.jobType}
 Area: ${payload.area}
 Value: ${budgetText}
-Ghost Risk: ${ghostRisk}
+Lead Readiness: ${leadReadiness}
 Next Action: Call within 24 hours`;
 
   console.log('[whatsapp/gold-lead]', message);
