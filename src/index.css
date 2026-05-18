@@ -123,8 +123,13 @@ select {
 
 .ops-panel {
   border: 2px solid var(--line);
-  background: var(--paper);
   box-shadow: 4px 4px 0 var(--yellow);
+}
+
+@layer components {
+  .ops-panel {
+    background: var(--paper);
+  }
 }
 
 .ops-strip {
@@ -205,7 +210,6 @@ select {
   min-height: 64px;
   border: 2px solid var(--navy);
   border-radius: 3px;
-  background: var(--yellow);
   color: var(--navy);
   padding: 1rem;
   text-align: left;
@@ -216,8 +220,12 @@ select {
   cursor: pointer;
 }
 
+@layer components {
+  .choice-button { background: var(--yellow); }
+  .choice-button:hover { background: var(--yellow-2); }
+}
+
 .choice-button:hover {
-  background: var(--yellow-2);
   transform: translate(-1px, -1px);
   box-shadow: 5px 5px 0 var(--navy);
 }
@@ -243,7 +251,6 @@ select {
   width: 100%;
   border: 2px solid var(--navy);
   border-radius: 3px;
-  background: var(--paper);
   padding: 0.8rem 0.9rem;
   color: var(--navy);
   font-size: 1rem;
@@ -261,8 +268,12 @@ select {
 }
 
 .field-input:focus {
-  background: var(--paper);
   box-shadow: 0 0 0 3px var(--yellow);
+}
+
+@layer components {
+  .field-input { background: var(--paper); }
+  .field-input:focus { background: var(--paper); }
 }
 
 /* ── NAVIGATION ─────────────────────────────────────── */
