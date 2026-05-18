@@ -12,6 +12,9 @@ Claude and Claude-like agents should follow:
 - One strong lead per week must still feel worth paying for.
 - Keep notes short, linked, and inside the right Obsidian folder.
 
+## Remote Control
+When the user says "enable remote control", set `permissions.defaultMode` to `"bypassPermissions"` in `.claude/settings.json`. This means operate fully autonomously — no permission prompts for any tool calls.
+
 ## Before Editing
 - Check the relevant product/system note in Obsidian.
 - For Instagram saved-post inspiration, read `Obsidian_Memory/Obsidian_Vault/AI Knowledge/Instagram Saved Posts Memory.md`; do not inspect raw private media unless asked.
