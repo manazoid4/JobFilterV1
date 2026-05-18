@@ -808,9 +808,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
           </>
         ) : (
-          <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK FULL LEAD
-          </Link>
+          <div className="grid gap-1">
+            <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
+              UNLOCK FULL LEAD →
+            </Link>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+          </div>
         )}
       </div>
     </article>

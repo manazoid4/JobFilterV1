@@ -64,7 +64,7 @@ const featureCategories = [
 ];
 
 const comparisonRows = [
-  { feature: 'JobFilter Leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'JobFilter Leads', free: 'Preview only', founder: 'Full detail', standard: 'Full detail' },
   { feature: 'Codex', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vicinity', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
