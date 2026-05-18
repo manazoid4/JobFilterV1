@@ -44,7 +44,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means it's worth your time. BRONZE means it probably isn't.
+              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
             </p>
           </div>
         </div>
@@ -84,15 +84,13 @@ export function LeadListPage() {
       {visible.length === 0 ? (
         <div className="jf-box bg-white p-8 text-center">
           <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab} LEADS YET</h2>
-          <p className="mt-2 text-[15px] text-[var(--muted)]">Run a scan to pull in live jobs near you — or check back after your next scan.</p>
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--navy)]" to="/find-jobs">
-              SCAN FOR JOBS NOW
-            </Link>
-            <Link className="jf-button bg-white border-2 border-[var(--navy)] text-[var(--navy)]" to="/my-link">
-              GET MY FILTER LINK
-            </Link>
-          </div>
+          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+            Enter your postcode and trade. See what jobs are live near you in under 30 seconds.
+          </p>
+          <Link className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--navy)]" to="/find-jobs">
+            SCAN FOR JOBS NOW →
+          </Link>
+          <p className="mt-3 text-xs font-black text-[var(--muted)]">No credit card required</p>
         </div>
       ) : (
         <div className="flex flex-col gap-5">

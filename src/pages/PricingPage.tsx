@@ -64,7 +64,7 @@ const featureCategories = [
 ];
 
 const comparisonRows = [
-  { feature: 'JobFilter Leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'JobFilter Leads', free: 'Preview only', founder: 'Full detail', standard: 'Full detail' },
   { feature: 'Codex', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vicinity', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
@@ -88,11 +88,14 @@ export function PricingPage() {
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
           LOCK IN AT £39/MO. STANDARD GOES TO £79.
         </h1>
-        <p className="mt-5 max-w-3xl text-xl font-black text-white/78">
-          Checkatrade charges £200+/mo and blasts the same lead to five other trades. Bark sells you a name and makes you fight for it. BuildAlert sends a postcode, not a plan. Here, Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast.
+        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--yellow)]">
+          One £2,000 job covers 51 months of JobFilter. Most tradesmen chase their first lead within 14 days.
         </p>
         <p className="mt-3 max-w-3xl text-lg font-black text-white/78">
           We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
+        </p>
+        <p className="mt-3 max-w-3xl text-base font-black text-white/60">
+          Checkatrade charges £200+/mo and blasts the same lead to five other trades. Bark sells you a name and makes you fight for it. Here, Gold leads are controlled by trade, patch, and timing — no shared auction.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           <PriceStat label="Founder monthly" value="£39/mo" note="locked in while active" hot />
@@ -155,7 +158,7 @@ export function PricingPage() {
         <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
           {toolIcons.map(({ name, icon: Icon }) => (
             <div key={name} className="flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[3px_3px_0_var(--ink)]">
+              <div className="flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[4px_4px_0_var(--ink)]">
                 <Icon className="h-6 w-6 text-[var(--ink)]" strokeWidth={2.5} />
               </div>
               <span className="text-xs font-black uppercase tracking-wide">{name}</span>
@@ -172,7 +175,7 @@ export function PricingPage() {
           {featureCategories.map(({ icon: Icon, title, points }) => (
             <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--yellow)]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
                   <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                 </div>
                 <h3 className="headline text-2xl">{title}</h3>
@@ -307,7 +310,7 @@ export function PricingPage() {
         <div className="ops-panel bg-[var(--steel)] p-6 text-white">
             <p className="micro-label text-[var(--yellow)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">LOCK YOUR AREA.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+            <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
               Territory lock is priority routing for scored jobs in one trade and postcode cluster. If your area is valuable, do not leave it open.
             </p>
         </div>

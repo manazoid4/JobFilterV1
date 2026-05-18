@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
@@ -245,6 +245,7 @@ export function FindJobsPage() {
   async function fillMyWeek() {
     setFillWeekLoading(true);
     setFillWeekResult(null);
+    setCommercialOnly(false);
     setFillWeekPhase('Checking verified job signals across your patch...');
     await new Promise(r => setTimeout(r, 800));
     setFillWeekPhase('Matching leads to your trade — scoring every signal...');
@@ -298,6 +299,9 @@ export function FindJobsPage() {
           <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
             Pick your trade. Enter your postcode. See what's live near you right now.
           </p>
+          <p className="mt-2 text-sm font-black text-[var(--yellow)]">
+            No Checkatrade membership. No Bark credits. No card needed — free first scan.
+          </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <Link to="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
               VIEW PIPELINE →
@@ -321,34 +325,6 @@ export function FindJobsPage() {
               <line x1="192" y1="52" x2="208" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
               <line x1="208" y1="52" x2="192" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
-          </div>
-        </div>
-      </section>
-
-      {/* ── HOW IT WORKS ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--muted)]">HOW IT WORKS</p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
-              <MapPin className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">1. ENTER POSTCODE</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Your patch. Your area. We scan what's live.</p>
-          </div>
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]/10">
-              <Wrench className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">2. SELECT TRADE</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Pick your trade. One tap. Instant scan.</p>
-          </div>
-          <div className="flex flex-col items-center text-center gap-2 p-4 border-2 border-[var(--line)] bg-[var(--paper)] border-[var(--yellow)]">
-            <div className="flex h-12 w-12 items-center justify-center border-2 border-[var(--yellow)] bg-[var(--yellow)]">
-              <TrendingUp className="w-6 h-6 text-[var(--ink)]" />
-            </div>
-            <p className="micro-label text-[var(--ink)]">3. SEE GOLD LEADS</p>
-            <p className="text-sm font-semibold text-[var(--muted)]">Scored, verified, ranked. The jobs worth pricing.</p>
           </div>
         </div>
       </section>
@@ -583,17 +559,17 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {!OPEN_ACCESS && (
+              {!DEV_MODE && !OPEN_ACCESS && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
                   <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
                   <p className="mt-1 font-black text-white/75">
                     Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
                   </p>
                   <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
-                    LOCK £39/mo — NO CARD NEEDED
+                    LOCK FOUNDER PRICE — £39/MO →
                   </Link>
                   <p className="mt-2 text-xs font-black text-white/50">
-                    30-day money-back guarantee. No quibbles, no hoops.
+                    30-day money-back guarantee. Founding rate stays locked while you stay active.
                   </p>
                 </div>
               )}
@@ -832,9 +808,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
           </>
         ) : (
-          <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK FULL LEAD
-          </Link>
+          <div className="grid gap-1">
+            <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
+              UNLOCK FULL LEAD →
+            </Link>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+          </div>
         )}
       </div>
     </article>
@@ -938,12 +917,19 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
+const LOCKED_PLACEHOLDERS: Record<string, string> = {
+  'Buyer': 'J████ Ltd',
+  'Deadline': '██ / ██ / 20██',
+  'Source URL': 'planning.gov.uk/████',
+};
+
 function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
   if (!value) {
+    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className="mt-1 font-black text-[var(--muted)] text-sm">—</p>
+        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
       </div>
     );
   }
@@ -983,6 +969,6 @@ function titleCase(value: string) {
 
 function tierLabel(score: number) {
   if (score >= 80) return 'GOLD';
-  if (score >= 55) return 'WORTH CHECKING';
-  return 'LOW SIGNAL';
+  if (score >= 50) return 'SILVER';
+  return 'BRONZE';
 }

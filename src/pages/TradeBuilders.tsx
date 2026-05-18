@@ -6,7 +6,7 @@ const data: TradePageData = {
   tradePlural: 'Builders',
   headline: 'How Builders Win Extension Jobs From',
   highlightedPhrase: 'Planning Data',
-  sub: 'Every approved planning application is a job waiting to be quoted. JobFilter reads planning portals across 400+ councils and sends you extension, loft, and new-build leads the moment they\'re approved. You\'re on the driveway before the competition knows the job exists.',
+  sub: 'Every approved planning application is a job waiting to be quoted. JobFilter reads planning approvals across 400+ councils and sends you extension, loft, and new-build leads the moment they\'re approved. You\'re on the driveway before the competition knows the job exists.',
   painPoints: [
     ['You hear about jobs too late', 'By the time a planning-approved extension hits MyBuilder, the homeowner has already had 3 quotes. The first builder on site wins 70% of the time.'],
     ['Quiet weeks kill your cashflow', 'You finish a big job and your diary is empty. You\'re not short of skill — you\'re short of pipeline. Planning data shows work coming 2-3 months out.'],
@@ -21,11 +21,11 @@ const data: TradePageData = {
   ],
   signals: [
     ['Planning applications', 'Approved extensions, loft conversions, and new builds — the biggest source of building work in the UK. We scan 400+ councils and flag jobs in your patch.'],
-    ['EPC data', 'Properties with poor EPC ratings often need structural upgrades, insulation, and full renovations. Cross-referenced with planning data for higher intent signals.'],
+    ['Energy signals', 'Properties flagged for energy upgrades often need structural work, insulation, and full renovations. Cross-referenced with planning approvals for higher-intent leads.'],
     ['Council contracts', 'School refurbishments, social housing projects, council building maintenance — public tenders with named buyers, values, and deadlines.'],
   ],
   howItWorks: [
-    ['01', 'Enter your postcode and trade', 'Tell us where you build. We scan planning portals, council contracts, and EPC data within your working radius.'],
+    ['01', 'Enter your postcode and trade', 'Tell us where you build. We scan planning approvals, council contracts, and energy signals within your working radius.'],
     ['02', 'Extension and new-build leads get flagged', 'Approved applications for extensions, loft conversions, new builds, and commercial fit-outs — scored by value and urgency.'],
     ['03', 'Gold leads fire to your phone', 'Planning approved for a two-storey extension in your patch? You get a WhatsApp alert with the address, estimated value, and source link.'],
   ],
@@ -36,7 +36,7 @@ const data: TradePageData = {
       ['Area', 'LS6 / Leeds'],
       ['Value', '£60k-£90k estimated'],
       ['Urgency', 'Planning approved 3 days ago'],
-      ['Official Source', 'Leeds City Council Planning — 96% confidence'],
+      ['Signal type', 'Verified planning signal — 96% confidence'],
       ['Signal', 'Full plans approved, no contractor named yet'],
     ],
     tags: ['Verified signal', 'High value', 'Free preview'],
@@ -57,7 +57,7 @@ Action: Open notice → jobfilter.uk/lead/ghi789`,
   ],
   comparisonNew: [
     '£39/month founder — all building signals, unlimited scans',
-    'Exclusive — no one else sees your scan results',
+    'No shared auction — lead goes to you, not five other builders',
     'Estimated value and project scope shown upfront',
     'Official planning data — approved applications only',
     'Alerts fire within minutes of approval',
@@ -65,7 +65,7 @@ Action: Open notice → jobfilter.uk/lead/ghi789`,
   ],
   ctaPostcode: 'LS1',
   metaTitle: 'How Builders Win Extension Jobs From Planning Data — JobFilter',
-  metaDescription: 'JobFilter scans 400+ council planning portals for extension, loft, and new-build leads. Gold alerts sent to WhatsApp before jobs hit directories. Free scan for builders.',
+  metaDescription: 'JobFilter scans 400+ council planning approvals for extension, loft, and new-build leads. Gold alerts sent to WhatsApp before jobs hit directories. Free scan for builders.',
 };
 
 export function TradeBuilders() {

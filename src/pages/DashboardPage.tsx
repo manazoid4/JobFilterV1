@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getChaseLeads } from '../lib/chaseStore';
+import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { getMonthlyStats, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
@@ -10,6 +10,10 @@ export function DashboardPage() {
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
   const [territory, setTerritory] = useState<string | null>(null);
+  const [scanTrade, setScanTrade] = useState<string | null>(null);
+  const [scanPostcode, setScanPostcode] = useState<string | null>(null);
+  const [scansUsed, setScansUsed] = useState(0);
+  const [trackedLeadCount, setTrackedLeadCount] = useState(0);
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -20,13 +24,24 @@ export function DashboardPage() {
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
     setTerritory(localStorage.getItem('jobfilter.territory'));
+    setScanTrade(localStorage.getItem('jobfilter.trade'));
+    setScanPostcode(localStorage.getItem('jobfilter.postcode'));
+    setScansUsed(Number(localStorage.getItem('jf-weekly-scans-used')) || 0);
+    const tracked = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    setTrackedLeadCount(tracked.length);
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
   const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
-  const overdueCount = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost').length;
+  const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
+  const overdueCount = overdueLeads.length;
   const notContacted = chaseLeads.filter((l) => l.stage === 'not_contacted').length;
   const isEmpty = activeChase === 0 && monthlyStats.count === 0 && winData.wins === 0;
+
+  function handleSnooze(leadId: string) {
+    snoozeChaseLead(leadId);
+    setChaseLeads(getChaseLeads());
+  }
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24">
@@ -75,23 +90,83 @@ export function DashboardPage() {
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)]/20 transition">
-            <p className="micro-label text-[var(--muted)]">SCAN</p>
+          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+            <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">Find jobs worth pricing</p>
+            <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
           </Link>
-          <div className="block border-2 border-[var(--ink)] bg-white p-5 relative">
+          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">leads tracked</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">
+              {activeChase === 0 ? 'Scan for jobs → add them here to track' : 'leads in your pipeline'}
+            </p>
+            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View chase list →</p>
             {overdueCount > 0 && (
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
-          </div>
-          <div className="block border-2 border-[var(--ink)] bg-white p-5">
+          </Link>
+          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--offwhite)] transition">
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
-            <p className="headline mt-2 text-4xl leading-none text-green-700">{monthlyStats.count}</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">won this month · £{monthlyStats.totalValue.toLocaleString()}</p>
+            <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">
+              {monthlyStats.count === 0 ? 'Open any lead → mark it Won to record value' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
+            </p>
+            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">Review leads →</p>
+          </Link>
+        </div>
+      </section>
+
+      {/* Overdue leads */}
+      {overdueLeads.length > 0 && (
+        <section className="jf-box bg-white p-5">
+          <div className="flex items-center gap-3 border-b-2 border-[var(--orange)] pb-3">
+            <span className="bg-[var(--orange)] px-2 py-1 text-xs font-black text-white uppercase">OVERDUE</span>
+            <p className="font-black text-[var(--ink)]">
+              {overdueLeads.length} lead{overdueLeads.length === 1 ? '' : 's'} need chasing — snooze 24h or open to act now
+            </p>
+          </div>
+          <div className="mt-3 grid gap-2">
+            {overdueLeads.map((l) => (
+              <div key={l.leadId} className="flex items-center justify-between gap-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+                <div className="min-w-0">
+                  <p className="truncate font-black text-[var(--ink)]">{l.leadTitle}</p>
+                  <p className="text-xs font-black text-[var(--muted)]">{l.location} · {l.stage.replace('_', ' ')}</p>
+                </div>
+                <div className="flex flex-shrink-0 gap-2">
+                  <button
+                    onClick={() => handleSnooze(l.leadId)}
+                    className="jf-button bg-white text-[var(--ink)] text-sm"
+                  >
+                    SNOOZE 24H
+                  </button>
+                  <Link to={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
+                    VIEW →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Admin Guard Entry Card */}
+      <section className="jf-box bg-[var(--yellow)] p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--ink)]">TRADE COMMAND CENTRE</p>
+            <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)]">ADMIN GUARD</h2>
+            <p className="mt-2 font-black text-[var(--ink)]/80 text-sm max-w-sm">
+              HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link to="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
+              OPEN ADMIN GUARD →
+            </Link>
+            <Link to="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
+              LEARN MORE
+            </Link>
           </div>
         </div>
       </section>
@@ -106,8 +181,10 @@ export function DashboardPage() {
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
-            <Row label="Status" value="Ready to scan" />
-            <Row label="Last action" value="Tap a trade to start" />
+            <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
+            <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : `${scansUsed} run`} />
+            <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>
 
@@ -137,6 +214,7 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
+          <Link to="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
         </section>
 
         {/* Quick Actions */}

@@ -1,5 +1,69 @@
 # Daily To-Do
 
+## Today - 18 May 2026 (Run 3)
+
+- [x] PricingPage: comparison table "Full" → "Full detail" — removes ambiguity vs "Unlimited" on Codex/Vicinity/Vantage rows
+- [x] FindJobsPage: UNLOCK FULL LEAD button now has sub-text "Buyer · deadline · proof link" — names exactly what's locked
+- [x] DashboardPage: RESULTS pipeline box now a Link to /leads with hover + "Review leads →" text (matches SCAN + TRACKING behaviour)
+- [x] DashboardPage: YOUR SCOREBOARD section gets "Review all leads →" link
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-18 Run 3 written
+
+---
+
+## Today - 18 May 2026 (Run 2)
+
+- [x] DashboardPage: YOUR INTAKE now reads real trade/postcode/scan count from localStorage (was static "Ready to scan")
+- [x] FaqPage: Remove all source naming violations — EPC register, Land Registry, Companies House, Contracts Finder, planning.data.gov.uk replaced with generic descriptions
+- [x] MethodologyPage: Remove "land registry, company filings" from pipeline step 01 → "property data, business registrations"
+- [x] LeadListPage: Empty state simplified — single SCAN CTA + "No credit card required", removed parallel GET MY FILTER LINK distraction
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-18 Run 2 appended
+- [ ] PricingPage: contradictory "Full" vs "Unlimited" language in comparison table needs fixing
+- [ ] FindJobsPage: "UNLOCK FULL LEAD" button should explain what specifically gets unlocked (contact details, full address, action notes)
+
+---
+
+## Today - 21 May 2026
+
+- [x] TradePlumbers: source naming violations fixed (EPC retrofit signals, Planning Portal, EPC registers, exclusive)
+- [x] TradeRoofers: source naming violations fixed (EPC data, EPC registers, Exclusive scans, Hackney Council Planning)
+- [x] TradeBuilders: source naming violations fixed (planning portals, EPC data, Exclusive, Leeds City Council Planning, meta description)
+- [x] TradeHeatPumps: source naming violations fixed (EPC Retrofit in headline, EPC register, EPC F, EPC signal tag, EPC data in meta) — most violations of any page
+- [x] DashboardPage: SCAN box now yellow + hard shadow to distinguish as CTA vs TRACKING/RESULTS info boxes
+- [x] HomePage: Step 02 "Get GOLD alerts" → "Gold hits your WhatsApp" — names delivery channel
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-21 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] DashboardPage: TRACKING and RESULTS boxes still plain white — consider adding micro-copy explaining what each represents to new users
+- [ ] HomePage signalRows: source label still shows 'EPC' — check if this needs changing per naming rules
+- [ ] TradeRoofers comparisonNew: "Planning data shows roofing jobs" — check if "Planning data" is a naming violation (could become "Planning approvals show...")
+
+---
+
+## Today - 20 May 2026
+
+- [x] TypeScript: fix TS18004 reviewUrl undefined in outcomeReport.ts
+- [x] TypeScript: fix TS2304 DEV_MODE undefined in FreeToolsPage.tsx
+- [x] FindJobsPage: FILL MY WEEK now resets commercialOnly filter (matches regular scan)
+- [x] FindJobsPage: tierLabel() returns GOLD/SILVER/BRONZE — matches score badge labels (was WORTH CHECKING/LOW SIGNAL)
+- [x] TradeElectricians: remove all source naming violations (EPC data/register/Planning Portal)
+- [x] TradeElectricians: fix "Exclusive scans" product rule violation → "No shared auction — lead goes to you, not five other sparkies"
+- [x] TradePage (shared): "EPC signals" → "energy signals" in Other Trades section
+- [x] TradePage (shared): "No credit card required" added under hero SCAN FREE CTA (all 5 trade pages)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-20 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] Check TradePlumbers / TradeRoofers / TradeBuilders / TradeHeatPumps for same source naming violations as TradeElectricians (EPC / Planning Portal naming)
+- [ ] DashboardPage action boxes: improve visual hierarchy between SCAN / TRACKING / RESULTS
+- [ ] HomePage Step 02 (WhatsApp alerts): increase visual weight to match Step 01 and Step 03
+
+---
+
 ## Today - 19 May 2026
 
 - [x] FindJobsPage: COMMERCIAL ONLY filter toggle — shows count, resets on new scan, filters displayedLeads

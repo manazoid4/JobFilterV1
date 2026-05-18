@@ -149,12 +149,19 @@ function AlertSubscribeModal({ week, onClose }: { week: WeekData; onClose: () =>
     ? `This week: ${planning.thisWeek} planning applications across the UK. ${week.totalGold} GOLD leads. See what matches your trade.`
     : '';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
       setError('Enter a proper email address');
       return;
     }
+    try {
+      await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contact: email, trade: trade || 'All trades', source: 'weekly-signals-subscribe', optIn: true }),
+      });
+    } catch { /* proceed even on network error */ }
     setSubmitted(true);
   };
 

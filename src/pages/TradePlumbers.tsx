@@ -21,13 +21,13 @@ const data: TradePageData = {
   ],
   signals: [
     ['Planning applications', 'Every approved extension, new build, or renovation needs plumbing. We flag them the moment they\'re approved — before the homeowner starts looking for a plumber.'],
-    ['EPC retrofit signals', 'F/G rated properties need boiler upgrades, pipe insulation, and heating system replacements. JobFilter cross-references EPC data with planning approvals to find the highest-intent leads.'],
+    ['Energy efficiency signals', 'F/G rated properties need boiler upgrades, pipe insulation, and heating system replacements. JobFilter cross-references energy efficiency signals with planning approvals to find the highest-intent leads.'],
     ['Council contracts', 'Social housing plumbing upgrades, school refurbishments, council building maintenance — public tenders with named buyers and defined budgets.'],
   ],
   howItWorks: [
-    ['01', 'Enter your postcode', 'Tell us where you work. We scan planning portals, EPC registers, and council contracts within your radius.'],
+    ['01', 'Enter your postcode', 'Tell us where you work. We scan planning approvals, energy efficiency signals, and council contracts within your radius.'],
     ['02', 'We filter for plumbing', 'Bathroom installs, boiler replacements, new-build plumbing, pipe upgrades — only signals that match your trade score high.'],
-    ['03', 'Gold leads hit WhatsApp', 'When a planning app is approved for a bathroom extension or a property hits F-rated EPC, you know before anyone else.'],
+    ['03', 'Gold leads hit WhatsApp', 'When a planning app is approved for a bathroom extension or a low-rated energy property is flagged, you know before anyone else.'],
   ],
   tradeLeadExample: {
     title: 'Two-storey extension — full plumbing spec required',
@@ -36,7 +36,7 @@ const data: TradePageData = {
       ['Area', 'B14 / Solihull'],
       ['Value', '£8k-£15k plumbing package'],
       ['Urgency', 'Planning approved — work starts Q2'],
-      ['Official Source', 'Planning Portal — 94% confidence'],
+      ['Signal type', 'Verified planning signal — 94% confidence'],
       ['Signal', 'Extension approved, no contractor named'],
     ],
     tags: ['Verified signal', 'High intent', 'Free preview'],
@@ -57,15 +57,15 @@ Action: Open notice → jobfilter.uk/lead/abc123`,
   ],
   comparisonNew: [
     '£39/month founder — all plumbing signals, unlimited',
-    'Every signal is exclusive — no one else sees your scan',
+    'No shared auction — lead goes to you, not five other plumbers',
     'We score every signal. GOLD means worth chasing',
-    'Official planning data, EPC ratings, council contracts',
+    'Verified planning signals, energy ratings, council contracts',
     'Buyer name, value, urgency shown before you act',
     'No contracts. Cancel anytime. 30-day guarantee',
   ],
   ctaPostcode: 'B1',
   metaTitle: 'How Plumbers Find Work Before It Hits MyBuilder — JobFilter',
-  metaDescription: 'JobFilter scans planning applications, EPC data, and council contracts for plumbing jobs. Gold leads sent to WhatsApp before they hit MyBuilder or Checkatrade. Free scan.',
+  metaDescription: 'JobFilter scans planning applications and verified signals for plumbing jobs. Gold leads sent to WhatsApp before they hit MyBuilder or Checkatrade. Free scan.',
 };
 
 export function TradePlumbers() {

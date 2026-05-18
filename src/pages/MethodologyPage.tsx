@@ -6,8 +6,8 @@ const pipelineSteps = [
     num: '01',
     label: 'FETCH',
     icon: Radar,
-    body: 'Scan official sources — planning applications, government contracts, energy ratings, land registry, company filings, council notices, and streetworks permits.',
-    detail: 'We check 10+ official registers every day. Planning approvals. EPC ratings. Property sales. New businesses. Council tenders.',
+    body: 'Scan official sources — planning applications, government contracts, energy ratings, property data, business registrations, council notices, and streetworks permits.',
+    detail: 'We check 10+ official registers every day. Planning approvals. Energy ratings. Property sales. New businesses. Council tenders.',
   },
   {
     num: '02',
@@ -50,7 +50,7 @@ const scoreFactors = [
   { factor: 'Planning exists', weight: '20 pts', why: 'Homeowner has invested time and money' },
   { factor: 'Planning approved', weight: '+15 pts', why: 'Recent approval = high intent' },
   { factor: 'Property sold', weight: '+15 pts', why: 'New owner likely to renovate' },
-  { factor: 'EPC F/G rating', weight: '+10 pts', why: 'Legal obligation to upgrade' },
+  { factor: 'Low energy rating', weight: '+10 pts', why: 'Legal obligation to upgrade' },
   { factor: 'Council contract', weight: '+15 pts', why: 'Public sector = defined budget' },
   { factor: 'Affluent postcode', weight: '+10 pts', why: 'Budget availability higher' },
   { factor: 'Fresh signal', weight: '+5 pts', why: 'Less shopped = better chance' },
@@ -181,15 +181,15 @@ export function MethodologyPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            'Planning.data.gov.uk',
-            'EPC Register',
-            'Land Registry',
-            'Companies House',
-            'Contracts Finder',
-            'Find a Tender',
-            'Building Control',
-            'HMO Licensing',
-            'Auction Listings',
+            'Planning applications (400+ councils)',
+            'Energy efficiency registers',
+            'Property transaction data',
+            'Company registration data',
+            'Government contracts portal',
+            'UK public tenders portal',
+            'Building Control notices',
+            'HMO licensing records',
+            'Property auction listings',
           ].map((source) => (
             <div key={source} className="flex items-center gap-3 border-2 border-white/20 p-4">
               <CheckCircle size={18} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
