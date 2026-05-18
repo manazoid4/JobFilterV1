@@ -131,3 +131,63 @@ Also replaced "upstream signals: approvals, tenders, property condition, local a
 - [[Changelog 2026-05-17]]
 - [[Feature Roadmap - 8th May 2026]]
 - [[Sessions/Daily To-Do]]
+
+---
+
+# JobFilter Changelog — 2026-05-18 (Run 2)
+
+## Summary
+Second NightlyBuildAgent session same date. Build: GREEN. TypeScript: CLEAN. Phase 2: Dashboard YOUR INTAKE shows real trade/postcode/scan data. Phase 3: FaqPage — removed all source name violations (EPC register, Land Registry, Companies House, Contracts Finder, planning.data.gov.uk). MethodologyPage — removed "land registry, company filings". Phase 4: LeadListPage empty state simplified to single dominant SCAN CTA.
+
+## Commit Pushed
+
+| Commit | Files | Change |
+|--------|-------|--------|
+| e2ef850 | DashboardPage, FaqPage, MethodologyPage, LeadListPage | Dashboard real data, naming fixes, empty state fix |
+
+---
+
+## PHASE 2 — Feature: DashboardPage Real Intake Data
+
+**Problem:** YOUR INTAKE showed static placeholder text to all users including returning ones.
+
+**Fix:** Added `scanTrade`, `scanPostcode`, `scansUsed`, `trackedLeadCount` state, read from localStorage on mount. Section now shows real trade/postcode/scan data with helpful fallback text for unset values.
+
+**CRITIC:** YES — dashboard feels alive for returning users.
+**REVENUE:** YES — reduces "is this working?" confusion that causes early churn.
+
+---
+
+## PHASE 3 — Copy Polish
+
+### FaqPage — Naming Violations Removed
+
+All 4 violations fixed:
+- Q1: `EPC ratings` → `energy efficiency data`
+- Q2: `EPC rating` → `energy efficiency rating`
+- Q4: `EPC triggers` → `energy efficiency triggers`
+- Q11: Removed `planning.data.gov.uk, EPC register, Land Registry, Companies House, Contracts Finder` → replaced with generic signal descriptions
+
+### MethodologyPage — Naming Violations Removed
+
+- Pipeline step 01: `land registry, company filings` → `property data, business registrations`
+
+---
+
+## PHASE 4 — Site Health Check
+
+### NEEDLE: Top 3 Issues Found
+1. LeadListPage empty state: two parallel CTAs with no hierarchy
+2. FindJobsPage: "UNLOCK FULL LEAD" doesn't explain what "full" means
+3. PricingPage: contradictory "Full" vs "Unlimited" language
+
+### BUILDER Fix: LeadListPage Empty State
+Before: `SCAN FOR JOBS NOW` + `GET MY FILTER LINK` side by side  
+After: Single `SCAN FOR JOBS NOW →` + `No credit card required` sub-line  
+**CRITIC:** YES. **REVENUE:** YES.
+
+---
+
+## Build Status
+- `npm run build`: GREEN (2.90s)
+- `npx tsc --noEmit`: CLEAN (0 errors)

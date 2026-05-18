@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 18 May 2026 (Run 2)
+
+- [x] DashboardPage: YOUR INTAKE now reads real trade/postcode/scan count from localStorage (was static "Ready to scan")
+- [x] FaqPage: Remove all source naming violations — EPC register, Land Registry, Companies House, Contracts Finder, planning.data.gov.uk replaced with generic descriptions
+- [x] MethodologyPage: Remove "land registry, company filings" from pipeline step 01 → "property data, business registrations"
+- [x] LeadListPage: Empty state simplified — single SCAN CTA + "No credit card required", removed parallel GET MY FILTER LINK distraction
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-18 Run 2 appended
+- [ ] PricingPage: contradictory "Full" vs "Unlimited" language in comparison table needs fixing
+- [ ] FindJobsPage: "UNLOCK FULL LEAD" button should explain what specifically gets unlocked (contact details, full address, action notes)
+
+---
+
 ## Today - 21 May 2026
 
 - [x] TradePlumbers: source naming violations fixed (EPC retrofit signals, Planning Portal, EPC registers, exclusive)
