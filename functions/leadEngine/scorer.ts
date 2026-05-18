@@ -40,7 +40,14 @@ export function scoreLead(lead: Lead, userRegion: string): number {
   return scoreLeadBreakdown(lead, userRegion).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = ''): { score: number; reasons: string[] } {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', _userTrade?: string): {
+  score: number;
+  reasons: string[];
+  qualityLabel: NonNullable<Lead['qualityLabel']>;
+  leadReadiness: NonNullable<Lead['leadReadiness']>;
+  recommendedAction: string;
+  evidenceBadges: string[];
+} {
   let score = 0;
   const reasons: string[] = [];
 
@@ -116,7 +123,50 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
   }
 
-  return { score: Math.min(score, 100), reasons };
+  score = Math.min(Math.max(score, 0), 100);
+
+  const qualityLabel: NonNullable<Lead['qualityLabel']> = score >= 90
+    ? 'GOLD'
+    : score >= 75
+      ? 'SILVER'
+      : score >= 60
+        ? 'BRONZE'
+        : score >= 40
+          ? 'CHECK'
+          : 'SKIP';
+
+  const source = String(lead.source ?? '').toLowerCase();
+  const directoryFallback = lead.source === 'DirectorySignal';
+  const leadReadiness: NonNullable<Lead['leadReadiness']> = score >= 65
+    && lead.sourceConfidence >= 60
+    && lead.contactSignal !== 'none'
+    && !directoryFallback
+    ? 'READY'
+    : score < 40
+      || (directoryFallback && lead.sourceConfidence < 50)
+      || (lead.urgency === 'low' && lead.contactSignal === 'none')
+        ? 'WASTE'
+        : 'MAYBE';
+
+  const recommendedAction = leadReadiness === 'READY'
+    ? 'Call within 24 hours'
+    : leadReadiness === 'MAYBE'
+      ? 'Verify by phone before quoting'
+      : 'Do not spend site-visit time yet';
+
+  const evidenceBadges: string[] = [];
+  if (source.includes('planning')) evidenceBadges.push('Planning Verified');
+  if (source.includes('contracts') || source === 'fts' || source === 'pcs' || source.includes('publiccontractsscotland') || source.includes('sell2wales')) {
+    evidenceBadges.push('Tender Live');
+  }
+  const isFresh = lead.publishedAt && Date.now() - new Date(lead.publishedAt).getTime() <= 7 * 86_400_000;
+  if (isFresh) evidenceBadges.push('Fresh');
+  if (source.includes('companies')) evidenceBadges.push('Company Verified');
+  if (source.includes('land')) evidenceBadges.push('New Owner');
+  if (lead.estimatedValue && lead.estimatedValue !== 'POA') evidenceBadges.push('Budget Band');
+  evidenceBadges.push('Exclusive');
+
+  return { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges };
 }
 
 function parseValueToMidpoint(val: string): number {
