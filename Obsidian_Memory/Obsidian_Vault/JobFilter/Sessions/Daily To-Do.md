@@ -1,5 +1,29 @@
 # Daily To-Do
 
+## Today - 22 May 2026
+
+- [x] EpcPage: EPC naming violations fixed — RETROFIT LEADS / ENERGY UPGRADES / RETROFIT ADS / RETROFIT ALERTS + hero copy strengthened
+- [x] CityPage: EPC naming violations fixed across all 6 city pages (Birmingham, London, Manchester, Bristol, Leeds, Glasgow) — heroSub, localAngleBody, statsNote, step 02, lead card labels, coverage text, meta tags
+- [x] Footer: "EPC Leads" → "Retrofit Leads" nav link
+- [x] TradeElectricians: painPoints[3] + metaDescription EPC removed
+- [x] CompareBuildAlertPage: "No EPC signals" → "No energy signals", EPC registers removed from trust card, timeline copy cleaned
+- [x] CompareCheckatradePage: feature table, signals array, CTA list cleaned
+- [x] BuildUkAlternativePage: "EPC registers" → "verified energy signals"
+- [x] BlueprintPage: 8 EPC violations fixed (signal types, data source list, pipeline copy, example lead, hero body, fusion moat)
+- [x] signalGenerator.ts: RSS description "EPC ratings" → "energy signals"
+- [x] FindJobsPage: pre-scan buttons "TRY A DIFFERENT POSTCODE" / "WIDEN YOUR TRADE SEARCH" → "SCAN MY AREA →" / "SCAN BUILDING WORK" — correct framing for first-time users
+- [x] FindJobsPage: scan counter now visible BEFORE first scan — shows "3 free scans left this week — no credit card required" + "Resets Monday" hint for brand new users
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-22 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] DashboardPage: TRACKING and RESULTS boxes still plain white — consider adding micro-copy explaining what each represents to new users
+- [ ] Check if any TopNav links still show "EPC" text (nav item for /epc page)
+- [ ] Check WeeklySignalsPage scan counter text for any remaining "EPC" references
+
+---
+
 ## Today - 18 May 2026 (Run 3)
 
 - [x] PricingPage: comparison table "Full" → "Full detail" — removes ambiguity vs "Unlimited" on Codex/Vicinity/Vantage rows
