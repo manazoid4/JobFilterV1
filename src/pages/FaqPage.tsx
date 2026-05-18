@@ -4,15 +4,15 @@ import { Mail } from 'lucide-react';
 const faqs = [
   {
     q: 'What makes JobFilter different from Checkatrade or MyBuilder?',
-    a: 'We do not sell shared leads. We scan verified official signals — planning approvals, energy efficiency data, and property information — and score every signal for intent. One trade partner per postcode. No bidding wars. No ghosts.',
+    a: 'We do not sell shared leads. We scan verified official signals — planning approvals, energy efficiency data, and property information — and score every signal for intent. One trade partner per postcode. No bidding wars. No dead leads.',
   },
   {
     q: 'How does the Serious Buyer Score work?',
     a: 'Every signal gets a score from 0 to 100 based on verified official data: planning status, property type, recent sales, energy efficiency rating, and timing. We show you the evidence behind every score. You see what we see.',
   },
   {
-    q: 'What is a Ghost Risk rating?',
-    a: 'Every lead gets a LOW, MEDIUM, or HIGH ghost risk. LOW means high intent — call within 24 hours. HIGH means probable time-waster — skip or send a rough estimate only.',
+    q: 'What is lead readiness?',
+    a: 'Every lead gets a simple readiness marker. High intent means call within 24 hours. Low confidence means verify first or skip the site visit.',
   },
   {
     q: 'How fresh are the leads?',
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'One territory lock, unlimited WhatsApp alerts, unlimited direct letters sent 1st class on your behalf, full lead scoring, Ghost Risk ratings, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
+    a: 'One territory lock, unlimited WhatsApp alerts, unlimited direct letters sent 1st class on your behalf, full lead scoring, lead readiness markers, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',

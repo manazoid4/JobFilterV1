@@ -7,8 +7,8 @@ const sampleLead = {
   propertyType: '4-bed detached',
   score: 94,
   scoreLabel: 'GOLD',
-  ghostRisk: 'LOW',
-  ghostLabel: 'READY',
+  leadReadiness: 'HIGH',
+  readinessLabel: 'READY',
   budgetMin: 38000,
   budgetMax: 55000,
   detectedAt: '3 hours ago',
@@ -61,11 +61,11 @@ export function SampleLeadCard() {
           </div>
         </div>
 
-        {/* Ghost Risk */}
+        {/* Lead readiness */}
         <div className="jf-box bg-[var(--green)]/5 border-2 border-[var(--green)] p-4 text-center">
-          <p className="micro-label text-[var(--green)]">Ghost Risk</p>
-          <p className="headline mt-1 text-3xl text-[var(--green)]">{sampleLead.ghostRisk}</p>
-          <p className="mt-1 text-xs font-black uppercase text-[var(--green)]">({sampleLead.ghostLabel})</p>
+          <p className="micro-label text-[var(--green)]">Lead Readiness</p>
+          <p className="headline mt-1 text-3xl text-[var(--green)]">{sampleLead.leadReadiness}</p>
+          <p className="mt-1 text-xs font-black uppercase text-[var(--green)]">({sampleLead.readinessLabel})</p>
           <CheckCircle size={20} strokeWidth={3} className="mx-auto mt-2 text-[var(--green)]" />
         </div>
 

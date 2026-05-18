@@ -1,20 +1,20 @@
 import { ShieldCheck, AlertTriangle, XCircle } from 'lucide-react';
 
-type GhostRiskLevel = 'READY' | 'MAYBE' | 'WASTE';
+type LeadReadinessLevel = 'READY' | 'MAYBE' | 'WASTE';
 
-interface GhostRiskBadgeProps {
-  level: GhostRiskLevel;
+interface LeadReadinessBadgeProps {
+  level: LeadReadinessLevel;
   showLabel?: boolean;
   size?: 'sm' | 'md' | 'lg';
 }
 
-const config: Record<GhostRiskLevel, { color: string; bg: string; border: string; icon: typeof ShieldCheck; label: string; action: string }> = {
+const config: Record<LeadReadinessLevel, { color: string; bg: string; border: string; icon: typeof ShieldCheck; label: string; action: string }> = {
   READY: {
     color: 'text-[var(--green)]',
     bg: 'bg-[var(--green)]/5',
     border: 'border-[var(--green)]',
     icon: ShieldCheck,
-    label: 'LOW GHOST RISK',
+    label: 'HIGH INTENT',
     action: 'Call within 24 hours',
   },
   MAYBE: {
@@ -22,7 +22,7 @@ const config: Record<GhostRiskLevel, { color: string; bg: string; border: string
     bg: 'bg-[var(--yellow)]/5',
     border: 'border-[var(--yellow)]',
     icon: AlertTriangle,
-    label: 'MEDIUM GHOST RISK',
+    label: 'VERIFY FIRST',
     action: 'Verify before site visit',
   },
   WASTE: {
@@ -30,12 +30,12 @@ const config: Record<GhostRiskLevel, { color: string; bg: string; border: string
     bg: 'bg-[var(--orange)]/5',
     border: 'border-[var(--orange)]',
     icon: XCircle,
-    label: 'HIGH GHOST RISK',
+    label: 'LOW CONFIDENCE',
     action: 'Skip or rough estimate only',
   },
 };
 
-export function GhostRiskBadge({ level, showLabel = true, size = 'md' }: GhostRiskBadgeProps) {
+export function LeadReadinessBadge({ level, showLabel = true, size = 'md' }: LeadReadinessBadgeProps) {
   const c = config[level];
   const Icon = c.icon;
 
@@ -61,7 +61,7 @@ export function GhostRiskBadge({ level, showLabel = true, size = 'md' }: GhostRi
   );
 }
 
-export function GhostRiskDetail({ level }: { level: GhostRiskLevel }) {
+export function LeadReadinessDetail({ level }: { level: LeadReadinessLevel }) {
   const c = config[level];
   const Icon = c.icon;
 

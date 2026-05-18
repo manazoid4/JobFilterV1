@@ -219,7 +219,7 @@ export function TerritoriesPage() {
                   'Gold leads controlled by trade, patch, and timing — no shared auction, no five-trade blast',
                   'Unlimited WhatsApp alerts',
                   'Unlimited direct letters — 1st class postage included',
-                  'Full lead scoring + Ghost Risk rating',
+                  'Full lead scoring + lead readiness markers',
                   'Pipeline tracking for every opportunity',
                   'Founder price locked forever while active',
                 ].map((item) => (

@@ -4,7 +4,7 @@ import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, F
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
-import { GhostRiskBadge } from '../components/GhostRiskBadge';
+import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
 import { TrustBadges } from '../components/TrustBadges';
 import type { DocumentSearchResult } from '../lib/documentSearch';
@@ -247,7 +247,7 @@ export function FindJobsPage() {
             source: lead.source,
             planningRef: lead.url,
             id: lead.id,
-            ghostRisk: lead.ghostRisk,
+            leadReadiness: lead.leadReadiness,
             qualityLabel: lead.qualityLabel,
             postcodeOutward: lead.postcodeOutward,
           },
@@ -803,7 +803,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
               COMMERCIAL
             </span>
           )}
-          <GhostRiskBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
+          <LeadReadinessBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">

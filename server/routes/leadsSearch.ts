@@ -108,7 +108,7 @@ function toFreePreviewLead(lead: Lead) {
     reasons: buildReasons(lead, score),
     distanceMiles: lead.distanceMiles,
     qualityLabel: lead.qualityLabel,
-    ghostRisk: lead.ghostRisk,
+    leadReadiness: lead.leadReadiness,
     recommendedAction: lead.recommendedAction,
     evidenceBadges: lead.evidenceBadges,
     signalStack: lead.signalStack,

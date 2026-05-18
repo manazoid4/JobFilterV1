@@ -145,7 +145,7 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
-              STOP QUOTING FOR GHOSTS.
+              STOP PRICING DEAD LEADS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               Find real building work using planning, EPC and council data — sent to your WhatsApp before competitors call.
@@ -471,7 +471,7 @@ export function HomePage() {
               { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
               { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
-              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score + Ghost Risk rating on every lead.' },
+              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score plus a clear chase recommendation on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'All free tools', body: 'Codex, Vicinity, Vantage — every tool, no extra charge.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },

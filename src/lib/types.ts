@@ -20,7 +20,7 @@ export type LeadDecision = {
   budget?: string;
   tier?: 'GOLD' | 'SILVER' | 'BIN';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
-  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
   signalStack?: string[];
@@ -52,7 +52,7 @@ export type Lead = {
   distanceMiles?: number;
   isCommercial?: boolean;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
-  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
   signalStack?: string[];

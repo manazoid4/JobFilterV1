@@ -4,7 +4,7 @@ import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
 import { ScoreBadge } from './ScoreBadge';
 import { Tag } from './Tag';
-import { GhostRiskBadge } from './GhostRiskBadge';
+import { LeadReadinessBadge } from './LeadReadinessBadge';
 import { ScoreBadgeCompact } from './SeriousBuyerScore';
 
 type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'ignored';
@@ -28,12 +28,12 @@ type LeadCardProps = {
   href?: string;
   meta?: string;
   showStatus?: boolean;
-  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   buyerScore?: number;
   freshness?: string;
 };
 
-export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, ghostRisk, buyerScore, freshness }: LeadCardProps) {
+export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, leadReadiness, buyerScore, freshness }: LeadCardProps) {
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
@@ -70,9 +70,9 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
             </span>
           )}
         </div>
-        {(ghostRisk || buyerScore !== undefined) && (
+        {(leadReadiness || buyerScore !== undefined) && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            {ghostRisk && <GhostRiskBadge level={ghostRisk} size="sm" />}
+            {leadReadiness && <LeadReadinessBadge level={leadReadiness} size="sm" />}
             {buyerScore !== undefined && <ScoreBadgeCompact score={buyerScore} />}
           </div>
         )}
