@@ -10,6 +10,10 @@ export function DashboardPage() {
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
   const [territory, setTerritory] = useState<string | null>(null);
+  const [scanTrade, setScanTrade] = useState<string | null>(null);
+  const [scanPostcode, setScanPostcode] = useState<string | null>(null);
+  const [scansUsed, setScansUsed] = useState(0);
+  const [trackedLeadCount, setTrackedLeadCount] = useState(0);
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -20,6 +24,11 @@ export function DashboardPage() {
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
     setTerritory(localStorage.getItem('jobfilter.territory'));
+    setScanTrade(localStorage.getItem('jobfilter.trade'));
+    setScanPostcode(localStorage.getItem('jobfilter.postcode'));
+    setScansUsed(Number(localStorage.getItem('jf-weekly-scans-used')) || 0);
+    const tracked = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    setTrackedLeadCount(tracked.length);
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
@@ -150,8 +159,10 @@ export function DashboardPage() {
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
-            <Row label="Status" value="Ready to scan" />
-            <Row label="Last action" value="Tap a trade to start" />
+            <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
+            <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : `${scansUsed} run`} />
+            <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>
 

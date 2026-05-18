@@ -6,7 +6,7 @@ const pipelineSteps = [
     num: '01',
     label: 'FETCH',
     icon: Radar,
-    body: 'Scan official sources — planning applications, government contracts, energy ratings, land registry, company filings, council notices, and streetworks permits.',
+    body: 'Scan official sources — planning applications, government contracts, energy ratings, property data, business registrations, council notices, and streetworks permits.',
     detail: 'We check 10+ official registers every day. Planning approvals. Energy ratings. Property sales. New businesses. Council tenders.',
   },
   {

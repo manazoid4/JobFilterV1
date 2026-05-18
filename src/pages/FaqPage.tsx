@@ -4,11 +4,11 @@ import { Mail } from 'lucide-react';
 const faqs = [
   {
     q: 'What makes JobFilter different from Checkatrade or MyBuilder?',
-    a: 'We do not sell shared leads. We scan official government data — planning applications, EPC ratings, property sales — and score every signal for intent. One trade partner per postcode. No bidding wars. No ghosts.',
+    a: 'We do not sell shared leads. We scan verified official signals — planning approvals, energy efficiency data, and property information — and score every signal for intent. One trade partner per postcode. No bidding wars. No ghosts.',
   },
   {
     q: 'How does the Serious Buyer Score work?',
-    a: 'Every signal gets a score from 0 to 100 based on official data: planning status, property type, recent sales, EPC rating, and timing. We show you the evidence behind every score. You see what we see.',
+    a: 'Every signal gets a score from 0 to 100 based on verified official data: planning status, property type, recent sales, energy efficiency rating, and timing. We show you the evidence behind every score. You see what we see.',
   },
   {
     q: 'What is a Ghost Risk rating?',
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: 'How fresh are the leads?',
-    a: 'Most signals are detected within 24-48 hours of appearing on official registers. Planning approvals. Property sales. EPC triggers. You get them before they appear anywhere else.',
+    a: 'Most signals are detected within 24-48 hours of appearing on official registers. Planning approvals. Property transactions. Energy efficiency triggers. You get them before they appear anywhere else.',
   },
   {
     q: 'What do I actually get for £39/month?',
@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: 'Where does your data come from?',
-    a: 'Official UK government registers: planning.data.gov.uk, EPC register, Land Registry, Companies House, Contracts Finder, and more. All used under Open Government Licence.',
+    a: 'Verified UK government data published under the Open Government Licence — planning approvals, energy efficiency signals, property transactions, business registrations, and public contracts. We clean, score, and deliver the signals. You get actionable leads, not raw data.',
   },
   {
     q: 'Is my data safe?',
