@@ -121,14 +121,16 @@ select {
   padding-block: 96px;
 }
 
-.ops-panel {
+/* Structural only — no background. Pages specify bg-* explicitly. */
+:where(.ops-panel) {
   border: 2px solid var(--line);
   box-shadow: 4px 4px 0 var(--yellow);
 }
 
+/* Fallback bg at zero specificity so any bg-* utility wins */
 @layer components {
-  .ops-panel {
-    background: var(--paper);
+  :where(.ops-panel) {
+    background-color: var(--paper);
   }
 }
 
@@ -157,9 +159,9 @@ select {
   min-width: 0;
 }
 
-/* Default white background in components layer so bg-* utilities win */
+/* Fallback bg at zero specificity so any bg-* utility wins */
 @layer components {
-  .jf-box {
+  :where(.jf-box) {
     background-color: var(--white);
   }
 }
@@ -221,8 +223,8 @@ select {
 }
 
 @layer components {
-  .choice-button { background: var(--yellow); }
-  .choice-button:hover { background: var(--yellow-2); }
+  :where(.choice-button) { background: var(--yellow); }
+  :where(.choice-button:hover) { background: var(--yellow-2); }
 }
 
 .choice-button:hover {
@@ -272,8 +274,8 @@ select {
 }
 
 @layer components {
-  .field-input { background: var(--paper); }
-  .field-input:focus { background: var(--paper); }
+  :where(.field-input) { background: var(--paper); }
+  :where(.field-input:focus) { background: var(--paper); }
 }
 
 /* ── NAVIGATION ─────────────────────────────────────── */
