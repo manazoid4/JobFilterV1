@@ -125,6 +125,31 @@ export function getLostReasonBreakdown(): { reason: LostReason; count: number; l
   })).sort((a, b) => b.count - a.count);
 }
 
+export function getWinBreakdown(): {
+  byTrade: { key: string; count: number; value: number }[];
+  byLocation: { key: string; count: number; value: number }[];
+  bySource: { key: string; count: number; value: number }[];
+} {
+  const { wins } = getWinData();
+  const group = (keyFn: (w: WinJob) => string) => {
+    const acc: Record<string, { count: number; value: number }> = {};
+    wins.forEach((w) => {
+      const k = (keyFn(w) || 'Unknown').trim() || 'Unknown';
+      if (!acc[k]) acc[k] = { count: 0, value: 0 };
+      acc[k].count += 1;
+      acc[k].value += w.value;
+    });
+    return Object.entries(acc)
+      .map(([key, v]) => ({ key, count: v.count, value: v.value }))
+      .sort((a, b) => b.value - a.value);
+  };
+  return {
+    byTrade: group((w) => w.trade),
+    byLocation: group((w) => w.location),
+    bySource: group((w) => w.source),
+  };
+}
+
 export function generateReviewMessage(win: WinJob, platform: 'google' | 'checkatrade'): string {
   const tradeLabel = win.trade.charAt(0).toUpperCase() + win.trade.slice(1);
   if (platform === 'google') {

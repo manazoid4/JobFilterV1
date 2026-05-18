@@ -4,10 +4,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Real planning signals',
-  'Real construction opportunities',
-  'Postcode exclusivity',
-  'One dominant partner per area',
+  '40+ UK signal sources scanned daily',
+  'Planning, EPC & council data — verified',
+  'One trade per postcode — locked to you',
+  'No shared lead trap. Cancel anytime.',
 ];
 
 const signalRows = [
@@ -148,7 +148,7 @@ export function HomePage() {
               STOP QUOTING FOR GHOSTS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Real jobs. Scored. Sent to your WhatsApp before anyone else knows they exist.
+              Find real building work using planning, EPC and council data — sent to your WhatsApp before competitors call.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (

@@ -1,16 +1,50 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStoredLeads } from '../lib/leadStore';
+import type { LeadDecision } from '../lib/types';
 
 type Tab = 'gold' | 'silver' | 'bin';
 
+function leadsToCsv(leads: LeadDecision[]): string {
+  const headers = ['Score', 'Job Type', 'Area', 'Postcode', 'Urgency', 'Budget', 'Phone', 'Status', 'Flags', 'Created'];
+  const escape = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = leads.map((l) =>
+    [l.score, l.jobType, l.area, l.postcode, l.urgency, l.budget ?? '', l.phone ?? '', l.status, (l.flags ?? []).join('|'), l.createdAt]
+      .map(escape)
+      .join(','),
+  );
+  return [headers.join(','), ...rows].join('\r\n');
+}
+
+function downloadCsv(leads: LeadDecision[], tab: Tab) {
+  if (leads.length === 0) return;
+  const blob = new Blob([leadsToCsv(leads)], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `jobfilter-${tab}-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function LeadListPage() {
   const [tab, setTab] = useState<Tab>('gold');
+  const [query, setQuery] = useState('');
   const stored = getStoredLeads();
 
-  const gold   = stored.filter((l) => l.score >= 80 && l.status !== 'ignored');
-  const silver = stored.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
-  const bin    = stored.filter((l) => l.score < 50 || l.status === 'ignored');
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return stored;
+    return stored.filter((l) =>
+      [l.jobType, l.area, l.postcode, l.details, (l.flags ?? []).join(' ')]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(q)),
+    );
+  }, [stored, query]);
+
+  const gold   = filtered.filter((l) => l.score >= 80 && l.status !== 'ignored');
+  const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
+  const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
 
   const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
 
@@ -58,6 +92,26 @@ export function LeadListPage() {
         <p className="truncate text-sm font-black text-[var(--navy)]">
           Call GOLD leads the same day. Response rate drops 60% after 24 hours.
         </p>
+      </div>
+
+      {/* ── Search + Export ────────────────────────────────── */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search leads — job type, area, postcode, keyword"
+          className="flex-1 border-2 border-[var(--navy)] bg-white px-4 py-3 text-sm font-black text-[var(--ink)] placeholder:text-[var(--muted)]"
+        />
+        <button
+          type="button"
+          onClick={() => downloadCsv(visible, tab)}
+          disabled={visible.length === 0}
+          className="jf-button bg-[var(--navy)] text-white sm:px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Download visible leads as CSV"
+        >
+          EXPORT CSV ({visible.length})
+        </button>
       </div>
 
       {/* ── Tabs ────────────────────────────────────────────── */}
