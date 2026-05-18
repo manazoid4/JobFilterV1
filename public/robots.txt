@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /leads/
+Crawl-delay: 10
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /

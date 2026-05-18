@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { CheckCircle2, Database, FlaskConical, LockOpen, Route, Wrench } from 'lucide-react';
+
+const DEV_UNLOCK_KEY = 'jf-unlimited-tester';
+const SCAN_COUNT_KEY = 'jf-weekly-scans-used';
+const SCAN_WEEK_KEY = 'jf-weekly-scans-week';
 
 const routes = [
   ['/find-jobs', 'Full lead scanner'],
@@ -13,9 +18,9 @@ const routes = [
 ];
 
 const systems = [
-  ['Frontend gates', 'DEV_MODE and OPEN_ACCESS are enabled in scanner and tools.'],
-  ['API lead search', 'Express and Firebase search endpoints return full paid-mode leads with lockedCount 0.'],
-  ['Product access', 'No UI paywall should block testing of scanner, WhatsApp actions, tools, territories, or dashboard flows.'],
+  ['Frontend gates', 'Local unlimited tester unlocks scanner limits and paid UI actions.'],
+  ['API lead search', 'Full backend lead data still requires FULL_ACCESS_TEST_MODE=true on the server.'],
+  ['Product access', 'Use this portal to test scanner, WhatsApp actions, tools, territories, and dashboard flows.'],
   ['Research memory', 'The UK growth playbook and earliest buying-signal pack are stored in the Obsidian vault.'],
 ];
 
@@ -26,13 +31,27 @@ const checkCards = [
 ];
 
 export function DevPortalPage() {
+  const [unlocked, setUnlocked] = useState(() => localStorage.getItem(DEV_UNLOCK_KEY) === 'true');
+
+  function enableUnlock() {
+    localStorage.setItem(DEV_UNLOCK_KEY, 'true');
+    localStorage.setItem(SCAN_COUNT_KEY, '0');
+    localStorage.setItem(SCAN_WEEK_KEY, '');
+    setUnlocked(true);
+  }
+
+  function disableUnlock() {
+    localStorage.removeItem(DEV_UNLOCK_KEY);
+    setUnlocked(false);
+  }
+
   return (
     <main className="page-shell py-10">
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">DEV PORTAL</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">FULL ACCESS TEST MODE.</h1>
         <p className="mt-4 max-w-3xl text-xl font-black text-white/90">
-          Use this page when continuing from another machine. Every key product surface is linked here, and the backend lead search is configured for full test access.
+          Use this page while building. Enable the local unlimited tester to remove frontend scan limits and open paid actions without changing production entitlement logic.
         </p>
       </section>
 
@@ -43,6 +62,21 @@ export function DevPortalPage() {
             <h2 className="headline text-3xl">Access State</h2>
           </div>
           <div className="mt-5 grid gap-3">
+            <div className="border-2 border-[var(--ink)] bg-[var(--yellow)] p-4">
+              <p className="micro-label text-[var(--ink)]">UNLIMITED TESTER</p>
+              <h3 className="headline mt-2 text-3xl">{unlocked ? 'UNLOCKED' : 'LOCKED'}</h3>
+              <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+                This sets a local browser tester flag and resets weekly scan counts. Remove this page before launch.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button type="button" onClick={enableUnlock} className="jf-button bg-[var(--ink)] text-white">
+                  UNLOCK EVERYTHING
+                </button>
+                <button type="button" onClick={disableUnlock} className="jf-button bg-white text-[var(--ink)]">
+                  CLEAR TESTER
+                </button>
+              </div>
+            </div>
             {systems.map(([title, body]) => (
               <div key={title} className="border-2 border-[var(--line)] bg-[var(--paper)] p-3">
                 <div className="flex items-start gap-2">

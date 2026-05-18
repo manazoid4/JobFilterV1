@@ -229,10 +229,32 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     unique.push(lead);
   }
 
+  const fused = fuseSignals(unique, outward);
+
   // 6. Score, update stats.passed, rank
-  const scored: Lead[] = unique.map(l => {
-    const { score, reasons } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
-    const leadWithDistance: Lead = { ...l, score, scoreReasons: reasons };
+  const scored: Lead[] = fused.map(l => {
+    const { score, reasons, qualityLabel, ghostRisk, recommendedAction, evidenceBadges } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
+    const scoreReasons = [...reasons];
+    let finalScore = score;
+    const stack = l.signalStack ?? [l.source].filter(Boolean);
+    if (stack.length === 1 && stack[0] === 'DirectorySignal') {
+      finalScore -= 8;
+      scoreReasons.push('Internal fallback only');
+    }
+    if (stack.length > 1) {
+      finalScore += 5;
+      scoreReasons.push('Multi-source verified');
+    }
+    finalScore = Math.min(Math.max(finalScore, 0), 100);
+    const leadWithDistance: Lead = {
+      ...l,
+      score: finalScore,
+      scoreReasons,
+      qualityLabel,
+      ghostRisk,
+      recommendedAction,
+      evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
+    };
     const leadOutward = l.postcodeOutward?.toUpperCase() ?? '';
     if (leadOutward === outward.toUpperCase()) {
       leadWithDistance.distanceMiles = 0;
@@ -278,6 +300,55 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     sourceHealth: {},
     errors,
   };
+}
+
+function fuseSignals(leads: Lead[], outward: string): Lead[] {
+  const groups = new Map<string, Lead[]>();
+  for (const lead of leads) {
+    const key = lead.fusionKey || `${lead.postcodeOutward || outward}|${normaliseFusionTitle(lead.title)}`;
+    const bucket = groups.get(key) ?? [];
+    bucket.push(lead);
+    groups.set(key, bucket);
+  }
+
+  return leads.map((lead) => {
+    const key = lead.fusionKey || `${lead.postcodeOutward || outward}|${normaliseFusionTitle(lead.title)}`;
+    const stack = uniqueSources(groups.get(key) ?? [lead]);
+    return {
+      ...lead,
+      fusionKey: key,
+      signalStack: stack,
+      signalClass: classifySignalStack(stack),
+    };
+  });
+}
+
+function normaliseFusionTitle(title: string): string {
+  return String(title ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter(word => word.length > 2)
+    .slice(0, 6)
+    .join('-');
+}
+
+function uniqueSources(leads: Lead[]): string[] {
+  return [...new Set(leads.map(lead => lead.source).filter(Boolean))];
+}
+
+function classifySignalStack(sources: string[]): NonNullable<Lead['signalClass']> {
+  const lower = sources.map(source => source.toLowerCase());
+  const has = (needle: string) => lower.some(source => source.includes(needle));
+  const hasPlanning = has('planning') || has('plan');
+  const hasContracts = has('contracts') || has('fts') || has('pcs') || has('sell2wales');
+
+  if (hasPlanning && has('epc')) return 'homeowner_retrofit';
+  if (hasPlanning && has('buildingcontrol')) return 'active_site';
+  if (has('companies') && hasPlanning) return 'commercial_fitout';
+  if (hasContracts) return 'public_contract';
+  if (sources.length === 1 && sources[0] === 'DirectorySignal') return 'internal_fallback';
+  return 'active_site';
 }
 
 function validateTrade(trade: string): Exclude<ScanOptions['trade'], undefined | 'all'> {

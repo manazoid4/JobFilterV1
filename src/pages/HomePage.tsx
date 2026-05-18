@@ -4,17 +4,17 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  '40+ UK signal sources scanned daily',
-  'Planning, EPC & council data — verified',
+  'Official UK signal sources checked server-side',
+  'Planning, EPC & council data where available',
   'One trade per postcode — locked to you',
   'No shared lead trap. Cancel anytime.',
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: '£42k', score: 94, trend: 'up' as const, location: 'B12' },
-  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: '£18k', score: 87, trend: 'up' as const, location: 'M14' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: '£65k', score: 91, trend: 'up' as const, location: 'LS1' },
-  { source: 'Property', signal: 'Brownfield site live', trade: 'Groundworks', value: '£120k', score: 82, trend: 'down' as const, location: 'G41' },
+  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Example' },
+  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Example' },
+  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Example' },
+  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Example' },
 ];
 
 const operatingSteps = [

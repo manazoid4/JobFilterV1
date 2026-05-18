@@ -1,9 +1,10 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 
 export function registerWaitlistCountRoute(app: Express) {
-  app.get('/api/waitlist/count', async (_req: Request, res: Response) => {
+  app.get('/api/waitlist/count', rateLimit, async (_req: Request, res: Response) => {
     try {
       const filePath = path.join(process.cwd(), 'data', 'waitlist.jsonl');
       let count = 0;

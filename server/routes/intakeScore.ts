@@ -1,13 +1,14 @@
 import type { Express, Request, Response } from 'express';
 import { scoreIntake } from '../services/decisionScoring';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
+import { rateLimit } from '../middleware/rateLimit';
 import { outwardFromPostcode } from '../utils/postcode';
 
 const JOB_TYPES = new Set(['Electrical', 'Plumbing', 'Roofing', 'Building']);
 const URGENCY_TYPES = new Set(['Emergency', 'This week', 'Later']);
 
 export function registerIntakeScoreRoute(app: Express) {
-  app.post('/api/intake/score', async (req: Request, res: Response) => {
+  app.post('/api/intake/score', rateLimit, async (req: Request, res: Response) => {
     try {
       const jobType = sanitizeJobType(req.body?.jobType);
       const urgency = sanitizeUrgency(req.body?.urgency);

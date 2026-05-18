@@ -1,10 +1,11 @@
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 import { sendWaitlistConfirmation } from '../services/email';
 
 const waitlistStore: Array<Record<string, string>> = [];
 
 export function registerWaitlistRoute(app: Express) {
-  app.post('/api/waitlist', async (req: Request, res: Response) => {
+  app.post('/api/waitlist', rateLimit, async (req: Request, res: Response) => {
     try {
       const entry = {
         name: clean(req.body?.name, 80),

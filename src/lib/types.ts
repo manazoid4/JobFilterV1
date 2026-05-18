@@ -19,6 +19,12 @@ export type LeadDecision = {
   phone?: string;
   budget?: string;
   tier?: 'GOLD' | 'SILVER' | 'BIN';
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  evidenceBadges?: string[];
+  signalStack?: string[];
+  signalClass?: string;
   status: LeadDecisionStatus;
   createdAt: string;
 };
@@ -45,6 +51,20 @@ export type Lead = {
   score: number;
   distanceMiles?: number;
   isCommercial?: boolean;
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  evidenceBadges?: string[];
+  signalStack?: string[];
+  signalClass?: string;
+};
+
+export type SourceStats = {
+  fetched?: number;
+  passed?: number;
+  dropped?: number;
+  failed?: boolean;
+  error?: string;
 };
 
 export type LeadSearchResponse = {
@@ -55,6 +75,8 @@ export type LeadSearchResponse = {
   outward: string;
   leads: Lead[];
   lockedCount?: number;
+  accessMode?: string;
+  sources?: Record<string, SourceStats>;
   errors: string[];
 };
 
