@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
@@ -565,6 +565,33 @@ export function FindJobsPage() {
                 </div>
               )}
 
+              <section className="grid gap-4 lg:grid-cols-2">
+                <div className="jf-box bg-[var(--ink)] p-5 text-white">
+                  <div className="flex items-start gap-3">
+                    <Radar className="mt-1 h-5 w-5 text-[var(--yellow)]" strokeWidth={3} />
+                    <div>
+                      <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
+                      <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
+                      <p className="mt-2 text-sm font-black text-white/75">
+                        Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
+                  <div className="flex items-start gap-3">
+                    <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
+                    <div>
+                      <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
+                      <h2 className="headline mt-2 text-3xl leading-none">EVERY SERIOUS LEAD GETS A CHASE PLAN.</h2>
+                      <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+                        Open full lead access to see the call opener, verification questions, quote guardrail, and next action.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               {displayedLeads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
@@ -831,6 +858,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
+        <BuyerActionPack lead={lead} unlocked={cardOpenAccess} />
       </div>
       <div className="grid gap-3 md:self-start">
         <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} />
@@ -865,6 +893,46 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         )}
       </div>
     </article>
+  );
+}
+
+function BuyerActionPack({ lead, unlocked }: { lead: Lead; unlocked: boolean }) {
+  const trade = titleCase(String(lead.trade || lead.tradeMatch || 'trade'));
+  const area = lead.location || lead.postcodeOutward || 'your area';
+  const opener = `Hi, I saw the ${trade.toLowerCase()} work signal in ${area}. Are you still looking for prices?`;
+  const questions = [
+    `Is the ${trade.toLowerCase()} scope agreed yet?`,
+    'Who is making the final decision?',
+    'When do you need the work started?',
+  ];
+  const guardrail = lead.score >= 80
+    ? 'Call before sending a long quote. This is worth a fast qualification call.'
+    : lead.score >= 55
+      ? 'Verify budget and timing before spending site-visit time.'
+      : 'Do not visit until buyer, scope, and budget are clearer.';
+
+  if (!unlocked) {
+    return (
+      <div className="mt-4 border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
+        <p className="micro-label text-[10px] text-[var(--orange)]">BUYER ACTION PACK</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]">Unlock the call opener, verification questions, quote guardrail, and next action.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-3">
+      <p className="micro-label text-[10px] text-[var(--navy)]">BUYER ACTION PACK</p>
+      <p className="mt-2 text-sm font-black text-[var(--ink)]">Call opener: {opener}</p>
+      <div className="mt-2 grid gap-1">
+        {questions.map((question) => (
+          <p key={question} className="text-xs font-black text-[var(--muted)]">- {question}</p>
+        ))}
+      </div>
+      <p className="mt-2 border-l-4 border-[var(--yellow)] bg-white px-3 py-2 text-xs font-black text-[var(--ink)]">
+        {lead.recommendedAction || guardrail}
+      </p>
+    </div>
   );
 }
 

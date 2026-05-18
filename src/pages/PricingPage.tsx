@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import type { ReactNode } from 'react';
-import { Radio, FileText, Camera, Mail, MapPinned, Phone, Check, X, Zap, FileSearch, LayoutGrid, BarChart3, Download, Calendar, Search } from 'lucide-react';
+import { FormEvent, useState, type ReactNode } from 'react';
+import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Download, Calendar, Search, ClipboardCheck, Radar } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
-import { WaitlistForm } from '../components/WaitlistForm';
+import { joinWaitlist } from '../lib/waitlist';
 
 const included = [
   'Gold leads sent to WhatsApp before competitors see them',
@@ -13,7 +13,10 @@ const included = [
   'CSV export & calendar reminders — sync to any CRM',
   'Keyword search across planning, EPC & council signals',
   'Company-branded letters for selected Gold leads',
-  'Codex, Vicinity & Vantage — document tools included',
+  'Buyer Action Pack — call opener, checks, quote guardrail',
+  'Patch Watch — daily trade signals for your postcode cluster',
+  'Trade intelligence news included in the monthly price',
+  'Vicinity & Vantage included for proof and bid support',
   'Weekly opportunity digest for your patch',
 ];
 
@@ -59,14 +62,14 @@ const featureCategories = [
     points: ['Win breakdown by trade & area', 'CSV export', 'Calendar reminders'],
   },
   {
-    icon: Search,
-    title: 'Keyword Search',
-    points: ['Search planning & EPC signals', 'Trade-tagged keyword match'],
+    icon: ClipboardCheck,
+    title: 'Buyer Action Pack',
+    points: ['Call opener', 'Verification questions', 'Quote guardrail'],
   },
   {
-    icon: FileText,
-    title: 'Documents',
-    points: ['Codex simplifier', 'Vantage bid decks'],
+    icon: Radar,
+    title: 'Patch Watch',
+    points: ['Daily signal watch', 'Weekly opportunity digest', 'Trade intelligence news'],
   },
   {
     icon: Mail,
@@ -86,8 +89,9 @@ const comparisonRows = [
   { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
   { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Buyer Action Pack', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Patch Watch + trade intelligence', free: 'Preview', founder: 'Included', standard: 'Included' },
   { feature: 'Company-branded letters', free: false, founder: true, standard: true },
-  { feature: 'Codex doc simplifier', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Founder price lock', free: false, founder: true, standard: false },
@@ -96,7 +100,8 @@ const comparisonRows = [
 const toolIcons = [
   { name: 'WhatsApp Leads', icon: Zap },
   { name: 'Pipeline', icon: BarChart3 },
-  { name: 'Codex', icon: FileSearch },
+  { name: 'Action Pack', icon: ClipboardCheck },
+  { name: 'Patch Watch', icon: Radar },
   { name: 'Vicinity', icon: Camera },
   { name: 'Vantage', icon: LayoutGrid },
   { name: 'Territory', icon: MapPinned },
@@ -146,7 +151,7 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="See if your patch is worth paying for — before you pay."
-          items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Try Codex free (3 docs)']}
+          items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Trade intelligence preview']}
           cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY POSTCODE FREE</Link>}
         />
         <PlanCard
@@ -186,6 +191,34 @@ export function PricingPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-2">
+        <article className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
+          <p className="micro-label text-[var(--ink)]">NEW PAID FEATURE</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">BUYER ACTION PACK.</h2>
+          <p className="mt-3 text-lg font-black text-[var(--ink)]/80">
+            Every serious lead needs a chase plan. Paid users get the call opener, verification checks, quote guardrail, and next action beside the lead.
+          </p>
+          <div className="mt-5 grid gap-2">
+            {['What to say first', 'What to verify before visiting', 'What makes the lead worth quoting', 'When to walk away'].map((item) => (
+              <p key={item} className="border-2 border-[var(--ink)] bg-white px-3 py-2 text-sm font-black uppercase">{item}</p>
+            ))}
+          </div>
+        </article>
+
+        <article className="ops-panel bg-[var(--ink)] p-7 text-white">
+          <p className="micro-label text-[var(--yellow)]">NEW PAID FEATURE</p>
+          <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">PATCH WATCH.</h2>
+          <p className="mt-3 text-lg font-black text-white/80">
+            You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, EPC, tender, and fit-out signals.
+          </p>
+          <div className="mt-5 grid gap-2">
+            {['Daily signal watch', 'Weekly opportunity digest', 'Trade intelligence news', 'Territory priority'].map((item) => (
+              <p key={item} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black uppercase text-white">{item}</p>
+            ))}
+          </div>
+        </article>
       </section>
 
       {/* ── ALL TOOLS, ONE PRICE BANNER ──────────────────── */}
@@ -355,10 +388,98 @@ export function PricingPage() {
             <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
               Territory lock is priority routing for scored jobs in one trade and postcode cluster. If your area is valuable, do not leave it open.
             </p>
+            <p className="mt-4 max-w-2xl font-black text-[var(--yellow)]">
+              For commercial firms, multi-trade crews, and agencies: send your details and our commercial team will email you.
+            </p>
         </div>
-        <WaitlistForm source="pricing-territory" />
+        <CommercialContactForm />
       </section>
     </main>
+  );
+}
+
+function CommercialContactForm() {
+  const [company, setCompany] = useState('');
+  const [name, setName] = useState('');
+  const [trade, setTrade] = useState('');
+  const [postcode, setPostcode] = useState('');
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const [error, setError] = useState('');
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    setError('');
+    if (!company.trim() || !name.trim() || !email.trim()) {
+      setError('Company, name, and email are required.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Enter a valid email address.');
+      return;
+    }
+
+    setStatus('loading');
+    try {
+      await joinWaitlist({
+        name: `${name.trim()} — ${company.trim()}${postcode.trim() ? ` — ${postcode.trim().toUpperCase()}` : ''}`,
+        trade: trade.trim() || 'Commercial enquiry',
+        contact: email.trim(),
+        source: 'pricing-commercial-contact',
+      });
+      setStatus('done');
+      setCompany('');
+      setName('');
+      setTrade('');
+      setPostcode('');
+      setEmail('');
+    } catch (err: any) {
+      setStatus('error');
+      setError(String(err?.message ?? 'Could not send enquiry.'));
+    }
+  }
+
+  if (status === 'done') {
+    return (
+      <div className="jf-box bg-[var(--yellow)] p-6 text-[var(--ink)]">
+        <p className="micro-label text-[var(--ink)]">COMMERCIAL ENQUIRY SENT</p>
+        <h3 className="headline mt-2 text-3xl leading-none">OUR COMMERCIAL TEAM WILL EMAIL YOU.</h3>
+        <p className="mt-3 font-black text-[var(--ink)]/75">
+          We have your details and will come back with the right patch, trade, and setup route.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="jf-box grid gap-4 border-4 border-[var(--line)] bg-[var(--yellow)] p-6 text-[var(--ink)] shadow-[6px_6px_0_var(--line)]">
+      <p className="micro-label text-[var(--ink)]">COMMERCIAL CONTACT</p>
+      <h3 className="headline text-3xl leading-none">Ask our team to email you.</h3>
+      <label className="field-label">
+        Company
+        <input className="field-input" value={company} onChange={(event) => setCompany(event.target.value)} placeholder="Company name" required />
+      </label>
+      <label className="field-label">
+        Name
+        <input className="field-input" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your name" required />
+      </label>
+      <label className="field-label">
+        Trade or work type
+        <input className="field-input" value={trade} onChange={(event) => setTrade(event.target.value)} placeholder="Electrical, roofing, multi-trade..." />
+      </label>
+      <label className="field-label">
+        Patch / postcode
+        <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="B14, SW1, Manchester..." />
+      </label>
+      <label className="field-label">
+        Work email
+        <input className="field-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="name@company.co.uk" required />
+      </label>
+      {(status === 'error' || error) && <p className="font-black text-[var(--orange)]">{error}</p>}
+      <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>
+        {status === 'loading' ? 'SENDING' : 'CONTACT COMMERCIAL TEAM'}
+      </button>
+    </form>
   );
 }
 

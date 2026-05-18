@@ -15,7 +15,6 @@ const moreLinks = [
   { to: '/trust', label: 'Trust' },
   { to: '/methodology', label: 'How It Works' },
   { to: '/faq', label: 'FAQ' },
-  { to: '/codex', label: 'Codex' },
 ];
 
 const mobileLinks = [

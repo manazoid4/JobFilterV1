@@ -496,7 +496,7 @@ export function HomePage() {
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
               { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score plus a clear chase recommendation on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'All free tools', body: 'Codex, Vicinity, Vantage — every tool, no extra charge.' },
+              { icon: Radio, title: 'Monthly trade intelligence', body: 'News, patch signals, Vantage, Vicinity, and buyer action packs included.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'Set up. Use it. If you do not see value, we refund.' },
             ].map(({ icon: Icon, title, body }) => (
