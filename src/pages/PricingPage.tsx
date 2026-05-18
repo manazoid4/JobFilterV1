@@ -88,11 +88,14 @@ export function PricingPage() {
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
           LOCK IN AT £39/MO. STANDARD GOES TO £79.
         </h1>
-        <p className="mt-5 max-w-3xl text-xl font-black text-white/78">
-          Checkatrade charges £200+/mo and blasts the same lead to five other trades. Bark sells you a name and makes you fight for it. BuildAlert sends a postcode, not a plan. Here, Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast.
+        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--yellow)]">
+          One £2,000 job covers 51 months of JobFilter. Most tradesmen chase their first lead within 14 days.
         </p>
         <p className="mt-3 max-w-3xl text-lg font-black text-white/78">
           We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
+        </p>
+        <p className="mt-3 max-w-3xl text-base font-black text-white/60">
+          Checkatrade charges £200+/mo and blasts the same lead to five other trades. Bark sells you a name and makes you fight for it. Here, Gold leads are controlled by trade, patch, and timing — no shared auction.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           <PriceStat label="Founder monthly" value="£39/mo" note="locked in while active" hot />
