@@ -4,17 +4,17 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Real planning signals',
-  'Real construction opportunities',
-  'Postcode exclusivity',
-  'One dominant partner per area',
+  'Official UK signal sources checked server-side',
+  'Planning, EPC & council data where available',
+  'One trade per postcode — locked to you',
+  'No shared lead trap. Cancel anytime.',
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approved', trade: 'Builder', value: '£42k', score: 94, trend: 'up' as const, location: 'B12' },
-  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: '£18k', score: 87, trend: 'up' as const, location: 'M14' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: '£65k', score: 91, trend: 'up' as const, location: 'LS1' },
-  { source: 'Property', signal: 'Brownfield site live', trade: 'Groundworks', value: '£120k', score: 82, trend: 'down' as const, location: 'G41' },
+  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Example' },
+  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Example' },
+  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Example' },
+  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Example' },
 ];
 
 const operatingSteps = [
@@ -148,7 +148,7 @@ export function HomePage() {
               STOP QUOTING FOR GHOSTS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Real jobs. Scored. Sent to your WhatsApp before anyone else knows they exist.
+              Find real building work using planning, EPC and council data — sent to your WhatsApp before competitors call.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (

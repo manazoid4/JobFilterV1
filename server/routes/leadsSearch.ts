@@ -6,7 +6,7 @@ import { parseUkPostcode } from '../utils/postcode';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
-const FULL_ACCESS_TEST_MODE = true;
+const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
@@ -31,6 +31,7 @@ export function registerLeadSearchRoute(app: Express) {
         leads,
         lockedCount: FULL_ACCESS_TEST_MODE ? 0 : result.lockedCount,
         accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
+        sources: result.sources,
         errors: result.errors,
       });
     } catch (error: any) {
@@ -106,6 +107,12 @@ function toFreePreviewLead(lead: Lead) {
     score: previewScore(score),
     reasons: buildReasons(lead, score),
     distanceMiles: lead.distanceMiles,
+    qualityLabel: lead.qualityLabel,
+    ghostRisk: lead.ghostRisk,
+    recommendedAction: lead.recommendedAction,
+    evidenceBadges: lead.evidenceBadges,
+    signalStack: lead.signalStack,
+    signalClass: lead.signalClass,
   };
 }
 

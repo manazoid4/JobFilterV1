@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from 'express';
 import Stripe from 'stripe';
+import { rateLimit } from '../middleware/rateLimit';
 
 const DEFAULT_ORIGIN = process.env.APP_URL || 'http://localhost:3000';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
@@ -18,7 +19,7 @@ const PRICES = {
 const FOUNDING_MAX = 30;
 
 export function registerStripeRoutes(app: Express) {
-  app.post('/api/create-checkout-session', async (req: Request, res: Response) => {
+  app.post('/api/create-checkout-session', rateLimit, async (req: Request, res: Response) => {
     try {
       if (!stripe) throw new Error('Stripe not configured');
 

@@ -121,12 +121,13 @@ select {
   padding-block: 96px;
 }
 
-/* Structural only — bg-* utilities always override via @layer components */
+/* Structural only — no background. Pages specify bg-* explicitly. */
 :where(.ops-panel) {
   border: 2px solid var(--line);
   box-shadow: 4px 4px 0 var(--yellow);
 }
 
+/* Fallback bg at zero specificity so any bg-* utility wins */
 @layer components {
   :where(.ops-panel) {
     background-color: var(--paper);
@@ -149,7 +150,7 @@ select {
 
 /* ── COMPONENTS ─────────────────────────────────────── */
 
-/* Structural at zero specificity — utilities override freely */
+/* Structural properties at zero specificity — utilities override freely */
 :where(.jf-box) {
   border: 2px solid var(--navy);
   border-radius: 2px;
@@ -158,7 +159,7 @@ select {
   min-width: 0;
 }
 
-/* Default bg in components layer so bg-* utilities always win */
+/* Fallback bg at zero specificity so any bg-* utility wins */
 @layer components {
   :where(.jf-box) {
     background-color: var(--white);

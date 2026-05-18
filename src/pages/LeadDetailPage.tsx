@@ -2,6 +2,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
+import { TrustBadges } from '../components/TrustBadges';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
@@ -212,6 +213,32 @@ export function LeadDetailPage() {
           {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
       </section>
+
+      {(lead.signalStack?.length || lead.recommendedAction || lead.signalClass) && (
+        <section className="jf-box bg-white p-6">
+          <h2 className="headline text-2xl sm:text-3xl">SIGNAL INTELLIGENCE</h2>
+          <div className="mt-4 grid gap-4">
+            {lead.signalClass && (
+              <p className="micro-label text-[var(--orange)]">{lead.signalClass.replace(/_/g, ' ').toUpperCase()}</p>
+            )}
+            {lead.signalStack?.length ? (
+              <div className="flex flex-wrap gap-2">
+                {lead.signalStack.map((source) => (
+                  <span key={source} className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
+                    {source}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            {lead.recommendedAction && (
+              <div className="border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/20 px-4 py-3">
+                <p className="text-sm font-black text-[var(--ink)]">{lead.recommendedAction}</p>
+              </div>
+            )}
+            {lead.evidenceBadges?.length ? <TrustBadges badges={lead.evidenceBadges} /> : null}
+          </div>
+        </section>
+      )}
 
       {lead.details && (
         <section className="jf-box bg-white p-6">

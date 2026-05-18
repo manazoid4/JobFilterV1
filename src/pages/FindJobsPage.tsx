@@ -6,6 +6,7 @@ import { Tag } from '../components/Tag';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
 import { GhostRiskBadge } from '../components/GhostRiskBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
+import { TrustBadges } from '../components/TrustBadges';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
@@ -20,6 +21,15 @@ const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
 const WEEKLY_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const SCAN_COUNT_KEY = 'jf-weekly-scans-used';
 const SCAN_WEEK_KEY = 'jf-weekly-scans-week';
+const DEV_UNLOCK_KEY = 'jf-unlimited-tester';
+
+function hasDevUnlock(): boolean {
+  try {
+    return localStorage.getItem(DEV_UNLOCK_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
 
 function getMondayKey(): string {
   const d = new Date();
@@ -120,13 +130,15 @@ export function FindJobsPage() {
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
+  const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
 
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
 
-  const weeklyScansRemaining = Math.max(0, WEEKLY_SCAN_LIMIT - weeklyScansUsed);
+  const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
+  const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
   const commercialCount = result?.leads.filter((l) => l.isCommercial).length ?? 0;
   const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);
 
@@ -234,6 +246,10 @@ export function FindJobsPage() {
             score: lead.score,
             source: lead.source,
             planningRef: lead.url,
+            id: lead.id,
+            ghostRisk: lead.ghostRisk,
+            qualityLabel: lead.qualityLabel,
+            postcodeOutward: lead.postcodeOutward,
           },
         }),
       });
@@ -285,6 +301,7 @@ export function FindJobsPage() {
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
+  const bestSource = getBestSource(result?.sources);
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
@@ -393,8 +410,8 @@ export function FindJobsPage() {
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!OPEN_ACCESS && (
-        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--line)] bg-[var(--bg-main)]'}`}>
+      {!unlimitedTester && weeklyScansUsed > 0 && (
+        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
           <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
           <p className="text-sm font-black text-[var(--ink)]">
             {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — no credit card required` : 'Weekly free scans used. Upgrade for unlimited.'}
@@ -452,7 +469,7 @@ export function FindJobsPage() {
                 setDocSearchQuery(query);
               }}
               searchesRemaining={3}
-              isPro={OPEN_ACCESS}
+              isPro={unlimitedTester}
             />
           </div>
         )}
@@ -509,12 +526,12 @@ export function FindJobsPage() {
                     DEV_MODE is active. All locked fields, WhatsApp alerts, and paid features are fully unlocked for testing.
                   </p>
                 </section>
-              ) : OPEN_ACCESS ? (
+              ) : unlimitedTester ? (
                 <section className="jf-box bg-[var(--green)] p-5">
-                  <p className="micro-label text-white">PRE-LAUNCH — OPEN ACCESS</p>
+                  <p className="micro-label text-white">{hasDevUnlock() ? 'DEV PORTAL — UNLIMITED TESTER' : 'PRE-LAUNCH — OPEN ACCESS'}</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">SCAN, TRACK, AND TEST EVERYTHING</h2>
                   <p className="mt-2 max-w-2xl font-black text-white/80">
-                    Launch gates are off until the product is ready. Set VITE_OPEN_ACCESS=true to enable open access for pre-launch testing.
+                    Test gates are open locally. Server-side full lead data still follows FULL_ACCESS_TEST_MODE.
                   </p>
                 </section>
               ) : (
@@ -552,6 +569,15 @@ export function FindJobsPage() {
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
+              <div className="bg-[var(--navy)] p-4 text-white">
+                <p className="text-sm font-black">
+                  {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                </p>
+                <p className="mt-1 text-xs font-black text-white/70">
+                  Best source: {bestSource || 'pending scan'}
+                </p>
+              </div>
+
               {/* Results footer */}
               {displayedLeads.length > 0 && (
                 <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
@@ -561,7 +587,7 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {!DEV_MODE && !OPEN_ACCESS && (
+              {!DEV_MODE && !unlimitedTester && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
                   <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
                   <p className="mt-1 font-black text-white/75">
@@ -701,9 +727,24 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
+function getBestSource(sources?: LeadSearchResponse['sources']): string {
+  if (!sources) return '';
+  let best = '';
+  let bestPassed = -1;
+  for (const [source, stats] of Object.entries(sources)) {
+    const passed = stats.passed ?? 0;
+    if (passed > bestPassed) {
+      best = source;
+      bestPassed = passed;
+    }
+  }
+  return bestPassed > 0 ? `${best} (${bestPassed} passed)` : '';
+}
+
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
+  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock();
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
@@ -769,6 +810,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             New business nearby — commercial fit-out likely
           </p>
         )}
+        {lead.evidenceBadges?.length ? (
+          <div className="mt-2">
+            <TrustBadges badges={lead.evidenceBadges} max={3} />
+          </div>
+        ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
           {fields.map(([label, value]) => (
@@ -790,7 +836,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         <LockedValue label="Buyer" value={lead.buyer} />
         <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
         <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
-        {OPEN_ACCESS ? (
+        {cardOpenAccess ? (
           <>
             {isTracked ? (
               <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>

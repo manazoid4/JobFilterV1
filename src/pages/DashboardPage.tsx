@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
-import { getMonthlyStats, getWinData } from '../lib/winStore';
+import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 export function DashboardPage() {
@@ -9,6 +9,7 @@ export function DashboardPage() {
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
+  const [breakdown, setBreakdown] = useState<ReturnType<typeof getWinBreakdown>>({ byTrade: [], byLocation: [], bySource: [] });
   const [territory, setTerritory] = useState<string | null>(null);
   const [scanTrade, setScanTrade] = useState<string | null>(null);
   const [scanPostcode, setScanPostcode] = useState<string | null>(null);
@@ -23,6 +24,7 @@ export function DashboardPage() {
     const wd = getWinData();
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
+    setBreakdown(getWinBreakdown());
     setTerritory(localStorage.getItem('jobfilter.territory'));
     setScanTrade(localStorage.getItem('jobfilter.trade'));
     setScanPostcode(localStorage.getItem('jobfilter.postcode'));
@@ -218,7 +220,7 @@ export function DashboardPage() {
         </section>
 
         {/* Quick Actions */}
-        <section className="jf-box bg-[var(--navy)] p-5 text-white">
+        <section className="jf-box bg-[var(--navy)] p-5 text-white" id="quick-actions">
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
             {!territory && (
@@ -232,7 +234,57 @@ export function DashboardPage() {
           </div>
         </section>
       </div>
+
+      {/* Win Breakdown — drill down by trade, location, source */}
+      {winData.wins > 0 && (
+        <section className="jf-box bg-white p-5">
+          <div className="flex items-center justify-between border-b-2 border-[var(--line)] pb-3">
+            <p className="micro-label text-[var(--muted)]">WIN BREAKDOWN</p>
+            <span className="text-xs font-black text-[var(--muted)]">Where your money comes from</span>
+          </div>
+          <div className="mt-4 grid gap-5 md:grid-cols-3">
+            <BreakdownBlock title="By trade" rows={breakdown.byTrade.slice(0, 5)} />
+            <BreakdownBlock title="By location" rows={breakdown.byLocation.slice(0, 5)} />
+            <BreakdownBlock title="By source" rows={breakdown.bySource.slice(0, 5)} />
+          </div>
+        </section>
+      )}
     </main>
+  );
+}
+
+function BreakdownBlock({ title, rows }: { title: string; rows: { key: string; count: number; value: number }[] }) {
+  if (rows.length === 0) {
+    return (
+      <div>
+        <p className="text-xs font-black uppercase text-[var(--muted)]">{title}</p>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">No data yet</p>
+      </div>
+    );
+  }
+  const max = Math.max(...rows.map((r) => r.value), 1);
+  return (
+    <div>
+      <p className="text-xs font-black uppercase text-[var(--muted)]">{title}</p>
+      <div className="mt-2 grid gap-2">
+        {rows.map((r) => (
+          <div key={r.key}>
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="truncate text-sm font-black text-[var(--ink)] capitalize">{r.key}</span>
+              <span className="text-xs font-black text-[var(--muted)]">
+                {r.count} · £{r.value.toLocaleString()}
+              </span>
+            </div>
+            <div className="mt-1 h-2 bg-[var(--bg-main)] border border-[var(--line)]">
+              <div
+                className="h-full bg-[var(--yellow)]"
+                style={{ width: `${Math.max(4, (r.value / max) * 100)}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

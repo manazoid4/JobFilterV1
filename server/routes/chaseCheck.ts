@@ -36,12 +36,15 @@ export function registerChaseCheckRoute(app: Express) {
       }
       chaseStatuses[leadId] = { ...entry, status: entry?.status || 'sent', sentAt: entry?.sentAt || new Date().toISOString(), nudged: true };
       const result = await triggerGoldLeadWhatsApp({
+        leadId,
         score: 75,
         jobType: trade || 'Trade',
         area: area || 'your area',
         budget: undefined,
         phone: phoneNumber,
         postcode: undefined,
+        ghostRisk: 'MAYBE',
+        qualityLabel: 'SILVER',
       });
       return res.json({ ok: true, nudged: true, result });
     } catch (error: any) {

@@ -10,12 +10,15 @@ export function registerLeadNotifyRoute(app: Express) {
       }
 
       const payload = {
+        leadId: leadData.id || leadData.leadId,
         score: leadData.score || 80,
         jobType: leadData.trade || 'Trade',
         area: leadData.area || leadData.location || 'Unknown',
         budget: leadData.value || leadData.estimatedValue,
         phone: phoneNumber,
         postcode: leadData.postcodeOutward,
+        ghostRisk: leadData.ghostRisk,
+        qualityLabel: leadData.qualityLabel,
       };
 
       const result = await triggerGoldLeadWhatsApp(payload);
