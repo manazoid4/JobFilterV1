@@ -1,33 +1,50 @@
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
-import { Radio, FileText, Camera, Mail, MapPinned, Phone, Check, X, Zap, FileSearch, Eye, LayoutGrid } from 'lucide-react';
+import { Radio, FileText, Camera, Mail, MapPinned, Phone, Check, X, Zap, FileSearch, LayoutGrid, BarChart3, Download, Calendar, Search } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { WaitlistForm } from '../components/WaitlistForm';
 
-const plans = {
-  founderMonthly: 39,
-  founderAnnual: 390,
-  standardMonthly: 79,
-  standardAnnual: 790,
-};
-
 const included = [
-  'Gold lead alerts sent to WhatsApp',
-  'Lead score, urgency, value, trade fit and next action',
-  'Territory priority for your trade and postcode cluster',
-  'Company-branded letters written for selected leads',
-  'PDF approach pack for WhatsApp follow-up',
-  'Saved pipeline and weekly opportunity digest',
-  'Codex — technical document simplifier',
-  'Vicinity — social proof generator from job photos',
-  'Vantage — bid deck generator from tender docs',
+  'Gold leads sent to WhatsApp before competitors see them',
+  'Score, urgency, value & next action on every lead',
+  'Territory lock — one trade per postcode cluster',
+  'Pipeline tracking — every lead from first call to won',
+  'Win breakdown — see which trade & area actually pays',
+  'CSV export & calendar reminders — sync to any CRM',
+  'Keyword search across planning, EPC & council signals',
+  'Company-branded letters for selected Gold leads',
+  'Codex, Vicinity & Vantage — document tools included',
+  'Weekly opportunity digest for your patch',
 ];
 
 const addOns = [
   ['Hotlist', 'Only urgent, high-value jobs wake you up.', '£9/mo'],
   ['Buyer Pack Plus', 'Extra printed approach packs for bigger jobs.', '£5/lead'],
   ['Vantage Fast Pack', 'Bid angle, proof points and scope pack within 6 hours.', '£49 each'],
-  ['Neighbour Signal', 'Turn one won job into door-drop demand on the same street — same trade, same area, while you are already there.', 'from £99'],
+  ['Neighbour Signal', 'Turn one won job into door-drop demand on the same street.', 'from £99'],
+];
+
+const workflowTools = [
+  {
+    icon: BarChart3,
+    title: 'Win breakdown',
+    body: 'See which trade, source and postcode actually pay. Stop guessing where your money comes from.',
+  },
+  {
+    icon: Download,
+    title: 'CSV export',
+    body: 'Download your scored leads anytime. Pipe them into your CRM, spreadsheet, or accountant.',
+  },
+  {
+    icon: Calendar,
+    title: 'Calendar reminders',
+    body: 'Add a follow-up to Google, Apple or Outlook in one tap. Never lose a Gold lead to forgetting.',
+  },
+  {
+    icon: Search,
+    title: 'Keyword search',
+    body: 'Find every loft, EV charger or heat pump signal in your area. Niche trades finally get found.',
+  },
 ];
 
 const featureCategories = [
@@ -37,14 +54,19 @@ const featureCategories = [
     points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
   },
   {
+    icon: BarChart3,
+    title: 'Pipeline & Analytics',
+    points: ['Win breakdown by trade & area', 'CSV export', 'Calendar reminders'],
+  },
+  {
+    icon: Search,
+    title: 'Keyword Search',
+    points: ['Search planning & EPC signals', 'Trade-tagged keyword match'],
+  },
+  {
     icon: FileText,
     title: 'Documents',
     points: ['Codex simplifier', 'Vantage bid decks'],
-  },
-  {
-    icon: Camera,
-    title: 'Social Proof',
-    points: ['Vicinity photo-to-post generator'],
   },
   {
     icon: Mail,
@@ -56,24 +78,24 @@ const featureCategories = [
     title: 'Territory',
     points: ['Postcode exclusivity', 'Priority routing'],
   },
-  {
-    icon: Phone,
-    title: 'Support',
-    points: ['Direct support', 'Weekly digest'],
-  },
 ];
 
 const comparisonRows = [
-  { feature: 'JobFilter Leads', free: 'Preview', founder: 'Full', standard: 'Full' },
-  { feature: 'Codex', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Vicinity', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Vantage', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Territory', free: false, founder: true, standard: true },
-  { feature: 'Letters', free: false, founder: true, standard: true },
+  { feature: 'WhatsApp Gold leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'Territory lock', free: false, founder: true, standard: true },
+  { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
+  { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
+  { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Company-branded letters', free: false, founder: true, standard: true },
+  { feature: 'Codex doc simplifier', free: '3 docs', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Founder price lock', free: false, founder: true, standard: false },
 ];
 
 const toolIcons = [
-  { name: 'JobFilter Leads', icon: Zap },
+  { name: 'WhatsApp Leads', icon: Zap },
+  { name: 'Pipeline', icon: BarChart3 },
   { name: 'Codex', icon: FileSearch },
   { name: 'Vicinity', icon: Camera },
   { name: 'Vantage', icon: LayoutGrid },
@@ -84,37 +106,37 @@ export function PricingPage() {
   return (
     <main className="page-shell grid gap-6 py-8 pb-16 text-[var(--ink)]">
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">PRICING</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER PRICING — LOCKS FOREVER</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-8xl">
-          LOCK IN AT £39/MO. STANDARD GOES TO £79.
+          £39/MO. ONE JOB PAYS A YEAR.
         </h1>
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--yellow)]">
-          One £2,000 job covers 51 months of JobFilter. Most tradesmen chase their first lead within 14 days.
+          One £2,000 win covers 51 months. Most founders chase their first lead inside 14 days.
         </p>
-        <p className="mt-3 max-w-3xl text-lg font-black text-white/78">
-          We find the opportunity, score it, send it to WhatsApp, and write a company-branded letter for the best leads. You are not buying software. You are buying first contact with better jobs.
+        <p className="mt-3 max-w-3xl text-lg font-black text-white/85">
+          Gold leads on WhatsApp. One trade per postcode. Pipeline tracking, win breakdown, CSV export, keyword search — all in. No shared lead auction.
         </p>
         <p className="mt-3 max-w-3xl text-base font-black text-white/60">
-          Checkatrade charges £200+/mo and blasts the same lead to five other trades. Bark sells you a name and makes you fight for it. Here, Gold leads are controlled by trade, patch, and timing — no shared auction.
+          Checkatrade £200+/mo — same lead, five trades. Bark — pay-per-name, fight for it. JobFilter — your patch, your leads, your price locked.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
-          <PriceStat label="Founder monthly" value="£39/mo" note="locked in while active" hot />
-          <PriceStat label="Standard monthly" value="£79/mo" note="after founder slots" />
-          <PriceStat label="Founder annual" value="£390/yr" note="two months free" hot />
+          <PriceStat label="Founder monthly" value="£39/mo" note="locked while plan is active" hot />
+          <PriceStat label="Founder annual" value="£390/yr" note="2 months free — £32.50/mo" hot />
+          <PriceStat label="Standard later" value="£79/mo" note="after founder window closes" />
         </div>
         <div className="mt-6 grid gap-3">
           <div className="flex flex-col gap-3 sm:flex-row">
-            <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER £39/mo" className="bg-[var(--yellow)] text-[var(--ink)]" />
-            <CheckoutButton tier="founding" billing="annual" label="SAVE MORE — £390/YR" className="bg-white text-[var(--ink)]" />
+            <CheckoutButton tier="founding" billing="monthly" label="LOCK MY £39/MO PATCH" className="bg-[var(--yellow)] text-[var(--ink)]" />
+            <CheckoutButton tier="founding" billing="annual" label="GO ANNUAL — SAVE £78" className="bg-white text-[var(--ink)]" />
           </div>
           <div className="flex items-center gap-3">
             <div className="flex-1 border-t-2 border-white/20" />
-            <span className="text-xs font-black text-white/40 uppercase">or</span>
+            <span className="text-xs font-black text-white/40 uppercase">or scan free first</span>
             <div className="flex-1 border-t-2 border-white/20" />
           </div>
           <div className="flex items-center gap-4">
-            <Link className="jf-button bg-transparent border-2 border-white/40 text-white hover:border-white" to="/find-jobs">SCAN FREE FIRST →</Link>
-            <span className="text-sm font-black text-white/60">See real leads in your patch before you pay. No card needed.</span>
+            <Link className="jf-button bg-transparent border-2 border-white/40 text-white hover:border-white" to="/find-jobs">SEE LEADS IN MY POSTCODE →</Link>
+            <span className="text-sm font-black text-white/60">No card. 30 seconds. Real signals from your patch.</span>
           </div>
         </div>
       </section>
@@ -123,27 +145,47 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check if your patch has work signals before you pay."
-          items={['Preview signals', 'Score band only', 'Limited detail', 'No WhatsApp alerts', 'No letters', 'Try Codex free (3 docs)']}
-          cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>}
+          body="See if your patch is worth paying for — before you pay."
+          items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Try Codex free (3 docs)']}
+          cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY POSTCODE FREE</Link>}
         />
         <PlanCard
           title="Founder"
           price="£39/mo"
-          body="£39/mo stays locked as long as your plan is active. If you cancel and rejoin, standard price applies."
+          body="£39/mo for life while your plan stays active. Cancel and rejoin later — you pay £79."
           items={included}
           highlight="BEST VALUE"
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK £39/mo" className="mt-5 bg-[var(--ink)] text-white" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK MY PATCH — £39/MO" className="mt-5 bg-[var(--ink)] text-white" />}
         />
         <PlanCard
           title="Standard"
           price="£79/mo"
-          body="Full access at standard rate. If you missed the founder window, this is still cheaper than one month on Checkatrade — and it finds you jobs instead of sharing them."
+          body="Full access after the founder window closes. Still cheaper than one month on Checkatrade — and your leads aren't shared."
           items={included}
           dark
-          cta={<CheckoutButton tier="pro" billing="monthly" label="JOIN STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="pro" billing="monthly" label="START STANDARD — £79/MO" className="mt-5 bg-white text-[var(--ink)]" />}
         />
+      </section>
+
+      {/* ── BUILT-IN WORKFLOW TOOLS ──────────────────────── */}
+      <section className="ops-panel bg-white p-7">
+        <p className="micro-label text-[var(--orange)]">BUILT-IN WORKFLOW TOOLS</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">YOUR LEADS, WIRED INTO HOW YOU ACTUALLY WORK.</h2>
+        <p className="mt-3 max-w-3xl font-black text-[var(--muted)]">
+          Not just alerts. Track every lead from first contact to won job. Export to your CRM. See which patch makes you money.
+        </p>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {workflowTools.map(({ icon: Icon, title, body }) => (
+            <article key={title} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5 shadow-[4px_4px_0_var(--line)]">
+              <div className="flex h-10 w-10 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
+                <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+              </div>
+              <h3 className="headline mt-3 text-xl">{title}</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">{body}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       {/* ── ALL TOOLS, ONE PRICE BANNER ──────────────────── */}
