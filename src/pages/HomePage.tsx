@@ -224,7 +224,7 @@ export function HomePage() {
             <p className="micro-label text-[var(--orange)]">TRADE CONTENT HUB</p>
             <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">DAILY SIGNALS. PRACTICAL TRADE ADVICE. NO FLUFF.</h2>
             <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
-              Follow the JobFilter content engine. Every post points tradesmen back to free scans, territory claims, and practical rules that turn attention into signups.
+              Follow practical trade intelligence: short posts, real signal breakdowns, pricing rules, and weekly ideas for finding better work.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">

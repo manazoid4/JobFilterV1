@@ -71,7 +71,7 @@ export function NewsPage() {
             NEWS THAT CAN MAKE OR SAVE MONEY.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-            No blog fluff. This is the content engine for turning trade attention into free scans, signups, patch claims, and MRR.
+            No blog fluff. Short trade intelligence you can turn into posts, videos, discussions, and practical sales angles.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <a className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
@@ -90,9 +90,9 @@ export function NewsPage() {
       <section id="distribution" className="border-b-4 border-[var(--line)] bg-white">
         <div className="page-shell py-10">
           <p className="micro-label text-[var(--orange)]">CONTENT DISTRIBUTION</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">ONE ARTICLE. SEVEN PLACES TO POST. ONE CONVERSION GOAL.</h2>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">ONE ARTICLE. SEVEN PLACES TO POST.</h2>
           <p className="mt-4 max-w-2xl font-black text-[var(--muted)]">
-            Each JobFilter article should become a carousel, short video, discussion post, answer, founder post, and long-form essay. Every version should push back to a free scan or patch claim.
+            Each JobFilter article should become a carousel, short video, discussion post, answer, founder post, and long-form essay. Keep each version useful enough to earn attention.
           </p>
           <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {distributionChannels.map(([channel, use, href]) => (
@@ -124,10 +124,10 @@ export function NewsPage() {
 
       <section className="border-t-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell py-10">
-          <p className="micro-label text-[var(--ink)]">TRACTION LOOP</p>
+          <p className="micro-label text-[var(--ink)]">NEXT STEP</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">READ THE SIGNAL. SCAN YOUR PATCH. CLAIM THE TERRITORY.</h2>
           <p className="mt-4 max-w-xl font-black text-[var(--ink)]">
-            Content brings the trade in. The free scan proves the product. The patch lock creates MRR.
+            Use the content to spot better work, then scan your own postcode to see what is live near you.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <a className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">START FREE SCAN →</a>
