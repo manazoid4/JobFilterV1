@@ -224,7 +224,7 @@ export function HomePage() {
             <p className="micro-label text-[var(--orange)]">TRADE CONTENT HUB</p>
             <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">DAILY SIGNALS. PRACTICAL TRADE ADVICE. NO FLUFF.</h2>
             <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
-              Follow practical trade intelligence: short posts, real signal breakdowns, pricing rules, and weekly ideas for finding better work.
+              Free daily construction news for tradesmen: planning signals, retrofit pressure, tenders, fit-out clues, and social-ready trade angles.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -496,7 +496,7 @@ export function HomePage() {
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
               { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score plus a clear chase recommendation on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'Monthly trade intelligence', body: 'News, patch signals, Vantage, Vicinity, and buyer action packs included.' },
+              { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'Set up. Use it. If you do not see value, we refund.' },
             ].map(({ icon: Icon, title, body }) => (

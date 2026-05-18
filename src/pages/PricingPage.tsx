@@ -15,7 +15,6 @@ const included = [
   'Company-branded letters for selected Gold leads',
   'Buyer Action Pack — call opener, checks, quote guardrail',
   'Patch Watch — daily trade signals for your postcode cluster',
-  'Trade intelligence news included in the monthly price',
   'Vicinity & Vantage included for proof and bid support',
   'Weekly opportunity digest for your patch',
 ];
@@ -69,7 +68,7 @@ const featureCategories = [
   {
     icon: Radar,
     title: 'Patch Watch',
-    points: ['Daily signal watch', 'Weekly opportunity digest', 'Trade intelligence news'],
+    points: ['Daily signal watch', 'Weekly opportunity digest', 'Territory priority'],
   },
   {
     icon: Mail,
@@ -90,7 +89,7 @@ const comparisonRows = [
   { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Buyer Action Pack', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Patch Watch + trade intelligence', free: 'Preview', founder: 'Included', standard: 'Included' },
+  { feature: 'Patch Watch', free: 'Preview', founder: 'Included', standard: 'Included' },
   { feature: 'Company-branded letters', free: false, founder: true, standard: true },
   { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
@@ -214,7 +213,7 @@ export function PricingPage() {
             You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, EPC, tender, and fit-out signals.
           </p>
           <div className="mt-5 grid gap-2">
-            {['Daily signal watch', 'Weekly opportunity digest', 'Trade intelligence news', 'Territory priority'].map((item) => (
+            {['Daily signal watch', 'Weekly opportunity digest', 'Planning and EPC alerts', 'Territory priority'].map((item) => (
               <p key={item} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black uppercase text-white">{item}</p>
             ))}
           </div>

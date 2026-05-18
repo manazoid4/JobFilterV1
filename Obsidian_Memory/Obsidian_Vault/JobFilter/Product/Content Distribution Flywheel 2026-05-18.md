@@ -4,9 +4,11 @@ Date: 2026-05-18
 
 ## Goal
 
-Use content to acquire paying UK tradesmen for JobFilter.
+Use the free JobFilter News page to acquire UK tradesmen for JobFilter.
 
-This is not a public content creator strategy. The content exists to put JobFilter in front of builders, electricians, plumbers, roofers, retrofit firms, and small construction businesses who already feel the pain of weak enquiries, shared leads, late payments, and quiet weeks.
+The News page is a free public construction/tradesman briefing. It should be genuinely useful on its own, then reused across social media to pull tradesmen back to JobFilter.
+
+The page should be updated daily and checked by people close to the industry. It should give builders, electricians, plumbers, roofers, retrofit firms, and small construction businesses information they can actually use: planning signals, retrofit pressure, public tenders, commercial fit-out clues, pricing/quoting lessons, and lead-quality checks.
 
 ## Core Positioning
 
@@ -23,7 +25,7 @@ Every post should make one point:
 
 ## Conversion Job
 
-Each post must push one action:
+Each news item and social repost should push one action:
 
 - scan your postcode
 - compare JobFilter against Checkatrade, Bark, Rated People, MyBuilder, or BuildAlert
@@ -33,6 +35,34 @@ Each post must push one action:
 - follow Instagram/TikTok/LinkedIn for repeated exposure
 
 Do not optimise for general views. Optimise for tradesmen who can pay monthly.
+
+## News Page Rule
+
+Public News must NOT look like a SaaS pricing feature.
+
+It is:
+
+- free to read
+- useful for tradesmen and JobFilter customers
+- updated daily
+- checked by people close to construction/trades
+- written in a way that can be reposted to Instagram, TikTok, Reddit, Quora, Facebook groups, LinkedIn, and Medium
+
+It should include:
+
+- headline
+- trades affected
+- why it matters
+- practical trade takeaway
+- social post angle
+- CTA to scan postcode or claim patch
+
+It should avoid:
+
+- “included in monthly price”
+- startup/content marketing language
+- generic construction news with no trade action
+- fake live stats
 
 ## Reddit And Community Sizing
 
