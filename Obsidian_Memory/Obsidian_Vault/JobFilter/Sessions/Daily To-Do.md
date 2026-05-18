@@ -1,5 +1,16 @@
 # Daily To-Do
 
+## Today - 18 May 2026 (Run 3)
+
+- [x] PricingPage: comparison table "Full" → "Full detail" — removes ambiguity vs "Unlimited" on Codex/Vicinity/Vantage rows
+- [x] FindJobsPage: UNLOCK FULL LEAD button now has sub-text "Buyer · deadline · proof link" — names exactly what's locked
+- [x] DashboardPage: RESULTS pipeline box now a Link to /leads with hover + "Review leads →" text (matches SCAN + TRACKING behaviour)
+- [x] DashboardPage: YOUR SCOREBOARD section gets "Review all leads →" link
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-18 Run 3 written
+
+---
+
 ## Today - 18 May 2026 (Run 2)
 
 - [x] DashboardPage: YOUR INTAKE now reads real trade/postcode/scan count from localStorage (was static "Ready to scan")
