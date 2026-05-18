@@ -9,6 +9,7 @@ const links = [
 ];
 
 const moreLinks = [
+  { to: '/dev-portal', label: 'Dev Hub' },
   { to: '/tradie-zone', label: 'Trade Hub' },
   { to: '/trust', label: 'Trust' },
   { to: '/methodology', label: 'How It Works' },

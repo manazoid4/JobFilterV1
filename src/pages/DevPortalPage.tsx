@@ -62,6 +62,9 @@ export function DevPortalPage() {
         <p className="mt-4 max-w-3xl text-xl font-black text-white/90">
           Use this page while building. Enable the local unlimited tester to remove frontend scan limits and open paid actions without changing production entitlement logic.
         </p>
+        <div className="mt-5 inline-flex border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 font-mono text-xs font-black uppercase text-[var(--ink)]">
+          Deployed build: signal-graph-api-9800c16
+        </div>
       </section>
 
       <section className="mt-6 grid gap-6 lg:grid-cols-[1fr_420px]">
