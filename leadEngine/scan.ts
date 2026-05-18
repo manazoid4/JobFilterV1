@@ -13,7 +13,7 @@
  * Never blocks on a single source.
  */
 
-import type { Lead, RawLead, ScanResult, SourceStats } from './types';
+import type { Lead, RawLead, ScanResult, SourceStats, SourceHealth } from './types';
 import { CONFIG, TRADE_KEYS } from './config';
 import { lookupPostcode, haversineMiles, regionFromOutward } from './postcode';
 import { contractsFetcher } from './fetchers/contractsFetcher';
@@ -275,6 +275,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     outward,
     lockedCount,
     sources: mergedStats,
+    sourceHealth: {},
     errors,
   };
 }
