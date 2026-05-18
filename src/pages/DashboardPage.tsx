@@ -108,13 +108,14 @@ export function DashboardPage() {
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
           </Link>
-          <div className="block border-2 border-[var(--ink)] bg-white p-5">
+          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--offwhite)] transition">
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
               {monthlyStats.count === 0 ? 'Open any lead → mark it Won to record value' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
             </p>
-          </div>
+            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">Review leads →</p>
+          </Link>
         </div>
       </section>
 
@@ -215,6 +216,7 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
+          <Link to="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
         </section>
 
         {/* Quick Actions */}

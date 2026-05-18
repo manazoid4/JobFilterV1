@@ -33,7 +33,7 @@ export function TradieZonePage() {
     try {
       const stored = localStorage.getItem('jf-member-name');
       if (stored) setMemberName(stored);
-      const territory = localStorage.getItem('jf-territory');
+      const territory = localStorage.getItem('jobfilter.territory');
       if (territory) setMemberTerritory(territory);
     } catch { /* ignore */ }
   }, []);

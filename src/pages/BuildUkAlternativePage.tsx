@@ -261,7 +261,7 @@ export function BuildUkAlternativePage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
               ['Exclusive scans', 'No one else sees your results. Not shared. Not resold.'],
-              ['Official sources only', 'Planning portals, contracts finders, EPC registers. Not forms. Not ads.'],
+              ['Verified signals only', 'Planning approvals, public contracts, verified energy signals. Not forms. Not ads.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No top-ups.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands.'],
               ['Cancel anytime', 'No contracts. No lock-in. Leave if it doesn\'t work for you.'],
