@@ -5,7 +5,7 @@ import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
   'Official UK signal sources checked server-side',
-  'Planning, EPC & council data where available',
+  'Planning, energy & council signals — verified',
   'One trade per postcode — locked to you',
   'No shared lead trap. Cancel anytime.',
 ];
@@ -148,7 +148,7 @@ export function HomePage() {
               STOP PRICING DEAD LEADS.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Find real building work using planning, EPC and council data — sent to your WhatsApp before competitors call.
+              Find real building work using planning, energy and council signals — sent to your WhatsApp before competitors call.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (

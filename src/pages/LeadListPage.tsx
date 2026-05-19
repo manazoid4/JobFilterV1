@@ -94,59 +94,79 @@ export function LeadListPage() {
         </p>
       </div>
 
-      {/* ── Search + Export ────────────────────────────────── */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search leads — job type, area, postcode, keyword"
-          className="flex-1 border-2 border-[var(--navy)] bg-white px-4 py-3 text-sm font-black text-[var(--ink)] placeholder:text-[var(--muted)]"
-        />
-        <button
-          type="button"
-          onClick={() => downloadCsv(visible, tab)}
-          disabled={visible.length === 0}
-          className="jf-button bg-[var(--navy)] text-white sm:px-6 disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Download visible leads as CSV"
-        >
-          EXPORT CSV ({visible.length})
-        </button>
-      </div>
-
-      {/* ── Tabs ────────────────────────────────────────────── */}
-      <div className="flex border-2 border-[var(--navy)] bg-[var(--paper)]">
-        {tabs.map((t, i) => (
-          <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            className={`flex flex-1 items-center justify-center gap-2 py-3 font-black uppercase text-sm tracking-wider transition-colors ${
-              tab === t.id ? 'bg-[var(--navy)] text-[var(--yellow)]' : 'text-[var(--navy)] hover:bg-[var(--yellow)]/20'
-            } ${i < tabs.length - 1 ? 'border-r-2 border-[var(--navy)]' : ''}`}
-          >
-            <span>{t.label}</span>
-            <span className={`flex h-5 min-w-[20px] items-center justify-center px-1 text-[11px] font-black ${
-              tab === t.id ? 'bg-[var(--yellow)] text-[var(--navy)]' : 'bg-[var(--offwhite)] text-[var(--navy)]'
-            } border border-[var(--navy)]`}>
-              {t.count}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* ── Lead cards ────────────────────────────────────────── */}
-      {visible.length === 0 ? (
-        <div className="jf-box bg-white p-8 text-center">
-          <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab} LEADS YET</h2>
-          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
-            Enter your postcode and trade. See what jobs are live near you in under 30 seconds.
+      {/* ── Empty state — shown when no leads at all ─────────── */}
+      {stored.length === 0 && (
+        <div className="jf-box bg-[var(--yellow)] p-8 text-center">
+          <h2 className="headline text-3xl uppercase text-[var(--ink)]">YOUR LIST IS EMPTY.</h2>
+          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--ink)]/80">
+            Enter your postcode. Pick your trade. See what jobs are live near you in under 30 seconds.
           </p>
-          <Link className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--navy)]" to="/find-jobs">
+          <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" to="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
-          <p className="mt-3 text-xs font-black text-[var(--muted)]">No credit card required</p>
+          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
         </div>
-      ) : (
+      )}
+
+      {/* ── Search + Export — only shown when leads exist ─── */}
+      {stored.length > 0 && (
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search leads — job type, area, postcode, keyword"
+            className="flex-1 border-2 border-[var(--navy)] bg-white px-4 py-3 text-sm font-black text-[var(--ink)] placeholder:text-[var(--muted)]"
+          />
+          <button
+            type="button"
+            onClick={() => downloadCsv(visible, tab)}
+            disabled={visible.length === 0}
+            className="jf-button bg-[var(--navy)] text-white sm:px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Download visible leads as CSV"
+          >
+            EXPORT CSV ({visible.length})
+          </button>
+        </div>
+      )}
+
+      {/* ── Tabs — only shown when leads exist ───────────── */}
+      {stored.length > 0 && (
+        <div className="flex border-2 border-[var(--navy)] bg-[var(--paper)]">
+          {tabs.map((t, i) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`flex flex-1 items-center justify-center gap-2 py-3 font-black uppercase text-sm tracking-wider transition-colors ${
+                tab === t.id ? 'bg-[var(--navy)] text-[var(--yellow)]' : 'text-[var(--navy)] hover:bg-[var(--yellow)]/20'
+              } ${i < tabs.length - 1 ? 'border-r-2 border-[var(--navy)]' : ''}`}
+            >
+              <span>{t.label}</span>
+              <span className={`flex h-5 min-w-[20px] items-center justify-center px-1 text-[11px] font-black ${
+                tab === t.id ? 'bg-[var(--yellow)] text-[var(--navy)]' : 'bg-[var(--offwhite)] text-[var(--navy)]'
+              } border border-[var(--navy)]`}>
+                {t.count}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Lead cards ────────────────────────────────────────── */}
+      {stored.length > 0 && visible.length === 0 ? (
+        <div className="jf-box bg-white p-8 text-center">
+          <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
+          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+            Try a different tab or clear your search filter.
+          </p>
+          <button
+            onClick={() => { setQuery(''); setTab('gold'); }}
+            className="jf-button mt-5 bg-[var(--navy)] text-white"
+          >
+            CLEAR FILTER
+          </button>
+        </div>
+      ) : stored.length > 0 ? (
         <div className="flex flex-col gap-5">
           {visible.map((lead) => {
             const urgencyColor = lead.urgency === 'Emergency'
@@ -203,7 +223,7 @@ export function LeadListPage() {
             );
           })}
         </div>
-      )}
+      ) : null}
     </main>
   );
 }

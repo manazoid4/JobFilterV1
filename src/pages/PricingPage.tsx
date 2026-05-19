@@ -11,7 +11,7 @@ const included = [
   'Pipeline tracking — every lead from first call to won',
   'Win breakdown — see which trade & area actually pays',
   'CSV export & calendar reminders — sync to any CRM',
-  'Keyword search across planning, EPC & council signals',
+  'Keyword search across planning, energy & council signals',
   'Company-branded letters for selected Gold leads',
   'Buyer Action Pack — call opener, checks, quote guardrail',
   'Patch Watch — daily trade signals for your postcode cluster',
@@ -151,7 +151,7 @@ export function PricingPage() {
           price="£0"
           body="See if your patch is worth paying for — before you pay."
           items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Trade intelligence preview']}
-          cta={<Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY POSTCODE FREE</Link>}
+          cta={<><Link className="jf-button mt-5 bg-[var(--ink)] text-white inline-block" to="/find-jobs">SCAN MY POSTCODE FREE</Link><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required.</p></>}
         />
         <PlanCard
           title="Founder"
@@ -210,10 +210,10 @@ export function PricingPage() {
           <p className="micro-label text-[var(--yellow)]">NEW PAID FEATURE</p>
           <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">PATCH WATCH.</h2>
           <p className="mt-3 text-lg font-black text-white/80">
-            You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, EPC, tender, and fit-out signals.
+            You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, energy upgrade, tender, and fit-out signals.
           </p>
           <div className="mt-5 grid gap-2">
-            {['Daily signal watch', 'Weekly opportunity digest', 'Planning and EPC alerts', 'Territory priority'].map((item) => (
+            {['Daily signal watch', 'Weekly opportunity digest', 'Planning and energy upgrade alerts', 'Territory priority'].map((item) => (
               <p key={item} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black uppercase text-white">{item}</p>
             ))}
           </div>

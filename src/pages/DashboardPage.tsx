@@ -100,7 +100,7 @@ export function DashboardPage() {
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
             <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
           </Link>
-          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition">
+          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
@@ -111,7 +111,7 @@ export function DashboardPage() {
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
           </Link>
-          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--offwhite)] transition">
+          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
@@ -194,7 +194,7 @@ export function DashboardPage() {
         </section>
 
         {/* Chase Summary */}
-        <section className="jf-box bg-white p-5">
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
           </div>
@@ -208,7 +208,7 @@ export function DashboardPage() {
         </section>
 
         {/* Win Summary */}
-        <section className="jf-box bg-white p-5">
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
           </div>
