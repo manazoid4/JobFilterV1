@@ -270,11 +270,8 @@ export function WeeklySignalsPage() {
         <div className="page-shell section-pad">
           <div className="flex flex-wrap items-center gap-3 mb-5">
             <p className="micro-label text-[var(--yellow)]">
-              {isCurrentWeek ? 'LIVE THIS WEEK' : `ARCHIVE — ${week.weekLabel}`}
+              {isCurrentWeek ? 'THIS WEEK\'S SIGNALS' : `ARCHIVE — ${week.weekLabel}`}
             </p>
-            {isCurrentWeek && (
-              <span className="h-2.5 w-2.5 rounded-full bg-[var(--green)] shadow-[0_0_6px_var(--green)] animate-pulse" />
-            )}
           </div>
           <h1 className="headline text-[clamp(2.5rem,7vw,6rem)] leading-[0.88] text-[var(--yellow)]">
             SIGNALS THIS WEEK.
