@@ -154,7 +154,7 @@ export function TerritoriesPage() {
             <span>Patch</span>
             <span>Trade</span>
             <span>Area model</span>
-            <span>Signal examples</span>
+            <span>Signals/mo</span>
             <span>Status</span>
           </div>
           <div className="divide-y-2 divide-[var(--line)]">
@@ -168,7 +168,7 @@ export function TerritoriesPage() {
                 <div className="font-black">{territory.trade}</div>
                 <div className="font-mono font-black">{territory.monthlyPotential}</div>
                 <div>
-                  <p className="font-mono text-2xl font-black">{territory.signalStrength}</p>
+                  <p className="font-mono text-2xl font-black">{territory.liveSignals}</p>
                   <p className={`text-xs font-black uppercase ${territory.confidence === 'High' ? 'text-[var(--green)]' : 'text-[var(--orange)]'}`}>
                     {territory.confidence === 'High' ? '● Strong' : '● Growing'}
                   </p>
