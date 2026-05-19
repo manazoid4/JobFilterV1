@@ -332,6 +332,45 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── NEVER MISS A LEAD ─────────────────────────── */}
+      <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--yellow)]">FIRST MOVER ADVANTAGE</p>
+          <h2 className="headline mt-3 text-4xl leading-none text-white sm:text-5xl">
+            GOLD LEAD HITS YOUR PHONE.<br />MESSAGE TEMPLATE READY TO SEND.
+          </h2>
+          <p className="mt-5 max-w-2xl font-bold text-white/70 leading-relaxed">
+            Every GOLD lead comes with a pre-written message you can copy and send in one tap. No thinking. No typing. Just call or paste — while everyone else is still looking it up.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">2h</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">first-touch window before buyer goes cold</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">1 tap</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">to copy a ready-written message for any lead</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">0</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">leads shared with other tradesmen in your territory</p>
+            </div>
+          </div>
+          <div className="mt-8 border-2 border-[var(--yellow)]/40 bg-white/5 p-5 max-w-2xl">
+            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)] mb-3">EXAMPLE — COPY IN ONE TAP</p>
+            <p className="text-sm font-bold text-white/80 leading-relaxed italic">
+              "Hi, I saw your builder job in SW12 come up. I'm local and available this week. Happy to pop round and give you a proper quote — no obligation. Give me a shout if you want to arrange a time."
+            </p>
+            <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/40">Pre-filled with trade + postcode from the lead</p>
+          </div>
+          <div className="mt-8">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
+              SEE LIVE LEADS IN YOUR AREA
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── OPERATING STEPS ───────────────────────────── */}
       <section className="bg-[var(--paper)]">
         <div className="page-shell grid gap-8 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
