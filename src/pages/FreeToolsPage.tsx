@@ -271,22 +271,6 @@ export function FreeToolsPage() {
           </div>
       </section>
 
-      {/* ── Intake Engine paywall CTA ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--orange)]">THE INTAKE ENGINE</p>
-        <h2 className="headline text-3xl sm:text-4xl">REAL LEADS. SCORED. SENT TO YOUR PHONE.</h2>
-        <p className="mt-2 max-w-2xl font-black text-[var(--muted)]">
-          Free tools help you make better decisions. Full lead detail, WhatsApp alerts, saved leads, and Letterhead Pack stay behind access.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-3 items-center">
-          <div className="flex flex-col items-start gap-0.5">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
-          </div>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
-        </div>
-      </section>
-
       {/* ── Risk Reversal ──────────────────────────────────────────── */}
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-6 text-center">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
