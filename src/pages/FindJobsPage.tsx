@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar, Copy, CheckCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -11,6 +11,7 @@ import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
+import { fillTemplate, MESSAGE_TEMPLATES } from '../lib/chaseTemplates';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
@@ -101,6 +102,14 @@ function isNewLead(publishedAt: string): boolean {
   const now = new Date();
   const hoursDiff = (now.getTime() - published.getTime()) / (1000 * 60 * 60);
   return hoursDiff < 24;
+}
+
+function timeAgoShort(iso: string): string {
+  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
 }
 
 function getSourceIcon(source: string): React.ReactNode {
@@ -799,6 +808,20 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
+  const [copied, setCopied] = useState(false);
+
+  function copyFirstTouchTemplate() {
+    const tpl = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
+    if (!tpl) return;
+    const msg = fillTemplate(tpl, {
+      job_type: String(lead.trade || lead.tradeMatch || 'job'),
+      area: lead.location || outward,
+    });
+    navigator.clipboard.writeText(msg).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
+  }
 
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
@@ -821,7 +844,20 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
       : 'bg-[var(--muted)]/15 text-[var(--muted)]';
 
   return (
-    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
+    <article className="jf-box bg-white overflow-hidden">
+      {/* ── First-mover urgency bar (GOLD only) ── */}
+      {isGold && lead.publishedAt && (
+        <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-4 py-2">
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-[var(--ink)]" />
+            <span className="text-xs font-black uppercase tracking-wider text-[var(--ink)]">
+              Detected {timeAgoShort(lead.publishedAt)} — first mover window open
+            </span>
+          </div>
+          <span className="text-[10px] font-black uppercase text-[var(--orange)]">GOLD LEAD</span>
+        </div>
+      )}
+      <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       {/* Enhanced score badge with color coding */}
       <div className="flex flex-col items-center gap-1">
         <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
@@ -916,6 +952,15 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             ) : (
               <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
             )}
+            {isGold && (
+              <button
+                className="jf-button w-full flex items-center justify-center gap-2 bg-[var(--ink)] text-[var(--yellow)] border-2 border-[var(--ink)] text-xs"
+                onClick={copyFirstTouchTemplate}
+              >
+                {copied ? <CheckCheck className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? 'COPIED — PASTE & SEND' : 'COPY MESSAGE TEMPLATE'}
+              </button>
+            )}
           </>
         ) : (
           <div className="grid gap-1">
@@ -925,6 +970,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
           </div>
         )}
+      </div>
       </div>
     </article>
   );
