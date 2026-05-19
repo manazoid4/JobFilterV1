@@ -139,10 +139,13 @@ export function PricingPage() {
           One £2,000 win covers 51 months. Most founders chase their first lead inside 14 days.
         </p>
         <p className="mt-3 max-w-3xl text-lg font-black text-white/85">
-          Gold leads on WhatsApp. One trade per postcode. Pipeline tracking, win breakdown, CSV export, keyword search — all in. No shared lead auction.
+          WhatsApp first. Dashboard second. One trade per postcode. Gold leads controlled before they hit your phone — no shared auction, no five-trade blast, no race-to-the-bottom resale.
         </p>
         <p className="mt-3 max-w-3xl text-base font-black text-white/60">
           Checkatrade £200+/mo — same lead, five trades. Bark — pay-per-name, fight for it. JobFilter — your patch, your leads, your price locked.
+        </p>
+        <p className="mt-2 max-w-3xl text-sm font-black text-[var(--green)]">
+          If you don't see one job worth chasing in 30 days, we refund every penny.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           <PriceStat label="Founder monthly" value="£39/mo" note="locked while plan is active" hot />
@@ -245,7 +248,7 @@ export function PricingPage() {
       <section className="ops-strip flex flex-col items-center gap-6 px-6 py-10 text-center text-[var(--ink)]">
         <p className="micro-label">ALL TOOLS, ONE PRICE</p>
         <h2 className="headline max-w-3xl text-4xl leading-none md:text-6xl">
-          Everything you need to find, win, and showcase work.
+          Not a lead marketplace. A construction intelligence layer.
         </h2>
         <p className="max-w-2xl text-lg font-black text-[var(--muted)]">
           No separate subscriptions. No per-tool fees. One price, every feature.

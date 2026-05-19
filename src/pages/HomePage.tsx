@@ -493,7 +493,7 @@ export function HomePage() {
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
-              { icon: CheckCircle, title: '30-day guarantee', body: 'Set up. Use it. If you do not see value, we refund.' },
+              { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
                 <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
@@ -519,13 +519,14 @@ export function HomePage() {
               <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
-              LESS CHASING. BETTER JOBS. CONTROL OF YOUR AREA.
+              QUIT WORKING FOR GHOSTS.
             </h2>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a lead marketplace. A construction intelligence layer. Gold leads are controlled by trade, patch, and timing before they hit your WhatsApp.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
-                ['No shared auctions', 'Your best leads are not blasted to five firms.'],
-                ['No fake leads', 'Every signal carries source, confidence, urgency, and value.'],
-                ['No dashboard homework', 'WhatsApp gets the lead. The dashboard proves the money.'],
+                ['No shared auction', 'No five-trade blast. No race-to-the-bottom resale. If a lead looks crowded, it gets marked down or blocked.'],
+                ['No timewasters', 'Every signal is scored for buyer intent, timing pressure, and budget. WASTE-rated leads never reach you.'],
+                ['WhatsApp first', 'The job hits your phone. Dashboard second. One dominant trade partner per area.'],
               ].map(([title, body]) => (
                 <div key={title} className="border-2 border-white/20 bg-white/8 p-4 transition-colors hover:border-[var(--yellow)]/40 hover:bg-white/12">
                   <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
@@ -543,7 +544,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
-              Paid unlocks verification proof, WhatsApp alerts, priority routing, and company-branded letters written for selected Gold leads.
+              Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>
