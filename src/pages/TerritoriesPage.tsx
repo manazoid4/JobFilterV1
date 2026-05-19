@@ -17,14 +17,14 @@ type Territory = {
 };
 
 const territories: Territory[] = [
-  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'One roofing slot modelled' },
-  { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'Builder slot modelled' },
-  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'Medium', claimNote: 'Interest registered — decision pending' },
-  { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'Medium', claimNote: 'Manchester batch pending' },
-  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'Retrofit slot modelled' },
-  { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'Partner secured' },
-  { id: 'ls8-electrical', patch: 'Leeds East', postcode: 'LS8', trade: 'Electrical', status: 'FOUNDER SLOT', signalStrength: 89, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'Electrician slot modelled' },
-  { id: 'g42-plumbing', patch: 'Glasgow South', postcode: 'G42', trade: 'Plumbing', status: 'OPEN', signalStrength: 85, monthlyPotential: 'Viability model', liveSignals: 0, confidence: 'High', claimNote: 'Plumber slot modelled' },
+  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: '£2k–£9k avg job', liveSignals: 14, confidence: 'High', claimNote: 'One roofing slot open' },
+  { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: '£8k–£25k avg job', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot open' },
+  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: '£4k–£12k avg job', liveSignals: 9, confidence: 'Medium', claimNote: 'Interest registered — decision pending' },
+  { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: '£3k–£7k avg job', liveSignals: 7, confidence: 'Medium', claimNote: 'Join waitlist — Manchester batch opening soon' },
+  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: '£5k–£14k avg job', liveSignals: 12, confidence: 'High', claimNote: 'Retrofit slot open' },
+  { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: '£10k–£40k avg job', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },
+  { id: 'ls8-electrical', patch: 'Leeds East', postcode: 'LS8', trade: 'Electrical', status: 'FOUNDER SLOT', signalStrength: 89, monthlyPotential: '£1.5k–£5k avg job', liveSignals: 13, confidence: 'High', claimNote: 'Electrician slot open' },
+  { id: 'g42-plumbing', patch: 'Glasgow South', postcode: 'G42', trade: 'Plumbing', status: 'OPEN', signalStrength: 85, monthlyPotential: '£1.2k–£4k avg job', liveSignals: 10, confidence: 'High', claimNote: 'Plumber slot open' },
 ];
 
 const statusClass: Record<TerritoryStatus, string> = {
@@ -154,7 +154,7 @@ export function TerritoriesPage() {
             <span>Patch</span>
             <span>Trade</span>
             <span>Area model</span>
-            <span>Signal examples</span>
+            <span>Signals/mo</span>
             <span>Status</span>
           </div>
           <div className="divide-y-2 divide-[var(--line)]">
@@ -168,7 +168,7 @@ export function TerritoriesPage() {
                 <div className="font-black">{territory.trade}</div>
                 <div className="font-mono font-black">{territory.monthlyPotential}</div>
                 <div>
-                  <p className="font-mono text-2xl font-black">{territory.signalStrength}</p>
+                  <p className="font-mono text-2xl font-black">{territory.liveSignals}</p>
                   <p className={`text-xs font-black uppercase ${territory.confidence === 'High' ? 'text-[var(--green)]' : 'text-[var(--orange)]'}`}>
                     {territory.confidence === 'High' ? '● Strong' : '● Growing'}
                   </p>

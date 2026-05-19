@@ -19,10 +19,10 @@ const content = {
     label: 'text-[var(--ink)]',
     headline: 'PUT YOUR NAME ON EVERY DOOR IN YOUR PATCH.',
     sub: 'Hyper-local ads targeting households that need your work right now — based on verified job signals, property sales, and planning approvals.',
-    body: 'You know your patch. Vicinity puts your brand in the letterboxes of the exact homes that are about to need your trade. No wasted flyers. No blanket coverage. Just the houses with the signal.',
+    body: 'You know your patch. Vicinity puts your brand in the right doors before they post on Bark or Checkatrade. No blanket drops. Just the houses already showing a live signal.',
     note: 'Powered by JobFilter\'s signal engine — we know which homes need work before they post a job.',
-    distinct: 'Vicinity fills your pipeline between big jobs. Micro-ads, hyper-targeted, cheap as chips.',
-    problem: 'Blanket leaflet drops waste 90% of your budget. Vicinity targets only the homes with a trigger signal.',
+    distinct: 'Vicinity fills your pipeline between big jobs. Targeted, cheap as chips, no shared auction.',
+    problem: 'Every blanket leaflet drop wastes 90% of your budget on houses that don\'t need your trade this year. Vicinity skips those entirely.',
     steps: ['Tell us your patch (postcode + radius)', 'We target homes with active job signals (low energy ratings, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
     gets: ['Targeted door-drop campaign', 'Signal-matched household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
   },
@@ -104,6 +104,7 @@ function ServiceForm({ trade }: { trade: string }) {
           name: fd.get('name'),
           trade: fd.get('company'),
           contact: fd.get('contact'),
+          details: fd.get('details'),
           source: `service-form-${trade.toLowerCase().replace(/\s+/g, '-')}`,
         }),
       });
@@ -123,7 +124,7 @@ function ServiceForm({ trade }: { trade: string }) {
         <input name="name" className="field-input" placeholder="Your name" required />
         <input name="company" className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
         <input name="contact" className="field-input" placeholder="Email or phone" required />
-        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
+        <textarea name="details" className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (

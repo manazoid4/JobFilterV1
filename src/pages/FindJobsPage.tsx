@@ -410,7 +410,7 @@ export function FindJobsPage() {
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!unlimitedTester && weeklyScansUsed > 0 && (
+      {!unlimitedTester && (
         <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
           <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
           <p className="text-sm font-black text-[var(--ink)]">
@@ -418,9 +418,9 @@ export function FindJobsPage() {
           </p>
           {weeklyScansRemaining === 0 ? (
             <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          ) : weeklyScansUsed === 0 ? (
+          ) : (
             <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
-          ) : null}
+          )}
         </div>
       )}
 

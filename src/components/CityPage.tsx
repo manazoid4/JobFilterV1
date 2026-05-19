@@ -144,7 +144,7 @@ export function CityPage({ city }: CityPageProps) {
   }, [city]);
 
   function handleScan() {
-    navigate(`/find-jobs?postcode=${city.postcode}&trade=building`);
+    navigate(`/find-jobs?postcode=${city.postcode}`);
   }
 
   return (

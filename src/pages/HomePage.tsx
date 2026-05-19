@@ -5,7 +5,7 @@ import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
   'Official UK signal sources checked server-side',
-  'Planning, EPC & council data where available',
+  'Planning, energy & council signals — verified',
   'One trade per postcode — locked to you',
   'No shared lead trap. Cancel anytime.',
 ];

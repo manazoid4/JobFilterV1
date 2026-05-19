@@ -27,6 +27,7 @@ export function PostJobPage() {
           name: fd.get('name'),
           trade: fd.get('trade'),
           contact: fd.get('contact'),
+          details: fd.get('details'),
           source: `post-job-${String(fd.get('postcode') ?? '').toUpperCase()}`,
         }),
       });

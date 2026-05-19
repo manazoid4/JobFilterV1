@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'One territory lock, unlimited WhatsApp alerts, unlimited direct letters sent 1st class on your behalf, full lead scoring, lead readiness markers, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
+    a: 'One territory lock, unlimited WhatsApp alerts, company-branded approach letters for selected Gold leads, full lead scoring, lead readiness markers, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',

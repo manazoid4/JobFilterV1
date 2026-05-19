@@ -82,7 +82,7 @@ export function EpcPage() {
           <p className="micro-label text-[var(--yellow)]">GET RETROFIT ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
-            Join the retrofit lead list. Gold signals go to WhatsApp when the paid alert flow opens.
+            Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
           <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
         </div>

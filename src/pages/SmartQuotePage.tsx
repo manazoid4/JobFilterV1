@@ -70,7 +70,7 @@ export function SmartQuotePage() {
           <p className="micro-label text-[var(--yellow)]">SMART QUOTING</p>
           <h1 className="headline mt-4 text-5xl md:text-6xl text-white">QUOTE FASTER. WIN MORE.</h1>
           <p className="mt-5 max-w-xl text-lg font-black text-white/80">
-            Stop writing the same quote from scratch every time. Pick your trade, pick the job, get the starter.
+            Pick your trade and job type. Get a professional quote opener — ready to send in 30 seconds. No blank page. No guessing what to say first.
           </p>
         </div>
       </section>
@@ -168,9 +168,10 @@ export function SmartQuotePage() {
               Smart Quote writes the proposal. Intake finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
               <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
             </div>
+            <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
           </div>
         </div>
       </section>
