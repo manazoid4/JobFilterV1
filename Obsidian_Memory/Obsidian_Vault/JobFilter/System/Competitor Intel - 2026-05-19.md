@@ -69,4 +69,110 @@
 
 ---
 
-*Date: 2026-05-19 | Next review: 2026-06-02*
+---
+
+## NEW RESEARCH — 2026-05-19 UPDATE
+
+### Checkatrade — PRICING CRISIS FOR MEMBERS
+
+**Confirmed renewal pricing spikes:**
+- Multiple tradespeople on forums reporting renewals from £756/yr → £2,160/yr (185% increase)
+- Others going from £800/yr → nearly £2,000/yr
+- Entry-level self-reported at £80-£100/mo; heavy users paying £200-£400/mo before single job
+- **14-day cancel window** then locked for a full year — this is the most complained-about feature
+- Loyal members paying £80/mo MORE than new members (as confirmed in multiple Trustpilot reviews)
+- Lead quality declining as platform grows: "as a tradesman, the company is getting worse every year"
+- TradeMore (their AI job management tool) confirmed free and open to ALL trades — not just members. Confirms the direction is platform stickiness, not lead quality.
+
+**Attack angle:** Price volatility at renewal is the strongest lever. Checkatrade customers never know what they'll pay next year. JobFilter founder price is locked forever while active. This is a direct, factual contrast.
+
+### Bark.com — CREDIT EXPIRY CONFIRMED LIVE
+
+**Live issues:**
+- Credits purchased from 1 November 2025 expire in **3 months**. This is now live and generating active complaints.
+- Standard credit cost: £1.80 ex VAT. Lead cost: 5-20 credits = £9-£36 per lead shared with 3-5 trades.
+- "99% of leads don't respond" — recurrent complaint across G2, Trustpilot, PissedConsumer
+- Fake lead problem confirmed: AI anti-fraud "obviously isn't advanced enough" per multiple reviews
+- Credit refund policy: Bark will not refund credits if the lead "replied and then went quiet"
+
+**Attack angle:** "Stop buying credits that expire. Stop paying for leads that ghost you. One £39/mo scan finds jobs before they're posted anywhere."
+
+### MyBuilder — COST CREEP CONFIRMED
+
+- Pay-per-shortlist: £25-£65 per expression of interest, before selection
+- Tradespeople spending £100-£300 before a single won job is the norm, not the exception
+- One report of being charged £72 for a job that never materialised — no recourse given
+- Homeowner shortlists 6+ trades per job — your odds of winning are <17%
+
+**Attack angle:** "MyBuilder takes your money before you're chosen. JobFilter shows you the job before there's anyone to compete against."
+
+### Rated People — SUPPORT COLLAPSE
+
+- New "Unlimited" plan at an undisclosed monthly fee (they don't publish it clearly)
+- Lead costs: £2-£65 per lead + monthly subscription — shared with up to 3 trades
+- Customer support replaced by AI chatbot — 2-month wait reported for support tickets
+- Membership fees doubled in recent cycle per forum reports
+
+**Attack angle:** When something goes wrong with a lead or billing, there's no human to call. "We answer. Actual humans."
+
+### TrustATrader — DIRECTORY MODEL, NO EVOLUTION
+
+- £70-£120/mo for a listing — pure directory, consumer-pulls model
+- No proactive lead gen. No scoring. No signals. You wait to be found.
+- Trustpilot reviews indicate vetting is inconsistent
+
+**Attack angle:** "TrustATrader lists you. JobFilter finds you work."
+
+### Houzz Pro — WRONG MARKET FOR UK TRADES
+
+- Starting at ~$399/mo (~£320/mo) — aimed at architects and interior designers, not tradespeople
+- 12-month auto-renew with 1-month notice required to cancel
+- Lead quality complaints: "few leads, often of poor quality or irrelevant"
+- UK coverage thin — US-first product
+
+**Attack angle:** Irrelevant for most UK tradespeople. Price point rules it out for sole traders.
+
+### Local Heroes (British Gas) — CLOSED
+
+- **Platform shut down in October 2023.** No longer a competitor.
+- Any tradespeople still searching for "Local Heroes alternative" are warm prospects.
+
+### Buildxact / Procore / Buildertrend — NO LEAD GEN
+
+- All three are project management / estimating tools. None do proactive lead gen.
+- Buildxact has a "lead management" module for tracking leads you already have — not finding new ones.
+- No UK-specific lead discovery features found.
+- **Not a competitive threat.** Different category entirely.
+
+### New AI Entrants — STILL NO DIRECT COMPETITOR
+
+- Building Radar: AI for construction sales intelligence — enterprise only, international, not UK-trades focused
+- HelloLeads.co.uk: Construction technology leads — appears to be a generic lead gen agency
+- MHCLG's "Extract" tool: Government AI for converting planning PDFs to structured data — for councils, not trades, no consumer product
+- No new entrant found combining planning data + EPC + council contracts + WhatsApp delivery + scoring for UK tradespeople
+
+---
+
+## HOW TO ATTACK EACH WEAKNESS IN CONTENT
+
+| Competitor | Core Weakness | Content Angle to Run |
+|---|---|---|
+| Checkatrade | Price doubles at renewal. 14-day cancel trap. | "What Checkatrade charges you at renewal" — use real figures from forums. Drive to /vs/checkatrade. |
+| Bark.com | Credits expire in 3 months. Leads ghost you. Fake leads. | "Stop buying Bark credits that expire" — calculator showing waste. Drive to /pricing. |
+| MyBuilder | Pay before selected. <17% odds. No recourse. | "MyBuilder charges you whether you win or not" — maths post. Drive to free scan. |
+| Rated People | Support collapsed. Doubled fees. | "Who do you call when a Rated People lead goes wrong?" — answer: nobody. |
+| Houzz Pro | Wrong price tier for UK trades. | Ignore — not a real competitor for this market. |
+| TrustATrader | Passive directory. No first-mover advantage. | "Listing yourself isn't lead gen. This is." |
+| All shared-lead platforms | Same lead, 5 firms, price war | Homepage hero "THE OLD WAY: 5 FIRMS GET THE SAME LEAD. YOUR WAY: SEE IT FIRST, ALONE." — already live on site. |
+
+### Content to produce next (prioritised by warm audience size)
+
+1. **"What Checkatrade charged me at renewal"** — forum-sourced, factual, SEO: "checkatrade renewal price increase 2026"
+2. **"Bark credits calculator"** — show how much you waste if 60% of leads ghost you with 3-month expiry
+3. **"MyBuilder: the maths no one shows you"** — cost per won job worked out honestly
+4. **"/vs/mybuilder page"** — same format as /vs/checkatrade, now live on site
+5. **"Local Heroes is closed — here's what to use instead"** — capture that search traffic
+
+---
+
+*Date updated: 2026-05-19 | Next review: 2026-06-02*

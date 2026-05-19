@@ -143,12 +143,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
+            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — EXCLUSIVE, SCORED, BEFORE THEY GO PUBLIC</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
-              STOP PRICING DEAD LEADS.
+              THE OLD WAY: 5 FIRMS GET THE SAME LEAD.{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>YOUR WAY: SEE IT FIRST, ALONE.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Find real building work using planning, energy and council signals — sent to your WhatsApp before competitors call.
+              JobFilter reads planning approvals, EPC data and council contracts before they hit any directory — scored, exclusive, sent straight to your WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
