@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar, Copy, CheckCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -11,7 +11,7 @@ import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
-import { fillTemplate, MESSAGE_TEMPLATES } from '../lib/chaseTemplates';
+import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
@@ -804,21 +804,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
-  const [copied, setCopied] = useState(false);
-
-  function copyFirstTouchTemplate() {
-    const tpl = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
-    if (!tpl) return;
-    const msg = fillTemplate(tpl, {
-      job_type: String(lead.trade || lead.tradeMatch || 'job'),
-      area: lead.location || outward,
-    });
-    navigator.clipboard.writeText(msg).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
-  }
-
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || outward],
@@ -948,15 +933,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             ) : (
               <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
             )}
-            {isGold && (
-              <button
-                className="jf-button w-full flex items-center justify-center gap-2 bg-[var(--ink)] text-[var(--yellow)] border-2 border-[var(--ink)] text-xs"
-                onClick={copyFirstTouchTemplate}
-              >
-                {copied ? <CheckCheck className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                {copied ? 'COPIED — PASTE & SEND' : 'COPY MESSAGE TEMPLATE'}
-              </button>
-            )}
           </>
         ) : (
           <div className="grid gap-1">
@@ -966,6 +942,16 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
           </div>
         )}
+        <QuickResponseKit
+          leadId={lead.id}
+          trade={String(lead.trade || lead.tradeMatch || 'job')}
+          area={lead.location || outward}
+          score={lead.score}
+          publishedAt={lead.publishedAt}
+          unlocked={cardOpenAccess}
+          title={lead.title}
+          estimatedValue={String(lead.estimatedValue || '')}
+        />
       </div>
       </div>
     </article>

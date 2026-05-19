@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FormEvent, useState, type ReactNode } from 'react';
-import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator } from 'lucide-react';
+import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator, MessageSquare } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { joinWaitlist } from '../lib/waitlist';
 
@@ -85,6 +85,7 @@ const featureCategories = [
 
 const comparisonRows = [
   { feature: 'WhatsApp Gold leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'Response Kit — message templates', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Territory lock', free: false, founder: true, standard: true },
   { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
   { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
@@ -101,6 +102,7 @@ const comparisonRows = [
 
 const toolIcons = [
   { name: 'WhatsApp Leads', icon: Zap },
+  { name: 'Response Kit', icon: MessageSquare },
   { name: 'Pipeline', icon: BarChart3 },
   { name: 'Action Pack', icon: ClipboardCheck },
   { name: 'Patch Watch', icon: Radar },
