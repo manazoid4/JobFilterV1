@@ -62,7 +62,7 @@ export function Footer() {
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
               <p>Local knowledge baked into every signal score.</p>
               <p>WhatsApp-first because that's where you actually work.</p>
-              <p>Founder £39/month. Standard £79/month. Direct letters included.</p>
+              <p>Founder price: £39/month. Locks in while your plan stays active.</p>
             </div>
             <div className="mt-4 border-2 border-[var(--green)]/40 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)]">
               30-DAY MONEY-BACK GUARANTEE
