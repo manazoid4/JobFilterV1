@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { saveStoredLead } from '../lib/leadStore';
 import type { LeadDecision } from '../lib/types';
 
-const jobTypes = ['Electrical', 'Plumbing', 'Roofing', 'Building'];
+const jobTypes = ['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps'];
 const urgencyTypes: LeadDecision['urgency'][] = ['Emergency', 'This week', 'Later'];
 const budgetOptions = ['Under £500', '£500–£2,000', '£2,000–£5,000', '£5,000+'];
 
@@ -75,7 +75,7 @@ export function IntakePage() {
         )}
 
         {step === 2 && (
-          <Step title="When do you need it?">
+          <Step title="When do you need it?" onBack={() => setStep(1)}>
             {urgencyTypes.map((item) => (
               <button key={item} className="choice-button" onClick={() => pickUrgency(item)}>{item}</button>
             ))}
@@ -83,7 +83,7 @@ export function IntakePage() {
         )}
 
         {step === 3 && (
-          <Step title="What's your budget?">
+          <Step title="What's your budget?" onBack={() => setStep(2)}>
             {budgetOptions.map((item) => (
               <button key={item} className="choice-button" onClick={() => pickBudget(item)}>{item}</button>
             ))}
@@ -92,6 +92,7 @@ export function IntakePage() {
 
         {step === 4 && (
           <div>
+            <button type="button" onClick={() => setStep(3)} className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)]">← Back</button>
             <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">ADD DETAILS</h1>
             <div className="mt-6 grid gap-3">
               <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number" />
@@ -112,9 +113,12 @@ export function IntakePage() {
   );
 }
 
-function Step({ title, children }: { title: string; children: ReactNode }) {
+function Step({ title, children, onBack }: { title: string; children: ReactNode; onBack?: () => void }) {
   return (
     <div>
+      {onBack && (
+        <button type="button" onClick={onBack} className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)]">← Back</button>
+      )}
       <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">{title}</h1>
       <div className="mt-6 grid gap-3">{children}</div>
     </div>
