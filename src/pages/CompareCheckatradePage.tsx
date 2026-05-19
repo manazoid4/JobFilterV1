@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 const comparison = [
   { feature: 'Lead model', checkatrade: 'Shared — sold to 4-8 trades', jobfilter: 'Exclusive — no one else sees your scan' },
-  { feature: 'Monthly fee', checkatrade: '£50-£90/mo per category', jobfilter: '£39/mo — all trades, all signals' },
-  { feature: 'Per-lead cost', checkatrade: 'Yes — pay-per-lead on top', jobfilter: 'No — unlimited scans, one price' },
+  { feature: 'Monthly fee', checkatrade: '£80-£370/mo at renewal (reported)', jobfilter: '£39/mo — all trades, all signals' },
+  { feature: 'Per-lead cost', checkatrade: 'Yes — pay-per-lead on top of membership', jobfilter: 'No — unlimited scans, one price' },
   { feature: 'Lead quality', checkatrade: 'Name + phone number from a form', jobfilter: 'Official signals with buyer, value, urgency' },
   { feature: 'Budget visibility', checkatrade: 'None — you find out on the call', jobfilter: 'Estimated value shown before you chase' },
   { feature: 'Urgency scoring', checkatrade: 'None — all leads look the same', jobfilter: 'GOLD / SILVER / BIN — chase what pays' },
@@ -11,7 +11,8 @@ const comparison = [
   { feature: 'Energy signals', checkatrade: 'No', jobfilter: 'Yes — retrofit properties flagged' },
   { feature: 'Council contracts', checkatrade: 'No', jobfilter: 'Yes — buyer named, value shown' },
   { feature: 'WhatsApp alerts', checkatrade: 'No', jobfilter: 'Yes — within minutes, not batched' },
-  { feature: 'Contract lock-in', checkatrade: '12-month memberships reported', jobfilter: 'No contracts. Cancel anytime.' },
+  { feature: 'Contract lock-in', checkatrade: '12-month auto-renew — 14 day cancel window', jobfilter: 'No contracts. Cancel anytime.' },
+  { feature: 'Price stability', checkatrade: 'Renewals reported doubling year-on-year', jobfilter: 'Founder price locked forever while active' },
   { feature: 'Money-back guarantee', checkatrade: 'No', jobfilter: '30 days. No quibbles.' },
 ];
 
@@ -424,6 +425,84 @@ export function CompareCheckatradePage() {
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--navy)]">{title}</h3>
                 <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WIDER COMPARISON: ALL SHARED-LEAD PLATFORMS ──────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-white">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--orange)]">FULL MARKET VIEW</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THE WHOLE INDUSTRY IS BUILT ON SHARED LEADS. JOBFILTER ISN'T.</h2>
+          <p className="mt-5 max-w-2xl font-black text-[var(--muted)]">Every major UK lead platform sells the same lead to multiple trades. The auction is the business model. Here's how they all stack up.</p>
+          <div className="mt-8 overflow-x-auto">
+            <table className="w-full min-w-[700px] border-collapse text-sm font-black">
+              <thead>
+                <tr className="bg-[var(--navy)] text-white">
+                  <th className="px-4 py-3 text-left">Platform</th>
+                  <th className="px-4 py-3 text-left">Monthly cost</th>
+                  <th className="px-4 py-3 text-left">Lead model</th>
+                  <th className="px-4 py-3 text-left">Biggest weakness</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { platform: 'Checkatrade', cost: '£80–£370/mo (renewal)', model: 'Shared — 4-8 trades per lead', weakness: 'Price doubles at renewal. 12-month lock-in. No quality filter.' },
+                  { platform: 'Bark.com', cost: '£10–£50 per lead (credits)', model: 'Shared — 3-5 trades per lead', weakness: 'Credits expire in 3 months. Fake leads reported. High churn.' },
+                  { platform: 'MyBuilder', cost: '£25–£65 per shortlist', model: 'Shared — homeowner picks from 6+ quotes', weakness: "You pay before you're selected. Most spend £300 before a job." },
+                  { platform: 'Rated People', cost: '£2–£65 per lead + monthly', model: 'Shared — up to 3 trades per lead', weakness: 'Customer support cut back. AI chatbot replacing humans.' },
+                  { platform: 'Houzz Pro', cost: 'From $399/mo (~£320/mo)', model: 'Profile listing + shared enquiries', weakness: '12-month auto-renew. US-first product. UK coverage thin.' },
+                  { platform: 'TrustATrader', cost: '£70–£120/mo', model: 'Directory listing — consumer chooses', weakness: 'No proactive lead gen. You wait to be found. No scoring.' },
+                  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'EXCLUSIVE — your scan, nobody else', weakness: '—' },
+                ].map((row, i) => (
+                  <tr key={row.platform} className={`${row.platform === 'JobFilter' ? 'bg-[var(--yellow)]' : i % 2 === 0 ? 'bg-white' : 'bg-[var(--bg-main)]'}`}>
+                    <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--navy)]">{row.platform}</td>
+                    <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--muted)]">{row.cost}</td>
+                    <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--muted)]">{row.model}</td>
+                    <td className={`border-b-2 border-[var(--line)] px-4 py-3 ${row.platform === 'JobFilter' ? 'text-[var(--navy)]' : 'text-[var(--orange)]'}`}>{row.weakness}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-6 font-black text-[var(--muted)]">
+            Pricing based on published rates and tradesperson-reported renewal figures (May 2026). Shared lead counts from platform documentation and user complaints.
+          </p>
+        </div>
+      </section>
+
+      {/* ── WHY NOT CHECKATRADE? FAQ ──────────────────────────────── */}
+      <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--orange)]">COMMON OBJECTIONS</p>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">WHY NOT JUST USE CHECKATRADE?</h2>
+          <p className="mt-5 max-w-2xl font-black text-[var(--muted)]">
+            Fair question. Here's the honest answer to every objection.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                q: '"Checkatrade has the reviews and the brand trust."',
+                a: 'True — for homeowners. But you\'re not a homeowner. You\'re a trade paying to access those homeowners. The brand trust Checkatrade built is theirs. Your reviews on their platform are theirs. If you cancel, you lose your profile. JobFilter finds jobs before they go to any directory — brand trust is irrelevant at that point.',
+              },
+              {
+                q: '"I already pay Checkatrade and it\'s working OK."',
+                a: 'If it\'s genuinely working, keep it. But check your numbers: how many leads did you buy vs win? What did each won job cost in lead fees? Multiple tradespeople report £200-£400/month before a single job — and that bill doubles at renewal. JobFilter is £39/mo with a 30-day refund. The comparison is straightforward.',
+              },
+              {
+                q: '"I don\'t trust new tools. How do I know this works?"',
+                a: 'We only list postcodes with verified live signals. You can scan free before paying a penny — no card needed. Try it, see what\'s active near you. If you subscribe and don\'t see one job worth chasing in 30 days, we refund. No hoops. Checkatrade doesn\'t offer that.',
+              },
+              {
+                q: '"What if my area has no signals?"',
+                a: 'Check free first at /find-jobs — it shows you exactly what\'s active in your postcode before you spend anything. We only offer territory locks where signals are genuinely live. If signals drop below viable levels for 60 days, we release the lock and refund that month.',
+              },
+            ].map(({ q, a }) => (
+              <div key={q} className="jf-box bg-white p-5">
+                <h3 className="headline text-lg text-[var(--navy)]">{q}</h3>
+                <p className="mt-3 font-black leading-relaxed text-[var(--muted)]">{a}</p>
               </div>
             ))}
           </div>
