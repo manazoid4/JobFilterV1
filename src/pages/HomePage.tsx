@@ -20,20 +20,20 @@ const signalRows = [
 const operatingSteps = [
   {
     icon: Radio,
-    title: 'Signals come in',
-    body: 'Verified job signals are cleaned, matched, and scored before a tradesman sees anything.',
+    title: 'Planning approved — you know the same day',
+    body: 'A homeowner gets an extension approved. Most tradesmen find out when it appears on a forum. You find out within hours of the council decision.',
     svgId: 'tower' as const,
   },
   {
     icon: Target,
-    title: 'We rank every job by value',
-    body: 'Gold-rated jobs go straight to your WhatsApp. Low-value signals never bother you.',
+    title: 'Budget and buyer checked before it reaches you',
+    body: 'Every signal is scored for budget evidence, decision-maker presence, and timing. If it does not clear the bar, it does not move.',
     svgId: 'funnel' as const,
   },
   {
     icon: ShieldCheck,
-    title: 'Only money leads move',
-    body: 'Gold leads route to the right trade and territory. Weak signals stay out of your WhatsApp.',
+    title: 'One trade gets it. Not six.',
+    body: 'Territory lock means a GOLD lead routes to one firm in one postcode — not a shared list where five competitors are already dialling.',
     svgId: 'shield' as const,
   },
 ];
@@ -222,10 +222,10 @@ export function HomePage() {
       <section className="border-b-4 border-[var(--line)] bg-white">
         <div className="page-shell grid gap-5 py-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="micro-label text-[var(--orange)]">TRADE CONTENT HUB</p>
-            <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">DAILY SIGNALS. PRACTICAL TRADE ADVICE. NO FLUFF.</h2>
-            <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
-              Free daily construction news for tradesmen: planning signals, retrofit pressure, tenders, fit-out clues, and social-ready trade angles.
+            <p className="micro-label text-[var(--orange)]">TRADE INTELLIGENCE</p>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">WRITTEN BY PEOPLE WHO KNOW HOW CONSTRUCTION WORK IS WON.</h2>
+            <p className="mt-3 max-w-2xl font-bold text-[var(--muted)]">
+              Planning signals. Retrofit pressure. Tender timing. Commercial fit-out leads. Published every weekday — practical enough to act on, not just read.
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
@@ -277,101 +277,56 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Real planning signal. Real score. Real quote floor. Real recommended action. This is exactly what lands in your WhatsApp.
+            Real planning signal. Real score. Real recommended action. This is exactly what lands in your WhatsApp — scored, filtered, and ready to act on.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
+          </div>
+          <div className="mt-6 max-w-3xl grid grid-cols-3 divide-x-2 divide-[var(--line)] border-2 border-[var(--line)]">
+            <div className="px-5 py-4">
+              <p className="headline text-3xl text-[var(--ink)]">3–5 days</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">before the job appears anywhere else</p>
+            </div>
+            <div className="px-5 py-4">
+              <p className="headline text-3xl text-[var(--ink)]">GOLD only</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">budget-confirmed leads to your WhatsApp</p>
+            </div>
+            <div className="px-5 py-4">
+              <p className="headline text-3xl text-[var(--ink)]">1 trade</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">per territory — no shared lists</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ── HOW IT WORKS ──────────────────────────────── */}
-      <section className="bg-[var(--paper)]">
+      <section className="bg-[var(--paper)] border-b-2 border-[var(--line)]">
         <div className="page-shell py-14">
-          <p className="micro-label text-center text-[var(--orange)]">HOW IT WORKS</p>
-          <h2 className="headline mt-3 text-center text-4xl leading-none md:text-5xl">
+          <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
             THREE STEPS. ZERO WASTE.
           </h2>
-          <div className="mt-10 flex flex-col items-center gap-4 md:flex-row md:gap-0">
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="grid h-20 w-80 place-items-center border-2 border-[var(--line)] bg-[var(--yellow)] shadow-[4px_4px_0_var(--line)]">
-                <div>
-                  <p className="font-mono text-xs font-black uppercase text-[var(--ink)]">01</p>
-                  <p className="headline text-lg text-[var(--ink)]">Scan your postcode</p>
-                </div>
+          <div className="mt-10 flex flex-col gap-0 divide-y-2 divide-[var(--line)] border-2 border-[var(--line)]">
+            <div className="flex items-start gap-6 bg-[var(--yellow)] px-6 py-6">
+              <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
+              <div>
+                <p className="headline text-xl text-[var(--ink)]">Enter your postcode and trade</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, EPC data, council tenders, and new business registrations within your territory.</p>
               </div>
             </div>
-            {/* Arrow */}
-            <div className="hidden md:block">
-              <svg viewBox="0 0 60 24" className="h-6 w-16" fill="none" aria-hidden="true">
-                <path d="M0 12 L48 12" stroke="var(--ink)" strokeWidth="3" />
-                <path d="M44 4 L56 12 L44 20" stroke="var(--ink)" strokeWidth="3" fill="none" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="block md:hidden">
-              <svg viewBox="0 0 24 60" className="h-16 w-6" fill="none" aria-hidden="true">
-                <path d="M12 0 L12 48" stroke="var(--ink)" strokeWidth="3" />
-                <path d="M4 44 L12 56 L20 44" stroke="var(--ink)" strokeWidth="3" fill="none" strokeLinejoin="round" />
-              </svg>
-            </div>
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="grid h-20 w-80 place-items-center border-2 border-[var(--line)] bg-[var(--ink)] shadow-[4px_4px_0_var(--yellow)]">
-                <div>
-                  <p className="font-mono text-xs font-black uppercase text-[var(--yellow)]">02</p>
-                  <p className="headline text-lg text-white">Gold hits your WhatsApp</p>
-                </div>
+            <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
+              <span className="font-mono text-xs font-black text-[var(--yellow)] pt-1">02</span>
+              <div>
+                <p className="headline text-xl text-white">Every signal is scored before you see it</p>
+                <p className="mt-1 text-sm font-bold text-white/60">Budget confidence, buyer readiness, and timing pressure are all checked. GOLD leads go straight to your WhatsApp. Low-value noise stays out.</p>
               </div>
             </div>
-            {/* Arrow */}
-            <div className="hidden md:block">
-              <svg viewBox="0 0 60 24" className="h-6 w-16" fill="none" aria-hidden="true">
-                <path d="M0 12 L48 12" stroke="var(--ink)" strokeWidth="3" />
-                <path d="M44 4 L56 12 L44 20" stroke="var(--ink)" strokeWidth="3" fill="none" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="block md:hidden">
-              <svg viewBox="0 0 24 60" className="h-16 w-6" fill="none" aria-hidden="true">
-                <path d="M12 0 L12 48" stroke="var(--ink)" strokeWidth="3" />
-                <path d="M4 44 L12 56 L20 44" stroke="var(--ink)" strokeWidth="3" fill="none" strokeLinejoin="round" />
-              </svg>
-            </div>
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center">
-              <div className="relative grid h-20 w-80 place-items-center border-2 border-[var(--line)] bg-[var(--yellow)] shadow-[4px_4px_0_var(--line)]">
-                <div>
-                  <p className="font-mono text-xs font-black uppercase text-[var(--ink)]">03</p>
-                  <p className="headline text-lg text-[var(--ink)]">Quote first. Win.</p>
-                </div>
+            <div className="flex items-start gap-6 bg-white px-6 py-6">
+              <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
+              <div>
+                <p className="headline text-xl text-[var(--ink)]">You call before anyone else does</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Most leads on job boards are already four quotes deep. JobFilter finds the work before it gets posted anywhere.</p>
               </div>
-            </div>
-          </div>
-          {/* Phone mockup */}
-          <div className="mt-10 flex justify-center">
-            <div className="relative w-[220px] border-[3px] border-[var(--line)] bg-[var(--ink)] pt-2 shadow-[6px_6px_0_var(--yellow)]" style={{ borderRadius: '16px' }}>
-              <div className="mx-2 mb-2 flex items-center justify-between border-b border-white/10 px-2 pb-1">
-                <span className="text-[10px] font-bold text-white/50">9:41</span>
-                <div className="flex gap-1">
-                  <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                  <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                  <div className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                </div>
-              </div>
-              <div className="mx-2 mb-2 overflow-hidden rounded-lg border-2 border-[var(--yellow)] bg-[var(--steel)] p-3">
-                <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]">JobFilter GOLD</p>
-                <p className="mt-1 text-xs font-bold text-white">B12 - Rear extension</p>
-                <p className="text-[10px] text-white/60">Builder needed — £42k</p>
-                <div className="mt-2 flex items-center gap-1">
-                  <span className="rounded-sm bg-[var(--yellow)] px-1.5 py-0.5 text-[9px] font-black text-[var(--ink)]">SCORE 94</span>
-                  <span className="rounded-sm bg-[var(--green)] px-1.5 py-0.5 text-[9px] font-black text-white">NEW</span>
-                </div>
-              </div>
-              <div className="mx-2 mb-3 rounded-lg border border-white/10 bg-white/5 p-2">
-                <p className="text-[10px] font-bold text-white/40">WhatsApp</p>
-                <p className="text-[10px] text-white/25">No new messages</p>
-              </div>
-              <div className="mx-auto mb-2 h-1 w-16 rounded-full bg-white/20" />
             </div>
           </div>
         </div>
@@ -383,10 +338,10 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--orange)]">THIS IS NOT A JOB BOARD</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              A WAR ROOM FOR FINDING WORK BEFORE IT GOES PUBLIC.
+              FIND WORK BEFORE ANYONE POSTS IT.
             </h2>
             <p className="mt-5 max-w-xl text-lg font-bold text-[var(--muted)]">
-              Checkatrade, MyBuilder, Bark — they wait until a homeowner fills a form in. By then, four other trades already got the same lead. JobFilter watches upstream signals before the job goes public: planning approvals, energy upgrade demand, tenders, and new businesses needing fit-out.
+              Most lead platforms are built around the moment a homeowner decides to ask. By then, the buyer is already comparing prices and your competitors are already dialling. JobFilter watches the signals that come before that — planning approvals, energy upgrade applications, council tenders, and new businesses that need fit-out before they open.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1">
