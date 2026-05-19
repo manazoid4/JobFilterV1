@@ -3,7 +3,16 @@ type TrustBadgesProps = {
   max?: number;
 };
 
-const badgeLabels: Record<string, string> = {
+const BADGE_LABELS: Record<string, string> = {
+  'Planning Verified': 'Planning Verified',
+  'Tender Live': 'Tender Live',
+  'Fresh': 'Fresh',
+  'Company Verified': 'Co. Verified',
+  'New Owner': 'New Owner',
+  'Budget Band': 'Budget Confirmed',
+  'Exclusive': 'Exclusive',
+  'Retrofit Trigger': 'Retrofit',
+  'Multi-Source': 'Multi-Source',
   fresh: 'Fresh',
   'planning-verified': 'Planning Verified',
   'tender-live': 'Tender Live',
@@ -26,9 +35,9 @@ export function TrustBadges({ badges, max }: TrustBadgesProps) {
       {visibleBadges.map((badge) => (
         <span
           key={badge}
-          className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]"
+          className="border border-[var(--navy)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]"
         >
-          {badgeLabels[badge] ?? titleCaseBadge(badge)}
+          {BADGE_LABELS[badge] ?? titleCaseBadge(badge)}
         </span>
       ))}
     </div>

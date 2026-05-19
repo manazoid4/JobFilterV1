@@ -3,10 +3,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
+import { TrustBadges } from '../components/TrustBadges';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
 import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
-import { TrustBadges } from '../components/TrustBadges';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
@@ -596,14 +596,18 @@ export function FindJobsPage() {
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
-              <div className="bg-[var(--navy)] p-4 text-white">
-                <p className="text-sm font-black">
-                  {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
-                </p>
-                <p className="mt-1 text-xs font-black text-white/70">
-                  Best source: {bestSource || 'pending scan'}
-                </p>
-              </div>
+              {/* Patch Pulse */}
+              {displayedLeads.length > 0 && (
+                <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white mt-2">
+                  <p className="micro-label text-[var(--yellow)]">PATCH PULSE</p>
+                  <p className="mt-1 font-black text-white">
+                    {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                  </p>
+                  {bestSource && (
+                    <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
+                  )}
+                </div>
+              )}
 
               {/* Results footer */}
               {displayedLeads.length > 0 && (
@@ -799,13 +803,18 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       {/* Enhanced score badge with color coding */}
-      <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
-        <div className="flex flex-col items-center">
-          <span className="headline leading-none text-3xl">{lead.score}</span>
-          <span className="text-[10px] font-black uppercase">
-            {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
-          </span>
+      <div className="flex flex-col items-center gap-1">
+        <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
+          <div className="flex flex-col items-center">
+            <span className="headline leading-none text-3xl">{lead.score}</span>
+            <span className="text-[10px] font-black uppercase">
+              {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
+            </span>
+          </div>
         </div>
+        {lead.qualityLabel && (
+          <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel}</span>
+        )}
       </div>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
@@ -858,6 +867,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
+        {lead.evidenceBadges && lead.evidenceBadges.length > 0 && (
+          <div className="mt-2">
+            <TrustBadges badges={lead.evidenceBadges} max={3} />
+          </div>
+        )}
         <BuyerActionPack lead={lead} unlocked={cardOpenAccess} />
       </div>
       <div className="grid gap-3 md:self-start">
@@ -1041,15 +1055,11 @@ const LOCKED_PLACEHOLDERS: Record<string, string> = {
 
 function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
   if (!value) {
-    const placeholder = devUnlocked
-      ? label === 'Source URL'
-        ? 'No source URL returned in preview payload'
-        : `${label} not returned in preview payload`
-      : LOCKED_PLACEHOLDERS[label] ?? '████████';
+    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className={`border-2 p-3 ${devUnlocked ? 'border-[var(--line)] bg-[var(--bg-main)]' : 'border-[var(--orange)]/40 bg-[var(--orange)]/5'}`}>
+      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className={`mt-1 font-black text-[var(--ink)] text-sm ${devUnlocked ? '' : 'select-none blur-[3px]'}`}>{placeholder}</p>
+        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
       </div>
     );
   }

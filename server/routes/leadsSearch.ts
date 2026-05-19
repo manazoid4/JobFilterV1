@@ -32,6 +32,7 @@ export function registerLeadSearchRoute(app: Express) {
         lockedCount: FULL_ACCESS_TEST_MODE ? 0 : result.lockedCount,
         accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
         sources: result.sources,
+        sourceHealth: result.sourceHealth,
         errors: result.errors,
       });
     } catch (error: any) {

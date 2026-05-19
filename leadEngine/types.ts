@@ -30,6 +30,7 @@ export interface Lead {
   signalStack?: string[];
   signalClass?: 'homeowner_retrofit' | 'active_site' | 'commercial_fitout' | 'distressed_property' | 'public_contract' | 'internal_fallback';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
@@ -58,6 +59,7 @@ export interface SourceStats {
   dropped: number;
   failed: boolean;
   error?: string;
+  latencyMs?: number;
 }
 
 export interface SourceHealth {
