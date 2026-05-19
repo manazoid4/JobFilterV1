@@ -87,22 +87,37 @@ const tagColours: Record<string, string> = {
   SEASONAL: 'bg-[var(--yellow-2)] text-[var(--ink)]',
 };
 
+const articleNumbers = ['01', '02', '03', '04', '05', '06'];
+
 export function NewsPage() {
   return (
-    <main className="pb-24 md:pb-8">
+    <main className="pb-24">
 
-      {/* Hero */}
+      {/* ── HERO ─────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-b-4 border-[var(--ink)]">
-        <div className="page-shell py-12">
+        <div className="page-shell py-14 sm:py-20">
           <p className="micro-label text-[var(--ink)]">FREE DAILY TRADE BRIEFING</p>
-          <h1 className="headline mt-3 max-w-4xl text-5xl leading-none sm:text-7xl">
+          <h1 className="headline mt-3 text-5xl leading-none sm:text-7xl max-w-3xl">
             CONSTRUCTION NEWS TRADES CAN ACTUALLY USE.
           </h1>
-          <p className="mt-4 max-w-2xl font-black text-[var(--ink)] text-lg leading-snug">
+          <p className="mt-5 max-w-xl font-bold text-[var(--ink)] text-lg leading-snug">
             Planning signals. Retrofit pressure. Tenders. Commercial fit-out clues.
             Lead-quality lessons. Updated daily. Free.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+
+          {/* Signal category tags inside hero */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {['PLANNING', 'EPC / RETROFIT', 'PUBLIC TENDERS', 'NEW COMPANIES', 'LEAD QUALITY', 'SEASONAL'].map((s) => (
+              <span
+                key={s}
+                className="border-2 border-[var(--ink)] bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-[var(--ink)]"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
               SCAN MY POSTCODE
             </Link>
@@ -118,86 +133,95 @@ export function NewsPage() {
         </div>
       </section>
 
-      {/* Signal strip */}
-      <section className="bg-[var(--ink)] border-b-4 border-[var(--yellow)]">
-        <div className="page-shell py-3">
-          <div className="flex flex-wrap gap-x-6 gap-y-1">
-            {(['Planning', 'EPC / Retrofit', 'Public Tenders', 'New Companies', 'Trade Forums'] as const).map((s) => (
-              <span key={s} className="text-xs font-black uppercase tracking-widest text-[var(--yellow)]">
-                ▸ {s}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ── SECTION LABEL ───────────────────────────── */}
+      <div className="page-shell pt-10 pb-4">
+        <p className="micro-label text-[var(--orange)]">TODAY'S BRIEFING</p>
+        <h2 className="headline mt-1 text-3xl leading-none sm:text-4xl">
+          6 SIGNALS. USE THEM OR POST THEM.
+        </h2>
+      </div>
 
-      {/* News feed */}
-      <section className="page-shell py-10">
-        <div className="mb-8">
-          <p className="micro-label text-[var(--orange)]">TODAY'S BRIEFING</p>
-          <h2 className="headline mt-2 text-3xl leading-none md:text-4xl">
-            6 SIGNALS. USE THEM OR POST THEM.
-          </h2>
-        </div>
-
-        <div className="grid gap-0 border-2 border-[var(--ink)]">
+      {/* ── ARTICLE FEED ────────────────────────────── */}
+      <div className="page-shell">
+        <div className="flex flex-col gap-8">
           {dailyNews.map((item, i) => (
             <article
               key={item.headline}
-              className={`border-b-2 border-[var(--ink)] last:border-b-0 ${i % 2 === 0 ? 'bg-white' : 'bg-[var(--paper)]'}`}
+              className="border-2 border-[var(--ink)] bg-white"
             >
-              {/* Article header */}
-              <div className="flex items-start gap-4 p-5 pb-4 border-b border-[var(--rule)]">
-                <span className={`shrink-0 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${tagColours[item.tag] ?? 'bg-[var(--ink)] text-white'}`}>
+              {/* ── Article top bar: number + category tag ── */}
+              <div className="flex items-center gap-3 border-b-2 border-[var(--ink)] px-6 py-3">
+                <span className="font-mono text-xs font-black text-[var(--rule)]">
+                  {articleNumbers[i]}
+                </span>
+                <span
+                  className={`px-3 py-1 text-xs font-black uppercase tracking-wider ${tagColours[item.tag] ?? 'bg-[var(--ink)] text-white'}`}
+                >
                   {item.tag}
                 </span>
-                <h3 className="headline text-xl leading-tight md:text-2xl">{item.headline}</h3>
               </div>
 
-              {/* Article body */}
-              <div className="grid gap-0 md:grid-cols-[1fr_1fr]">
-                {/* Left col */}
-                <div className="border-b-2 border-[var(--rule)] p-5 md:border-b-0 md:border-r-2">
-                  <p className="micro-label text-[10px] text-[var(--muted)] mb-2">WHY IT MATTERS</p>
-                  <p className="text-sm font-black leading-relaxed text-[var(--ink)]">{item.insight}</p>
-                  {/* Trades */}
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {item.trades.map((t) => (
-                      <span key={t} className="border border-[var(--rule)] bg-[var(--offwhite)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--muted)]">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              {/* ── Headline ── */}
+              <div className="px-6 pt-6 pb-4">
+                <h3 className="headline text-2xl leading-tight sm:text-3xl">
+                  {item.headline}
+                </h3>
 
-                {/* Right col */}
-                <div className="p-5">
-                  <p className="micro-label text-[10px] text-[var(--muted)] mb-2">TRADE TAKEAWAY</p>
-                  <p className="text-sm font-black leading-relaxed text-[var(--ink)]">{item.takeaway}</p>
-
-                  {/* Post angle callout */}
-                  <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/10 pl-3 py-2 pr-2">
-                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mb-1">POST THIS</p>
-                    <p className="text-xs font-black italic text-[var(--ink)]">{item.postAngle}</p>
-                  </div>
+                {/* Trade chips */}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {item.trades.map((t) => (
+                    <span
+                      key={t}
+                      className="border border-[var(--rule)] bg-[var(--offwhite)] px-2 py-1 text-xs font-black uppercase text-[var(--muted)]"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
+              </div>
+
+              {/* ── Divider ── */}
+              <hr className="border-0 border-t border-[var(--rule)] mx-6" />
+
+              {/* ── Insight ── */}
+              <div className="px-6 pt-5 pb-4">
+                <p className="micro-label text-[10px] text-[var(--muted)] mb-2">THE INSIGHT</p>
+                <p className="text-base font-bold leading-relaxed text-[var(--ink)]">
+                  {item.insight}
+                </p>
+              </div>
+
+              {/* ── Trade takeaway: blockquote style ── */}
+              <div className="mx-6 mb-5 border-l-4 border-[var(--yellow)] pl-4 py-1">
+                <p className="micro-label text-[10px] text-[var(--muted)] mb-2">TRADE TAKEAWAY</p>
+                <p className="text-sm font-bold leading-relaxed text-[var(--ink)]">
+                  {item.takeaway}
+                </p>
+              </div>
+
+              {/* ── POST THIS callout ── */}
+              <div className="border-t-2 border-[var(--ink)] bg-[var(--yellow)] px-6 py-5">
+                <p className="micro-label text-[10px] text-[var(--ink)] mb-2">POST THIS →</p>
+                <p className="text-sm font-black italic text-[var(--ink)] leading-snug">
+                  {item.postAngle}
+                </p>
               </div>
             </article>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* Bottom CTA */}
-      <section className="bg-[var(--ink)] border-t-4 border-[var(--yellow)]">
-        <div className="page-shell py-10">
+      {/* ── BOTTOM CTA ──────────────────────────────── */}
+      <section className="mt-16 bg-[var(--ink)] border-t-4 border-[var(--yellow)]">
+        <div className="page-shell py-14">
           <p className="micro-label text-[var(--yellow)]">NEXT STEP</p>
-          <h2 className="headline mt-2 text-4xl leading-none text-white md:text-5xl">
+          <h2 className="headline mt-2 text-4xl leading-none text-white sm:text-5xl">
             SEE WHAT'S LIVE IN YOUR PATCH.
           </h2>
-          <p className="mt-3 max-w-lg font-black text-white/70">
+          <p className="mt-4 max-w-lg font-bold text-white/70 leading-relaxed">
             If a signal points to real work near you, run the postcode scan and see what JobFilter finds before anyone else calls.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
               START FREE SCAN
             </Link>
