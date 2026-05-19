@@ -70,7 +70,7 @@ export function SmartQuotePage() {
           <p className="micro-label text-[var(--yellow)]">SMART QUOTING</p>
           <h1 className="headline mt-4 text-5xl md:text-6xl text-white">QUOTE FASTER. WIN MORE.</h1>
           <p className="mt-5 max-w-xl text-lg font-black text-white/80">
-            Bark and Checkatrade send five trades after the same job. The sharpest quote wins. Stop starting from a blank page.
+            Pick your trade and job type. Get a professional quote opener — ready to send in 30 seconds. No blank page. No guessing what to say first.
           </p>
         </div>
       </section>

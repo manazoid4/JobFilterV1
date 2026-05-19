@@ -75,6 +75,7 @@ export function CompareCheckatradePage() {
             <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">STOP COMPETING. START FILTERING.</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" to="#comparison">SEE THE DIFFERENCE</Link>
           </div>
+          <p className="mt-4 text-sm font-black text-[var(--ink)]">£39/mo. No contract. 30-day money-back guarantee.</p>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO CHASING</p>
             <p>NO COMPETING</p>
