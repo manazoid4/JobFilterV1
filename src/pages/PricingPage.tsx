@@ -54,72 +54,76 @@ const featureCategories = [
   {
     icon: MessageSquare,
     title: 'First Strike',
-    points: ['Auto-selects right template for lead age', 'Pre-filled with trade + postcode', 'Copies to WhatsApp in one tap', 'Auto-tracks lead on send'],
+    tagline: 'WhatsApp job bodyguard',
+    points: ['Auto-selects right template for lead age', 'Pre-filled with trade + postcode', 'Copies to WhatsApp in one tap', 'Auto-tracks the lead on send'],
     featured: true,
   },
   {
-    icon: Radio,
-    title: 'Leads & Alerts',
-    points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
+    icon: Camera,
+    title: 'Vicinity',
+    tagline: 'Turn jobs into leads',
+    points: ['Job photos → posts, ads, website visuals', 'Turn a finished job into inbound work', 'No marketing skills needed', 'Works from your camera roll'],
     featured: false,
   },
   {
-    icon: Calculator,
-    title: 'Value Control',
-    points: ['Quote floor', 'Call opener', 'Follow-up cadence'],
+    icon: LayoutGrid,
+    title: 'Vantage',
+    tagline: 'Bid edge',
+    points: ['Better-looking quotes win bigger jobs', 'Fixes weak presentation before the buyer compares', 'Quote packs that look professional on the doorstep', 'Low trust before price — solved'],
     featured: false,
   },
   {
-    icon: ClipboardCheck,
-    title: 'Buyer Action Pack',
-    points: ['Verification questions', 'Quote floor', 'Next action'],
+    icon: BarChart3,
+    title: 'Win Engine',
+    tagline: 'Retention moat',
+    points: ['Won job tracking + monthly ROI dashboard', '"You\'ve won £X this month via JobFilter"', 'One-tap review request for WhatsApp', 'Lost job analysis — learn why work went elsewhere'],
+    featured: false,
+  },
+  {
+    icon: Mail,
+    title: 'Letterhead Pack',
+    tagline: 'For strong leads only',
+    points: ['Professional letterhead with your company details', 'Job-specific scope notes + proof checklist', 'WhatsApp-ready PDF — send in seconds', 'Printing and postage included'],
     featured: false,
   },
   {
     icon: Radar,
     title: 'Patch Watch',
-    points: ['Daily signal watch', 'Patch pulse', 'Territory priority'],
-    featured: false,
-  },
-  {
-    icon: Mail,
-    title: 'Letters',
-    points: ['Company-branded approach letters', 'PDF follow-up packs'],
+    tagline: 'Daily signal monitoring',
+    points: ['Planning, EPC, tender, and company signals daily', 'Gold/Silver split for your postcode', 'Best source breakdown for your trade', 'Weekly opportunity digest'],
     featured: false,
   },
   {
     icon: MapPinned,
     title: 'Territory',
-    points: ['Postcode exclusivity', 'Priority routing'],
+    tagline: 'Your patch. Locked.',
+    points: ['One trade per postcode cluster', 'No shared lead auctions', 'Founder price locked while plan is active', 'Priority routing on every new signal'],
     featured: false,
   },
 ];
 
 const comparisonRows = [
-  { feature: 'WhatsApp Gold leads', free: 'Preview', founder: 'Full', standard: 'Full' },
+  { feature: 'WhatsApp Gold leads', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
+  { feature: 'Territory lock — one trade per postcode', free: false, founder: true, standard: true },
   { feature: 'First Strike — message templates', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Territory lock', free: false, founder: true, standard: true },
-  { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
-  { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
+  { feature: 'Vicinity — photos into posts + ads', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vantage — quote packs + bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Win Engine — ROI tracking + review requests', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Letterhead Pack — printed approach letters', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Patch Watch — daily signal digest', free: 'Preview', founder: 'Full', standard: 'Full' },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Buyer Action Pack', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Quote floor', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Follow-up cadence', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Patch Pulse', free: 'Preview', founder: 'Included', standard: 'Included' },
-  { feature: 'Company-branded letters', free: false, founder: true, standard: true },
-  { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'CSV export + calendar sync', free: false, founder: true, standard: true },
   { feature: 'Founder price lock', free: false, founder: true, standard: false },
 ];
 
 const toolIcons = [
   { name: 'WhatsApp Leads', icon: Zap, highlight: false },
   { name: 'First Strike', icon: MessageSquare, highlight: true },
-  { name: 'Pipeline', icon: BarChart3, highlight: false },
-  { name: 'Action Pack', icon: ClipboardCheck, highlight: false },
-  { name: 'Patch Watch', icon: Radar, highlight: false },
   { name: 'Vicinity', icon: Camera, highlight: false },
   { name: 'Vantage', icon: LayoutGrid, highlight: false },
+  { name: 'Win Engine', icon: BarChart3, highlight: false },
+  { name: 'Letterhead Pack', icon: Mail, highlight: false },
+  { name: 'Patch Watch', icon: Radar, highlight: false },
   { name: 'Territory', icon: MapPinned, highlight: false },
 ];
 
@@ -191,7 +195,7 @@ export function PricingPage() {
 
       {/* ── BUILT-IN WORKFLOW TOOLS ──────────────────────── */}
       <section className="ops-panel bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">MONTHLY VALUE TOOLS</p>
+        <p className="micro-label text-[var(--orange)]">TOOLS INCLUDED IN YOUR PATCH PLAN</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">QUOTE FLOOR. PATCH PULSE. FOLLOW-UP CADENCE.</h2>
         <p className="mt-3 max-w-3xl font-black text-[var(--muted)]">
           Not just alerts. Know the floor before you price, keep the chase moving, and see which patch actually pays.
@@ -266,14 +270,17 @@ export function PricingPage() {
         <p className="micro-label text-[var(--orange)]">WHAT'S INCLUDED</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">EVERY TOOL. ONE SUBSCRIPTION.</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featureCategories.map(({ icon: Icon, title, points, featured }) =>
+          {featureCategories.map(({ icon: Icon, title, tagline, points, featured }) =>
             featured ? (
               <article key={title} className="sm:col-span-2 lg:col-span-3 border-2 border-[var(--ink)] bg-[var(--ink)] p-5 shadow-[4px_4px_0_var(--yellow)]">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--yellow)]">
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
-                  <h3 className="headline text-2xl text-white">{title}</h3>
+                  <div>
+                    <h3 className="headline text-2xl text-white leading-none">{title}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60 mt-0.5">{tagline}</p>
+                  </div>
                   <span className="ml-auto text-[10px] font-black uppercase bg-[var(--orange)] text-white px-2 py-1 tracking-wider">NEW</span>
                 </div>
                 <p className="mt-2 text-sm font-bold text-white/60 max-w-xl">
@@ -291,11 +298,14 @@ export function PricingPage() {
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
-                  <h3 className="headline text-2xl">{title}</h3>
+                  <div>
+                    <h3 className="headline text-2xl leading-none">{title}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mt-0.5">{tagline}</p>
+                  </div>
                 </div>
                 <ul className="mt-3 grid gap-1">
                   {points.map((point) => (
-                    <li key={point} className="font-black text-[var(--muted)]">✓ {point}</li>
+                    <li key={point} className="text-sm font-bold text-[var(--muted)]">✓ {point}</li>
                   ))}
                 </ul>
               </article>
@@ -386,7 +396,7 @@ export function PricingPage() {
 
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">EXTRA REVENUE TOOLS</p>
-        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">UPSELLS THAT ACTUALLY HELP TRADES WIN WORK.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">OPTIONAL EXTRAS — ADD WHAT YOUR PATCH NEEDS.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {addOns.map(([name, body, price]) => (
             <article key={name} className="border-2 border-white/20 bg-white/8 p-5">
