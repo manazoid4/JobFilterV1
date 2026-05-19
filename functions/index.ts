@@ -178,6 +178,12 @@ app.post('/api/waitlist', async (req, res) => {
     if (entry.contactType === 'email') {
       sendEmail(entry.contact, "You're on the JobFilter Founding 30 list", `<div style="font-family:sans-serif;max-width:500px;margin:0 auto;padding:24px"><h1>You're on the list, ${entry.name}.</h1><p>Thanks for joining the JobFilter Founding 30 waitlist. We'll email you the moment it's live.</p><p>Free scan: <a href="https://jobfilter.uk/find-jobs">jobfilter.uk/find-jobs</a></p></div>`).catch(() => {});
     }
+    if (entry.source === 'pricing-commercial-contact') {
+      const commercialInbox = process.env.COMMERCIAL_TEAM_EMAIL || process.env.SUPPORT_EMAIL;
+      if (commercialInbox) {
+        sendEmail(commercialInbox, 'New JobFilter commercial contact', `<div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:24px"><h1>Commercial contact request</h1><p><strong>Name/company:</strong> ${entry.name}</p><p><strong>Trade:</strong> ${entry.trade}</p><p><strong>Email:</strong> ${entry.contact}</p><p><strong>Source:</strong> ${entry.source}</p></div>`).catch(() => {});
+      }
+    }
     return res.json({ ok: true, stored: 'firestore' });
   } catch (err: any) {
     return res.status(500).json({ ok: false, error: String(err?.message ?? 'Waitlist failed.') });

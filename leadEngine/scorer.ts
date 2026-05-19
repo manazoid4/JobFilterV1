@@ -1,4 +1,4 @@
-﻿import type { Lead, TradeKey } from './types';
+import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
@@ -73,14 +73,7 @@ export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey):
   return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): {
-  score: number;
-  reasons: string[];
-  qualityLabel: NonNullable<Lead['qualityLabel']>;
-  leadReadiness: NonNullable<Lead['leadReadiness']>;
-  recommendedAction: string;
-  evidenceBadges: string[];
-} {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[]; qualityLabel: Lead['qualityLabel']; ghostRisk: Lead['ghostRisk']; leadReadiness: Lead['leadReadiness']; recommendedAction: string; evidenceBadges: string[] } {
   let score = 0;
   const reasons: string[] = [];
 
@@ -205,50 +198,58 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     }
   }
 
-  score = Math.min(Math.max(score, 0), 100);
+  const finalScore = Math.min(Math.max(score, 0), 100);
 
-  const qualityLabel: NonNullable<Lead['qualityLabel']> = score >= 90
-    ? 'GOLD'
-    : score >= 75
-      ? 'SILVER'
-      : score >= 60
-        ? 'BRONZE'
-        : score >= 40
-          ? 'CHECK'
-          : 'SKIP';
+  // Quality label
+  let qualityLabel: Lead['qualityLabel'];
+  if (finalScore >= 90) qualityLabel = 'GOLD';
+  else if (finalScore >= 75) qualityLabel = 'SILVER';
+  else if (finalScore >= 60) qualityLabel = 'BRONZE';
+  else if (finalScore >= 40) qualityLabel = 'CHECK';
+  else qualityLabel = 'SKIP';
 
-  const source = String(lead.source ?? '').toLowerCase();
-  const directoryFallback = lead.source === 'DirectorySignal';
-  const leadReadiness: NonNullable<Lead['leadReadiness']> = score >= 65
-    && lead.sourceConfidence >= 60
-    && lead.contactSignal !== 'none'
-    && !directoryFallback
-    ? 'READY'
-    : score < 40
-      || (directoryFallback && lead.sourceConfidence < 50)
-      || (lead.urgency === 'low' && lead.contactSignal === 'none')
-        ? 'WASTE'
-        : 'MAYBE';
-
-  const recommendedAction = leadReadiness === 'READY'
-    ? 'Call within 24 hours'
-    : leadReadiness === 'MAYBE'
-      ? 'Verify by phone before quoting'
-      : 'Do not spend site-visit time yet';
-
-  const evidenceBadges: string[] = [];
-  if (source.includes('planning')) evidenceBadges.push('Planning Verified');
-  if (source.includes('contracts') || source === 'fts' || source === 'pcs' || source.includes('publiccontractsscotland') || source.includes('sell2wales')) {
-    evidenceBadges.push('Tender Live');
+  // Ghost risk
+  const sourceLower = (lead.source ?? '').toLowerCase();
+  const isDirectorySource = sourceLower.includes('directory');
+  let ghostRisk: Lead['ghostRisk'];
+  if (
+    finalScore >= 65 &&
+    lead.sourceConfidence >= 60 &&
+    lead.contactSignal !== 'none' &&
+    !isDirectorySource
+  ) {
+    ghostRisk = 'READY';
+  } else if (
+    finalScore < 40 ||
+    (isDirectorySource && lead.sourceConfidence < 50) ||
+    (lead.urgency === 'low' && lead.contactSignal === 'none')
+  ) {
+    ghostRisk = 'WASTE';
+  } else {
+    ghostRisk = 'MAYBE';
   }
-  const isFresh = lead.publishedAt && Date.now() - new Date(lead.publishedAt).getTime() <= 7 * 86_400_000;
-  if (isFresh) evidenceBadges.push('Fresh');
-  if (source.includes('companies')) evidenceBadges.push('Company Verified');
-  if (source.includes('land')) evidenceBadges.push('New Owner');
-  if (lead.estimatedValue && lead.estimatedValue !== 'POA') evidenceBadges.push('Budget Band');
+
+  // Recommended action
+  const recommendedAction =
+    ghostRisk === 'READY' ? 'Call within 24 hours' :
+    ghostRisk === 'WASTE' ? 'Do not spend site-visit time yet' :
+    'Verify by phone before quoting';
+
+  // Evidence badges
+  const evidenceBadges: string[] = [];
+  if (sourceLower.includes('planning')) evidenceBadges.push('Planning Verified');
+  if (sourceLower.includes('contracts') || sourceLower.includes('fts') || sourceLower.includes('pcs')) evidenceBadges.push('Tender Live');
+  if (lead.publishedAt) {
+    const ageDays = (Date.now() - new Date(lead.publishedAt).getTime()) / 86_400_000;
+    if (ageDays <= 7) evidenceBadges.push('Fresh');
+  }
+  if (sourceLower.includes('companies') || sourceLower.includes('company')) evidenceBadges.push('Company Verified');
+  if (sourceLower.includes('land') || sourceLower.includes('registry')) evidenceBadges.push('New Owner');
+  if (lead.estimatedValue && !lead.estimatedValue.includes('POA') && lead.estimatedValue !== '') evidenceBadges.push('Budget Band');
   evidenceBadges.push('Exclusive');
 
-  return { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges };
+  const leadReadiness = ghostRisk;
+  return { score: finalScore, reasons, qualityLabel, ghostRisk, leadReadiness, recommendedAction, evidenceBadges };
 }
 
 function parseValueToMidpoint(val: string): number {
@@ -264,4 +265,3 @@ function parseValueToMidpoint(val: string): number {
   if (!values.length) return 0;
   return values.reduce((a, b) => a + b, 0) / values.length;
 }
-

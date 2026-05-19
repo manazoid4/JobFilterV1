@@ -19,14 +19,16 @@ export type LeadDecision = {
   phone?: string;
   budget?: string;
   tier?: 'GOLD' | 'SILVER' | 'BIN';
+  status: LeadDecisionStatus;
+  createdAt: string;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
   signalStack?: string[];
   signalClass?: string;
-  status: LeadDecisionStatus;
-  createdAt: string;
+  fusionKey?: string;
 };
 
 export type Lead = {
@@ -52,11 +54,13 @@ export type Lead = {
   distanceMiles?: number;
   isCommercial?: boolean;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
   signalStack?: string[];
   signalClass?: string;
+  fusionKey?: string;
 };
 
 export type SourceStats = {

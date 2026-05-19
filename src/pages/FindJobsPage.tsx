@@ -1,12 +1,12 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
+import { TrustBadges } from '../components/TrustBadges';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
 import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
-import { TrustBadges } from '../components/TrustBadges';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
@@ -565,18 +565,49 @@ export function FindJobsPage() {
                 </div>
               )}
 
+              <section className="grid gap-4 lg:grid-cols-2">
+                <div className="jf-box bg-[var(--ink)] p-5 text-white">
+                  <div className="flex items-start gap-3">
+                    <Radar className="mt-1 h-5 w-5 text-[var(--yellow)]" strokeWidth={3} />
+                    <div>
+                      <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
+                      <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
+                      <p className="mt-2 text-sm font-black text-white/75">
+                        Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
+                  <div className="flex items-start gap-3">
+                    <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
+                    <div>
+                      <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
+                      <h2 className="headline mt-2 text-3xl leading-none">EVERY SERIOUS LEAD GETS A CHASE PLAN.</h2>
+                      <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+                        Open full lead access to see the call opener, verification questions, quote guardrail, and next action.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               {displayedLeads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
-              <div className="bg-[var(--navy)] p-4 text-white">
-                <p className="text-sm font-black">
-                  {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
-                </p>
-                <p className="mt-1 text-xs font-black text-white/70">
-                  Best source: {bestSource || 'pending scan'}
-                </p>
-              </div>
+              {/* Patch Pulse */}
+              {displayedLeads.length > 0 && (
+                <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white mt-2">
+                  <p className="micro-label text-[var(--yellow)]">PATCH PULSE</p>
+                  <p className="mt-1 font-black text-white">
+                    {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                  </p>
+                  {bestSource && (
+                    <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
+                  )}
+                </div>
+              )}
 
               {/* Results footer */}
               {displayedLeads.length > 0 && (
@@ -772,13 +803,18 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
       {/* Enhanced score badge with color coding */}
-      <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
-        <div className="flex flex-col items-center">
-          <span className="headline leading-none text-3xl">{lead.score}</span>
-          <span className="text-[10px] font-black uppercase">
-            {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
-          </span>
+      <div className="flex flex-col items-center gap-1">
+        <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
+          <div className="flex flex-col items-center">
+            <span className="headline leading-none text-3xl">{lead.score}</span>
+            <span className="text-[10px] font-black uppercase">
+              {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
+            </span>
+          </div>
         </div>
+        {lead.qualityLabel && (
+          <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel}</span>
+        )}
       </div>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
@@ -831,6 +867,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
+        {lead.evidenceBadges && lead.evidenceBadges.length > 0 && (
+          <div className="mt-2">
+            <TrustBadges badges={lead.evidenceBadges} max={3} />
+          </div>
+        )}
+        <BuyerActionPack lead={lead} unlocked={cardOpenAccess} />
       </div>
       <div className="grid gap-3 md:self-start">
         <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} />
@@ -865,6 +907,46 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         )}
       </div>
     </article>
+  );
+}
+
+function BuyerActionPack({ lead, unlocked }: { lead: Lead; unlocked: boolean }) {
+  const trade = titleCase(String(lead.trade || lead.tradeMatch || 'trade'));
+  const area = lead.location || lead.postcodeOutward || 'your area';
+  const opener = `Hi, I saw the ${trade.toLowerCase()} work signal in ${area}. Are you still looking for prices?`;
+  const questions = [
+    `Is the ${trade.toLowerCase()} scope agreed yet?`,
+    'Who is making the final decision?',
+    'When do you need the work started?',
+  ];
+  const guardrail = lead.score >= 80
+    ? 'Call before sending a long quote. This is worth a fast qualification call.'
+    : lead.score >= 55
+      ? 'Verify budget and timing before spending site-visit time.'
+      : 'Do not visit until buyer, scope, and budget are clearer.';
+
+  if (!unlocked) {
+    return (
+      <div className="mt-4 border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
+        <p className="micro-label text-[10px] text-[var(--orange)]">BUYER ACTION PACK</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]">Unlock the call opener, verification questions, quote guardrail, and next action.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-3">
+      <p className="micro-label text-[10px] text-[var(--navy)]">BUYER ACTION PACK</p>
+      <p className="mt-2 text-sm font-black text-[var(--ink)]">Call opener: {opener}</p>
+      <div className="mt-2 grid gap-1">
+        {questions.map((question) => (
+          <p key={question} className="text-xs font-black text-[var(--muted)]">- {question}</p>
+        ))}
+      </div>
+      <p className="mt-2 border-l-4 border-[var(--yellow)] bg-white px-3 py-2 text-xs font-black text-[var(--ink)]">
+        {lead.recommendedAction || guardrail}
+      </p>
+    </div>
   );
 }
 

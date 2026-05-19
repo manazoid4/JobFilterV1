@@ -229,6 +229,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     unique.push(lead);
   }
 
+  // 5b. Fuse signals
   const fused = fuseSignals(unique, outward);
 
   // 6. Score, update stats.passed, rank
@@ -237,12 +238,12 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     const scoreReasons = [...reasons];
     let finalScore = score;
     const stack = l.signalStack ?? [l.source].filter(Boolean);
-    if (stack.length === 1 && stack[0] === 'DirectorySignal') {
-      finalScore -= 8;
-      scoreReasons.push('Internal fallback only');
+    if (l.signalClass === 'internal_fallback' || (stack.length === 1 && stack[0] === 'DirectorySignal')) {
+      finalScore = Math.max(0, finalScore - 8);
+      scoreReasons.push('Internal fallback — lower confidence');
     }
     if (stack.length > 1) {
-      finalScore += 5;
+      finalScore = Math.min(100, finalScore + 5);
       scoreReasons.push('Multi-source verified');
     }
     finalScore = Math.min(Math.max(finalScore, 0), 100);

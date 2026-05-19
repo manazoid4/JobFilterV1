@@ -28,98 +28,89 @@ create table if not exists outcomes (
   updated_at timestamptz default now()
 );
 
-create table if not exists leads (
-  id text primary key,
-  fusion_key text,
-  title text not null,
-  trade text not null,
-  location text not null,
-  postcode_outward text,
-  estimated_value text,
-  urgency text,
-  source text,
-  source_confidence integer,
-  source_url text,
-  contact_signal text,
-  buyer_name text,
-  published_at timestamptz,
-  deadline_at timestamptz,
-  score integer,
-  quality_label text,
-  lead_readiness text,
-  signal_class text,
-  signal_stack text[],
-  evidence_badges text[],
-  score_reasons text[],
-  recommended_action text,
-  is_commercial boolean default false,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS leads (
+  id TEXT PRIMARY KEY,
+  fusion_key TEXT,
+  title TEXT NOT NULL,
+  trade TEXT NOT NULL,
+  location TEXT,
+  postcode_outward TEXT,
+  estimated_value TEXT,
+  urgency TEXT,
+  source TEXT,
+  source_confidence INTEGER,
+  source_url TEXT,
+  contact_signal TEXT,
+  buyer_name TEXT,
+  published_at TIMESTAMPTZ,
+  deadline_at TIMESTAMPTZ,
+  score INTEGER,
+  quality_label TEXT,
+  ghost_risk TEXT,
+  signal_class TEXT,
+  signal_stack TEXT[],
+  evidence_badges TEXT[],
+  score_reasons TEXT[],
+  recommended_action TEXT,
+  is_commercial BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
 );
 
-create table if not exists delivery_events (
-  id uuid primary key default gen_random_uuid(),
-  lead_id text,
-  phone text,
-  provider text,
-  message_body text,
-  status text,
-  sent_at timestamptz default now(),
-  error text,
-  is_duplicate boolean default false,
-  unique(lead_id, phone)
+CREATE TABLE IF NOT EXISTS delivery_events (
+  id TEXT PRIMARY KEY,
+  lead_id TEXT NOT NULL,
+  phone TEXT,
+  provider TEXT NOT NULL,
+  message_body TEXT,
+  status TEXT NOT NULL,
+  sent_at TIMESTAMPTZ DEFAULT now(),
+  error TEXT,
+  is_duplicate BOOLEAN DEFAULT false
 );
 
-create table if not exists lead_outcomes (
-  id uuid primary key default gen_random_uuid(),
-  lead_id text not null,
-  user_id text,
-  status text not null default 'new',
-  value numeric,
-  notes text,
-  won_at timestamptz,
-  lost_at timestamptz,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now()
+CREATE TABLE IF NOT EXISTS lead_outcomes (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
+  lead_id TEXT NOT NULL,
+  title TEXT,
+  trade TEXT,
+  location TEXT,
+  postcode_outward TEXT,
+  status TEXT NOT NULL,
+  won_value INTEGER,
+  lost_reason TEXT,
+  score_label_at_delivery TEXT,
+  source TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
-create table if not exists territory_metrics (
-  id uuid primary key default gen_random_uuid(),
-  postcode_outward text not null,
-  trade text not null,
-  signal_score integer default 0,
-  label text default 'STEADY',
-  signals_this_week integer default 0,
-  planning_count integer default 0,
-  epc_count integer default 0,
-  contract_count integer default 0,
-  avg_estimated_value numeric default 0,
-  lock_status text default 'open',
-  updated_at timestamptz default now(),
-  unique(postcode_outward, trade)
+CREATE TABLE IF NOT EXISTS territory_metrics (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
+  postcode_outward TEXT NOT NULL,
+  trade TEXT NOT NULL,
+  signal_score INTEGER DEFAULT 0,
+  label TEXT DEFAULT 'STEADY',
+  signals_this_week INTEGER DEFAULT 0,
+  planning_count INTEGER DEFAULT 0,
+  epc_count INTEGER DEFAULT 0,
+  contract_count INTEGER DEFAULT 0,
+  avg_estimated_value INTEGER DEFAULT 0,
+  lock_status TEXT DEFAULT 'open',
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(postcode_outward, trade)
 );
 
-create table if not exists user_entitlements (
-  id uuid primary key default gen_random_uuid(),
-  user_id text not null,
-  plan text not null default 'free',
-  postcode_outwards text[] default '{}',
-  trades text[] default '{}',
-  full_access boolean default false,
-  unlimited_scans boolean default false,
-  valid_until timestamptz,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now(),
-  unique(user_id)
+CREATE TABLE IF NOT EXISTS user_entitlements (
+  id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
+  stripe_customer_id TEXT UNIQUE,
+  tier TEXT NOT NULL DEFAULT 'free',
+  postcode_outward TEXT,
+  trade TEXT,
+  active BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now()
 );
 
-create index if not exists leads_postcode_trade_idx on leads(postcode_outward, trade);
-create index if not exists leads_score_idx on leads(score desc);
-create index if not exists delivery_events_lead_phone_idx on delivery_events(lead_id, phone);
-create index if not exists lead_outcomes_lead_idx on lead_outcomes(lead_id);
-
-alter table leads enable row level security;
-alter table delivery_events enable row level security;
-alter table lead_outcomes enable row level security;
-alter table territory_metrics enable row level security;
-alter table user_entitlements enable row level security;
+CREATE INDEX IF NOT EXISTS leads_postcode_trade_idx ON leads(postcode_outward, trade);
+CREATE INDEX IF NOT EXISTS leads_score_idx ON leads(score DESC);
+CREATE INDEX IF NOT EXISTS lead_outcomes_lead_idx ON lead_outcomes(lead_id);

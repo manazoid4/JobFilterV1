@@ -1,64 +1,72 @@
-type TradeSignal = {
-  title: string;
-  tradeAffected: string;
-  moneyAngle: string;
-  actionThisWeek: string;
+import { Link } from 'react-router-dom';
+
+type NewsItem = {
+  headline: string;
+  trades: string;
+  whyItMatters: string;
+  siteTakeaway: string;
   socialAngle: string;
 };
 
-const tradeSignals: TradeSignal[] = [
+const dailyNews: NewsItem[] = [
   {
-    title: 'Small builders are still fighting tight margins and weak enquiries.',
-    tradeAffected: 'Small builders, extension firms, refurb crews, and domestic trades.',
-    moneyAngle: 'When margins are tight, one bad enquiry can eat the week. Quote discipline matters more than lead volume.',
-    actionThisWeek: 'Only chase jobs with a clear scope, real budget signal, and a customer who can make a decision.',
-    socialAngle: 'Turn this into a carousel: 5 signs an enquiry will waste your week.',
+    headline: 'Planning approvals remain the earliest useful signal for domestic extensions.',
+    trades: 'Builders, roofers, electricians, plumbers, carpenters, decorators.',
+    whyItMatters: 'Approved extensions, loft conversions, garage conversions, and change-of-use applications usually create several trade packages before the job appears on public marketplaces.',
+    siteTakeaway: 'Watch the approval date, scope, applicant type, and location. The best time to approach is after approval but before the homeowner starts ringing every local trade.',
+    socialAngle: 'Post angle: "Most trades chase jobs after the customer has already asked five firms. Planning approvals show demand earlier."',
   },
   {
-    title: 'Industry pressure means the diary needs stronger control.',
-    tradeAffected: 'All trades dealing with labour pressure, late payments, and squeezed programmes.',
-    moneyAngle: 'Busy does not mean profitable. The wrong work fills the diary and blocks better jobs.',
-    actionThisWeek: 'Protect slots for urgent, funded, local jobs. Do not let vague enquiries own your week.',
-    socialAngle: 'Turn this into a LinkedIn post: why a full diary can still be a bad business.',
+    headline: 'EPC pressure keeps creating retrofit work for heat, insulation, glazing, and ventilation trades.',
+    trades: 'HVAC, insulation, glazing, electrical, plumbing, general builders.',
+    whyItMatters: 'Low-rated properties can trigger upgrade conversations, especially when landlords, commercial owners, or buyers need a clearer route to compliance and lower running costs.',
+    siteTakeaway: 'Do not pitch generic energy saving. Tie the work to a clear property problem: heat loss, poor rating, outdated heating, ventilation, or landlord pressure.',
+    socialAngle: 'Post angle: "Retrofit leads are not just heat pumps. They are insulation, ventilation, electrics, glazing, and builder work."',
   },
   {
-    title: 'Material price movement can wipe out margin before you notice.',
-    tradeAffected: 'Builders, roofers, plasterers, fit-out, extensions.',
-    moneyAngle: 'When material lines move, old quote templates become dangerous. Price the risk before the job starts.',
-    actionThisWeek: 'Check key material lines before holding a quote open.',
-    socialAngle: 'Turn this into a TikTok script: the quote mistake that kills margin.',
+    headline: 'Public tenders are useful, but only when the deadline, value, and trade fit are clear.',
+    trades: 'Electrical, roofing, HVAC, plumbing, maintenance, building contractors.',
+    whyItMatters: 'Council and public-sector jobs can be high value, but a weak match burns admin time. The tender must fit your trade, capacity, documents, and location.',
+    siteTakeaway: 'Score tenders by deadline, buyer, value, CPV/category match, and whether your firm can realistically deliver the admin requirements.',
+    socialAngle: 'Post angle: "A tender is not a lead until it fits your trade, your capacity, and your paperwork."',
   },
   {
-    title: 'Local demand shifts before customers start ringing around.',
-    tradeAffected: 'Small builders, landscapers, roofers, decorators, general trades.',
-    moneyAngle: 'Demand movement is an early clue. Follow the money before it becomes crowded.',
-    actionThisWeek: 'Use the trend to decide which jobs to chase harder and which ones to leave.',
-    socialAngle: 'Turn this into a Reddit discussion: how do you spot demand before the phone rings?',
+    headline: 'New businesses can signal commercial fit-out before they advertise for contractors.',
+    trades: 'Electricians, plumbers, HVAC, decorators, shopfitters, builders.',
+    whyItMatters: 'Restaurants, salons, offices, clinics, gyms, and small retail units often need power, plumbing, extraction, partitions, flooring, signage, and decoration before opening.',
+    siteTakeaway: 'Look for company type, premises clues, opening pressure, licence activity, and whether the work needs several trades at once.',
+    socialAngle: 'Post angle: "A new restaurant company is not just paperwork. It can mean kitchen fit-out, extraction, plumbing, electrics, flooring, and signage."',
   },
   {
-    title: 'Compliance pressure creates higher-intent work.',
-    tradeAffected: 'Roofers, builders, electrical, scaffold-linked work, commercial maintenance.',
-    moneyAngle: 'Compliance deadlines convert faster than curiosity. Buyers act when fines, inspections, or shutdowns are involved.',
-    actionThisWeek: 'Prioritise jobs with safety, access, fire, electrical, or deadline pressure.',
-    socialAngle: 'Turn this into a Quora answer: which construction leads convert fastest?',
+    headline: 'Bad enquiries usually fail the same checks: no budget, no timing, no buyer, no scope.',
+    trades: 'All trades.',
+    whyItMatters: 'A full diary is not useful if it is full of people who cannot make a decision. Good trades protect time before agreeing to quote.',
+    siteTakeaway: 'Before visiting, ask who decides, when they want the work, what budget band they expect, and whether the scope is real or just an idea.',
+    socialAngle: 'Post angle: "The quickest way to improve your week is to stop visiting jobs that have no buyer, no timing, and no scope."',
   },
   {
-    title: 'Upgrade work is moving before job boards see it.',
-    tradeAffected: 'Builders, roofers, electricians, plumbers, carpenters, decorators, landscapers.',
-    moneyAngle: 'Extensions, upgrades, conversions, and commercial changes create work before the open market catches up.',
-    actionThisWeek: 'Watch your patch. Contact early. Avoid the race once everyone else notices.',
-    socialAngle: 'Turn this into a Medium article: why planning data beats lead marketplaces.',
+    headline: 'Local weather and seasonality change which trade signals become urgent.',
+    trades: 'Roofers, landscapers, heating engineers, decorators, builders.',
+    whyItMatters: 'Storm damage, cold weather, wet ground, summer exterior work, and winter heating demand all change what buyers care about now.',
+    siteTakeaway: 'Match the lead to the season. Roof leaks, drainage, heating failures, exterior paint windows, and garden works all have timing pressure.',
+    socialAngle: 'Post angle: "A lead gets better when timing pressure appears. Seasonality is part of the score."',
   },
 ];
 
-const distributionChannels = [
-  ['Instagram', 'Carousel posts, site screenshots, trade rules, before/after signal breakdowns.', 'https://www.instagram.com/jobfilter.uk/'],
-  ['Reddit', 'Useful discussion posts in trade/business communities. Lead with practical advice, not a pitch.', 'https://www.reddit.com/'],
-  ['Quora', 'Answer buyer-quality, pricing, and trade lead questions with examples from JobFilter methodology.', 'https://www.quora.com/'],
-  ['Facebook Groups', 'Short trade tips and question-led posts for local trade/business groups.', 'https://www.facebook.com/groups/'],
-  ['LinkedIn', 'Founder/build-in-public posts, market observations, and serious trade business advice.', 'https://www.linkedin.com/'],
-  ['TikTok', '30-second scripts: one trade problem, one rule, one JobFilter example.', 'https://www.tiktok.com/'],
-  ['Medium', 'Longer essays on construction lead quality, planning signals, and small trade business strategy.', 'https://medium.com/'],
+const dailyChecks = [
+  ['Planning', 'Approvals, extensions, loft conversions, change-of-use, commercial alterations.'],
+  ['Energy', 'Low EPC ratings, retrofit pressure, heating and insulation demand.'],
+  ['Contracts', 'Public tenders with trade fit, value, deadline, and buyer detail.'],
+  ['Companies', 'New businesses that may need fit-out, maintenance, or premises work.'],
+  ['Trade forums', 'Real complaints from trades: bad leads, pricing pressure, no-shows, late payment.'],
+] as const;
+
+const reusableFormats = [
+  ['Instagram carousel', '5 slides: problem, signal, example, trade takeaway, scan CTA.'],
+  ['TikTok / Reel', '30 seconds: one trade problem, one data signal, one rule, one CTA.'],
+  ['Reddit / Facebook', 'Question-led post with useful advice first. No hard pitch.'],
+  ['LinkedIn', 'Serious business angle: lead quality, margin, territory, quoting discipline.'],
+  ['Quora / Medium', 'Longer explanation for search: how trades find better construction leads.'],
 ] as const;
 
 export function NewsPage() {
@@ -66,72 +74,101 @@ export function NewsPage() {
     <main className="grid pb-24 md:pb-8">
       <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)] py-16">
         <div className="page-shell text-center">
-          <p className="micro-label text-[var(--ink)]">TRADE SIGNALS</p>
-          <h1 className="headline mx-auto mt-4 max-w-4xl text-4xl leading-none sm:text-6xl md:text-8xl">
-            NEWS THAT CAN MAKE OR SAVE MONEY.
+          <p className="micro-label text-[var(--ink)]">FREE DAILY TRADE NEWS</p>
+          <h1 className="headline mx-auto mt-4 max-w-5xl text-4xl leading-none sm:text-6xl md:text-8xl">
+            CONSTRUCTION NEWS TRADES CAN ACTUALLY USE.
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-            No blog fluff. Short trade intelligence you can turn into posts, videos, discussions, and practical sales angles.
+          <p className="mx-auto mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
+            A free daily briefing for UK tradesmen: planning signals, retrofit pressure, tenders, commercial fit-out clues, and lead-quality lessons checked by people close to the industry.
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl border-2 border-[var(--ink)] bg-white px-4 py-3 text-sm font-black uppercase text-[var(--ink)]">
+            Free to read. Updated daily. Built to help trades spot better work and avoid weak enquiries.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-            <a className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
-              START FREE SCAN
-            </a>
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+              SCAN MY POSTCODE
+            </Link>
             <a className="jf-button bg-[var(--ink)] text-white" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
               FOLLOW INSTAGRAM
             </a>
-            <a className="jf-button bg-white text-[var(--ink)]" href="#distribution">
-              REPURPOSE CONTENT
+            <a className="jf-button bg-white text-[var(--ink)]" href="#daily-briefing">
+              READ TODAY'S BRIEFING
             </a>
           </div>
         </div>
       </section>
 
-      <section id="distribution" className="border-b-4 border-[var(--line)] bg-white">
-        <div className="page-shell py-10">
-          <p className="micro-label text-[var(--orange)]">CONTENT DISTRIBUTION</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">ONE ARTICLE. SEVEN PLACES TO POST.</h2>
-          <p className="mt-4 max-w-2xl font-black text-[var(--muted)]">
-            Each JobFilter article should become a carousel, short video, discussion post, answer, founder post, and long-form essay. Keep each version useful enough to earn attention.
-          </p>
-          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {distributionChannels.map(([channel, use, href]) => (
-              <a key={channel} href={href} target="_blank" rel="noopener noreferrer" className="jf-box bg-[var(--bg-main)] p-4 transition-colors hover:bg-[var(--yellow)]">
-                <p className="headline text-2xl">{channel}</p>
-                <p className="mt-2 text-sm font-black text-[var(--muted)]">{use}</p>
-              </a>
+      <section className="border-b-4 border-[var(--line)] bg-white">
+        <div className="page-shell grid gap-6 py-10 lg:grid-cols-[1fr_420px] lg:items-start">
+          <div>
+            <p className="micro-label text-[var(--orange)]">WHAT WE CHECK</p>
+            <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">DAILY SIGNALS, WRITTEN FOR TRADESMEN.</h2>
+            <p className="mt-4 max-w-2xl font-black text-[var(--muted)]">
+              The point is not industry gossip. The point is useful trade information: what creates work, which trades are affected, and what to do before wasting quoting time.
+            </p>
+          </div>
+          <div className="grid gap-2">
+            {dailyChecks.map(([label, body]) => (
+              <div key={label} className="border-2 border-[var(--line)] bg-[var(--paper)] p-3">
+                <p className="micro-label text-[var(--orange)]">{label}</p>
+                <p className="mt-1 text-sm font-black text-[var(--ink)]">{body}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="page-shell grid gap-6 py-12">
-        {tradeSignals.map((item, index) => (
-          <article key={item.title} className={`jf-box overflow-hidden ${index % 2 === 0 ? 'bg-white' : 'bg-[var(--navy)] text-white'}`}>
+      <section id="daily-briefing" className="page-shell grid gap-6 py-12">
+        <div>
+          <p className="micro-label text-[var(--orange)]">TODAY'S TRADE BRIEFING</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">POST THESE IDEAS. USE THEM ON SITE. TURN THEM INTO SCANS.</h2>
+        </div>
+        {dailyNews.map((item, index) => (
+          <article key={item.headline} className={`jf-box overflow-hidden ${index % 2 === 0 ? 'bg-white' : 'bg-[var(--navy)] text-white'}`}>
             <div className="p-6">
-              <p className="micro-label text-[var(--orange)]">MARKET INTELLIGENCE</p>
-              <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">{item.title}</h2>
+              <p className="micro-label text-[var(--orange)]">CONSTRUCTION TRADE NEWS</p>
+              <h3 className="headline mt-3 text-4xl leading-none md:text-5xl">{item.headline}</h3>
             </div>
-            <div className={`grid gap-0 border-t-4 border-[var(--line)] md:grid-cols-3 ${index % 2 === 0 ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--ink)]'}`}>
-              <SignalBlock label="Trade affected" value={item.tradeAffected} />
-              <SignalBlock label="Money angle" value={item.moneyAngle} />
-              <SignalBlock label="Action this week" value={item.actionThisWeek} />
-              <SignalBlock label="Post angle" value={item.socialAngle} />
+            <div className={`grid gap-0 border-t-4 border-[var(--line)] md:grid-cols-2 xl:grid-cols-4 ${index % 2 === 0 ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--ink)]'}`}>
+              <NewsBlock label="Trades affected" value={item.trades} />
+              <NewsBlock label="Why it matters" value={item.whyItMatters} />
+              <NewsBlock label="Trade takeaway" value={item.siteTakeaway} />
+              <NewsBlock label="Social post angle" value={item.socialAngle} />
             </div>
           </article>
         ))}
       </section>
 
+      <section className="border-t-4 border-[var(--line)] bg-white">
+        <div className="page-shell grid gap-6 py-10 lg:grid-cols-[1fr_420px] lg:items-start">
+          <div>
+            <p className="micro-label text-[var(--orange)]">PROMOTION FORMATS</p>
+            <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">ONE NEWS ITEM CAN BECOME FIVE POSTS.</h2>
+            <p className="mt-4 max-w-2xl font-black text-[var(--muted)]">
+              Use each daily briefing item as source material for social posts that pull tradesmen back to JobFilter, the free scan, and the postcode patch offer.
+            </p>
+          </div>
+          <div className="grid gap-2">
+            {reusableFormats.map(([label, body]) => (
+              <div key={label} className="border-2 border-[var(--line)] bg-[var(--paper)] p-3">
+                <p className="micro-label text-[var(--orange)]">{label}</p>
+                <p className="mt-1 text-sm font-black text-[var(--ink)]">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-t-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell py-10">
           <p className="micro-label text-[var(--ink)]">NEXT STEP</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">READ THE SIGNAL. SCAN YOUR PATCH. CLAIM THE TERRITORY.</h2>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">READ THE NEWS. POST THE ANGLE. SCAN THE PATCH.</h2>
           <p className="mt-4 max-w-xl font-black text-[var(--ink)]">
-            Use the content to spot better work, then scan your own postcode to see what is live near you.
+            If a signal points to real work, run the postcode scan and see what JobFilter can find near you.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <a className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">START FREE SCAN →</a>
-            <a className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING →</a>
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">START FREE SCAN</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">CLAIM A PATCH</Link>
           </div>
         </div>
       </section>
@@ -139,11 +176,11 @@ export function NewsPage() {
   );
 }
 
-function SignalBlock({ label, value }: { label: string; value: string }) {
+function NewsBlock({ label, value }: { label: string; value: string }) {
   return (
     <div className="border-b-4 border-[var(--line)] p-5 last:border-b-0 md:border-b-0 md:border-r-4 md:last:border-r-0">
       <p className="micro-label text-[var(--orange)]">{label}</p>
-      <p className="mt-3 text-lg font-black leading-snug">{value}</p>
+      <p className="mt-3 text-base font-black leading-snug">{value}</p>
     </div>
   );
 }
