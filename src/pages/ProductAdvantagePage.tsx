@@ -104,6 +104,7 @@ function ServiceForm({ trade }: { trade: string }) {
           name: fd.get('name'),
           trade: fd.get('company'),
           contact: fd.get('contact'),
+          details: fd.get('details'),
           source: `service-form-${trade.toLowerCase().replace(/\s+/g, '-')}`,
         }),
       });
@@ -123,7 +124,7 @@ function ServiceForm({ trade }: { trade: string }) {
         <input name="name" className="field-input" placeholder="Your name" required />
         <input name="company" className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
         <input name="contact" className="field-input" placeholder="Email or phone" required />
-        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
+        <textarea name="details" className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (

@@ -74,15 +74,15 @@ export function NewsPage() {
     <main className="grid pb-24 md:pb-8">
       <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)] py-16">
         <div className="page-shell text-center">
-          <p className="micro-label text-[var(--ink)]">FREE DAILY TRADE NEWS</p>
+          <p className="micro-label text-[var(--ink)]">TRADE INTELLIGENCE</p>
           <h1 className="headline mx-auto mt-4 max-w-5xl text-4xl leading-none sm:text-6xl md:text-8xl">
-            CONSTRUCTION NEWS TRADES CAN ACTUALLY USE.
+            CONSTRUCTION SIGNALS TRADES CAN ACTUALLY USE.
           </h1>
           <p className="mx-auto mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
-            A free daily briefing for UK tradesmen: planning signals, retrofit pressure, tenders, commercial fit-out clues, and lead-quality lessons checked by people close to the industry.
+            Planning signals, retrofit pressure, tenders, commercial fit-out clues, and lead-quality lessons — checked by people close to the industry.
           </p>
           <p className="mx-auto mt-3 max-w-2xl border-2 border-[var(--ink)] bg-white px-4 py-3 text-sm font-black uppercase text-[var(--ink)]">
-            Free to read. Updated daily. Built to help trades spot better work and avoid weak enquiries.
+            Free to read. Built to help trades spot better work and avoid weak enquiries.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
