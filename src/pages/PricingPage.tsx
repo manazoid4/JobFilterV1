@@ -52,40 +52,52 @@ const workflowTools = [
 
 const featureCategories = [
   {
+    icon: MessageSquare,
+    title: 'First Strike',
+    points: ['Auto-selects right template for lead age', 'Pre-filled with trade + postcode', 'Copies to WhatsApp in one tap', 'Auto-tracks lead on send'],
+    featured: true,
+  },
+  {
     icon: Radio,
     title: 'Leads & Alerts',
     points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
+    featured: false,
   },
   {
     icon: Calculator,
     title: 'Value Control',
     points: ['Quote floor', 'Call opener', 'Follow-up cadence'],
+    featured: false,
   },
   {
     icon: ClipboardCheck,
     title: 'Buyer Action Pack',
     points: ['Verification questions', 'Quote floor', 'Next action'],
+    featured: false,
   },
   {
     icon: Radar,
     title: 'Patch Watch',
     points: ['Daily signal watch', 'Patch pulse', 'Territory priority'],
+    featured: false,
   },
   {
     icon: Mail,
     title: 'Letters',
     points: ['Company-branded approach letters', 'PDF follow-up packs'],
+    featured: false,
   },
   {
     icon: MapPinned,
     title: 'Territory',
     points: ['Postcode exclusivity', 'Priority routing'],
+    featured: false,
   },
 ];
 
 const comparisonRows = [
   { feature: 'WhatsApp Gold leads', free: 'Preview', founder: 'Full', standard: 'Full' },
-  { feature: 'Response Kit — message templates', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'First Strike — message templates', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Territory lock', free: false, founder: true, standard: true },
   { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
   { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
@@ -101,14 +113,14 @@ const comparisonRows = [
 ];
 
 const toolIcons = [
-  { name: 'WhatsApp Leads', icon: Zap },
-  { name: 'Response Kit', icon: MessageSquare },
-  { name: 'Pipeline', icon: BarChart3 },
-  { name: 'Action Pack', icon: ClipboardCheck },
-  { name: 'Patch Watch', icon: Radar },
-  { name: 'Vicinity', icon: Camera },
-  { name: 'Vantage', icon: LayoutGrid },
-  { name: 'Territory', icon: MapPinned },
+  { name: 'WhatsApp Leads', icon: Zap, highlight: false },
+  { name: 'First Strike', icon: MessageSquare, highlight: true },
+  { name: 'Pipeline', icon: BarChart3, highlight: false },
+  { name: 'Action Pack', icon: ClipboardCheck, highlight: false },
+  { name: 'Patch Watch', icon: Radar, highlight: false },
+  { name: 'Vicinity', icon: Camera, highlight: false },
+  { name: 'Vantage', icon: LayoutGrid, highlight: false },
+  { name: 'Territory', icon: MapPinned, highlight: false },
 ];
 
 export function PricingPage() {
@@ -235,12 +247,15 @@ export function PricingPage() {
           No separate subscriptions. No per-tool fees. One price, every feature.
         </p>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
-          {toolIcons.map(({ name, icon: Icon }) => (
+          {toolIcons.map(({ name, icon: Icon, highlight }) => (
             <div key={name} className="flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[4px_4px_0_var(--ink)]">
+              <div className={`relative flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] shadow-[4px_4px_0_var(--ink)] ${highlight ? 'bg-[var(--yellow)]' : 'bg-[var(--paper)]'}`}>
                 <Icon className="h-6 w-6 text-[var(--ink)]" strokeWidth={2.5} />
+                {highlight && (
+                  <span className="absolute -top-2 -right-2 bg-[var(--orange)] text-white text-[8px] font-black uppercase px-1 py-0.5 leading-none">NEW</span>
+                )}
               </div>
-              <span className="text-xs font-black uppercase tracking-wide">{name}</span>
+              <span className={`text-xs font-black uppercase tracking-wide ${highlight ? 'text-[var(--orange)]' : ''}`}>{name}</span>
             </div>
           ))}
         </div>
@@ -249,23 +264,43 @@ export function PricingPage() {
       {/* ── WHAT'S INCLUDED GRID ──────────────────────────── */}
       <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">WHAT'S INCLUDED</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">SIX CATEGORIES. ONE SUBSCRIPTION.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">EVERY TOOL. ONE SUBSCRIPTION.</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featureCategories.map(({ icon: Icon, title, points }) => (
-            <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
-                  <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+          {featureCategories.map(({ icon: Icon, title, points, featured }) =>
+            featured ? (
+              <article key={title} className="sm:col-span-2 lg:col-span-3 border-2 border-[var(--ink)] bg-[var(--ink)] p-5 shadow-[4px_4px_0_var(--yellow)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--yellow)]">
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="headline text-2xl text-white">{title}</h3>
+                  <span className="ml-auto text-[10px] font-black uppercase bg-[var(--orange)] text-white px-2 py-1 tracking-wider">NEW</span>
                 </div>
-                <h3 className="headline text-2xl">{title}</h3>
-              </div>
-              <ul className="mt-3 grid gap-1">
-                {points.map((point) => (
-                  <li key={point} className="font-black text-[var(--muted)]">✓ {point}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                <p className="mt-2 text-sm font-bold text-white/60 max-w-xl">
+                  A GOLD lead arrives. First Strike picks the right message for how old the lead is, fills in the trade and postcode, and puts it in your clipboard. One tap. Sent before your competitor has even opened the notification.
+                </p>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                  {points.map((point) => (
+                    <li key={point} className="border border-[var(--yellow)]/30 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)]">✓ {point}</li>
+                  ))}
+                </ul>
+              </article>
+            ) : (
+              <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="headline text-2xl">{title}</h3>
+                </div>
+                <ul className="mt-3 grid gap-1">
+                  {points.map((point) => (
+                    <li key={point} className="font-black text-[var(--muted)]">✓ {point}</li>
+                  ))}
+                </ul>
+              </article>
+            )
+          )}
         </div>
       </section>
 

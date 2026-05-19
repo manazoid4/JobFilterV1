@@ -63,7 +63,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
       <div className="mt-3 border-2 border-[var(--line)] bg-[var(--offwhite)] p-4">
         <div className="flex items-center gap-2 mb-2">
           <Lock className="w-3.5 h-3.5 text-[var(--muted)]" />
-          <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">Response Kit</p>
+          <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">First Strike</p>
           <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">PATCH PLAN</span>
         </div>
         <p className="text-xs font-bold text-[var(--muted)] mb-3">Pre-written message templates that auto-fill with trade and postcode. Copy and send in one tap.</p>
@@ -71,7 +71,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
           Hi, I saw your builder job in SW12 come up. I'm local and available this week...
         </div>
         <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-xs text-center block">
-          UNLOCK RESPONSE KIT →
+          UNLOCK FIRST STRIKE →
         </Link>
       </div>
     );
@@ -85,7 +85,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
       >
         <div className="flex items-center gap-2">
           <MessageSquare className="w-3.5 h-3.5 text-[var(--yellow)]" />
-          <span className="text-xs font-black uppercase tracking-wider text-white">Response Kit</span>
+          <span className="text-xs font-black uppercase tracking-wider text-white">First Strike</span>
           {tracked && (
             <span className="text-[10px] font-black uppercase bg-[var(--green)] text-white px-1.5 py-0.5">TRACKING</span>
           )}

@@ -335,12 +335,12 @@ export function HomePage() {
       {/* ── NEVER MISS A LEAD ─────────────────────────── */}
       <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)]">
         <div className="page-shell py-14">
-          <p className="micro-label text-[var(--yellow)]">FIRST MOVER ADVANTAGE</p>
+          <p className="micro-label text-[var(--yellow)]">FIRST STRIKE — INCLUDED WITH PATCH PLAN</p>
           <h2 className="headline mt-3 text-4xl leading-none text-white sm:text-5xl">
-            GOLD LEAD HITS YOUR PHONE.<br />MESSAGE TEMPLATE READY TO SEND.
+            GOLD LEAD ARRIVES.<br />RIGHT MESSAGE. ONE TAP. SENT.
           </h2>
           <p className="mt-5 max-w-2xl font-bold text-white/70 leading-relaxed">
-            Every GOLD lead comes with a pre-written message you can copy and send in one tap. No thinking. No typing. Just call or paste — while everyone else is still looking it up.
+            First Strike picks the right message for how old the lead is, fills in the trade and postcode, and puts it in your clipboard. No thinking. No typing. You're calling while your competitors are still reading the notification.
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
