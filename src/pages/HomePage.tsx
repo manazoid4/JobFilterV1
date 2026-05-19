@@ -277,7 +277,7 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Real planning signal. Real score. Real recommended action. This is exactly what lands in your WhatsApp.
+            Real planning signal. Real score. Real quote floor. Real recommended action. This is exactly what lands in your WhatsApp.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
@@ -495,9 +495,9 @@ export function HomePage() {
               { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
               { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
-              { icon: Zap, title: 'Full lead scoring', body: 'Serious Buyer Score plus a clear chase recommendation on every lead.' },
+              { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster.' },
+              { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'Set up. Use it. If you do not see value, we refund.' },
             ].map(({ icon: Icon, title, body }) => (

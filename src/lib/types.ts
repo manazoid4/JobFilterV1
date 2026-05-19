@@ -25,6 +25,8 @@ export type LeadDecision = {
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
+  quoteFloor?: string;
+  followUpCadence?: string[];
   evidenceBadges?: string[];
   signalStack?: string[];
   signalClass?: string;
@@ -57,6 +59,8 @@ export type Lead = {
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
+  quoteFloor?: string;
+  followUpCadence?: string[];
   evidenceBadges?: string[];
   signalStack?: string[];
   signalClass?: string;

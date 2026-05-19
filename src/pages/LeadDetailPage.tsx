@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { TrustBadges } from '../components/TrustBadges';
+import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
@@ -239,6 +240,12 @@ export function LeadDetailPage() {
           </div>
         </section>
       )}
+
+      <section className="jf-box bg-white p-6">
+        <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">The paid part is not just the lead. It is the quote floor and the chase plan around it.</p>
+        <LeadValueKit lead={lead} unlocked title="LEAD VALUE KIT" />
+      </section>
 
       {lead.details && (
         <section className="jf-box bg-white p-6">

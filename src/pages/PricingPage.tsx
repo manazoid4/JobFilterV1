@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FormEvent, useState, type ReactNode } from 'react';
-import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Download, Calendar, Search, ClipboardCheck, Radar } from 'lucide-react';
+import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { joinWaitlist } from '../lib/waitlist';
 
@@ -13,8 +13,9 @@ const included = [
   'CSV export & calendar reminders — sync to any CRM',
   'Keyword search across planning, energy & council signals',
   'Company-branded letters for selected Gold leads',
-  'Buyer Action Pack — call opener, checks, quote guardrail',
-  'Patch Watch — daily trade signals for your postcode cluster',
+  'Buyer Action Pack — call opener, checks, quote floor',
+  'Patch Pulse — source mix, Gold/Silver split, best source',
+  'Follow-up cadence — the next 3 touches for every lead',
   'Vicinity & Vantage included for proof and bid support',
   'Weekly opportunity digest for your patch',
 ];
@@ -28,24 +29,24 @@ const addOns = [
 
 const workflowTools = [
   {
-    icon: BarChart3,
-    title: 'Win breakdown',
-    body: 'See which trade, source and postcode actually pay. Stop guessing where your money comes from.',
+    icon: Calculator,
+    title: 'Quote floor',
+    body: 'See the minimum sensible quote before you spend a site visit. Margin first.',
   },
   {
-    icon: Download,
-    title: 'CSV export',
-    body: 'Download your scored leads anytime. Pipe them into your CRM, spreadsheet, or accountant.',
+    icon: Radar,
+    title: 'Patch pulse',
+    body: 'Read the live mix in your patch: Gold, Silver, locked, and which source is carrying it.',
   },
   {
     icon: Calendar,
-    title: 'Calendar reminders',
-    body: 'Add a follow-up to Google, Apple or Outlook in one tap. Never lose a Gold lead to forgetting.',
+    title: 'Follow-up cadence',
+    body: 'Every lead gets a next three touches sequence so jobs do not go cold.',
   },
   {
-    icon: Search,
-    title: 'Keyword search',
-    body: 'Find every loft, EV charger or heat pump signal in your area. Niche trades finally get found.',
+    icon: BarChart3,
+    title: 'Win breakdown',
+    body: 'See which trade, source and postcode actually pay. Stop guessing where your money comes from.',
   },
 ];
 
@@ -56,19 +57,19 @@ const featureCategories = [
     points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
   },
   {
-    icon: BarChart3,
-    title: 'Pipeline & Analytics',
-    points: ['Win breakdown by trade & area', 'CSV export', 'Calendar reminders'],
+    icon: Calculator,
+    title: 'Value Control',
+    points: ['Quote floor', 'Call opener', 'Follow-up cadence'],
   },
   {
     icon: ClipboardCheck,
     title: 'Buyer Action Pack',
-    points: ['Call opener', 'Verification questions', 'Quote guardrail'],
+    points: ['Verification questions', 'Quote floor', 'Next action'],
   },
   {
     icon: Radar,
     title: 'Patch Watch',
-    points: ['Daily signal watch', 'Weekly opportunity digest', 'Territory priority'],
+    points: ['Daily signal watch', 'Patch pulse', 'Territory priority'],
   },
   {
     icon: Mail,
@@ -89,7 +90,9 @@ const comparisonRows = [
   { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Buyer Action Pack', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Patch Watch', free: 'Preview', founder: 'Included', standard: 'Included' },
+  { feature: 'Quote floor', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Follow-up cadence', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Patch Pulse', free: 'Preview', founder: 'Included', standard: 'Included' },
   { feature: 'Company-branded letters', free: false, founder: true, standard: true },
   { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
@@ -174,10 +177,10 @@ export function PricingPage() {
 
       {/* ── BUILT-IN WORKFLOW TOOLS ──────────────────────── */}
       <section className="ops-panel bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">BUILT-IN WORKFLOW TOOLS</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">YOUR LEADS, WIRED INTO HOW YOU ACTUALLY WORK.</h2>
+        <p className="micro-label text-[var(--orange)]">MONTHLY VALUE TOOLS</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">QUOTE FLOOR. PATCH PULSE. FOLLOW-UP CADENCE.</h2>
         <p className="mt-3 max-w-3xl font-black text-[var(--muted)]">
-          Not just alerts. Track every lead from first contact to won job. Export to your CRM. See which patch makes you money.
+          Not just alerts. Know the floor before you price, keep the chase moving, and see which patch actually pays.
         </p>
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {workflowTools.map(({ icon: Icon, title, body }) => (

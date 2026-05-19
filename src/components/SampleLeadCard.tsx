@@ -86,6 +86,24 @@ export function SampleLeadCard() {
         <p className="mt-1 font-black text-[var(--ink)]">{sampleLead.recommendedAction}</p>
       </div>
 
+      <div className="mt-5 grid gap-3 md:grid-cols-2">
+        <div className="border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
+          <p className="micro-label text-[var(--navy)]">QUOTE FLOOR</p>
+          <p className="mt-1 text-2xl font-black text-[var(--ink)]">£33.5k</p>
+          <p className="mt-1 text-xs font-black text-[var(--muted)]">Protect margin before the site visit.</p>
+        </div>
+        <div className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-4">
+          <p className="micro-label text-[var(--ink)]">FOLLOW-UP CADENCE</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {['Call today', 'Send same-day quote', 'Check back in 3 days'].map((step) => (
+              <span key={step} className="border-2 border-[var(--ink)] bg-white px-2 py-1 text-[10px] font-black uppercase text-[var(--ink)]">
+                {step}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Evidence Stack */}
       <div className="mt-5">
         <p className="micro-label text-[var(--muted)]">WHY THIS SCORES HIGH</p>
