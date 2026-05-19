@@ -288,15 +288,15 @@ export function WeeklySignalsPage() {
             </p>
           )}
           <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={() => setShowShare(true)} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SHARE THIS WEEK →
-            </button>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
-              SUBSCRIBE TO WEEKLY →
-            </button>
-            <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">
+            <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN YOUR AREA →
             </Link>
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
+              GET WEEKLY ALERTS →
+            </button>
+            <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
+              SHARE →
+            </button>
           </div>
         </div>
       </section>

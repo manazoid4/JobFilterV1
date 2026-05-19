@@ -43,8 +43,6 @@ export function registerChaseCheckRoute(app: Express) {
         budget: undefined,
         phone: phoneNumber,
         postcode: undefined,
-        leadReadiness: 'MAYBE',
-        qualityLabel: 'SILVER',
       });
       return res.json({ ok: true, nudged: true, result });
     } catch (error: any) {
