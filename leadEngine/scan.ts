@@ -234,7 +234,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 6. Score, update stats.passed, rank
   const scored: Lead[] = fused.map(l => {
-    const { score, reasons, qualityLabel, ghostRisk, recommendedAction, evidenceBadges } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
+    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
     const scoreReasons = [...reasons];
     let finalScore = score;
     const stack = l.signalStack ?? [l.source].filter(Boolean);
@@ -252,7 +252,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       score: finalScore,
       scoreReasons,
       qualityLabel,
-      ghostRisk,
+      leadReadiness,
       recommendedAction,
       evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
     };

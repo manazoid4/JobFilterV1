@@ -1055,11 +1055,15 @@ const LOCKED_PLACEHOLDERS: Record<string, string> = {
 
 function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
   if (!value) {
-    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
+    const placeholder = devUnlocked
+      ? label === 'Source URL'
+        ? 'No source URL returned in preview payload'
+        : `${label} not returned in preview payload`
+      : LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
+      <div className={`border-2 p-3 ${devUnlocked ? 'border-[var(--line)] bg-[var(--bg-main)]' : 'border-[var(--orange)]/40 bg-[var(--orange)]/5'}`}>
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
+        <p className={`mt-1 font-black text-[var(--ink)] text-sm ${devUnlocked ? '' : 'select-none blur-[3px]'}`}>{placeholder}</p>
       </div>
     );
   }
