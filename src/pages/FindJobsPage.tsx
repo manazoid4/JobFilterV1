@@ -4,6 +4,7 @@ import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, F
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
+import { LeadValueKit } from '../components/LeadValueKit';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
 import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
@@ -302,6 +303,7 @@ export function FindJobsPage() {
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
   const bestSource = getBestSource(result?.sources);
+  const sourceMix = getSourceMix(result?.sources);
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
@@ -539,7 +541,7 @@ export function FindJobsPage() {
                   <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
+                    Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, quote floor, follow-up cadence, WhatsApp alerts, letters, and the full Money Filter breakdown.
                   </p>
                 </section>
               )}
@@ -583,9 +585,9 @@ export function FindJobsPage() {
                     <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
                     <div>
                       <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
-                      <h2 className="headline mt-2 text-3xl leading-none">EVERY SERIOUS LEAD GETS A CHASE PLAN.</h2>
+                      <h2 className="headline mt-2 text-3xl leading-none">QUOTE FLOOR. NEXT ACTION. FOLLOW-UP CADENCE.</h2>
                       <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
-                        Open full lead access to see the call opener, verification questions, quote guardrail, and next action.
+                        Open full lead access to see the call opener, quote floor, verification questions, and the next three touches.
                       </p>
                     </div>
                   </div>
@@ -603,6 +605,9 @@ export function FindJobsPage() {
                   <p className="mt-1 font-black text-white">
                     {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
                   </p>
+                  {sourceMix && (
+                    <p className="mt-0.5 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
+                  )}
                   {bestSource && (
                     <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
                   )}
@@ -772,6 +777,17 @@ function getBestSource(sources?: LeadSearchResponse['sources']): string {
   return bestPassed > 0 ? `${best} (${bestPassed} passed)` : '';
 }
 
+function getSourceMix(sources?: LeadSearchResponse['sources']): string {
+  if (!sources) return '';
+  return Object.entries(sources)
+    .map(([source, stats]) => [source, stats.passed ?? 0] as const)
+    .filter(([, passed]) => passed > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([source, passed]) => `${source} ${passed}`)
+    .join(' · ');
+}
+
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
@@ -911,43 +927,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
 }
 
 function BuyerActionPack({ lead, unlocked }: { lead: Lead; unlocked: boolean }) {
-  const trade = titleCase(String(lead.trade || lead.tradeMatch || 'trade'));
-  const area = lead.location || lead.postcodeOutward || 'your area';
-  const opener = `Hi, I saw the ${trade.toLowerCase()} work signal in ${area}. Are you still looking for prices?`;
-  const questions = [
-    `Is the ${trade.toLowerCase()} scope agreed yet?`,
-    'Who is making the final decision?',
-    'When do you need the work started?',
-  ];
-  const guardrail = lead.score >= 80
-    ? 'Call before sending a long quote. This is worth a fast qualification call.'
-    : lead.score >= 55
-      ? 'Verify budget and timing before spending site-visit time.'
-      : 'Do not visit until buyer, scope, and budget are clearer.';
-
-  if (!unlocked) {
-    return (
-      <div className="mt-4 border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
-        <p className="micro-label text-[10px] text-[var(--orange)]">BUYER ACTION PACK</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]">Unlock the call opener, verification questions, quote guardrail, and next action.</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mt-4 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-3">
-      <p className="micro-label text-[10px] text-[var(--navy)]">BUYER ACTION PACK</p>
-      <p className="mt-2 text-sm font-black text-[var(--ink)]">Call opener: {opener}</p>
-      <div className="mt-2 grid gap-1">
-        {questions.map((question) => (
-          <p key={question} className="text-xs font-black text-[var(--muted)]">- {question}</p>
-        ))}
-      </div>
-      <p className="mt-2 border-l-4 border-[var(--yellow)] bg-white px-3 py-2 text-xs font-black text-[var(--ink)]">
-        {lead.recommendedAction || guardrail}
-      </p>
-    </div>
-  );
+  return <LeadValueKit lead={lead} unlocked={unlocked} />;
 }
 
 const EPC_RATING_COLOURS: Record<string, string> = {

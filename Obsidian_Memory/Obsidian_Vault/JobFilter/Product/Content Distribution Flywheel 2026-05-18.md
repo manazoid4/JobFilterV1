@@ -52,9 +52,11 @@ It should include:
 
 - headline
 - trades affected
+- what the signal says
 - why it matters
 - practical trade takeaway
 - social post angle
+- best platform(s) for reuse
 - CTA to scan postcode or claim patch
 
 It should avoid:
@@ -63,6 +65,26 @@ It should avoid:
 - startup/content marketing language
 - generic construction news with no trade action
 - fake live stats
+
+### Daily Briefing Structure
+
+Use the page like a newsroom briefing, not a blog:
+
+- one clear market signal per item
+- one line explaining why a trade should care
+- one line that turns the item into a post hook
+- one line that gives a practical action
+- one label that says where it will travel best socially
+
+The page should be readable by a tradesman in under two minutes and still give enough material to repurpose into:
+
+- Instagram carousel
+- Reddit discussion
+- Quora answer
+- Facebook group post
+- LinkedIn update
+- TikTok hook
+- Medium explainer
 
 ## Reddit And Community Sizing
 
