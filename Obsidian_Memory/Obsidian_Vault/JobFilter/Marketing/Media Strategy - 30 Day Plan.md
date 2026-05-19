@@ -151,16 +151,35 @@ Shared leads = the enemy. Every post should remind the audience that:
 ### Scheduling & Auto-Post
 | Tool | Platforms | Free tier |
 |------|-----------|-----------|
-| **Buffer** | Instagram + LinkedIn | Free: 3 channels, 10 queued posts |
+| **Metricool** | Instagram, LinkedIn, TikTok, Threads, YouTube, Facebook, Pinterest, Bluesky | Free: 1 brand, 50 posts/month — **best free option** |
+| **Buffer** | Instagram + LinkedIn | Free: 3 channels, 30 queued posts/channel |
+| **PostEverywhere.ai** | Instagram, LinkedIn, **Reddit** | Free tier — only major tool with real Reddit scheduling |
 | **Later** | Instagram-first | Free: 10 posts/month Instagram |
-| **Metricool** | Instagram + LinkedIn + Twitter | Free: 1 profile each, 50 posts/month — **best free option** |
-| **Publer** | Instagram + LinkedIn + Reddit* | Free: 3 profiles — *Reddit support is limited |
 
-**Recommendation: Metricool free tier** — covers Instagram + LinkedIn scheduling, basic analytics, link in bio tool. Upgrade ($18/mo) when posting volume needs it.
+**Primary recommendation: Metricool free** for Instagram + LinkedIn (50 posts/month is enough for the 30-day plan).  
+**For Reddit scheduling: PostEverywhere.ai** — currently the only tool that properly supports Reddit auto-posting.
 
-### Reddit (Manual — no good free scheduler)
-- Post manually at peak times: **Tue–Thu, 8–10am or 6–8pm UK**
-- Use **Redditschedule.com** (free, basic) as fallback
+### 🔑 Metricool + Claude MCP Integration (Use This)
+
+Metricool has an **official Claude MCP server** — meaning Claude can directly schedule posts to Instagram and LinkedIn via tool calls, without you manually copying and pasting.
+
+**Setup:**
+1. Connect Metricool account (free) at metricool.com
+2. Add Metricool MCP server to Claude Code settings
+3. Claude can then: read your calendar, check analytics, write posts, and schedule them directly
+
+**What Claude can do via Metricool MCP:**
+- Schedule Instagram posts, carousels, and Reels with captions + hashtags
+- Schedule LinkedIn posts (text + document carousels)
+- Check optimal posting times from your audience data
+- Read performance metrics to double down on what's working
+
+This means the entire 30-day calendar above can be executed by telling Claude: *"Schedule this week's posts using the Metricool calendar"* — no manual copy-paste.
+
+### Reddit (PostEverywhere.ai or Manual)
+- **PostEverywhere.ai** supports Reddit scheduling — use for timed posts
+- Manual posting: **Tue–Thu, 8–10am or 6–8pm UK** for peak engagement
+- Never use a link aggregator or scheduler that auto-posts to Reddit without reading the subreddit rules first — instant ban risk
 
 ### Analytics
 | Tool | Use | Free |
