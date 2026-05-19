@@ -257,19 +257,12 @@ export function TrustCenterPage() {
           No chatbots. No ticket systems. Direct contact with the team.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-8">
           <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--ink)]">
             <Mail size={24} strokeWidth={2.5} className="text-[var(--navy)]" />
             <div>
               <p className="headline text-lg">Email</p>
-              <p className="text-sm font-black text-[var(--muted)]">support@jobfilter.uk</p>
-            </div>
-          </a>
-          <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--green)]">
-            <MessageSquare size={24} strokeWidth={2.5} className="text-[var(--green)]" />
-            <div>
-              <p className="headline text-lg">Support</p>
-              <p className="text-sm font-black text-[var(--muted)]">Same-day reply</p>
+              <p className="text-sm font-black text-[var(--muted)]">support@jobfilter.uk — within 4 hours, Mon–Fri</p>
             </div>
           </a>
         </div>
