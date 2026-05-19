@@ -416,13 +416,17 @@ export function FindJobsPage() {
         <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
           <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
           <p className="text-sm font-black text-[var(--ink)]">
-            {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — no credit card required` : 'Weekly free scans used. Upgrade for unlimited.'}
+            {weeklyScansRemaining > 0
+              ? weeklyScansUsed === 0
+                ? `Try up to 3 free scans — no credit card required`
+                : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
+              : 'Free scans used this week — upgrade for unlimited.'}
           </p>
           {weeklyScansRemaining === 0 ? (
             <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          ) : (
+          ) : weeklyScansUsed > 0 ? (
             <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
-          )}
+          ) : null}
         </div>
       )}
 
@@ -649,7 +653,7 @@ export function FindJobsPage() {
             <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
             <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
             <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              One tap. Full scan — planning approvals, energy upgrades, public contracts. Top {trade} jobs within {radiusMiles} miles, ranked by score, ready to chase.
+              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. Planning approvals, energy upgrades, public contracts. Ranked for {titleCase(trade)}, ready to chase.
             </p>
           </div>
           <button
