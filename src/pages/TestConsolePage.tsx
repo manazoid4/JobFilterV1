@@ -36,6 +36,7 @@ export function TestConsolePage() {
 
   const [postcode, setPostcode] = useState('B14 7QH');
   const [trade, setTrade] = useState('electrical');
+  const [radiusMiles, setRadiusMiles] = useState(10);
   const [testEmail, setTestEmail] = useState('test+console@jobfilter.uk');
 
   async function loadStatus() {
@@ -90,14 +91,18 @@ export function TestConsolePage() {
       const { ms, res, body } = await timeFetch('/api/leads/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postcode, trade }),
+        body: JSON.stringify({ postcode, trade, radiusMiles }),
       });
       const data = body as { ok?: boolean; count?: number; leads?: unknown[]; errors?: string[] } | null;
       const count = data?.leads?.length ?? data?.count ?? 0;
       setLeadSearch({
-        state: data?.ok && count > 0 ? 'ok' : data?.ok ? 'fail' : 'fail',
+        state: data?.ok ? 'ok' : 'fail',
         ms,
-        detail: data?.ok ? `${count} leads returned` : (data?.errors?.[0] ?? `HTTP ${res.status}`),
+        detail: data?.ok
+          ? count > 0
+            ? `${count} leads returned`
+            : 'OK — empty result (valid for many postcode/trade combos)'
+          : (data?.errors?.[0] ?? `HTTP ${res.status}`),
         data: body,
       });
     } catch (err) {
@@ -233,7 +238,10 @@ export function TestConsolePage() {
             <IntegrationCard
               label="Twilio (WhatsApp)"
               ok={status.integrations.twilio.configured}
-              missingHint="Add TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN + TWILIO_WHATSAPP_FROM"
+              extras={[
+                ['Custom FROM override', Boolean(status.integrations.twilio.fromOverride)],
+              ]}
+              missingHint="Add TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN + TWILIO_WHATSAPP_TO (FROM defaults to Twilio sandbox)"
             />
             <IntegrationCard
               label="Companies House"
@@ -283,7 +291,7 @@ export function TestConsolePage() {
 
           <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
             <ProbeHeader label="Leads search" endpoint="POST /api/leads/search" probe={leadSearch} />
-            <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
+            <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_120px_auto]">
               <input
                 className="field-input"
                 value={postcode}
@@ -296,11 +304,20 @@ export function TestConsolePage() {
                 onChange={(e) => setTrade(e.target.value)}
                 placeholder="Trade"
               />
+              <input
+                className="field-input"
+                type="number"
+                min={1}
+                max={100}
+                value={radiusMiles}
+                onChange={(e) => setRadiusMiles(Number(e.target.value))}
+                placeholder="Radius (mi)"
+              />
               <button type="button" className="jf-button bg-[var(--ink)] text-white" onClick={runLeadSearch}>
                 RUN
               </button>
             </div>
-            <ProbeDetail probe={leadSearch} description="Real UK signal sources: planning, EPC, tenders, Companies House." />
+            <ProbeDetail probe={leadSearch} description="Real UK signal sources: planning, EPC, tenders, Companies House. Empty result is a valid pass." />
           </div>
 
           <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">

@@ -27,10 +27,13 @@ export function registerStatusRoute(app: Express) {
           configured: has('RESEND_API_KEY'),
         },
         twilio: {
+          // Runtime in server/services/sms.ts requires TWILIO_WHATSAPP_TO and
+          // defaults TWILIO_WHATSAPP_FROM, so match that contract here.
           configured:
             has('TWILIO_ACCOUNT_SID') &&
             has('TWILIO_AUTH_TOKEN') &&
-            has('TWILIO_WHATSAPP_FROM'),
+            has('TWILIO_WHATSAPP_TO'),
+          fromOverride: has('TWILIO_WHATSAPP_FROM'),
         },
         companiesHouse: {
           configured: has('COMPANIES_HOUSE_API_KEY'),
