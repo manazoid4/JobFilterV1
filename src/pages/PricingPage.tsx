@@ -18,6 +18,7 @@ const included = [
   'Follow-up cadence — the next 3 touches for every lead',
   'Vicinity & Vantage included for proof and bid support',
   'Weekly opportunity digest for your patch',
+  'City Intelligence — weekly territory briefing for your city',
 ];
 
 const addOns = [
@@ -100,6 +101,13 @@ const featureCategories = [
     points: ['One trade per postcode cluster', 'No shared lead auctions', 'Founder price locked while plan is active', 'Priority routing on every new signal'],
     featured: false,
   },
+  {
+    icon: Radio,
+    title: 'City Intelligence',
+    tagline: 'Weekly briefing for your territory',
+    points: ['Territory score + signal count every week', 'Hot lead spotlight — the one job worth moving on', 'Market note + opportunity list for your patch', 'Tool tip from the signal desk'],
+    featured: false,
+  },
 ];
 
 const comparisonRows = [
@@ -113,6 +121,7 @@ const comparisonRows = [
   { feature: 'Patch Watch — daily signal digest', free: 'Preview', founder: 'Full', standard: 'Full' },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'CSV export + calendar sync', free: false, founder: true, standard: true },
+  { feature: 'City Intelligence — weekly territory briefing', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Founder price lock', free: false, founder: true, standard: false },
 ];
 
@@ -125,6 +134,7 @@ const toolIcons = [
   { name: 'Letterhead Pack', icon: Mail, highlight: false },
   { name: 'Patch Watch', icon: Radar, highlight: false },
   { name: 'Territory', icon: MapPinned, highlight: false },
+  { name: 'City Intel', icon: Radio, highlight: false },
 ];
 
 export function PricingPage() {
@@ -180,7 +190,7 @@ export function PricingPage() {
         <PlanCard
           title="Founder"
           price="£39/mo"
-          body="£39/mo for life while your plan stays active. Cancel and rejoin later — you pay £79."
+          body="£39/mo for life while your plan stays active. 2-month minimum — 14-day cooling off from sign-up. Cancel and rejoin later — you pay £79."
           items={included}
           highlight="BEST VALUE"
           featured
@@ -456,7 +466,7 @@ export function PricingPage() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { q: 'What if my patch has no signals?', a: 'Every patch we list has verified live signals. If signals drop below viable levels for 60 days, we release the lock and refund that month.' },
-            { q: 'Can I cancel anytime?', a: 'Yes — no contract. Cancel whenever you want. But founder price only locks while active. Cancel and rejoin later, you pay the new rate.' },
+            { q: 'Can I cancel anytime?', a: '2-month minimum commitment — cancel within the first 14 days for a full refund. After that, cancel with 30 days\' notice. Founder price only locks while active — cancel and rejoin later, you pay the new rate.' },
             { q: 'What if my competitor takes my patch?', a: 'First come, first served. Once you lock it, no one else gets priority routing for your trade in that postcode cluster.' },
             { q: 'Is £39/mo really worth it?', a: 'One £2,000 job covers 51 months of JobFilter. Most founders close their first lead within 14 days. The maths is simple.' },
           ].map(({ q, a }) => (

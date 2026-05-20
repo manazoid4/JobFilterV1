@@ -24,6 +24,7 @@ const CityGlasgow = lazyPage(() => import('./pages/CityGlasgow'));
 const CityLeeds = lazyPage(() => import('./pages/CityLeeds'));
 const CityLondon = lazyPage(() => import('./pages/CityLondon'));
 const CityManchester = lazyPage(() => import('./pages/CityManchester'));
+const CityIntelligencePage = lazyPage(() => import('./pages/CityIntelligencePage'));
 const CompareBuildAlertPage = lazyPage(() => import('./pages/CompareBuildAlertPage'));
 const CompareCheckatradePage = lazyPage(() => import('./pages/CompareCheckatradePage'));
 const AdminGuardPage = lazyPage(() => import('./pages/AdminGuardPage'));
@@ -130,6 +131,7 @@ function AppContent() {
         <Route path="/trust" element={<LazyPage><TrustCenterPage /></LazyPage>} />
         <Route path="/methodology" element={<LazyPage><MethodologyPage /></LazyPage>} />
         <Route path="/faq" element={<LazyPage><FaqPage /></LazyPage>} />
+        <Route path="/intelligence/:city" element={<LazyPage><CityIntelligencePage /></LazyPage>} />
         <Route path="/construction-leads/birmingham" element={<LazyPage><CityBirmingham /></LazyPage>} />
         <Route path="/construction-leads/london" element={<LazyPage><CityLondon /></LazyPage>} />
         <Route path="/construction-leads/manchester" element={<LazyPage><CityManchester /></LazyPage>} />
