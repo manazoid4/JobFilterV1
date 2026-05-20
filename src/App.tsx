@@ -55,6 +55,7 @@ const TrustCenterPage = lazyPage(() => import('./pages/TrustCenterPage'));
 const MethodologyPage = lazyPage(() => import('./pages/MethodologyPage'));
 const FaqPage = lazyPage(() => import('./pages/FaqPage'));
 const TerritoriesPage = lazyPage(() => import('./pages/TerritoriesPage'));
+const TestConsolePage = lazyPage(() => import('./pages/TestConsolePage'));
 const TradeBuilders = lazyPage(() => import('./pages/TradeBuilders'));
 const TradeElectricians = lazyPage(() => import('./pages/TradeElectricians'));
 const TradeHeatPumps = lazyPage(() => import('./pages/TradeHeatPumps'));
@@ -109,6 +110,7 @@ function AppContent() {
         <Route path="/dashboard/admin-guard" element={<LazyPage><AdminGuardPage /></LazyPage>} />
         <Route path="/features/admin-guard" element={<LazyPage><AdminGuardTeaserPage /></LazyPage>} />
         <Route path="/dev-portal" element={<LazyPage><DevPortalPage /></LazyPage>} />
+        <Route path="/test" element={<LazyPage><TestConsolePage /></LazyPage>} />
         <Route path="/for-your-trade" element={<LazyPage><ForYourTradePage /></LazyPage>} />
         <Route path="/epc" element={<LazyPage><EpcPage /></LazyPage>} />
         <Route path="/free-tools" element={<LazyPage><FreeToolsPage /></LazyPage>} />
