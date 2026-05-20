@@ -99,7 +99,7 @@ export function LeadListPage() {
         <div className="jf-box bg-[var(--yellow)] p-8 text-center">
           <h2 className="headline text-3xl uppercase text-[var(--ink)]">YOUR LIST IS EMPTY.</h2>
           <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--ink)]/80">
-            Enter your postcode. Pick your trade. See what jobs are live near you in under 30 seconds.
+            Scan your postcode → find jobs scored for your trade → tap TRACK THIS LEAD on any result. It lands here so you can chase it.
           </p>
           <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" to="/find-jobs">
             SCAN FOR JOBS NOW →

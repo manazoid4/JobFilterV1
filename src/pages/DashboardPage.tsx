@@ -206,6 +206,11 @@ export function DashboardPage() {
             <Row label="Won" value={`${wonChase} closed`} />
             {overdueCount > 0 && <Row label="Overdue" value={`${overdueCount} need attention`} />}
           </div>
+          {activeChase === 0 && (
+            <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
+              Scan your postcode, then tap TRACK THIS LEAD on any result. Jobs land here so you can chase them in order.
+            </p>
+          )}
         </section>
 
         {/* Win Summary */}
@@ -220,6 +225,11 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
+          {winData.wins === 0 && (
+            <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
+              Chase a lead and tap WON after you land the job. Your wins, earnings, and loss reasons track here.
+            </p>
+          )}
           <Link to="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
         </section>
 

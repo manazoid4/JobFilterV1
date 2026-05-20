@@ -178,7 +178,7 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="See if your patch is worth paying for — before you pay."
+          body="See what's active in your postcode right now — before you spend a penny. Most trades find a lead worth chasing in under 3 minutes."
           items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Trade intelligence preview']}
           cta={<>
             <div className="mt-4 border-t border-[var(--line)] pt-4 space-y-1">
@@ -302,10 +302,10 @@ export function PricingPage() {
       <section className="ops-strip flex flex-col items-center gap-6 px-6 py-10 text-center text-[var(--ink)]">
         <p className="micro-label">ALL TOOLS, ONE PRICE</p>
         <h2 className="headline max-w-3xl text-4xl leading-none md:text-6xl">
-          Not a lead marketplace. A construction intelligence layer.
+          Not a directory. Not an auction. Jobs found before Checkatrade lists them.
         </h2>
         <p className="max-w-2xl text-lg font-black text-[var(--muted)]">
-          No separate subscriptions. No per-tool fees. One price, every feature.
+          No separate subscriptions. No per-tool fees. One flat price, every feature.
         </p>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
           {toolIcons.map(({ name, icon: Icon, highlight }) => (
