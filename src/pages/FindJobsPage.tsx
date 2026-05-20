@@ -360,6 +360,13 @@ export function FindJobsPage() {
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
         <h2 className="headline text-3xl leading-none sm:text-4xl">TAP YOUR TRADE TO SCAN NOW</h2>
+        {!unlimitedTester && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">BEFORE CHECKATRADE SEES IT</span>
+          </div>
+        )}
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">

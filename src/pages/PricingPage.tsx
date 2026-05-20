@@ -279,7 +279,7 @@ export function PricingPage() {
 
       <section className="grid gap-4 lg:grid-cols-2">
         <article className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-          <p className="micro-label text-[var(--ink)]">NEW PAID FEATURE</p>
+          <p className="micro-label text-[var(--ink)]">FOUNDER & STANDARD — INCLUDED</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">BUYER ACTION PACK.</h2>
           <p className="mt-3 text-lg font-black text-[var(--ink)]/80">
             Every serious lead needs a chase plan. Paid users get the call opener, verification checks, quote guardrail, and next action beside the lead.
@@ -292,7 +292,7 @@ export function PricingPage() {
         </article>
 
         <article className="ops-panel bg-[var(--ink)] p-7 text-white">
-          <p className="micro-label text-[var(--yellow)]">NEW PAID FEATURE</p>
+          <p className="micro-label text-[var(--yellow)]">FOUNDER & STANDARD — INCLUDED</p>
           <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">PATCH WATCH.</h2>
           <p className="mt-3 text-lg font-black text-white/80">
             You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, energy upgrade, tender, and fit-out signals.
