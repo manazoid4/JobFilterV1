@@ -5,19 +5,14 @@ import { CheckoutButton } from '../components/CheckoutButton';
 import { joinWaitlist } from '../lib/waitlist';
 
 const included = [
-  'Gold leads sent to WhatsApp before competitors see them',
-  'Score, urgency, value & next action on every lead',
+  'Gold signals sent to WhatsApp before competitors see them',
+  'Score, urgency, value & next action on every signal',
   'Territory lock — one trade per postcode cluster',
-  'Pipeline tracking — every lead from first call to won',
+  'Pipeline tracking — every signal from first call to won',
   'Win breakdown — see which trade & area actually pays',
   'CSV export & calendar reminders — sync to any CRM',
   'Keyword search across planning, energy & council signals',
-  'Company-branded letters for selected Gold leads',
-  'Buyer Action Pack — call opener, checks, quote floor',
-  'Patch Pulse — source mix, Gold/Silver split, best source',
-  'Follow-up cadence — the next 3 touches for every lead',
   'Vicinity & Vantage included for proof and bid support',
-  'Weekly opportunity digest for your patch',
   'City Intelligence — weekly territory briefing for your city',
 ];
 
@@ -111,7 +106,7 @@ const featureCategories = [
 ];
 
 const comparisonRows = [
-  { feature: 'WhatsApp Gold leads', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
+  { feature: 'WhatsApp Gold signals', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
   { feature: 'Territory lock — one trade per postcode', free: false, founder: true, standard: true },
   { feature: 'First Strike — message templates', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Vicinity — photos into posts + ads', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
@@ -437,7 +432,7 @@ export function PricingPage() {
             },
             {
               q: 'MyBuilder lets me choose which jobs to bid on — isn\'t that better control?',
-              a: 'You pay £25-£65 to express interest, before the homeowner picks you. Most tradespeople spend £150-£300 before winning a single job. And the homeowner shortlists 6+ trades anyway. JobFilter shows you exclusive, pre-scored signals — you act before there\'s any competition to bid against.',
+              a: 'You pay £25-£65 to express interest, before the homeowner picks you. Most tradespeople spend £150-£300 before winning a single job. And the homeowner shortlists 6+ trades anyway. JobFilter shows you scored, territory-routed signals — you act before there\'s any competition to bid against.',
             },
             {
               q: 'What makes JobFilter leads higher quality than those platforms?',
