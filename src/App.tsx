@@ -124,6 +124,7 @@ function AppContent() {
         <Route path="/smart-quote" element={<LazyPage><SmartQuotePage /></LazyPage>} />
         <Route path="/vantage" element={<LazyPage><ProductAdvantagePage type="vantage" /></LazyPage>} />
         <Route path="/vicinity" element={<LazyPage><ProductAdvantagePage type="vicinity" /></LazyPage>} />
+        <Route path="/codex" element={<LazyPage><ProductAdvantagePage type="codex" /></LazyPage>} />
         <Route path="/signals" element={<LazyPage><SignalsPage /></LazyPage>} />
         <Route path="/signals/weekly" element={<LazyPage><WeeklySignalsPage /></LazyPage>} />
         <Route path="/tradiestack" element={<LazyPage><TradieStackPage /></LazyPage>} />

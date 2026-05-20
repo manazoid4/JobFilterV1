@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AlertTriangle, Radio, ShieldCheck, Target, MapPin, ArrowUpRight, ArrowDownRight, ChevronRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
+import { AlertTriangle, Radio, ShieldCheck, Target, ArrowUpRight, ArrowDownRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap, Megaphone, BookOpen, Calculator } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
@@ -11,31 +11,10 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Example' },
-  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Example' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Example' },
-  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Example' },
-];
-
-const operatingSteps = [
-  {
-    icon: Radio,
-    title: 'Planning approved — you know the same day',
-    body: 'A homeowner gets an extension approved. Most tradesmen find out when it appears on a forum. You find out within hours of the council decision.',
-    svgId: 'tower' as const,
-  },
-  {
-    icon: Target,
-    title: 'Budget and buyer checked before it reaches you',
-    body: 'Every signal is scored for budget evidence, decision-maker presence, and timing. If it does not clear the bar, it does not move.',
-    svgId: 'funnel' as const,
-  },
-  {
-    icon: ShieldCheck,
-    title: 'One trade gets it. Not six.',
-    body: 'Territory lock means a GOLD lead routes to one firm in one postcode — not a shared list where five competitors are already dialling.',
-    svgId: 'shield' as const,
-  },
+  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Sample' },
+  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
+  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Sample' },
+  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Sample' },
 ];
 
 const territoryCards = [
@@ -70,41 +49,6 @@ function SignalStrengthBars({ level }: { level: number }) {
         />
       ))}
     </div>
-  );
-}
-
-function StepSVG({ id }: { id: 'tower' | 'funnel' | 'shield' }) {
-  if (id === 'tower') {
-    return (
-      <svg viewBox="0 0 64 64" fill="none" className="h-16 w-16" aria-hidden="true">
-        <rect x="28" y="20" width="8" height="34" fill="var(--ink)" />
-        <rect x="24" y="50" width="16" height="6" rx="1" fill="var(--ink)" />
-        <path d="M32 6 L32 18" stroke="var(--yellow)" strokeWidth="3" strokeLinecap="round" />
-        <path d="M20 18 Q32 4 44 18" stroke="var(--yellow)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        <path d="M14 12 Q32 -2 50 12" stroke="var(--yellow)" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.6" />
-        <circle cx="32" cy="6" r="3" fill="var(--yellow)" />
-      </svg>
-    );
-  }
-  if (id === 'funnel') {
-    return (
-      <svg viewBox="0 0 64 64" fill="none" className="h-16 w-16" aria-hidden="true">
-        <path d="M8 8 L56 8 L40 30 L40 56 L24 56 L24 30 Z" stroke="var(--ink)" strokeWidth="3" fill="var(--yellow)" fillOpacity="0.15" />
-        <path d="M8 8 L56 8 L40 30 L24 30 Z" fill="var(--yellow)" fillOpacity="0.4" />
-        <circle cx="22" cy="18" r="3" fill="var(--ink)" />
-        <circle cx="32" cy="14" r="2.5" fill="var(--ink)" />
-        <circle cx="42" cy="18" r="3" fill="var(--ink)" />
-        <circle cx="32" cy="44" r="4" fill="var(--yellow)" stroke="var(--ink)" strokeWidth="2" />
-      </svg>
-    );
-  }
-  // shield
-  return (
-    <svg viewBox="0 0 64 64" fill="none" className="h-16 w-16" aria-hidden="true">
-      <path d="M32 4 L56 14 L56 34 Q56 52 32 60 Q8 52 8 34 L8 14 Z" stroke="var(--ink)" strokeWidth="3" fill="var(--yellow)" fillOpacity="0.2" />
-      <path d="M32 4 L56 14 L56 34 Q56 52 32 60 Q8 52 8 34 L8 14 Z" stroke="var(--ink)" strokeWidth="3" fill="none" />
-      <path d="M22 32 L29 39 L42 24" stroke="var(--yellow)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
   );
 }
 
@@ -143,13 +87,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — TERRITORY-ROUTED, SCORED, BEFORE THEY GO PUBLIC</p>
+            <p className="micro-label text-[var(--yellow)]">JOBFILTER INTAKE ENGINE — UK CONSTRUCTION LEADS, SCORED BEFORE THEY GO PUBLIC</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
-              THE OLD WAY: 5 FIRMS GET THE SAME LEAD.{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>YOUR WAY: PRIORITY ROUTING. FIRST IN YOUR PATCH.</span>
+              QUIT WORKING{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter reads planning approvals, EPC data and council contracts before they hit any directory — scored, territory-routed, sent straight to your WhatsApp.
+              The Intake Engine reads planning approvals, EPC data and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -269,6 +213,41 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── FREE TOOLS STRIP ──────────────────────────── */}
+      <section className="bg-white border-b-2 border-[var(--line)]">
+        <div className="page-shell py-10">
+          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <p className="micro-label text-[var(--orange)]">FREE FOR EVERYONE — NO SIGNUP</p>
+              <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">USEFUL BEFORE YOU PAY.</h2>
+              <p className="mt-3 max-w-2xl text-base font-bold text-[var(--muted)]">
+                Quote-floor calculator. Tyre-kicker scorer. Profit check. Travel-cost and time-waster maths. Checkatrade and Bark charge for these. We give them away — leads are the paid part.
+              </p>
+            </div>
+            <Link className="jf-button bg-[var(--ink)] text-white shrink-0" to="/free-tools">
+              OPEN FREE TOOLS →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-2 sm:grid-cols-3 lg:grid-cols-5">
+            {[
+              ['Quote Floor', 'Minimum sensible quote'],
+              ['Tyre-Kicker Check', 'Score before you visit'],
+              ['Profit Check', 'What is left after costs'],
+              ['Travel Cost', 'Fuel maths in seconds'],
+              ['Time-Waster Cost', 'Annual hit from bad leads'],
+            ].map(([name, sub]) => (
+              <Link key={name} to="/free-tools" className="border-2 border-[var(--line)] bg-[var(--paper)] p-3 hover:bg-[var(--yellow)]/15 transition-colors">
+                <div className="flex items-center gap-2">
+                  <Calculator size={14} strokeWidth={3} className="text-[var(--orange)] shrink-0" />
+                  <p className="text-sm font-black uppercase tracking-tight text-[var(--ink)]">{name}</p>
+                </div>
+                <p className="mt-1 text-[11px] font-black uppercase tracking-wider text-[var(--muted)]">{sub}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── SAMPLE LEAD ───────────────────────────────── */}
       <section className="bg-[var(--bg-main)] border-b-2 border-[var(--line)]">
         <div className="page-shell py-14">
@@ -371,35 +350,98 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── OPERATING STEPS ───────────────────────────── */}
-      <section className="bg-[var(--paper)]">
-        <div className="page-shell grid gap-8 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <p className="micro-label text-[var(--orange)]">THIS IS NOT A JOB BOARD</p>
-            <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              FIND WORK BEFORE ANYONE POSTS IT.
-            </h2>
-            <p className="mt-5 max-w-xl text-lg font-bold text-[var(--muted)]">
-              Most lead platforms are built around the moment a homeowner decides to ask. By then, the buyer is already comparing prices and your competitors are already dialling. JobFilter watches the signals that come before that — planning approvals, energy upgrade applications, council tenders, and new businesses that need fit-out before they open.
-            </p>
+      {/* ── NEW IN 2026 — 3 PAID FEATURES ─────────────── */}
+      <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)] text-white">
+        <div className="page-shell py-14">
+          <div className="flex items-center gap-2">
+            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[var(--yellow)]" />
+            <p className="micro-label text-[var(--yellow)]">NEW IN 2026 — INCLUDED WITH FOUNDER PATCH</p>
           </div>
-          <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1">
-            {operatingSteps.map((step) => {
-              const Icon = step.icon;
-              return (
-                <article key={step.title} className="ops-panel group p-5 transition-colors hover:bg-[var(--yellow)]/5">
-                  <div className="flex items-start gap-4">
-                    <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full border-2 border-[var(--line)] bg-[var(--yellow)] shadow-[3px_3px_0_var(--line)]">
-                      <StepSVG id={step.svgId} />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="headline text-2xl">{step.title}</h3>
-                      <p className="mt-2 font-bold leading-snug text-[var(--muted)]">{step.body}</p>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
+            THREE THINGS NO OTHER LEAD TOOL DOES.
+          </h2>
+          <p className="mt-4 max-w-2xl text-base font-bold text-white/80 leading-snug">
+            Other lead platforms stop the moment a name lands on your phone. The Intake Engine keeps going — chasing, scoring, and proving what each lead actually earned you.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
+              <div className="flex items-center gap-2">
+                <span className="border-2 border-[var(--yellow)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]">NEW</span>
+                <p className="micro-label text-[var(--yellow)]">MEES DEADLINE WATCH</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl text-white">Legally-forced rental work, before the landlord calls anyone.</h3>
+              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
+                Watches every EPC band F or G filed on a UK rental, matches it to your trade, and pushes the landlord and letting agent details into your WhatsApp. Compliance pressure does the selling.
+              </p>
+              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Rolling out to founder patches this quarter</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
+              <div className="flex items-center gap-2">
+                <span className="border-2 border-[var(--yellow)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]">NEW</span>
+                <p className="micro-label text-[var(--yellow)]">CHASE NUDGE</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl text-white">Auto-paced follow-ups so warm leads never go cold.</h3>
+              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
+                After a Gold lead lands, we time three nudges: 2-hour silent check, 24-hour soft poke, 48-hour "they're going cold" alert. Pre-written WhatsApp templates — tap to send or snooze.
+              </p>
+              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Beta — founder firms get first access</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
+              <div className="flex items-center gap-2">
+                <span className="border-2 border-[var(--yellow)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]">NEW</span>
+                <p className="micro-label text-[var(--yellow)]">PROFIT PROOF</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl text-white">Monthly £-by-source receipt. Proof you can show your accountant.</h3>
+              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
+                Mark a lead Won, log the job value. We tally what each signal source earned you this month — planning vs EPC vs tender vs Companies House. One-page email, every month.
+              </p>
+              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Live now for founder firms</p>
+            </div>
+          </div>
+          <p className="mt-6 text-xs font-black uppercase tracking-wider text-white/50">
+            No other UK lead tool ships all three at this price band. Checked May 2026.
+          </p>
+        </div>
+      </section>
+
+      {/* ── ADD-ON SERVICES ───────────────────────────── */}
+      <section className="bg-white border-t-2 border-[var(--line)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — OPTIONAL, BOOK AS NEEDED</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
+            WIN THE JOBS THE INTAKE ENGINE FINDS.
+          </h2>
+          <p className="mt-4 max-w-2xl copy">
+            The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link to="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VANTAGE</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
+            </Link>
+            <Link to="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VICINITY</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
+            </Link>
+            <Link to="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">CODEX</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Codex →</span>
+            </Link>
           </div>
         </div>
       </section>

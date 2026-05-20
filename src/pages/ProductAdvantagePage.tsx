@@ -26,6 +26,19 @@ const content = {
     steps: ['Tell us your patch (postcode + radius)', 'We target homes with active job signals (low energy ratings, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
     gets: ['Targeted door-drop campaign', 'Signal-matched household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
   },
+  codex: {
+    title: 'CODEX',
+    hero: 'bg-[var(--ink)] text-white',
+    label: 'text-[var(--yellow)]',
+    headline: 'TURN BORING MANUALS INTO QUOTES THAT WIN.',
+    sub: 'Send us a product manual, technical schematic, or installation spec. Our team turns it into a plain-English sales sheet a homeowner or facilities manager can actually read.',
+    body: 'Manufacturers write for engineers. Homeowners and procurement teams buy from people who can explain it without 40 pages of jargon. Codex rewrites the dense stuff into one-pagers that close.',
+    note: 'Our team includes technical writers and trade specialists who have read more boiler manuals than anyone should.',
+    distinct: 'Codex turns specs into sales. Backward-looking — pulls clarity out of paperwork you already own.',
+    problem: 'You quote against firms with proper one-pagers and product comparisons. They look prepared. You look like a quote from a phone.',
+    steps: ['Upload the manual, datasheet, or schematic', 'Team rewrites it into a sales-ready explainer', 'Branded PDF + WhatsApp-ready version delivered within 24 hours'],
+    gets: ['Plain-English product sheet', 'Comparison table vs alternatives', 'Branded one-pager (PDF)', 'WhatsApp-ready short version', 'Customer-objection answers'],
+  },
 };
 
 type ProductType = keyof typeof content;

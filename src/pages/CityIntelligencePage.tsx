@@ -237,8 +237,36 @@ export function CityIntelligencePage() {
 
   const scoreTrendClass = intel.scoreTrend === 'up' ? 'text-[var(--green)]' : intel.scoreTrend === 'down' ? 'text-[var(--orange)]' : 'text-[var(--muted)]';
 
+  // Cross-city ranking strip — sorted by territory score desc
+  const cityRanking = Object.entries(CITY_INTEL)
+    .map(([slug, c]) => ({ slug, city: c.city, score: c.territoryScore, totalSignals: c.totalSignals, signalChange: c.signalChange }))
+    .sort((a, b) => b.score - a.score);
+
   return (
     <main className="pb-24">
+
+      {/* ── STICKY CITY SWITCHER ── */}
+      <div className="sticky top-[64px] z-30 border-b-2 border-[var(--line)] bg-[var(--paper)]">
+        <div className="page-shell flex items-center gap-2 overflow-x-auto py-2">
+          <span className="shrink-0 text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mr-1">CITIES:</span>
+          {Object.entries(CITY_INTEL).map(([slug, c]) => {
+            const active = slug === city.toLowerCase();
+            return (
+              <Link
+                key={slug}
+                to={`/intelligence/${slug}`}
+                className={`shrink-0 border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-colors ${
+                  active
+                    ? 'border-[var(--ink)] bg-[var(--yellow)] text-[var(--ink)]'
+                    : 'border-[var(--line)] bg-white text-[var(--ink)] hover:bg-[var(--yellow)]/30'
+                }`}
+              >
+                {c.city} <span className="font-mono ml-1 text-[10px] opacity-70">{c.territoryScore}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
 
       {/* ── HEADER ── */}
       <section className="bg-[var(--ink)] border-b-4 border-[var(--yellow)]">
@@ -391,19 +419,33 @@ export function CityIntelligencePage() {
           </section>
         )}
 
-        {/* ── CITY NAV ── */}
+        {/* ── CROSS-CITY RANKING ── */}
         <section>
-          <p className="micro-label text-[var(--muted)]">OTHER CITY BRIEFINGS</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {Object.keys(CITY_INTEL).filter((c) => c !== city.toLowerCase()).map((c) => (
-              <Link
-                key={c}
-                to={`/intelligence/${c}`}
-                className="border-2 border-[var(--line)] bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--ink)] hover:border-[var(--ink)] hover:bg-[var(--yellow)] transition-colors flex items-center gap-1"
-              >
-                {CITY_INTEL[c].city} <ArrowRight className="w-3 h-3" />
-              </Link>
-            ))}
+          <p className="micro-label text-[var(--orange)]">UK RANKING THIS WEEK</p>
+          <h2 className="headline mt-1 text-2xl leading-none">HOW {intel.city.toUpperCase()} STACKS UP.</h2>
+          <p className="mt-2 max-w-2xl text-sm font-bold text-[var(--muted)]">
+            Territory score across covered cities. Highest score = strongest live signal mix this week. Tap any city to switch briefing.
+          </p>
+          <div className="mt-4 border-2 border-[var(--line)] divide-y-2 divide-[var(--line)] bg-white">
+            {cityRanking.map((row, i) => {
+              const active = row.slug === city.toLowerCase();
+              return (
+                <Link
+                  key={row.slug}
+                  to={`/intelligence/${row.slug}`}
+                  className={`grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 px-4 py-3 hover:bg-[var(--yellow)]/10 transition-colors ${active ? 'bg-[var(--yellow)]/30' : ''}`}
+                >
+                  <span className="font-mono text-sm font-black text-[var(--muted)] w-6">#{i + 1}</span>
+                  <span className="text-base font-black uppercase text-[var(--ink)]">{row.city}</span>
+                  <span className="text-xs font-black uppercase text-[var(--muted)]">
+                    {row.totalSignals} signals · {row.signalChange >= 0 ? '+' : ''}{row.signalChange}
+                  </span>
+                  <span className={`border-2 border-[var(--line)] px-2 py-1 font-mono text-sm font-black ${row.score >= 85 ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--paper)] text-[var(--ink)]'}`}>
+                    {row.score}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
