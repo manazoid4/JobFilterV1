@@ -14,6 +14,27 @@ jobs:
     if: github.actor == 'manazoid4' || github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
+
+      - name: Wait for CI check to complete
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SHA="${{ github.event.pull_request.head.sha }}"
+          REPO="${{ github.repository }}"
+          for i in $(seq 1 24); do
+            CONCLUSION=$(gh api "repos/$REPO/commits/$SHA/check-runs" \
+              --jq '.check_runs[] | select(.name=="check") | .conclusion' 2>/dev/null || echo "")
+            echo "Attempt $i — CI conclusion: '${CONCLUSION}'"
+            if [ "$CONCLUSION" = "success" ]; then
+              echo "CI passed — proceeding to merge"
+              break
+            elif [ "$CONCLUSION" = "failure" ] || [ "$CONCLUSION" = "cancelled" ] || [ "$CONCLUSION" = "timed_out" ]; then
+              echo "CI did not pass — skipping merge"
+              exit 0
+            fi
+            sleep 15
+          done
+
       - name: Auto-merge PR
         run: |
           gh pr merge ${{ github.event.pull_request.number }} \
