@@ -955,10 +955,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           unlocked={cardOpenAccess}
           title={lead.title}
           estimatedValue={String(lead.estimatedValue || '')}
+          contactSignal={lead.contactSignal}
+          url={lead.url}
         />
       </div>
-    </div>
-  </article>
+      </div>
+    </article>
   );
 }
 

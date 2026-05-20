@@ -180,7 +180,21 @@ export function PricingPage() {
           price="£0"
           body="See if your patch is worth paying for — before you pay."
           items={['Preview signals in your postcode', 'Score band only — no full detail', 'No WhatsApp alerts', 'No territory lock', 'No letters or workflow tools', 'Trade intelligence preview']}
-          cta={<><Link className="jf-button mt-5 bg-[var(--ink)] text-white inline-block" to="/find-jobs">SCAN MY POSTCODE FREE</Link><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required.</p></>}
+          cta={<>
+            <div className="mt-4 border-t border-[var(--line)] pt-4 space-y-1">
+              {[
+                'WhatsApp Gold alerts',
+                'Buyer contact & deadline',
+                'First Strike templates',
+                'City Intelligence briefings',
+                'Territory lock',
+                'Win tracking',
+              ].map((item) => (
+                <p key={item} className="text-xs font-black text-[var(--muted)] line-through">{item}</p>
+              ))}
+            </div>
+            <Link className="jf-button mt-5 bg-[var(--ink)] text-white inline-block" to="/find-jobs">SCAN MY POSTCODE FREE</Link><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required.</p>
+          </>}
         />
         <PlanCard
           title="Founder"
@@ -414,6 +428,23 @@ export function PricingPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      {/* ── CITY INTELLIGENCE WHY IT MATTERS ────────────── */}
+      <section className="mt-16 bg-[var(--yellow)] p-7">
+        <p className="micro-label text-[var(--ink)]">PAID FEATURE</p>
+        <h3 className="headline mt-2 text-3xl leading-none">CITY INTELLIGENCE</h3>
+        <div className="mt-5 grid gap-6 sm:grid-cols-2">
+          <div>
+            <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)] mb-1">FREE VIEW</p>
+            <p className="font-black text-[var(--ink)]/90 text-sm">Signal counts only. You check 100 signals to find 1 worth chasing.</p>
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-wider text-[var(--orange)] mb-1">PATCH PLAN</p>
+            <p className="font-black text-[var(--ink)]/90 text-sm">The one job worth moving on this week. Ranked actions. Market note. One win covers 51× your subscription.</p>
+          </div>
+        </div>
+        <Link to="/intelligence/birmingham" className="jf-button mt-6 bg-[var(--ink)] text-white inline-block">VIEW SAMPLE BRIEFING →</Link>
       </section>
 
       {/* ── WHY NOT CHECKATRADE/BARK? FAQ ────────────────── */}
