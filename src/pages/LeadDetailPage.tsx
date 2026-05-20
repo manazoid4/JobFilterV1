@@ -93,6 +93,7 @@ export function LeadDetailPage() {
   const navigate = useNavigate();
   const lead = getStoredLeads().find((item) => item.id === id);
   const [lostReason, setLostReason] = useState('');
+  const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const [showWonCapture, setShowWonCapture] = useState(false);
@@ -272,8 +273,11 @@ export function LeadDetailPage() {
             </button>
           ))}
         </div>
+        {selectedTemplate && (
+          <p className="mt-3 text-xs font-black text-[var(--muted)]">{selectedTemplate.timing} — {selectedTemplate.purpose}</p>
+        )}
         {filledMessage && (
-          <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
             <a
               className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
@@ -307,22 +311,31 @@ export function LeadDetailPage() {
         <p className="mt-2 font-black text-[var(--muted)]">
           Status: {outcomeLabel(lead.status)} — mark the result so your wins build up over time.
         </p>
-        <div className="mt-2 grid gap-2 sm:grid-cols-4">
-          {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
-            <button
-              key={reason}
-              onClick={() => setLostReason(reason)}
-              className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
-            >
-              {reason}
-            </button>
-          ))}
-        </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={handleWonClick}>WON</button>
-          <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setStatus('lost')}>LOST</button>
+          <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowLostPicker(true); setLostReason(''); }}>LOST</button>
           <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('no_answer')}>NO ANSWER</button>
         </div>
+        {showLostPicker && (
+          <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why did you lose it? (optional)</p>
+            <div className="grid gap-2 sm:grid-cols-4">
+              {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+                <button
+                  key={reason}
+                  onClick={() => setLostReason(reason)}
+                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                >
+                  {reason}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button className="jf-button bg-[var(--ink)] text-white" onClick={() => { setShowLostPicker(false); setStatus('lost'); }}>CONFIRM LOSS</button>
+              <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowLostPicker(false); setLostReason(''); }}>CANCEL</button>
+            </div>
+          </div>
+        )}
         {showWonCapture && (
           <div className="mt-4 border-2 border-[var(--ink)] bg-[var(--yellow)] p-5">
             <p className="headline text-xl">WHAT WAS THE JOB WORTH?</p>

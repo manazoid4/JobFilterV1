@@ -73,7 +73,7 @@ export function AdminGuardTeaserPage() {
       {/* Problem bar */}
       <section className="ops-strip my-0 p-5">
         <p className="headline text-[var(--ink)] text-xl text-center">
-          "Don't let admin ambush your trade business."
+          Tradesmen miss HMRC deadlines not because they're careless — they're on tools all day. Admin Guard tracks the dates you'd otherwise miss.
         </p>
       </section>
 

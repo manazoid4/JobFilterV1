@@ -52,7 +52,7 @@ export function TradieZonePage() {
           {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'WELCOME TO YOUR ZONE.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Everything you need in one place. Your leads, your tools, your territory. No fluff.
+          Your pipeline, your patch, your leads — spotted before Checkatrade even lists them. Use the tools below to stay ahead.
         </p>
       </section>
 
@@ -143,7 +143,7 @@ export function TradieZonePage() {
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
-            <p className="font-black text-[var(--muted)]">No leads yet. Start scanning to see real jobs in your area.</p>
+            <p className="font-black text-[var(--muted)]">No leads in the pipeline yet. Scan your postcode — jobs appear in minutes.</p>
             <Link to="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
           </div>
         ) : (
