@@ -103,7 +103,7 @@ export function TerritoriesPage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">Founder price ends when slots fill</p>
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo — locked forever while active. Founder price ends when slots fill.</p>
             </div>
           </div>
         </div>

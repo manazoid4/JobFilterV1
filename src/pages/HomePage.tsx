@@ -162,10 +162,7 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" to="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
-              <a className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
-                FOLLOW ON INSTAGRAM
-              </a>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/methodology">
                   How it works →
                 </Link>
@@ -175,6 +172,9 @@ export function HomePage() {
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/territories">
                   Claim Territory →
                 </Link>
+                <a className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
+                  Follow on Instagram →
+                </a>
               </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/60">
