@@ -215,6 +215,41 @@ export function PricingPage() {
         />
       </section>
 
+      {/* ── WHY NOT CHECKATRADE/BARK? FAQ ────────────────── */}
+      <section className="ops-panel bg-[var(--ink)] p-7 text-white">
+        <p className="micro-label text-[var(--yellow)]">COMMON OBJECTIONS</p>
+        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">WHY NOT JUST USE CHECKATRADE OR BARK?</h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {[
+            {
+              q: 'Checkatrade has thousands of homeowners — isn\'t that better coverage?',
+              a: 'Checkatrade has homeowners. So do 4-8 other trades who buy the same lead. You\'re not getting access to homeowners — you\'re entering an auction against your competitors. And renewal prices are doubling year-on-year: tradespeople report going from £756/yr to £2,160/yr. JobFilter finds jobs before they ever reach a directory.',
+            },
+            {
+              q: 'Bark is pay-per-lead, so I only pay when I need to — isn\'t that more flexible?',
+              a: 'Bark credits cost £1.80 each and expire in 3 months (since Nov 2025). A single lead costs 5-20 credits. That\'s £9-£36 per lead, shared with 3-5 other trades. JobFilter is £39/month flat — unlimited scans, no per-lead fees, no expiry pressure, no auction.',
+            },
+            {
+              q: 'MyBuilder lets me choose which jobs to bid on — isn\'t that better control?',
+              a: 'You pay £25-£65 to express interest, before the homeowner picks you. Most tradespeople spend £150-£300 before winning a single job. And the homeowner shortlists 6+ trades anyway. JobFilter shows you scored, territory-routed signals — you act before there\'s any competition to bid against.',
+            },
+            {
+              q: 'What makes JobFilter leads higher quality than those platforms?',
+              a: 'Directory leads come from a form a homeowner filled in while shopping around. JobFilter signals come from planning approvals, energy efficiency records, and public procurement data — official sources that confirm real intent, real budget, and real urgency before you chase anything.',
+            },
+          ].map(({ q, a }) => (
+            <div key={q} className="border-2 border-white/20 bg-white/8 p-5">
+              <h3 className="headline text-lg text-[var(--yellow)]">{q}</h3>
+              <p className="mt-3 font-black leading-relaxed text-white/80">{a}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/vs/checkatrade">FULL CHECKATRADE COMPARISON</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+        </div>
+      </section>
+
       {/* ── BUILT-IN WORKFLOW TOOLS ──────────────────────── */}
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">TOOLS INCLUDED IN YOUR PATCH PLAN</p>
@@ -445,41 +480,6 @@ export function PricingPage() {
           </div>
         </div>
         <Link to="/intelligence/birmingham" className="jf-button mt-6 bg-[var(--ink)] text-white inline-block">VIEW SAMPLE BRIEFING →</Link>
-      </section>
-
-      {/* ── WHY NOT CHECKATRADE/BARK? FAQ ────────────────── */}
-      <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">COMMON OBJECTIONS</p>
-        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">WHY NOT JUST USE CHECKATRADE OR BARK?</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {[
-            {
-              q: 'Checkatrade has thousands of homeowners — isn\'t that better coverage?',
-              a: 'Checkatrade has homeowners. So do 4-8 other trades who buy the same lead. You\'re not getting access to homeowners — you\'re entering an auction against your competitors. And renewal prices are doubling year-on-year: tradespeople report going from £756/yr to £2,160/yr. JobFilter finds jobs before they ever reach a directory.',
-            },
-            {
-              q: 'Bark is pay-per-lead, so I only pay when I need to — isn\'t that more flexible?',
-              a: 'Bark credits cost £1.80 each and expire in 3 months (since Nov 2025). A single lead costs 5-20 credits. That\'s £9-£36 per lead, shared with 3-5 other trades. JobFilter is £39/month flat — unlimited scans, no per-lead fees, no expiry pressure, no auction.',
-            },
-            {
-              q: 'MyBuilder lets me choose which jobs to bid on — isn\'t that better control?',
-              a: 'You pay £25-£65 to express interest, before the homeowner picks you. Most tradespeople spend £150-£300 before winning a single job. And the homeowner shortlists 6+ trades anyway. JobFilter shows you scored, territory-routed signals — you act before there\'s any competition to bid against.',
-            },
-            {
-              q: 'What makes JobFilter leads higher quality than those platforms?',
-              a: 'Directory leads come from a form a homeowner filled in while shopping around. JobFilter signals come from planning approvals, energy efficiency records, and public procurement data — official sources that confirm real intent, real budget, and real urgency before you chase anything.',
-            },
-          ].map(({ q, a }) => (
-            <div key={q} className="border-2 border-white/20 bg-white/8 p-5">
-              <h3 className="headline text-lg text-[var(--yellow)]">{q}</h3>
-              <p className="mt-3 font-black leading-relaxed text-white/80">{a}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/vs/checkatrade">FULL CHECKATRADE COMPARISON</Link>
-          <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
-        </div>
       </section>
 
       {/* ── GUARANTEE + OBJECTIONS ───────────────────────── */}

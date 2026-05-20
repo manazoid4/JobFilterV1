@@ -105,7 +105,7 @@ export function DashboardPage() {
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
-              {activeChase === 0 ? 'Scan for jobs → add them here to track' : 'leads in your pipeline'}
+              {activeChase === 0 ? 'Your active chases — scan first, then tap TRACK THIS LEAD' : 'leads in your pipeline'}
             </p>
             <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View chase list →</p>
             {overdueCount > 0 && (
@@ -116,7 +116,7 @@ export function DashboardPage() {
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
-              {monthlyStats.count === 0 ? 'Open any lead → mark it Won to record value' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
+              {monthlyStats.count === 0 ? 'Your wins this month — chase a lead and mark it WON' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
             </p>
             <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">Review leads →</p>
           </Link>
@@ -171,7 +171,7 @@ export function DashboardPage() {
               OPEN ADMIN GUARD →
             </Link>
             <Link to="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
-              LEARN MORE
+              WHAT DOES IT TRACK? →
             </Link>
           </div>
         </div>
