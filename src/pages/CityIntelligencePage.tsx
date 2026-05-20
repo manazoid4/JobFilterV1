@@ -285,7 +285,7 @@ export function CityIntelligencePage() {
                 </div>
                 <div>
                   <p className="text-sm font-black uppercase tracking-wider text-[var(--ink)]">{row.type}</p>
-                  <p className="text-xs font-bold text-[var(--muted)]">Top signal: {row.top}</p>
+                  {unlocked && <p className="text-xs font-bold text-[var(--muted)]">Top signal: {row.top}</p>}
                 </div>
                 <span className={`text-[10px] font-black uppercase px-2 py-1 ${
                   row.trend === 'up' ? 'bg-[var(--green)] text-white' :

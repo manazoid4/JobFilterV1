@@ -47,9 +47,11 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
 
-      // Auto-track on first copy if not already tracked
-      if (!tracked) {
+      // Check live so stale state doesn't overwrite an already-tracked lead's progress
+      if (!isLeadTracked(leadId)) {
         importLeadToChase({ id: leadId, title, trade, location: area, estimatedValue, score });
+        setTracked(true);
+      } else {
         setTracked(true);
       }
       if (activeKey !== 'first_touch_2h') {
