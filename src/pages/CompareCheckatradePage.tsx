@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const comparison = [
-  { feature: 'Lead model', checkatrade: 'Shared — sold to 4-8 trades', jobfilter: 'Exclusive — no one else sees your scan' },
+  { feature: 'Lead model', checkatrade: 'Shared — sold to 4-8 trades', jobfilter: 'Territory-routed — scored, filtered, first in your patch' },
   { feature: 'Monthly fee', checkatrade: '£80-£370/mo at renewal (reported)', jobfilter: '£39/mo — all trades, all signals' },
   { feature: 'Per-lead cost', checkatrade: 'Yes — pay-per-lead on top of membership', jobfilter: 'No — unlimited scans, one price' },
   { feature: 'Lead quality', checkatrade: 'Name + phone number from a form', jobfilter: 'Official signals with buyer, value, urgency' },
@@ -70,7 +70,7 @@ export function CompareCheckatradePage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
-            Checkatrade is the biggest name in trade lead gen. And the most complained about. Shared leads, price wars, monthly fees just to be listed. JobFilter does the opposite — exclusive signals, no shared auctions, one flat price.
+            Checkatrade is the biggest name in trade lead gen. And the most complained about. Shared leads, price wars, monthly fees just to be listed. JobFilter does the opposite — territory-routed signals, no shared auctions, one flat price.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">STOP COMPETING. START FILTERING.</Link>
@@ -157,7 +157,7 @@ export function CompareCheckatradePage() {
                 You paid £15. Four other trades paid £15. One person got a job. Four people paid to compete with themselves.
               </p>
               <p className="mt-1 text-sm font-black text-[var(--green)]">
-                JobFilter: one signal, one trade, no auction. You see it or you don't. No one else gets your scan.
+                JobFilter: one signal, one trade, no auction. You see it or you don't. Scored before it reaches you — trade, patch, and timing all checked.
               </p>
             </div>
           </div>
@@ -245,7 +245,7 @@ export function CompareCheckatradePage() {
               <h3 className="headline text-xl text-[var(--yellow)]">JOBFILTER</h3>
               <ul className="mt-4 grid gap-3 font-black text-white/85">
                 <li>£39/mo — all trades, all signals</li>
-                <li>Every signal is exclusive — no one else sees it</li>
+                <li>Signals controlled before delivery — no shared auction, no five-trade blast</li>
                 <li>We score every signal. GOLD means worth chasing</li>
                 <li>Verified signals — planning, energy, contracts. Not forms</li>
                 <li>Buyer name, value, urgency shown before you act</li>
@@ -416,7 +416,7 @@ export function CompareCheckatradePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">ONE JOB PAYS FOR THE MONTH. EVERYTHING AFTER IS PROFIT.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
-              ['Exclusive scans', 'No one else sees your results. Not shared. Not resold. Not blasted to five other trades.'],
+              ['Territory-routed scans', 'Gold signals controlled by trade, patch, and timing before WhatsApp delivery. Not shared. Not resold. Not blasted to five other trades.'],
               ['Verified signals only', 'Planning approvals, public contracts, energy efficiency data. Not forms. Not ads. Not guesses.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No per-lead fees. No category charges.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands. Not for corporate sales teams.'],
@@ -456,7 +456,7 @@ export function CompareCheckatradePage() {
                   { platform: 'Rated People', cost: '£2–£65 per lead + monthly', model: 'Shared — up to 3 trades per lead', weakness: 'Customer support cut back. AI chatbot replacing humans.' },
                   { platform: 'Houzz Pro', cost: 'From $399/mo (~£320/mo)', model: 'Profile listing + shared enquiries', weakness: '12-month auto-renew. US-first product. UK coverage thin.' },
                   { platform: 'TrustATrader', cost: '£70–£120/mo', model: 'Directory listing — consumer chooses', weakness: 'No proactive lead gen. You wait to be found. No scoring.' },
-                  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'EXCLUSIVE — your scan, nobody else', weakness: '—' },
+                  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'Territory-routed — one trade per postcode cluster, priority routing', weakness: '—' },
                 ].map((row, i) => (
                   <tr key={row.platform} className={`${row.platform === 'JobFilter' ? 'bg-[var(--yellow)]' : i % 2 === 0 ? 'bg-white' : 'bg-[var(--bg-main)]'}`}>
                     <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--navy)]">{row.platform}</td>
