@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar, Copy, CheckCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -937,15 +937,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             ) : (
               <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
             )}
-            {isGold && (
-              <button
-                className="jf-button w-full flex items-center justify-center gap-2 bg-[var(--ink)] text-[var(--yellow)] border-2 border-[var(--ink)] text-xs"
-                onClick={copyFirstTouchTemplate}
-              >
-                {copied ? <CheckCheck className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                {copied ? 'COPIED — PASTE & SEND' : 'COPY MESSAGE TEMPLATE'}
-              </button>
-            )}
           </>
         ) : (
           <div className="grid gap-1">
@@ -966,9 +957,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           estimatedValue={String(lead.estimatedValue || '')}
         />
       </div>
-      </div>
-      </div>
-    </article>
+    </div>
+  </article>
   );
 }
 
