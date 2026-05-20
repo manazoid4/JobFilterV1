@@ -217,7 +217,7 @@ const TREND_ICON = {
 };
 
 function hasAccess() {
-  return OPEN_ACCESS || localStorage.getItem('jf_dev_unlock') === 'true';
+  return OPEN_ACCESS || localStorage.getItem('jf-unlimited-tester') === 'true';
 }
 
 export function CityIntelligencePage() {
