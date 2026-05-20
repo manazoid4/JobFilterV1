@@ -359,12 +359,11 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE LEAD SCANNER</p>
-        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
+        <h2 className="headline text-3xl leading-none sm:text-4xl">TAP YOUR TRADE TO SCAN NOW</h2>
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — INSTANT SCAN</p>
+          <p className="micro-label text-[var(--muted)]">ONE TAP — INSTANT SCAN — NO SIGNUP</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -543,10 +542,10 @@ export function FindJobsPage() {
                 </section>
               ) : unlimitedTester ? (
                 <section className="jf-box bg-[var(--green)] p-5">
-                  <p className="micro-label text-white">{hasDevUnlock() ? 'DEV PORTAL — UNLIMITED TESTER' : 'PRE-LAUNCH — OPEN ACCESS'}</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">SCAN, TRACK, AND TEST EVERYTHING</h2>
+                  <p className="micro-label text-white">UNLIMITED ACCESS</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">FULL SCAN — ALL SIGNALS UNLOCKED</h2>
                   <p className="mt-2 max-w-2xl font-black text-white/80">
-                    Test gates are open locally. Server-side full lead data still follows FULL_ACCESS_TEST_MODE.
+                    All scored signals for your patch are visible. Gold leads include buyer detail, quote floor, and follow-up cadence.
                   </p>
                 </section>
               ) : (
@@ -580,36 +579,38 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              <section className="grid gap-4 lg:grid-cols-2">
-                <div className="jf-box bg-[var(--ink)] p-5 text-white">
-                  <div className="flex items-start gap-3">
-                    <Radar className="mt-1 h-5 w-5 text-[var(--yellow)]" strokeWidth={3} />
-                    <div>
-                      <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
-                      <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
-                      <p className="mt-2 text-sm font-black text-white/75">
-                        Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
-                  <div className="flex items-start gap-3">
-                    <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
-                    <div>
-                      <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
-                      <h2 className="headline mt-2 text-3xl leading-none">QUOTE FLOOR. NEXT ACTION. FOLLOW-UP CADENCE.</h2>
-                      <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
-                        Open full lead access to see the call opener, quote floor, verification questions, and the next three touches.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </section>
-
               {displayedLeads.map((lead) => (
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
+
+              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
+                <section className="grid gap-4 lg:grid-cols-2">
+                  <div className="jf-box bg-[var(--ink)] p-5 text-white">
+                    <div className="flex items-start gap-3">
+                      <Radar className="mt-1 h-5 w-5 text-[var(--yellow)]" strokeWidth={3} />
+                      <div>
+                        <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
+                        <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
+                        <p className="mt-2 text-sm font-black text-white/75">
+                          Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
+                    <div className="flex items-start gap-3">
+                      <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
+                      <div>
+                        <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
+                        <h2 className="headline mt-2 text-3xl leading-none">QUOTE FLOOR. NEXT ACTION. FOLLOW-UP CADENCE.</h2>
+                        <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+                          Open full lead access to see the call opener, quote floor, verification questions, and the next three touches.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               {/* Patch Pulse */}
               {displayedLeads.length > 0 && (
