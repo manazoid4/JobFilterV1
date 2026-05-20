@@ -22,25 +22,25 @@ export function Footer() {
         </div>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {/* Product */}
+          {/* Intake Engine — the main product */}
           <div>
-            <p className="micro-label text-[var(--yellow)] mb-4">PRODUCT</p>
+            <p className="micro-label text-[var(--yellow)] mb-4">INTAKE ENGINE</p>
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
-              <Link to="/find-jobs" className="hover:text-[var(--yellow)]">Find Jobs</Link>
-              <Link to="/signals" className="hover:text-[var(--yellow)]">Signals</Link>
+              <Link to="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
+              <Link to="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
               <Link to="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
-              <Link to="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
               <Link to="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
+              <Link to="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
             </div>
           </div>
 
-          {/* Tools */}
+          {/* Add-on services */}
           <div>
-            <p className="micro-label text-[var(--yellow)] mb-4">TOOLS</p>
+            <p className="micro-label text-[var(--yellow)] mb-4">ADD-ON SERVICES</p>
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
-              <Link to="/vantage" className="hover:text-[var(--yellow)]">Vantage</Link>
-              <Link to="/vicinity" className="hover:text-[var(--yellow)]">Vicinity</Link>
-              <Link to="/tradiestack" className="hover:text-[var(--yellow)]">TradieStack</Link>
+              <Link to="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks</Link>
+              <Link to="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads</Link>
+              <Link to="/codex" className="hover:text-[var(--yellow)]">Codex — Spec to Sales</Link>
             </div>
           </div>
 

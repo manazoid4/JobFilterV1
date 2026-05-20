@@ -11,8 +11,11 @@ const links = [
 ];
 
 const moreLinks = [
-  { to: '/trust', label: 'Trust' },
+  { to: '/vantage', label: 'Vantage' },
+  { to: '/vicinity', label: 'Vicinity' },
+  { to: '/codex', label: 'Codex' },
   { to: '/methodology', label: 'How It Works' },
+  { to: '/trust', label: 'Trust' },
   { to: '/faq', label: 'FAQ' },
 ];
 

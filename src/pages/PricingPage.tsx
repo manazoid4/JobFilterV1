@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FormEvent, useState, type ReactNode } from 'react';
-import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator, MessageSquare } from 'lucide-react';
+import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator, MessageSquare, BookOpen } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { joinWaitlist } from '../lib/waitlist';
 
@@ -8,11 +8,13 @@ const included = [
   'Gold signals sent to WhatsApp before competitors see them',
   'Score, urgency, value & next action on every signal',
   'Territory lock — one trade per postcode cluster',
+  'MEES Deadline Watch — legally-forced rental jobs in your trade (new)',
+  'Chase Nudge — auto-paced WhatsApp follow-ups (new)',
+  'Profit Proof — monthly £-by-source receipt (new)',
   'Pipeline tracking — every signal from first call to won',
-  'Win breakdown — see which trade & area actually pays',
   'CSV export & calendar reminders — sync to any CRM',
   'Keyword search across planning, energy & council signals',
-  'Vicinity & Vantage included for proof and bid support',
+  'Vantage, Vicinity & Codex add-on services included',
   'City Intelligence — weekly territory briefing for your city',
 ];
 
@@ -108,9 +110,13 @@ const featureCategories = [
 const comparisonRows = [
   { feature: 'WhatsApp Gold signals', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
   { feature: 'Territory lock — one trade per postcode', free: false, founder: true, standard: true },
+  { feature: 'MEES Deadline Watch — F/G rental signals (new)', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Chase Nudge — auto-paced follow-ups (new)', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Profit Proof — monthly £-by-source receipt (new)', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'First Strike — message templates', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Vicinity — photos into posts + ads', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Vantage — quote packs + bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vantage — tender into bid deck (6h turnaround)', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vicinity — job photos into local ads', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Codex — product specs into sales sheets', free: '1 sheet', founder: 'Unlimited', standard: 'Unlimited' },
   { feature: 'Win Engine — ROI tracking + review requests', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Letterhead Pack — printed approach letters', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Patch Watch — daily signal digest', free: 'Preview', founder: 'Full', standard: 'Full' },
@@ -123,8 +129,9 @@ const comparisonRows = [
 const toolIcons = [
   { name: 'WhatsApp Leads', icon: Zap, highlight: false },
   { name: 'First Strike', icon: MessageSquare, highlight: true },
-  { name: 'Vicinity', icon: Camera, highlight: false },
   { name: 'Vantage', icon: LayoutGrid, highlight: false },
+  { name: 'Vicinity', icon: Camera, highlight: false },
+  { name: 'Codex', icon: BookOpen, highlight: false },
   { name: 'Win Engine', icon: BarChart3, highlight: false },
   { name: 'Letterhead Pack', icon: Mail, highlight: false },
   { name: 'Patch Watch', icon: Radar, highlight: false },
