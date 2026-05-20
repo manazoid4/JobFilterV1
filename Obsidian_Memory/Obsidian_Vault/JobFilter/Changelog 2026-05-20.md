@@ -122,3 +122,84 @@ Also fixed the boundary: `>= 55` → `>= 50` to match SILVER definition used eve
 - [[Changelog 2026-05-19]]
 - [[Feature Roadmap - 8th May 2026]]
 - [[Sessions/Daily To-Do]]
+
+---
+
+# Session 2 — Homepage Improvements + City Intelligence (claude/homepage-improvements-20260519)
+
+**Branch:** `claude/homepage-improvements-20260519`
+**PR:** [#142](https://github.com/manazoid4/JobFilterV1/pull/142) — open, Codex reviewed clean
+**Commits:** fe33fef → b6fc47e → 2b0d43a → 6539955
+
+---
+
+## What Was Built
+
+### First Strike (QuickResponseKit component)
+- New paid feature: `src/components/QuickResponseKit.tsx`
+- Auto-selects the right WhatsApp template based on lead age (< 20h = first touch, 20–48h = follow-up, > 48h = final nudge)
+- Pre-fills trade + postcode, copies to clipboard in one tap
+- Auto-imports lead to chaseStore on first copy; updates chase stage on follow-up templates
+- Free users see a blurred preview + "UNLOCK FIRST STRIKE →" CTA
+- Only renders on GOLD (≥80) and SILVER (≥50) leads
+- Integrated into `FindJobsPage` below action buttons; replaces the old inline copy button
+
+### GOLD Lead Urgency Bar (FindJobsPage)
+- Yellow urgency bar on GOLD leads showing detected time + "first mover window open"
+- `timeAgoShort()` helper added to format lead age in plain English
+
+### CityIntelligencePage (new page — paid feature)
+- Route: `/intelligence/:city` (6 cities: birmingham, london, manchester, bristol, leeds, glasgow)
+- Each city has: territory score, signal counts, trend, hot lead spotlight, market note, action list, tool tip
+- Signal breakdown table visible to all (counts + trend only); `row.top` gated for paid users
+- Hot lead spotlight, market note, action list, tool tip all locked for free users (blurred)
+- Upgrade CTA: "UNLOCK WITH PATCH PLAN — £39/MO"
+- Access gated via `VITE_OPEN_ACCESS` + `localStorage jf-unlimited-tester` (correct key — fixed bug)
+- City nav links to all other city pages
+
+### PricingPage Updates
+- **featureCategories**: Added City Intelligence card (Radio icon, "Weekly briefing for your territory")
+- **toolIcons**: Added City Intel (Radio icon)
+- **comparisonRows**: Added City Intelligence row (locked for free, included for Founder + Standard)
+- **included list**: Added "City Intelligence — weekly territory briefing for your city"
+- **2-month contract**: Founder plan body updated — "2-month minimum — 14-day cooling off from sign-up"
+- **FAQ**: "Can I cancel anytime?" updated — "2-month minimum, cancel within 14 days for full refund, then 30 days' notice"
+
+### NewsPage — City Intelligence CTA Strip
+- New section between articles and "HOW TO USE" section
+- Per-city links (Birmingham, London, Manchester, Bristol, Leeds, Glasgow) → `/intelligence/:city`
+- CTA: "UNLOCK WITH PATCH PLAN — £39/MO" → `/pricing`
+
+### Copy Rewrites (HomePage + PricingPage)
+- HOW IT WORKS: replaced gimmicky arrows + phone mockup with clean 3-row stacked layout
+- War room section: removed direct competitor name-drops, made attacks implicit
+- CTA headline: "QUIT WORKING FOR GHOSTS."
+- Trust cards: vault-accurate copy (no shared auction, no race to bottom, no timewaster leads)
+- All-tools banner: "Not a lead marketplace. A construction intelligence layer."
+- Pricing hero: "WhatsApp first. Dashboard second."
+
+---
+
+## Bug Fixes (from Codex review on PR #142)
+
+| Issue | Fix |
+|-------|-----|
+| `row.top` leaked job/location hints to free users in signal table | Wrapped in `{unlocked && ...}` |
+| QuickResponseKit stale `tracked` state could overwrite chase progress | Changed `if (!tracked)` → `if (!isLeadTracked(leadId))` — checks live localStorage |
+| `trackLead()` in FindJobsPage could overwrite First Strike's chase import | Added `|| isLeadTracked(lead.id)` to guard — bails if chaseStore already has the lead |
+| `hasAccess()` used `jf_dev_unlock` (never set) instead of `jf-unlimited-tester` | Fixed to `jf-unlimited-tester` — consistent with FindJobsPage + DevPortalPage |
+
+---
+
+## Build Status
+- `npm run build`: ✅ PASS (all commits)
+- No TypeScript errors
+
+## Constraints Respected
+- No source names exposed in any public copy
+- No "exclusive" / "nobody else" claims
+- Vault product names used throughout (First Strike, Vicinity, Vantage, Win Engine, Letterhead Pack, Patch Watch, Territory, City Intelligence)
+
+## Related
+- [[Sessions/Rolling Launch Summary]]
+- [[Product/Problems and Solutions]]
