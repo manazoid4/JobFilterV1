@@ -505,6 +505,21 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── CITY INTELLIGENCE TEASER ─────────────────── */}
+      <section className="page-shell py-12">
+        <div className="jf-box bg-[var(--yellow)] p-7">
+          <p className="micro-label text-[var(--ink)]">WEEKLY TERRITORY BRIEFING</p>
+          <h2 className="headline mt-3 text-4xl leading-none">CITY INTELLIGENCE</h2>
+          <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/80">
+            Every week: territory score, hot lead spotlight, market note, and one actionable move for your patch.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link to="/intelligence/birmingham" className="jf-button bg-[var(--ink)] text-white text-sm">VIEW SAMPLE BRIEFING →</Link>
+            <Link to="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)] text-sm">UNLOCK WITH PATCH PLAN — £39/MO</Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── CTA SECTION ──────────────────────────────── */}
       <section className="relative overflow-hidden bg-[var(--ink)] text-white">
         {/* Diagonal stripe pattern */}

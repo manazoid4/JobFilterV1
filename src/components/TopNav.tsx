@@ -5,6 +5,7 @@ const links = [
   { to: '/find-jobs', label: 'Scan' },
   { to: '/signals', label: 'Signals' },
   { to: '/news', label: 'News' },
+  { to: '/intelligence/birmingham', label: 'City Intel' },
   { to: '/free-tools', label: 'Tools' },
   { to: '/pricing', label: 'Pricing' },
 ];

@@ -80,16 +80,17 @@ export function DashboardPage() {
       </section>
 
       {isEmpty && (
-        <section className="jf-box bg-[var(--yellow)] p-8 text-center">
-          <p className="micro-label text-[var(--ink)]">START HERE</p>
-          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR PIPELINE IS EMPTY.</h2>
-          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]">
-            Enter your postcode. Pick your trade. See what jobs are live near you — then track the ones worth chasing.
+        <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">
+          <p className="micro-label text-[var(--orange)]">NO PIPELINE YET</p>
+          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
+          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
+            Run a scan, find one £2,000 job, and your Patch Plan pays for itself in a single win. Founding rate locks in at £39/mo.
           </p>
-          <Link to="/find-jobs" className="jf-button mt-5 bg-[var(--ink)] text-white inline-block">
-            SCAN FOR JOBS →
-          </Link>
-        </section>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            <Link to="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
+          </div>
+        </div>
       )}
 
       {/* Pipeline Visual */}
