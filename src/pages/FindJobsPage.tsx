@@ -180,7 +180,7 @@ export function FindJobsPage() {
   }, []);
 
   const trackLead = (lead: Lead) => {
-    if (trackedLeads.has(lead.id)) return;
+    if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
     importLeadToChase({
       id: lead.id,
       title: lead.title,
