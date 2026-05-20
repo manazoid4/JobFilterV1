@@ -1,5 +1,67 @@
 # Rolling Launch Summary
 
+---
+
+## 20 May 2026 — Homepage Improvements + City Intelligence
+
+**Branch:** `claude/homepage-improvements-20260519`
+**PR:** manazoid4/JobFilterV1#142 (open, Codex clean, 4 commits)
+
+### Focus
+Product depth + paid feature differentiation. Two new paid features shipped. Pricing and homepage copy overhauled to match vault definitions. Codex review bugs all fixed.
+
+### What Changed
+
+**New: First Strike (QuickResponseKit)**
+- `src/components/QuickResponseKit.tsx` — WhatsApp template kit, auto-selects template for lead age, copies in one tap, auto-tracks lead in chaseStore
+- Locked state: blurred preview + upgrade CTA for free users
+- Integrated into FindJobsPage — renders below action buttons on GOLD/SILVER leads
+- GOLD leads now show yellow urgency bar ("Detected X ago — first mover window open")
+
+**New: City Intelligence Page**
+- `src/pages/CityIntelligencePage.tsx` — `/intelligence/:city` route (6 cities)
+- Weekly territory briefings: score, signal counts, hot lead spotlight, market note, action list, tool tip
+- Paid gate: free users see counts + trends only; spotlight + analysis locked
+- Access key fixed to `jf-unlimited-tester` (was wrongly `jf_dev_unlock`)
+- Route wired in `App.tsx`
+
+**PricingPage**
+- City Intelligence added: featureCategories, toolIcons, comparisonRows, included list
+- 2-month minimum contract: Founder card body + FAQ "Can I cancel" answer updated
+- Vault product names confirmed throughout: First Strike, Vicinity, Vantage, Win Engine, Letterhead Pack, Patch Watch, Territory, City Intelligence
+
+**NewsPage**
+- City intelligence CTA strip added: per-city links + "UNLOCK WITH PATCH PLAN — £39/MO"
+
+**HomePage**
+- HOW IT WORKS: 3-row stacked layout replacing gimmicky arrows + phone mockup
+- CTA headline: "QUIT WORKING FOR GHOSTS."
+- Trust cards: vault-accurate copy (no auction, no timewasters, WhatsApp first)
+- "Not a lead marketplace. A construction intelligence layer." positioning
+
+### Bug Fixes (Codex review)
+- `row.top` gated for paid users — was leaking job/location hints in signal table
+- `QuickResponseKit` tracking: live `isLeadTracked()` check prevents stale state overwrite
+- `FindJobsPage.trackLead()`: also guards on `isLeadTracked()` — prevents First Strike import being overwritten by TRACK THIS LEAD button
+
+### Copy Constraints Maintained
+- No source names, portals, or data-source mechanics in public copy
+- No "exclusive" / "nobody else sees this" claims
+- All product names from vault
+
+### Next Steps for Next Agent
+1. Merge PR #142 to main → Firebase deploy
+2. Wire real intelligence data to CityIntelligencePage (currently static demo data) — consider API endpoint or Supabase table
+3. Add `/intelligence/:city` links from city SEO pages (`CityBirmingham`, `CityLondon`, etc.)
+4. Test First Strike on mobile — check copy UX on small screens
+5. Update `AGENTS.md` / `AGENT_RUNNING_MODEL.md` if those exist
+
+### Build
+- `npm run build`: ✅ PASS on all 4 commits
+- No TypeScript errors
+
+---
+
 ## 5 May 2026
 
 Focus:

@@ -227,6 +227,43 @@ export function NewsPage() {
         </div>
       </div>
 
+      <section className="mt-12 bg-[var(--paper)] border-t-4 border-b-4 border-[var(--ink)]">
+        <div className="page-shell py-12">
+          <p className="micro-label text-[var(--orange)]">PAID FEATURE</p>
+          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl max-w-2xl">
+            CITY-SPECIFIC INTELLIGENCE FOR YOUR TERRITORY.
+          </h2>
+          <p className="mt-4 max-w-2xl font-bold text-[var(--muted)] leading-relaxed">
+            The briefing above covers the national picture. Patch Plan subscribers get a weekly
+            intelligence brief for their city — territory score, signal counts, the hot lead
+            worth moving on, and a ranked opportunity list built for their trade and postcode.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {[
+              { city: 'Birmingham', slug: 'birmingham' },
+              { city: 'London', slug: 'london' },
+              { city: 'Manchester', slug: 'manchester' },
+              { city: 'Bristol', slug: 'bristol' },
+              { city: 'Leeds', slug: 'leeds' },
+              { city: 'Glasgow', slug: 'glasgow' },
+            ].map(({ city, slug }) => (
+              <Link
+                key={slug}
+                to={`/intelligence/${slug}`}
+                className="border-2 border-[var(--ink)] bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--yellow)] transition-colors"
+              >
+                {city} →
+              </Link>
+            ))}
+          </div>
+          <div className="mt-6">
+            <Link className="jf-button bg-[var(--ink)] text-white" to="/pricing">
+              UNLOCK WITH PATCH PLAN — £39/MO
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="mt-16 bg-[var(--ink)] border-t-4 border-[var(--yellow)]">
         <div className="page-shell py-14">
           <p className="micro-label text-[var(--yellow)]">HOW TO USE THIS PAGE</p>

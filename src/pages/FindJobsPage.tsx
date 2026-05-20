@@ -11,7 +11,7 @@ import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
-import { fillTemplate, MESSAGE_TEMPLATES } from '../lib/chaseTemplates';
+import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
@@ -180,7 +180,7 @@ export function FindJobsPage() {
   }, []);
 
   const trackLead = (lead: Lead) => {
-    if (trackedLeads.has(lead.id)) return;
+    if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
     importLeadToChase({
       id: lead.id,
       title: lead.title,
@@ -808,21 +808,6 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
-  const [copied, setCopied] = useState(false);
-
-  function copyFirstTouchTemplate() {
-    const tpl = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
-    if (!tpl) return;
-    const msg = fillTemplate(tpl, {
-      job_type: String(lead.trade || lead.tradeMatch || 'job'),
-      area: lead.location || outward,
-    });
-    navigator.clipboard.writeText(msg).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    });
-  }
-
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || outward],
@@ -970,6 +955,17 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
           </div>
         )}
+        <QuickResponseKit
+          leadId={lead.id}
+          trade={String(lead.trade || lead.tradeMatch || 'job')}
+          area={lead.location || outward}
+          score={lead.score}
+          publishedAt={lead.publishedAt}
+          unlocked={cardOpenAccess}
+          title={lead.title}
+          estimatedValue={String(lead.estimatedValue || '')}
+        />
+      </div>
       </div>
       </div>
     </article>

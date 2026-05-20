@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FormEvent, useState, type ReactNode } from 'react';
-import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator } from 'lucide-react';
+import { Radio, Camera, Mail, MapPinned, Check, X, Zap, LayoutGrid, BarChart3, Calendar, ClipboardCheck, Radar, Calculator, MessageSquare } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { joinWaitlist } from '../lib/waitlist';
 
@@ -18,6 +18,7 @@ const included = [
   'Follow-up cadence — the next 3 touches for every lead',
   'Vicinity & Vantage included for proof and bid support',
   'Weekly opportunity digest for your patch',
+  'City Intelligence — weekly territory briefing for your city',
 ];
 
 const addOns = [
@@ -52,61 +53,88 @@ const workflowTools = [
 
 const featureCategories = [
   {
-    icon: Radio,
-    title: 'Leads & Alerts',
-    points: ['WhatsApp alerts', 'Gold scoring', 'Territory priority'],
+    icon: MessageSquare,
+    title: 'First Strike',
+    tagline: 'WhatsApp job bodyguard',
+    points: ['Auto-selects right template for lead age', 'Pre-filled with trade + postcode', 'Copies to WhatsApp in one tap', 'Auto-tracks the lead on send'],
+    featured: true,
   },
   {
-    icon: Calculator,
-    title: 'Value Control',
-    points: ['Quote floor', 'Call opener', 'Follow-up cadence'],
+    icon: Camera,
+    title: 'Vicinity',
+    tagline: 'Turn jobs into leads',
+    points: ['Job photos → posts, ads, website visuals', 'Turn a finished job into inbound work', 'No marketing skills needed', 'Works from your camera roll'],
+    featured: false,
   },
   {
-    icon: ClipboardCheck,
-    title: 'Buyer Action Pack',
-    points: ['Verification questions', 'Quote floor', 'Next action'],
+    icon: LayoutGrid,
+    title: 'Vantage',
+    tagline: 'Bid edge',
+    points: ['Better-looking quotes win bigger jobs', 'Fixes weak presentation before the buyer compares', 'Quote packs that look professional on the doorstep', 'Low trust before price — solved'],
+    featured: false,
+  },
+  {
+    icon: BarChart3,
+    title: 'Win Engine',
+    tagline: 'Retention moat',
+    points: ['Won job tracking + monthly ROI dashboard', '"You\'ve won £X this month via JobFilter"', 'One-tap review request for WhatsApp', 'Lost job analysis — learn why work went elsewhere'],
+    featured: false,
+  },
+  {
+    icon: Mail,
+    title: 'Letterhead Pack',
+    tagline: 'For strong leads only',
+    points: ['Professional letterhead with your company details', 'Job-specific scope notes + proof checklist', 'WhatsApp-ready PDF — send in seconds', 'Printing and postage included'],
+    featured: false,
   },
   {
     icon: Radar,
     title: 'Patch Watch',
-    points: ['Daily signal watch', 'Patch pulse', 'Territory priority'],
-  },
-  {
-    icon: Mail,
-    title: 'Letters',
-    points: ['Company-branded approach letters', 'PDF follow-up packs'],
+    tagline: 'Daily signal monitoring',
+    points: ['Planning, EPC, tender, and company signals daily', 'Gold/Silver split for your postcode', 'Best source breakdown for your trade', 'Weekly opportunity digest'],
+    featured: false,
   },
   {
     icon: MapPinned,
     title: 'Territory',
-    points: ['Postcode exclusivity', 'Priority routing'],
+    tagline: 'Your patch. Locked.',
+    points: ['One trade per postcode cluster', 'No shared lead auctions', 'Founder price locked while plan is active', 'Priority routing on every new signal'],
+    featured: false,
+  },
+  {
+    icon: Radio,
+    title: 'City Intelligence',
+    tagline: 'Weekly briefing for your territory',
+    points: ['Territory score + signal count every week', 'Hot lead spotlight — the one job worth moving on', 'Market note + opportunity list for your patch', 'Tool tip from the signal desk'],
+    featured: false,
   },
 ];
 
 const comparisonRows = [
-  { feature: 'WhatsApp Gold leads', free: 'Preview', founder: 'Full', standard: 'Full' },
-  { feature: 'Territory lock', free: false, founder: true, standard: true },
-  { feature: 'Pipeline & Win breakdown', free: false, founder: true, standard: true },
-  { feature: 'CSV export & calendar sync', free: false, founder: true, standard: true },
+  { feature: 'WhatsApp Gold leads', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
+  { feature: 'Territory lock — one trade per postcode', free: false, founder: true, standard: true },
+  { feature: 'First Strike — message templates', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Vicinity — photos into posts + ads', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Vantage — quote packs + bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'Win Engine — ROI tracking + review requests', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Letterhead Pack — printed approach letters', free: false, founder: 'Included', standard: 'Included' },
+  { feature: 'Patch Watch — daily signal digest', free: 'Preview', founder: 'Full', standard: 'Full' },
   { feature: 'Keyword signal search', free: 'Limited', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Buyer Action Pack', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Quote floor', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Follow-up cadence', free: false, founder: 'Included', standard: 'Included' },
-  { feature: 'Patch Pulse', free: 'Preview', founder: 'Included', standard: 'Included' },
-  { feature: 'Company-branded letters', free: false, founder: true, standard: true },
-  { feature: 'Vicinity photo-to-post', free: '3 posts', founder: 'Unlimited', standard: 'Unlimited' },
-  { feature: 'Vantage bid decks', free: '1 deck', founder: 'Unlimited', standard: 'Unlimited' },
+  { feature: 'CSV export + calendar sync', free: false, founder: true, standard: true },
+  { feature: 'City Intelligence — weekly territory briefing', free: false, founder: 'Included', standard: 'Included' },
   { feature: 'Founder price lock', free: false, founder: true, standard: false },
 ];
 
 const toolIcons = [
-  { name: 'WhatsApp Leads', icon: Zap },
-  { name: 'Pipeline', icon: BarChart3 },
-  { name: 'Action Pack', icon: ClipboardCheck },
-  { name: 'Patch Watch', icon: Radar },
-  { name: 'Vicinity', icon: Camera },
-  { name: 'Vantage', icon: LayoutGrid },
-  { name: 'Territory', icon: MapPinned },
+  { name: 'WhatsApp Leads', icon: Zap, highlight: false },
+  { name: 'First Strike', icon: MessageSquare, highlight: true },
+  { name: 'Vicinity', icon: Camera, highlight: false },
+  { name: 'Vantage', icon: LayoutGrid, highlight: false },
+  { name: 'Win Engine', icon: BarChart3, highlight: false },
+  { name: 'Letterhead Pack', icon: Mail, highlight: false },
+  { name: 'Patch Watch', icon: Radar, highlight: false },
+  { name: 'Territory', icon: MapPinned, highlight: false },
+  { name: 'City Intel', icon: Radio, highlight: false },
 ];
 
 export function PricingPage() {
@@ -121,10 +149,13 @@ export function PricingPage() {
           One £2,000 win covers 51 months. Most founders chase their first lead inside 14 days.
         </p>
         <p className="mt-3 max-w-3xl text-lg font-black text-white/85">
-          Gold leads on WhatsApp. One trade per postcode. Pipeline tracking, win breakdown, CSV export, keyword search — all in. No shared lead auction.
+          WhatsApp first. Dashboard second. One trade per postcode. Gold leads controlled before they hit your phone — no shared auction, no five-trade blast, no race-to-the-bottom resale.
         </p>
         <p className="mt-3 max-w-3xl text-base font-black text-white/60">
           Checkatrade £200+/mo — same lead, five trades. Bark — pay-per-name, fight for it. JobFilter — your patch, your leads, your price locked.
+        </p>
+        <p className="mt-2 max-w-3xl text-sm font-black text-[var(--green)]">
+          If you don't see one job worth chasing in 30 days, we refund every penny.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           <PriceStat label="Founder monthly" value="£39/mo" note="locked while plan is active" hot />
@@ -159,7 +190,7 @@ export function PricingPage() {
         <PlanCard
           title="Founder"
           price="£39/mo"
-          body="£39/mo for life while your plan stays active. Cancel and rejoin later — you pay £79."
+          body="£39/mo for life while your plan stays active. 2-month minimum — 14-day cooling off from sign-up. Cancel and rejoin later — you pay £79."
           items={included}
           highlight="BEST VALUE"
           featured
@@ -177,7 +208,7 @@ export function PricingPage() {
 
       {/* ── BUILT-IN WORKFLOW TOOLS ──────────────────────── */}
       <section className="ops-panel bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">MONTHLY VALUE TOOLS</p>
+        <p className="micro-label text-[var(--orange)]">TOOLS INCLUDED IN YOUR PATCH PLAN</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">QUOTE FLOOR. PATCH PULSE. FOLLOW-UP CADENCE.</h2>
         <p className="mt-3 max-w-3xl font-black text-[var(--muted)]">
           Not just alerts. Know the floor before you price, keep the chase moving, and see which patch actually pays.
@@ -227,18 +258,21 @@ export function PricingPage() {
       <section className="ops-strip flex flex-col items-center gap-6 px-6 py-10 text-center text-[var(--ink)]">
         <p className="micro-label">ALL TOOLS, ONE PRICE</p>
         <h2 className="headline max-w-3xl text-4xl leading-none md:text-6xl">
-          Everything you need to find, win, and showcase work.
+          Not a lead marketplace. A construction intelligence layer.
         </h2>
         <p className="max-w-2xl text-lg font-black text-[var(--muted)]">
           No separate subscriptions. No per-tool fees. One price, every feature.
         </p>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-6">
-          {toolIcons.map(({ name, icon: Icon }) => (
+          {toolIcons.map(({ name, icon: Icon, highlight }) => (
             <div key={name} className="flex flex-col items-center gap-2">
-              <div className="flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] bg-[var(--paper)] shadow-[4px_4px_0_var(--ink)]">
+              <div className={`relative flex h-14 w-14 items-center justify-center border-2 border-[var(--ink)] shadow-[4px_4px_0_var(--ink)] ${highlight ? 'bg-[var(--yellow)]' : 'bg-[var(--paper)]'}`}>
                 <Icon className="h-6 w-6 text-[var(--ink)]" strokeWidth={2.5} />
+                {highlight && (
+                  <span className="absolute -top-2 -right-2 bg-[var(--orange)] text-white text-[8px] font-black uppercase px-1 py-0.5 leading-none">NEW</span>
+                )}
               </div>
-              <span className="text-xs font-black uppercase tracking-wide">{name}</span>
+              <span className={`text-xs font-black uppercase tracking-wide ${highlight ? 'text-[var(--orange)]' : ''}`}>{name}</span>
             </div>
           ))}
         </div>
@@ -247,23 +281,49 @@ export function PricingPage() {
       {/* ── WHAT'S INCLUDED GRID ──────────────────────────── */}
       <section className="ops-panel bg-[var(--paper)] p-7">
         <p className="micro-label text-[var(--orange)]">WHAT'S INCLUDED</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">SIX CATEGORIES. ONE SUBSCRIPTION.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">EVERY TOOL. ONE SUBSCRIPTION.</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featureCategories.map(({ icon: Icon, title, points }) => (
-            <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
-                  <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+          {featureCategories.map(({ icon: Icon, title, tagline, points, featured }) =>
+            featured ? (
+              <article key={title} className="sm:col-span-2 lg:col-span-3 border-2 border-[var(--ink)] bg-[var(--ink)] p-5 shadow-[4px_4px_0_var(--yellow)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--yellow)]">
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className="headline text-2xl text-white leading-none">{title}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60 mt-0.5">{tagline}</p>
+                  </div>
+                  <span className="ml-auto text-[10px] font-black uppercase bg-[var(--orange)] text-white px-2 py-1 tracking-wider">NEW</span>
                 </div>
-                <h3 className="headline text-2xl">{title}</h3>
-              </div>
-              <ul className="mt-3 grid gap-1">
-                {points.map((point) => (
-                  <li key={point} className="font-black text-[var(--muted)]">✓ {point}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                <p className="mt-2 text-sm font-bold text-white/60 max-w-xl">
+                  A GOLD lead arrives. First Strike picks the right message for how old the lead is, fills in the trade and postcode, and puts it in your clipboard. One tap. Sent before your competitor has even opened the notification.
+                </p>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+                  {points.map((point) => (
+                    <li key={point} className="border border-[var(--yellow)]/30 bg-white/5 px-3 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)]">✓ {point}</li>
+                  ))}
+                </ul>
+              </article>
+            ) : (
+              <article key={title} className="border-2 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--yellow)] border-2 border-[var(--ink)]">
+                    <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h3 className="headline text-2xl leading-none">{title}</h3>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mt-0.5">{tagline}</p>
+                  </div>
+                </div>
+                <ul className="mt-3 grid gap-1">
+                  {points.map((point) => (
+                    <li key={point} className="text-sm font-bold text-[var(--muted)]">✓ {point}</li>
+                  ))}
+                </ul>
+              </article>
+            )
+          )}
         </div>
       </section>
 
@@ -349,7 +409,7 @@ export function PricingPage() {
 
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">EXTRA REVENUE TOOLS</p>
-        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">UPSELLS THAT ACTUALLY HELP TRADES WIN WORK.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">OPTIONAL EXTRAS — ADD WHAT YOUR PATCH NEEDS.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {addOns.map(([name, body, price]) => (
             <article key={name} className="border-2 border-white/20 bg-white/8 p-5">
@@ -406,7 +466,7 @@ export function PricingPage() {
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { q: 'What if my patch has no signals?', a: 'Every patch we list has verified live signals. If signals drop below viable levels for 60 days, we release the lock and refund that month.' },
-            { q: 'Can I cancel anytime?', a: 'Yes — no contract. Cancel whenever you want. But founder price only locks while active. Cancel and rejoin later, you pay the new rate.' },
+            { q: 'Can I cancel anytime?', a: '2-month minimum commitment — cancel within the first 14 days for a full refund. After that, cancel with 30 days\' notice. Founder price only locks while active — cancel and rejoin later, you pay the new rate.' },
             { q: 'What if my competitor takes my patch?', a: 'First come, first served. Once you lock it, no one else gets priority routing for your trade in that postcode cluster.' },
             { q: 'Is £39/mo really worth it?', a: 'One £2,000 job covers 51 months of JobFilter. Most founders close their first lead within 14 days. The maths is simple.' },
           ].map(({ q, a }) => (
