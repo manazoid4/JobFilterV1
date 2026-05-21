@@ -230,6 +230,19 @@ export function LeadDetailPage() {
           {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
           {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
+        {lead.score >= 80 ? (
+          <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Chase now.</p>
+          </div>
+        ) : lead.score >= 50 ? (
+          <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — worth watching. Job signal is verified but timing or budget not confirmed. Worth a quick call, not a full chase yet.</p>
+          </div>
+        ) : (
+          <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — check timing. Signal detected but work may not start immediately. Verify before spending time chasing.</p>
+          </div>
+        )}
       </section>
 
       {(lead.signalStack?.length || lead.recommendedAction || lead.signalClass) && (

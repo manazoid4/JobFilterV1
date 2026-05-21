@@ -647,14 +647,19 @@ export function FindJobsPage() {
               {!DEV_MODE && !unlimitedTester && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
                   <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
-                  <p className="mt-1 font-black text-white/75">
+                  <p className="mt-1 font-black text-white/80">
                     Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
                   </p>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">CANCEL ANYTIME</span>
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">NO CONTRACT</span>
+                  </div>
                   <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
                     LOCK FOUNDER PRICE — £39/MO →
                   </Link>
-                  <p className="mt-2 text-xs font-black text-white/50">
-                    30-day money-back guarantee. Founding rate stays locked while you stay active.
+                  <p className="mt-2 text-xs font-black text-white/80">
+                    No credit card required to scan. Pay only when you want to unlock full leads.
                   </p>
                 </div>
               )}
@@ -1119,7 +1124,7 @@ function Stat({ label, value }: { key?: string; label: string; value: string }) 
 }
 
 function safePreviewValue(value: string) {
-  if (!value) return 'Unlock exact value';
+  if (!value) return 'See quote floor →';
   return value;
 }
 
