@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 28 May 2026
+
+- [x] LeadDetailPage: GOLD/SILVER/BRONZE tier-specific context in WHY THIS LEAD section
+- [x] FindJobsPage: "Unlock exact value" → "See quote floor →" (NEEDLE #2 from 27 May)
+- [x] FindJobsPage: paywall trust badges — 30-DAY MONEY-BACK / CANCEL ANYTIME / NO CONTRACT + opacity 50→80%
+- [x] HomePage: 4 EPC naming violations fixed (hero body, step 01, PROFIT PROOF, Patch Watch)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-28 written
+- [ ] DashboardPage: duplicate "Scan for Jobs" CTA — header CTA should only show for returning users with data (NEEDLE #1 from today)
+- [ ] PricingPage: feature card brand names (First Strike, Vicinity, Vantage, Win Engine) — lead with plain-English tagline, demote brand name to small label (NEEDLE #3 from today)
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+- [ ] LeadDetailPage SILVER/BRONZE leads: show "worth watching" or "check timing" as specific reason text — DONE this session
+
+---
+
 ## Today - 27 May 2026
 
 - [x] LeadDetailPage: fix WhatsApp template filter — portal/canvass/letter templates removed from SEND WHATSAPP section
