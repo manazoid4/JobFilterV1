@@ -93,7 +93,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              The Intake Engine reads planning approvals, EPC data and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
+              The Intake Engine reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -290,7 +290,7 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
               <div>
                 <p className="headline text-xl text-[var(--ink)]">Enter your postcode and trade</p>
-                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, EPC data, council tenders, and new business registrations within your territory.</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, energy signals, council tenders, and new business registrations within your territory.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
@@ -393,7 +393,7 @@ export function HomePage() {
               </div>
               <h3 className="headline mt-3 text-2xl text-white">Monthly £-by-source receipt. Proof you can show your accountant.</h3>
               <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
-                Mark a lead Won, log the job value. We tally what each signal source earned you this month — planning vs EPC vs tender vs Companies House. One-page email, every month.
+                Mark a lead Won, log the job value. We tally what each signal source earned you this month — planning signals, energy upgrades, tenders. One-page email, every month.
               </p>
               <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Live now for founder firms</p>
             </div>
@@ -533,7 +533,7 @@ export function HomePage() {
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
+              { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
             ].map(({ icon: Icon, title, body }) => (
