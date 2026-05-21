@@ -4,10 +4,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official UK signal sources checked server-side',
-  'Planning, energy & council signals — verified',
-  'One trade per postcode — locked to you',
-  'No shared lead trap. Cancel anytime.',
+  'Jobs spotted before Checkatrade lists them',
+  'Verified signals — not recycled from job boards',
+  'One trade per postcode — no five-way blast',
+  'No shared auction. Cancel anytime.',
 ];
 
 const signalRows = [

@@ -342,8 +342,8 @@ export function PricingPage() {
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h3 className="headline text-2xl text-white leading-none">{title}</h3>
-                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60 mt-0.5">{tagline}</p>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60">{title}</p>
+                    <h3 className="headline text-2xl text-white leading-none mt-0.5">{tagline}</h3>
                   </div>
                   <span className="ml-auto text-[10px] font-black uppercase bg-[var(--orange)] text-white px-2 py-1 tracking-wider">NEW</span>
                 </div>
@@ -363,8 +363,8 @@ export function PricingPage() {
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h3 className="headline text-2xl leading-none">{title}</h3>
-                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mt-0.5">{tagline}</p>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">{title}</p>
+                    <h3 className="headline text-2xl leading-none mt-0.5">{tagline}</h3>
                   </div>
                 </div>
                 <ul className="mt-3 grid gap-1">
