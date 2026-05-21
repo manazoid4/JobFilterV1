@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 21 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] DashboardPage: duplicate "Scan for Jobs" CTA — header CTA now hidden when isEmpty=true (NEEDLE #1 from 28 May)
+- [x] PricingPage: feature card brand names — plain-English tagline promoted to h3, brand name to micro-label (NEEDLE #3 from 28 May)
+- [x] HomePage: proofPoints rewritten — "Jobs spotted before Checkatrade lists them" + "no five-way blast" + "Verified signals — not recycled from job boards"
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-21 Run 2 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
+
+---
+
 ## Today - 28 May 2026
 
 - [x] LeadDetailPage: GOLD/SILVER/BRONZE tier-specific context in WHY THIS LEAD section
@@ -8,8 +21,8 @@
 - [x] HomePage: 4 EPC naming violations fixed (hero body, step 01, PROFIT PROOF, Patch Watch)
 - [x] Build: GREEN, TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-28 written
-- [ ] DashboardPage: duplicate "Scan for Jobs" CTA — header CTA should only show for returning users with data (NEEDLE #1 from today)
-- [ ] PricingPage: feature card brand names (First Strike, Vicinity, Vantage, Win Engine) — lead with plain-English tagline, demote brand name to small label (NEEDLE #3 from today)
+- [x] DashboardPage: duplicate "Scan for Jobs" CTA — DONE (21 May Run 2)
+- [x] PricingPage: feature card brand names — DONE (21 May Run 2)
 - [ ] Wire Stripe Checkout live test end-to-end with test key
 - [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
 - [ ] TradeFlow "Send to TradeFlow" button on lead cards (Option A — 1 day build, pre-filled URL params — need TradeFlow URL scheme from founder)
