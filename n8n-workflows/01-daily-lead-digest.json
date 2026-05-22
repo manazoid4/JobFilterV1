@@ -1,0 +1,95 @@
+{
+  "name": "JobFilter — Daily Lead Digest",
+  "nodes": [
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000001",
+      "name": "Every Weekday 7am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1-5"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000002",
+      "name": "Search Leads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/leads/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": {
+          "postcode": "SW1A 1AA",
+          "trade": "plumbing",
+          "radiusMiles": 15
+        },
+        "options": {
+          "timeout": 30000
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000003",
+      "name": "Filter + Format Leads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\n\nif (!data.ok || !data.leads || data.leads.length === 0) {\n  return [{ json: { hasLeads: false, html: '<p>No leads found today.</p>', count: 0, goldCount: 0 } }];\n}\n\nconst leads = [...data.leads]\n  .sort((a, b) => (b.score || 0) - (a.score || 0))\n  .slice(0, 10);\n\nconst goldLeads = leads.filter(l => l.revenueTier === 'gold');\nconst otherLeads = leads.filter(l => l.revenueTier !== 'gold');\n\nconst renderLead = (l) => `\n  <tr style=\"border-bottom:1px solid #eee\">\n    <td style=\"padding:8px;font-weight:bold\">${l.title || 'Unnamed lead'}</td>\n    <td style=\"padding:8px\">${l.trade || ''}</td>\n    <td style=\"padding:8px\">${l.location || l.postcodeOutward || ''}</td>\n    <td style=\"padding:8px\">${l.estimatedValue || ''}</td>\n    <td style=\"padding:8px;color:${l.revenueTier==='gold'?'#d97706':l.revenueTier==='worth-checking'?'#2563eb':'#6b7280'}\">${l.revenueTier || ''}</td>\n    <td style=\"padding:8px\">${l.score || ''}</td>\n  </tr>`;\n\nconst date = new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'});\n\nconst html = `\n<h2>JobFilter Lead Digest — ${date}</h2>\n<p><strong>${data.count} leads</strong> found near ${data.outward} (${data.region}). ${data.lockedCount || 0} locked behind paywall.</p>\n\n${goldLeads.length > 0 ? `<h3 style=\"color:#d97706\">Gold Leads (${goldLeads.length})</h3>\n<table style=\"border-collapse:collapse;width:100%\">\n  <tr style=\"background:#fef3c7;text-align:left\"><th style=\"padding:8px\">Title</th><th>Trade</th><th>Location</th><th>Value</th><th>Tier</th><th>Score</th></tr>\n  ${goldLeads.map(renderLead).join('')}\n</table>` : '<p>No gold leads today.</p>'}\n\n${otherLeads.length > 0 ? `<h3>Other Leads (${otherLeads.length})</h3>\n<table style=\"border-collapse:collapse;width:100%\">\n  <tr style=\"background:#f3f4f6;text-align:left\"><th style=\"padding:8px\">Title</th><th>Trade</th><th>Location</th><th>Value</th><th>Tier</th><th>Score</th></tr>\n  ${otherLeads.map(renderLead).join('')}\n</table>` : ''}\n\n<p style=\"color:#6b7280;font-size:12px\">Sources: ${(data.sources || []).join(', ')}</p>`;\n\nreturn [{ json: { hasLeads: true, html, count: leads.length, goldCount: goldLeads.length } }];"
+      }
+    },
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000004",
+      "name": "Send Email Digest",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [900, 300],
+      "parameters": {
+        "fromEmail": "jobfilter@yourdomain.com",
+        "toEmail": "you@youremail.com",
+        "subject": "=JobFilter Leads — {{ $json.goldCount }} Gold, {{ $json.count }} Total",
+        "emailType": "html",
+        "html": "={{ $json.html }}"
+      }
+    }
+  ],
+  "connections": {
+    "Every Weekday 7am": {
+      "main": [[{ "node": "Search Leads", "type": "main", "index": 0 }]]
+    },
+    "Search Leads": {
+      "main": [[{ "node": "Filter + Format Leads", "type": "main", "index": 0 }]]
+    },
+    "Filter + Format Leads": {
+      "main": [[{ "node": "Send Email Digest", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "configure": [
+      "Search Leads > body.postcode — your UK postcode e.g. 'M1 1AA'",
+      "Search Leads > body.trade — plumbing|electrical|roofing|building|carpentry|painting|hvac|landscaping",
+      "Search Leads > body.radiusMiles — 1 to 100",
+      "Search Leads > url — change localhost:3000 to your deployed server URL",
+      "Send Email Digest — add SMTP credential in n8n Credentials, set fromEmail and toEmail"
+    ]
+  }
+}
