@@ -1,0 +1,86 @@
+{
+  "name": "JobFilter — 14 Source Health Watchdog",
+  "nodes": [
+    {
+      "id": "14eeeee0-0014-0014-0014-000000000001",
+      "name": "Every 4 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 */4 * * *" }] }
+      }
+    },
+    {
+      "id": "14eeeee0-0014-0014-0014-000000000002",
+      "name": "GET Start Signal Sources",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/start-signals/sources",
+        "options": { "timeout": 15000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "14eeeee0-0014-0014-0014-000000000003",
+      "name": "GET API Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 450],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/status",
+        "options": { "timeout": 15000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "14eeeee0-0014-0014-0014-000000000004",
+      "name": "Evaluate Health",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 375],
+      "parameters": {
+        "jsCode": "const sources = ($('GET Start Signal Sources').item?.json?.sources) || [];\nconst apiStatus = $('GET API Status').item?.json || {};\nconst degraded = sources.filter(s => s.status && s.status !== 'live' && s.status !== 'healthy');\nconst keyRequired = sources.filter(s => s.status === 'key-required');\nconst down = sources.filter(s => /down|error|fail/i.test(String(s.status || '')));\nconst totalSources = sources.length;\nconst healthyCount = sources.filter(s => s.status === 'live' || s.status === 'healthy').length;\nconst healthScore = totalSources ? Math.round((healthyCount / totalSources) * 100) : 0;\nreturn [{ json: { sources, totalSources, healthyCount, healthScore, degraded, keyRequired, down, hasAlert: down.length > 0 || healthScore < 60, apiStatus } }];"
+      }
+    },
+    {
+      "id": "14eeeee0-0014-0014-0014-000000000005",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 375],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "source-health-watchdog" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "={{ $json.hasAlert ? 'failure' : 'success' }}" },
+            { "name": "summary", "value": "={{ 'Sources ' + $json.healthScore + '% (' + $json.healthyCount + '/' + $json.totalSources + '). Down ' + $json.down.length + '. Key-required ' + $json.keyRequired.length }}" },
+            { "name": "payload", "value": "={{ { sources: $json.sources, healthScore: $json.healthScore, degraded: $json.degraded, down: $json.down } }}" },
+            { "name": "counts", "value": "={{ { total: $json.totalSources, healthy: $json.healthyCount, down: $json.down.length, keyRequired: $json.keyRequired.length } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 4 Hours": { "main": [[
+      { "node": "GET Start Signal Sources", "type": "main", "index": 0 },
+      { "node": "GET API Status", "type": "main", "index": 0 }
+    ]] },
+    "GET Start Signal Sources": { "main": [[{ "node": "Evaluate Health", "type": "main", "index": 0 }]] },
+    "GET API Status": { "main": [[{ "node": "Evaluate Health", "type": "main", "index": 0 }]] },
+    "Evaluate Health": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Every 4h. Polls /api/start-signals/sources + /api/status. Status=failure if down>0 or healthScore<60%."
+  }
+}

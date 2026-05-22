@@ -86,5 +86,5 @@ Reviewed chaseTemplates.ts — `quick_quote_offer` and `availability_check` temp
 
 ## Related
 - [[Changelog 2026-05-28]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 - [[Feature Roadmap - 8th May 2026]]

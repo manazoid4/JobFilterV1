@@ -1,0 +1,68 @@
+{
+  "name": "JobFilter — 07 Material Price Watcher",
+  "nodes": [
+    {
+      "id": "07ccccc7-0007-0007-0007-000000000001",
+      "name": "Daily 6am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 6 * * *" }] }
+      }
+    },
+    {
+      "id": "07ccccc7-0007-0007-0007-000000000002",
+      "name": "Fetch Material Prices",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/material-prices",
+        "options": { "timeout": 20000 }
+      }
+    },
+    {
+      "id": "07ccccc7-0007-0007-0007-000000000003",
+      "name": "Diff vs Yesterday",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst snapshotPath = path.join(vaultPath, 'JobFilter', 'Agent Runs', '.material-prices-prev.json');\nconst current = $input.first().json || {};\nlet prev = null;\nif (fs.existsSync(snapshotPath)) { try { prev = JSON.parse(fs.readFileSync(snapshotPath, 'utf-8')); } catch {} }\nconst flatten = (obj) => {\n  const out = {};\n  const walk = (o, prefix='') => {\n    if (o && typeof o === 'object') {\n      for (const k of Object.keys(o)) {\n        const key = prefix ? prefix + '.' + k : k;\n        const v = o[k];\n        if (typeof v === 'number') out[key] = v;\n        else if (v && typeof v === 'object') walk(v, key);\n      }\n    }\n  };\n  walk(obj);\n  return out;\n};\nconst curFlat = flatten(current);\nconst prevFlat = prev ? flatten(prev) : {};\nconst spikes = [];\nconst threshold = 0.05;\nfor (const k of Object.keys(curFlat)) {\n  const c = curFlat[k];\n  const p = prevFlat[k];\n  if (p && p > 0) {\n    const pct = (c - p) / p;\n    if (Math.abs(pct) >= threshold) spikes.push({ key: k, prev: p, current: c, pct: Number((pct * 100).toFixed(2)) });\n  }\n}\nspikes.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));\nfs.mkdirSync(path.dirname(snapshotPath), { recursive: true });\nfs.writeFileSync(snapshotPath, JSON.stringify(current, null, 2));\nreturn [{ json: { spikes, spikeCount: spikes.length, hasSpikes: spikes.length > 0, current, threshold } }];"
+      }
+    },
+    {
+      "id": "07ccccc7-0007-0007-0007-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "material-price-watcher" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ $json.spikeCount + ' material price spikes >=5% vs yesterday' }}" },
+            { "name": "payload", "value": "={{ { spikes: $json.spikes, threshold: $json.threshold } }}" },
+            { "name": "counts", "value": "={{ { spikes: $json.spikeCount } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 6am": { "main": [[{ "node": "Fetch Material Prices", "type": "main", "index": 0 }]] },
+    "Fetch Material Prices": { "main": [[{ "node": "Diff vs Yesterday", "type": "main", "index": 0 }]] },
+    "Diff vs Yesterday": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Daily 6am. GET /api/material-prices, diff vs yesterday snapshot, log spikes >=5% via 04."
+  }
+}

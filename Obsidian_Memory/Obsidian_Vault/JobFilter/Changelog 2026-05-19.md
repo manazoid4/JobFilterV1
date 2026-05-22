@@ -117,4 +117,4 @@ Toggling between states: `setCommercialOnly(true/false)`. Filter resets automati
 ## Related
 - [[Changelog 2026-05-18]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

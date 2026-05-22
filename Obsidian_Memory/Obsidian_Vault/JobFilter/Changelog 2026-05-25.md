@@ -135,4 +135,4 @@ Fixed issue #1 (scan counter new-user framing — see above).
 ## Related
 - [[Changelog 2026-05-24]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

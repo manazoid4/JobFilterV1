@@ -141,5 +141,5 @@ Added three compact badges inside the scanner section (only shown when `!unlimit
 
 ## Related
 - [[Changelog 2026-05-26]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 - [[Feature Roadmap - 8th May 2026]]

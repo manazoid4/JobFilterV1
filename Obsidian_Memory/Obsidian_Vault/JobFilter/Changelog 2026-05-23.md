@@ -106,4 +106,4 @@ Removed `leadReadiness: 'MAYBE'` and `qualityLabel: 'SILVER'` from `triggerGoldL
 ## Related
 - [[Changelog 2026-05-22]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

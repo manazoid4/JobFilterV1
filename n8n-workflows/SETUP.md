@@ -77,18 +77,77 @@ Install pm2 first: `npm install -g pm2`
 
 ## 7. Swap Email for Other Channels
 
-- **Slack**: replace `emailSend` node with `n8n-nodes-base.slack` + webhook URL
-- **Telegram**: `n8n-nodes-base.telegram` + bot token
-- **Webhook push**: `n8n-nodes-base.httpRequest` POST to your own endpoint
+### Slack
+1. n8n Credentials → Add → **Slack** → paste OAuth token (xoxb-...) or use Incoming Webhook
+2. In workflow: delete `Send Email Digest` node
+3. Add **Slack → Send a message**, wire prior node into it
+4. Channel: `#jobfilter-leads` (or DM)
+5. Text:
+   ```
+   ={{ '*JobFilter ' + $json.goldCount + ' gold / ' + $json.count + ' total*' }}
+   ```
+6. Rich layout: set Blocks w/ Slack block kit JSON.
+
+### Telegram
+1. `@BotFather` on Telegram → `/newbot` → save bot token
+2. Send a message to bot, then `https://api.telegram.org/bot<TOKEN>/getUpdates` → grab `chat.id`
+3. n8n Credentials → Add → **Telegram** → paste token
+4. Replace email node w/ **Telegram → Send Message**
+5. Chat ID: `<numeric id>`. Text expression. Parse mode `MarkdownV2` if using `*bold*` / `` `code` ``.
+
+### Webhook push (Discord / custom CRM)
+- Replace email node w/ **HTTP Request → POST**
+- Body: JSON. For Discord, paste Discord webhook URL, body `{"content":"{{ $json.summary }}"}`
 
 ---
 
-## 8. API Endpoints Used
+## 8. Centralised Variables Config
 
-| Endpoint | Method | Required body |
-|----------|--------|---------------|
-| `/api/leads/search` | POST | `{ postcode, trade, radiusMiles }` |
-| `/api/start-signals/search` | POST | `{ postcode, trade, radiusMiles }` |
-| `/api/health` | GET | — |
+n8n **Settings → Variables**. Set once, reference everywhere.
 
-Set `FULL_ACCESS_TEST_MODE=true` in server `.env` to test start-signals locally without paid tier.
+| Variable | Example | Used by |
+|----------|---------|---------|
+| `JOBFILTER_SERVER_URL` | `http://localhost:3000` | all HTTP nodes |
+| `JOBFILTER_POSTCODE` | `M1 1AA` | 01, 02 |
+| `JOBFILTER_RADIUS` | `20` | 01, 02 |
+| `JOBFILTER_TRADES` | `["plumbing","electrical","roofing"]` | 03, 15 |
+| `VAULT_PATH` | `C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault` | all file-writing Code nodes |
+| `NOTIFY_EMAIL` | `manazoid4@gmail.com` | email nodes |
+| `SLACK_CHANNEL` | `#jobfilter-leads` | Slack nodes |
+| `TELEGRAM_CHAT_ID` | `123456789` | Telegram nodes |
+
+Reference: `{{ $vars.JOBFILTER_SERVER_URL }}`. One edit → all workflows update.
+
+---
+
+## 9. FULL_ACCESS_TEST_MODE toggle
+
+Server `.env` flag unlocks paid-tier preview locally (test agent 02 + start-signals without Stripe subscription).
+
+```bash
+node scripts/test-mode.mjs status
+node scripts/test-mode.mjs on
+node scripts/test-mode.mjs off
+node scripts/test-mode.mjs toggle
+```
+
+Restart server after toggle.
+
+---
+
+## 10. API Endpoints (by agent)
+
+| Endpoint | Method | Body | Used by |
+|----------|--------|------|---------|
+| `/api/leads/search` | POST | `{ postcode, trade, radiusMiles }` | 01, 03, 15 |
+| `/api/start-signals/search` | POST | same | 02 |
+| `/api/start-signals/:id/feedback` | POST | `{ status }` | 06 |
+| `/api/start-signals/sources` | GET | — | 14 |
+| `/api/intake-score` | POST | scoring input | 12 |
+| `/api/chase-check` | POST | `{ buckets, total }` | 11 |
+| `/api/material-prices` | GET | — | 07 |
+| `/api/territory-summary` | GET | — | 08 |
+| `/api/waitlist-count` | GET | — | 09, 16 |
+| `/api/calendar-export` | GET | — | 13 |
+| `/api/status` | GET | — | 14, 16 |
+| `/api/health` | GET | — | 16 |

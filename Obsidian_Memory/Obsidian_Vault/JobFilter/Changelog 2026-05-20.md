@@ -121,7 +121,7 @@ Also fixed the boundary: `>= 55` → `>= 50` to match SILVER definition used eve
 ## Related
 - [[Changelog 2026-05-19]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 
 ---
 

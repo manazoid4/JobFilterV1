@@ -103,4 +103,4 @@ Open to-do item from 2026-05-23: "TRACKING and RESULTS boxes still plain white â
 ## Related
 - [[Changelog 2026-05-23]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
