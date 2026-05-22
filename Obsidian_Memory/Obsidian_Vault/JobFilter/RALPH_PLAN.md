@@ -21,6 +21,12 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 
 ## Iteration queue
 
+### URGENT — vault security + integrity (from lint report 2026-05-22)
+- [ ] **SECURITY: delete `JobFilter/SupaBase DB password.md`** — plaintext credential leak (needs user approval)
+- [x] Create `JobFilter/Daily Brief.md` stub (agent 16 entry point — must exist or first run fails)
+- [ ] Create `JobFilter/Agent Schedule.md` stub (agent 00 master orchestrator depends on it)
+- [ ] Fix `[[Sessions/Daily To-Do]]` dead link in 15 changelogs
+
 ### Foundation (unblocks everything)
 - [x] n8n workflows folder + 3 starter agents (01-03)
 - [x] Write `AGENTS.md` LLM contract
@@ -80,3 +86,7 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — Vault lint agent dispatched
 - 2026-05-22 — Agent 04 Vault Writer sub-workflow built
 - 2026-05-22 — Agent 16 LLM Brief Builder built (rebuilds Daily Brief.md daily)
+- 2026-05-22 — `scripts/n8n-push.mjs` written + all 5 workflows pushed live to n8n via public API
+- 2026-05-22 — Vault writer ID wired into agent 16, re-pushed
+- 2026-05-22 — `JobFilter/Daily Brief.md` stub created (agent 16 entry point)
+- 2026-05-22 — `JobFilter/n8n Workflow IDs.md` registry created
