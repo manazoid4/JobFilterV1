@@ -1,9 +1,6 @@
-name: Deploy to Firebase Hosting
+name: Legacy Firebase Hosting (disabled — using Vercel)
 'on':
   workflow_dispatch:
-  push:
-    branches:
-      - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
