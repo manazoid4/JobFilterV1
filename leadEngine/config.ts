@@ -3,28 +3,6 @@ import type { TradeKey } from './types';
 export type { TradeKey };
 
 export interface LeadEngineConfig {
-  sources: {
-    fts: boolean;
-    contractsFinder: boolean;
-    planningData: boolean;
-    companiesHouse: boolean;
-    epcData: boolean;
-    sell2wales: boolean;
-    publicContractsScotland: boolean;
-    landRegistry: boolean;
-    charityCommission: boolean;
-    forestryCommission: boolean;
-    hmoLicensing: boolean;
-    buildingControl: boolean;
-    planApi: boolean;
-    planNexus: boolean;
-    planWire: boolean;
-    searchland: boolean;
-    auctionProperty: boolean;
-    insolvencySignals: boolean;
-    retrofitSchemes: boolean;
-    portalTrendIntelligence: boolean;
-  };
   cpvAllowPrefixes: Record<TradeKey, string[]>;
   cpvBlockPrefixes: string[];
   keywordAllow: string[];
@@ -54,29 +32,6 @@ const CPV_ALLOW: Record<TradeKey, string[]> = {
 
 // Normalise: use startsWith checks — store raw prefixes
 export const CONFIG: LeadEngineConfig = {
-  sources: {
-    fts:                      process.env.SOURCE_FTS !== 'false',
-    contractsFinder:          process.env.SOURCE_CF !== 'false',
-    planningData:             process.env.SOURCE_PLANNING_DATA !== 'false',
-    companiesHouse:           process.env.COMPANIES_HOUSE_API_KEY ? true : process.env.DEMO_MODE === 'true',
-    epcData:                  process.env.SOURCE_EPC !== 'false',
-    sell2wales:               process.env.SOURCE_S2W === 'true',   // unresolved endpoint — off until fixed
-    publicContractsScotland:  process.env.SOURCE_PCS !== 'false',
-    landRegistry:             process.env.DEMO_MODE === 'true',       // disabled — real CSV parsing pending
-    charityCommission:        process.env.DEMO_MODE === 'true',       // disabled — real API integration pending
-    forestryCommission:       process.env.DEMO_MODE === 'true',       // disabled — real felling licence register pending
-    hmoLicensing:             process.env.SOURCE_HMO === 'true',
-    buildingControl:          process.env.SOURCE_BUILDING_CONTROL === 'true',
-    planApi:                  Boolean(process.env.PLANAPI_KEY),
-    planNexus:                Boolean(process.env.PLANNEXUS_API_KEY),
-    planWire:                 Boolean(process.env.PLANWIRE_API_KEY),
-    searchland:               Boolean(process.env.SEARCHLAND_API_KEY),
-    auctionProperty:          process.env.SOURCE_AUCTIONS === 'true',
-    insolvencySignals:        process.env.SOURCE_INSOLVENCY === 'true',
-    retrofitSchemes:          process.env.SOURCE_RETROFIT_SCHEMES === 'true',
-    portalTrendIntelligence:  process.env.SOURCE_PORTAL_TRENDS === 'true',
-  },
-
   cpvAllowPrefixes: CPV_ALLOW,
 
   // Block non-trade CPV top-level divisions (first 2 digits)
