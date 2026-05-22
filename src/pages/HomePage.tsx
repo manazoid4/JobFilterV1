@@ -102,6 +102,9 @@ export function HomePage() {
                 </div>
               ))}
             </div>
+            <p className="mt-5 max-w-2xl text-sm font-semibold leading-snug text-white/70 md:text-base">
+              Knowledge workers fear layoffs. You don't. Trades don't get outsourced to a model — we just make sure the work reaches you first.
+            </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" to="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
