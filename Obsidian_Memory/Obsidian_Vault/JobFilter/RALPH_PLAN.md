@@ -59,6 +59,33 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [ ] `FULL_ACCESS_TEST_MODE` toggle helper
 - [ ] Update `Vault Map.md`
 
+## Next iteration: do these in order, stop when context budget hits 30%
+
+**Status: 16/16 workflow JSONs written + pushed to n8n. Inactive. Awaiting user activation + SMTP creds.**
+
+Smart next moves (NOT building more agents — already enough):
+
+1. **Verify chain works** — once user activates workflow 16 in n8n UI and runs it manually, confirm:
+   - `JobFilter/Daily Brief.md` regenerated (timestamp changes)
+   - `JobFilter/Agent Runs/<today>/llm-brief-builder-*.md` exists
+   - If yes → vault chain proven. If no → debug.
+
+2. **Wire 02v2** — edit `02-ready-signal-alert.json` to insert Execute Workflow → 05 Lead Dedup Memory (ID `XbhFFSqPXg7OT48c`) between "Extract READY Signals" and "Has READY Signals?". Then `node scripts/n8n-push.mjs`.
+
+3. **Agent 00 Master Orchestrator** — design first, code second:
+   - Reads `Agent Schedule.md` table (parse markdown rows)
+   - For each row: if cron differs from n8n's current → PATCH via API
+   - Cron field name in n8n payload: `parameters.rule.interval[0].expression`
+   - Tricky: PATCH endpoint needs the entire workflow JSON. So either pull → modify cron → PUT, OR mark this as "out of scope for community API" and just keep updating JSON files + re-pushing.
+   - Smart fallback: skip agent 00 entirely. Editing JSON files + `n8n-push.mjs` is already the orchestrator.
+
+4. **Vault hygiene** — pick 1 lint finding per iter:
+   - Iter A: delete `JobFilter/SupaBase DB password.md` (needs user approval)
+   - Iter B: fix 15× `[[Sessions/Daily To-Do]]` dead links — bulk replace w/ `[[Recent]]` or remove
+   - Iter C: add frontmatter template to 215 bare files (use a small node script `scripts/vault-frontmatter-batch.mjs`)
+
+5. **Stop building agents.** 16 covers the JobFilter surface. Future iters = polish + verification.
+
 ## Loop rules
 
 1. Each wake: pick top unchecked item
