@@ -271,14 +271,20 @@ export function CityIntelligencePage() {
       {/* ── HEADER ── */}
       <section className="bg-[var(--ink)] border-b-4 border-[var(--yellow)]">
         <div className="page-shell py-10">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
             <MapPin className="w-4 h-4 text-[var(--yellow)]" />
             <p className="micro-label text-[var(--yellow)]">CITY INTELLIGENCE — {intel.city.toUpperCase()}</p>
+            <span className="border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--orange)]">
+              SAMPLE BRIEFING
+            </span>
           </div>
           <h1 className="headline text-4xl leading-none text-white sm:text-6xl">
             TRADE BRIEFING<br />{intel.city.toUpperCase()}
           </h1>
           <p className="mt-3 text-sm font-black uppercase tracking-wider text-white/50">{intel.weekOf} · Postcode area: {intel.postcode}</p>
+          <p className="mt-2 max-w-2xl text-xs font-bold text-white/60">
+            Sample briefing showing the format. Live briefings pull from real planning, EPC and tender feeds — only delivered to founder-patch subscribers in covered postcodes.
+          </p>
           <div className="mt-6 flex flex-wrap gap-4">
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 px-5 py-3">
               <p className="text-[10px] font-black uppercase tracking-wider text-white/50">Territory Score</p>

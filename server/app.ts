@@ -11,6 +11,7 @@ import { registerOutcomeReportRoute } from './routes/outcomeReport';
 import { registerStripeRoutes } from './routes/stripe';
 import { registerCalendarExportRoute } from './routes/calendarExport';
 import { registerTerritorySummaryRoute } from './routes/territorySummary';
+import { registerStatusRoute } from './routes/status';
 
 export async function createApp() {
   const app = express();
@@ -31,6 +32,7 @@ export async function createApp() {
   registerStripeRoutes(app);
   registerCalendarExportRoute(app);
   registerTerritorySummaryRoute(app);
+  registerStatusRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
