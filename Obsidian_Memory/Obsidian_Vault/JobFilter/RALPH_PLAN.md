@@ -3,8 +3,9 @@ type: ralph-plan
 project: JobFilter
 created: 2026-05-22
 updated: 2026-05-22
-status: active
+status: paused-until-resume
 loop: autonomous-dynamic
+ralph_resume_at: 2026-05-22T07:43:35Z
 north_star: "One strong lead per week worth paying for. Lead quality > UI. Push to paid intake subscription."
 tags: [ralph, plan, autonomous, jobfilter]
 ---
