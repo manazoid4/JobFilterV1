@@ -98,4 +98,7 @@ After EVERY change to JobFilter:
 Live URL: **jobfilter.uk** (custom domain on Firebase project `jobfilter-uk`)
 Firebase URL: https://jobfilter-uk.web.app
 
+Always report the production site as **https://jobfilter.uk**.
+The `jobfilter-uk.web.app` URL is only Firebase's default hosting URL, not the customer-facing URL.
+
 If you skip the Firebase deploy, the live site does NOT update.
