@@ -5,6 +5,7 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { scan } from './leadEngine/scan';
 import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadEngine/postcode';
 import { createCheckoutSession, handleStripeWebhook } from './stripe';
+import { registerMaterialPricesRoute } from './materialPrices';
 
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const deliveredSet = new Set<string>();
@@ -72,6 +73,8 @@ const app = express();
 app.use(express.json());
 if (!getApps().length) initializeApp();
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
+
+registerMaterialPricesRoute(app);
 
 app.post('/api/leads/scan', async (req, res) => {
   const ip = clientIp(req);
