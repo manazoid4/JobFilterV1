@@ -60,6 +60,17 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [ ] `FULL_ACCESS_TEST_MODE` toggle helper
 - [ ] Update `Vault Map.md`
 
+### From Atlassian-layoff video digest (2026-05-22)
+See [[2026-05-22-atlassian-layoff-syrakis]] for full reasoning.
+- [ ] **J1 XDS-style lead source control plane** — dynamic source config endpoint, replace hardcoded fetchers. Highest leverage.
+- [ ] **J2 Edge pre-filter for free-tier requests** — Vercel Edge / CF Workers junk-filter
+- [ ] **J6 Source-health as paid product surface** — promote agent-14 output as upsell
+- [ ] **J8 "Layoff-proof trade" marketing copy pass** — landing page angle, zero engineering
+- [ ] **A1 Extend vault-driven config beyond crons** — push endpoint URLs, body params, thresholds
+- [ ] J3 Trade catalog (each trade = catalog entry w/ weights)
+- [ ] J5 Edge middleware consolidation (auth + rate-limit + region + A/B)
+- [ ] J7 Weekly source-quality ralph slot — kill/fix worst
+
 ## Next iteration: do these in order, stop when context budget hits 30%
 
 **Status: 16/16 workflow JSONs written + pushed to n8n. Inactive. Awaiting user activation + SMTP creds.**
