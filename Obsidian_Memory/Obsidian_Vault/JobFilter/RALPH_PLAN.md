@@ -3,9 +3,8 @@ type: ralph-plan
 project: JobFilter
 created: 2026-05-22
 updated: 2026-05-22
-status: paused-until-resume
+status: active
 loop: autonomous-dynamic
-ralph_resume_at: 2026-05-22T07:43:35Z
 north_star: "One strong lead per week worth paying for. Lead quality > UI. Push to paid intake subscription."
 tags: [ralph, plan, autonomous, jobfilter]
 ---
@@ -55,10 +54,10 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [x] Agent 00 — Master Orchestrator (`scripts/n8n-sync-schedule.mjs` — vault-driven cron sync, done 2026-05-22)
 
 ### Polish
-- [ ] Centralise n8n Variables config
-- [ ] Slack + Telegram swap-in docs
-- [ ] `FULL_ACCESS_TEST_MODE` toggle helper
-- [ ] Update `Vault Map.md`
+- [x] Centralise n8n Variables config — documented in SETUP.md §8
+- [x] Slack + Telegram swap-in docs — SETUP.md §7
+- [x] `FULL_ACCESS_TEST_MODE` toggle helper — `scripts/test-mode.mjs`
+- [x] Update `Vault Map.md` — LLM read-order added at top
 
 ### From Atlassian-layoff video digest (2026-05-22)
 See [[2026-05-22-atlassian-layoff-syrakis]] for full reasoning.
@@ -132,4 +131,6 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — Iter 3 max-effort burst: shipped agents 05/06/07/08/09/10/14 (7 new workflows live via API). Agent Schedule.md stub created.
 - 2026-05-22 — Iter 4 continued burst: shipped agents 11/12/13/15. **16/16 workflows now live in n8n**. Only agent 00 (Master Orchestrator) + 02v2 dedup-wire + polish items remaining.
 - 2026-05-22 — Iter 5: SupaBase password deleted, 15 changelogs dead-link fixed, 02 dedup inlined, scripts/n8n-activate.mjs written, 13/16 workflows activated via API (01/02/03 await SMTP).
-- 2026-05-22 — Iter 6 (this): Agent 00 Master Orchestrator shipped as `scripts/n8n-sync-schedule.mjs`. Parses Agent Schedule.md vault table, syncs cron expressions to n8n via API. Verified: 11/11 rows parsed, all unchanged on first sync run. Vault-driven scheduling live.
+- 2026-05-22 — Iter 6: Agent 00 Master Orchestrator shipped as `scripts/n8n-sync-schedule.mjs`. Vault-driven scheduling live.
+- 2026-05-22 — Video digest: Atlassian layoff retrospective digested + cross-project actions added (J1-J8, A1-A3, K1-K2, M1-M2, F1-F2).
+- 2026-05-22 — Iter 7 polish burst: SETUP.md §7-10 (Slack/Telegram swap, Variables, test-mode, full endpoint map), scripts/test-mode.mjs, Vault Map.md LLM read-order. 4 polish boxes ticked.
