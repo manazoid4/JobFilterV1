@@ -350,57 +350,19 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── 2026 ROADMAP — 3 PAID FEATURES IN BUILD ───── */}
-      <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)] text-white">
+      {/* ── GOLD LEAD EXAMPLE ─────────────────────────── */}
+      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
         <div className="page-shell py-14">
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[var(--yellow)]" />
-            <p className="micro-label text-[var(--yellow)]">2026 ROADMAP — IN BUILD, FOUNDER FIRMS FIRST</p>
-          </div>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
-            THREE THINGS NO OTHER LEAD TOOL DOES.
+          <p className="micro-label text-[var(--orange)]">GOLD LEAD EXAMPLE — REAL FORMAT, SAMPLE DATA</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">
+            THIS IS WHAT A GOLD LEAD LOOKS LIKE.
           </h2>
-          <p className="mt-4 max-w-2xl text-base font-bold text-white/80 leading-snug">
-            These three are in active build for 2026. Founder firms get first access as each one ships. Honest about what is and is not live yet — see the status badge on each card.
+          <p className="mt-4 max-w-2xl copy">
+            Every paid member gets leads in this format — scored, sourced, and timed. Your territory locks the postcode. No five-way blast. Just yours.
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
-              <div className="flex items-center gap-2">
-                <span className="border-2 border-[var(--orange)] bg-[var(--orange)]/20 px-2 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">IN BUILD</span>
-                <p className="micro-label text-[var(--yellow)]">MEES DEADLINE WATCH</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl text-white">Legally-forced rental work, before the landlord calls anyone.</h3>
-              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
-                Will watch every EPC band F or G filed on a UK rental, match it to your trade, and push the landlord and letting agent details into your WhatsApp. Compliance pressure does the selling.
-              </p>
-              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Target: Q3 2026</p>
-            </div>
-            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
-              <div className="flex items-center gap-2">
-                <span className="border-2 border-[var(--orange)] bg-[var(--orange)]/20 px-2 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">IN BUILD</span>
-                <p className="micro-label text-[var(--yellow)]">CHASE NUDGE</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl text-white">Auto-paced follow-ups so warm leads never go cold.</h3>
-              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
-                After a Gold lead lands, three timed nudges: 2-hour silent check, 24-hour soft poke, 48-hour "they're going cold" alert. Pre-written WhatsApp templates — tap to send or snooze.
-              </p>
-              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Target: Q3 2026</p>
-            </div>
-            <div className="border-2 border-[var(--yellow)] bg-white/5 p-5">
-              <div className="flex items-center gap-2">
-                <span className="border-2 border-[var(--orange)] bg-[var(--orange)]/20 px-2 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">IN BUILD</span>
-                <p className="micro-label text-[var(--yellow)]">PROFIT PROOF</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl text-white">Monthly £-by-source receipt. Proof you can show your accountant.</h3>
-              <p className="mt-2 text-sm font-bold text-white/70 leading-snug">
-                Mark a lead Won, log the job value. We'll tally what each signal source earned you that month — planning vs EPC vs tender vs Companies House. One-page email, every month.
-              </p>
-              <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Target: Q3 2026</p>
-            </div>
+          <div className="mt-8 max-w-3xl">
+            <SampleLeadCard />
           </div>
-          <p className="mt-6 text-xs font-black uppercase tracking-wider text-white/75">
-            Founder firms get each one first as it ships. No charge to upgrade.
-          </p>
         </div>
       </section>
 
