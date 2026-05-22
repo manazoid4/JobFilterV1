@@ -111,6 +111,13 @@ CREATE TABLE IF NOT EXISTS user_entitlements (
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS source_config (
+  key TEXT PRIMARY KEY,
+  enabled BOOLEAN NOT NULL DEFAULT true,
+  score_bonus INTEGER,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
 CREATE INDEX IF NOT EXISTS leads_postcode_trade_idx ON leads(postcode_outward, trade);
 CREATE INDEX IF NOT EXISTS leads_score_idx ON leads(score DESC);
 CREATE INDEX IF NOT EXISTS lead_outcomes_lead_idx ON lead_outcomes(lead_id);

@@ -28,6 +28,7 @@ import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher'
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 import { sourceRegistryEndpoints } from './sourceRegistry';
+import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
@@ -108,34 +109,34 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const { postcode, trade = '', tier = 'free', radiusMiles } = opts;
   const cleanTrade = validateTrade(trade);
 
-  // 1. Resolve postcode
-  const pcInfo = await lookupPostcode(postcode);
+  // 1. Resolve postcode + warm source config cache (DB overrides, 5-min TTL)
+  const [pcInfo] = await Promise.all([lookupPostcode(postcode), warmSourceConfigCache()]);
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
   const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult, ccResult, fcResult] = await Promise.allSettled([
-    CONFIG.sources.contractsFinder || CONFIG.sources.fts
+    isSourceEnabled('ContractsFinder') || isSourceEnabled('FTS')
       ? contractsFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
-    CONFIG.sources.planningData
+    isSourceEnabled('PlanningData')
       ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
       : Promise.resolve(disabledSources(['PlanningData'])),
-    CONFIG.sources.companiesHouse
+    isSourceEnabled('CompaniesHouse')
       ? companiesHouseFetcher(region, cleanTrade, outward)
       : Promise.resolve(disabledSources(['CompaniesHouse'])),
-    CONFIG.sources.publicContractsScotland || CONFIG.sources.sell2wales
+    isSourceEnabled('PublicContractsScotland') || isSourceEnabled('Sell2Wales')
       ? pcsS2wFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['PCS', 'Sell2Wales'])),
-    CONFIG.sources.epcData
+    isSourceEnabled('EPC')
       ? epcFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['EPC'])),
-    CONFIG.sources.landRegistry
+    isSourceEnabled('LandRegistry')
       ? landRegistryFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['LandRegistry'])),
-    CONFIG.sources.charityCommission
+    isSourceEnabled('CharityCommission')
       ? charityCommissionFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['CharityCommission'])),
-    CONFIG.sources.forestryCommission
+    isSourceEnabled('ForestryCommission')
       ? forestryCommissionFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['ForestryCommission'])),
   ]);
