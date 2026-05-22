@@ -44,9 +44,13 @@ async function createCheckoutSession(data) {
         unit_amount: isAnnual ? PRICES[tierKey].annual : PRICES[tierKey].monthly,
         recurring: { interval: isAnnual ? 'year' : 'month' },
     };
+    const configuredPriceId = getConfiguredPriceId(tierKey, isAnnual ? 'annual' : 'monthly');
+    const lineItem = configuredPriceId
+        ? { price: configuredPriceId, quantity: 1 }
+        : { price_data: priceConfig, quantity: 1 };
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [{ price_data: priceConfig, quantity: 1 }],
+        line_items: [lineItem],
         mode: 'subscription',
         success_url: `${DEFAULT_ORIGIN}/activation-pending?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${DEFAULT_ORIGIN}/#pricing`,
@@ -58,6 +62,19 @@ async function createCheckoutSession(data) {
         },
     });
     return { url: session.url };
+}
+function getConfiguredPriceId(tier, billing) {
+    if (tier === 'founding' && billing === 'monthly')
+        return process.env.STRIPE_PRICE_FOUNDING_MONTHLY || '';
+    if (tier === 'founding' && billing === 'annual')
+        return process.env.STRIPE_PRICE_FOUNDING_ANNUAL || '';
+    if (tier === 'pro' && billing === 'monthly')
+        return process.env.STRIPE_PRICE_PRO_MONTHLY || '';
+    if (tier === 'pro' && billing === 'annual')
+        return process.env.STRIPE_PRICE_PRO_ANNUAL || '';
+    if (tier === 'epc')
+        return process.env.STRIPE_PRICE_EPC_MONTHLY || '';
+    return '';
 }
 async function handleStripeWebhook(rawBody, signature) {
     if (!stripe)

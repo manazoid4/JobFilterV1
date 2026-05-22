@@ -55,9 +55,14 @@ export function registerStripeRoutes(app: Express) {
         recurring: { interval: isAnnual ? 'year' : 'month' },
       };
 
+      const configuredPriceId = getConfiguredPriceId(tierKey, isAnnual ? 'annual' : 'monthly');
+      const lineItem = configuredPriceId
+        ? { price: configuredPriceId, quantity: 1 }
+        : { price_data: priceConfig, quantity: 1 };
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [{ price_data: priceConfig, quantity: 1 }],
+        line_items: [lineItem],
         mode: 'subscription',
         success_url: `${req.headers.origin || DEFAULT_ORIGIN}/activation-pending?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin || DEFAULT_ORIGIN}/#pricing`,
@@ -85,7 +90,8 @@ export function registerStripeRoutes(app: Express) {
       let event: Stripe.Event;
 
       try {
-        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+        const rawBody = Buffer.isBuffer(req.body) ? req.body : String(req.body ?? '');
+        event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
       } catch (err: any) {
         console.error('[stripe:webhook] Signature verification failed:', err.message);
         return res.status(400).json({ error: 'Webhook signature verification failed' });
@@ -107,6 +113,15 @@ export function registerStripeRoutes(app: Express) {
       res.status(500).json({ error: 'Webhook handler failed' });
     }
   });
+}
+
+function getConfiguredPriceId(tier: string, billing: 'monthly' | 'annual') {
+  if (tier === 'founding' && billing === 'monthly') return process.env.STRIPE_PRICE_FOUNDING_MONTHLY || '';
+  if (tier === 'founding' && billing === 'annual') return process.env.STRIPE_PRICE_FOUNDING_ANNUAL || '';
+  if (tier === 'pro' && billing === 'monthly') return process.env.STRIPE_PRICE_PRO_MONTHLY || '';
+  if (tier === 'pro' && billing === 'annual') return process.env.STRIPE_PRICE_PRO_ANNUAL || '';
+  if (tier === 'epc') return process.env.STRIPE_PRICE_EPC_MONTHLY || '';
+  return '';
 }
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
@@ -159,6 +174,7 @@ async function handlePaymentFailed(invoice: Stripe.Invoice) {
 async function getWaitlistCount(): Promise<number> {
   try {
     const { supabase } = await import('../lib/supabase');
+    if (!supabase) return 0;
     const { count } = await supabase
       .from('waitlist')
       .select('*', { count: 'exact', head: true });
@@ -171,6 +187,7 @@ async function getWaitlistCount(): Promise<number> {
 async function storePayment(payment: any) {
   try {
     const { supabase } = await import('../lib/supabase');
+    if (!supabase) return;
     const { error } = await supabase.from('payments').insert(payment);
     if (error) console.error('[stripe] DB insert error:', error.message);
   } catch {
@@ -178,11 +195,12 @@ async function storePayment(payment: any) {
   }
 }
 
-async function updateUserStatus(userId: string, email: string, data: any) {
+async function updateUserStatus(userId: string, email: string | null, data: any) {
   if (!userId && !email) return;
 
   try {
     const { supabase } = await import('../lib/supabase');
+    if (!supabase) return;
 
     if (userId) {
       const { error } = await supabase
@@ -208,6 +226,7 @@ async function updateUserStatus(userId: string, email: string, data: any) {
 async function updateUserByStripeCustomer(customerId: string, data: any) {
   try {
     const { supabase } = await import('../lib/supabase');
+    if (!supabase) return;
     const { error } = await supabase
       .from('users')
       .update(data)
@@ -218,7 +237,11 @@ async function updateUserByStripeCustomer(customerId: string, data: any) {
   }
 }
 
-function expressRawBody(req: Request, res: Response, next: any) {
+function expressRawBody(req: Request, _res: Response, next: any) {
+  if (Buffer.isBuffer(req.body) || typeof req.body === 'string') {
+    next();
+    return;
+  }
   let data = '';
   req.on('data', (chunk: Buffer) => { data += chunk; });
   req.on('end', () => {

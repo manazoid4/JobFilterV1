@@ -1,7 +1,11 @@
 node_modules/
 build/
 dist/
+.next/
+tsconfig.tsbuildinfo
 .firebase/
+legacy/firebase/functions/lib/**/*.js
+!legacy/firebase/functions/lib/stripe.js
 functions/lib/
 functions/node_modules/
 coverage/

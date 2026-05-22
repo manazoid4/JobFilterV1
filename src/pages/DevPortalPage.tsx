@@ -30,7 +30,7 @@ const testMatrix = [
   ['Lead scanner', 'Use B14 7QH + electrical, then check Signal Intelligence, trust badges, Patch Pulse, and WhatsApp send.'],
   ['Territory API', 'Call /api/territories/summary?postcode=B14&trade=electrical and expect a pending-scan fallback if Supabase has no metric row.'],
   ['Payments surface', 'Open /pricing and test checkout creation with Stripe test keys configured.'],
-  ['Regression gate', 'Before deploy: npm run lint, npm run build, then firebase deploy --only hosting.'],
+  ['Regression gate', 'Before deploy: npm run lint, npm run build, then deploy through Vercel.'],
 ];
 
 const checkCards = [

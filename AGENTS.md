@@ -92,13 +92,12 @@ Keep Obsidian notes short, linked, and in the right folder.
 After EVERY change to JobFilter:
 1. `npm run build` — must pass
 2. `npm run lint` — must pass
-3. `git add -A && git commit -m "..." && git push origin fix/main-build:main`
-4. `firebase deploy --only hosting` — ALWAYS deploy to Firebase hosting
+3. `git add -A && git commit -m "..."`
+4. `git push origin <branch>`
+5. Vercel deploys from GitHub. Use Vercel production for live deploys after checks pass.
 
-Live URL: **jobfilter.uk** (custom domain on Firebase project `jobfilter-uk`)
-Firebase URL: https://jobfilter-uk.web.app
+Live URL: **jobfilter.uk**.
 
 Always report the production site as **https://jobfilter.uk**.
-The `jobfilter-uk.web.app` URL is only Firebase's default hosting URL, not the customer-facing URL.
 
-If you skip the Firebase deploy, the live site does NOT update.
+Firebase hosting is archived under `legacy/firebase/` during the Vercel/Supabase migration. Do not delete the Firebase project/link until the Vercel production deployment has been confirmed.
