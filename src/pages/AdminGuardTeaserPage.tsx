@@ -57,7 +57,7 @@ export function AdminGuardTeaserPage() {
         <p className="mt-4 max-w-2xl font-black text-white/90 text-lg sm:text-xl">
           HMRC dates, trade admin checklists and reminder exports — built into your JobFilter dashboard.
         </p>
-        <p className="mt-2 text-sm font-bold text-white/50">
+        <p className="mt-2 text-sm font-bold text-white/75">
           No NI number. No UTR. No tax bill details. Just reminders and organisation.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
@@ -101,7 +101,7 @@ export function AdminGuardTeaserPage() {
               <p className="micro-label text-[var(--yellow)]">JOBFILTER ADMIN GUARD</p>
             </div>
             <div className="p-3">
-              <p className="micro-label text-white/50">DOING IT MANUALLY</p>
+              <p className="micro-label text-white/75">DOING IT MANUALLY</p>
             </div>
           </div>
           {COMPARISON.map((row, i) => (
@@ -112,7 +112,7 @@ export function AdminGuardTeaserPage() {
               </div>
               <div className="p-3 flex items-start gap-2">
                 <span className="text-white/30 font-black mt-0.5 shrink-0">✗</span>
-                <p className="text-sm font-black text-white/50">{row.manual}</p>
+                <p className="text-sm font-black text-white/75">{row.manual}</p>
               </div>
             </div>
           ))}
@@ -176,7 +176,7 @@ export function AdminGuardTeaserPage() {
             START WITH ADMIN GUARD →
           </Link>
         </div>
-        <p className="mt-4 text-xs font-bold text-white/40">
+        <p className="mt-4 text-xs font-bold text-white/75">
           This is a reminder and organisation tool only. Not tax or legal advice. Always check GOV.UK or speak to an accountant.
         </p>
       </section>

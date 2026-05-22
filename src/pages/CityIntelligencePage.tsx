@@ -281,21 +281,21 @@ export function CityIntelligencePage() {
           <h1 className="headline text-4xl leading-none text-white sm:text-6xl">
             TRADE BRIEFING<br />{intel.city.toUpperCase()}
           </h1>
-          <p className="mt-3 text-sm font-black uppercase tracking-wider text-white/50">{intel.weekOf} · Postcode area: {intel.postcode}</p>
+          <p className="mt-3 text-sm font-black uppercase tracking-wider text-white/75">{intel.weekOf} · Postcode area: {intel.postcode}</p>
           <p className="mt-2 max-w-2xl text-xs font-bold text-white/60">
             Sample briefing showing the format. Live briefings pull from real planning, EPC and tender feeds — only delivered to founder-patch subscribers in covered postcodes.
           </p>
           <div className="mt-6 flex flex-wrap gap-4">
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 px-5 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-white/50">Territory Score</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-white/75">Territory Score</p>
               <p className={`headline text-3xl ${scoreTrendClass}`}>{intel.territoryScore}</p>
             </div>
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 px-5 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-white/50">Signals This Week</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-white/75">Signals This Week</p>
               <p className="headline text-3xl text-white">{intel.totalSignals}</p>
             </div>
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 px-5 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-white/50">Change vs Last Week</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-white/75">Change vs Last Week</p>
               <p className={`headline text-3xl ${intel.signalChange >= 0 ? 'text-[var(--green)]' : 'text-[var(--orange)]'}`}>
                 {intel.signalChange >= 0 ? '+' : ''}{intel.signalChange}
               </p>

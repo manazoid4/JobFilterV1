@@ -19,6 +19,7 @@ const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
+type ScanMode = 'all' | 'start_now';
 
 const WEEKLY_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const SCAN_COUNT_KEY = 'jf-weekly-scans-used';
@@ -146,6 +147,7 @@ export function FindJobsPage() {
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
+  const [scanMode, setScanMode] = useState<ScanMode>('all');
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -160,6 +162,9 @@ export function FindJobsPage() {
     }
     if (areaParam) {
       setPostcode(areaParam);
+    }
+    if (searchParams.get('mode') === 'start_now') {
+      setScanMode('start_now');
     }
   }, [searchParams]);
 
@@ -205,13 +210,15 @@ export function FindJobsPage() {
     const used = recordWeeklyScan();
     setWeeklyScansUsed(used);
     try {
-      const response = await fetch('/api/leads/search', {
+      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postcode,
           trade: overrides?.trade ?? trade,
           radiusMiles: overrides?.radiusMiles ?? radiusMiles,
+          mode: scanMode,
         }),
       });
       const data = await response.json() as LeadSearchResponse;
@@ -279,13 +286,15 @@ export function FindJobsPage() {
     setFillWeekPhase('Ranking the best jobs near you...');
     await new Promise(r => setTimeout(r, 400));
     try {
-      const response = await fetch('/api/leads/search', {
+      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postcode,
           trade,
           radiusMiles: Math.max(radiusMiles, 25),
+          mode: scanMode,
         }),
       });
       const data = await response.json() as LeadSearchResponse;
@@ -311,6 +320,7 @@ export function FindJobsPage() {
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
+  const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
   const bestSource = getBestSource(result?.sources);
   const sourceMix = getSourceMix(result?.sources);
 
@@ -365,6 +375,43 @@ export function FindJobsPage() {
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
             <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
             <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">BEFORE CHECKATRADE SEES IT</span>
+          </div>
+        )}
+
+        <div className="mt-5 grid gap-2 sm:grid-cols-2" role="tablist" aria-label="Lead scan mode">
+          <button
+            type="button"
+            onClick={() => setScanMode('all')}
+            className={`border-2 border-[var(--line)] px-4 py-3 text-left font-black uppercase transition ${
+              scanMode === 'all'
+                ? 'bg-[var(--ink)] text-white'
+                : 'bg-white text-[var(--ink)] hover:bg-[var(--paper)]'
+            }`}
+          >
+            <span className="block text-sm">All signals</span>
+            <span className={`block text-xs ${scanMode === 'all' ? 'text-white/80' : 'text-[var(--muted)]'}`}>
+              Broad scan across planning, contracts, EPC and property signals.
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setScanMode('start_now')}
+            className={`border-2 border-[var(--line)] px-4 py-3 text-left font-black uppercase transition ${
+              scanMode === 'start_now'
+                ? 'bg-[var(--yellow)] text-[var(--ink)] shadow-[4px_4px_0_var(--line)]'
+                : 'bg-white text-[var(--ink)] hover:bg-[var(--paper)]'
+            }`}
+          >
+            <span className="block text-sm">Works Starting Now</span>
+            <span className={`block text-xs ${scanMode === 'start_now' ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>
+              Filters for READY/MAYBE leads with stronger timing evidence.
+            </span>
+          </button>
+        </div>
+
+        {scanMode === 'start_now' && (
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
+            Start Signal mode ranks source-fused evidence like planning approval, building-control movement, EPC, Companies House and property signals. Verify source links before contacting anyone.
           </div>
         )}
 
@@ -449,16 +496,16 @@ export function FindJobsPage() {
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
-            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{planningCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">PLANNING</p>
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{scanMode === 'start_now' ? startReadyCount : planningCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">{scanMode === 'start_now' ? 'READY NOW' : 'PLANNING'}</p>
           </div>
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">ENERGY</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">ENERGY</p>
           </div>
           <div className="p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">CONTRACTS</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">CONTRACTS</p>
           </div>
         </section>
       )}
@@ -672,11 +719,11 @@ export function FindJobsPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
-            <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
-            <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. Planning approvals, energy upgrades, public contracts. Ranked for {titleCase(trade)}, ready to chase.
-            </p>
+          <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
+          <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
+          <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
+              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. {scanMode === 'start_now' ? 'Filters for jobs likely active or imminent.' : 'Planning approvals, energy upgrades, public contracts.'} Ranked for {titleCase(trade)}, ready to chase.
+          </p>
           </div>
           <button
             type="button"
@@ -893,7 +940,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
               COMMERCIAL
             </span>
           )}
-          <LeadReadinessBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
+          <LeadReadinessBadge level={lead.leadReadiness ?? lead.readiness ?? (lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE')} size="sm" />
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
@@ -906,6 +953,17 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           </div>
         ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
+        {lead.whyNow && (
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)]/25 p-3">
+            <p className="micro-label text-[var(--ink)]">WHY NOW</p>
+            <p className="mt-1 text-sm font-black text-[var(--ink)]">{lead.whyNow}</p>
+          </div>
+        )}
+        {typeof lead.evidenceCount === 'number' && (
+          <p className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted)]">
+            {lead.evidenceCount} evidence item{lead.evidenceCount === 1 ? '' : 's'} · source links required before purchase/contact decisions
+          </p>
+        )}
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
           {fields.map(([label, value]) => (
             <Stat key={label} label={label} value={value} />

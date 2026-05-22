@@ -127,6 +127,67 @@ app.post('/api/leads/search', async (req, res) => {
   }
 });
 
+app.post('/api/start-signals/search', async (req, res) => {
+  const ip = clientIp(req);
+  if (!checkRateLimit(ip)) {
+    return res.status(429).json({ ok: false, source: 'start_signal_engine', count: 0, region: '', outward: '', leads: [], errors: ['Too many requests.'] });
+  }
+
+  try {
+    const { postcode, trade = 'electrical' } = req.body ?? {};
+    if (!validUkPostcode(postcode)) {
+      return res.status(400).json({ ok: false, source: 'start_signal_engine', count: 0, region: '', outward: '', leads: [], errors: ['valid UK postcode required'] });
+    }
+
+    const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
+    const safeTrade = sanitizeTrade(trade);
+    const result = await scan({ postcode: postcode.trim(), trade: safeTrade, tier: 'paid', radiusMiles });
+    const leads = result.leads.map(toStartSignalLead).filter((lead: any) => lead.readiness !== 'WASTE');
+
+    return res.json({
+      ok: true,
+      source: 'start_signal_engine',
+      mode: 'start_now',
+      count: leads.length,
+      region: result.region,
+      outward: result.outward,
+      updatedAt: new Date().toISOString(),
+      cached: false,
+      leads,
+      lockedCount: 0,
+      accessMode: 'paid-start-signal-preview',
+      sources: result.sources,
+      errors: result.errors ?? [],
+    });
+  } catch (err: any) {
+    return res.status(503).json({ ok: false, source: 'start_signal_engine', count: 0, region: '', outward: '', leads: [], errors: [String(err?.message ?? 'start signal scan failed')] });
+  }
+});
+
+app.get('/api/start-signals/sources', (_req, res) => {
+  return res.json({
+    ok: true,
+    source: 'start_signal_engine',
+    updatedAt: new Date().toISOString(),
+    sources: [
+      { id: 'planning-data', name: 'Planning Data API', role: 'Planning intent', refresh: '6h hot areas / daily backfill', status: 'live', confidence: 95 },
+      { id: 'building-control', name: 'Council building-control registers', role: 'Site movement', refresh: 'adapter dependent', status: 'coverage-pending', confidence: 70 },
+      { id: 'epc', name: 'Energy Performance Certificates', role: 'Retrofit corroboration', refresh: '12h deltas when key configured', status: 'key-required', confidence: 85 },
+      { id: 'land-registry', name: 'HM Land Registry Price Paid', role: 'Recent-owner renovation signal', refresh: 'monthly', status: 'planned-cache', confidence: 85 },
+      { id: 'companies-house', name: 'Companies House', role: 'Commercial fit-out signal', refresh: 'daily when key configured', status: 'key-required', confidence: 80 },
+    ],
+    compliance: 'Official/public sources only. Exact source URLs and fetched timestamps are required before a claim is shown as verified.',
+  });
+});
+
+app.post('/api/start-signals/:id/feedback', (req, res) => {
+  const status = String(req.body?.status ?? '').toLowerCase();
+  if (!['won', 'lost', 'too_early', 'not_real', 'real_but_uncontactable', 'ignored'].includes(status)) {
+    return res.status(422).json({ ok: false, errors: ['feedback status must be won, lost, too_early, not_real, real_but_uncontactable, ignored'] });
+  }
+  return res.json({ ok: true, source: 'start_signal_engine', signalId: req.params.id, status, receivedAt: new Date().toISOString() });
+});
+
 app.post('/api/intake/score', async (req, res) => {
   const ip = clientIp(req);
   if (!checkRateLimit(ip)) return res.status(429).json({ ok: false, errors: ['Too many requests.'] });
@@ -441,6 +502,53 @@ function sanitizeRadius(input: unknown) {
     throw new Error('radiusMiles must be between 1 and 100');
   }
   return radius;
+}
+
+function sanitizeTrade(input: unknown) {
+  const trade = String(input ?? '').toLowerCase().replace(/[^a-z]/g, '');
+  const trades = new Set(['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping']);
+  if (!trades.has(trade)) throw new Error('valid trade required');
+  return trade;
+}
+
+function toStartSignalLead(lead: any) {
+  const evidence = Array.from(new Set([...(lead.signalStack ?? []), ...(lead.evidenceBadges ?? [])])).filter(Boolean);
+  const readiness = scoreStartReadiness(lead, evidence.length);
+  const sourceUrl = lead.sourceUrl || lead.url || '';
+  return {
+    ...lead,
+    url: sourceUrl,
+    score: Math.min(100, Math.max(Number(lead.score ?? 0), readiness === 'READY' ? 80 : readiness === 'MAYBE' ? 55 : 35)),
+    readiness,
+    leadReadiness: readiness,
+    evidenceCount: evidence.length,
+    evidenceBadges: evidence.slice(0, 5),
+    whyNow: buildWhyNow(lead, evidence),
+    sourceUrls: sourceUrl ? [sourceUrl] : [],
+    updatedAt: new Date().toISOString(),
+    recommendedAction: lead.recommendedAction || startRecommendedAction(readiness),
+  };
+}
+
+function scoreStartReadiness(lead: any, evidenceCount: number) {
+  if (lead.leadReadiness === 'READY' || lead.signalClass === 'active_site') return 'READY';
+  if (lead.leadReadiness === 'MAYBE') return 'MAYBE';
+  if (['homeowner_retrofit', 'commercial_fitout'].includes(String(lead.signalClass)) && evidenceCount >= 1) return 'MAYBE';
+  if (evidenceCount >= 2 && Number(lead.score ?? 0) >= 60) return 'MAYBE';
+  return 'WASTE';
+}
+
+function buildWhyNow(lead: any, evidence: unknown[]) {
+  if (lead.signalClass === 'active_site') return 'Planning and site-movement evidence point to work moving now.';
+  if (lead.signalClass === 'homeowner_retrofit') return 'Retrofit/property evidence suggests an owner may need trade work soon.';
+  if (lead.signalClass === 'commercial_fitout') return 'Business and property signals suggest a fit-out opportunity.';
+  return evidence[0] ? `Recent ${String(evidence[0]).toLowerCase()} evidence raises this above planning noise.` : 'Recent official signals make this worth checking.';
+}
+
+function startRecommendedAction(readiness: string) {
+  if (readiness === 'READY') return 'Check source evidence and reserve a survey slot within 48 hours.';
+  if (readiness === 'MAYBE') return 'Save it, verify the source, and follow up if the site matches your trade.';
+  return 'Skip unless you already know the site.';
 }
 
 function defaultTerritorySummary(postcode: string, trade: string) {

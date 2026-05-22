@@ -174,7 +174,7 @@ export function PricingPage() {
           </div>
           <div className="flex items-center gap-3">
             <div className="flex-1 border-t-2 border-white/20" />
-            <span className="text-xs font-black text-white/40 uppercase">or scan free first</span>
+            <span className="text-xs font-black text-white/75 uppercase">or scan free first</span>
             <div className="flex-1 border-t-2 border-white/20" />
           </div>
           <div className="flex items-center gap-4">

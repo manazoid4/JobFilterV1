@@ -7,6 +7,7 @@ import type { ChaseLead } from '../lib/types';
 
 const memberTools = [
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
+  { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
@@ -14,7 +15,8 @@ const memberTools = [
 ];
 
 const quickActions = [
-  { label: 'Scan My Area', path: '/find-jobs', icon: Radio, colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { label: 'Works Starting Now', path: '/find-jobs?mode=start_now', icon: ShieldCheck, colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { label: 'Scan My Area', path: '/find-jobs', icon: Radio, colour: 'bg-white text-[var(--ink)]' },
   { label: 'My Pipeline', path: '/dashboard', icon: TrendingUp, colour: 'bg-[var(--navy)] text-white' },
   { label: 'My Territory', path: '/territories', icon: MapPinned, colour: 'bg-[var(--green)] text-white' },
   { label: 'Free Tools', path: '/free-tools', icon: Zap, colour: 'bg-[var(--orange)] text-white' },
@@ -93,17 +95,17 @@ export function TradieZonePage() {
       {/* Quick Actions */}
       <section>
         <p className="micro-label text-[var(--muted)]">QUICK ACTIONS</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
               <Link
                 key={action.label}
                 to={action.path}
-                className={`jf-box flex items-center gap-3 p-4 transition-all hover:shadow-[4px_4px_0_var(--line)] ${action.colour}`}
+                className={`jf-box flex min-h-[84px] items-center gap-3 p-4 transition-all hover:shadow-[4px_4px_0_var(--line)] ${action.colour}`}
               >
                 <Icon size={24} strokeWidth={2.5} />
-                <span className="headline text-lg">{action.label}</span>
+                <span className="headline text-base leading-none sm:text-lg">{action.label}</span>
               </Link>
             );
           })}
@@ -113,7 +115,7 @@ export function TradieZonePage() {
       {/* Member Tools */}
       <section>
         <p className="micro-label text-[var(--muted)]">MEMBER TOOLS</p>
-        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {memberTools.map((tool) => {
             const Icon = tool.icon;
             return (
@@ -125,8 +127,8 @@ export function TradieZonePage() {
                 <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
                   <Icon size={20} strokeWidth={2.5} />
                 </div>
-                <h3 className="headline mt-3 text-xl">{tool.name}</h3>
-                <p className="mt-1 text-sm font-black text-[var(--muted)]">{tool.desc}</p>
+                <h3 className="headline mt-3 text-xl text-[var(--ink)]">{tool.name}</h3>
+                <p className="mt-1 text-sm font-black leading-snug text-[var(--ink)]/75">{tool.desc}</p>
                 <span className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] group-hover:underline">
                   OPEN →
                 </span>

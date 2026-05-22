@@ -65,6 +65,11 @@ export type Lead = {
   signalStack?: string[];
   signalClass?: string;
   fusionKey?: string;
+  readiness?: 'READY' | 'MAYBE' | 'WASTE';
+  evidenceCount?: number;
+  whyNow?: string;
+  sourceUrls?: string[];
+  updatedAt?: string;
 };
 
 export type SourceStats = {
@@ -77,7 +82,7 @@ export type SourceStats = {
 
 export type LeadSearchResponse = {
   ok: boolean;
-  source: 'contracts_finder' | 'lead_engine';
+  source: 'contracts_finder' | 'lead_engine' | 'start_signal_engine';
   count: number;
   region: string;
   outward: string;

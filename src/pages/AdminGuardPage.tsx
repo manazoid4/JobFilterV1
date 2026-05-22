@@ -94,7 +94,7 @@ export function AdminGuardPage() {
             <p className="mt-3 max-w-2xl font-black text-white/80">
               HMRC dates, trade admin checklists and reminder exports — built into your dashboard.
             </p>
-            <p className="mt-1 text-xs font-bold text-white/50">
+            <p className="mt-1 text-xs font-bold text-white/75">
               No NI number. No UTR. No tax bill details. Just reminders and organisation.
             </p>
           </div>
@@ -283,7 +283,7 @@ export function AdminGuardPage() {
         <p className="micro-label text-[var(--yellow)]">MAKING TAX DIGITAL</p>
         <h2 className="headline mt-1 text-2xl leading-none">MTD CHECK</h2>
         <p className="mt-3 font-black text-white/90 max-w-2xl">{mtdMessage}</p>
-        <p className="mt-3 text-xs font-bold text-white/50">
+        <p className="mt-3 text-xs font-bold text-white/75">
           Dates based on GOV.UK guidance. Always verify before filing or paying.
         </p>
         <a

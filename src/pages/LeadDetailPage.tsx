@@ -247,7 +247,17 @@ export function LeadDetailPage() {
 
       {(lead.signalStack?.length || lead.recommendedAction || lead.signalClass) && (
         <section className="jf-box bg-white p-6">
-          <h2 className="headline text-2xl sm:text-3xl">SIGNAL INTELLIGENCE</h2>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="micro-label text-[var(--orange)]">WORKS STARTING NOW</p>
+              <h2 className="headline text-2xl sm:text-3xl">SIGNAL INTELLIGENCE</h2>
+            </div>
+            {lead.leadReadiness && (
+              <span className="inline-block border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
+                {lead.leadReadiness}
+              </span>
+            )}
+          </div>
           <div className="mt-4 grid gap-4">
             {lead.signalClass && (
               <p className="micro-label text-[var(--orange)]">{lead.signalClass.replace(/_/g, ' ').toUpperCase()}</p>
@@ -267,6 +277,12 @@ export function LeadDetailPage() {
               </div>
             )}
             {lead.evidenceBadges?.length ? <TrustBadges badges={lead.evidenceBadges} /> : null}
+            <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--ink)]">VERIFY BEFORE CONTACT</p>
+              <p className="mt-1 text-sm font-black text-[var(--ink)]/75">
+                Source data can lag or change. Confirm the linked evidence before quoting, visiting, or making contact.
+              </p>
+            </div>
           </div>
         </section>
       )}

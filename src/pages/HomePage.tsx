@@ -340,7 +340,7 @@ export function HomePage() {
             <p className="text-sm font-bold text-white/80 leading-relaxed italic">
               "Hi, I saw your builder job in SW12 come up. I'm local and available this week. Happy to pop round and give you a proper quote — no obligation. Give me a shout if you want to arrange a time."
             </p>
-            <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/40">Pre-filled with trade + postcode from the lead</p>
+            <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/75">Pre-filled with trade + postcode from the lead</p>
           </div>
           <div className="mt-8">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
@@ -398,7 +398,7 @@ export function HomePage() {
               <p className="mt-3 text-[11px] font-black uppercase text-[var(--yellow)]/80">Target: Q3 2026</p>
             </div>
           </div>
-          <p className="mt-6 text-xs font-black uppercase tracking-wider text-white/50">
+          <p className="mt-6 text-xs font-black uppercase tracking-wider text-white/75">
             Founder firms get each one first as it ships. No charge to upgrade.
           </p>
         </div>

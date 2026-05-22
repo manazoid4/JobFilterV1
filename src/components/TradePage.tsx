@@ -194,7 +194,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <div className="mb-2 flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-[var(--green)]"></span>
                 <span className="text-xs font-black text-[var(--green)]">JobFilter</span>
-                <span className="text-xs text-white/40">14:32</span>
+                <span className="text-xs text-white/75">14:32</span>
               </div>
               <pre className="whitespace-pre-wrap text-white/90">{data.whatsappMessage}</pre>
             </div>
