@@ -22,10 +22,10 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 ## Iteration queue
 
 ### URGENT — vault security + integrity (from lint report 2026-05-22)
-- [ ] **SECURITY: delete `JobFilter/SupaBase DB password.md`** — plaintext credential leak (needs user approval)
+- [x] **SECURITY: delete `JobFilter/SupaBase DB password.md`** — done 2026-05-22
 - [x] Create `JobFilter/Daily Brief.md` stub (agent 16 entry point — must exist or first run fails)
 - [x] Create `JobFilter/Agent Schedule.md` stub (agent 00 master orchestrator depends on it)
-- [ ] Fix `[[Sessions/Daily To-Do]]` dead link in 15 changelogs
+- [x] Fix `[[Sessions/Daily To-Do]]` dead link in 15 changelogs — done 2026-05-22
 
 ### Foundation (unblocks everything)
 - [x] n8n workflows folder + 3 starter agents (01-03)
@@ -36,7 +36,7 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [x] Agent 05 — Lead Dedup Memory (kills repeat-alert noise)
 
 ### Lead-quality core (drives paid conversion)
-- [ ] Agent 02v2 — READY signal alert w/ dedup wired (rewire 02 to call 05)
+- [x] Agent 02v2 — READY signal alert w/ dedup wired (inlined dedup, done 2026-05-22)
 - [x] Agent 06 — Outcome Logger (closes feedback loop)
 - [x] Agent 11 — Chase Check Reminder (recovers warm leads)
 - [x] Agent 14 — Source Health Watchdog (dead sources = junk)
@@ -51,7 +51,7 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [x] Agent 08 — Territory Summary
 - [x] Agent 13 — Calendar Sync
 - [x] Agent 15 — Competitor Watch
-- [ ] Agent 00 — Master Orchestrator
+- [x] Agent 00 — Master Orchestrator (`scripts/n8n-sync-schedule.mjs` — vault-driven cron sync, done 2026-05-22)
 
 ### Polish
 - [ ] Centralise n8n Variables config
@@ -119,3 +119,5 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — `JobFilter/n8n Workflow IDs.md` registry created
 - 2026-05-22 — Iter 3 max-effort burst: shipped agents 05/06/07/08/09/10/14 (7 new workflows live via API). Agent Schedule.md stub created.
 - 2026-05-22 — Iter 4 continued burst: shipped agents 11/12/13/15. **16/16 workflows now live in n8n**. Only agent 00 (Master Orchestrator) + 02v2 dedup-wire + polish items remaining.
+- 2026-05-22 — Iter 5: SupaBase password deleted, 15 changelogs dead-link fixed, 02 dedup inlined, scripts/n8n-activate.mjs written, 13/16 workflows activated via API (01/02/03 await SMTP).
+- 2026-05-22 — Iter 6 (this): Agent 00 Master Orchestrator shipped as `scripts/n8n-sync-schedule.mjs`. Parses Agent Schedule.md vault table, syncs cron expressions to n8n via API. Verified: 11/11 rows parsed, all unchanged on first sync run. Vault-driven scheduling live.
