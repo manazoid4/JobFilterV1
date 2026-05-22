@@ -117,6 +117,9 @@ export function TopNav() {
               <NavLink to="/dashboard" className="nav-link text-xs font-black uppercase">
                 Dashboard
               </NavLink>
+              <NavLink to="/account" className="nav-link text-xs font-black uppercase">
+                Account
+              </NavLink>
               <button
                 type="button"
                 onClick={signOut}
@@ -184,6 +187,15 @@ export function TopNav() {
                 {link.label}
               </NavLink>
             ))}
+            {user ? (
+              <>
+                <NavLink to="/dashboard" onClick={() => setMenuOpen(false)} className={({ isActive }) => `border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${isActive ? 'bg-[var(--yellow)]' : ''}`}>Dashboard</NavLink>
+                <NavLink to="/account" onClick={() => setMenuOpen(false)} className={({ isActive }) => `border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${isActive ? 'bg-[var(--yellow)]' : ''}`}>Account</NavLink>
+                <button type="button" onClick={() => { setMenuOpen(false); signOut(); }} className="border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center w-full text-left">Sign out</button>
+              </>
+            ) : (
+              <NavLink to="/login" onClick={() => setMenuOpen(false)} className={({ isActive }) => `border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${isActive ? 'bg-[var(--yellow)]' : ''}`}>Sign in</NavLink>
+            )}
           </div>
           <NavLink
             to="/find-jobs"

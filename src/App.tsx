@@ -12,6 +12,10 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 
+const AccountPage = lazyPage(() => import('./pages/AccountPage'));
+const ForgotPasswordPage = lazyPage(() => import('./pages/ForgotPasswordPage'));
+const ResetPasswordPage = lazyPage(() => import('./pages/ResetPasswordPage'));
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,10 +102,6 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
-      {/* LAUNCH TEST BANNER — remove once testing confirmed */}
-      <div style={{background:'#FACC15',borderBottom:'4px solid #000',padding:'12px 16px',textAlign:'center',fontFamily:'monospace',fontWeight:900,fontSize:'15px',letterSpacing:'0.05em',textTransform:'uppercase',color:'#000',zIndex:9999,position:'relative'}}>
-        🚀 LIVE ON VERCEL — SUPABASE + STRIPE CONNECTED — jobfilter.uk 🚀
-      </div>
       <TopNav />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -159,6 +159,9 @@ function AppContent() {
         <Route path="/terms" element={<LazyPage><LegalPage type="terms" /></LazyPage>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<LazyPage><ForgotPasswordPage /></LazyPage>} />
+        <Route path="/reset-password" element={<LazyPage><ResetPasswordPage /></LazyPage>} />
+        <Route path="/account" element={<LazyPage><AccountPage /></LazyPage>} />
         <Route path="/dashboard" element={<ProtectedRoute><LazyPage><DashboardPage /></LazyPage></ProtectedRoute>} />
         <Route path="/health" element={<HealthPage />} />
         <Route path="*" element={<LazyPage><NotFoundPage /></LazyPage>} />

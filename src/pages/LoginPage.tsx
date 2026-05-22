@@ -50,6 +50,11 @@ export function LoginPage() {
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
+          <Link to="/forgot-password" className="font-black underline hover:text-[var(--yellow)]">
+            Forgot password?
+          </Link>
+        </p>
+        <p className="mt-2 text-sm text-center">
           No account?{' '}
           <Link to="/signup" className="font-black underline hover:text-[var(--yellow)]">
             Create one →
