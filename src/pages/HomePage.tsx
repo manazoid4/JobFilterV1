@@ -4,10 +4,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official UK signal sources checked server-side',
-  'Planning, energy & council signals — verified',
-  'One trade per postcode — locked to you',
-  'No shared lead trap. Cancel anytime.',
+  'Jobs spotted before Checkatrade lists them',
+  'Verified signals — not recycled from job boards',
+  'One trade per postcode — no five-way blast',
+  'No shared auction. Cancel anytime.',
 ];
 
 const signalRows = [
@@ -290,7 +290,7 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
               <div>
                 <p className="headline text-xl text-[var(--ink)]">Enter your postcode and trade</p>
-                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, EPC data, council tenders, and new business registrations within your territory.</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, energy signals, council tenders, and new business registrations within your territory.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
@@ -533,7 +533,7 @@ export function HomePage() {
               { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'Patch Watch', body: 'Planning, EPC, tender, and company signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
+              { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
             ].map(({ icon: Icon, title, body }) => (

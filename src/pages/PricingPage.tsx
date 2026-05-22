@@ -52,43 +52,43 @@ const featureCategories = [
   {
     icon: MessageSquare,
     title: 'First Strike',
-    tagline: 'WhatsApp job bodyguard',
+    tagline: 'Ready-to-send message in one tap',
     points: ['Auto-selects right template for lead age', 'Pre-filled with trade + postcode', 'Copies to WhatsApp in one tap', 'Auto-tracks the lead on send'],
     featured: true,
   },
   {
     icon: Camera,
     title: 'Vicinity',
-    tagline: 'Turn jobs into leads',
+    tagline: 'Job photos turned into local ads',
     points: ['Job photos → posts, ads, website visuals', 'Turn a finished job into inbound work', 'No marketing skills needed', 'Works from your camera roll'],
     featured: false,
   },
   {
     icon: LayoutGrid,
     title: 'Vantage',
-    tagline: 'Bid edge',
+    tagline: 'Stronger quote presentation',
     points: ['Better-looking quotes win bigger jobs', 'Fixes weak presentation before the buyer compares', 'Quote packs that look professional on the doorstep', 'Low trust before price — solved'],
     featured: false,
   },
   {
     icon: BarChart3,
     title: 'Win Engine',
-    tagline: 'Retention moat',
+    tagline: 'Win tracking + one-tap review request',
     points: ['Won job tracking + monthly ROI dashboard', '"You\'ve won £X this month via JobFilter"', 'One-tap review request for WhatsApp', 'Lost job analysis — learn why work went elsewhere'],
     featured: false,
   },
   {
     icon: Mail,
     title: 'Letterhead Pack',
-    tagline: 'For strong leads only',
+    tagline: 'Printed letter posted to their door',
     points: ['Professional letterhead with your company details', 'Job-specific scope notes + proof checklist', 'WhatsApp-ready PDF — send in seconds', 'Printing and postage included'],
     featured: false,
   },
   {
     icon: Radar,
     title: 'Patch Watch',
-    tagline: 'Daily signal monitoring',
-    points: ['Planning, EPC, tender, and company signals daily', 'Gold/Silver split for your postcode', 'Best source breakdown for your trade', 'Weekly opportunity digest'],
+    tagline: 'Daily job signals for your postcode',
+    points: ['Planning, energy, tender, and company signals daily', 'Gold/Silver split for your postcode', 'Best source breakdown for your trade', 'Weekly opportunity digest'],
     featured: false,
   },
   {
@@ -279,7 +279,7 @@ export function PricingPage() {
 
       <section className="grid gap-4 lg:grid-cols-2">
         <article className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-          <p className="micro-label text-[var(--ink)]">NEW PAID FEATURE</p>
+          <p className="micro-label text-[var(--ink)]">FOUNDER & STANDARD — INCLUDED</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">BUYER ACTION PACK.</h2>
           <p className="mt-3 text-lg font-black text-[var(--ink)]/80">
             Every serious lead needs a chase plan. Paid users get the call opener, verification checks, quote guardrail, and next action beside the lead.
@@ -292,7 +292,7 @@ export function PricingPage() {
         </article>
 
         <article className="ops-panel bg-[var(--ink)] p-7 text-white">
-          <p className="micro-label text-[var(--yellow)]">NEW PAID FEATURE</p>
+          <p className="micro-label text-[var(--yellow)]">FOUNDER & STANDARD — INCLUDED</p>
           <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">PATCH WATCH.</h2>
           <p className="mt-3 text-lg font-black text-white/80">
             You are not paying for one search. You are paying for your postcode cluster to be watched for new planning, energy upgrade, tender, and fit-out signals.
@@ -342,8 +342,8 @@ export function PricingPage() {
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h3 className="headline text-2xl text-white leading-none">{title}</h3>
-                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60 mt-0.5">{tagline}</p>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)]/60">{title}</p>
+                    <h3 className="headline text-2xl text-white leading-none mt-0.5">{tagline}</h3>
                   </div>
                   <span className="ml-auto text-[10px] font-black uppercase bg-[var(--orange)] text-white px-2 py-1 tracking-wider">NEW</span>
                 </div>
@@ -363,8 +363,8 @@ export function PricingPage() {
                     <Icon className="h-5 w-5 text-[var(--ink)]" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h3 className="headline text-2xl leading-none">{title}</h3>
-                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)] mt-0.5">{tagline}</p>
+                    <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">{title}</p>
+                    <h3 className="headline text-2xl leading-none mt-0.5">{tagline}</h3>
                   </div>
                 </div>
                 <ul className="mt-3 grid gap-1">

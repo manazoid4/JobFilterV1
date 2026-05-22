@@ -98,6 +98,7 @@ export function LeadDetailPage() {
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const [showWonCapture, setShowWonCapture] = useState(false);
   const [wonValueInput, setWonValueInput] = useState('');
+  const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
 
   if (!lead) {
     return (
@@ -113,12 +114,27 @@ export function LeadDetailPage() {
   const chaseLead = getChaseLeads().find((cl) => cl.leadId === id);
   const chaseStage = chaseLead?.stage ?? 'not_contacted';
   const waTemplates = MESSAGE_TEMPLATES.filter((t) => {
+    if (t.channel && t.channel !== 'whatsapp') return false;
     if (chaseStage === 'won') return t.stage === 'won';
     if (chaseStage === 'following_up' || chaseStage === 'contacted') return t.stage === 'following_up';
     return t.stage === 'not_contacted';
   });
+  const otherTemplates = MESSAGE_TEMPLATES.filter((t) => {
+    if (!t.channel || t.channel === 'whatsapp') return false;
+    const targetStage = chaseStage === 'won' ? 'won'
+      : (chaseStage === 'following_up' || chaseStage === 'contacted') ? 'following_up'
+      : 'not_contacted';
+    return t.stage === targetStage;
+  });
   const selectedTemplate = waTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
+
+  function copyOtherTemplate(key: string, body: string) {
+    navigator.clipboard.writeText(body).then(() => {
+      setCopiedOtherKey(key);
+      setTimeout(() => setCopiedOtherKey(null), 2500);
+    });
+  }
 
   async function setStatus(status: LeadDecisionStatus) {
     const outcome: Record<string, string> = {};
@@ -214,6 +230,19 @@ export function LeadDetailPage() {
           {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
           {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
+        {lead.score >= 80 ? (
+          <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Chase now.</p>
+          </div>
+        ) : lead.score >= 50 ? (
+          <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — worth watching. Job signal is verified but timing or budget not confirmed. Worth a quick call, not a full chase yet.</p>
+          </div>
+        ) : (
+          <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — check timing. Signal detected but work may not start immediately. Verify before spending time chasing.</p>
+          </div>
+        )}
       </section>
 
       {(lead.signalStack?.length || lead.recommendedAction || lead.signalClass) && (
@@ -290,6 +319,35 @@ export function LeadDetailPage() {
           </div>
         )}
       </section>
+
+      {otherTemplates.length > 0 && (
+        <section className="jf-box bg-white p-6">
+          <h2 className="headline text-2xl sm:text-3xl">OTHER APPROACHES</h2>
+          <p className="mt-2 text-sm font-black text-[var(--muted)]">Portal, door-step, or letter — copy the message and use it your way.</p>
+          <div className="mt-4 grid gap-4">
+            {otherTemplates.map((t) => {
+              const filled = fillTemplate(t, { job_type: lead.jobType, area: lead.area });
+              return (
+                <div key={t.key} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-black uppercase text-[var(--ink)]">{t.label}</p>
+                      <p className="mt-0.5 text-xs font-black text-[var(--muted)]">{t.timing} — {t.purpose}</p>
+                    </div>
+                    <button
+                      onClick={() => copyOtherTemplate(t.key, filled)}
+                      className={`shrink-0 px-3 py-1.5 text-xs font-black uppercase border-2 ${copiedOtherKey === t.key ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)] text-[var(--ink)]'}`}
+                    >
+                      {copiedOtherKey === t.key ? 'COPIED' : 'COPY'}
+                    </button>
+                  </div>
+                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filled}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>

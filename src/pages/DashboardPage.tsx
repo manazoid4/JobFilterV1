@@ -54,9 +54,11 @@ export function DashboardPage() {
         <p className="mt-3 max-w-2xl font-black text-white/90">
           Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
         </p>
-        <Link to="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-          SCAN FOR JOBS →
-        </Link>
+        {!isEmpty && (
+          <Link to="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+            SCAN FOR JOBS →
+          </Link>
+        )}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
