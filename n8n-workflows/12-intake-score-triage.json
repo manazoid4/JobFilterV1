@@ -1,0 +1,89 @@
+{
+  "name": "JobFilter — 12 Intake Score Triage",
+  "nodes": [
+    {
+      "id": "12ddddd2-0012-0012-0012-000000000001",
+      "name": "Intake Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jobfilter-intake",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "12ddddd2-0012-0012-0012-000000000002",
+      "name": "POST Intake Score",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/intake-score",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ $json.body || $json }}",
+        "options": { "timeout": 20000 }
+      }
+    },
+    {
+      "id": "12ddddd2-0012-0012-0012-000000000003",
+      "name": "Triage + Write",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst res = $input.first().json || {};\nconst score = Number(res.score ?? res.intakeScore ?? 0);\nconst tier = score >= 80 ? 'gold' : score >= 55 ? 'silver' : 'bronze';\nconst now = new Date();\nconst id = res.id || ('intake-' + now.getTime());\nconst slug = String(id).toLowerCase().replace(/[^a-z0-9]+/g, '-');\nconst dir = path.join(vaultPath, 'JobFilter', 'Outcomes', tier);\nfs.mkdirSync(dir, { recursive: true });\nconst file = path.join(dir, slug + '.md');\nconst md = `---\\ntype: intake\\nintake_id: ${id}\\nscore: ${score}\\ntier: ${tier}\\nlogged_at: ${now.toISOString()}\\ntags: [jobfilter, intake, ${tier}]\\n---\\n\\n# Intake — ${id} (${tier.toUpperCase()})\\n\\n**Score:** ${score}\\n**Tier:** ${tier}\\n**Logged:** ${now.toISOString()}\\n\\n## Raw payload\\n\\n\\`\\`\\`json\\n${JSON.stringify(res, null, 2)}\\n\\`\\`\\`\\n`;\nfs.writeFileSync(file, md);\nreturn [{ json: { id, score, tier, file, scoreResponse: res } }];"
+      }
+    },
+    {
+      "id": "12ddddd2-0012-0012-0012-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "intake-score-triage" },
+            { "name": "trigger", "value": "webhook" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Intake ' + $json.id + ' scored ' + $json.score + ' → tier ' + $json.tier }}" },
+            { "name": "payload", "value": "={{ { intakeId: $json.id, score: $json.score, tier: $json.tier, file: $json.file } }}" },
+            { "name": "counts", "value": "={{ { score: $json.score } }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "12ddddd2-0012-0012-0012-000000000005",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, id: $('Triage + Write').item.json.id, score: $('Triage + Write').item.json.score, tier: $('Triage + Write').item.json.tier } }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Intake Webhook": { "main": [[{ "node": "POST Intake Score", "type": "main", "index": 0 }]] },
+    "POST Intake Score": { "main": [[{ "node": "Triage + Write", "type": "main", "index": 0 }]] },
+    "Triage + Write": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] },
+    "Log Run via Vault Writer": { "main": [[{ "node": "Respond", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "POST /webhook/jobfilter-intake → /api/intake-score → tier gold(80+)/silver(55-79)/bronze(<55) → Outcomes/<tier>/<id>.md → log via 04."
+  }
+}

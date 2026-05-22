@@ -38,19 +38,19 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 ### Lead-quality core (drives paid conversion)
 - [ ] Agent 02v2 — READY signal alert w/ dedup wired (rewire 02 to call 05)
 - [x] Agent 06 — Outcome Logger (closes feedback loop)
-- [ ] Agent 11 — Chase Check Reminder (recovers warm leads)
+- [x] Agent 11 — Chase Check Reminder (recovers warm leads)
 - [x] Agent 14 — Source Health Watchdog (dead sources = junk)
 
 ### Revenue surface
 - [x] Agent 10 — Stripe Webhook → Vault
 - [x] Agent 09 — Waitlist Health milestones
-- [ ] Agent 12 — Intake Score Triage (gold/silver/bronze)
+- [x] Agent 12 — Intake Score Triage (gold/silver/bronze)
 
 ### Intel + context
 - [x] Agent 07 — Material Price Watcher
 - [x] Agent 08 — Territory Summary
-- [ ] Agent 13 — Calendar Sync
-- [ ] Agent 15 — Competitor Watch
+- [x] Agent 13 — Calendar Sync
+- [x] Agent 15 — Competitor Watch
 - [ ] Agent 00 — Master Orchestrator
 
 ### Polish
@@ -91,3 +91,4 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — `JobFilter/Daily Brief.md` stub created (agent 16 entry point)
 - 2026-05-22 — `JobFilter/n8n Workflow IDs.md` registry created
 - 2026-05-22 — Iter 3 max-effort burst: shipped agents 05/06/07/08/09/10/14 (7 new workflows live via API). Agent Schedule.md stub created.
+- 2026-05-22 — Iter 4 continued burst: shipped agents 11/12/13/15. **16/16 workflows now live in n8n**. Only agent 00 (Master Orchestrator) + 02v2 dedup-wire + polish items remaining.

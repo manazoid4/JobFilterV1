@@ -27,7 +27,11 @@ Pushed via `scripts/n8n-push.mjs` against `http://localhost:5678`. IDs needed wh
 | `08-territory-summary.json` | JobFilter — 08 Territory Summary | `mJ2jqkaEcljpAG3a` | cron |
 | `09-waitlist-health.json` | JobFilter — 09 Waitlist Health | `XylHASk4kvRZmsLt` | cron |
 | `10-stripe-webhook-vault.json` | JobFilter — 10 Stripe Webhook → Vault | `2f4zmgH6jVn5ekhZ` | webhook |
+| `11-chase-check-reminder.json` | JobFilter — 11 Chase Check Reminder | `93yhO5CYnzrGdq92` | cron |
+| `12-intake-score-triage.json` | JobFilter — 12 Intake Score Triage | `NMO8gGyB1vy6jHcW` | webhook |
+| `13-calendar-sync.json` | JobFilter — 13 Calendar Sync | `enCGdpU5usm1Hy84` | cron |
 | `14-source-health-watchdog.json` | JobFilter — 14 Source Health Watchdog | `u5sWqnbh4gXY7oKj` | cron |
+| `15-competitor-watch.json` | JobFilter — 15 Competitor Watch | `zxjXt1x1yZA1YGN9` | cron |
 | `16-llm-brief-builder.json` | JobFilter — 16 LLM Brief Builder | `dkeRwtZ1lygxeY0w` | cron |
 
 ## Wire-up needed (cross-workflow calls)

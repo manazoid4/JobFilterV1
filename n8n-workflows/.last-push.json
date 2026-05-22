@@ -1,5 +1,5 @@
 {
-  "pushed_at": "2026-05-22T03:23:10.969Z",
+  "pushed_at": "2026-05-22T03:28:13.131Z",
   "results": [
     {
       "file": "01-daily-lead-digest.json",
@@ -29,42 +29,66 @@
       "file": "05-lead-dedup-memory.json",
       "name": "JobFilter — 05 Lead Dedup Memory (sub-workflow)",
       "id": "XbhFFSqPXg7OT48c",
-      "op": "created"
+      "op": "updated"
     },
     {
       "file": "06-outcome-logger.json",
       "name": "JobFilter — 06 Outcome Logger",
       "id": "2Oar5tVrrKQWxyN3",
-      "op": "created"
+      "op": "updated"
     },
     {
       "file": "07-material-price-watcher.json",
       "name": "JobFilter — 07 Material Price Watcher",
       "id": "wK1QMco772GKXSQl",
-      "op": "created"
+      "op": "updated"
     },
     {
       "file": "08-territory-summary.json",
       "name": "JobFilter — 08 Territory Summary",
       "id": "mJ2jqkaEcljpAG3a",
-      "op": "created"
+      "op": "updated"
     },
     {
       "file": "09-waitlist-health.json",
       "name": "JobFilter — 09 Waitlist Health",
       "id": "XylHASk4kvRZmsLt",
-      "op": "created"
+      "op": "updated"
     },
     {
       "file": "10-stripe-webhook-vault.json",
       "name": "JobFilter — 10 Stripe Webhook → Vault",
       "id": "2f4zmgH6jVn5ekhZ",
+      "op": "updated"
+    },
+    {
+      "file": "11-chase-check-reminder.json",
+      "name": "JobFilter — 11 Chase Check Reminder",
+      "id": "93yhO5CYnzrGdq92",
+      "op": "created"
+    },
+    {
+      "file": "12-intake-score-triage.json",
+      "name": "JobFilter — 12 Intake Score Triage",
+      "id": "NMO8gGyB1vy6jHcW",
+      "op": "created"
+    },
+    {
+      "file": "13-calendar-sync.json",
+      "name": "JobFilter — 13 Calendar Sync",
+      "id": "enCGdpU5usm1Hy84",
       "op": "created"
     },
     {
       "file": "14-source-health-watchdog.json",
       "name": "JobFilter — 14 Source Health Watchdog",
       "id": "u5sWqnbh4gXY7oKj",
+      "op": "updated"
+    },
+    {
+      "file": "15-competitor-watch.json",
+      "name": "JobFilter — 15 Competitor Watch",
+      "id": "zxjXt1x1yZA1YGN9",
       "op": "created"
     },
     {

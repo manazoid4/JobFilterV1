@@ -1,0 +1,68 @@
+{
+  "name": "JobFilter — 13 Calendar Sync",
+  "nodes": [
+    {
+      "id": "13eeeee3-0013-0013-0013-000000000001",
+      "name": "Daily 6pm",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 18 * * *" }] }
+      }
+    },
+    {
+      "id": "13eeeee3-0013-0013-0013-000000000002",
+      "name": "GET Calendar ICS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/calendar-export",
+        "options": { "timeout": 20000, "response": { "response": { "fullResponse": false, "responseFormat": "text" } } }
+      }
+    },
+    {
+      "id": "13eeeee3-0013-0013-0013-000000000003",
+      "name": "Write ICS to Vault",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst raw = $input.first().json;\nconst ics = raw.data || raw.body || (typeof raw === 'string' ? raw : JSON.stringify(raw));\nconst now = new Date();\nconst dateStr = now.toISOString().slice(0,10);\nconst dir = path.join(vaultPath, 'JobFilter', 'Agent Runs', dateStr);\nfs.mkdirSync(dir, { recursive: true });\nconst icsFile = path.join(dir, 'calendar-sync.ics');\nfs.writeFileSync(icsFile, ics);\nconst events = (String(ics).match(/BEGIN:VEVENT/g) || []).length;\nreturn [{ json: { icsFile, events, size: ics.length, dateStr } }];"
+      }
+    },
+    {
+      "id": "13eeeee3-0013-0013-0013-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "calendar-sync" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Calendar ICS pulled: ' + $json.events + ' events, ' + $json.size + ' bytes' }}" },
+            { "name": "payload", "value": "={{ { icsFile: $json.icsFile, events: $json.events, size: $json.size } }}" },
+            { "name": "counts", "value": "={{ { events: $json.events } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 6pm": { "main": [[{ "node": "GET Calendar ICS", "type": "main", "index": 0 }]] },
+    "GET Calendar ICS": { "main": [[{ "node": "Write ICS to Vault", "type": "main", "index": 0 }]] },
+    "Write ICS to Vault": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Daily 6pm. GET /api/calendar-export → ICS saved to Agent Runs/<date>/calendar-sync.ics. To push to Google Calendar, add Google Calendar node after Write ICS."
+  }
+}
