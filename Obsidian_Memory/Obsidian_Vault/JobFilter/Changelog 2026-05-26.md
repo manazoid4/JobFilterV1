@@ -102,5 +102,5 @@ NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 3 files changed. Clo
 
 ## Related
 - [[Changelog 2026-05-25]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 - [[Feature Roadmap - 8th May 2026]]

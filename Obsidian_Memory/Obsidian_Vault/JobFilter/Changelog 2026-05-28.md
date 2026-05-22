@@ -120,5 +120,5 @@ FindJobsPage paywall trust badges + opacity fix (NEEDLE #2). See PHASE 3 above.
 
 ## Related
 - [[Changelog 2026-05-27]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 - [[Feature Roadmap - 8th May 2026]]
