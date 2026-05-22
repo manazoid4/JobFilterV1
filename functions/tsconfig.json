@@ -12,5 +12,5 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   },
-  "include": ["index.ts", "leadEngine/**/*.ts"]
+  "include": ["index.ts", "materialPrices.ts", "leadEngine/**/*.ts"]
 }

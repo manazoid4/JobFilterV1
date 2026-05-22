@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const DEV_MODE = false;
 
-type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote';
+type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote' | 'material-price';
 
 interface ToolDef {
   id: ToolId;
@@ -12,6 +12,7 @@ interface ToolDef {
   desc: string;
   cta: string;
   pain: string;
+  to?: string;
 }
 
 const TOOLS: ToolDef[] = [
@@ -19,6 +20,7 @@ const TOOLS: ToolDef[] = [
   { id: 'profit-check', title: 'Profit Check', tag: 'CALCULATOR', desc: 'Shows the real money left after labour and materials. If it is weak, walk away.', cta: 'CHECK PROFIT', pain: 'Revenue means nothing. Profit pays bills.' },
   { id: 'tyre-kicker', title: 'Tyre-Kicker Check', tag: 'SCORER', desc: 'Score a lead before you waste a visit. Budget, distance, urgency, photos — all weighted.', cta: 'SCORE THE LEAD', pain: 'Half your site visits are to people who will never buy.' },
   { id: 'travel-cost', title: 'Travel Cost', tag: 'CALCULATOR', desc: 'Know the exact fuel cost before you quote. Miles, MPG, diesel price — done.', cta: 'WORK IT OUT', pain: 'Travel you do not price is profit you give away.' },
+  { id: 'material-price', title: 'Material Price Engine', tag: 'REAL SUPPLIER DATA', desc: 'Compare traceable UK supplier prices before you quote. Source URL, checked time, confidence.', cta: 'COMPARE MATERIALS', pain: 'Material jumps quietly kill your margin.', to: '/material-price-engine' },
   { id: 'time-waster', title: 'Time-Waster Cost', tag: 'CALCULATOR', desc: 'See what weak enquiries cost you per year. Hours, miles, bad visits — annualised.', cta: 'SEE THE DAMAGE', pain: 'You think it is just one bad visit. It is not.' },
   { id: 'smart-quote', title: 'Smart Quote Starter', tag: 'GENERATOR', desc: 'Pick your trade and job type. Get a professional opening paragraph ready to paste.', cta: 'GET STARTER', pain: 'Writing the same quote intro every time is wasted minutes.' },
 ];
@@ -28,6 +30,7 @@ const TOOL_RECS: Record<ToolId, { label: string; to: string }> = {
   'profit-check': { label: 'Tyre-Kicker Check', to: '#tyre-kicker' },
   'tyre-kicker': { label: 'Quote Floor', to: '#quote-floor' },
   'travel-cost': { label: 'Time-Waster Cost', to: '#time-waster' },
+  'material-price': { label: 'Quote Floor', to: '#quote-floor' },
   'time-waster': { label: 'Travel Cost', to: '#travel-cost' },
   'smart-quote': { label: 'Quote Floor', to: '#quote-floor' },
 };
@@ -295,13 +298,13 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   onUse: () => void;
   key?: string;
 }) {
-  return (
+  const card = (
     <article
       id={tool.id}
       className={`jf-box cursor-pointer p-5 transition-all ${
         isActive ? 'border-[var(--yellow)] bg-[var(--yellow)]' : isPaywalled ? 'opacity-50' : 'bg-white hover:border-[var(--yellow)]'
       }`}
-      onClick={() => { if (!isPaywalled) { onActivate(); onUse(); } }}
+      onClick={() => { if (!isPaywalled && !tool.to) { onActivate(); onUse(); } }}
     >
       <p className={`micro-label ${isActive ? 'text-[var(--ink)]' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
       <h3 className={`headline mt-2 text-2xl sm:text-3xl ${isActive ? 'text-[var(--ink)]' : ''}`}>{tool.title}</h3>
@@ -312,6 +315,12 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
       </span>
     </article>
   );
+
+  if (tool.to && !isPaywalled) {
+    return <Link to={tool.to}>{card}</Link>;
+  }
+
+  return card;
 }
 
 /* ── Tool Workspace (inline calculator) ──────────────────────────────────── */

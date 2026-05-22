@@ -9,6 +9,7 @@ const memberTools = [
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
 

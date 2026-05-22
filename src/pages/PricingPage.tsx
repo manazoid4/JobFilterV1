@@ -8,6 +8,7 @@ const included = [
   'Gold signals sent to WhatsApp before competitors see them',
   'Score, urgency, value & next action on every signal',
   'Territory lock — one trade per postcode cluster',
+  'Material Price Engine with sourced supplier prices',
   'MEES Deadline Watch — F/G rental signals (roadmap, Q3 2026)',
   'Chase Nudge — auto-paced WhatsApp follow-ups (roadmap, Q3 2026)',
   'Profit Proof — monthly £-by-source receipt (roadmap, Q3 2026)',
@@ -110,6 +111,7 @@ const featureCategories = [
 const comparisonRows = [
   { feature: 'WhatsApp Gold signals', free: 'Preview only', founder: 'Full + instant', standard: 'Full + instant' },
   { feature: 'Territory lock — one trade per postcode', free: false, founder: true, standard: true },
+  { feature: 'Material Price Engine', free: 'Limited', founder: 'Full', standard: 'Full' },
   { feature: 'MEES Deadline Watch — F/G rental signals (roadmap)', free: false, founder: 'Q3 2026', standard: 'Q3 2026' },
   { feature: 'Chase Nudge — auto-paced follow-ups (roadmap)', free: false, founder: 'Q3 2026', standard: 'Q3 2026' },
   { feature: 'Profit Proof — monthly £-by-source receipt (roadmap)', free: false, founder: 'Q3 2026', standard: 'Q3 2026' },
@@ -132,6 +134,7 @@ const toolIcons = [
   { name: 'Vantage', icon: LayoutGrid, highlight: false },
   { name: 'Vicinity', icon: Camera, highlight: false },
   { name: 'Codex', icon: BookOpen, highlight: false },
+  { name: 'Materials', icon: Calculator, highlight: false },
   { name: 'Win Engine', icon: BarChart3, highlight: false },
   { name: 'Letterhead Pack', icon: Mail, highlight: false },
   { name: 'Patch Watch', icon: Radar, highlight: false },
@@ -375,6 +378,19 @@ export function PricingPage() {
               </article>
             )
           )}
+        </div>
+      </section>
+
+      <section className="ops-strip px-6 py-8 text-[var(--ink)]">
+        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <p className="micro-label">MATERIAL PRICE ENGINE</p>
+            <h2 className="headline mt-2 text-4xl leading-none md:text-5xl">SAVE MORE THAN YOUR SUBSCRIPTION BEFORE YOU QUOTE.</h2>
+            <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
+              Compare collection vs delivery, check sourced supplier prices, and stop losing margin to price jumps.
+            </p>
+          </div>
+          <Link className="jf-button bg-[var(--ink)] text-white" to="/material-price-engine">COMPARE MATERIALS</Link>
         </div>
       </section>
 

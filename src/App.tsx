@@ -39,6 +39,7 @@ const IntakePage = lazyPage(() => import('./pages/IntakePage'));
 const LeadDetailPage = lazyPage(() => import('./pages/LeadDetailPage'));
 const LeadListPage = lazyPage(() => import('./pages/LeadListPage'));
 const LegalPage = lazyPage(() => import('./pages/LegalPage'));
+const MaterialPriceEnginePage = lazyPage(() => import('./pages/MaterialPriceEnginePage'));
 const MyLinkPage = lazyPage(() => import('./pages/MyLinkPage'));
 const NewsPage = lazyPage(() => import('./pages/NewsPage'));
 const NotFoundPage = lazyPage(() => import('./pages/NotFoundPage'));
@@ -104,6 +105,7 @@ function AppContent() {
         <Route path="/intake/:username" element={<LazyPage><IntakePage /></LazyPage>} />
         <Route path="/leads" element={<LazyPage><LeadListPage /></LazyPage>} />
         <Route path="/leads/:id" element={<LazyPage><LeadDetailPage /></LazyPage>} />
+        <Route path="/material-price-engine" element={<LazyPage><MaterialPriceEnginePage /></LazyPage>} />
         <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />
         {/* Chase and Win routes removed - functionality integrated into /dashboard */}
         <Route path="/dashboard" element={<LazyPage><DashboardPage /></LazyPage>} />
