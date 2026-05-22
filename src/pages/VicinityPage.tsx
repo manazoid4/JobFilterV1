@@ -138,7 +138,7 @@ export function VicinityPage() {
                   </span>
                 </h1>
                 <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-white/70">
-                  Turn photos from your camera roll into WhatsApp, social, and website assets that bring in better local work.
+                  Your best jobs are dying on your phone. Checkatrade's reviews live on their site — cancel your subscription and they're gone. Vicinity turns every finished job into local proof you own.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
@@ -704,7 +704,7 @@ export function VicinityPage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">LOCK MY £39/MO PATCH</Link>
           </div>
         </section>
 
