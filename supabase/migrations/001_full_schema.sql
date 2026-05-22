@@ -213,12 +213,17 @@ CREATE INDEX IF NOT EXISTS n8n_events_event_idx ON n8n_events(event);
 -- ─── ROW LEVEL SECURITY ───────────────────────────────────────────────────────
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can read own profile" ON profiles;
+DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can read own profile" ON profiles FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
 
 ALTER TABLE saved_scans ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can read own scans" ON saved_scans;
+DROP POLICY IF EXISTS "Users can insert own scans" ON saved_scans;
 CREATE POLICY "Users can read own scans" ON saved_scans FOR SELECT USING (auth.uid()::text = user_id);
 CREATE POLICY "Users can insert own scans" ON saved_scans FOR INSERT WITH CHECK (auth.uid()::text = user_id);
 
 ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Users can read own subscription" ON subscriptions;
 CREATE POLICY "Users can read own subscription" ON subscriptions FOR SELECT USING (auth.uid()::text = user_id);
