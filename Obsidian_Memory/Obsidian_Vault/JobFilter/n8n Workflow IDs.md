@@ -21,6 +21,13 @@ Pushed via `scripts/n8n-push.mjs` against `http://localhost:5678`. IDs needed wh
 | `02-ready-signal-alert.json` | JobFilter — READY Signal Alert | `DbfARpb9uVhOdie7` | cron |
 | `03-multi-trade-sweep.json` | JobFilter — Multi-Trade Weekly Sweep | `67CVueXovSGu1l50` | cron |
 | `04-vault-writer.json` | JobFilter — 04 Vault Writer (sub-workflow) | `KPPRqOtDhPJhe7Kc` | sub-workflow |
+| `05-lead-dedup-memory.json` | JobFilter — 05 Lead Dedup Memory (sub-workflow) | `XbhFFSqPXg7OT48c` | sub-workflow |
+| `06-outcome-logger.json` | JobFilter — 06 Outcome Logger | `2Oar5tVrrKQWxyN3` | webhook |
+| `07-material-price-watcher.json` | JobFilter — 07 Material Price Watcher | `wK1QMco772GKXSQl` | cron |
+| `08-territory-summary.json` | JobFilter — 08 Territory Summary | `mJ2jqkaEcljpAG3a` | cron |
+| `09-waitlist-health.json` | JobFilter — 09 Waitlist Health | `XylHASk4kvRZmsLt` | cron |
+| `10-stripe-webhook-vault.json` | JobFilter — 10 Stripe Webhook → Vault | `2f4zmgH6jVn5ekhZ` | webhook |
+| `14-source-health-watchdog.json` | JobFilter — 14 Source Health Watchdog | `u5sWqnbh4gXY7oKj` | cron |
 | `16-llm-brief-builder.json` | JobFilter — 16 LLM Brief Builder | `dkeRwtZ1lygxeY0w` | cron |
 
 ## Wire-up needed (cross-workflow calls)

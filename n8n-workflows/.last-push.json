@@ -1,5 +1,5 @@
 {
-  "pushed_at": "2026-05-22T03:13:47.690Z",
+  "pushed_at": "2026-05-22T03:23:10.969Z",
   "results": [
     {
       "file": "01-daily-lead-digest.json",
@@ -24,6 +24,48 @@
       "name": "JobFilter — 04 Vault Writer (sub-workflow)",
       "id": "KPPRqOtDhPJhe7Kc",
       "op": "updated"
+    },
+    {
+      "file": "05-lead-dedup-memory.json",
+      "name": "JobFilter — 05 Lead Dedup Memory (sub-workflow)",
+      "id": "XbhFFSqPXg7OT48c",
+      "op": "created"
+    },
+    {
+      "file": "06-outcome-logger.json",
+      "name": "JobFilter — 06 Outcome Logger",
+      "id": "2Oar5tVrrKQWxyN3",
+      "op": "created"
+    },
+    {
+      "file": "07-material-price-watcher.json",
+      "name": "JobFilter — 07 Material Price Watcher",
+      "id": "wK1QMco772GKXSQl",
+      "op": "created"
+    },
+    {
+      "file": "08-territory-summary.json",
+      "name": "JobFilter — 08 Territory Summary",
+      "id": "mJ2jqkaEcljpAG3a",
+      "op": "created"
+    },
+    {
+      "file": "09-waitlist-health.json",
+      "name": "JobFilter — 09 Waitlist Health",
+      "id": "XylHASk4kvRZmsLt",
+      "op": "created"
+    },
+    {
+      "file": "10-stripe-webhook-vault.json",
+      "name": "JobFilter — 10 Stripe Webhook → Vault",
+      "id": "2f4zmgH6jVn5ekhZ",
+      "op": "created"
+    },
+    {
+      "file": "14-source-health-watchdog.json",
+      "name": "JobFilter — 14 Source Health Watchdog",
+      "id": "u5sWqnbh4gXY7oKj",
+      "op": "created"
     },
     {
       "file": "16-llm-brief-builder.json",

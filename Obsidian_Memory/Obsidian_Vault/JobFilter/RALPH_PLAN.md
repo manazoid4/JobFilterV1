@@ -24,7 +24,7 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 ### URGENT — vault security + integrity (from lint report 2026-05-22)
 - [ ] **SECURITY: delete `JobFilter/SupaBase DB password.md`** — plaintext credential leak (needs user approval)
 - [x] Create `JobFilter/Daily Brief.md` stub (agent 16 entry point — must exist or first run fails)
-- [ ] Create `JobFilter/Agent Schedule.md` stub (agent 00 master orchestrator depends on it)
+- [x] Create `JobFilter/Agent Schedule.md` stub (agent 00 master orchestrator depends on it)
 - [ ] Fix `[[Sessions/Daily To-Do]]` dead link in 15 changelogs
 
 ### Foundation (unblocks everything)
@@ -33,22 +33,22 @@ Read top to bottom. Do next unchecked item. Commit + push every iteration. Updat
 - [x] Write `n8n Agent Roster.md` (16 agents planned)
 - [x] Agent 04 — Vault Writer sub-workflow
 - [x] Agent 16 — LLM Brief Builder (daily LLM context refresh)
-- [ ] Agent 05 — Lead Dedup Memory (kills repeat-alert noise)
+- [x] Agent 05 — Lead Dedup Memory (kills repeat-alert noise)
 
 ### Lead-quality core (drives paid conversion)
-- [ ] Agent 02v2 — READY signal alert w/ dedup wired
-- [ ] Agent 06 — Outcome Logger (closes feedback loop)
+- [ ] Agent 02v2 — READY signal alert w/ dedup wired (rewire 02 to call 05)
+- [x] Agent 06 — Outcome Logger (closes feedback loop)
 - [ ] Agent 11 — Chase Check Reminder (recovers warm leads)
-- [ ] Agent 14 — Source Health Watchdog (dead sources = junk)
+- [x] Agent 14 — Source Health Watchdog (dead sources = junk)
 
 ### Revenue surface
-- [ ] Agent 10 — Stripe Webhook → Vault
-- [ ] Agent 09 — Waitlist Health milestones
+- [x] Agent 10 — Stripe Webhook → Vault
+- [x] Agent 09 — Waitlist Health milestones
 - [ ] Agent 12 — Intake Score Triage (gold/silver/bronze)
 
 ### Intel + context
-- [ ] Agent 07 — Material Price Watcher
-- [ ] Agent 08 — Territory Summary
+- [x] Agent 07 — Material Price Watcher
+- [x] Agent 08 — Territory Summary
 - [ ] Agent 13 — Calendar Sync
 - [ ] Agent 15 — Competitor Watch
 - [ ] Agent 00 — Master Orchestrator
@@ -90,3 +90,4 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — Vault writer ID wired into agent 16, re-pushed
 - 2026-05-22 — `JobFilter/Daily Brief.md` stub created (agent 16 entry point)
 - 2026-05-22 — `JobFilter/n8n Workflow IDs.md` registry created
+- 2026-05-22 — Iter 3 max-effort burst: shipped agents 05/06/07/08/09/10/14 (7 new workflows live via API). Agent Schedule.md stub created.
