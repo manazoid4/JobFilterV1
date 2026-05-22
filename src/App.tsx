@@ -94,6 +94,10 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
+      {/* LAUNCH TEST BANNER — remove once testing confirmed */}
+      <div style={{background:'#FACC15',borderBottom:'4px solid #000',padding:'12px 16px',textAlign:'center',fontFamily:'monospace',fontWeight:900,fontSize:'15px',letterSpacing:'0.05em',textTransform:'uppercase',color:'#000',zIndex:9999,position:'relative'}}>
+        🚀 LIVE ON VERCEL — SUPABASE + STRIPE CONNECTED — jobfilter.uk 🚀
+      </div>
       <TopNav />
       <Routes>
         <Route path="/" element={<HomePage />} />
