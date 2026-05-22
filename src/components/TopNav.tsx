@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from './AuthProvider';
 
 const links = [
   { to: '/find-jobs', label: 'Scan' },
@@ -28,6 +29,7 @@ export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -110,6 +112,24 @@ export function TopNav() {
           <NavLink to="/territories" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
             CLAIM PATCH
           </NavLink>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <NavLink to="/dashboard" className="nav-link text-xs font-black uppercase">
+                Dashboard
+              </NavLink>
+              <button
+                type="button"
+                onClick={signOut}
+                className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase hover:bg-[var(--yellow)]"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <NavLink to="/login" className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase hover:bg-[var(--yellow)]">
+              SIGN IN
+            </NavLink>
+          )}
         </div>
 
         <button
