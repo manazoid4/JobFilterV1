@@ -142,8 +142,21 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(_lead: Lead, _score: number): string[] {
-  return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
+function buildReasons(lead: Lead, _score: number): string[] {
+  const raw = lead.scoreReasons ?? [];
+  const safe: string[] = [];
+  for (const r of raw) {
+    if (r.match(/^Trade match:/)) { safe.push(r); continue; }
+    if (r.match(/^Related:/)) { safe.push(r); continue; }
+    if (r.match(/^High intent keywords:/)) { safe.push(r); continue; }
+    if (r.startsWith('Urgent timeline')) { safe.push(r); continue; }
+    if (r.startsWith('Medium urgency')) { safe.push(r); continue; }
+    if (r.startsWith('Fresh lead')) { safe.push(r); continue; }
+    if (r.includes('pay-worthy range')) { safe.push(r); continue; }
+    if (r.includes('value acceptable')) { safe.push(r); continue; }
+    if (r.startsWith('Commercial project')) { safe.push(r); continue; }
+  }
+  return safe.slice(0, 5);
 }
 
 function sanitizeTrade(input: unknown) {

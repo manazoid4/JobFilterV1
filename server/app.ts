@@ -9,6 +9,8 @@ import { registerWaitlistCountRoute } from './routes/waitlistCount';
 import { registerChaseCheckRoute } from './routes/chaseCheck';
 import { registerOutcomeReportRoute } from './routes/outcomeReport';
 import { registerStripeRoutes } from './routes/stripe';
+import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus';
+import { registerAuthHookRoute } from './routes/authHook';
 import { registerCalendarExportRoute } from './routes/calendarExport';
 import { registerTerritorySummaryRoute } from './routes/territorySummary';
 import { registerStatusRoute } from './routes/status';
@@ -33,6 +35,8 @@ export async function createApp() {
   registerChaseCheckRoute(app);
   registerOutcomeReportRoute(app);
   registerStripeRoutes(app);
+  registerSubscriptionStatusRoute(app);
+  registerAuthHookRoute(app);
   registerCalendarExportRoute(app);
   registerTerritorySummaryRoute(app);
   registerStatusRoute(app);

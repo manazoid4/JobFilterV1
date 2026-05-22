@@ -390,7 +390,7 @@ export function FindJobsPage() {
           >
             <span className="block text-sm">All signals</span>
             <span className={`block text-xs ${scanMode === 'all' ? 'text-white/80' : 'text-[var(--muted)]'}`}>
-              Broad scan across planning, contracts, EPC and property signals.
+              Broad scan across planning, contracts, energy signals and property data.
             </span>
           </button>
           <button
@@ -411,7 +411,7 @@ export function FindJobsPage() {
 
         {scanMode === 'start_now' && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
-            Start Signal mode ranks source-fused evidence like planning approval, building-control movement, EPC, Companies House and property signals. Verify source links before contacting anyone.
+            Start Signal mode ranks source-fused evidence like planning approval, building-control movement, energy signals and property data. Verify source links before contacting anyone.
           </div>
         )}
 
@@ -646,7 +646,7 @@ export function FindJobsPage() {
                         <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
                         <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
                         <p className="mt-2 text-sm font-black text-white/75">
-                          Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
+                          Paid monthly access keeps checking planning, energy, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
                         </p>
                       </div>
                     </div>
@@ -1055,7 +1055,7 @@ function EpcSourceBadge({ title }: { title: string }) {
   const ratingColour = rating ? (EPC_RATING_COLOURS[rating] ?? 'bg-gray-400 text-white') : '';
   return (
     <span className="flex items-center gap-1">
-      <span className="badge bg-[#2d7a4f] text-white font-black text-xs px-2 py-1">EPC</span>
+      <span className="badge bg-[#2d7a4f] text-white font-black text-xs px-2 py-1">ENERGY</span>
       {rating && (
         <span className={`badge font-black text-xs px-2 py-1 ${ratingColour}`}>{rating}</span>
       )}

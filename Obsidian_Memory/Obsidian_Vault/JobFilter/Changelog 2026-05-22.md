@@ -182,3 +182,66 @@ All Tier 1 features are BUILT. No new feature built this session — focus was o
 - [[Changelog 2026-05-21]]
 - [[Feature Roadmap - 8th May 2026]]
 - [[Recent]]
+
+---
+
+# Run 2 — NightlyBuildAgent
+
+## Summary
+buildReasons() stub wired for free-tier. FindJobsPage EPC violations from "Works Starting Now" commit fixed. Copy polish on VantagePage, VicinityPage, DashboardPage. Build: GREEN. TypeScript: CLEAN.
+
+## Commit Pushed
+| Commit | Files | Change |
+|--------|-------|--------|
+| 3df9775 | 6 files | buildReasons wired, EPC violations fixed, copy polish |
+
+---
+
+## Phase 1 — Bug Fixes
+
+### server/routes/leadsSearch.ts — buildReasons() stub replaced
+
+**Root cause:** `buildReasons()` returned `['Paid preview - unlock buyer, deadline, exact value, and action route']` as a catch-all. `parseTradeReasons()` in FindJobsPage never matched this pattern, so all free-tier users always saw "Verified signal" fallback — never trade-specific reasons even when `scoreReasons` had them.
+
+**Fix:** Filter `lead.scoreReasons` for safe-to-show patterns only (max 5):
+- `Trade match:`, `Related:`, `High intent keywords:`
+- `Urgent timeline`, `Medium urgency`, `Fresh lead`
+- `pay-worthy range`, `value acceptable`, `Commercial project`
+
+### src/pages/FindJobsPage.tsx — EPC violations in Works Starting Now mode
+
+New commit `7d4f1fe` had introduced three EPC violations:
+- "Broad scan across planning, contracts, EPC and property signals." → "energy signals and property data"
+- "Start Signal mode ranks …EPC, Companies House and property signals." → "energy signals and property data"
+- "Paid monthly access keeps checking planning, EPC, tender…" → "planning, energy, tender…"
+
+Also resolved rebase conflict: kept origin/main's `hasDevUnlock()` localStorage pattern and `weeklyLimit` vs WEEKLY_SCAN_LIMIT calculation; kept NightlyBuild's EPC copy fixes.
+
+### src/pages/PostJobPage.tsx
+
+"Planning, EPC, patch demand" → "Planning approvals, energy signals, patch demand"
+
+---
+
+## Phase 3 — Copy Polish
+
+### DashboardPage.tsx
+Scan counter now shows paywall limit clearly:
+- 0 scans: "None yet — run your first scan"
+- 1-2 scans: "${n} of 3 free used"
+- 3+ scans: "${n} of 3 used — upgrade for unlimited"
+
+### VantagePage.tsx
+- DEMO PREVIEW badge (navy bg, yellow text, absolute top-right) over fake upload UI
+- Hero sub-copy: vague "professional proposals" → "Drop your tender documents. Get a properly structured bid deck in under a minute — no copy-paste, no blank-page terror."
+
+### VicinityPage.tsx
+- Hero sub-copy: names Checkatrade subscription threat — "cancel your subscription and they're gone. Vicinity turns every finished job into local proof you own."
+- Price CTA: "GET FOUNDING 30" → "LOCK MY £39/MO PATCH" (was wrong price, £30 vs actual £39 founder rate)
+
+---
+
+## Infrastructure
+- src/pages/CityIntelligencePage.tsx: DU conflict resolved (staged deletion — file removed on main)
+- Git stash dropped
+- Build: GREEN, TypeScript: CLEAN

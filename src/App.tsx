@@ -6,7 +6,11 @@ import { BackToTop } from './components/BackToTop';
 import { LaunchWaitlistModal } from './components/LaunchWaitlistModal';
 import { ToastContainer, useToast, registerApiToastHandler } from './components/Toast';
 import { TopNav } from './components/TopNav';
+import { AuthProvider } from './components/AuthProvider';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { SignupPage } from './pages/SignupPage';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function lazyPage(loader: () => Promise<Record<string, ComponentType<any>>>) {
@@ -94,6 +98,10 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
+      {/* LAUNCH TEST BANNER — remove once testing confirmed */}
+      <div style={{background:'#FACC15',borderBottom:'4px solid #000',padding:'12px 16px',textAlign:'center',fontFamily:'monospace',fontWeight:900,fontSize:'15px',letterSpacing:'0.05em',textTransform:'uppercase',color:'#000',zIndex:9999,position:'relative'}}>
+        🚀 LIVE ON VERCEL — SUPABASE + STRIPE CONNECTED — jobfilter.uk 🚀
+      </div>
       <TopNav />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -107,8 +115,7 @@ function AppContent() {
         <Route path="/leads/:id" element={<LazyPage><LeadDetailPage /></LazyPage>} />
         <Route path="/material-price-engine" element={<LazyPage><MaterialPriceEnginePage /></LazyPage>} />
         <Route path="/find-jobs" element={<LazyPage><FindJobsPage /></LazyPage>} />
-        {/* Chase and Win routes removed - functionality integrated into /dashboard */}
-        <Route path="/dashboard" element={<LazyPage><DashboardPage /></LazyPage>} />
+        {/* /dashboard is now protected — defined below with ProtectedRoute */}
         <Route path="/dashboard/admin-guard" element={<LazyPage><AdminGuardPage /></LazyPage>} />
         <Route path="/features/admin-guard" element={<LazyPage><AdminGuardTeaserPage /></LazyPage>} />
         <Route path="/dev-portal" element={<LazyPage><DevPortalPage /></LazyPage>} />
@@ -150,6 +157,9 @@ function AppContent() {
         <Route path="/trade/roofers" element={<LazyPage><TradeRoofers /></LazyPage>} />
         <Route path="/privacy" element={<LazyPage><LegalPage type="privacy" /></LazyPage>} />
         <Route path="/terms" element={<LazyPage><LegalPage type="terms" /></LazyPage>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/dashboard" element={<ProtectedRoute><LazyPage><DashboardPage /></LazyPage></ProtectedRoute>} />
         <Route path="/health" element={<HealthPage />} />
         <Route path="*" element={<LazyPage><NotFoundPage /></LazyPage>} />
       </Routes>
@@ -164,7 +174,9 @@ function AppContent() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

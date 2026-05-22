@@ -105,7 +105,7 @@ export function PostJobPage() {
           {[
             ['No public bidding war', 'Your job is treated like a signal, not bait for a lead auction.'],
             ['Better first call', 'The right context means the first reply can be practical, not a generic sales script.'],
-            ['Built on intelligence', 'Planning, EPC, patch demand, and local trade capacity make the matching smarter over time.'],
+            ['Built on intelligence', 'Planning approvals, energy signals, patch demand, and local trade capacity make the matching smarter over time.'],
           ].map(([title, body]) => (
             <article key={title} className="ops-panel bg-white p-5">
               <ClipboardCheck className="text-[var(--orange)]" size={24} strokeWidth={3} />
