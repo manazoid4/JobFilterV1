@@ -130,7 +130,7 @@ const dataSources = [
   {
     category: 'Procurement',
     icon: ShieldCheck,
-    items: ['Contracts Finder', 'Find a Tender', 'Public Contracts Scotland', 'Sell2Wales', 'eTendersNI'],
+    items: ['England procurement portals', 'Scotland contract notices', 'Wales procurement feeds', 'Northern Ireland tender notices'],
   },
   {
     category: 'Property',
@@ -145,7 +145,7 @@ const dataSources = [
   {
     category: 'Commercial',
     icon: Building2,
-    items: ['Companies House filings', 'Licensing applications', 'Change of use', 'HMO registrations'],
+    items: ['Business registration filings', 'Licensing applications', 'Change of use', 'HMO registrations'],
   },
   {
     category: 'Triggers',

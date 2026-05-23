@@ -21,7 +21,7 @@ export function TipsPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">TIPS FOR TRADESMEN</p>
         <h1 className="headline mt-4 text-5xl leading-none sm:text-6xl md:text-8xl">KEEP YOUR EVENINGS.</h1>
-        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers.</p>
+        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for filtering out tyre-kickers before they waste your time. Works whether you find jobs through JobFilter, Checkatrade, or anywhere else.</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2">
         {tips.map(([title, body]) => (
@@ -39,9 +39,10 @@ export function TipsPage() {
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
           <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
         </div>
+        <p className="mt-2 text-xs font-black text-white/60">No credit card required. Free to scan — £39/month to unlock full leads.</p>
       </section>
 
       {/* ── Cross-Tool Navigation ─────────────────── */}
