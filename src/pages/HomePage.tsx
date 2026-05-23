@@ -559,6 +559,12 @@ export function HomePage() {
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
               Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
+            <Link to="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              CLAIM YOUR PATCH — £39/MO →
+            </Link>
+            <p className="mt-4 border-t-2 border-[var(--line)] pt-4 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
+              Not ready yet? Join the list below.
+            </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>
         </div>
