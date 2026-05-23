@@ -716,7 +716,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      <section className="jf-box bg-[var(--yellow)] p-6">
+      {(hasScanned || !!fillWeekResult) && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
@@ -768,7 +768,7 @@ export function FindJobsPage() {
             <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
           </div>
         )}
-      </section>
+      </section>}
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
