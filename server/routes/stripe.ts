@@ -26,6 +26,17 @@ const INLINE_AMOUNTS = {
   business: { monthly: 14900, annual: 149000 },
 };
 
+type CheckoutLineItem = {
+  price?: string;
+  price_data?: {
+    currency: string;
+    product_data: { name: string };
+    unit_amount: number;
+    recurring: { interval: 'month' | 'year' };
+  };
+  quantity: number;
+};
+
 const FOUNDING_MAX = 30;
 
 export function registerStripeRoutes(app: Express) {
@@ -49,7 +60,7 @@ export function registerStripeRoutes(app: Express) {
       }
 
       const priceId = PRICE_IDS[tierKey];
-      let lineItem: Stripe.Checkout.SessionCreateParams.LineItem;
+      let lineItem: CheckoutLineItem;
 
       if (priceId) {
         lineItem = { price: priceId, quantity: 1 };
