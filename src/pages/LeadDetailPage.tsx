@@ -150,7 +150,7 @@ export function LeadDetailPage() {
     await fetch('/api/leads/outcome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ leadId: lead!.id, status, title: lead!.jobType, value: lead!.budget, lostReason }),
+      body: JSON.stringify({ leadId: lead!.id, status, title: lead!.jobType, value: lead!.budget, lostReason, postcode: lead!.postcode }),
     }).catch(() => {});
 
     if (status === 'won') {
@@ -196,6 +196,7 @@ export function LeadDetailPage() {
         status: 'won',
         title: lead!.jobType,
         value: parsedValue > 0 ? `£${parsedValue.toLocaleString()}` : lead!.budget,
+        postcode: lead!.postcode,
       }),
     }).catch(() => {});
     setShowWonCapture(false);

@@ -193,7 +193,7 @@ export function DashboardPage() {
           <div className="mt-4 grid gap-3 text-sm">
             <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
             <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : `${scansUsed} run`} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>

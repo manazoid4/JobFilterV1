@@ -12,6 +12,7 @@
 
 import type { RawLead, SourceStats } from '../types';
 import { CONFIG } from '../config';
+import { isSourceEnabled } from '../sourceConfig';
 
 const PCS_BASE = 'https://api.publiccontractsscotland.gov.uk/v1/Notices';
 const S2W_BASE = 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases';
@@ -333,10 +334,10 @@ export async function pcsS2wFetcher(
   trade: string
 ): Promise<{ leads: RawLead[]; stats: Record<string, SourceStats> }> {
   const [pcsSettled, s2wSettled] = await Promise.allSettled([
-    CONFIG.sources.publicContractsScotland
+    isSourceEnabled('PublicContractsScotland')
       ? fetchPublicContractsScotland(trade)
       : Promise.resolve({ leads: [], stats: { fetched: 0, passed: 0, dropped: 0, failed: false } }),
-    CONFIG.sources.sell2wales
+    isSourceEnabled('Sell2Wales')
       ? fetchOcdsSource('Sell2Wales', S2W_BASE, trade)
       : Promise.resolve({ leads: [], stats: { fetched: 0, passed: 0, dropped: 0, failed: false } }),
   ]);

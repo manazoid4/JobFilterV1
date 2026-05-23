@@ -187,7 +187,7 @@ export function SignalsPage() {
               <p className="micro-label text-[var(--orange)]">START SIGNAL ENGINE</p>
               <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
               <p className="mt-4 max-w-3xl text-lg font-black leading-tight text-[var(--ink)]/80">
-                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, EPC changes, property sales and business fit-out signals.
+                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {['READY = act now', 'MAYBE = verify source', 'WASTE = skip'].map((label) => (

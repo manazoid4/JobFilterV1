@@ -1,5 +1,6 @@
 import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
+import { getScoreBonus } from './sourceConfig';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {
@@ -50,24 +51,6 @@ const HIGH_INTENT_KEYWORDS = [
   'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession',
 ];
 
-const SOURCE_CLASS_BONUS: Record<string, number> = {
-  BuildingControl: 10,
-  PlanAPI: 8,
-  PlanNexus: 8,
-  PlanWire: 8,
-  PlanningData: 7,
-  ContractsFinder: 7,
-  FTS: 7,
-  PublicContractsScotland: 7,
-  EPC: 6,
-  HMOLicensing: 6,
-  RetrofitSchemes: 6,
-  LandRegistry: 4,
-  CompaniesHouse: 3,
-  AuctionProperty: 3,
-  DirectorySignal: -8,
-  PortalTrendIntelligence: -4,
-};
 
 export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey): number {
   return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
@@ -81,7 +64,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
 
-  const sourceClassBonus = SOURCE_CLASS_BONUS[lead.source] ?? 0;
+  const sourceClassBonus = getScoreBonus(lead.source);
   if (sourceClassBonus !== 0) {
     score += sourceClassBonus;
     reasons.push(`Source class ${lead.source} (${sourceClassBonus > 0 ? '+' : ''}${sourceClassBonus})`);

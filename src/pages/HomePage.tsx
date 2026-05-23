@@ -66,6 +66,13 @@ function MapPinIcon() {
 export function HomePage() {
   return (
     <main className="bg-[var(--paper)] pb-0">
+      {/* ── LAUNCH BANNER ─────────────────────────────── */}
+      <div className="flex items-center justify-center gap-3 border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-center font-mono text-xs font-black uppercase tracking-widest text-[var(--ink)]">
+        <span>🚀</span>
+        <span>Now live on Vercel — Supabase + Stripe connected — jobfilter.uk</span>
+        <span>🚀</span>
+      </div>
+
       {/* ── HERO ──────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         {/* Radial gradient overlay */}
@@ -95,7 +102,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              The Intake Engine reads planning approvals, EPC data and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
+              The Intake Engine reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -355,22 +362,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── GOLD LEAD EXAMPLE ─────────────────────────── */}
-      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--orange)]">GOLD LEAD EXAMPLE — REAL FORMAT, SAMPLE DATA</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">
-            THIS IS WHAT A GOLD LEAD LOOKS LIKE.
-          </h2>
-          <p className="mt-4 max-w-2xl copy">
-            Every paid member gets leads in this format — scored, sourced, and timed. Your territory locks the postcode. No five-way blast. Just yours.
-          </p>
-          <div className="mt-8 max-w-3xl">
-            <SampleLeadCard />
-          </div>
-        </div>
-      </section>
-
       {/* ── ADD-ON SERVICES ───────────────────────────── */}
       <section className="bg-white border-t-2 border-[var(--line)]">
         <div className="page-shell py-14">
@@ -569,6 +560,12 @@ export function HomePage() {
             </div>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
               Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
+            </p>
+            <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              CLAIM YOUR PATCH — £39/MO →
+            </Link>
+            <p className="mt-4 border-t-2 border-[var(--line)] pt-4 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
+              Not ready yet? Join the list below.
             </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>

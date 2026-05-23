@@ -35,6 +35,7 @@
   },
   "exclude": [
     "functions",
+    "legacy/firebase",
     "dist",
     "node_modules",
     "Obsidian_Memory",

@@ -60,19 +60,22 @@ export function VantagePage() {
               </span>
             </h1>
             <p className="max-w-md text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Professional, high-conversion proposals generated from your raw job documents in seconds.
+              Drop your tender documents. Get a properly structured bid deck in under a minute — no copy-paste, no blank-page terror.
             </p>
           </div>
 
-          {/* Upload card */}
+          {/* Upload card — DEMO PREVIEW */}
           <div
-            className="p-8"
+            className="relative p-8"
             style={{
               background: 'var(--paper)',
               border: '2px solid var(--navy)',
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
+            <div className="absolute top-3 right-3 px-2 py-1 text-[10px] font-black uppercase tracking-wider" style={{ background: 'var(--navy)', color: 'var(--yellow)' }}>
+              DEMO PREVIEW
+            </div>
             <div
               className="flex cursor-pointer flex-col items-center justify-center gap-4 p-12 text-center transition-colors hover:bg-white"
               style={{ border: '2px dashed var(--navy)', background: 'var(--offwhite)' }}
