@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import {
   ArrowRight,
   Database,
@@ -670,10 +672,10 @@ export function BlueprintPage() {
               JobFilter scans verified UK construction signals — planning applications, permits, energy signals, streetworks, company activity — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared leads. No homeowner posts. Just early, exclusive signals routed to the right trade.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
+              <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
                 Scan a Patch <ArrowRight className="ml-1 inline h-5 w-5" />
               </Link>
-              <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" to="/pricing">
+              <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" href="/pricing">
                 Get Early Access
               </Link>
             </div>
@@ -947,7 +949,7 @@ export function BlueprintPage() {
             Run a free postcode scan. No signup required.
           </p>
           <div className="mt-6">
-            <Link className="jf-button jf-button-lg bg-[var(--ink)] text-[var(--yellow)]" to="/find-jobs">
+            <Link className="jf-button jf-button-lg bg-[var(--ink)] text-[var(--yellow)]" href="/find-jobs">
               Scan a Patch <ArrowRight className="ml-1 inline h-5 w-5" />
             </Link>
           </div>

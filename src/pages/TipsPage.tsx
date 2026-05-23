@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const tips = [
   ['Ask budget in the first message', "If they won't give a rough number, they're not serious. Save the site visit. Ask before you travel."],
@@ -21,7 +23,7 @@ export function TipsPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">TIPS FOR TRADESMEN</p>
         <h1 className="headline mt-4 text-5xl leading-none sm:text-6xl md:text-8xl">KEEP YOUR EVENINGS.</h1>
-        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for filtering out tyre-kickers before they waste your time. Works whether you find jobs through JobFilter, Checkatrade, or anywhere else.</p>
+        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers.</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2">
         {tips.map(([title, body]) => (
@@ -39,23 +41,22 @@ export function TipsPage() {
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-          <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
         </div>
-        <p className="mt-2 text-xs font-black text-white/60">No credit card required. Free to scan — £39/month to unlock full leads.</p>
       </section>
 
       {/* ── Cross-Tool Navigation ─────────────────── */}
       <section className="jf-box bg-white p-5">
         <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
         <div className="mt-3 flex flex-wrap gap-3">
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/free-tools">
             ALL FREE TOOLS
           </Link>
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/smart-quote">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/smart-quote">
             SMART QUOTE STARTER
           </Link>
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/vantage">
             VANTAGE — BID DECKS
           </Link>
         </div>

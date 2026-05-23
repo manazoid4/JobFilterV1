@@ -1,31 +1,39 @@
+"use client";
+
 import { useState } from 'react';
-import { useAuth } from './AuthProvider';
 
 interface CheckoutButtonProps {
-  tier: 'founding' | 'pro' | 'business';
+  tier: 'founding' | 'pro' | 'business' | 'epc';
   billing: 'monthly' | 'annual';
+  email?: string;
+  userId?: string;
   label?: string;
   className?: string;
 }
 
-export function CheckoutButton({ tier, billing, label, className = '' }: CheckoutButtonProps) {
-  const { user } = useAuth();
+export function CheckoutButton({ tier, billing, email, userId, label, className = '' }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleClick = async () => {
+    if (!email && !userId) {
+      const params = new URLSearchParams({ tier, billing });
+      window.location.href = `/signup?${params.toString()}`;
+      return;
+    }
+
     setLoading(true);
     setError('');
 
     try {
-      const res = await fetch('/api/create-checkout-session', {
+      const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tier,
           billing,
-          email: user?.email ?? '',
-          userId: user?.id ?? '',
+          email,
+          userId,
         }),
       });
 

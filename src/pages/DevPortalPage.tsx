@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { useState } from 'react';
 import { CheckCircle2, Database, FlaskConical, LockOpen, Route, Wrench } from 'lucide-react';
 
@@ -30,7 +32,7 @@ const testMatrix = [
   ['Lead scanner', 'Use B14 7QH + electrical, then check Signal Intelligence, trust badges, Patch Pulse, and WhatsApp send.'],
   ['Territory API', 'Call /api/territories/summary?postcode=B14&trade=electrical and expect a pending-scan fallback if Supabase has no metric row.'],
   ['Payments surface', 'Open /pricing and test checkout creation with Stripe test keys configured.'],
-  ['Regression gate', 'Before deploy: npm run build (must pass clean), then push to main — Vercel auto-deploys.'],
+  ['Regression gate', 'Before deploy: npm run lint, npm run build, then deploy through Vercel.'],
 ];
 
 const checkCards = [
@@ -40,17 +42,17 @@ const checkCards = [
 ];
 
 export function DevPortalPage() {
-  const [unlocked, setUnlocked] = useState(() => localStorage.getItem(DEV_UNLOCK_KEY) === 'true');
+  const [unlocked, setUnlocked] = useState(() => (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(DEV_UNLOCK_KEY) === 'true');
 
   function enableUnlock() {
-    localStorage.setItem(DEV_UNLOCK_KEY, 'true');
-    localStorage.setItem(SCAN_COUNT_KEY, '0');
-    localStorage.setItem(SCAN_WEEK_KEY, '');
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(DEV_UNLOCK_KEY, 'true');
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, '0');
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_WEEK_KEY, '');
     setUnlocked(true);
   }
 
   function disableUnlock() {
-    localStorage.removeItem(DEV_UNLOCK_KEY);
+    (typeof window !== "undefined" ? localStorage : {removeItem:()=>{}}).removeItem(DEV_UNLOCK_KEY);
     setUnlocked(false);
   }
 
@@ -107,7 +109,7 @@ export function DevPortalPage() {
           <p className="micro-label text-[var(--ink)]">QUICK TEST ROUTES</p>
           <div className="mt-4 grid gap-2">
             {routes.map(([to, label]) => (
-              <Link key={to} to={to} className="flex items-center justify-between border-2 border-[var(--line)] bg-white px-3 py-2 font-black text-[var(--ink)]">
+              <Link key={to} href={to} className="flex items-center justify-between border-2 border-[var(--line)] bg-white px-3 py-2 font-black text-[var(--ink)]">
                 <span>{label}</span>
                 <span className="font-mono text-xs">{to}</span>
               </Link>

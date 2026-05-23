@@ -1,6 +1,6 @@
-import type { ContractsFinderNotice } from './contractsFinder.js';
-import { scoreNotice } from './leadScoring.js';
-import { outwardFromPostcode } from '../utils/postcode.js';
+import type { ContractsFinderNotice } from './contractsFinder';
+import { scoreNotice } from './leadScoring';
+import { outwardFromPostcode } from '../utils/postcode';
 
 export type NormalizedLead = {
   id: string;

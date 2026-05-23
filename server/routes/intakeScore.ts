@@ -1,8 +1,8 @@
 import type { Express, Request, Response } from 'express';
-import { scoreIntake } from '../services/decisionScoring.js';
-import { triggerGoldLeadWhatsApp } from '../services/sms.js';
-import { rateLimit } from '../middleware/rateLimit.js';
-import { outwardFromPostcode } from '../utils/postcode.js';
+import { scoreIntake } from '../services/decisionScoring';
+import { triggerGoldLeadWhatsApp } from '../services/sms';
+import { rateLimit } from '../middleware/rateLimit';
+import { outwardFromPostcode } from '../utils/postcode';
 
 const JOB_TYPES = new Set(['Electrical', 'Plumbing', 'Roofing', 'Building']);
 const URGENCY_TYPES = new Set(['Emergency', 'This week', 'Later']);

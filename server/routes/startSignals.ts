@@ -1,8 +1,8 @@
 import type { Express, Request, Response } from 'express';
-import type { Lead } from '../../leadEngine/types.js';
-import { scan } from '../../leadEngine/scan.js';
-import { rateLimit } from '../middleware/rateLimit.js';
-import { parseUkPostcode } from '../utils/postcode.js';
+import type { Lead } from '../../leadEngine/types';
+import { scan } from '../../leadEngine/scan';
+import { rateLimit } from '../middleware/rateLimit';
+import { parseUkPostcode } from '../utils/postcode';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);

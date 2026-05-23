@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 
 export interface TradePageData {
   slug: string;
@@ -62,10 +63,10 @@ export function TradePage({ data }: { data: TradePageData }) {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <div className="flex flex-col gap-1">
-              <Link className="jf-button bg-[var(--ink)] text-white" to={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
               <span className="text-[10px] font-black uppercase tracking-wider text-[var(--ink)]/50">No credit card required</span>
             </div>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="#how-it-works">SEE HOW IT WORKS</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="#how-it-works">SEE HOW IT WORKS</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO CHASING</p>
@@ -239,7 +240,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           </p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {ALL_TRADES.filter((t) => t.slug !== data.slug).map((t) => (
-              <Link key={t.slug} to={`/trade/${t.slug}`} className="jf-box bg-[var(--bg-main)] p-4 block hover:bg-[var(--yellow)] transition-colors">
+              <Link key={t.slug} href={`/trade/${t.slug}`} className="jf-box bg-[var(--bg-main)] p-4 block hover:bg-[var(--yellow)] transition-colors">
                 <h3 className="headline text-xl text-[var(--navy)]">{t.label}</h3>
                 <p className="mt-1 text-sm font-black text-[var(--muted)]">See how {t.label.toLowerCase()} find work early →</p>
               </Link>
@@ -274,13 +275,13 @@ export function TradePage({ data }: { data: TradePageData }) {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
-              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" to="/pricing">SEE PRICING</Link>
+              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">SEE PRICING</Link>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.</p>
@@ -299,8 +300,8 @@ export function TradePage({ data }: { data: TradePageData }) {
             Scan your area free. See what {data.trade} work is active near you — before it hits the directories. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
         </div>

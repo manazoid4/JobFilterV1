@@ -3,6 +3,7 @@ import express from 'express';
 import { getApps, initializeApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { scan } from './leadEngine/scan';
+import { CONFIG } from './leadEngine/config';
 import { assertValidPostcodeInput, getOutward, regionFromOutward } from './leadEngine/postcode';
 import { createCheckoutSession, handleStripeWebhook } from './stripe';
 import { registerMaterialPricesRoute } from './materialPrices';
@@ -44,13 +45,17 @@ async function twilioWhatsApp(message: string) {
     await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
       method: 'POST',
       headers: { Authorization: `Basic ${auth}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ From: `whatsapp:${from}`, To: `whatsapp:${to}`, Body: message }).toString(),
+      body: new URLSearchParams({ From: formatWhatsAppNumber(from), To: formatWhatsAppNumber(to), Body: message }).toString(),
     });
     return { triggered: true, provider: 'twilio-whatsapp' };
   } catch (e: any) {
     console.error('[twilio]', e?.message);
     return { triggered: false, provider: 'twilio-error' };
   }
+}
+
+function formatWhatsAppNumber(value: string) {
+  return value.startsWith('whatsapp:') ? value : `whatsapp:${value}`;
 }
 
 async function sendEmail(to: string, subject: string, html: string) {
@@ -60,7 +65,7 @@ async function sendEmail(to: string, subject: string, html: string) {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ from: 'JobFilter <no-reply@jobfilter.uk>', to, subject, html }),
+      body: JSON.stringify({ from: process.env.RESEND_SENDER_EMAIL || 'JobFilter <no-reply@jobfilter.uk>', to, subject, html }),
     });
     return { sent: res.ok, provider: 'resend' };
   } catch (e: any) {
@@ -70,9 +75,25 @@ async function sendEmail(to: string, subject: string, html: string) {
 }
 
 const app = express();
-app.use(express.json());
 if (!getApps().length) initializeApp();
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
+
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const rawBody = Buffer.isBuffer(req.body)
+      ? req.body.toString('utf8')
+      : (req as any).rawBody
+        ? Buffer.from((req as any).rawBody).toString('utf8')
+        : String(req.body ?? '');
+    const signature = req.headers['stripe-signature'] as string;
+    const result = await handleStripeWebhook(rawBody, signature);
+    res.json(result);
+  } catch (err: any) {
+    res.status(err.message?.includes('signature') ? 400 : 500).json({ error: err.message });
+  }
+});
+
+app.use(express.json());
 
 registerMaterialPricesRoute(app);
 
@@ -103,12 +124,11 @@ app.post('/api/leads/search', async (req, res) => {
     }
 
     const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
-    const result = await scan({ postcode: postcode.trim(), trade: String(trade || 'electrical'), tier: FULL_ACCESS_TEST_MODE ? 'paid' : 'free', radiusMiles });
+    const result = await scan({ postcode: postcode.trim(), trade: String(trade || 'electrical'), tier: 'paid', radiusMiles });
     const allLeads = result.leads;
 
-    const FREE_LIMIT = 2;
+    const FREE_LIMIT = CONFIG.freeTierLimit;
     const visibleLeads = FULL_ACCESS_TEST_MODE ? allLeads : allLeads.slice(0, FREE_LIMIT).map(toFreePreviewLead);
-    const lockedCount = FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, allLeads.length - FREE_LIMIT);
 
     return res.json({
       ok: true,
@@ -117,7 +137,7 @@ app.post('/api/leads/search', async (req, res) => {
       region: result.region,
       outward: result.outward,
       leads: visibleLeads,
-      lockedCount,
+      lockedCount: FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, result.total - visibleLeads.length),
       accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
       sources: result.sources,
       errors: result.errors ?? [],
@@ -265,17 +285,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-app.post('/api/stripe/webhook', async (req, res) => {
-  try {
-    const rawBody = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-    const signature = req.headers['stripe-signature'] as string;
-    const result = await handleStripeWebhook(rawBody, signature);
-    res.json(result);
-  } catch (err: any) {
-    res.status(err.message?.includes('signature') ? 400 : 500).json({ error: err.message });
-  }
-});
-
 app.post('/api/onboarding/submit', (req, res) => { res.json({ ok: true }); });
 app.post('/api/email-gate/unlock', (req, res) => { res.json({ ok: true }); });
 app.post('/api/calendar/sync', (_req, res) => { res.status(501).json({ status: 'not_implemented' }); });
@@ -420,16 +429,18 @@ app.get('/api/status', (_req, res) => {
     integrations: {
       stripe: {
         configured: has('STRIPE_SECRET_KEY') && has('STRIPE_PUBLISHABLE_KEY'),
-        priceIds: {
-          foundingMonthly: has('STRIPE_PRICE_FOUNDING_MONTHLY'),
-          foundingAnnual: has('STRIPE_PRICE_FOUNDING_ANNUAL'),
-          proMonthly: has('STRIPE_PRICE_PRO_MONTHLY'),
-          proAnnual: has('STRIPE_PRICE_PRO_ANNUAL'),
+          priceIds: {
+            foundingMonthly: has('STRIPE_PRICE_FOUNDING_MONTHLY'),
+            foundingAnnual: has('STRIPE_PRICE_FOUNDING_ANNUAL'),
+            proMonthly: has('STRIPE_PRICE_PRO_MONTHLY'),
+            proAnnual: has('STRIPE_PRICE_PRO_ANNUAL'),
+            epcMonthly: has('STRIPE_PRICE_EPC_MONTHLY'),
+          },
+          webhookSecret: has('STRIPE_WEBHOOK_SECRET'),
         },
-        webhookSecret: has('STRIPE_WEBHOOK_SECRET'),
-      },
-      supabase: { configured: has('SUPABASE_URL') && has('SUPABASE_SERVICE_ROLE_KEY') },
-      resend: { configured: has('RESEND_API_KEY') },
+      supabase: { configured: has('SUPABASE_URL') && has('SUPABASE_SERVICE_ROLE_KEY'), anonKey: has('SUPABASE_ANON_KEY') },
+      resend: { configured: has('RESEND_API_KEY'), senderEmail: has('RESEND_SENDER_EMAIL') },
+      n8n: { webhookUrl: has('N8N_WEBHOOK_URL'), api: has('N8N_API_URL') && has('N8N_API_KEY') },
       twilio: {
         configured: has('TWILIO_ACCOUNT_SID') && has('TWILIO_AUTH_TOKEN') && has('TWILIO_WHATSAPP_TO'),
         fromOverride: has('TWILIO_WHATSAPP_FROM'),

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { useState, useMemo } from 'react';
 import {
   generateWeekData,
@@ -285,7 +287,7 @@ export function WeeklySignalsPage() {
             </p>
           )}
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN YOUR AREA →
             </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
@@ -423,7 +425,7 @@ export function WeeklySignalsPage() {
                   </div>
 
                   <div className="mt-auto pt-4 border-t-2 border-[var(--line)]">
-                    <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+                    <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
                       SCAN YOUR AREA →
                     </Link>
                   </div>
@@ -540,7 +542,7 @@ export function WeeklySignalsPage() {
             {CURRENT_WEEK.totalGold} GOLD leads are waiting somewhere in the UK. How many are in your postcode?
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">

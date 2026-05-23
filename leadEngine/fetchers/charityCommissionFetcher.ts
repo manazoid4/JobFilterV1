@@ -10,7 +10,7 @@
  * Free, daily updates, 10,000-12,000 new charities/year
  */
 
-import type { RawLead, SourceStats } from '../types.js';
+import type { RawLead, SourceStats } from '../types';
 
 const CHARITY_API = 'https://api.charitycommission.gov.uk';
 

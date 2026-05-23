@@ -10,9 +10,9 @@
  * No authentication required.
  */
 
-import type { RawLead, SourceStats } from '../types.js';
-import { CONFIG } from '../config.js';
-import { isSourceEnabled } from '../sourceConfig.js';
+import type { RawLead, SourceStats } from '../types';
+import { CONFIG } from '../config';
+import { isSourceEnabled } from '../sourceConfig';
 
 const PCS_BASE = 'https://api.publiccontractsscotland.gov.uk/v1/Notices';
 const S2W_BASE = 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases';

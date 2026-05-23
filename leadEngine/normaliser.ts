@@ -1,5 +1,5 @@
-import type { Lead, RawLead, TradeKey } from './types.js';
-import { getOutward, regionFromNuts, regionFromOutward } from './postcode.js';
+import type { Lead, RawLead, TradeKey } from './types';
+import { getOutward, regionFromNuts, regionFromOutward } from './postcode';
 
 // ── CPV → trade mapping ────────────────────────────────────────────────────────
 const CPV_TRADE_MAP: Array<[string, TradeKey]> = [

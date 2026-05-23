@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { useState, type MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
+
 import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
 import { ScoreBadge } from './ScoreBadge';
@@ -37,7 +38,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
-    return (localStorage.getItem(storageKey) as LeadStatus | null);
+    return ((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(storageKey) as LeadStatus | null);
   });
 
   function handleStatusClick(event: MouseEvent, value: LeadStatus) {
@@ -45,9 +46,9 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
     event.stopPropagation();
     const next = status === value ? null : value;
     if (next) {
-      localStorage.setItem(storageKey, next);
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(storageKey, next);
     } else {
-      localStorage.removeItem(storageKey);
+      (typeof window !== "undefined" ? localStorage : {removeItem:()=>{}}).removeItem(storageKey);
     }
     setStatus(next);
   }
@@ -104,5 +105,5 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
     return <a href={href} target="_blank" rel="noreferrer">{content}</a>;
   }
 
-  return <Link to={to ?? `/leads/${id ?? ''}`}>{content}</Link>;
+  return <Link href={to ?? `/leads/${id ?? ''}`}>{content}</Link>;
 }

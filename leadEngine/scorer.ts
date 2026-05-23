@@ -1,6 +1,6 @@
-import type { Lead, TradeKey } from './types.js';
-import { regionSimilarity } from './postcode.js';
-import { getScoreBonus } from './sourceConfig.js';
+import type { Lead, TradeKey } from './types';
+import { regionSimilarity } from './postcode';
+import { getScoreBonus } from './sourceConfig';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {

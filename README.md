@@ -13,16 +13,16 @@ Optional:
 ```bash
 PORT=3000
 NODE_ENV=development
-FIREBASE_PROJECT_ID=jobfilter-uk
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-Production waitlist submissions are stored in Firestore:
+Production data is moving to Supabase:
 
 ```text
-Project: jobfilter-uk
-Database: (default)
-Collection: waitlist
-Fields: name, trade, contact, contactType, source, createdAt
+Run supabase/migrations/20260522_vercel_supabase_saas.sql
+Keep SUPABASE_SERVICE_ROLE_KEY server-only.
 ```
 
 ## Install
@@ -35,12 +35,6 @@ npm install
 
 ```bash
 npm run dev
-```
-
-If Vite reports a websocket port conflict:
-
-```bash
-set DISABLE_HMR=true&& npm run dev
 ```
 
 Open:
@@ -107,7 +101,7 @@ POST /api/waitlist
 Expected pattern:
 
 ```json
-{ "ok": true, "stored": "firestore" }
+{ "ok": true }
 ```
 
 Intake scoring endpoint:
@@ -233,17 +227,15 @@ curl -s -X POST http://localhost:3000/api/intake/score \
 ```bash
 npm run lint
 npm run build
-npx tsc -p functions/tsconfig.json
-firebase deploy --only functions:api,hosting --project jobfilter-uk
 ```
 
-Manual Firebase requirements:
+Vercel requirements:
 
-- Firebase project: `jobfilter-uk`
-- Firestore enabled with default database
-- Firebase Hosting enabled
-- Firebase Functions enabled in `europe-west2`
-- Logged in locally with `firebase login`
+- Framework preset: Next.js
+- Project root: `JobFilterV1`
+- Build command: `npm run build`
+- Environment variables from `.env.example`
+- Supabase migration applied before production data writes
 
 ## Known Limitations
 

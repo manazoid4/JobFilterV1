@@ -4,7 +4,7 @@ const KEY = 'jobfilter.leads';
 
 export function getStoredLeads(): LeadDecision[] {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(KEY);
     return raw ? JSON.parse(raw) as LeadDecision[] : [];
   } catch {
     return [];
@@ -13,12 +13,12 @@ export function getStoredLeads(): LeadDecision[] {
 
 export function saveStoredLead(lead: LeadDecision) {
   const next = [lead, ...getStoredLeads().filter((item) => item.id !== lead.id)];
-  localStorage.setItem(KEY, JSON.stringify(next));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(next));
 }
 
 export function updateStoredLead(id: string, patch: Partial<LeadDecision>) {
   const next = getStoredLeads().map((lead) => lead.id === id ? { ...lead, ...patch } : lead);
-  localStorage.setItem(KEY, JSON.stringify(next));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(next));
 }
 
 export function countTodayLeads() {

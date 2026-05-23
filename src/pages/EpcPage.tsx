@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const ratings = [
@@ -74,7 +76,7 @@ export function EpcPage() {
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--muted)]">
           Run targeted ads to every F/G rated property owner in your postcode. Vicinity handles the design and placement - you take the calls.
         </p>
-        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/vicinity">OPEN VICINITY</Link>
+        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/vicinity">OPEN VICINITY</Link>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
@@ -84,7 +86,7 @@ export function EpcPage() {
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
             Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
         </div>
         <WaitlistForm source="epc-leads" />
       </section>

@@ -1,27 +1,25 @@
 import express from 'express';
 import path from 'path';
-import { registerIntakeScoreRoute } from './routes/intakeScore.js';
-import { registerLeadSearchRoute } from './routes/leadsSearch.js';
-import { registerWaitlistRoute } from './routes/waitlist.js';
-import { registerLeadNotifyRoute } from './routes/leadNotify.js';
-import { registerWaitlistCountRoute } from './routes/waitlistCount.js';
-import { registerChaseCheckRoute } from './routes/chaseCheck.js';
-import { registerOutcomeReportRoute } from './routes/outcomeReport.js';
-import { registerStripeRoutes } from './routes/stripe.js';
-import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus.js';
-import { registerAuthHookRoute } from './routes/authHook.js';
-import { registerCalendarExportRoute } from './routes/calendarExport.js';
-import { registerTerritorySummaryRoute } from './routes/territorySummary.js';
-import { registerStatusRoute } from './routes/status.js';
-import { registerMaterialPricesRoute } from './routes/materialPrices.js';
-import { registerStartSignalsRoute } from './routes/startSignals.js';
-import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary.js';
-import { registerCustomerPortalRoute } from './routes/customerPortal.js';
-import { registerSourceConfigRoute } from './routes/sourceConfig.js';
+import { createServer as createViteServer } from 'vite';
+import { registerIntakeScoreRoute } from './routes/intakeScore';
+import { registerLeadSearchRoute } from './routes/leadsSearch';
+import { registerWaitlistRoute } from './routes/waitlist';
+import { registerLeadNotifyRoute } from './routes/leadNotify';
+import { registerWaitlistCountRoute } from './routes/waitlistCount';
+import { registerChaseCheckRoute } from './routes/chaseCheck';
+import { registerOutcomeReportRoute } from './routes/outcomeReport';
+import { registerStripeRoutes } from './routes/stripe';
+import { registerCalendarExportRoute } from './routes/calendarExport';
+import { registerTerritorySummaryRoute } from './routes/territorySummary';
+import { registerStatusRoute } from './routes/status';
+import { registerMaterialPricesRoute } from './routes/materialPrices';
+import { registerStartSignalsRoute } from './routes/startSignals';
+import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary';
 
 export async function createApp() {
   const app = express();
 
+  app.use('/api/stripe/webhook', express.raw({ type: 'application/json', limit: '64kb' }));
   app.use(express.json({ limit: '64kb' }));
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -36,16 +34,12 @@ export async function createApp() {
   registerChaseCheckRoute(app);
   registerOutcomeReportRoute(app);
   registerStripeRoutes(app);
-  registerSubscriptionStatusRoute(app);
-  registerAuthHookRoute(app);
   registerCalendarExportRoute(app);
   registerTerritorySummaryRoute(app);
   registerStatusRoute(app);
   registerMaterialPricesRoute(app);
   registerStartSignalsRoute(app);
   registerSourceHealthSummaryRoute(app);
-  registerCustomerPortalRoute(app);
-  registerSourceConfigRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
@@ -79,6 +73,5 @@ export async function createApp() {
 }
 
 async function createServerVite() {
-  const { createServer: createViteServer } = await import('vite');
   return createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 }

@@ -1,5 +1,5 @@
 import type { Express, Request, Response } from 'express';
-import { rateLimit } from '../middleware/rateLimit.js';
+import { rateLimit } from '../middleware/rateLimit';
 
 // Aggregate source-health view. Free tier sees roll-up only.
 // Paid tier (or FULL_ACCESS_TEST_MODE) sees per-source detail.

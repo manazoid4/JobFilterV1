@@ -11,7 +11,7 @@
  * When ready: download monthly CSV, filter by outward postcode, score by price/property type.
  */
 
-import type { RawLead, SourceStats } from '../types.js';
+import type { RawLead, SourceStats } from '../types';
 
 // Mock property sales data — realistic UK Land Registry records
 function generateMockSales(outward: string, trade: string): RawLead[] {

@@ -1,4 +1,7 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+"use client";
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+
 import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
@@ -89,8 +92,9 @@ function CalendarCopyLink({ lead }: { lead: LeadDecision }) {
 }
 
 export function LeadDetailPage() {
-  const { id = '' } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
+  const id  = (params?.id  as string) || '' ;
+  const router = useRouter();
   const lead = getStoredLeads().find((item) => item.id === id);
   const [lostReason, setLostReason] = useState('');
   const [showLostPicker, setShowLostPicker] = useState(false);
@@ -105,7 +109,7 @@ export function LeadDetailPage() {
       <main className="page-shell py-8">
         <section className="jf-box bg-white p-6">
           <h1 className="headline text-4xl">LEAD NOT FOUND</h1>
-          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)] min-h-[44px]" to="/leads">BACK</Link>
+          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)] min-h-[44px]" href="/leads">BACK</Link>
         </section>
       </main>
     );
@@ -164,7 +168,7 @@ export function LeadDetailPage() {
       } catch {}
     }
 
-    navigate('/leads');
+    router.push('/leads');
   }
 
   function handleWonClick() {
@@ -208,7 +212,7 @@ export function LeadDetailPage() {
         return;
       }
     } catch {}
-    navigate('/leads');
+    router.push('/leads');
   }
 
   return (

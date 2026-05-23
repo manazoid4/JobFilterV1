@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Radar, Database, Layers, Target, HardHat, Send, CheckCircle, ArrowRight } from 'lucide-react';
 
 const pipelineSteps = [
@@ -212,10 +214,10 @@ export function MethodologyPage() {
           Free scan. No signup. See real scored leads in your area right now.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link to="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
             SCAN MY AREA FREE →
           </Link>
-          <Link to="/trust" className="jf-button bg-white text-[var(--ink)]">
+          <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">
             READ OUR PROMISE
           </Link>
         </div>

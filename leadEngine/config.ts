@@ -1,4 +1,4 @@
-import type { TradeKey } from './types.js';
+import type { TradeKey } from './types';
 
 export type { TradeKey };
 

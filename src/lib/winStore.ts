@@ -4,7 +4,7 @@ const KEY = 'jobfilter.win';
 
 export function getWinData(): WinEngineData {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(KEY);
     return raw
       ? (JSON.parse(raw) as WinEngineData)
       : { wins: [], losses: [] };
@@ -14,7 +14,7 @@ export function getWinData(): WinEngineData {
 }
 
 function saveWinData(data: WinEngineData) {
-  localStorage.setItem(KEY, JSON.stringify(data));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(data));
 }
 
 export function markWon(job: Omit<WinJob, 'id' | 'wonAt'>): WinJob {

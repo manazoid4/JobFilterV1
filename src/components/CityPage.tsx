@@ -1,5 +1,9 @@
+"use client";
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+
 
 export interface CityData {
   slug: string;
@@ -129,7 +133,7 @@ interface CityPageProps {
 }
 
 export function CityPage({ city }: CityPageProps) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const otherCities = CITIES.filter((c) => c.slug !== city.slug);
 
   useEffect(() => {
@@ -144,7 +148,7 @@ export function CityPage({ city }: CityPageProps) {
   }, [city]);
 
   function handleScan() {
-    navigate(`/find-jobs?postcode=${city.postcode}`);
+    router.push(`/find-jobs?postcode=${city.postcode}`);
   }
 
   return (
@@ -359,8 +363,7 @@ export function CityPage({ city }: CityPageProps) {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {otherCities.map((c) => (
               <Link
-                key={c.slug}
-                to={`/construction-leads/${c.slug}`}
+                key={c.slug} href={`/construction-leads/${c.slug}`}
                 className="jf-box block bg-[var(--bg-main)] p-6"
                 style={{ textDecoration: 'none' }}
               >

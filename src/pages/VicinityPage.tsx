@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { Camera, LayoutTemplate, PenTool, Share2, Star, ArrowRight, MessageCircle, Instagram, Globe } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 
@@ -138,12 +140,12 @@ export function VicinityPage() {
                   </span>
                 </h1>
                 <p className="mt-4 max-w-lg text-[17px] font-medium leading-[1.55] text-white/70">
-                  Your best jobs are dying on your phone. Checkatrade's reviews live on their site — cancel your subscription and they're gone. Vicinity turns every finished job into local proof you own.
+                  Turn photos from your camera roll into WhatsApp, social, and website assets that bring in better local work.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     className="jf-button bg-[var(--yellow)] text-[var(--navy)]"
-                    to="#create"
+                    href="#create"
                   >
                     Start Creating Proof →
                   </Link>
@@ -688,7 +690,7 @@ export function VicinityPage() {
             <div className="mt-4 flex items-center gap-2 px-4 py-3" style={{ background: 'var(--yellow)', border: '2px solid var(--navy)' }}>
               <span className="text-[13px] font-bold uppercase tracking-wide text-[var(--navy)]">✓ Included free with JobFilter subscription</span>
             </div>
-            <Link to="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
+            <Link href="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
               Scan Jobs Free →
             </Link>
           </div>
@@ -703,8 +705,8 @@ export function VicinityPage() {
             Vicinity proves your work. Intake feeds you the next job. Real leads in your area, sent straight to WhatsApp. No chasing. No competing. STAY IN CONTROL.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">LOCK MY £39/MO PATCH</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
           </div>
         </section>
 
@@ -712,13 +714,13 @@ export function VicinityPage() {
         <section className="mt-6 jf-box bg-white p-5">
           <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/free-tools">
               ALL FREE TOOLS
             </Link>
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/vantage">
               VANTAGE — BID DECKS
             </Link>
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/tips">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/tips">
               TRADE TIPS
             </Link>
           </div>

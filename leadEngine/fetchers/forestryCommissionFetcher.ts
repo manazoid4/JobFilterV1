@@ -14,7 +14,7 @@
  * high-value work with less competition.
  */
 
-import type { RawLead, SourceStats } from '../types.js';
+import type { RawLead, SourceStats } from '../types';
 
 const FC_API = 'https://www.gov.uk/guidance/tree-felling-licence-when-you-need-to-apply';
 

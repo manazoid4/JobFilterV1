@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase.js';
+import { supabase } from '../lib/supabase';
 
 const deliveredSet = new Set<string>();
 
@@ -49,8 +49,8 @@ Next: Call within 24 hours`;
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
-        From: `whatsapp:${process.env.TWILIO_WHATSAPP_FROM ?? 'whatsapp:+14155238886'}`,
-        To: `whatsapp:${process.env.TWILIO_WHATSAPP_TO}`,
+        From: formatWhatsAppNumber(process.env.TWILIO_WHATSAPP_FROM || '+14155238886'),
+        To: formatWhatsAppNumber(process.env.TWILIO_WHATSAPP_TO || ''),
         Body: message,
       }).toString(),
     });
@@ -80,4 +80,8 @@ Next: Call within 24 hours`;
   }
 
   return result;
+}
+
+function formatWhatsAppNumber(value: string) {
+  return value.startsWith('whatsapp:') ? value : `whatsapp:${value}`;
 }

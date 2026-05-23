@@ -13,22 +13,22 @@
  * Never blocks on a single source.
  */
 
-import type { Lead, RawLead, ScanResult, SourceStats, SourceHealth } from './types.js';
-import { CONFIG, TRADE_KEYS } from './config.js';
-import { lookupPostcode, haversineMiles, regionFromOutward } from './postcode.js';
-import { contractsFetcher } from './fetchers/contractsFetcher.js';
-import { planningDataFetcher } from './fetchers/planningDataFetcher.js';
-import { directorySignalFetcher } from './fetchers/directorySignalFetcher.js';
-import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher.js';
-import { pcsS2wFetcher } from './fetchers/pcsS2wFetcher.js';
-import { epcFetcher } from './fetchers/epcFetcher.js';
-import { landRegistryFetcher } from './fetchers/landRegistryFetcher.js';
-import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher.js';
-import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher.js';
-import { normaliseAll } from './normaliser.js';
-import { scoreLeadBreakdown } from './scorer.js';
-import { sourceRegistryEndpoints } from './sourceRegistry.js';
-import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig.js';
+import type { Lead, RawLead, ScanResult, SourceStats, SourceHealth } from './types';
+import { CONFIG, TRADE_KEYS } from './config';
+import { lookupPostcode, haversineMiles, regionFromOutward } from './postcode';
+import { contractsFetcher } from './fetchers/contractsFetcher';
+import { planningDataFetcher } from './fetchers/planningDataFetcher';
+import { directorySignalFetcher } from './fetchers/directorySignalFetcher';
+import { companiesHouseFetcher } from './fetchers/companiesHouseFetcher';
+import { pcsS2wFetcher } from './fetchers/pcsS2wFetcher';
+import { epcFetcher } from './fetchers/epcFetcher';
+import { landRegistryFetcher } from './fetchers/landRegistryFetcher';
+import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher';
+import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher';
+import { normaliseAll } from './normaliser';
+import { scoreLeadBreakdown } from './scorer';
+import { sourceRegistryEndpoints } from './sourceRegistry';
+import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
@@ -299,9 +299,35 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     outward,
     lockedCount,
     sources: mergedStats,
-    sourceHealth: {},
+    sourceHealth: buildSourceHealth(mergedStats),
     errors,
   };
+}
+
+function buildSourceHealth(stats: Record<string, SourceStats>): Record<string, SourceHealth> {
+  const health: Record<string, SourceHealth> = {};
+  for (const [source, sourceStats] of Object.entries(stats)) {
+    health[source] = {
+      fetched: sourceStats.fetched,
+      passed: sourceStats.passed,
+      dropped: sourceStats.dropped,
+      failed: sourceStats.failed,
+      error: sourceStats.error,
+      latencyMs: sourceStats.latencyMs,
+      readiness: sourceReadiness(source, sourceStats),
+    };
+  }
+  return health;
+}
+
+function sourceReadiness(source: string, stats: SourceStats): SourceHealth['readiness'] {
+  if (stats.failed) return 'disabled';
+  if (source === 'CompaniesHouse' && !process.env.COMPANIES_HOUSE_API_KEY && process.env.DEMO_MODE !== 'true') return 'key-required';
+  if (source === 'EPC' && !process.env.EPC_BEARER_TOKEN && !process.env.EPC_API_KEY) return 'key-required';
+  if (source === 'DirectorySignal') return 'demo';
+  if (source === 'LandRegistry' && process.env.DEMO_MODE !== 'true') return 'disabled';
+  if ((source === 'CharityCommission' || source === 'ForestryCommission') && process.env.DEMO_MODE !== 'true') return 'disabled';
+  return 'live';
 }
 
 function fuseSignals(leads: Lead[], outward: string): Lead[] {

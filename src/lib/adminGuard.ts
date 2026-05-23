@@ -361,7 +361,7 @@ const STORAGE_KEY = 'jf.adminGuard.profile';
 
 export function loadProfile(): AdminProfile | null {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(STORAGE_KEY);
     return raw ? (JSON.parse(raw) as AdminProfile) : null;
   } catch {
     return null;
@@ -369,9 +369,9 @@ export function loadProfile(): AdminProfile | null {
 }
 
 export function saveProfile(p: AdminProfile): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(p));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(STORAGE_KEY, JSON.stringify(p));
 }
 
 export function isPaidUser(): boolean {
-  return localStorage.getItem('jobfilter.isPaid') === 'true';
+  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.isPaid') === 'true';
 }

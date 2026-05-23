@@ -1,5 +1,7 @@
+"use client";
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { ClipboardCheck, MapPin, Radar, ShieldCheck } from 'lucide-react';
 
 const trades = ['Builder', 'Roofer', 'Electrician', 'Plumber', 'Heat pump installer', 'Bathroom fitter', 'Landscaper', 'Not sure'];
@@ -49,7 +51,7 @@ export function PostJobPage() {
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
             No lead auction. No spam. We check the job, route it by trade and patch, and only send it where it makes sense.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/">Back to JobFilter</Link>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/">Back to JobFilter</Link>
         </section>
       </main>
     );

@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import type { Express, Request, Response } from 'express';
-import { rateLimit } from '../middleware/rateLimit.js';
+import { rateLimit } from '../middleware/rateLimit';
 
 export function registerWaitlistCountRoute(app: Express) {
   app.get('/api/waitlist/count', rateLimit, async (_req: Request, res: Response) => {

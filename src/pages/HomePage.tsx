@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { AlertTriangle, Radio, ShieldCheck, Target, ArrowUpRight, ArrowDownRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap, Megaphone, BookOpen, Calculator } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
@@ -113,17 +115,17 @@ export function HomePage() {
               Knowledge workers fear layoffs. You don't. Trades don't get outsourced to a model — we just make sure the work reaches you first.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" to="/find-jobs">
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
               <div className="flex flex-wrap gap-4">
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/methodology">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/news">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/news">
                   Trade news →
                 </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" to="/territories">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
                   Claim Territory →
                 </Link>
                 <a className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
@@ -183,9 +185,9 @@ export function HomePage() {
             </p>
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/news">READ NEWS</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/news">READ NEWS</Link>
             <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">CLAIM PATCH</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">CLAIM PATCH</Link>
           </div>
         </div>
       </section>
@@ -234,7 +236,7 @@ export function HomePage() {
                 Quote-floor calculator. Tyre-kicker scorer. Profit check. Travel-cost and time-waster maths. Checkatrade and Bark charge for these. We give them away — leads are the paid part.
               </p>
             </div>
-            <Link className="jf-button bg-[var(--ink)] text-white shrink-0" to="/free-tools">
+            <Link className="jf-button bg-[var(--ink)] text-white shrink-0" href="/free-tools">
               OPEN FREE TOOLS →
             </Link>
           </div>
@@ -246,7 +248,7 @@ export function HomePage() {
               ['Travel Cost', 'Fuel maths in seconds'],
               ['Time-Waster Cost', 'Annual hit from bad leads'],
             ].map(([name, sub]) => (
-              <Link key={name} to="/free-tools" className="border-2 border-[var(--line)] bg-[var(--paper)] p-3 hover:bg-[var(--yellow)]/15 transition-colors">
+              <Link key={name} href="/free-tools" className="border-2 border-[var(--line)] bg-[var(--paper)] p-3 hover:bg-[var(--yellow)]/15 transition-colors">
                 <div className="flex items-center gap-2">
                   <Calculator size={14} strokeWidth={3} className="text-[var(--orange)] shrink-0" />
                   <p className="text-sm font-black uppercase tracking-tight text-[var(--ink)]">{name}</p>
@@ -353,7 +355,7 @@ export function HomePage() {
             <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/75">Pre-filled with trade + postcode from the lead</p>
           </div>
           <div className="mt-8">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
               SEE LIVE LEADS IN YOUR AREA
             </Link>
           </div>
@@ -371,7 +373,7 @@ export function HomePage() {
             The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
-            <Link to="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+            <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
               <div className="flex items-center gap-3">
                 <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
                 <p className="micro-label text-[var(--orange)]">VANTAGE</p>
@@ -380,7 +382,7 @@ export function HomePage() {
               <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
               <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
             </Link>
-            <Link to="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+            <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
               <div className="flex items-center gap-3">
                 <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
                 <p className="micro-label text-[var(--orange)]">VICINITY</p>
@@ -389,7 +391,7 @@ export function HomePage() {
               <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
               <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
             </Link>
-            <Link to="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+            <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
               <div className="flex items-center gap-3">
                 <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
                 <p className="micro-label text-[var(--orange)]">CODEX</p>
@@ -413,7 +415,7 @@ export function HomePage() {
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
               Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
-            <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/territories">
+            <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/territories">
               Open Territory Grid
             </Link>
           </div>
@@ -424,7 +426,7 @@ export function HomePage() {
               return (
                 <Link
                   key={name}
-                  to="/territories"
+                  href="/territories"
                   className={`group border-2 bg-white p-4 text-[var(--ink)] shadow-[4px_4px_0_var(--line)] transition-colors ${isFounding ? 'border-[var(--yellow)] shadow-[4px_4px_0_var(--yellow)]' : 'border-[var(--line)]'}`}
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -468,8 +470,8 @@ export function HomePage() {
               <p>✓ Weekly digest of your area's best opportunities</p>
             </div>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">See What's Included</Link>
-              <Link className="jf-button bg-[var(--ink)] text-white" to="/blueprint">How It Works</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">See What's Included</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/blueprint">How It Works</Link>
             </div>
           </div>
         </div>
@@ -512,8 +514,8 @@ export function HomePage() {
             Every week: territory score, hot lead spotlight, market note, and one actionable move for your patch.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link to="/intelligence/birmingham" className="jf-button bg-[var(--ink)] text-white text-sm">VIEW SAMPLE BRIEFING →</Link>
-            <Link to="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)] text-sm">UNLOCK WITH PATCH PLAN — £39/MO</Link>
+            <Link href="/intelligence/birmingham" className="jf-button bg-[var(--ink)] text-white text-sm">VIEW SAMPLE BRIEFING →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)] text-sm">UNLOCK WITH PATCH PLAN — £39/MO</Link>
           </div>
         </div>
       </section>
@@ -559,7 +561,7 @@ export function HomePage() {
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
               Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
-            <Link to="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+            <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               CLAIM YOUR PATCH — £39/MO →
             </Link>
             <p className="mt-4 border-t-2 border-[var(--line)] pt-4 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Mail } from 'lucide-react';
 
 const faqs = [
@@ -94,7 +96,7 @@ export function FaqPage() {
             <Mail size={18} strokeWidth={2.5} />
             EMAIL SUPPORT
           </a>
-          <Link to="/trust" className="jf-button bg-white text-[var(--ink)]">
+          <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">
             TRUST CENTER →
           </Link>
         </div>

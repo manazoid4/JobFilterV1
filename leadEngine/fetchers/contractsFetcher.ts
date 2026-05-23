@@ -12,8 +12,8 @@
  *   Params: limit, cursor, updatedFrom, updatedTo, stages
  */
 
-import type { RawLead, SourceStats } from '../types.js';
-import { CONFIG } from '../config.js';
+import type { RawLead, SourceStats } from '../types';
+import { CONFIG } from '../config';
 
 const PACKAGE_CACHE_TTL_MS = 5 * 60_000;
 const packageCache = new Map<string, { expiresAt: number; payload: any }>();

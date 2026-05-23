@@ -1,10 +1,8 @@
 import type { Express, Request, Response } from 'express';
 import Stripe from 'stripe';
-import { rateLimit } from '../middleware/rateLimit.js';
-import { triggerN8n } from '../lib/n8n.js';
-import { sendWelcomeEmail, sendPaidConfirmationEmail, sendAdminAlert } from '../lib/resend.js';
+import { rateLimit } from '../middleware/rateLimit';
 
-const DEFAULT_ORIGIN = process.env.VITE_SITE_URL || process.env.APP_URL || 'http://localhost:3000';
+const DEFAULT_ORIGIN = process.env.APP_URL || 'http://localhost:3000';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
@@ -12,29 +10,10 @@ const stripe = stripeSecret
   ? new Stripe(stripeSecret, { apiVersion: '2023-10-16' as any })
   : null;
 
-// Price IDs from env (preferred) or fallback to inline amounts
-const PRICE_IDS = {
-  founding: process.env.STRIPE_PRICE_FOUNDING || '',
-  pro: process.env.STRIPE_PRICE_PRO || '',
-  business: process.env.STRIPE_PRICE_BUSINESS || '',
-};
-
-// Fallback inline amounts (pence) when price IDs not set
-const INLINE_AMOUNTS = {
+const PRICES = {
   founding: { monthly: 3900, annual: 39000 },
   pro: { monthly: 7900, annual: 79000 },
-  business: { monthly: 14900, annual: 149000 },
-};
-
-type CheckoutLineItem = {
-  price?: string;
-  price_data?: {
-    currency: string;
-    product_data: { name: string };
-    unit_amount: number;
-    recurring: { interval: 'month' | 'year' };
-  };
-  quantity: number;
+  epc: { monthly: 1900, annual: 0 },
 };
 
 const FOUNDING_MAX = 30;
@@ -49,8 +28,8 @@ export function registerStripeRoutes(app: Express) {
         return res.status(422).json({ error: 'tier and billing are required' });
       }
 
-      const tierKey = tier === 'founding' ? 'founding' : tier === 'business' ? 'business' : 'pro';
-      const isAnnual = billing === 'annual';
+      const tierKey = tier === 'founding' ? 'founding' : tier === 'epc' ? 'epc' : 'pro';
+      const isAnnual = billing === 'annual' && tierKey !== 'epc';
 
       if (tierKey === 'founding') {
         const count = await getWaitlistCount();
@@ -59,29 +38,27 @@ export function registerStripeRoutes(app: Express) {
         }
       }
 
-      const priceId = PRICE_IDS[tierKey];
-      let lineItem: CheckoutLineItem;
+      const priceMap: Record<string, { monthly: number; annual: number }> = PRICES;
+      const amount = isAnnual ? priceMap[tierKey].annual : priceMap[tierKey].monthly;
 
-      if (priceId) {
-        lineItem = { price: priceId, quantity: 1 };
-      } else {
-        const amounts = INLINE_AMOUNTS[tierKey];
-        const amount = isAnnual ? amounts.annual : amounts.monthly;
-        const productNames: Record<string, string> = {
-          founding: 'JobFilter Founding 30',
-          pro: 'JobFilter Pro',
-          business: 'JobFilter Business',
-        };
-        lineItem = {
-          price_data: {
-            currency: 'gbp',
-            product_data: { name: productNames[tierKey] },
-            unit_amount: amount,
-            recurring: { interval: isAnnual ? 'year' : 'month' },
-          },
-          quantity: 1,
-        };
-      }
+      const priceConfig: any = {
+        currency: 'gbp',
+        product_data: {
+          name: tierKey === 'founding' ? 'JobFilter Founding 30' : tierKey === 'epc' ? 'EPC Signal Engine' : 'JobFilter Pro',
+          description: tierKey === 'founding'
+            ? 'Unlimited scans. Full leads. WhatsApp alerts. Direct letters. £39/mo locked forever.'
+            : tierKey === 'epc'
+            ? 'EPC data signals for your area. £19/mo.'
+            : 'Unlimited scans. Full leads. WhatsApp alerts. All tools.',
+        },
+        unit_amount: amount,
+        recurring: { interval: isAnnual ? 'year' : 'month' },
+      };
+
+      const configuredPriceId = getConfiguredPriceId(tierKey, isAnnual ? 'annual' : 'monthly');
+      const lineItem = configuredPriceId
+        ? { price: configuredPriceId, quantity: 1 }
+        : { price_data: priceConfig, quantity: 1 };
 
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -113,31 +90,21 @@ export function registerStripeRoutes(app: Express) {
       let event: Stripe.Event;
 
       try {
-        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+        const rawBody = Buffer.isBuffer(req.body) ? req.body : String(req.body ?? '');
+        event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
       } catch (err: any) {
         console.error('[stripe:webhook] Signature verification failed:', err.message);
         return res.status(400).json({ error: 'Webhook signature verification failed' });
       }
 
-      switch (event.type) {
-        case 'checkout.session.completed':
-          await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session);
-          break;
-        case 'customer.subscription.created':
-          await handleSubscriptionCreated(event.data.object as Stripe.Subscription);
-          break;
-        case 'customer.subscription.updated':
-          await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
-          break;
-        case 'customer.subscription.deleted':
-          await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
-          break;
-        case 'invoice.payment_succeeded':
-          await handleInvoiceSucceeded(event.data.object as Stripe.Invoice);
-          break;
-        case 'invoice.payment_failed':
-          await handlePaymentFailed(event.data.object as Stripe.Invoice);
-          break;
+      if (event.type === 'checkout.session.completed') {
+        const session = event.data.object as Stripe.Checkout.Session;
+        await handleCheckoutCompleted(session);
+      }
+
+      if (event.type === 'invoice.payment_failed') {
+        const invoice = event.data.object as Stripe.Invoice;
+        await handlePaymentFailed(invoice);
       }
 
       res.json({ received: true });
@@ -148,75 +115,65 @@ export function registerStripeRoutes(app: Express) {
   });
 }
 
+function getConfiguredPriceId(tier: string, billing: 'monthly' | 'annual') {
+  if (tier === 'founding' && billing === 'monthly') return process.env.STRIPE_PRICE_FOUNDING_MONTHLY || '';
+  if (tier === 'founding' && billing === 'annual') return process.env.STRIPE_PRICE_FOUNDING_ANNUAL || '';
+  if (tier === 'pro' && billing === 'monthly') return process.env.STRIPE_PRICE_PRO_MONTHLY || '';
+  if (tier === 'pro' && billing === 'annual') return process.env.STRIPE_PRICE_PRO_ANNUAL || '';
+  if (tier === 'epc') return process.env.STRIPE_PRICE_EPC_MONTHLY || '';
+  return '';
+}
+
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const { metadata, customer_email, subscription } = session;
   const tier = metadata?.tier || 'pro';
   const billing = metadata?.billing || 'monthly';
   const userId = metadata?.userId || '';
-  const email = customer_email || '';
-  const customerId = String(session.customer || '');
-  const subscriptionId = String(subscription || '');
 
   const payment = {
-    stripe_session_id: session.id,
-    stripe_customer_id: customerId,
-    stripe_subscription_id: subscriptionId,
+    stripeSessionId: session.id,
+    stripeCustomerId: String(session.customer || ''),
+    stripeSubscriptionId: String(subscription || ''),
     tier,
     billing,
-    email,
-    user_id: userId,
+    email: customer_email || '',
+    userId,
     amount: session.amount_total || 0,
     status: 'active',
-    paid_at: new Date().toISOString(),
+    paidAt: new Date().toISOString(),
   };
 
   try {
     await storePayment(payment);
-    await upsertSubscription(customerId, subscriptionId, { tier, status: 'active', email, user_id: userId });
-    await sendPaidConfirmationEmail(email, tier);
-    await sendAdminAlert(
-      `New ${tier} signup`,
-      `Email: ${email}\nTier: ${tier}\nBilling: ${billing}\nAmount: £${((session.amount_total || 0) / 100).toFixed(2)}`
-    );
-    await triggerN8n('new_paid_subscription', { tier, billing, email, userId, customerId, subscriptionId });
-    console.log('[stripe] Checkout completed:', { tier, billing, email });
+    await updateUserStatus(userId, customer_email, {
+      tier,
+      billing,
+      status: 'active',
+      stripeCustomerId: String(session.customer || ''),
+      stripeSubscriptionId: String(subscription || ''),
+      paidAt: payment.paidAt,
+    });
+    console.log('[stripe] Payment completed:', { tier, billing, email: customer_email });
   } catch (err: any) {
-    console.error('[stripe] handleCheckoutCompleted failed:', err?.message);
+    console.error('[stripe] Failed to store payment:', err?.message);
   }
-}
-
-async function handleSubscriptionCreated(sub: Stripe.Subscription) {
-  const customerId = String(sub.customer);
-  await upsertSubscription(customerId, sub.id, { status: sub.status });
-}
-
-async function handleSubscriptionUpdated(sub: Stripe.Subscription) {
-  const customerId = String(sub.customer);
-  await upsertSubscription(customerId, sub.id, { status: sub.status });
-}
-
-async function handleSubscriptionDeleted(sub: Stripe.Subscription) {
-  const customerId = String(sub.customer);
-  await upsertSubscription(customerId, sub.id, { status: 'cancelled' });
-  await triggerN8n('payment_failed', { customerId, reason: 'subscription_deleted' });
-}
-
-async function handleInvoiceSucceeded(invoice: Stripe.Invoice) {
-  const customerId = String(invoice.customer || '');
-  await updateUserByStripeCustomer(customerId, { status: 'active' });
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
   const customerId = String(invoice.customer || '');
-  await updateUserByStripeCustomer(customerId, { status: 'past_due' });
-  await triggerN8n('payment_failed', { customerId, invoiceId: invoice.id });
-  await sendAdminAlert('Payment failed', `Customer: ${customerId}\nInvoice: ${invoice.id}`);
-  console.log('[stripe] Payment failed for customer:', customerId);
+  try {
+    await updateUserByStripeCustomer(customerId, {
+      status: 'past_due',
+    });
+    console.log('[stripe] Payment failed for customer:', customerId);
+  } catch (err: any) {
+    console.error('[stripe] Failed to update past_due status:', err?.message);
+  }
 }
 
 async function getWaitlistCount(): Promise<number> {
   try {
-    const { supabase } = await import('../lib/supabase.js');
+    const { supabase } = await import('../lib/supabase');
     if (!supabase) return 0;
     const { count } = await supabase
       .from('waitlist')
@@ -229,7 +186,7 @@ async function getWaitlistCount(): Promise<number> {
 
 async function storePayment(payment: any) {
   try {
-    const { supabase } = await import('../lib/supabase.js');
+    const { supabase } = await import('../lib/supabase');
     if (!supabase) return;
     const { error } = await supabase.from('payments').insert(payment);
     if (error) console.error('[stripe] DB insert error:', error.message);
@@ -238,41 +195,53 @@ async function storePayment(payment: any) {
   }
 }
 
-async function upsertSubscription(
-  customerId: string,
-  subscriptionId: string,
-  data: Record<string, unknown>
-) {
+async function updateUserStatus(userId: string, email: string | null, data: any) {
+  if (!userId && !email) return;
+
   try {
-    const { supabase } = await import('../lib/supabase.js');
+    const { supabase } = await import('../lib/supabase');
     if (!supabase) return;
-    const { error } = await supabase
-      .from('subscriptions')
-      .upsert(
-        { stripe_customer_id: customerId, stripe_subscription_id: subscriptionId, ...data, updated_at: new Date().toISOString() },
-        { onConflict: 'stripe_customer_id' }
-      );
-    if (error) console.error('[stripe] Subscription upsert error:', error.message);
+
+    if (userId) {
+      const { error } = await supabase
+        .from('users')
+        .update(data)
+        .eq('id', userId);
+      if (error) console.error('[stripe] User update error:', error.message);
+      return;
+    }
+
+    if (email) {
+      const { error } = await supabase
+        .from('users')
+        .update(data)
+        .eq('email', email);
+      if (error) console.error('[stripe] User update by email error:', error.message);
+    }
   } catch {
-    console.warn('[stripe] Could not upsert subscription — DB unavailable');
+    console.warn('[stripe] Could not update user — DB unavailable');
   }
 }
 
-async function updateUserByStripeCustomer(customerId: string, data: Record<string, unknown>) {
+async function updateUserByStripeCustomer(customerId: string, data: any) {
   try {
-    const { supabase } = await import('../lib/supabase.js');
+    const { supabase } = await import('../lib/supabase');
     if (!supabase) return;
     const { error } = await supabase
-      .from('subscriptions')
-      .update({ ...data, updated_at: new Date().toISOString() })
-      .eq('stripe_customer_id', customerId);
+      .from('users')
+      .update(data)
+      .eq('stripeCustomerId', customerId);
     if (error) console.error('[stripe] Update by customer error:', error.message);
   } catch {
-    console.warn('[stripe] Could not update subscription — DB unavailable');
+    console.warn('[stripe] Could not update user by customer — DB unavailable');
   }
 }
 
 function expressRawBody(req: Request, _res: Response, next: any) {
+  if (Buffer.isBuffer(req.body) || typeof req.body === 'string') {
+    next();
+    return;
+  }
   let data = '';
   req.on('data', (chunk: Buffer) => { data += chunk; });
   req.on('end', () => {
