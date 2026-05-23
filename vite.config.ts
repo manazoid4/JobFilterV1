@@ -1,11 +1,32 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import {defineConfig} from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 
-export default defineConfig(() => {
+function meticulousRecorder(recordingToken: string | undefined): Plugin {
   return {
-    plugins: [react(), tailwindcss()],
+    name: 'jobfilter-meticulous-recorder',
+    transformIndexHtml(html) {
+      if (!recordingToken) return html;
+
+      const snippet = [
+        '<script',
+        `  data-recording-token="${recordingToken}"`,
+        `  data-is-production-environment="${process.env.VERCEL_ENV === 'production' ? 'true' : 'false'}"`,
+        '  src="https://snippet.meticulous.ai/v1/meticulous.js">',
+        '</script>',
+      ].join('\n');
+
+      return html.replace('<head>', `<head>\n    ${snippet.replace(/\n/g, '\n    ')}`);
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [meticulousRecorder(env.VITE_METICULOUS_RECORDING_TOKEN), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
