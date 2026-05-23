@@ -360,22 +360,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── GOLD LEAD EXAMPLE ─────────────────────────── */}
-      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--orange)]">GOLD LEAD EXAMPLE — REAL FORMAT, SAMPLE DATA</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">
-            THIS IS WHAT A GOLD LEAD LOOKS LIKE.
-          </h2>
-          <p className="mt-4 max-w-2xl copy">
-            Every paid member gets leads in this format — scored, sourced, and timed. Your territory locks the postcode. No five-way blast. Just yours.
-          </p>
-          <div className="mt-8 max-w-3xl">
-            <SampleLeadCard />
-          </div>
-        </div>
-      </section>
-
       {/* ── ADD-ON SERVICES ───────────────────────────── */}
       <section className="bg-white border-t-2 border-[var(--line)]">
         <div className="page-shell py-14">
