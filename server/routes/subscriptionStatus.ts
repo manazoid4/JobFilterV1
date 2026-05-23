@@ -6,7 +6,7 @@ export function registerSubscriptionStatusRoute(app: Express) {
     if (!email) return res.status(400).json({ error: 'email required' });
 
     try {
-      const { supabase } = await import('../lib/supabase');
+      const { supabase } = await import('../lib/supabase.js');
       if (!supabase) return res.json({ tier: 'free', status: 'inactive', active: false });
 
       const { data } = await supabase

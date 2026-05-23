@@ -22,7 +22,7 @@
  * Set DEMO_MODE=true to enable mock data for testing.
  */
 
-import type { RawLead, SourceStats } from '../types';
+import type { RawLead, SourceStats } from '../types.js';
 
 const CH_BASE = 'https://api.company-information.service.gov.uk';
 

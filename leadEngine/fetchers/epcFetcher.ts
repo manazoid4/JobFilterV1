@@ -8,8 +8,8 @@
  * prospects for insulation, heat pumps, and solar upgrades.
  */
 
-import type { RawLead, SourceStats } from '../types';
-import { CONFIG } from '../config';
+import type { RawLead, SourceStats } from '../types.js';
+import { CONFIG } from '../config.js';
 
 const EPC_BASE_URL = 'https://epc.opendatacommunities.org/api/v1/domestic/search';
 

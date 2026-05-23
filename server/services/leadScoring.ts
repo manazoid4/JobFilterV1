@@ -1,5 +1,5 @@
-import type { ContractsFinderNotice } from './contractsFinder';
-import { keywordsForTrade } from './contractsFinder';
+import type { ContractsFinderNotice } from './contractsFinder.js';
+import { keywordsForTrade } from './contractsFinder.js';
 
 export function scoreNotice(notice: ContractsFinderNotice, trade: string, outward: string, region: string) {
   const text = `${notice.title} ${notice.description}`.toLowerCase();

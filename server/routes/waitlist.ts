@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
-import { rateLimit } from '../middleware/rateLimit';
-import { sendWaitlistConfirmation } from '../services/email';
+import { rateLimit } from '../middleware/rateLimit.js';
+import { sendWaitlistConfirmation } from '../services/email.js';
 
 const waitlistStore: Array<Record<string, string>> = [];
 

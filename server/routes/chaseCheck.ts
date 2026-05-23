@@ -1,5 +1,5 @@
 import type { Express, Request, Response } from 'express';
-import { triggerGoldLeadWhatsApp } from '../services/sms';
+import { triggerGoldLeadWhatsApp } from '../services/sms.js';
 
 const chaseStatuses: Record<string, { status: string; sentAt: string; nudged: boolean }> = {};
 

@@ -1,4 +1,4 @@
-import type { RawLead, SourceStats } from '../types';
+import type { RawLead, SourceStats } from '../types.js';
 
 // ── Directory Signal Fetcher ───────────────────────────────────────────────────
 // Internal structured dataset — guaranteed fallback.
