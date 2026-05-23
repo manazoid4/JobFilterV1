@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
-import { triggerN8n } from '../lib/n8n';
-import { sendWelcomeEmail } from '../lib/resend';
+import { triggerN8n } from '../lib/n8n.js';
+import { sendWelcomeEmail } from '../lib/resend.js';
 
 export function registerAuthHookRoute(app: Express) {
   app.post('/api/auth/signup-hook', async (req: Request, res: Response) => {

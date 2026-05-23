@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
-import { supabase } from '../lib/supabase';
-import { regionFromOutward } from '../utils/postcode';
+import { supabase } from '../lib/supabase.js';
+import { regionFromOutward } from '../utils/postcode.js';
 
 export function registerTerritorySummaryRoute(app: Express) {
   app.get('/api/territories/summary', async (req: Request, res: Response) => {

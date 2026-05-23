@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
-import { supabase } from '../lib/supabase';
-import { getAllSourcesConfig, invalidateSourceConfigCache, warmSourceConfigCache } from '../../leadEngine/sourceConfig';
+import { supabase } from '../lib/supabase.js';
+import { getAllSourcesConfig, invalidateSourceConfigCache, warmSourceConfigCache } from '../../leadEngine/sourceConfig.js';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 

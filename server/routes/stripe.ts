@@ -1,8 +1,8 @@
 import type { Express, Request, Response } from 'express';
 import Stripe from 'stripe';
-import { rateLimit } from '../middleware/rateLimit';
-import { triggerN8n } from '../lib/n8n';
-import { sendWelcomeEmail, sendPaidConfirmationEmail, sendAdminAlert } from '../lib/resend';
+import { rateLimit } from '../middleware/rateLimit.js';
+import { triggerN8n } from '../lib/n8n.js';
+import { sendWelcomeEmail, sendPaidConfirmationEmail, sendAdminAlert } from '../lib/resend.js';
 
 const DEFAULT_ORIGIN = process.env.VITE_SITE_URL || process.env.APP_URL || 'http://localhost:3000';
 const stripeSecret = process.env.STRIPE_SECRET_KEY || '';
@@ -216,7 +216,7 @@ async function handlePaymentFailed(invoice: Stripe.Invoice) {
 
 async function getWaitlistCount(): Promise<number> {
   try {
-    const { supabase } = await import('../lib/supabase');
+    const { supabase } = await import('../lib/supabase.js');
     if (!supabase) return 0;
     const { count } = await supabase
       .from('waitlist')
@@ -229,7 +229,7 @@ async function getWaitlistCount(): Promise<number> {
 
 async function storePayment(payment: any) {
   try {
-    const { supabase } = await import('../lib/supabase');
+    const { supabase } = await import('../lib/supabase.js');
     if (!supabase) return;
     const { error } = await supabase.from('payments').insert(payment);
     if (error) console.error('[stripe] DB insert error:', error.message);
@@ -244,7 +244,7 @@ async function upsertSubscription(
   data: Record<string, unknown>
 ) {
   try {
-    const { supabase } = await import('../lib/supabase');
+    const { supabase } = await import('../lib/supabase.js');
     if (!supabase) return;
     const { error } = await supabase
       .from('subscriptions')
@@ -260,7 +260,7 @@ async function upsertSubscription(
 
 async function updateUserByStripeCustomer(customerId: string, data: Record<string, unknown>) {
   try {
-    const { supabase } = await import('../lib/supabase');
+    const { supabase } = await import('../lib/supabase.js');
     if (!supabase) return;
     const { error } = await supabase
       .from('subscriptions')

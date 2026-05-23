@@ -18,8 +18,8 @@
  * No auth required. Public API.
  */
 
-import type { RawLead, SourceStats } from '../types';
-import { CONFIG } from '../config';
+import type { RawLead, SourceStats } from '../types.js';
+import { CONFIG } from '../config.js';
 
 const PLANNING_ENTITY_URL = 'https://www.planning.data.gov.uk/entity.json';
 // Dataset: 'planning-application' is the correct live dataset on planning.data.gov.uk

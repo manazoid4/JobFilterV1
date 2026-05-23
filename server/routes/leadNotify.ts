@@ -1,5 +1,5 @@
 import type { Express, Request, Response } from 'express';
-import { triggerGoldLeadWhatsApp } from '../services/sms';
+import { triggerGoldLeadWhatsApp } from '../services/sms.js';
 
 export function registerLeadNotifyRoute(app: Express) {
   app.post('/api/leads/notify', async (req: Request, res: Response) => {
