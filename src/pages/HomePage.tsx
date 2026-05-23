@@ -360,22 +360,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── GOLD LEAD EXAMPLE ─────────────────────────── */}
-      <section className="border-b-4 border-[var(--line)] bg-[var(--bg-main)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--orange)]">GOLD LEAD EXAMPLE — REAL FORMAT, SAMPLE DATA</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">
-            THIS IS WHAT A GOLD LEAD LOOKS LIKE.
-          </h2>
-          <p className="mt-4 max-w-2xl copy">
-            Every paid member gets leads in this format — scored, sourced, and timed. Your territory locks the postcode. No five-way blast. Just yours.
-          </p>
-          <div className="mt-8 max-w-3xl">
-            <SampleLeadCard />
-          </div>
-        </div>
-      </section>
-
       {/* ── ADD-ON SERVICES ───────────────────────────── */}
       <section className="bg-white border-t-2 border-[var(--line)]">
         <div className="page-shell py-14">
@@ -574,6 +558,12 @@ export function HomePage() {
             </div>
             <p className="mt-4 text-lg font-black text-[var(--muted)]">
               Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
+            </p>
+            <Link to="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              CLAIM YOUR PATCH — £39/MO →
+            </Link>
+            <p className="mt-4 border-t-2 border-[var(--line)] pt-4 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
+              Not ready yet? Join the list below.
             </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>

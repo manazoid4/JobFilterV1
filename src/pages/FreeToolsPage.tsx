@@ -83,22 +83,6 @@ export function FreeToolsPage() {
         </div>
       </section>
 
-      {/* ── Quick Start CTA ──────────────────────────────────────────── */}
-      <section className="jf-box bg-[var(--yellow)] p-5">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="headline text-2xl leading-none text-[var(--ink)]">START WITH A FREE SCAN.</h2>
-            <p className="mt-1 text-sm font-black text-[var(--ink)]/70">See real leads in your area. No email needed.</p>
-          </div>
-          <div className="flex flex-col items-start sm:items-end gap-1">
-            <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" to="/find-jobs">
-              SCAN MY AREA →
-            </Link>
-            <span className="text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</span>
-          </div>
-        </div>
-      </section>
-
       {/* ── Paywall (when limit hit + not captured) ── */}
       {!DEV_MODE && isPaywalled && (
         <section className="jf-box border-4 border-[var(--orange)] bg-[var(--orange)]/10 p-6">
@@ -205,6 +189,22 @@ export function FreeToolsPage() {
             onUse={handleToolUse}
           />
         ))}
+      </section>
+
+      {/* ── Quick Start CTA ──────────────────────────────────────────── */}
+      <section className="jf-box bg-[var(--yellow)] p-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 className="headline text-2xl leading-none text-[var(--ink)]">START WITH A FREE SCAN.</h2>
+            <p className="mt-1 text-sm font-black text-[var(--ink)]/70">See real leads in your area. No email needed.</p>
+          </div>
+          <div className="flex flex-col items-start sm:items-end gap-1">
+            <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" to="/find-jobs">
+              SCAN MY AREA →
+            </Link>
+            <span className="text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</span>
+          </div>
+        </div>
       </section>
 
       {/* ── Active tool workspace ──────────────────────────────────────────── */}
