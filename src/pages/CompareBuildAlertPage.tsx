@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 
 const comparison = [
   { feature: 'Planning applications', buildalert: 'Yes', jobfilter: 'Yes — scored & filtered', jf: true },
@@ -141,8 +143,8 @@ export function CompareBuildAlertPage() {
           </div>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">TRY JOBFILTER FREE — SEE WHAT BUILDALERT DOESN'T SHOW YOU</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="#calculator">SEE THE COST COMPARISON</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">TRY JOBFILTER FREE — SEE WHAT BUILDALERT DOESN'T SHOW YOU</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="#calculator">SEE THE COST COMPARISON</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO CHASING</p>
@@ -362,8 +364,8 @@ export function CompareBuildAlertPage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
         </div>
       </section>
@@ -385,7 +387,7 @@ export function CompareBuildAlertPage() {
             ))}
           </div>
           <div className="mt-6">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/signals">SEE THE SIGNALS IN DETAIL</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL</Link>
           </div>
         </div>
       </section>
@@ -494,7 +496,7 @@ export function CompareBuildAlertPage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
@@ -544,8 +546,8 @@ export function CompareBuildAlertPage() {
             Scan your area free. See what work is active near you — including the signals BuildAlert doesn't cover. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

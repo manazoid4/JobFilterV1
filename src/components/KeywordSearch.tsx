@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback, FormEvent } from 'react';
 import { searchDocuments, type DocumentSearchResult, type KeywordTag } from '../lib/documentSearch';
 

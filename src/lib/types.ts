@@ -78,6 +78,8 @@ export type SourceStats = {
   dropped?: number;
   failed?: boolean;
   error?: string;
+  latencyMs?: number;
+  readiness?: 'live' | 'key-required' | 'disabled' | 'demo';
 };
 
 export type LeadSearchResponse = {
@@ -90,6 +92,13 @@ export type LeadSearchResponse = {
   lockedCount?: number;
   accessMode?: string;
   sources?: Record<string, SourceStats>;
+  sourceHealth?: Record<string, SourceStats>;
+  persistence?: {
+    stored: boolean;
+    count: number;
+    provider: string;
+    error?: string;
+  };
   errors: string[];
 };
 

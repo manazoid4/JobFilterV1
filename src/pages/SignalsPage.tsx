@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const signals = [
   {
@@ -171,8 +173,8 @@ export function SignalsPage() {
             All 10 signals included. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
-            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" to="/find-jobs">Scan Free →</Link>
-            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" to="/pricing">See Pricing</Link>
+            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">Scan Free →</Link>
+            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" href="/pricing">See Pricing</Link>
           </div>
         </div>
       </section>
@@ -201,7 +203,7 @@ export function SignalsPage() {
               <p className="mt-3 text-sm font-black text-white/85">
                 Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
               </p>
-              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs?mode=start_now">
+              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
                 OPEN WORKS STARTING NOW →
               </Link>
             </div>
@@ -292,7 +294,7 @@ export function SignalsPage() {
             Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
           </p>
           <div className="mt-8">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
           </div>

@@ -1,20 +1,23 @@
+"use client";
+
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+
 import { X } from 'lucide-react';
 import { WaitlistForm } from './WaitlistForm';
 
 const STORAGE_KEY = 'jobfilter.waitlistModalSeen';
 
 export function LaunchWaitlistModal() {
-  const location = useLocation();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (location.pathname !== '/') return;
+    if (pathname !== '/') return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
     const timer = window.setTimeout(() => setOpen(true), 18000);
     return () => window.clearTimeout(timer);
-  }, [location.pathname]);
+  }, [pathname]);
 
   function close() {
     sessionStorage.setItem(STORAGE_KEY, '1');

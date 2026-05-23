@@ -19,6 +19,7 @@ import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary';
 export async function createApp() {
   const app = express();
 
+  app.use('/api/stripe/webhook', express.raw({ type: 'application/json', limit: '64kb' }));
   app.use(express.json({ limit: '64kb' }));
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');

@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 
 const TRADES = ['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry'];
 
@@ -136,7 +138,7 @@ export function SmartQuotePage() {
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm">
                   <p className="badge mb-3">FOUNDER ACCESS</p>
-                  <Link to="/pricing" className="jf-button text-sm px-5 py-2">
+                  <Link href="/pricing" className="jf-button text-sm px-5 py-2">
                     UNLOCK FULL STARTER — FROM £39/mo
                   </Link>
                 </div>
@@ -150,7 +152,7 @@ export function SmartQuotePage() {
         <div className="page-shell flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <p className="font-semibold text-[var(--ink)]">Estimate the floor price first before you commit to a number.</p>
           <Link
-            to="/free-tools"
+            href="/free-tools"
             className="jf-button text-sm px-5 py-2 !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors"
           >
             OPEN QUOTE FLOOR TOOL
@@ -168,8 +170,8 @@ export function SmartQuotePage() {
               Smart Quote writes the proposal. Intake finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
             </div>
             <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
           </div>
@@ -182,13 +184,13 @@ export function SmartQuotePage() {
           <div className="jf-box bg-white p-5">
             <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
             <div className="mt-3 flex flex-wrap gap-3">
-              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/free-tools">
                 ALL FREE TOOLS
               </Link>
-              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/tips">
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/tips">
                 TRADE TIPS
               </Link>
-              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+              <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/vantage">
                 VANTAGE — BID DECKS
               </Link>
             </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 
 interface CheckoutButtonProps {
@@ -14,11 +16,17 @@ export function CheckoutButton({ tier, billing, email, userId, label, className 
   const [error, setError] = useState('');
 
   const handleClick = async () => {
+    if (!email && !userId) {
+      const params = new URLSearchParams({ tier, billing });
+      window.location.href = `/signup?${params.toString()}`;
+      return;
+    }
+
     setLoading(true);
     setError('');
 
     try {
-      const res = await fetch('/api/create-checkout-session', {
+      const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tier, billing, email, userId }),

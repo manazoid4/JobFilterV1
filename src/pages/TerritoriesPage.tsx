@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Filter, LockKeyhole, Search, ShieldCheck, TrendingUp, Clock, AlertTriangle, CheckCircle, ArrowRight, Star, MapPin, Users, Zap, Mail } from 'lucide-react';
 
 type TerritoryStatus = 'OPEN' | 'CLAIMED' | 'FOUNDER SLOT' | 'RESERVED' | 'WAITLIST';
@@ -70,7 +72,7 @@ export function TerritoriesPage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#claim">LOCK MY PATCH →</a>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
             </div>
           </div>
           <aside className="ops-panel bg-[var(--steel)] p-5 text-white">
@@ -175,7 +177,7 @@ export function TerritoriesPage() {
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
-                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" to="/pricing">Lock Patch</Link>
+                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">Lock Patch</Link>
                 </div>
               </article>
             ))}
@@ -263,8 +265,8 @@ export function TerritoriesPage() {
               Founder monthly includes one territory lock, unlimited WhatsApp alerts, and unlimited direct letters with 1st class postage included. Extra territory is +£19/month.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="jf-button bg-[var(--ink)] text-white" to="/pricing">LOCK MY PATCH →</Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK MY PATCH →</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
             </div>
           </div>
           <div className="jf-box bg-white p-6">

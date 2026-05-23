@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
 import { fillTemplate, MESSAGE_TEMPLATES, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
@@ -102,7 +103,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
             ? "I'm a {job_type} contractor in {area} and I'd like to express interest..."
             : "Hi, I saw your builder job in SW12 come up. I'm local and available this week..."}
         </div>
-        <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-xs text-center block">
+        <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-xs text-center block">
           UNLOCK FIRST STRIKE →
         </Link>
       </div>

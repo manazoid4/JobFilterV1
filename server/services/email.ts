@@ -14,7 +14,7 @@ export async function sendWaitlistConfirmation(name: string, contact: string) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'JobFilter <no-reply@jobfilter.uk>',
+        from: process.env.RESEND_SENDER_EMAIL || 'JobFilter <no-reply@jobfilter.uk>',
         to: contact,
         subject: "You're on the JobFilter Founding 30 list",
         html: `

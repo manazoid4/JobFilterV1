@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Clock, ArrowRight, AlertTriangle, TrendingUp } from 'lucide-react';
 
 type Category = 'PLANNING' | 'RETROFIT' | 'TENDERS' | 'COMPLIANCE' | 'FUNDING' | 'COMMERCIAL';
@@ -129,10 +131,10 @@ export function NewsPage() {
             Planning approvals. EPC compliance. Tender deadlines. Funded schemes. Written for builders, plumbers, electricians, roofers and fit-out firms — not for marketing teams. Free to read.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               SCAN MY POSTCODE →
             </Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/signals">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/signals">
               SEE LIVE SIGNALS
             </Link>
           </div>
@@ -210,7 +212,7 @@ export function NewsPage() {
             <p className="micro-label text-[var(--orange)]">EARLIER THIS WEEK</p>
             <h2 className="headline mt-1 text-2xl leading-none sm:text-3xl">RECENT BRIEFINGS.</h2>
           </div>
-          <Link to="/signals" className="text-sm font-black uppercase text-[var(--ink)] hover:text-[var(--orange)]">
+          <Link href="/signals" className="text-sm font-black uppercase text-[var(--ink)] hover:text-[var(--orange)]">
             All signals →
           </Link>
         </div>
@@ -282,7 +284,7 @@ export function NewsPage() {
             ].map(({ city, slug }) => (
               <Link
                 key={slug}
-                to={`/intelligence/${slug}`}
+                href={`/intelligence/${slug}`}
                 className="inline-flex items-center gap-1 border-2 border-[var(--ink)] bg-white px-3 py-2 text-xs font-black uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--yellow)] transition-colors"
               >
                 {city} <ArrowRight size={12} strokeWidth={3} />
@@ -290,7 +292,7 @@ export function NewsPage() {
             ))}
           </div>
           <div className="mt-6">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/pricing">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">
               UNLOCK FULL CITY INTEL — £39/MO
             </Link>
           </div>
@@ -311,10 +313,10 @@ export function NewsPage() {
             The Intake Engine reads the same data this briefing is built from — and filters it to your trade, postcode, and value band. Free to scan, no card needed.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
               SCAN MY POSTCODE FREE →
             </Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
               SEE PAID PLANS
             </Link>
           </div>

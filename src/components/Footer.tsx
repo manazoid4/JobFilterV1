@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { FeedbackPrompt } from './FeedbackPrompt';
 
 export function Footer() {
@@ -12,8 +14,8 @@ export function Footer() {
             <p className="headline mt-2 text-3xl sm:text-4xl">START FILTERING TODAY. FREE SCAN. NO SIGNUP.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE</Link>
-            <Link to="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PRICING</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PRICING</Link>
           </div>
         </div>
 
@@ -26,11 +28,11 @@ export function Footer() {
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">INTAKE ENGINE</p>
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
-              <Link to="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
-              <Link to="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
-              <Link to="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
-              <Link to="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
-              <Link to="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
+              <Link href="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
+              <Link href="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
+              <Link href="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
+              <Link href="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
+              <Link href="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
             </div>
           </div>
 
@@ -38,9 +40,9 @@ export function Footer() {
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">ADD-ON SERVICES</p>
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
-              <Link to="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks</Link>
-              <Link to="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads</Link>
-              <Link to="/codex" className="hover:text-[var(--yellow)]">Codex — Spec to Sales</Link>
+              <Link href="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks</Link>
+              <Link href="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads</Link>
+              <Link href="/codex" className="hover:text-[var(--yellow)]">Codex — Spec to Sales</Link>
             </div>
           </div>
 
@@ -48,8 +50,8 @@ export function Footer() {
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">COMPANY</p>
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
-              <Link to="/privacy" className="hover:text-[var(--yellow)]">Privacy</Link>
-              <Link to="/terms" className="hover:text-[var(--yellow)]">Terms</Link>
+              <Link href="/privacy" className="hover:text-[var(--yellow)]">Privacy</Link>
+              <Link href="/terms" className="hover:text-[var(--yellow)]">Terms</Link>
             </div>
           </div>
 

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const features = [
   ['Trade website', 'Mobile-first website with quote form, proof, gallery, reviews, call buttons and postcode coverage.'],
@@ -31,7 +33,7 @@ export function TradieStackPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a className="jf-button bg-[var(--ink)] text-white" href="#buy">Buy TradieStack — £450 once</a>
-          <Link className="jf-button bg-white text-[var(--ink)]" to="/post-job">See Public Intake</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/post-job">See Public Intake</Link>
         </div>
       </section>
 
@@ -77,7 +79,7 @@ export function TradieStackPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=TradieStack%20Purchase">ENQUIRE — EMAIL US</a>
-          <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">Add JobFilter Monthly</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">Add JobFilter Monthly</Link>
         </div>
       </section>
     </main>

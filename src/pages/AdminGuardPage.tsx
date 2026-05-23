@@ -1,5 +1,7 @@
+"use client";
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import {
   type AdminProfile,
   type Deadline,
@@ -98,7 +100,7 @@ export function AdminGuardPage() {
               No NI number. No UTR. No tax bill details. Just reminders and organisation.
             </p>
           </div>
-          <Link to="/dashboard" className="jf-button bg-white/10 text-white text-sm border-white/20 shadow-none hover:bg-white/20">
+          <Link href="/dashboard" className="jf-button bg-white/10 text-white text-sm border-white/20 shadow-none hover:bg-white/20">
             ← DASHBOARD
           </Link>
         </div>
@@ -609,10 +611,10 @@ function LockedState() {
           Don't let admin ambush your trade business. Set the reminders once. Get back to pricing real jobs.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] jf-button-lg">
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] jf-button-lg">
             SEE PRICING →
           </Link>
-          <Link to="/features/admin-guard" className="jf-button bg-white/10 text-white border-white/20 shadow-none">
+          <Link href="/features/admin-guard" className="jf-button bg-white/10 text-white border-white/20 shadow-none">
             PREVIEW FEATURE
           </Link>
         </div>
@@ -642,7 +644,7 @@ function LockedState() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="border-2 border-[var(--yellow)] bg-[var(--ink)] px-6 py-4 text-center shadow-[4px_4px_0_var(--yellow)]">
             <p className="headline text-xl text-white">UNLOCK WITH PAID PLAN</p>
-            <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] text-sm block">
+            <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] text-sm block">
               GET ACCESS →
             </Link>
           </div>
@@ -669,7 +671,7 @@ function LockedState() {
             </div>
           ))}
         </div>
-        <Link to="/pricing" className="jf-button mt-6 bg-[var(--ink)] text-white block text-center">
+        <Link href="/pricing" className="jf-button mt-6 bg-[var(--ink)] text-white block text-center">
           BECOME A PAID MEMBER →
         </Link>
       </section>

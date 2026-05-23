@@ -298,9 +298,35 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     outward,
     lockedCount,
     sources: mergedStats,
-    sourceHealth: {},
+    sourceHealth: buildSourceHealth(mergedStats),
     errors,
   };
+}
+
+function buildSourceHealth(stats: Record<string, SourceStats>): Record<string, SourceHealth> {
+  const health: Record<string, SourceHealth> = {};
+  for (const [source, sourceStats] of Object.entries(stats)) {
+    health[source] = {
+      fetched: sourceStats.fetched,
+      passed: sourceStats.passed,
+      dropped: sourceStats.dropped,
+      failed: sourceStats.failed,
+      error: sourceStats.error,
+      latencyMs: sourceStats.latencyMs,
+      readiness: sourceReadiness(source, sourceStats),
+    };
+  }
+  return health;
+}
+
+function sourceReadiness(source: string, stats: SourceStats): SourceHealth['readiness'] {
+  if (stats.failed) return 'disabled';
+  if (source === 'CompaniesHouse' && !process.env.COMPANIES_HOUSE_API_KEY && process.env.DEMO_MODE !== 'true') return 'key-required';
+  if (source === 'EPC' && !process.env.EPC_BEARER_TOKEN && !process.env.EPC_API_KEY) return 'key-required';
+  if (source === 'DirectorySignal') return 'demo';
+  if (source === 'LandRegistry' && process.env.DEMO_MODE !== 'true') return 'disabled';
+  if ((source === 'CharityCommission' || source === 'ForestryCommission') && process.env.DEMO_MODE !== 'true') return 'disabled';
+  return 'live';
 }
 
 function fuseSignals(leads: Lead[], outward: string): Lead[] {

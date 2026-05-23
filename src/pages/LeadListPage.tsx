@@ -1,5 +1,7 @@
+"use client";
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { getStoredLeads } from '../lib/leadStore';
 import type { LeadDecision } from '../lib/types';
 
@@ -101,7 +103,7 @@ export function LeadListPage() {
           <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--ink)]/80">
             Scan your postcode → find jobs scored for your trade → tap TRACK THIS LEAD on any result. It lands here so you can chase it.
           </p>
-          <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" to="/find-jobs">
+          <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
           <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
@@ -215,7 +217,7 @@ export function LeadListPage() {
                   >
                     SEND WHATSAPP
                   </a>
-                  <Link to={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
+                  <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →
                   </Link>
                 </div>

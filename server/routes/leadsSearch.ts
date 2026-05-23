@@ -1,8 +1,10 @@
 import type { Express, Request, Response } from 'express';
 import type { Lead } from '../../leadEngine/types';
 import { scan } from '../../leadEngine/scan';
+import { CONFIG } from '../../leadEngine/config';
 import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
+import { persistLeads } from '../services/leadPersistence';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -16,10 +18,11 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const result = await scan({ postcode: postcode.postcode, trade, tier: FULL_ACCESS_TEST_MODE ? 'paid' : 'free', radiusMiles });
+      const result = await scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles });
+      const persistence = await persistLeads(result.leads);
       const leads = FULL_ACCESS_TEST_MODE
         ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
-        : result.leads.map(toFreePreviewLead);
+        : result.leads.slice(0, CONFIG.freeTierLimit).map(toFreePreviewLead);
 
       console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, ms: Date.now() - started });
       return res.json({
@@ -29,8 +32,9 @@ export function registerLeadSearchRoute(app: Express) {
         region: result.region,
         outward: result.outward,
         leads,
-        lockedCount: FULL_ACCESS_TEST_MODE ? 0 : result.lockedCount,
+        lockedCount: FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, result.total - leads.length),
         accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
+        persistence,
         sources: result.sources,
         sourceHealth: result.sourceHealth,
         errors: result.errors,

@@ -1,7 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
+"use client";
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+
 import { Lock, TrendingUp, TrendingDown, Minus, ArrowRight, MapPin, AlertTriangle, CheckSquare } from 'lucide-react';
 
-const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
+const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
 
 type SignalRow = { type: string; count: number; trend: 'up' | 'down' | 'flat'; top: string };
 type CityIntel = {
@@ -217,11 +220,12 @@ const TREND_ICON = {
 };
 
 function hasAccess() {
-  return OPEN_ACCESS || localStorage.getItem('jf-unlimited-tester') === 'true';
+  return OPEN_ACCESS || (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-unlimited-tester') === 'true';
 }
 
 export function CityIntelligencePage() {
-  const { city = 'birmingham' } = useParams<{ city: string }>();
+  const params = useParams();
+  const city  = (params?.city  as string) || 'birmingham' ;
   const intel = CITY_INTEL[city.toLowerCase()];
   const unlocked = hasAccess();
 
@@ -230,7 +234,7 @@ export function CityIntelligencePage() {
       <main className="page-shell py-14">
         <p className="micro-label text-[var(--orange)]">NOT FOUND</p>
         <h1 className="headline mt-3 text-4xl">No intelligence briefing for "{city}".</h1>
-        <Link to="/news" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">← Back to briefings</Link>
+        <Link href="/news" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">← Back to briefings</Link>
       </main>
     );
   }
@@ -254,7 +258,7 @@ export function CityIntelligencePage() {
             return (
               <Link
                 key={slug}
-                to={`/intelligence/${slug}`}
+                href={`/intelligence/${slug}`}
                 className={`shrink-0 border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wider transition-colors ${
                   active
                     ? 'border-[var(--ink)] bg-[var(--yellow)] text-[var(--ink)]'
@@ -369,7 +373,7 @@ export function CityIntelligencePage() {
                   <p className="text-sm font-bold text-[var(--ink)]">████████████ ██████████ ████████████████████ ██████████ ████████.</p>
                 </div>
                 <div className="mt-4">
-                  <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center block">
+                  <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center block">
                     UNLOCK WITH PATCH PLAN — £39/MO →
                   </Link>
                   <p className="mt-2 text-center text-[10px] font-black text-[var(--muted)] uppercase tracking-wider">Full spotlight + action list + market note included</p>
@@ -438,7 +442,7 @@ export function CityIntelligencePage() {
               return (
                 <Link
                   key={row.slug}
-                  to={`/intelligence/${row.slug}`}
+                  href={`/intelligence/${row.slug}`}
                   className={`grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 px-4 py-3 hover:bg-[var(--yellow)]/10 transition-colors ${active ? 'bg-[var(--yellow)]/30' : ''}`}
                 >
                   <span className="font-mono text-sm font-black text-[var(--muted)] w-6">#{i + 1}</span>
@@ -464,8 +468,8 @@ export function CityIntelligencePage() {
               Hot lead spotlight, action list, market note, and tool tip — all included with the Patch Plan. One dominant trade per postcode. £39/mo. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO</Link>
-              <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE FIRST</Link>
+              <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO</Link>
+              <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE FIRST</Link>
             </div>
           </section>
         )}

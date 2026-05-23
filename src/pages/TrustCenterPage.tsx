@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Eye, Crown } from 'lucide-react';
 
 const verifiedSignals = [
@@ -238,10 +240,10 @@ export function TrustCenterPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
             SEE PRICING →
           </Link>
-          <Link to="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
             TRY FREE SCAN
           </Link>
         </div>

@@ -44,7 +44,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             Not your fault. Ours. The page crashed but the rest of the site is fine.
           </p>
 
-          {import.meta.env.DEV && this.state.error && (
+          {process.env.DEV && this.state.error && (
             <details className="mt-4 text-left border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <summary className="font-black text-sm cursor-pointer">DEV: Error details</summary>
               <pre className="mt-2 text-xs font-mono text-[var(--orange)] overflow-auto max-h-48">

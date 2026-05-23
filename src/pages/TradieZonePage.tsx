@@ -1,5 +1,7 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { Zap, MapPinned, FileText, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, MessageSquare, LetterText, Eye } from 'lucide-react';
 import { getChaseLeads } from '../lib/chaseStore';
 import { getMonthlyStats } from '../lib/winStore';
@@ -34,9 +36,9 @@ export function TradieZonePage() {
     const ms = getMonthlyStats();
     setMonthlyStats(ms);
     try {
-      const stored = localStorage.getItem('jf-member-name');
+      const stored = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-member-name');
       if (stored) setMemberName(stored);
-      const territory = localStorage.getItem('jobfilter.territory');
+      const territory = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory');
       if (territory) setMemberTerritory(territory);
     } catch { /* ignore */ }
   }, []);
@@ -101,7 +103,7 @@ export function TradieZonePage() {
             return (
               <Link
                 key={action.label}
-                to={action.path}
+                href={action.path}
                 className={`jf-box flex min-h-[84px] items-center gap-3 p-4 transition-all hover:shadow-[4px_4px_0_var(--line)] ${action.colour}`}
               >
                 <Icon size={24} strokeWidth={2.5} />
@@ -121,7 +123,7 @@ export function TradieZonePage() {
             return (
               <Link
                 key={tool.id}
-                to={tool.path}
+                href={tool.path}
                 className="jf-box group bg-white p-5 transition-all hover:border-[var(--yellow)]"
               >
                 <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
@@ -142,12 +144,12 @@ export function TradieZonePage() {
       <section>
         <div className="flex items-center justify-between">
           <p className="micro-label text-[var(--muted)]">RECENT LEADS</p>
-          <Link to="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
+          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
             <p className="font-black text-[var(--muted)]">No leads in the pipeline yet. Scan your postcode — jobs appear in minutes.</p>
-            <Link to="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
+            <Link href="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
           </div>
         ) : (
           <div className="mt-3 divide-y-2 divide-[var(--line)] border-2 border-[var(--line)] bg-white">
@@ -192,8 +194,8 @@ export function TradieZonePage() {
             )}
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
-            <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
+            <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
+            <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
           </div>
         </div>
       </section>

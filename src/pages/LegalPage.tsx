@@ -1,3 +1,4 @@
+"use client";
 const copy = {
   privacy: {
     title: 'PRIVACY POLICY',

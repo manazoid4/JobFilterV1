@@ -1,5 +1,7 @@
-import { ClientApp } from './client-app';
+'use client';
 
-export default function Page() {
-  return <ClientApp />;
+import { HomePage } from '../src/pages/HomePage';
+
+export default function Page(props: any) {
+  return <HomePage {...props} />;
 }

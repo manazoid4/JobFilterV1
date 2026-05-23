@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const trades = [
@@ -87,11 +89,11 @@ export function ForYourTradePage() {
           <p className="micro-label text-[var(--ink)]">SCAN YOUR PATCH</p>
           <h2 className="headline mt-3 text-5xl leading-none">NO SHARED LEADS. NO FIVE-TRADE BLAST.</h2>
           <p className="mt-3 font-black text-[var(--ink)]/70">Checkatrade and Bark sell the same lead to five trades and call it a service. Gold leads here are controlled by trade, patch, and timing.</p>
-          <Link className="jf-button mt-5 bg-[var(--ink)] text-white" to="/find-jobs">
+          <Link className="jf-button mt-5 bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW
           </Link>
           <p className="mt-1.5 text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</p>
-          <Link className="jf-button mt-3 bg-white text-[var(--ink)]" to="/pricing">
+          <Link className="jf-button mt-3 bg-white text-[var(--ink)]" href="/pricing">
             SEE PRICING — FROM £39/MO
           </Link>
         </div>

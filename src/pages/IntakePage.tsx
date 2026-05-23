@@ -1,5 +1,7 @@
+"use client";
 import { ChangeEvent, ReactNode, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useRouter, useParams } from 'next/navigation';
+
 import { saveStoredLead } from '../lib/leadStore';
 import type { LeadDecision } from '../lib/types';
 
@@ -8,8 +10,9 @@ const urgencyTypes: LeadDecision['urgency'][] = ['Emergency', 'This week', 'Late
 const budgetOptions = ['Under £500', '£500–£2,000', '£2,000–£5,000', '£5,000+'];
 
 export function IntakePage() {
-  const { username = 'tradesman' } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
+  const username  = (params?.username  as string) || 'tradesman' ;
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [jobType, setJobType] = useState('');
   const [urgency, setUrgency] = useState<LeadDecision['urgency']>('This week');
@@ -54,7 +57,7 @@ export function IntakePage() {
         throw new Error(payload.errors?.[0] ?? 'Could not score your request. Please try again.');
       }
       saveStoredLead(payload.lead);
-      navigate(`/leads/${payload.lead.id}`);
+      router.push(`/leads/${payload.lead.id}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setSubmitting(false);

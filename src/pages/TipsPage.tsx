@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const tips = [
   ['Ask budget in the first message', "If they won't give a rough number, they're not serious. Save the site visit. Ask before you travel."],
@@ -39,8 +41,8 @@ export function TipsPage() {
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
-          <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
         </div>
       </section>
 
@@ -48,13 +50,13 @@ export function TipsPage() {
       <section className="jf-box bg-white p-5">
         <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
         <div className="mt-3 flex flex-wrap gap-3">
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/free-tools">
             ALL FREE TOOLS
           </Link>
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/smart-quote">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/smart-quote">
             SMART QUOTE STARTER
           </Link>
-          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vantage">
+          <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/vantage">
             VANTAGE — BID DECKS
           </Link>
         </div>

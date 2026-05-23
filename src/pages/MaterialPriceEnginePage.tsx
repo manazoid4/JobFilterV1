@@ -1,6 +1,8 @@
+"use client";
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Bell, Calculator, Clock, ExternalLink, Fuel, MapPin, PackageCheck, Search, Star, Wallet, type LucideIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { apiGet } from '../lib/api';
 
 type SortMode = 'cheapest' | 'pickup' | 'delivered' | 'nearest';
@@ -92,7 +94,7 @@ function sortResults(results: MaterialResult[], mode: SortMode) {
 
 function getSavedList() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) as SavedLine[] : [];
   } catch {
     return [];
@@ -129,7 +131,7 @@ export function MaterialPriceEnginePage() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(STORAGE_KEY, JSON.stringify(saved));
   }, [saved]);
 
   const sorted = useMemo(() => sortResults(data?.results ?? [], sortMode), [data?.results, sortMode]);
@@ -336,7 +338,7 @@ export function MaterialPriceEnginePage() {
             </div>
           </section>
 
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">Use this every month</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">Use this every month</Link>
         </aside>
       </section>
     </main>

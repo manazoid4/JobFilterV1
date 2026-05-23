@@ -1,33 +1,22 @@
+"use client";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
 const links = [
-  { to: '/find-jobs', label: 'Scan' },
-  { to: '/signals', label: 'Signals' },
-  { to: '/news', label: 'News' },
-  { to: '/intelligence/birmingham', label: 'City Intel' },
-  { to: '/free-tools', label: 'Tools' },
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
-];
-
-const moreLinks = [
-  { to: '/vantage', label: 'Vantage' },
-  { to: '/vicinity', label: 'Vicinity' },
-  { to: '/codex', label: 'Codex' },
-  { to: '/methodology', label: 'How It Works' },
-  { to: '/trust', label: 'Trust' },
-  { to: '/faq', label: 'FAQ' },
+  { to: '/dashboard', label: 'Dashboard' },
 ];
 
 const mobileLinks = [
   ...links,
-  ...moreLinks,
-].filter((l) => !['/find-jobs', '/territories'].includes(l.to));
+].filter((l) => l.to !== '/find-jobs');
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -38,11 +27,8 @@ export function TopNav() {
 
   return (
     <header className="sticky top-0 z-40 border-b-4 border-[var(--line)] bg-[var(--paper)] text-[var(--ink)]">
-      <div className="ops-strip hidden border-b-2 border-[var(--line)] px-4 py-1 text-center text-xs font-black uppercase tracking-[0.08em] text-[var(--ink)] sm:block">
-        Founding patches now opening - one dominant trade partner per area
-      </div>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
-        <NavLink to="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}>
+        <Link href="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}>
           <img
             className="h-8 w-8 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[3px_3px_0_var(--line)] sm:h-9 sm:w-9"
             src="/union-flag.svg"
@@ -52,48 +38,21 @@ export function TopNav() {
           <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
             Construction Intelligence
           </span>
-        </NavLink>
+        </Link>
 
         <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
           {links.map((link) => {
+            const isActive = pathname === link.to;
             return (
-                <NavLink
-                  key={link.to}
-                  to={link.to}
-                  className={({ isActive }) =>
-                    `nav-link relative ${isActive ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`
-                  }
-                >
+              <Link
+                key={link.to}
+                href={link.to}
+                className={`nav-link relative ${isActive ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
+              >
                 {link.label}
-              </NavLink>
+              </Link>
             );
           })}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setMoreOpen(!moreOpen)}
-              onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
-              className={`nav-link relative ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
-            >
-              MORE
-            </button>
-            {moreOpen && (
-              <div className="absolute right-0 top-full z-50 min-w-[180px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
-                {moreLinks.map((link) => (
-                  <NavLink
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setMoreOpen(false)}
-                    className={({ isActive }) =>
-                      `block border-b border-[var(--line)] px-4 py-2.5 text-sm font-black uppercase min-h-[44px] ${isActive ? 'bg-[var(--yellow)]' : 'hover:bg-[var(--yellow)]'}`
-                    }
-                  >
-                    {link.label}
-                  </NavLink>
-                ))}
-              </div>
-            )}
-          </div>
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 xl:flex">
@@ -107,9 +66,9 @@ export function TopNav() {
               </span>
             </div>
           )}
-          <NavLink to="/territories" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-            CLAIM PATCH
-          </NavLink>
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+            START £39/MO
+          </Link>
         </div>
 
         <button
@@ -127,14 +86,14 @@ export function TopNav() {
       {menuOpen && (
         <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
-            <NavLink to="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
+            <Link href="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
-            </NavLink>
-            <NavLink to="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">YOUR AREA</p>
-              <p className="text-base font-black text-[var(--ink)]">CLAIM PATCH</p>
-            </NavLink>
+            </Link>
+            <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+              <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
+              <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
+            </Link>
           </div>
           {foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
@@ -150,28 +109,29 @@ export function TopNav() {
             </div>
           )}
           <div className="min-h-0 flex-1 overflow-y-auto">
-            {mobileLinks.map((link) => (
-              <NavLink
+            {mobileLinks.map((link) => {
+              const isActive = pathname === link.to;
+              return (
+              <Link
                 key={link.to}
-                to={link.to}
+                href={link.to}
                 onClick={() => setMenuOpen(false)}
-                className={({ isActive }) =>
-                  `border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${
-                    isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-[var(--ink)]'
-                  }`
-                }
+                className={`border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${
+                  isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-[var(--ink)]'
+                }`}
               >
                 {link.label}
-              </NavLink>
-            ))}
+              </Link>
+              );
+            })}
           </div>
-          <NavLink
-            to="/find-jobs"
+          <Link
+            href="/find-jobs"
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
             SCAN MY AREA FREE
-          </NavLink>
+          </Link>
         </div>
       )}
     </header>

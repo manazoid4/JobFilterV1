@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const comparison = [
   { feature: 'Lead model', checkatrade: 'Shared — sold to 4-8 trades', jobfilter: 'Territory-routed — scored, filtered, first in your patch' },
@@ -73,8 +75,8 @@ export function CompareCheckatradePage() {
             Checkatrade is the biggest name in trade lead gen. And the most complained about. Shared leads, price wars, monthly fees just to be listed. JobFilter does the opposite — territory-routed signals, no shared auctions, one flat price.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="#comparison">SEE THE DIFFERENCE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">SEE THE DIFFERENCE</Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--ink)]">No credit card required. £39/mo after free scan. No contract. 30-day money-back.</p>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
@@ -282,8 +284,8 @@ export function CompareCheckatradePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
         </div>
       </section>
@@ -305,7 +307,7 @@ export function CompareCheckatradePage() {
             ))}
           </div>
           <div className="mt-6">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/signals">SEE THE SIGNALS IN DETAIL</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL</Link>
           </div>
         </div>
       </section>
@@ -395,7 +397,7 @@ export function CompareCheckatradePage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
@@ -508,8 +510,8 @@ export function CompareCheckatradePage() {
             ))}
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN FREE — SEE WHAT'S IN YOUR PATCH</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — SEE WHAT'S IN YOUR PATCH</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required to scan. 30-day money-back if you pay and it doesn't deliver.</p>
         </div>
@@ -527,8 +529,8 @@ export function CompareCheckatradePage() {
             Scan your area free. See what work is active near you — before it hits Checkatrade. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const COMPARISON = [
   { jobfilter: 'Deadlines in one dashboard', manual: 'Dates buried in notes' },
@@ -61,10 +63,10 @@ export function AdminGuardTeaserPage() {
           No NI number. No UTR. No tax bill details. Just reminders and organisation.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <Link to="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
+          <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
             GET ADMIN GUARD →
           </Link>
-          <Link to="/dashboard/admin-guard" className="jf-button jf-button-lg bg-white/10 text-white border-white/20 shadow-none">
+          <Link href="/dashboard/admin-guard" className="jf-button jf-button-lg bg-white/10 text-white border-white/20 shadow-none">
             OPEN DASHBOARD →
           </Link>
         </div>
@@ -117,7 +119,7 @@ export function AdminGuardTeaserPage() {
             </div>
           ))}
         </div>
-        <Link to="/pricing" className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)] inline-block">
+        <Link href="/pricing" className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)] inline-block">
           GET ACCESS →
         </Link>
       </section>
@@ -135,10 +137,10 @@ export function AdminGuardTeaserPage() {
           Not another bloated trade app. Just better jobs, cleaner follow-ups and admin dates you cannot afford to miss.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <Link to="/pricing" className="jf-button jf-button-lg bg-[var(--ink)] text-white">
+          <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--ink)] text-white">
             SEE PRICING →
           </Link>
-          <Link to="/dashboard" className="jf-button jf-button-lg bg-white text-[var(--ink)]">
+          <Link href="/dashboard" className="jf-button jf-button-lg bg-white text-[var(--ink)]">
             YOUR DASHBOARD →
           </Link>
         </div>
@@ -172,7 +174,7 @@ export function AdminGuardTeaserPage() {
           Admin sorted. Pipeline moving.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
+          <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
             START WITH ADMIN GUARD →
           </Link>
         </div>

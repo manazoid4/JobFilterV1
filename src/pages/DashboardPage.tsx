@@ -1,5 +1,7 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
@@ -25,11 +27,11 @@ export function DashboardPage() {
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
     setBreakdown(getWinBreakdown());
-    setTerritory(localStorage.getItem('jobfilter.territory'));
-    setScanTrade(localStorage.getItem('jobfilter.trade'));
-    setScanPostcode(localStorage.getItem('jobfilter.postcode'));
-    setScansUsed(Number(localStorage.getItem('jf-weekly-scans-used')) || 0);
-    const tracked = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    setTerritory((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory'));
+    setScanTrade((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade'));
+    setScanPostcode((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode'));
+    setScansUsed(Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-weekly-scans-used')) || 0);
+    const tracked = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
     setTrackedLeadCount(tracked.length);
   }, []);
 
@@ -55,7 +57,7 @@ export function DashboardPage() {
           Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
         </p>
         {!isEmpty && (
-          <Link to="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+          <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             SCAN FOR JOBS →
           </Link>
         )}
@@ -73,7 +75,7 @@ export function DashboardPage() {
           ) : (
             <p className="text-xs font-black text-white/60">
               No territory = same leads as everyone else.{' '}
-              <Link to="/territories" className="text-[var(--yellow)] underline underline-offset-2">
+              <Link href="/territories" className="text-[var(--yellow)] underline underline-offset-2">
                 Lock yours →
               </Link>
             </p>
@@ -89,8 +91,8 @@ export function DashboardPage() {
             Run a scan, find one £2,000 job, and your Patch Plan pays for itself in a single win. Founding rate locks in at £39/mo.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
-            <Link to="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
           </div>
         </div>
       )}
@@ -98,12 +100,12 @@ export function DashboardPage() {
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+          <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
             <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
             <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
           </Link>
-          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
+          <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
@@ -114,7 +116,7 @@ export function DashboardPage() {
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
           </Link>
-          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
+          <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
@@ -148,7 +150,7 @@ export function DashboardPage() {
                   >
                     SNOOZE 24H
                   </button>
-                  <Link to={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
+                  <Link href={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
                     VIEW →
                   </Link>
                 </div>
@@ -169,10 +171,10 @@ export function DashboardPage() {
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <Link to="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
+            <Link href="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
               OPEN ADMIN GUARD →
             </Link>
-            <Link to="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
+            <Link href="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
               WHAT DOES IT TRACK? →
             </Link>
           </div>
@@ -185,7 +187,7 @@ export function DashboardPage() {
         <section className="jf-box bg-white p-5">
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">SCAN</p>
-            <Link to="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
+            <Link href="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
@@ -232,7 +234,7 @@ export function DashboardPage() {
               Chase a lead and tap WON after you land the job. Your wins, earnings, and loss reasons track here.
             </p>
           )}
-          <Link to="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
+          <Link href="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
         </section>
 
         {/* Quick Actions */}
@@ -240,11 +242,11 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
             {!territory && (
-              <Link to="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+              <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
                 LOCK YOUR TERRITORY →
               </Link>
             )}
-            <Link to="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
+            <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
               SCAN FOR JOBS
             </Link>
           </div>

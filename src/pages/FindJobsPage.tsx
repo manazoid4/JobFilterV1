@@ -1,5 +1,8 @@
+"use client";
 import { FormEvent, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+
 import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
@@ -14,7 +17,8 @@ import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
-const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
+const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
+const SHOW_ADVANCED_TOOLS = false;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -28,7 +32,7 @@ const DEV_UNLOCK_KEY = 'jf-unlimited-tester';
 
 function hasDevUnlock(): boolean {
   try {
-    return localStorage.getItem(DEV_UNLOCK_KEY) === 'true';
+    return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(DEV_UNLOCK_KEY) === 'true';
   } catch {
     return false;
   }
@@ -45,14 +49,14 @@ function getMondayKey(): string {
 
 function getWeeklyScansUsed(): number {
   try {
-    const storedWeek = localStorage.getItem(SCAN_WEEK_KEY);
+    const storedWeek = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(SCAN_WEEK_KEY);
     const thisWeek = getMondayKey();
     if (storedWeek !== thisWeek) {
-      localStorage.setItem(SCAN_WEEK_KEY, thisWeek);
-      localStorage.setItem(SCAN_COUNT_KEY, '0');
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_WEEK_KEY, thisWeek);
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, '0');
       return 0;
     }
-    return Number(localStorage.getItem(SCAN_COUNT_KEY)) || 0;
+    return Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(SCAN_COUNT_KEY)) || 0;
   } catch {
     return 0;
   }
@@ -61,7 +65,7 @@ function getWeeklyScansUsed(): number {
 function recordWeeklyScan(): number {
   const next = getWeeklyScansUsed() + 1;
   try {
-    localStorage.setItem(SCAN_COUNT_KEY, String(next));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, String(next));
   } catch { /* ignore */ }
   return next;
 }
@@ -80,7 +84,7 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
 const RECENT_SEARCHES = ['B14 7QH', 'SW1A 1AA', 'M1 1AE', 'EH1 1AA', 'CF10 1DN'];
 
 function getSavedRadius(): number {
-  const saved = localStorage.getItem('jobfilter.radius');
+  const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.radius');
   if (saved) {
     const n = Number(saved);
     if (RADIUS_OPTIONS.includes(n)) return n;
@@ -89,11 +93,11 @@ function getSavedRadius(): number {
 }
 
 function getSavedPostcode(): string {
-  return localStorage.getItem('jobfilter.postcode') || 'B14 7QH';
+  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode') || 'B14 7QH';
 }
 
 function getSavedTrade(): Trade {
-  const saved = localStorage.getItem('jobfilter.trade');
+  const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade');
   if (saved && trades.includes(saved as Trade)) return saved as Trade;
   return 'electrical';
 }
@@ -123,7 +127,7 @@ function getSourceIcon(source: string): React.ReactNode {
 }
 
 export function FindJobsPage() {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [postcode, setPostcode] = useState(getSavedPostcode);
   const [trade, setTrade] = useState<Trade>(getSavedTrade);
   const [radiusMiles, setRadiusMiles] = useState(getSavedRadius);
@@ -135,7 +139,7 @@ export function FindJobsPage() {
   const [hasScanned, setHasScanned] = useState(false);
   const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
-    const leads = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    const leads = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
     return new Set(leads);
   });
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
@@ -155,29 +159,29 @@ export function FindJobsPage() {
   const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);
 
   useEffect(() => {
-    const tradeParam = searchParams.get('trade');
-    const areaParam = searchParams.get('area');
+    const tradeParam = searchParams?.get('trade');
+    const areaParam = searchParams?.get('area');
     if (tradeParam && trades.includes(tradeParam as Trade)) {
       setTrade(tradeParam as Trade);
     }
     if (areaParam) {
       setPostcode(areaParam);
     }
-    if (searchParams.get('mode') === 'start_now') {
+    if (searchParams?.get('mode') === 'start_now') {
       setScanMode('start_now');
     }
   }, [searchParams]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.radius', String(radiusMiles));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.radius', String(radiusMiles));
   }, [radiusMiles]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.postcode', postcode);
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.postcode', postcode);
   }, [postcode]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.trade', trade);
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.trade', trade);
   }, [trade]);
 
   useEffect(() => {
@@ -197,7 +201,7 @@ export function FindJobsPage() {
     const next = new Set(trackedLeads);
     next.add(lead.id);
     setTrackedLeads(next);
-    localStorage.setItem('jobfilter.find.tracked', JSON.stringify([...next]));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.find.tracked', JSON.stringify([...next]));
   };
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade }) {
@@ -341,7 +345,7 @@ export function FindJobsPage() {
             No Checkatrade membership. No Bark credits. No card needed — free first scan.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
-            <Link to="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
+            <Link href="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
               VIEW PIPELINE →
             </Link>
           </div>
@@ -378,7 +382,7 @@ export function FindJobsPage() {
           </div>
         )}
 
-        <div className="mt-5 grid gap-2 sm:grid-cols-2" role="tablist" aria-label="Lead scan mode">
+        {SHOW_ADVANCED_TOOLS && <div className="mt-5 grid gap-2 sm:grid-cols-2" role="tablist" aria-label="Lead scan mode">
           <button
             type="button"
             onClick={() => setScanMode('all')}
@@ -407,7 +411,7 @@ export function FindJobsPage() {
               Filters for READY/MAYBE leads with stronger timing evidence.
             </span>
           </button>
-        </div>
+        </div>}
 
         {scanMode === 'start_now' && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
@@ -457,7 +461,7 @@ export function FindJobsPage() {
         </form>
 
         {/* Recent Searches */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        {SHOW_ADVANCED_TOOLS && <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="micro-label text-[var(--muted)] text-[10px]">TRY:</span>
           {RECENT_SEARCHES.map((pc) => (
             <button
@@ -469,7 +473,7 @@ export function FindJobsPage() {
               {pc}
             </button>
           ))}
-        </div>
+        </div>}
       </section>
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
@@ -485,7 +489,7 @@ export function FindJobsPage() {
               : 'Free scans used this week — upgrade for unlimited.'}
           </p>
           {weeklyScansRemaining === 0 ? (
-            <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+            <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
           ) : weeklyScansUsed > 0 ? (
             <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
           ) : null}
@@ -511,7 +515,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
+      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
@@ -541,10 +545,10 @@ export function FindJobsPage() {
             />
           </div>
         )}
-      </section>
+      </section>}
 
       {/* ── DOCUMENT SEARCH RESULTS ──────────────────────────────────────── */}
-      {docSearchResults.length > 0 && (
+      {SHOW_ADVANCED_TOOLS && docSearchResults.length > 0 && (
         <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
       )}
 
@@ -702,7 +706,7 @@ export function FindJobsPage() {
                     <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">CANCEL ANYTIME</span>
                     <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">NO CONTRACT</span>
                   </div>
-                  <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
+                  <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
                     LOCK FOUNDER PRICE — £39/MO →
                   </Link>
                   <p className="mt-2 text-xs font-black text-white/80">
@@ -716,7 +720,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
@@ -768,7 +772,7 @@ export function FindJobsPage() {
             <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
           </div>
         )}
-      </section>
+      </section>}
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
@@ -1011,7 +1015,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           </>
         ) : (
           <div className="grid gap-1">
-            <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
+            <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
             <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
@@ -1117,7 +1121,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
         <p className="font-black text-[var(--navy)] text-sm">Pro users get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" to="/pricing">
+        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
           GET WHATSAPP ALERTS — FROM £39/MO
         </Link>
       </div>

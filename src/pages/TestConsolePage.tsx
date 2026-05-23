@@ -1,5 +1,7 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { CheckCircle2, XCircle, AlertCircle, RefreshCw, ExternalLink } from 'lucide-react';
 
 type IntegrationStatus = { configured: boolean; [key: string]: unknown };
@@ -194,7 +196,7 @@ export function TestConsolePage() {
             <RefreshCw size={14} strokeWidth={3} className={statusLoading ? 'animate-spin' : ''} />
             {statusLoading ? 'Reading…' : 'Refresh Status'}
           </button>
-          <Link to="/dev-portal" className="jf-button bg-white text-[var(--ink)]">
+          <Link href="/dev-portal" className="jf-button bg-white text-[var(--ink)]">
             Dev Portal
           </Link>
         </div>
@@ -386,7 +388,7 @@ export function TestConsolePage() {
             <strong>6.</strong> Confirm Supabase row appears in the <code>payments</code> table (via Supabase dashboard). If not, webhook secret may be missing.
           </li>
           <li>
-            <strong>7.</strong> Walk the live site: <Link className="underline" to="/">Home</Link>, <Link className="underline" to="/find-jobs">Find Jobs</Link>, <Link className="underline" to="/free-tools">Free Tools</Link>, <Link className="underline" to="/pricing">Pricing</Link>, <Link className="underline" to="/news">News</Link>, <Link className="underline" to="/intelligence/birmingham">City Intel</Link>.
+            <strong>7.</strong> Walk the live site: <Link className="underline" href="/">Home</Link>, <Link className="underline" href="/find-jobs">Find Jobs</Link>, <Link className="underline" href="/free-tools">Free Tools</Link>, <Link className="underline" href="/pricing">Pricing</Link>, <Link className="underline" href="/news">News</Link>, <Link className="underline" href="/intelligence/birmingham">City Intel</Link>.
           </li>
         </ol>
       </section>

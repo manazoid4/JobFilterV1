@@ -1,18 +1,20 @@
+"use client";
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 
 export function MyLinkPage() {
   const [username, setUsername] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('jobfilter.username');
+    const stored = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.username');
     if (stored) {
       setUsername(stored);
     } else {
       const generated = 'trader-' + Math.random().toString(36).slice(2, 8);
       setUsername(generated);
-      localStorage.setItem('jobfilter.username', generated);
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.username', generated);
     }
   }, []);
 
@@ -52,7 +54,7 @@ export function MyLinkPage() {
         </div>
       </section>
 
-      <Link className="jf-button bg-[var(--navy)] text-white" to={path}>OPEN CUSTOMER LINK</Link>
+      <Link className="jf-button bg-[var(--navy)] text-white" href={path}>OPEN CUSTOMER LINK</Link>
     </main>
   );
 }
