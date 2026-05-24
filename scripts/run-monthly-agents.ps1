@@ -45,17 +45,17 @@ $AgentPerformance = @()
 foreach ($Agent in $AllAgents) {
     $AgentPath = "$AgentsRoot\$($Agent.Name)"
     if (Test-Path $AgentPath) {
-        $MonthOutputs = Get-ChildItem $AgentPath -Filter "*.md" | Where-Object { 
-            $_.LastWriteTime -ge $MonthStart -and 
-            $_.Name -ne "agent.md" -and 
-            $_.Name -ne "prompt.md" -and 
-            $_.Name -ne "schedule.md" 
+        $MonthOutputs = Get-ChildItem $AgentPath -Filter "*.md" | Where-Object {
+            $_.LastWriteTime -ge $MonthStart -and
+            $_.Name -ne "agent.md" -and
+            $_.Name -ne "prompt.md" -and
+            $_.Name -ne "schedule.md"
         }
         $Count = $MonthOutputs.Count
         $Expected = $Agent.Expected
         $Rate = if ($Expected -gt 0) { [math]::Round(($Count / $Expected) * 100) } else { "N/A" }
         $Health = if ($Expected -eq 0) { "On-demand" } elseif ($Count -ge $Expected) { "GREEN" } elseif ($Count -ge ($Expected * 0.7)) { "AMBER" } else { "RED" }
-        
+
         $AgentPerformance += [PSCustomObject]@{
             Agent = $Agent.Name
             Frequency = $Agent.Frequency
@@ -64,7 +64,7 @@ foreach ($Agent in $AllAgents) {
             Rate = "$Rate%"
             Health = $Health
         }
-        
+
         Write-Host "  $($Agent.Name): $Count / $Expected outputs | Health: $Health"
     } else {
         Write-Host "  MISSING folder: $($Agent.Name)"
@@ -88,10 +88,10 @@ try {
 Write-Host ""
 Write-Host "[3/5] Counting vault notes created this month..."
 
-$NewVaultNotes = Get-ChildItem $VaultRoot -Recurse -Filter "*.md" | Where-Object { 
-    $_.LastWriteTime -ge $MonthStart -and 
-    $_.FullName -notmatch "06_Agents" -and 
-    $_.FullName -notmatch "07_Logs" 
+$NewVaultNotes = Get-ChildItem $VaultRoot -Recurse -Filter "*.md" | Where-Object {
+    $_.LastWriteTime -ge $MonthStart -and
+    $_.FullName -notmatch "06_Agents" -and
+    $_.FullName -notmatch "07_Logs"
 }
 Write-Host "  New/updated vault notes: $($NewVaultNotes.Count)"
 
@@ -162,21 +162,21 @@ Gap to 10k GBP target: (fill in)
 
 ## Top 3 Wins
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Top 3 Problems / Blockers
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Top 3 Priorities for Next Month
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Agent System Health
 

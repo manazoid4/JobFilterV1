@@ -76,11 +76,11 @@ $WeeklyAgents = @("CEO_Agent", "Product_Specialist", "Sales_Specialist", "UI_Spe
 foreach ($Agent in $WeeklyAgents) {
     $AgentPath = "$AgentsRoot\$Agent"
     if (Test-Path $AgentPath) {
-        $ThisWeekOutputs = Get-ChildItem $AgentPath -Filter "*.md" | Where-Object { 
-            $_.LastWriteTime -gt $WeekStart -and 
-            $_.Name -ne "agent.md" -and 
-            $_.Name -ne "prompt.md" -and 
-            $_.Name -ne "schedule.md" 
+        $ThisWeekOutputs = Get-ChildItem $AgentPath -Filter "*.md" | Where-Object {
+            $_.LastWriteTime -gt $WeekStart -and
+            $_.Name -ne "agent.md" -and
+            $_.Name -ne "prompt.md" -and
+            $_.Name -ne "schedule.md"
         }
         if ($ThisWeekOutputs.Count -gt 0) {
             Write-Host "  [OK] $Agent ran this week ($($ThisWeekOutputs.Count) output(s))"
@@ -138,9 +138,9 @@ $AgentTable
 
 (paste CEO Agent top 3 priorities here after running the CEO review)
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Issues / Notes
 

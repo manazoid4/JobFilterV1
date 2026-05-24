@@ -33,7 +33,7 @@ try {
     $Response = Invoke-WebRequest -Uri "https://jobfilter.uk" -TimeoutSec 10 -UseBasicParsing
     $EndTime = Get-Date
     $HttpCode = $Response.StatusCode
-    $ResponseTime = [math]::Round(($EndTime - $StartTime).TotalMilliseconds) 
+    $ResponseTime = [math]::Round(($EndTime - $StartTime).TotalMilliseconds)
 
     if ($HttpCode -eq 200) {
         $SiteStatus = "UP"
