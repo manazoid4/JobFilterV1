@@ -100,7 +100,39 @@ Open to-do item from 2026-05-23: "TRACKING and RESULTS boxes still plain white �
 
 ---
 
+---
+
+## MasterBuildAgent Session — 2026-05-24 (afternoon)
+
+**Root cause found and fixed:** `next.config.ts` had `distDir: 'dist'` conflicting with `vercel.json` `outputDirectory: '.next'`. Vercel was serving the old Vite `dist/index.html` (empty body + union-flag favicon) instead of the Next.js app — hence "only shows a British flag."
+
+**Fix:** Removed `distDir: 'dist'` from next.config.ts. Next.js now outputs to `.next/` matching Vercel config.
+
+**Commit:** `d2c79c2 fix: restore broken JobFilter website`
+
+**Verification:** `curl https://jobfilter.uk` returns full SSR HTML with hero, nav, all page content. CSS variables load correctly. API routes return data.
+
+**Session also launched:**
+- Agent system build (10 agents with prompts/schedules)
+- Vault GitHub migration to private repo
+- Vault cleanup and MOC creation
+- Daily/weekly/monthly run scripts
+
+---
+
+## Vault Reorganisation Session — 2026-05-24
+
+- Created private GitHub repo: `manazoid4/JobFilter-Obsidian-Vault`
+- Created vault root folder structure: `00_Inbox/` through `99_Archive/`
+- Created vault root `README.md` and `.gitignore`
+- Created MOC files: `JobFilter HQ.md`, `Product Map.md`, `Agent System Map.md`
+- Created subfolder README.md index files for: Marketing/, Sessions/, System/, Design/, Sisyphus/, Prompts 1/, 07_Logs/
+- No files deleted or moved — vault content preserved
+- Secrets scan: CLEAN
+- See: [[07_Logs/Vault Cleanup Log - 2026-05-24]]
+
 ## Related
 - [[Changelog 2026-05-23]]
 - [[Feature Roadmap - 8th May 2026]]
 - [[Recent]]
+- [[07_Logs/Vault Cleanup Log - 2026-05-24]]
