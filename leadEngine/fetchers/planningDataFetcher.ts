@@ -85,13 +85,6 @@ export async function planningDataFetcher(
   byPostcode.set('limit', '30');
   attempts.push(byPostcode);
 
-  // Broad current dataset fallback (no geo filter)
-  const broad = new URLSearchParams();
-  broad.append('dataset', PLANNING_DATASET);
-  broad.set('period', 'current');
-  broad.set('limit', '20');
-  attempts.push(broad);
-
   for (const params of attempts) {
     const url = `${PLANNING_ENTITY_URL}?${params}`;
     try {
