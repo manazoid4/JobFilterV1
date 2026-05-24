@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { registerIntakeScoreRoute } from './routes/intakeScore';
 import { registerLeadSearchRoute } from './routes/leadsSearch';
 import { registerWaitlistRoute } from './routes/waitlist';
@@ -73,5 +72,6 @@ export async function createApp() {
 }
 
 async function createServerVite() {
+  const { createServer: createViteServer } = await import('vite');
   return createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 }
