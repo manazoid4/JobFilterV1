@@ -22,7 +22,7 @@ export function SignupPage() {
 
   const planLabel = useMemo(() => {
     if (tier === 'pro') return billing === 'annual' ? 'Standard annual' : 'Standard monthly';
-    if (tier === 'epc') return 'EPC Signal Engine';
+    if (tier === 'epc') return 'Retrofit & Energy Plan';
     return billing === 'annual' ? 'Founder annual' : 'Founder monthly';
   }, [tier, billing]);
 
@@ -67,7 +67,7 @@ export function SignupPage() {
           <p className="micro-label text-[var(--ink)]">CHECK YOUR EMAIL</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">CONFIRM YOUR ACCOUNT.</h1>
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
-            We sent the confirmation link to {email}. It will bring you back to JobFilter, not localhost.
+            We sent the confirmation link to {email}. Click it to confirm your account and activate your patch.
           </p>
           <Link href="/pricing" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BACK TO PRICING</Link>
         </section>
@@ -81,7 +81,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">LOCK THE ACCOUNT FIRST.</h1>
         <p className="mt-4 max-w-2xl text-xl font-black text-white/80">
-          {planLabel}. Confirm your account, then activate your patch and WhatsApp lead routing.
+          {planLabel}. Confirm your email below — then set your trade, postcode, and WhatsApp number. Leads start routing within minutes.
         </p>
       </section>
 
@@ -116,6 +116,11 @@ export function SignupPage() {
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
           {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
         </button>
+        <div className="flex flex-wrap gap-3 border-t-2 border-[var(--line)] pt-4">
+          <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">30-DAY MONEY-BACK</span>
+          <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">CANCEL ANYTIME</span>
+          <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">NO CONTRACT</span>
+        </div>
       </form>
     </main>
   );

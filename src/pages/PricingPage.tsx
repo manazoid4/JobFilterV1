@@ -14,10 +14,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter watches planning, tender, EPC and company signals, then filters out noise before it reaches you.'],
+  ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
   ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
-  ['Can I scan before paying?', 'Yes. Free scans show signal quality. Paid unlocks full buyer context and WhatsApp delivery.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
@@ -35,13 +35,14 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
         </div>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-3">
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check whether your patch has live signals before you pay."
+          body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Limited lead detail', 'No WhatsApp routing', 'No territory priority']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
         />

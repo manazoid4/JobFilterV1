@@ -20,7 +20,7 @@ export function useSubscription(): SubscriptionStatus {
       return;
     }
 
-    fetch(`/api/subscription-status?email=${encodeURIComponent(user.email)}`)
+    fetch(`/api/subscription-status?user_id=${encodeURIComponent(user.id)}&email=${encodeURIComponent(user.email)}`)
       .then(r => r.json())
       .then(data => setSub({ ...data, loading: false }))
       .catch(() => setSub({ ...DEFAULT, loading: false }));

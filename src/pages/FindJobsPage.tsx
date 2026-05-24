@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, ClipboardCheck, Radar } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -641,34 +641,6 @@ export function FindJobsPage() {
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
-              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
-                <section className="grid gap-4 lg:grid-cols-2">
-                  <div className="jf-box bg-[var(--ink)] p-5 text-white">
-                    <div className="flex items-start gap-3">
-                      <Radar className="mt-1 h-5 w-5 text-[var(--yellow)]" strokeWidth={3} />
-                      <div>
-                        <p className="micro-label text-[var(--yellow)]">PATCH WATCH</p>
-                        <h2 className="headline mt-2 text-3xl leading-none text-white">YOUR AREA STAYS WATCHED.</h2>
-                        <p className="mt-2 text-sm font-black text-white/75">
-                          Paid monthly access keeps checking planning, EPC, tender, and company signals for {(result.outward || postcode).toUpperCase()} {trade}.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="jf-box bg-[var(--yellow)] p-5 text-[var(--ink)]">
-                    <div className="flex items-start gap-3">
-                      <ClipboardCheck className="mt-1 h-5 w-5" strokeWidth={3} />
-                      <div>
-                        <p className="micro-label text-[var(--ink)]">BUYER ACTION PACK</p>
-                        <h2 className="headline mt-2 text-3xl leading-none">QUOTE FLOOR. NEXT ACTION. FOLLOW-UP CADENCE.</h2>
-                        <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
-                          Open full lead access to see the call opener, quote floor, verification questions, and the next three touches.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )}
 
               {/* Patch Pulse */}
               {displayedLeads.length > 0 && (
