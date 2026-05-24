@@ -141,7 +141,9 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       : Promise.resolve(disabledSources(['ForestryCommission'])),
   ]);
 
-  const dirResult = directorySignalFetcher(region, cleanTrade, outward); // sync
+  const dirResult = isSourceEnabled('DirectorySignal')
+    ? directorySignalFetcher(region, cleanTrade, outward)
+    : disabledSources(['DirectorySignal']);
 
   // 3. Collect raw leads + merge stats
   const allRaw = [

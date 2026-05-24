@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { registerIntakeScoreRoute } from './routes/intakeScore';
 import { registerLeadSearchRoute } from './routes/leadsSearch';
 import { registerWaitlistRoute } from './routes/waitlist';
@@ -15,6 +14,7 @@ import { registerStatusRoute } from './routes/status';
 import { registerMaterialPricesRoute } from './routes/materialPrices';
 import { registerStartSignalsRoute } from './routes/startSignals';
 import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary';
+import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus';
 
 export async function createApp() {
   const app = express();
@@ -40,6 +40,7 @@ export async function createApp() {
   registerMaterialPricesRoute(app);
   registerStartSignalsRoute(app);
   registerSourceHealthSummaryRoute(app);
+  registerSubscriptionStatusRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
@@ -73,5 +74,6 @@ export async function createApp() {
 }
 
 async function createServerVite() {
+  const { createServer: createViteServer } = await import('vite');
   return createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 }
