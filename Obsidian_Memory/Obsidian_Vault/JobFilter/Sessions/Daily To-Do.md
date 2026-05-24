@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 24 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] DashboardPage: "Territory: Not Locked" → "YOUR PATCH: NOT LOCKED" — plain tradesperson language, no jargon (NEEDLE #1 from 4-agent check)
+- [x] NewsPage: 3 data source naming violations fixed — EPC register, Open Data Communities, Companies House removed
+- [x] FindJobsPage: Start Signal tooltip — "EPC, Companies House" → "energy signals, business registrations"
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-24 Run 2 written
+- [ ] FindJobsPage: "free first scan" hero vs immediate paywall on unlock — bait-and-switch perception (NEEDLE #2 from 4-agent check)
+- [ ] FindJobsPage: multiple CTAs per lead card (TRACK / SEND TO WHATSAPP / UNLOCK) — decision paralysis on mobile (NEEDLE #3)
+
+---
+
 ## Today - 24 May 2026 (Ultrawork Launch Audit)
 
 - [x] `main` synced with `origin/main` at `901b908` after PRs #173-#175.
