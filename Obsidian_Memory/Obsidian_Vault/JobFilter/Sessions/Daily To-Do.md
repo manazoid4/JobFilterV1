@@ -1,5 +1,27 @@
 # Daily To-Do
 
+## Today - 24 May 2026 (Ultrawork Launch Audit)
+
+- [x] `main` synced with `origin/main` at `901b908` after PRs #173-#175.
+- [x] Daily audit script ran successfully and wrote top-level vault report.
+- [x] Root build passed: `npm run build`.
+- [x] Root TypeScript/lint passed: `npm run lint`.
+- [x] Legacy Firebase Functions build passed.
+- [x] Live smoke: `https://jobfilter.uk/find-jobs` returned 200.
+- [x] OpenWA plan merged; keep OpenWA as worker/VPS pilot only, not Vercel launch delivery.
+- [x] Daily Brief replaced stale stub with current launch-readiness brief.
+- [ ] Fix planning locality: broad fallback in `planningDataFetcher.ts` must not stamp unrelated records with searched outward postcode.
+- [ ] Wire paid lead gating to authenticated profile/subscription state; remove test-mode full-access assumptions.
+- [ ] Register/fix subscription status route and align it with Supabase migration fields (`user_id`, `plan`, `active`, `status`).
+- [ ] Harden WhatsApp delivery: verified profile phone, provider response checks, `queued/sent/failed`, delivery events, no production stub success.
+- [ ] Add delivery lock controls: `deliveryLockKey`, recipient tracking, duplicate suppression, `competitionRisk`, `crowdingSignal`.
+- [ ] Run Stripe Checkout + webhook live test with test key after subscription contract is fixed.
+- [ ] Make `/health` return structured JSON, not only a 200 HTML page.
+- [ ] Confirm actual Vercel production env flags replacing legacy `VITE_OPEN_ACCESS=false` concern.
+- [ ] TradeFlow "Send to TradeFlow" button remains blocked on TradeFlow URL scheme from founder.
+
+---
+
 ## Today - 21 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] DashboardPage: duplicate "Scan for Jobs" CTA — header CTA now hidden when isEmpty=true (NEEDLE #1 from 28 May)
