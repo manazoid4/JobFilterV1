@@ -697,9 +697,17 @@ export function FindJobsPage() {
 
               {!DEV_MODE && !unlimitedTester && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
-                  <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
+                  <p className="font-black text-[var(--yellow)]">
+                    {goldCount > 0
+                      ? `YOUR SCAN FOUND ${goldCount} GOLD LEAD${goldCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
+                      : silverCount > 0
+                      ? `YOUR SCAN FOUND ${silverCount} LEAD${silverCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
+                      : 'READY TO UNLOCK?'}
+                  </p>
                   <p className="mt-1 font-black text-white/80">
-                    Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
+                    {goldCount > 0
+                      ? `Unlock the buyer name, phone, and job detail for £39/mo — cheaper than one lead on Bark.`
+                      : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
                   </p>
                   <div className="mt-3 flex flex-wrap justify-center gap-2">
                     <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
