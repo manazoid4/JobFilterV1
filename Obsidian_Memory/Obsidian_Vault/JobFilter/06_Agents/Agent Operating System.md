@@ -34,6 +34,18 @@ Every output must reference the vault notes or external sources it drew from. No
 ### Rule 7: Connect to MRR
 Every agent must ask: Does this move us toward 10k GBP MRR? If the answer is no or unclear, revise or deprioritise.
 
+### Rule 8: Always Use PRs — Never Push Directly to Main
+Any agent or Claude session making code changes to the JobFilter codebase MUST:
+1. Create a feature branch
+2. Commit changes to that branch
+3. Run: `gh pr create --title "..." --body "..."`
+4. Immediately merge: `gh pr merge <number> --squash --delete-branch`
+
+Never push directly to `main`. Never leave a PR open. PRs are the deploy pipeline — unmerged PRs mean changes never reach production.
+
+### Rule 9: Save Everything to the Obsidian Vault
+Every session's output — code changes, decisions, discoveries, agent outputs — must be logged in the Obsidian vault under the relevant folder. If it was not saved to the vault, it did not happen and cannot be acted on by other agents.
+
 ---
 
 ## 2. Folder Structure
