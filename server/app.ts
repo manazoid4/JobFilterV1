@@ -43,7 +43,12 @@ export async function createApp() {
   registerSubscriptionStatusRoute(app);
 
   app.get('/api/health', (_req, res) => {
-    res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
+    res.json({ ok: true, service: 'jobfilter', source: 'lead_engine', ts: new Date().toISOString() });
+  });
+
+  // Bare /health for deployment health checks (Vercel, load balancers)
+  app.get('/health', (_req, res) => {
+    res.json({ ok: true, service: 'jobfilter', ts: new Date().toISOString() });
   });
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
