@@ -146,8 +146,30 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(_lead: Lead, _score: number): string[] {
-  return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
+function buildReasons(lead: Lead, score: number): string[] {
+  const reasons: string[] = [];
+  const leadTrade = String(lead.trade || '').toLowerCase();
+  
+  reasons.push(`${leadTrade.charAt(0).toUpperCase() + leadTrade.slice(1)} match`);
+
+  if (score >= 90) reasons.push('High-intent signal');
+  if (score >= 80) reasons.push('Urgent window');
+  
+  if (lead.isCommercial) reasons.push('Commercial project');
+  
+  const amount = Number(String(lead.estimatedValue).replace(/[^0-9.]/g, ''));
+  if (amount >= 50000) reasons.push('High-value job');
+  else if (amount >= 10000) reasons.push('Strong budget');
+
+  if (lead.publishedAt && (Date.now() - new Date(lead.publishedAt).getTime()) < 86400000 * 2) {
+    reasons.push('Fresh lead');
+  }
+
+  if (reasons.length <= 1) {
+    reasons.push('Verified official signal');
+  }
+
+  return reasons;
 }
 
 function sanitizeTrade(input: unknown) {

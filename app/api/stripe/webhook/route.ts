@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { getSupabaseServiceClient } from '@/src/lib/supabase/server';
 
 export async function POST(request: Request) {
   const secretKey = process.env.STRIPE_SECRET_KEY;

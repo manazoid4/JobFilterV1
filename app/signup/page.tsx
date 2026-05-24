@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { SignupPage } from '../../src/pages/SignupPage';
+import { SignupPage } from '../../src/views/SignupPage';
 
 export default function Page() {
   return (

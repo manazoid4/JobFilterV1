@@ -1,5 +1,5 @@
-import { createAuthServerClient } from '../../../../src/lib/supabase/auth-server';
-import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { createAuthServerClient } from '@/src/lib/supabase/auth-server';
+import { getSupabaseServiceClient } from '@/src/lib/supabase/server';
 
 export async function POST(request: Request) {
   const authClient = await createAuthServerClient();

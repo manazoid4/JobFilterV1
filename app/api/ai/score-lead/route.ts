@@ -1,4 +1,4 @@
-import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { getSupabaseServiceClient } from '@/src/lib/supabase/server';
 
 export async function POST(request: Request) {
   const lead = await request.json().catch(() => ({}));
