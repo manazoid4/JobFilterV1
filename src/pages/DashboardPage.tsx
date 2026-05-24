@@ -65,18 +65,18 @@ export function DashboardPage() {
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              Territory: {territory ?? 'Not Locked'}
+              YOUR PATCH: {territory ?? 'NOT LOCKED'}
             </span>
           </div>
           {territory ? (
             <p className="text-xs font-black text-white/60">
-              Locked — Gold leads in this patch won&apos;t go to other {territory.split(' ')[1] || 'trades'} before you.
+              Gold leads shown to you first — your competition gets them 24h later.
             </p>
           ) : (
             <p className="text-xs font-black text-white/60">
-              No territory = same leads as everyone else.{' '}
+              No patch locked — you&apos;re racing every other trade for the same leads.{' '}
               <Link href="/territories" className="text-[var(--yellow)] underline underline-offset-2">
-                Lock yours →
+                Lock your patch →
               </Link>
             </p>
           )}
@@ -243,7 +243,7 @@ export function DashboardPage() {
           <div className="mt-4 grid gap-3">
             {!territory && (
               <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-                LOCK YOUR TERRITORY →
+                LOCK YOUR PATCH →
               </Link>
             )}
             <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
