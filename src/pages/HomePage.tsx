@@ -68,9 +68,7 @@ export function HomePage() {
     <main className="bg-[var(--paper)] pb-0">
       {/* ── LAUNCH BANNER ─────────────────────────────── */}
       <div className="flex items-center justify-center gap-3 border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-center font-mono text-xs font-black uppercase tracking-widest text-[var(--ink)]">
-        <span>🚀</span>
-        <span>Now live on Vercel — Supabase + Stripe connected — jobfilter.uk</span>
-        <span>🚀</span>
+        <span>FOUNDING 30 OPEN — £39/MO LOCKS FOREVER — CANCEL ANYTIME</span>
       </div>
 
       {/* ── HERO ──────────────────────────────────────── */}

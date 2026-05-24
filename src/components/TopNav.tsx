@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/dashboard', label: 'Dashboard' },
 ];
 
 const mobileLinks = [
