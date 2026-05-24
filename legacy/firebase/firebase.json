@@ -20,6 +20,10 @@
   },
   "functions": {
     "source": "functions",
-    "runtime": "nodejs22"
+    "runtime": "nodejs22",
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" ci",
+      "npm --prefix \"$RESOURCE_DIR\" run build"
+    ]
   }
 }

@@ -4,21 +4,21 @@ type TrustBadgesProps = {
 };
 
 const BADGE_LABELS: Record<string, string> = {
-  'Planning Verified': 'Planning Verified',
-  'Tender Live': 'Tender Live',
+  'Planning Verified': 'Verified Signal',
+  'Tender Live': 'Live Work',
   'Fresh': 'Fresh',
   'Company Verified': 'Co. Verified',
   'New Owner': 'New Owner',
   'Budget Band': 'Budget Confirmed',
-  'Exclusive': 'Exclusive',
+  'Exclusive': 'Priority Routed',
   'Retrofit Trigger': 'Retrofit',
-  'Multi-Source': 'Multi-Source',
+  'Multi-Source': 'Verified Stack',
   fresh: 'Fresh',
-  'planning-verified': 'Planning Verified',
-  'tender-live': 'Tender Live',
-  exclusive: 'Exclusive',
+  'planning-verified': 'Verified Signal',
+  'tender-live': 'Live Work',
+  exclusive: 'Priority Routed',
   'budget-band': 'Budget Confirmed',
-  'multi-source': 'Multi-Source',
+  'multi-source': 'Verified Stack',
   'retrofit-trigger': 'Retrofit Trigger',
 };
 

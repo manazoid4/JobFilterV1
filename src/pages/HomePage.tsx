@@ -268,7 +268,7 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Real planning signal. Real score. Real recommended action. This is exactly what lands in your WhatsApp — scored, filtered, and ready to act on.
+            Structured signal. Real scoring shape. Clear recommended action. This is the format that lands in your WhatsApp — scored, filtered, and ready to act on.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />

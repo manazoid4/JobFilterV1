@@ -3,7 +3,15 @@ import { ArrowRight, MapPin, Clock, TrendingUp, ShieldCheck, AlertTriangle, Chec
 const sampleLead = {
   id: 'sample-001',
   title: 'Rear extension approved',
+  trade: 'Builder',
   location: 'B17 Harborne, Birmingham',
+  postcodeOutward: 'B17',
+  estimatedValue: '£38k-£55k',
+  urgency: 'High',
+  source: 'Internal structured signal set',
+  sourceConfidence: 'High',
+  contactSignal: 'Strong timing signal',
+  status: 'Preview locked',
   propertyType: '4-bed detached',
   score: 94,
   scoreLabel: 'GOLD',
@@ -12,18 +20,18 @@ const sampleLead = {
   budgetMin: 38000,
   budgetMax: 55000,
   detectedAt: '3 hours ago',
-  planningApproved: '3 days ago',
-  landRegistrySale: '12 days ago',
+  signalAge: '3 days ago',
+  timingSignal: '12 days ago',
   primaryTrade: 'Builder',
   secondaryTrades: ['Electrical', 'Plumbing', 'Roofing'],
-  badges: ['Planning Verified', 'Recent Sale', 'Affluent Postcode'],
-  recommendedAction: 'Call within 24 hours. First-mover advantage.',
+  badges: ['Verified signal', 'Fresh timing', 'Strong area fit'],
+  recommendedAction: 'Call within 24 hours while the timing is fresh.',
   evidence: [
-    { label: 'Planning approved', value: '3 days ago', positive: true },
+    { label: 'Verified signal', value: '3 days ago', positive: true },
     { label: 'Detached property', value: '4-bed', positive: true },
     { label: 'Affluent postcode', value: 'B17', positive: true },
-    { label: 'Recent sale', value: '12 days ago', positive: true },
-    { label: 'Building control', value: 'Not yet filed', positive: false },
+    { label: 'Fresh timing', value: '12 days ago', positive: true },
+    { label: 'Proof pack', value: 'Unlocked on Patch Plan', positive: false },
   ],
 };
 
@@ -34,7 +42,7 @@ export function SampleLeadCard() {
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <span className="inline-flex items-center gap-1.5 border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--green)]">
           <ShieldCheck size={14} strokeWidth={3} />
-          Planning Verified
+          Structured example
         </span>
         <span className="inline-flex items-center gap-1.5 border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
           <Clock size={14} strokeWidth={3} />
@@ -80,6 +88,17 @@ export function SampleLeadCard() {
         </div>
       </div>
 
+      <div className="mt-5 grid gap-2 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 text-xs font-black uppercase text-[var(--muted)] sm:grid-cols-2">
+        <span>ID: {sampleLead.id}</span>
+        <span>Trade: {sampleLead.trade}</span>
+        <span>Postcode: {sampleLead.postcodeOutward}</span>
+        <span>Value: {sampleLead.estimatedValue}</span>
+        <span>Urgency: {sampleLead.urgency}</span>
+        <span>Source confidence: {sampleLead.sourceConfidence}</span>
+        <span>Contact signal: {sampleLead.contactSignal}</span>
+        <span>Status: {sampleLead.status}</span>
+      </div>
+
       {/* Recommended Action */}
       <div className="mt-5 p-4 border-2 border-[var(--yellow)] bg-[var(--yellow)]/5">
         <p className="micro-label text-[var(--ink)]">RECOMMENDED ACTION</p>
@@ -89,13 +108,13 @@ export function SampleLeadCard() {
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         <div className="border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
           <p className="micro-label text-[var(--navy)]">QUOTE FLOOR</p>
-          <p className="mt-1 text-2xl font-black text-[var(--ink)]">£33.5k</p>
-          <p className="mt-1 text-xs font-black text-[var(--muted)]">Protect margin before the site visit.</p>
+          <p className="mt-1 text-2xl font-black text-[var(--ink)]">PATCH PLAN</p>
+          <p className="mt-1 text-xs font-black text-[var(--muted)]">Quote floor unlocked on Patch Plan.</p>
         </div>
         <div className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-4">
           <p className="micro-label text-[var(--ink)]">FOLLOW-UP CADENCE</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {['Call today', 'Send same-day quote', 'Check back in 3 days'].map((step) => (
+            {['First message', '24h follow-up', 'Final nudge'].map((step) => (
               <span key={step} className="border-2 border-[var(--ink)] bg-white px-2 py-1 text-[10px] font-black uppercase text-[var(--ink)]">
                 {step}
               </span>
@@ -124,7 +143,7 @@ export function SampleLeadCard() {
 
       {/* Timing */}
       <div className="mt-5 flex flex-wrap gap-4 text-xs font-black text-[var(--muted)]">
-        <span>Planning approved: {sampleLead.planningApproved}</span>
+        <span>Signal age: {sampleLead.signalAge}</span>
         <span>Signal detected: {sampleLead.detectedAt}</span>
         <span className="text-[var(--orange)]">Recommended: Call today</span>
       </div>

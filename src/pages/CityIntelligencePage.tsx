@@ -32,10 +32,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 14,
     signalChange: 3,
     signals: [
-      { type: 'Planning approvals', count: 8, trend: 'up', top: '4-bed rear extension, B17 Harborne' },
-      { type: 'EPC upgrades needed', count: 3, trend: 'flat', top: 'F-rated rental cluster, B15 Edgbaston' },
-      { type: 'Council contracts', count: 2, trend: 'up', top: 'School maintenance tender — opens Friday' },
-      { type: 'New businesses', count: 1, trend: 'down', top: 'Restaurant fit-out, B3 city centre' },
+      { type: 'Home improvement signals', count: 8, trend: 'up', top: '4-bed rear extension, B17 Harborne' },
+      { type: 'Retrofit demand', count: 3, trend: 'flat', top: 'Rental upgrade cluster, B15 Edgbaston' },
+      { type: 'Public-sector work', count: 2, trend: 'up', top: 'School maintenance job — opens Friday' },
+      { type: 'Commercial work', count: 1, trend: 'down', top: 'Restaurant fit-out, B3 city centre' },
     ],
     hotLead: {
       title: 'Rear extension, 4-bed detached',
@@ -43,13 +43,13 @@ const CITY_INTEL: Record<string, CityIntel> = {
       approvedDaysAgo: 2,
       estimatedValue: '£38k–£55k',
       buyerScore: 94,
-      why: 'Homeowner has not called anyone yet. Detached property in affluent postcode. Full drawings uploaded. Fresh approval — the 48-hour window is open.',
+      why: 'Early enough to approach professionally. Detached property in affluent postcode. Scope looks complete. Fresh timing — the 48-hour window is open.',
       action: 'Call today. Site visit this week. Quote within 48 hours. Use First Strike to copy your opening message before you dial.',
     },
-    marketNote: 'Birmingham South is seeing a 20% spike in extension approvals this quarter. The better builders are 6 weeks out. If you are available now, first-mover advantage is significant — buyers who cannot get a callback will accept the first credible quote that arrives.',
+    marketNote: 'Birmingham South is seeing a 20% spike in extension activity this quarter. The better builders are 6 weeks out. If you are available now, timing advantage is significant — buyers who cannot get a callback will accept the first credible quote that arrives.',
     actionList: [
-      'Call B17 Harborne extension — planning approved 2 days ago, buyer not yet contacted',
-      'Quote B15 EPC cluster — F-rated landlord property, legally obligated to upgrade',
+      'Call B17 Harborne extension — fresh signal, early enough to approach professionally',
+      'Quote B15 retrofit cluster — landlord property under pressure to upgrade',
       'Review school maintenance tender (B20) — deadline Friday, value band £40–80k',
       'Watch B3 restaurant — fit-out scope not confirmed but company registered this week',
     ],
@@ -64,10 +64,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 31,
     signalChange: 5,
     signals: [
-      { type: 'Planning approvals', count: 18, trend: 'up', top: 'Loft conversion, SE15 Peckham' },
-      { type: 'EPC upgrades needed', count: 7, trend: 'up', top: 'G-rated Victorian terrace cluster, N1 Islington' },
-      { type: 'Council contracts', count: 4, trend: 'flat', top: 'Housing maintenance framework — Tower Hamlets' },
-      { type: 'New businesses', count: 2, trend: 'flat', top: 'Gym fit-out, EC1 Clerkenwell' },
+      { type: 'Home improvement signals', count: 18, trend: 'up', top: 'Loft conversion, SE15 Peckham' },
+      { type: 'Retrofit demand', count: 7, trend: 'up', top: 'Victorian terrace upgrade cluster, N1 Islington' },
+      { type: 'Public-sector work', count: 4, trend: 'flat', top: 'Housing maintenance framework — Tower Hamlets' },
+      { type: 'Commercial work', count: 2, trend: 'flat', top: 'Gym fit-out, EC1 Clerkenwell' },
     ],
     hotLead: {
       title: 'Loft conversion, Victorian mid-terrace',
@@ -75,13 +75,13 @@ const CITY_INTEL: Record<string, CityIntel> = {
       approvedDaysAgo: 1,
       estimatedValue: '£45k–£70k',
       buyerScore: 91,
-      why: 'Approved yesterday. Victorian terrace in active regeneration area. Planning includes dormer extension. Owner is a young professional — budget-confident, timeline-driven.',
-      action: 'Call this morning if possible. SE15 trades are busy but this was approved 24 hours ago — the buyer has not had time to ring around yet.',
+      why: 'Fresh signal in an active regeneration area. Scope includes dormer work. Buyer profile looks budget-confident and timeline-driven.',
+      action: 'Call this morning if possible. SE15 trades are busy but this is fresh enough to approach professionally.',
     },
-    marketNote: 'Inner London loft conversions are running at peak demand. March–June is the strongest window before summer holiday delays. Buyers who get planning approval now want to start in July. That means they need a quote in May.',
+    marketNote: 'Inner London loft conversions are running at peak demand. March-June is the strongest window before summer holiday delays. Buyers with fresh project signals now often want to start in July. That means they need a quote in May.',
     actionList: [
-      'Call SE15 loft conversion — approved yesterday, high buyer score',
-      'Approach N1 EPC cluster — 3 G-rated properties in one street, landlord likely owns all',
+      'Call SE15 loft conversion — fresh signal, high buyer score',
+      'Approach N1 retrofit cluster — 3 weak properties in one street, landlord likely owns all',
       'Check Tower Hamlets maintenance framework — multi-year contract, worth the paperwork',
       'Watch EC1 gym — fit-out scope usually large, company just registered',
     ],
@@ -96,10 +96,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 19,
     signalChange: -1,
     signals: [
-      { type: 'Planning approvals', count: 11, trend: 'flat', top: 'Rear extension, M20 Didsbury' },
-      { type: 'EPC upgrades needed', count: 4, trend: 'up', top: 'F-rated Victorian terrace, M14 Fallowfield' },
-      { type: 'Council contracts', count: 3, trend: 'down', top: 'Park maintenance tender — Trafford' },
-      { type: 'New businesses', count: 1, trend: 'flat', top: 'Coffee shop fit-out, M1 Northern Quarter' },
+      { type: 'Home improvement signals', count: 11, trend: 'flat', top: 'Rear extension, M20 Didsbury' },
+      { type: 'Retrofit demand', count: 4, trend: 'up', top: 'Victorian terrace upgrade, M14 Fallowfield' },
+      { type: 'Public-sector work', count: 3, trend: 'down', top: 'Park maintenance job — Trafford' },
+      { type: 'Commercial work', count: 1, trend: 'flat', top: 'Coffee shop fit-out, M1 Northern Quarter' },
     ],
     hotLead: {
       title: 'Rear extension + kitchen remodel',
@@ -107,13 +107,13 @@ const CITY_INTEL: Record<string, CityIntel> = {
       approvedDaysAgo: 3,
       estimatedValue: '£32k–£48k',
       buyerScore: 87,
-      why: 'M20 is the strongest residential postcode in Manchester. Planning approved 3 days ago. Combined extension and kitchen scope means two trade packages — builder and kitchen fitter both needed.',
-      action: 'Call today. Three days since approval — the buyer may already be making calls, but M20 properties are high-value and owners are selective. A credible, professional approach will still win.',
+      why: 'M20 is the strongest residential postcode in Manchester. Fresh signal from 3 days ago. Combined extension and kitchen scope means two trade packages — builder and kitchen fitter both needed.',
+      action: 'Call today. Three days since the signal appeared — the buyer may already be making calls, but M20 properties are high-value and owners are selective. A credible, professional approach will still win.',
     },
-    marketNote: 'Manchester council contracts are slowing slightly ahead of summer. Residential extension demand is steady. Didsbury and Chorlton remain the strongest postcodes — both show above-average planning approvals per household.',
+    marketNote: 'Manchester public-sector work is slowing slightly ahead of summer. Residential extension demand is steady. Didsbury and Chorlton remain the strongest postcodes — both show above-average home-improvement activity per household.',
     actionList: [
       'Call M20 extension — 3 days old but still within the first-mover window',
-      'Target M14 EPC landlord — F-rated terrace, Fallowfield has high rental density',
+      'Target M14 retrofit landlord — weak terrace, Fallowfield has high rental density',
       'Review Trafford park tender — smaller value but low competition',
     ],
     toolTip: 'M20 buyers expect professionalism. Have your company details ready before you call — business name, registration, insurance, and a recent job in the area if you have one.',
@@ -127,10 +127,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 11,
     signalChange: 2,
     signals: [
-      { type: 'Planning approvals', count: 5, trend: 'up', top: 'Extension + annexe, BS9 Westbury-on-Trym' },
-      { type: 'EPC upgrades needed', count: 4, trend: 'up', top: 'F-rated rental, BS3 Southville' },
-      { type: 'Council contracts', count: 1, trend: 'flat', top: 'School refurb tender — South Gloucestershire' },
-      { type: 'New businesses', count: 1, trend: 'flat', top: 'Studio fit-out, BS1 city centre' },
+      { type: 'Home improvement signals', count: 5, trend: 'up', top: 'Extension + annexe, BS9 Westbury-on-Trym' },
+      { type: 'Retrofit demand', count: 4, trend: 'up', top: 'Rental upgrade, BS3 Southville' },
+      { type: 'Public-sector work', count: 1, trend: 'flat', top: 'School refurb job — South Gloucestershire' },
+      { type: 'Commercial work', count: 1, trend: 'flat', top: 'Studio fit-out, BS1 city centre' },
     ],
     hotLead: {
       title: 'Extension + annexe, detached bungalow',
@@ -139,15 +139,15 @@ const CITY_INTEL: Record<string, CityIntel> = {
       estimatedValue: '£55k–£80k',
       buyerScore: 89,
       why: 'Annexe conversion is a larger scope than a standard extension. BS9 is one of Bristol\'s highest-value postcodes. Bungalow owners converting for family typically have committed budget.',
-      action: 'Call today. Four days since approval — still early. Annexe jobs often go to trades with relevant portfolio. Mention a similar project if you have one.',
+      action: 'Call today. Four days since the signal appeared — still early. Annexe jobs often go to trades with relevant portfolio. Mention a similar project if you have one.',
     },
-    marketNote: 'Bristol retrofit demand is above the national average. The city has strong EPC upgrade pressure driven by rental legislation. Southville and Bedminster have high concentrations of F/G-rated Victorian terraces — landlords are being pushed to upgrade.',
+    marketNote: 'Bristol retrofit demand is above the national average. The city has strong upgrade pressure driven by rental legislation. Southville and Bedminster have high concentrations of older terraces — landlords are being pushed to upgrade.',
     actionList: [
-      'Call BS9 annexe — large scope, high-value postcode, 4 days since approval',
-      'Target BS3 EPC landlord — Victorian terrace, motivated by legislation',
+      'Call BS9 annexe — large scope, high-value postcode, fresh timing',
+      'Target BS3 retrofit landlord — Victorian terrace, motivated by legislation',
       'Check South Gloucestershire school tender — refurb work, realistic scope',
     ],
-    toolTip: 'Bristol retrofit grants are available through Warm Homes Bristol. If you can reference this when calling EPC leads, it reduces the buyer\'s perceived cost and speeds up the decision.',
+    toolTip: 'Bristol retrofit grants are available through local schemes. If you can reference funding routes when calling retrofit leads, it reduces the buyer\'s perceived cost and speeds up the decision.',
   },
   leeds: {
     city: 'Leeds',
@@ -158,10 +158,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 13,
     signalChange: 0,
     signals: [
-      { type: 'Planning approvals', count: 7, trend: 'flat', top: 'Rear extension, LS17 Moortown' },
-      { type: 'EPC upgrades needed', count: 3, trend: 'up', top: 'F-rated terrace cluster, LS6 Headingley' },
-      { type: 'Council contracts', count: 2, trend: 'flat', top: 'Housing repairs framework — Leeds City' },
-      { type: 'New businesses', count: 1, trend: 'flat', top: 'Café fit-out, LS1 city centre' },
+      { type: 'Home improvement signals', count: 7, trend: 'flat', top: 'Rear extension, LS17 Moortown' },
+      { type: 'Retrofit demand', count: 3, trend: 'up', top: 'Terrace upgrade cluster, LS6 Headingley' },
+      { type: 'Public-sector work', count: 2, trend: 'flat', top: 'Housing repairs framework — Leeds City' },
+      { type: 'Commercial work', count: 1, trend: 'flat', top: 'Cafe fit-out, LS1 city centre' },
     ],
     hotLead: {
       title: 'Rear extension, semi-detached',
@@ -169,13 +169,13 @@ const CITY_INTEL: Record<string, CityIntel> = {
       approvedDaysAgo: 2,
       estimatedValue: '£28k–£42k',
       buyerScore: 85,
-      why: 'LS17 is Leeds\' strongest residential postcode. Approved two days ago. Semi-detached extension — standard scope, realistic budget, motivated buyer.',
+      why: 'LS17 is Leeds\' strongest residential postcode. Fresh signal from two days ago. Semi-detached extension — standard scope, realistic budget, motivated buyer.',
       action: 'Call today. Use First Strike to copy your first-touch message. LS17 buyers are practical — lead with availability and a ballpark figure.',
     },
-    marketNote: 'Leeds extension demand is steady. LS17 and LS16 remain the most active postcodes. Headingley\'s student rental density means EPC upgrade pressure is building — landlords with multiple F/G properties in LS6 are being contacted by the council.',
+    marketNote: 'Leeds extension demand is steady. LS17 and LS16 remain the most active postcodes. Headingley\'s student rental density means upgrade pressure is building — landlords with weaker properties in LS6 are being pushed to act.',
     actionList: [
-      'Call LS17 extension — 2 days since approval, good buyer score',
-      'Target LS6 EPC landlord — F-rated student rental, council pressure',
+      'Call LS17 extension — 2-day-old signal, good buyer score',
+      'Target LS6 retrofit landlord — weak student rental, compliance pressure',
       'Check Leeds housing repairs framework — preferred supplier list, worth applying',
     ],
     toolTip: 'Leeds buyers in LS17 and LS16 respond well to local references. If you have done work in Moortown or Alwoodley, mention it in your opening call.',
@@ -189,10 +189,10 @@ const CITY_INTEL: Record<string, CityIntel> = {
     totalSignals: 10,
     signalChange: 2,
     signals: [
-      { type: 'Planning approvals', count: 5, trend: 'up', top: 'Flat conversion, G12 Hillhead' },
-      { type: 'EPC upgrades needed', count: 3, trend: 'up', top: 'F-rated Victorian tenement, G41 Pollokshields' },
-      { type: 'Council contracts', count: 1, trend: 'flat', top: 'Social housing refurb — Glasgow City' },
-      { type: 'New businesses', count: 1, trend: 'flat', top: 'Bar fit-out, G1 Merchant City' },
+      { type: 'Home improvement signals', count: 5, trend: 'up', top: 'Flat conversion, G12 Hillhead' },
+      { type: 'Retrofit demand', count: 3, trend: 'up', top: 'Victorian tenement upgrade, G41 Pollokshields' },
+      { type: 'Public-sector work', count: 1, trend: 'flat', top: 'Social housing refurb — Glasgow City' },
+      { type: 'Commercial work', count: 1, trend: 'flat', top: 'Bar fit-out, G1 Merchant City' },
     ],
     hotLead: {
       title: 'Flat conversion, top-floor Victorian',
@@ -200,16 +200,16 @@ const CITY_INTEL: Record<string, CityIntel> = {
       approvedDaysAgo: 3,
       estimatedValue: '£35k–£55k',
       buyerScore: 83,
-      why: 'G12 is Glasgow\'s university quarter — high owner-occupier rate, above-average spending on property. Top-floor conversion with planning approval. Tenement properties often need specialist knowledge — a trade with tenement experience has a clear edge.',
+      why: 'G12 is Glasgow\'s university quarter — high owner-occupier rate, above-average spending on property. Top-floor conversion with fresh project evidence. Tenement properties often need specialist knowledge — a trade with tenement experience has a clear edge.',
       action: 'Call today. Mention any tenement or Victorian flat experience you have. G12 buyers value local knowledge.',
     },
-    marketNote: 'Glasgow\'s EPC upgrade pressure is significant. Victorian tenement stock in the West End and South Side has high F/G concentrations. The Scottish Government\'s Heat in Buildings strategy is creating legal urgency for landlords — stronger motivation than the rest of the UK.',
+    marketNote: 'Glasgow\'s retrofit pressure is significant. Victorian tenement stock in the West End and South Side has high upgrade demand. Scottish rules are creating urgency for landlords — stronger motivation than the rest of the UK.',
     actionList: [
-      'Call G12 flat conversion — 3 days since approval, good buyer score',
-      'Target G41 EPC tenement — Heat in Buildings legislation creates urgency',
+      'Call G12 flat conversion — 3-day-old signal, good buyer score',
+      'Target G41 retrofit tenement — legislation creates urgency',
       'Check Glasgow City social housing refurb — large scope, worth the paperwork if qualified',
     ],
-    toolTip: 'Scottish EPC regulations are stricter than England and Wales. When calling G41 landlords, reference the Heat in Buildings Act deadlines specifically — it signals you understand their situation.',
+    toolTip: 'Scottish retrofit rules are stricter than England and Wales. When calling G41 landlords, reference the relevant upgrade deadlines specifically — it signals you understand their situation.',
   },
 };
 
@@ -344,7 +344,7 @@ export function CityIntelligencePage() {
           {unlocked ? (
             <div className="mt-4 border-2 border-[var(--yellow)] bg-white">
               <div className="border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-5 py-3 flex items-center justify-between">
-                <p className="text-xs font-black uppercase tracking-wider text-[var(--ink)]">GOLD — Approved {intel.hotLead.approvedDaysAgo} day{intel.hotLead.approvedDaysAgo !== 1 ? 's' : ''} ago</p>
+                <p className="text-xs font-black uppercase tracking-wider text-[var(--ink)]">GOLD — Fresh signal {intel.hotLead.approvedDaysAgo} day{intel.hotLead.approvedDaysAgo !== 1 ? 's' : ''} ago</p>
                 <p className="font-mono text-sm font-black text-[var(--ink)]">Score {intel.hotLead.buyerScore}</p>
               </div>
               <div className="px-5 py-5">
@@ -363,7 +363,7 @@ export function CityIntelligencePage() {
           ) : (
             <div className="mt-4 border-2 border-[var(--line)] bg-white overflow-hidden">
               <div className="border-b-2 border-[var(--line)] bg-[var(--offwhite)] px-5 py-3 flex items-center justify-between">
-                <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">GOLD — Approved {intel.hotLead.approvedDaysAgo} day{intel.hotLead.approvedDaysAgo !== 1 ? 's' : ''} ago</p>
+                <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">GOLD — Fresh signal {intel.hotLead.approvedDaysAgo} day{intel.hotLead.approvedDaysAgo !== 1 ? 's' : ''} ago</p>
                 <Lock className="w-4 h-4 text-[var(--muted)]" />
               </div>
               <div className="px-5 py-5">
