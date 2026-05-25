@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 25 May 2026 (Run 3 — NightlyBuildAgent)
+
+- [x] LeadDetailPage: SNOOZE 24H button added to FOLLOW-UP REMINDER section (snoozeChaseLead wired; green SNOOZED state after tap; only shows for tracked non-won/lost leads)
+- [x] LeadDetailPage: "SIGNAL INTELLIGENCE" → "WHY NOW", "WORKS STARTING NOW" → "TIMING SIGNAL" (plain-English, tradesman-readable)
+- [x] DashboardPage: hero body → fear→proof→control (names Checkatrade, no auction)
+- [x] DashboardPage: duplicate SCAN FOR JOBS CTA fixed — Quick Actions shows REVIEW LEADS when pipeline exists (HIGH NEEDLE from 28 May — closed)
+- [x] LeadListPage: "INTAKE ENGINE" → "JOB PIPELINE"; competitor contrast in header; smart GOLD/SILVER/BIN empty states with appropriate CTAs
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-25 Run 3 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button — blocked on URL scheme from founder
+- [ ] PricingPage: 3-card mobile layout complexity (NEEDLE #1 from 28 May — deferred)
+
+---
+
 ## Today - 25 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] FindJobsPage: "free first scan" hero → "scan free — signal is real, full lead detail unlocks from £39/mo" (NEEDLE #2 from 24 May — bait-and-switch fix)
