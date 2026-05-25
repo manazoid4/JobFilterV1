@@ -342,7 +342,7 @@ export function FindJobsPage() {
             Pick your trade. Enter your postcode. See what's live near you right now.
           </p>
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
-            No Checkatrade membership. No Bark credits. No card needed — free first scan.
+            No Checkatrade membership. No Bark credits. Scan free — signal is real, full lead detail unlocks from £39/mo.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <Link href="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
@@ -608,10 +608,10 @@ export function FindJobsPage() {
                 </section>
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
+                  <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB EXISTS. THE BUYER DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, quote floor, follow-up cadence, WhatsApp alerts, letters, and the full Money Filter breakdown.
+                    Free scan confirms the signal is live near you. Unlock from £39/mo to see who to call, when to quote, and how to beat the five other trades who don&apos;t have this yet.
                   </p>
                 </section>
               )}

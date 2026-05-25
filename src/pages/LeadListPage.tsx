@@ -87,11 +87,11 @@ export function LeadListPage() {
       </div>
 
       {/* ── Tip banner ────────────────────────────────────── */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
-        <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1">
+      <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
+        <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1 mt-0.5">
           TIP
         </span>
-        <p className="truncate text-sm font-black text-[var(--navy)]">
+        <p className="text-sm font-black text-[var(--navy)]">
           Call GOLD leads the same day. Response rate drops 60% after 24 hours.
         </p>
       </div>

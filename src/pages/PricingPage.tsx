@@ -29,7 +29,7 @@ export function PricingPage() {
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-          Real lead signals. Filtered by urgency, value, source confidence and postcode fit. Sent to WhatsApp when they are worth chasing.
+          Real job signals — not recycled from Checkatrade or Bark. Filtered by urgency, value, and distance. Hits your WhatsApp when it&apos;s worth pricing.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -66,9 +66,9 @@ export function PricingPage() {
 
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE USEFUL JOB SIGNAL OR YOUR MONEY BACK.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE JOB WORTH PRICING OR YOUR £39 BACK.</h2>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Use JobFilter for 30 days. If you do not see one job worth chasing after setting up your patch, we refund you.
+          Set up your patch, run your scans, check at least 10 scored leads. If you don&apos;t see one job worth quoting in 30 days, we refund every penny. No forms — just email us.
         </p>
       </section>
 
