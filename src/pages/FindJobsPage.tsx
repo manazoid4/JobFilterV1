@@ -81,7 +81,23 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
   { label: 'HVAC', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
 ];
 
-const RECENT_SEARCHES = ['B14 7QH', 'SW1A 1AA', 'M1 1AE', 'EH1 1AA', 'CF10 1DN'];
+const SCAN_HISTORY_KEY = 'jf-scan-history';
+type ScanHistoryEntry = { postcode: string; trade: Trade };
+
+function getScanHistory(): ScanHistoryEntry[] {
+  try {
+    const raw = (typeof window !== "undefined" ? localStorage : { getItem: () => null }).getItem(SCAN_HISTORY_KEY);
+    return raw ? (JSON.parse(raw) as ScanHistoryEntry[]) : [];
+  } catch { return []; }
+}
+
+function saveScanHistory(pc: string, tr: Trade): void {
+  const history = getScanHistory().filter(e => !(e.postcode === pc && e.trade === tr));
+  history.unshift({ postcode: pc, trade: tr });
+  try {
+    (typeof window !== "undefined" ? localStorage : { setItem: () => {} }).setItem(SCAN_HISTORY_KEY, JSON.stringify(history.slice(0, 5)));
+  } catch { /* ignore */ }
+}
 
 function getSavedRadius(): number {
   const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.radius');
@@ -146,6 +162,7 @@ export function FindJobsPage() {
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
   const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
+  const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
 
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
@@ -229,6 +246,9 @@ export function FindJobsPage() {
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
+      } else {
+        saveScanHistory(postcode, overrides?.trade ?? trade);
+        setScanHistory(getScanHistory());
       }
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch {
@@ -460,20 +480,26 @@ export function FindJobsPage() {
           </button>
         </form>
 
-        {/* Recent Searches */}
-        {SHOW_ADVANCED_TOOLS && <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="micro-label text-[var(--muted)] text-[10px]">TRY:</span>
-          {RECENT_SEARCHES.map((pc) => (
-            <button
-              key={pc}
-              type="button"
-              onClick={() => setPostcode(pc)}
-              className="border-2 border-[var(--line)] bg-[var(--paper)] px-2 py-0.5 text-xs font-bold text-[var(--muted)] hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors"
-            >
-              {pc}
-            </button>
-          ))}
-        </div>}
+        {/* Scan History */}
+        {scanHistory.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="micro-label text-[var(--muted)] text-[10px]">YOUR RECENT SCANS:</span>
+            {scanHistory.map((entry) => (
+              <button
+                key={`${entry.postcode}-${entry.trade}`}
+                type="button"
+                onClick={() => {
+                  setPostcode(entry.postcode);
+                  setTrade(entry.trade);
+                  void submit(undefined, { trade: entry.trade });
+                }}
+                className="border-2 border-[var(--yellow)] bg-[var(--paper)] px-2 py-0.5 text-xs font-bold text-[var(--ink)] hover:bg-[var(--yellow)] transition-colors"
+              >
+                {entry.postcode} · {entry.trade.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
