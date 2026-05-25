@@ -1,6 +1,8 @@
 node_modules/
 build/
 dist/
+.next/
+tsconfig.tsbuildinfo
 .firebase/
 functions/lib/
 functions/node_modules/
