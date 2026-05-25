@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 25 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] FindJobsPage: "free first scan" hero → "scan free — signal is real, full lead detail unlocks from £39/mo" (NEEDLE #2 from 24 May — bait-and-switch fix)
+- [x] FindJobsPage: preview banner rewritten — "FREE SCAN — SIGNAL IS REAL" / "THE JOB EXISTS. THE BUYER DETAIL IS LOCKED." + specific unlock value prop
+- [x] PricingPage: "source confidence" jargon → "not recycled from Checkatrade or Bark" (Phase 3 copy polish)
+- [x] PricingPage: money-back guarantee "ONE USEFUL JOB SIGNAL" → "ONE JOB WORTH PRICING OR YOUR £39 BACK" + 3-step body
+- [x] LeadListPage: TIP banner `truncate` removed — "Response rate drops 60% after 24 hours" always visible on mobile (BUILDER fix from 4-agent NEEDLE)
+- [x] QuickResponseKit: "UNLOCK FIRST STRIKE →" button removed from locked state — single CTA per lead card (NEEDLE #3 fix)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-25 Run 2 written
+- [ ] FindJobsPage: "free first scan" hero vs immediate paywall on unlock — bait-and-switch perception (NEEDLE #2 from 24 May) — DONE ✓
+- [ ] FindJobsPage: multiple CTAs per lead card (TRACK / SEND TO WHATSAPP / UNLOCK) — decision paralysis on mobile (NEEDLE #3) — DONE ✓
+
+---
+
 ## Today - 24 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] DashboardPage: "Territory: Not Locked" → "YOUR PATCH: NOT LOCKED" — plain tradesperson language, no jargon (NEEDLE #1 from 4-agent check)
