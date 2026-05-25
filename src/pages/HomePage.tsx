@@ -140,7 +140,6 @@ export function HomePage() {
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
               <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
-              <span className="bg-[var(--yellow)] px-2 py-1 text-xs font-black text-[var(--ink)]">BETA</span>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (
