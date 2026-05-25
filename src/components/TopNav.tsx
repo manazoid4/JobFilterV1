@@ -8,9 +8,7 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = [
-  ...links,
-].filter((l) => l.to !== '/find-jobs');
+const mobileLinks = links.filter((l) => l.to !== '/find-jobs' && l.to !== '/pricing');
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
