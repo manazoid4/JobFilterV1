@@ -54,7 +54,7 @@ export function DashboardPage() {
         <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
+          Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
         </p>
         {!isEmpty && (
           <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
@@ -246,9 +246,15 @@ export function DashboardPage() {
                 LOCK YOUR PATCH →
               </Link>
             )}
-            <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
-              SCAN FOR JOBS
-            </Link>
+            {isEmpty ? (
+              <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
+                SCAN FOR JOBS →
+              </Link>
+            ) : (
+              <Link href="/leads" className="jf-button w-full bg-white text-[var(--ink)] text-center">
+                REVIEW LEADS →
+              </Link>
+            )}
           </div>
         </section>
       </div>

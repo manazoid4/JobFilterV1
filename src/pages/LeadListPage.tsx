@@ -61,12 +61,12 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">INTAKE ENGINE</p>
+        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
+          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
             </p>
           </div>
         </div>
@@ -157,16 +157,38 @@ export function LeadListPage() {
       {/* ── Lead cards ────────────────────────────────────────── */}
       {stored.length > 0 && visible.length === 0 ? (
         <div className="jf-box bg-white p-8 text-center">
-          <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
-          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
-            Try a different tab or clear your search filter.
-          </p>
-          <button
-            onClick={() => { setQuery(''); setTab('gold'); }}
-            className="jf-button mt-5 bg-[var(--navy)] text-white"
-          >
-            CLEAR FILTER
-          </button>
+          {query ? (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                Try a different tab or clear your search filter.
+              </p>
+              <button
+                onClick={() => { setQuery(''); setTab('gold'); }}
+                className="jf-button mt-5 bg-[var(--navy)] text-white"
+              >
+                CLEAR FILTER
+              </button>
+            </>
+          ) : (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">
+                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'BIN IS EMPTY'}
+              </h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                {tab === 'gold'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
+                  : tab === 'silver'
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan to fill your pipeline.'
+                  : 'Good — no low-quality leads in your pipeline.'}
+              </p>
+              {tab !== 'bin' && (
+                <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+                  SCAN FOR JOBS →
+                </Link>
+              )}
+            </>
+          )}
         </div>
       ) : stored.length > 0 ? (
         <div className="flex flex-col gap-5">

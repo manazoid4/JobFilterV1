@@ -8,7 +8,7 @@ import { ScoreBadge } from '../components/ScoreBadge';
 import { TrustBadges } from '../components/TrustBadges';
 import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
-import { getChaseLeads } from '../lib/chaseStore';
+import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
@@ -103,6 +103,7 @@ export function LeadDetailPage() {
   const [showWonCapture, setShowWonCapture] = useState(false);
   const [wonValueInput, setWonValueInput] = useState('');
   const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
+  const [snoozed, setSnoozed] = useState(false);
 
   if (!lead) {
     return (
@@ -132,6 +133,11 @@ export function LeadDetailPage() {
   });
   const selectedTemplate = waTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
+
+  function handleSnooze() {
+    snoozeChaseLead(id);
+    setSnoozed(true);
+  }
 
   function copyOtherTemplate(key: string, body: string) {
     navigator.clipboard.writeText(body).then(() => {
@@ -254,8 +260,8 @@ export function LeadDetailPage() {
         <section className="jf-box bg-white p-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <p className="micro-label text-[var(--orange)]">WORKS STARTING NOW</p>
-              <h2 className="headline text-2xl sm:text-3xl">SIGNAL INTELLIGENCE</h2>
+              <p className="micro-label text-[var(--orange)]">TIMING SIGNAL</p>
+              <h2 className="headline text-2xl sm:text-3xl">WHY NOW</h2>
             </div>
             {lead.leadReadiness && (
               <span className="inline-block border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
@@ -381,6 +387,15 @@ export function LeadDetailPage() {
             ADD TO CALENDAR
           </button>
           <CalendarCopyLink lead={lead} />
+          {chaseLead && chaseLead.stage !== 'won' && chaseLead.stage !== 'lost' && (
+            <button
+              className={`jf-button ${snoozed ? 'bg-[var(--green)] text-white' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
+              onClick={handleSnooze}
+              disabled={snoozed}
+            >
+              {snoozed ? 'SNOOZED — BACK TOMORROW' : 'SNOOZE 24H'}
+            </button>
+          )}
         </div>
       </section>
 
