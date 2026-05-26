@@ -13,10 +13,23 @@
 - [x] DashboardPage: YOUR INTAKE "Not set" rows → actionable RowLink CTAs to /find-jobs + yellow scan CTA when unset (NEEDLE #1)
 - [x] Build: GREEN, TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-26 Run 3 written
-- [ ] AccountPage still uses AuthProvider (which uses Vite env vars) — needs full migration to createBrowserSupabaseClient when AuthProvider is refactored
+- [x] AccountPage still uses AuthProvider — FIXED Run 5: migrated to createBrowserSupabaseClient, /account route created
 - [ ] Wire Stripe Checkout live test end-to-end with test key
 - [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
 - [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] SignupPage AuthProvider migration — signUp() still uses useAuth(); needs createBrowserSupabaseClient
+
+## Today - 26 May 2026 (Run 5 — NightlyBuildAgent)
+
+- [x] Auth routes restored: app/login, app/forgot-password, app/reset-password (lost in PR #196 merge, re-created)
+- [x] LoginPage, ForgotPasswordPage, ResetPasswordPage: react-router-dom + Vite supabase → Next.js + createBrowserSupabaseClient
+- [x] AccountPage: full AuthProvider removal, createBrowserSupabaseClient + inline subscription fetch
+- [x] app/account/page.tsx created — /account route now live
+- [x] SignalsPage: bg-blue-600 design violation fixed → bg-[var(--navy)]; Checkatrade price comparison added to CTA
+- [x] FreeToolsPage: comparison table "Live lead scanner" free column: '—' → '3 free/wk'
+- [x] FindJobsPage: mobile UNLOCK CTA now shows "Buyer · deadline · proof link" hint (matches desktop)
+- [x] Build: GREEN (67 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-26 Run 5 written
 
 ---
 
