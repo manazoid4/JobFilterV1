@@ -135,3 +135,4 @@ Resuming agent reads top 3 → knows where to continue.
 - 2026-05-22 — Video digest: Atlassian layoff retrospective digested + cross-project actions added (J1-J8, A1-A3, K1-K2, M1-M2, F1-F2).
 - 2026-05-22 — Iter 7 polish burst: SETUP.md §7-10 (Slack/Telegram swap, Variables, test-mode, full endpoint map), scripts/test-mode.mjs, Vault Map.md LLM read-order. 4 polish boxes ticked.
 - 2026-05-26 — Comprehensive audit session: fixed DirectorySignal double-penalty bug in scan.ts (-16→-8), fixed 5 zombie regression tests (dead Firebase paths, stale copy assertions, sourceConfig architecture mismatch), added OUTCOMES summary strip to LeadListPage. 6/6 regressions green. Build + lint clean.
+- 2026-05-26 — CRITICAL production CSS fix: installed @tailwindcss/postcss + created postcss.config.mjs. Site was 100% unstyled (wrong Tailwind v4 package for Next.js: @tailwindcss/vite instead of @tailwindcss/postcss, no PostCSS config). Merged to main → Vercel rebuilding.
