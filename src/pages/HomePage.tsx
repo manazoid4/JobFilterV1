@@ -120,15 +120,9 @@ export function HomePage() {
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/news">
-                  Trade news →
-                </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
                   Claim Territory →
                 </Link>
-                <a className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
-                  Follow on Instagram →
-                </a>
               </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/60">

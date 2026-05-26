@@ -126,11 +126,11 @@ export function TopNav() {
             })}
           </div>
           <Link
-            href="/find-jobs"
+            href="/pricing"
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            SCAN MY AREA FREE
+            START £39/MO — FOUNDING PRICE
           </Link>
         </div>
       )}
