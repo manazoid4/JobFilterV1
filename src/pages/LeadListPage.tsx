@@ -48,6 +48,10 @@ export function LeadListPage() {
   const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
   const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
 
+  const wonCount       = stored.filter((l) => l.status === 'won').length;
+  const lostCount      = stored.filter((l) => l.status === 'lost').length;
+  const noAnswerCount  = stored.filter((l) => l.status === 'no_answer').length;
+
   const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
 
   const tabs: { id: Tab; label: string; count: number }[] = [
@@ -85,6 +89,24 @@ export function LeadListPage() {
           </div>
         </div>
       </div>
+
+      {/* ── OUTCOMES summary ─────────────────────────────────── */}
+      {stored.length > 0 && (wonCount > 0 || lostCount > 0 || noAnswerCount > 0) && (
+        <div className="jf-box bg-white p-4">
+          <p className="micro-label text-[var(--muted)] mb-3">OUTCOMES</p>
+          <div className="flex flex-wrap gap-3">
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--green)] text-sm font-black text-[var(--green)]">
+              WON <span className="ml-1">{wonCount}</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--orange)] text-sm font-black text-[var(--orange)]">
+              LOST <span className="ml-1">{lostCount}</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--muted)] text-sm font-black text-[var(--muted)]">
+              NO ANSWER <span className="ml-1">{noAnswerCount}</span>
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* ── Tip banner ────────────────────────────────────── */}
       <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
