@@ -63,6 +63,9 @@ export function TopNav() {
               </span>
             </div>
           )}
+          <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+            Sign in
+          </Link>
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
             START £39/MO
           </Link>
@@ -122,6 +125,13 @@ export function TopNav() {
               );
             })}
           </div>
+          <Link
+            href="/login"
+            onClick={() => setMenuOpen(false)}
+            className="border-t-2 border-[var(--line)] px-4 py-3 text-sm font-black uppercase text-[var(--muted)] min-h-[44px] flex items-center"
+          >
+            SIGN IN →
+          </Link>
           <Link
             href="/find-jobs"
             onClick={() => setMenuOpen(false)}

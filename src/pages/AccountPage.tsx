@@ -1,5 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../components/AuthProvider';
 import { useSubscription } from '../lib/useSubscription';
 
@@ -20,11 +22,12 @@ const TIER_PRICES: Record<string, string> = {
 export function AccountPage() {
   const { user, signOut, loading: authLoading } = useAuth();
   const sub = useSubscription();
+  const router = useRouter();
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState('');
 
   if (authLoading) return null;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) { router.replace('/login'); return null; }
 
   async function openBillingPortal() {
     setPortalLoading(true);
@@ -118,9 +121,9 @@ export function AccountPage() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-black uppercase text-[var(--muted)]">Password</span>
-            <a href="/forgot-password" className="text-sm font-black underline hover:text-[var(--yellow)]">
+            <Link href="/forgot-password" className="text-sm font-black underline hover:text-[var(--yellow)]">
               Reset password →
-            </a>
+            </Link>
           </div>
         </div>
       </section>

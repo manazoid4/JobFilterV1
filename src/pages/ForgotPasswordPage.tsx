@@ -1,6 +1,7 @@
+"use client";
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import Link from 'next/link';
+import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -12,13 +13,18 @@ export function ForgotPasswordPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    if (!supabase) { setError('Auth not available'); setLoading(false); return; }
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    setLoading(false);
-    if (error) { setError(error.message); return; }
-    setDone(true);
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) { setError(error.message); setLoading(false); return; }
+      setDone(true);
+    } catch (err: any) {
+      setError(String(err?.message ?? 'Failed to send reset link'));
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (done) {
@@ -30,7 +36,7 @@ export function ForgotPasswordPage() {
           <p className="text-sm text-[var(--muted)]">
             If <strong>{email}</strong> has an account, we sent a password reset link. Check your inbox and spam.
           </p>
-          <Link to="/login" className="mt-6 inline-block jf-button">BACK TO SIGN IN</Link>
+          <Link href="/login" className="mt-6 inline-block jf-button">BACK TO SIGN IN</Link>
         </section>
       </main>
     );
@@ -58,7 +64,7 @@ export function ForgotPasswordPage() {
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
-          <Link to="/login" className="font-black underline hover:text-[var(--yellow)]">
+          <Link href="/login" className="font-black underline hover:text-[var(--yellow)]">
             ← Back to sign in
           </Link>
         </p>

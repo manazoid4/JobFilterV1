@@ -79,15 +79,15 @@ export function SignupPage() {
     <main className="page-shell grid gap-6 py-10">
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
-        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">LOCK THE ACCOUNT FIRST.</h1>
+        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-black text-white/80">
-          {planLabel}. Confirm your email below — then set your trade, postcode, and WhatsApp number. Leads start routing within minutes.
+          {planLabel}. Confirm your email — then add your trade, area, and WhatsApp number. Gold leads start hitting your phone within minutes.
         </p>
       </section>
 
       <form onSubmit={submit} className="jf-box grid gap-4 bg-white p-7">
         <label className="field-label">
-          Work email
+          Email
           <input className="field-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
         </label>
         <label className="field-label">
@@ -109,7 +109,7 @@ export function SignupPage() {
           </select>
         </label>
         <label className="field-label">
-          Postcode cluster
+          Your area (e.g. B14)
           <input className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
         </label>
         {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
