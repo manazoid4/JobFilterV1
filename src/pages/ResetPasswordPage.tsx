@@ -11,7 +11,6 @@ export function ResetPasswordPage() {
   const [error, setError] = useState('');
   const [ready, setReady] = useState(false);
 
-  // Supabase sends token in the URL hash — auth state fires PASSWORD_RECOVERY
   useEffect(() => {
     let subscription: { unsubscribe: () => void } | null = null;
     try {
@@ -32,11 +31,11 @@ export function ResetPasswordPage() {
     setLoading(true);
     try {
       const supabase = createBrowserSupabaseClient();
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) { setError(error.message); return; }
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) { setError(updateError.message); return; }
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(String(err?.message ?? 'Failed to update password'));
+    } catch {
+      setError('Could not update password — try again');
     } finally {
       setLoading(false);
     }

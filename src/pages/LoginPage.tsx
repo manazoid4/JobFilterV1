@@ -20,8 +20,8 @@ export function LoginPage() {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) { setError(signInError.message); return; }
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(String(err?.message ?? 'Sign in failed'));
+    } catch (err: unknown) {
+      setError(String((err as Error)?.message ?? 'Sign in failed'));
     } finally {
       setLoading(false);
     }

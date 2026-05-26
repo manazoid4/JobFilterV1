@@ -15,13 +15,13 @@ export function ForgotPasswordPage() {
     setLoading(true);
     try {
       const supabase = createBrowserSupabaseClient();
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`,
       });
-      if (error) { setError(error.message); setLoading(false); return; }
+      if (resetError) { setError(resetError.message); return; }
       setDone(true);
-    } catch (err: any) {
-      setError(String(err?.message ?? 'Failed to send reset link'));
+    } catch {
+      setError('Could not send reset link — try again');
     } finally {
       setLoading(false);
     }
@@ -31,7 +31,6 @@ export function ForgotPasswordPage() {
     return (
       <main className="page-shell py-16">
         <section className="jf-box max-w-md mx-auto bg-white p-8 text-center">
-          <p className="text-4xl mb-4">📧</p>
           <h1 className="headline text-2xl mb-3">Check your email</h1>
           <p className="text-sm text-[var(--muted)]">
             If <strong>{email}</strong> has an account, we sent a password reset link. Check your inbox and spam.

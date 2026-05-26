@@ -990,6 +990,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             UNLOCK FULL LEAD →
           </Link>
         )}
+        {!OPEN_ACCESS && (
+          <div className="mt-3 lg:hidden grid gap-1">
+            <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
+              UNLOCK FULL LEAD →
+            </Link>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+          </div>
+        )}
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
           {fields.map(([label, value]) => (
             <Stat key={label} label={label} value={value} />
