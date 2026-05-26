@@ -247,8 +247,8 @@ export function DashboardPage() {
               </Link>
             )}
             {isEmpty ? (
-              <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
-                SCAN FOR JOBS →
+              <Link href="/pricing" className="jf-button w-full bg-white text-[var(--ink)] text-center">
+                SEE WHAT YOU UNLOCK →
               </Link>
             ) : (
               <Link href="/leads" className="jf-button w-full bg-white text-[var(--ink)] text-center">

@@ -87,8 +87,8 @@ export function TradieZonePage() {
             </>
           ) : (
             <>
-              <p className="headline mt-2 text-4xl">OPEN</p>
-              <p className="mt-1 text-sm font-black text-[var(--muted)]">No patch claimed yet</p>
+              <p className="headline mt-2 text-4xl text-[var(--orange)]">NOT LOCKED</p>
+              <p className="mt-1 text-sm font-black text-[var(--orange)]">Another trade could claim your area.</p>
             </>
           )}
         </div>
@@ -148,8 +148,9 @@ export function TradieZonePage() {
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
-            <p className="font-black text-[var(--muted)]">No leads in the pipeline yet. Scan your postcode — jobs appear in minutes.</p>
+            <p className="font-black text-[var(--muted)]">No leads yet. Scan your postcode — jobs appear in minutes, before they hit Checkatrade or Bark.</p>
             <Link href="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
+            <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required</p>
           </div>
         ) : (
           <div className="mt-3 divide-y-2 divide-[var(--line)] border-2 border-[var(--line)] bg-white">

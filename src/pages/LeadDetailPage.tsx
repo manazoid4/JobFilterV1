@@ -13,6 +13,20 @@ import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
 
+function formatSignalLabel(source: string): string {
+  const s = source.toLowerCase();
+  if (s.includes('planning')) return 'Planning approval';
+  if (s.includes('epc') || s.includes('energy')) return 'Energy signal';
+  if (s.includes('contract') || s === 'fts' || s.includes('pcs')) return 'Contract signal';
+  if (s.includes('companies') || s === 'ch') return 'Business signal';
+  if (s.includes('landregistry') || s.includes('land_registry')) return 'Property signal';
+  if (s.includes('charity')) return 'Activity signal';
+  if (s.includes('forestry')) return 'Land signal';
+  if (s.includes('directory')) return 'Local signal';
+  if (s === 'multi-source verified' || s.includes('multi')) return 'Multi-signal verified';
+  return 'Verified signal';
+}
+
 function buildIcs(lead: LeadDecision): string {
   const now = new Date();
   const start = new Date(now);
@@ -277,7 +291,7 @@ export function LeadDetailPage() {
               <div className="flex flex-wrap gap-2">
                 {lead.signalStack.map((source) => (
                   <span key={source} className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
-                    {source}
+                    {formatSignalLabel(source)}
                   </span>
                 ))}
               </div>

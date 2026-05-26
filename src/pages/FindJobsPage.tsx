@@ -138,12 +138,25 @@ function timeAgoShort(iso: string): string {
   return `${Math.floor(hrs / 24)}d ago`;
 }
 
+function formatSourceLabel(source: string): string {
+  const s = source.toLowerCase();
+  if (s.includes('planning')) return 'Planning signal';
+  if (s.includes('epc') || s.includes('energy')) return 'Energy signal';
+  if (s.includes('contract') || s === 'fts' || s.includes('pcs') || s.includes('sell2wales')) return 'Contract signal';
+  if (s.includes('companies') || s === 'ch') return 'Business signal';
+  if (s.includes('landregistry') || s.includes('land_registry')) return 'Property signal';
+  if (s.includes('charity')) return 'Activity signal';
+  if (s.includes('forestry')) return 'Land signal';
+  if (s.includes('directory')) return 'Local signal';
+  return 'Verified signal';
+}
+
 function getSourceIcon(source: string): React.ReactNode {
   const src = source.toLowerCase();
   if (src.includes('planning') || src.includes('planning_application')) return <FileText className="w-3.5 h-3.5" />;
   if (src.includes('epc') || src.includes('energy')) return <Home className="w-3.5 h-3.5" />;
   if (src.includes('companies') || src.includes('ch')) return <Building2 className="w-3.5 h-3.5" />;
-  if (src.includes('contract')) return <ShieldCheck className="w-3.5 h-3.5" />;
+  if (src.includes('contract') || src === 'fts') return <ShieldCheck className="w-3.5 h-3.5" />;
   return <TrendingUp className="w-3.5 h-3.5" />;
 }
 
@@ -866,7 +879,7 @@ function getBestSource(sources?: LeadSearchResponse['sources']): string {
       bestPassed = passed;
     }
   }
-  return bestPassed > 0 ? `${best} (${bestPassed} passed)` : '';
+  return bestPassed > 0 ? `${formatSourceLabel(best)} (${bestPassed})` : '';
 }
 
 function getSourceMix(sources?: LeadSearchResponse['sources']): string {
@@ -876,7 +889,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .filter(([, passed]) => passed > 0)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3)
-    .map(([source, passed]) => `${source} ${passed}`)
+    .map(([source, passed]) => `${formatSourceLabel(source)} ×${passed}`)
     .join(' · ');
 }
 
@@ -942,7 +955,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           {lead.source && !isCompaniesHouse && (
             <span className="inline-flex items-center gap-1 border-2 border-[var(--line)] bg-white px-2 py-1 text-xs font-black uppercase">
               {getSourceIcon(lead.source)}
-              {lead.source}
+              {formatSourceLabel(lead.source)}
             </span>
           )}
           {lead.urgency && <Tag label={lead.urgency} />}
@@ -1152,7 +1165,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
 const LOCKED_PLACEHOLDERS: Record<string, string> = {
   'Buyer': 'J████ Ltd',
   'Deadline': '██ / ██ / 20██',
-  'Source URL': 'planning.gov.uk/████',
+  'Source URL': '████ — unlock to verify',
 };
 
 function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
