@@ -8,7 +8,10 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = links.filter((l) => l.to !== '/find-jobs' && l.to !== '/pricing');
+const mobileLinks = [
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Live Signals' },
+];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
