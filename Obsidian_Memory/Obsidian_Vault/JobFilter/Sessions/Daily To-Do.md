@@ -1,33 +1,17 @@
 # Daily To-Do
 
-## Today - 25 May 2026 (Run 3 — NightlyBuildAgent)
-
-- [x] LeadDetailPage: SNOOZE 24H button added to FOLLOW-UP REMINDER section (snoozeChaseLead wired; green SNOOZED state after tap; only shows for tracked non-won/lost leads)
-- [x] LeadDetailPage: "SIGNAL INTELLIGENCE" → "WHY NOW", "WORKS STARTING NOW" → "TIMING SIGNAL" (plain-English, tradesman-readable)
-- [x] DashboardPage: hero body → fear→proof→control (names Checkatrade, no auction)
-- [x] DashboardPage: duplicate SCAN FOR JOBS CTA fixed — Quick Actions shows REVIEW LEADS when pipeline exists (HIGH NEEDLE from 28 May — closed)
-- [x] LeadListPage: "INTAKE ENGINE" → "JOB PIPELINE"; competitor contrast in header; smart GOLD/SILVER/BIN empty states with appropriate CTAs
-- [x] Build: GREEN, TypeScript: CLEAN
-- [x] Vault: Changelog 2026-05-25 Run 3 written
-- [ ] Wire Stripe Checkout live test end-to-end with test key
-- [ ] Confirm `VITE_OPEN_ACCESS=false` in Firebase hosting env before public launch
-- [ ] TradeFlow "Send to TradeFlow" button — blocked on URL scheme from founder
-- [ ] PricingPage: 3-card mobile layout complexity (NEEDLE #1 from 28 May — deferred)
-
----
-
 ## Today - 25 May 2026 (Run 2 — NightlyBuildAgent)
 
-- [x] FindJobsPage: "free first scan" hero → "scan free — signal is real, full lead detail unlocks from £39/mo" (NEEDLE #2 from 24 May — bait-and-switch fix)
-- [x] FindJobsPage: preview banner rewritten — "FREE SCAN — SIGNAL IS REAL" / "THE JOB EXISTS. THE BUYER DETAIL IS LOCKED." + specific unlock value prop
-- [x] PricingPage: "source confidence" jargon → "not recycled from Checkatrade or Bark" (Phase 3 copy polish)
-- [x] PricingPage: money-back guarantee "ONE USEFUL JOB SIGNAL" → "ONE JOB WORTH PRICING OR YOUR £39 BACK" + 3-step body
-- [x] LeadListPage: TIP banner `truncate` removed — "Response rate drops 60% after 24 hours" always visible on mobile (BUILDER fix from 4-agent NEEDLE)
-- [x] QuickResponseKit: "UNLOCK FIRST STRIKE →" button removed from locked state — single CTA per lead card (NEEDLE #3 fix)
+- [x] FindJobsPage: personal scan history — localStorage "YOUR RECENT SCANS" chips, one-tap auto-rescan
+- [x] FindJobsPage: hero copy fixed — "Scan free — unlock full leads from £39/mo." (resolves NEEDLE #2 from 24 May)
+- [x] FindJobsPage: mobile UNLOCK CTA inline in lead card center column, lg:hidden (resolves NEEDLE #3 from 24 May)
+- [x] PricingPage: hero body names Checkatrade/Bark + no-auction copy; bottom CTA "LOCK YOUR PATCH. OWN THE JOBS." + trust line
 - [x] Build: GREEN, TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-25 Run 2 written
-- [ ] FindJobsPage: "free first scan" hero vs immediate paywall on unlock — bait-and-switch perception (NEEDLE #2 from 24 May) — DONE ✓
-- [ ] FindJobsPage: multiple CTAs per lead card (TRACK / SEND TO WHATSAPP / UNLOCK) — decision paralysis on mobile (NEEDLE #3) — DONE ✓
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] DashboardPage: YOUR INTAKE "Not set" rows — inline scan CTA within each row
 
 ---
 
@@ -38,8 +22,8 @@
 - [x] FindJobsPage: Start Signal tooltip — "EPC, Companies House" → "energy signals, business registrations"
 - [x] Build: GREEN, TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-24 Run 2 written
-- [ ] FindJobsPage: "free first scan" hero vs immediate paywall on unlock — bait-and-switch perception (NEEDLE #2 from 4-agent check)
-- [ ] FindJobsPage: multiple CTAs per lead card (TRACK / SEND TO WHATSAPP / UNLOCK) — decision paralysis on mobile (NEEDLE #3)
+- [x] FindJobsPage: hero bait-and-switch — FIXED 25 May Run 2
+- [x] FindJobsPage: mobile UNLOCK CTA above fold — FIXED 25 May Run 2
 
 ---
 

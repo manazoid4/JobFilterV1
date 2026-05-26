@@ -70,6 +70,28 @@ function recordWeeklyScan(): number {
   return next;
 }
 
+const SCAN_HISTORY_KEY = 'jf-scan-history';
+type ScanHistoryEntry = { postcode: string; trade: Trade };
+
+function getScanHistory(): ScanHistoryEntry[] {
+  try {
+    const raw = localStorage.getItem(SCAN_HISTORY_KEY);
+    return raw ? (JSON.parse(raw) as ScanHistoryEntry[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveScanHistory(postcode: string, trade: Trade): void {
+  const history = getScanHistory().filter(
+    (e) => !(e.postcode === postcode && e.trade === trade)
+  );
+  history.unshift({ postcode, trade });
+  try {
+    localStorage.setItem(SCAN_HISTORY_KEY, JSON.stringify(history.slice(0, 5)));
+  } catch { /* ignore */ }
+}
+
 const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = [
   { label: 'ELECTRICAL', trade: 'electrical', icon: <Zap className="w-4 h-4" /> },
   { label: 'PLUMBING', trade: 'plumbing', icon: <Wrench className="w-4 h-4" /> },
@@ -81,23 +103,6 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
   { label: 'HVAC', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
 ];
 
-const SCAN_HISTORY_KEY = 'jf-scan-history';
-type ScanHistoryEntry = { postcode: string; trade: Trade };
-
-function getScanHistory(): ScanHistoryEntry[] {
-  try {
-    const raw = (typeof window !== "undefined" ? localStorage : { getItem: () => null }).getItem(SCAN_HISTORY_KEY);
-    return raw ? (JSON.parse(raw) as ScanHistoryEntry[]) : [];
-  } catch { return []; }
-}
-
-function saveScanHistory(pc: string, tr: Trade): void {
-  const history = getScanHistory().filter(e => !(e.postcode === pc && e.trade === tr));
-  history.unshift({ postcode: pc, trade: tr });
-  try {
-    (typeof window !== "undefined" ? localStorage : { setItem: () => {} }).setItem(SCAN_HISTORY_KEY, JSON.stringify(history.slice(0, 5)));
-  } catch { /* ignore */ }
-}
 
 function getSavedRadius(): number {
   const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.radius');
@@ -168,7 +173,7 @@ export function FindJobsPage() {
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
-  const [scanMode, setScanMode] = useState<ScanMode>('all');
+  const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -221,23 +226,27 @@ export function FindJobsPage() {
     (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.find.tracked', JSON.stringify([...next]));
   };
 
-  async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade }) {
+  async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade; postcode?: string }) {
     event?.preventDefault();
     setErrorText('');
     setLoading(true);
     setResult(null);
     setHasScanned(true);
     setCommercialOnly(false);
+    const effectivePostcode = overrides?.postcode ?? postcode;
+    const effectiveTrade = overrides?.trade ?? trade;
     const used = recordWeeklyScan();
     setWeeklyScansUsed(used);
+    saveScanHistory(effectivePostcode, effectiveTrade);
+    setScanHistory(getScanHistory());
     try {
       const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          postcode,
-          trade: overrides?.trade ?? trade,
+          postcode: effectivePostcode,
+          trade: effectiveTrade,
           radiusMiles: overrides?.radiusMiles ?? radiusMiles,
           mode: scanMode,
         }),
@@ -362,7 +371,7 @@ export function FindJobsPage() {
             Pick your trade. Enter your postcode. See what's live near you right now.
           </p>
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
-            No Checkatrade membership. No Bark credits. Scan free — signal is real, full lead detail unlocks from £39/mo.
+            No Checkatrade membership. No Bark credits. Scan free — unlock full leads from £39/mo.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <Link href="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
@@ -480,7 +489,7 @@ export function FindJobsPage() {
           </button>
         </form>
 
-        {/* Scan History */}
+        {/* Recent Scans */}
         {scanHistory.length > 0 && (
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <span className="micro-label text-[var(--muted)] text-[10px]">YOUR RECENT SCANS:</span>
@@ -491,9 +500,9 @@ export function FindJobsPage() {
                 onClick={() => {
                   setPostcode(entry.postcode);
                   setTrade(entry.trade);
-                  void submit(undefined, { trade: entry.trade });
+                  void submit(undefined, { postcode: entry.postcode, trade: entry.trade });
                 }}
-                className="border-2 border-[var(--yellow)] bg-[var(--paper)] px-2 py-0.5 text-xs font-bold text-[var(--ink)] hover:bg-[var(--yellow)] transition-colors"
+                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors"
               >
                 {entry.postcode} · {entry.trade.toUpperCase()}
               </button>
@@ -963,16 +972,10 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           </div>
         ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
-        {lead.whyNow && (
-          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)]/25 p-3">
-            <p className="micro-label text-[var(--ink)]">WHY NOW</p>
-            <p className="mt-1 text-sm font-black text-[var(--ink)]">{lead.whyNow}</p>
-          </div>
-        )}
-        {typeof lead.evidenceCount === 'number' && (
-          <p className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted)]">
-            {lead.evidenceCount} evidence item{lead.evidenceCount === 1 ? '' : 's'} · source links required before purchase/contact decisions
-          </p>
+        {!OPEN_ACCESS && (
+          <Link to="/pricing" className="mt-3 flex lg:hidden items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
+            UNLOCK FULL LEAD →
+          </Link>
         )}
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
           {fields.map(([label, value]) => (
