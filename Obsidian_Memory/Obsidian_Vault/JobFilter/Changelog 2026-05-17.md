@@ -124,4 +124,4 @@ After: "One tap. Full scan — planning approvals, energy upgrades, public contr
 ## Related
 - [[Changelog 2026-05-16]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

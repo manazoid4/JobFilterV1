@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": ["serve", "--mcp"]
+    },
+    "metricool": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@metricool/mcp"],
+      "env": {
+        "METRICOOL_API_TOKEN": "ADD_YOUR_TOKEN_FROM_metricool.com/profile/integrations"
+      }
+    },
+    "google-analytics": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-analytics"],
+      "env": {
+        "GA4_PROPERTY_ID": "ADD_YOUR_GA4_PROPERTY_ID",
+        "GOOGLE_APPLICATION_CREDENTIALS": "ADD_PATH_TO_SERVICE_ACCOUNT_JSON"
+      }
+    }
+  }
+}

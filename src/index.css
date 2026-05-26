@@ -121,10 +121,17 @@ select {
   padding-block: 96px;
 }
 
-.ops-panel {
+/* Structural only — no background. Pages specify bg-* explicitly. */
+:where(.ops-panel) {
   border: 2px solid var(--line);
-  background: var(--paper);
   box-shadow: 4px 4px 0 var(--yellow);
+}
+
+/* Fallback bg at zero specificity so any bg-* utility wins */
+@layer components {
+  :where(.ops-panel) {
+    background-color: var(--paper);
+  }
 }
 
 .ops-strip {
@@ -143,13 +150,20 @@ select {
 
 /* ── COMPONENTS ─────────────────────────────────────── */
 
+/* Structural properties at zero specificity — utilities override freely */
 :where(.jf-box) {
   border: 2px solid var(--navy);
   border-radius: 2px;
   box-shadow: 4px 4px 0 var(--yellow);
-  background-color: var(--white);
   max-width: 100%;
   min-width: 0;
+}
+
+/* Fallback bg at zero specificity so any bg-* utility wins */
+@layer components {
+  :where(.jf-box) {
+    background-color: var(--white);
+  }
 }
 
 .jf-button {
@@ -198,7 +212,6 @@ select {
   min-height: 64px;
   border: 2px solid var(--navy);
   border-radius: 3px;
-  background: var(--yellow);
   color: var(--navy);
   padding: 1rem;
   text-align: left;
@@ -209,8 +222,12 @@ select {
   cursor: pointer;
 }
 
+@layer components {
+  :where(.choice-button) { background: var(--yellow); }
+  :where(.choice-button:hover) { background: var(--yellow-2); }
+}
+
 .choice-button:hover {
-  background: var(--yellow-2);
   transform: translate(-1px, -1px);
   box-shadow: 5px 5px 0 var(--navy);
 }
@@ -236,7 +253,6 @@ select {
   width: 100%;
   border: 2px solid var(--navy);
   border-radius: 3px;
-  background: var(--paper);
   padding: 0.8rem 0.9rem;
   color: var(--navy);
   font-size: 1rem;
@@ -254,8 +270,12 @@ select {
 }
 
 .field-input:focus {
-  background: var(--paper);
   box-shadow: 0 0 0 3px var(--yellow);
+}
+
+@layer components {
+  :where(.field-input) { background: var(--paper); }
+  :where(.field-input:focus) { background: var(--paper); }
 }
 
 /* ── NAVIGATION ─────────────────────────────────────── */

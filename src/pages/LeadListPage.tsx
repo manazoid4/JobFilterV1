@@ -1,16 +1,52 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+"use client";
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+
 import { getStoredLeads } from '../lib/leadStore';
+import type { LeadDecision } from '../lib/types';
 
 type Tab = 'gold' | 'silver' | 'bin';
 
+function leadsToCsv(leads: LeadDecision[]): string {
+  const headers = ['Score', 'Job Type', 'Area', 'Postcode', 'Urgency', 'Budget', 'Phone', 'Status', 'Flags', 'Created'];
+  const escape = (v: unknown) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = leads.map((l) =>
+    [l.score, l.jobType, l.area, l.postcode, l.urgency, l.budget ?? '', l.phone ?? '', l.status, (l.flags ?? []).join('|'), l.createdAt]
+      .map(escape)
+      .join(','),
+  );
+  return [headers.join(','), ...rows].join('\r\n');
+}
+
+function downloadCsv(leads: LeadDecision[], tab: Tab) {
+  if (leads.length === 0) return;
+  const blob = new Blob([leadsToCsv(leads)], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `jobfilter-${tab}-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function LeadListPage() {
   const [tab, setTab] = useState<Tab>('gold');
+  const [query, setQuery] = useState('');
   const stored = getStoredLeads();
 
-  const gold   = stored.filter((l) => l.score >= 80 && l.status !== 'ignored');
-  const silver = stored.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
-  const bin    = stored.filter((l) => l.score < 50 || l.status === 'ignored');
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return stored;
+    return stored.filter((l) =>
+      [l.jobType, l.area, l.postcode, l.details, (l.flags ?? []).join(' ')]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(q)),
+    );
+  }, [stored, query]);
+
+  const gold   = filtered.filter((l) => l.score >= 80 && l.status !== 'ignored');
+  const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
+  const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
 
   const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
 
@@ -25,12 +61,12 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">INTAKE ENGINE</p>
+        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
+          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
         </p>
       </div>
 
@@ -44,55 +80,117 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
             </p>
           </div>
         </div>
       </div>
 
       {/* ── Tip banner ────────────────────────────────────── */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
-        <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1">
+      <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
+        <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1 mt-0.5">
           TIP
         </span>
-        <p className="truncate text-sm font-black text-[var(--navy)]">
+        <p className="text-sm font-black text-[var(--navy)]">
           Call GOLD leads the same day. Response rate drops 60% after 24 hours.
         </p>
       </div>
 
-      {/* ── Tabs ────────────────────────────────────────────── */}
-      <div className="flex border-2 border-[var(--navy)] bg-[var(--paper)]">
-        {tabs.map((t, i) => (
-          <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
-            className={`flex flex-1 items-center justify-center gap-2 py-3 font-black uppercase text-sm tracking-wider transition-colors ${
-              tab === t.id ? 'bg-[var(--navy)] text-[var(--yellow)]' : 'text-[var(--navy)] hover:bg-[var(--yellow)]/20'
-            } ${i < tabs.length - 1 ? 'border-r-2 border-[var(--navy)]' : ''}`}
-          >
-            <span>{t.label}</span>
-            <span className={`flex h-5 min-w-[20px] items-center justify-center px-1 text-[11px] font-black ${
-              tab === t.id ? 'bg-[var(--yellow)] text-[var(--navy)]' : 'bg-[var(--offwhite)] text-[var(--navy)]'
-            } border border-[var(--navy)]`}>
-              {t.count}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* ── Lead cards ────────────────────────────────────────── */}
-      {visible.length === 0 ? (
-        <div className="jf-box bg-white p-8 text-center">
-          <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab} LEADS YET</h2>
-          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
-            Enter your postcode and trade. See what jobs are live near you in under 30 seconds.
+      {/* ── Empty state — shown when no leads at all ─────────── */}
+      {stored.length === 0 && (
+        <div className="jf-box bg-[var(--yellow)] p-8 text-center">
+          <h2 className="headline text-3xl uppercase text-[var(--ink)]">YOUR LIST IS EMPTY.</h2>
+          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--ink)]/80">
+            Scan your postcode → find jobs scored for your trade → tap TRACK THIS LEAD on any result. It lands here so you can chase it.
           </p>
-          <Link className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--navy)]" to="/find-jobs">
+          <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
-          <p className="mt-3 text-xs font-black text-[var(--muted)]">No credit card required</p>
+          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
         </div>
-      ) : (
+      )}
+
+      {/* ── Search + Export — only shown when leads exist ─── */}
+      {stored.length > 0 && (
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search leads — job type, area, postcode, keyword"
+            className="flex-1 border-2 border-[var(--navy)] bg-white px-4 py-3 text-sm font-black text-[var(--ink)] placeholder:text-[var(--muted)]"
+          />
+          <button
+            type="button"
+            onClick={() => downloadCsv(visible, tab)}
+            disabled={visible.length === 0}
+            className="jf-button bg-[var(--navy)] text-white sm:px-6 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Download visible leads as CSV"
+          >
+            EXPORT CSV ({visible.length})
+          </button>
+        </div>
+      )}
+
+      {/* ── Tabs — only shown when leads exist ───────────── */}
+      {stored.length > 0 && (
+        <div className="flex border-2 border-[var(--navy)] bg-[var(--paper)]">
+          {tabs.map((t, i) => (
+            <button
+              key={t.id}
+              onClick={() => setTab(t.id)}
+              className={`flex flex-1 items-center justify-center gap-2 py-3 font-black uppercase text-sm tracking-wider transition-colors ${
+                tab === t.id ? 'bg-[var(--navy)] text-[var(--yellow)]' : 'text-[var(--navy)] hover:bg-[var(--yellow)]/20'
+              } ${i < tabs.length - 1 ? 'border-r-2 border-[var(--navy)]' : ''}`}
+            >
+              <span>{t.label}</span>
+              <span className={`flex h-5 min-w-[20px] items-center justify-center px-1 text-[11px] font-black ${
+                tab === t.id ? 'bg-[var(--yellow)] text-[var(--navy)]' : 'bg-[var(--offwhite)] text-[var(--navy)]'
+              } border border-[var(--navy)]`}>
+                {t.count}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Lead cards ────────────────────────────────────────── */}
+      {stored.length > 0 && visible.length === 0 ? (
+        <div className="jf-box bg-white p-8 text-center">
+          {query ? (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                Try a different tab or clear your search filter.
+              </p>
+              <button
+                onClick={() => { setQuery(''); setTab('gold'); }}
+                className="jf-button mt-5 bg-[var(--navy)] text-white"
+              >
+                CLEAR FILTER
+              </button>
+            </>
+          ) : (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">
+                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'BIN IS EMPTY'}
+              </h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                {tab === 'gold'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
+                  : tab === 'silver'
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan to fill your pipeline.'
+                  : 'Good — no low-quality leads in your pipeline.'}
+              </p>
+              {tab !== 'bin' && (
+                <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+                  SCAN FOR JOBS →
+                </Link>
+              )}
+            </>
+          )}
+        </div>
+      ) : stored.length > 0 ? (
         <div className="flex flex-col gap-5">
           {visible.map((lead) => {
             const urgencyColor = lead.urgency === 'Emergency'
@@ -141,7 +239,7 @@ export function LeadListPage() {
                   >
                     SEND WHATSAPP
                   </a>
-                  <Link to={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
+                  <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →
                   </Link>
                 </div>
@@ -149,7 +247,7 @@ export function LeadListPage() {
             );
           })}
         </div>
-      )}
+      ) : null}
     </main>
   );
 }

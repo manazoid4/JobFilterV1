@@ -1,0 +1,74 @@
+{
+  "name": "JobFilter — 11 Chase Check Reminder",
+  "nodes": [
+    {
+      "id": "11ccccc1-0011-0011-0011-000000000001",
+      "name": "Daily 10am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 10 * * *" }] }
+      }
+    },
+    {
+      "id": "11ccccc1-0011-0011-0011-000000000002",
+      "name": "Scan Outcomes Folder",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst runsRoot = path.join(vaultPath, 'JobFilter', 'Agent Runs');\nconst outcomesDir = path.join(vaultPath, 'JobFilter', 'Outcomes');\nconst resolved = new Set();\nif (fs.existsSync(outcomesDir)) {\n  for (const f of fs.readdirSync(outcomesDir)) {\n    if (f.endsWith('.md')) resolved.add(f.replace(/\\.md$/, ''));\n  }\n}\nconst now = Date.now();\nconst dayMs = 86400000;\nconst leadAge = {};\nif (fs.existsSync(runsRoot)) {\n  for (const folder of fs.readdirSync(runsRoot)) {\n    const folderPath = path.join(runsRoot, folder);\n    if (!fs.statSync(folderPath).isDirectory()) continue;\n    const folderDate = new Date(folder + 'T00:00:00Z').getTime();\n    if (isNaN(folderDate) || now - folderDate > 21 * dayMs) continue;\n    for (const f of fs.readdirSync(folderPath)) {\n      if (!f.endsWith('.md')) continue;\n      try {\n        const body = fs.readFileSync(path.join(folderPath, f), 'utf-8');\n        const matches = body.match(/\\\"id\\\"\\s*:\\s*\\\"([^\\\"]+)\\\"/g) || [];\n        for (const m of matches) {\n          const id = m.match(/\\\"id\\\"\\s*:\\s*\\\"([^\\\"]+)\\\"/)[1];\n          if (!id || id.length > 80) continue;\n          if (!leadAge[id]) leadAge[id] = { firstSeenAt: folderDate, lastSeenAt: folderDate };\n          else leadAge[id].lastSeenAt = Math.max(leadAge[id].lastSeenAt, folderDate);\n        }\n      } catch {}\n    }\n  }\n}\nconst buckets = { day3: [], day7: [], day14: [] };\nfor (const [id, ages] of Object.entries(leadAge)) {\n  if (resolved.has(id.toLowerCase().replace(/[^a-z0-9]+/g, '-'))) continue;\n  const days = Math.floor((now - ages.firstSeenAt) / dayMs);\n  if (days === 3) buckets.day3.push(id);\n  else if (days === 7) buckets.day7.push(id);\n  else if (days === 14) buckets.day14.push(id);\n}\nconst total = buckets.day3.length + buckets.day7.length + buckets.day14.length;\nreturn [{ json: { buckets, total, resolved: resolved.size, scanned: Object.keys(leadAge).length } }];"
+      }
+    },
+    {
+      "id": "11ccccc1-0011-0011-0011-000000000003",
+      "name": "POST Chase Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/chase-check",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "body": "={{ { buckets: $json.buckets, total: $json.total } }}",
+        "options": { "timeout": 20000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "11ccccc1-0011-0011-0011-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "chase-check-reminder" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ $('Scan Outcomes Folder').item.json.total + ' leads aged 3/7/14d without outcome' }}" },
+            { "name": "payload", "value": "={{ { buckets: $('Scan Outcomes Folder').item.json.buckets, apiResponse: $json } }}" },
+            { "name": "counts", "value": "={{ { d3: $('Scan Outcomes Folder').item.json.buckets.day3.length, d7: $('Scan Outcomes Folder').item.json.buckets.day7.length, d14: $('Scan Outcomes Folder').item.json.buckets.day14.length, scanned: $('Scan Outcomes Folder').item.json.scanned, resolved: $('Scan Outcomes Folder').item.json.resolved } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 10am": { "main": [[{ "node": "Scan Outcomes Folder", "type": "main", "index": 0 }]] },
+    "Scan Outcomes Folder": { "main": [[{ "node": "POST Chase Check", "type": "main", "index": 0 }]] },
+    "POST Chase Check": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Daily 10am. Scans Agent Runs/ last 21 days for lead IDs, excludes ones in Outcomes/. Buckets 3/7/14d. POSTs /api/chase-check. Logs via 04."
+  }
+}

@@ -103,4 +103,4 @@ Multiple improvements following fear→proof→control structure and competitor 
 ## Related
 - [[Changelog 2026-05-14]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

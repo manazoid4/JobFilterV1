@@ -4,7 +4,7 @@ const KEY = 'jobfilter.chase';
 
 export function getChaseLeads(): ChaseLead[] {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(KEY);
     return raw ? (JSON.parse(raw) as ChaseLead[]) : [];
   } catch {
     return [];
@@ -19,7 +19,7 @@ export function saveChaseLead(lead: ChaseLead) {
   } else {
     existing.unshift(lead);
   }
-  localStorage.setItem(KEY, JSON.stringify(existing));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(existing));
 }
 
 export function updateChaseStage(leadId: string, stage: ChaseStage) {
@@ -34,7 +34,7 @@ export function updateChaseStage(leadId: string, stage: ChaseStage) {
       nextNudgeAt: stage === 'following_up' ? calcNextNudge(now, l.nudges.length) : null,
     };
   });
-  localStorage.setItem(KEY, JSON.stringify(updated));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(updated));
 }
 
 export function addNudgeEvent(leadId: string, event: NudgeEvent) {
@@ -49,12 +49,12 @@ export function addNudgeEvent(leadId: string, event: NudgeEvent) {
       nextNudgeAt: calcNextNudge(now, l.nudges.length + 1),
     };
   });
-  localStorage.setItem(KEY, JSON.stringify(updated));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(updated));
 }
 
 export function removeChaseLead(leadId: string) {
   const leads = getChaseLeads().filter((l) => l.leadId !== leadId);
-  localStorage.setItem(KEY, JSON.stringify(leads));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(leads));
 }
 
 export function importLeadToChase(lead: {
@@ -92,7 +92,7 @@ export function snoozeChaseLead(leadId: string) {
     if (l.leadId !== leadId) return l;
     return { ...l, nextNudgeAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() };
   });
-  localStorage.setItem(KEY, JSON.stringify(updated));
+  (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(updated));
 }
 
 export function isLeadTracked(leadId: string): boolean {

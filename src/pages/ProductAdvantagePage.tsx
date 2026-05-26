@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 
 const content = {
@@ -19,12 +20,25 @@ const content = {
     label: 'text-[var(--ink)]',
     headline: 'PUT YOUR NAME ON EVERY DOOR IN YOUR PATCH.',
     sub: 'Hyper-local ads targeting households that need your work right now — based on verified job signals, property sales, and planning approvals.',
-    body: 'You know your patch. Vicinity puts your brand in the letterboxes of the exact homes that are about to need your trade. No wasted flyers. No blanket coverage. Just the houses with the signal.',
+    body: 'You know your patch. Vicinity puts your brand in the right doors before they post on Bark or Checkatrade. No blanket drops. Just the houses already showing a live signal.',
     note: 'Powered by JobFilter\'s signal engine — we know which homes need work before they post a job.',
-    distinct: 'Vicinity fills your pipeline between big jobs. Micro-ads, hyper-targeted, cheap as chips.',
-    problem: 'Blanket leaflet drops waste 90% of your budget. Vicinity targets only the homes with a trigger signal.',
+    distinct: 'Vicinity fills your pipeline between big jobs. Targeted, cheap as chips, no shared auction.',
+    problem: 'Every blanket leaflet drop wastes 90% of your budget on houses that don\'t need your trade this year. Vicinity skips those entirely.',
     steps: ['Tell us your patch (postcode + radius)', 'We target homes with active job signals (low energy ratings, recent sales, planning approvals)', 'Your ad lands in the right letterboxes — not the bin'],
     gets: ['Targeted door-drop campaign', 'Signal-matched household list', 'Custom trade-branded leaflet design', 'Delivery tracking report', 'Follow-up lead alerts from targeted area'],
+  },
+  codex: {
+    title: 'CODEX',
+    hero: 'bg-[var(--ink)] text-white',
+    label: 'text-[var(--yellow)]',
+    headline: 'TURN BORING MANUALS INTO QUOTES THAT WIN.',
+    sub: 'Send us a product manual, technical schematic, or installation spec. Our team turns it into a plain-English sales sheet a homeowner or facilities manager can actually read.',
+    body: 'Manufacturers write for engineers. Homeowners and procurement teams buy from people who can explain it without 40 pages of jargon. Codex rewrites the dense stuff into one-pagers that close.',
+    note: 'Our team includes technical writers and trade specialists who have read more boiler manuals than anyone should.',
+    distinct: 'Codex turns specs into sales. Backward-looking — pulls clarity out of paperwork you already own.',
+    problem: 'You quote against firms with proper one-pagers and product comparisons. They look prepared. You look like a quote from a phone.',
+    steps: ['Upload the manual, datasheet, or schematic', 'Team rewrites it into a sales-ready explainer', 'Branded PDF + WhatsApp-ready version delivered within 24 hours'],
+    gets: ['Plain-English product sheet', 'Comparison table vs alternatives', 'Branded one-pager (PDF)', 'WhatsApp-ready short version', 'Customer-objection answers'],
   },
 };
 
@@ -104,6 +118,7 @@ function ServiceForm({ trade }: { trade: string }) {
           name: fd.get('name'),
           trade: fd.get('company'),
           contact: fd.get('contact'),
+          details: fd.get('details'),
           source: `service-form-${trade.toLowerCase().replace(/\s+/g, '-')}`,
         }),
       });
@@ -123,7 +138,7 @@ function ServiceForm({ trade }: { trade: string }) {
         <input name="name" className="field-input" placeholder="Your name" required />
         <input name="company" className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
         <input name="contact" className="field-input" placeholder="Email or phone" required />
-        <textarea className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
+        <textarea name="details" className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
         <fieldset className="grid gap-2">
           <legend className="micro-label text-[var(--muted)]">HOW URGENT?</legend>
           {['Today', 'This week', 'Planning ahead'].map(opt => (

@@ -1,10 +1,10 @@
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 import { sendWaitlistConfirmation } from '../services/email';
-
-const waitlistStore: Array<Record<string, string>> = [];
+import { supabase } from '../lib/supabase';
 
 export function registerWaitlistRoute(app: Express) {
-  app.post('/api/waitlist', async (req: Request, res: Response) => {
+  app.post('/api/waitlist', rateLimit, async (req: Request, res: Response) => {
     try {
       const entry = {
         name: clean(req.body?.name, 80),
@@ -12,7 +12,6 @@ export function registerWaitlistRoute(app: Express) {
         contact: clean(req.body?.contact, 120),
         contact_type: detectContactType(req.body?.contact),
         source: clean(req.body?.source, 80) || 'site',
-        timestamp: new Date().toISOString(),
       };
 
       if (!entry.name || !entry.trade || !entry.contact) {
@@ -33,8 +32,19 @@ export function registerWaitlistRoute(app: Express) {
 }
 
 async function storeWaitlistEntry(entry: Record<string, string>) {
-  waitlistStore.push(entry);
-  return { id: waitlistStore.length, ...entry };
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('waitlist')
+      .insert([entry])
+      .select('id')
+      .single();
+    if (error) {
+      console.warn('[waitlist] Supabase insert failed:', error.message);
+    } else if (data) {
+      return { id: data.id, ...entry };
+    }
+  }
+  return { id: null, ...entry };
 }
 
 function clean(input: unknown, max: number) {

@@ -21,13 +21,34 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "strict": false,
+    "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "exclude": [
     "functions",
+    "legacy/firebase",
     "dist",
     "node_modules",
     "Obsidian_Memory",
     "memoryraw_claude"
+  ],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "**/*.ts",
+    "**/*.tsx",
+    "dist/types/**/*.ts",
+    "dist/dev/types/**/*.ts"
   ]
 }

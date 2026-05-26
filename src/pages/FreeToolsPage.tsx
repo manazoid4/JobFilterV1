@@ -1,7 +1,11 @@
+"use client";
 import { FormEvent, ReactNode, useCallback, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
-type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote';
+
+const DEV_MODE = false;
+
+type ToolId = 'quote-floor' | 'profit-check' | 'tyre-kicker' | 'travel-cost' | 'time-waster' | 'smart-quote' | 'material-price';
 
 interface ToolDef {
   id: ToolId;
@@ -10,6 +14,7 @@ interface ToolDef {
   desc: string;
   cta: string;
   pain: string;
+  to?: string;
 }
 
 const TOOLS: ToolDef[] = [
@@ -17,6 +22,7 @@ const TOOLS: ToolDef[] = [
   { id: 'profit-check', title: 'Profit Check', tag: 'CALCULATOR', desc: 'Shows the real money left after labour and materials. If it is weak, walk away.', cta: 'CHECK PROFIT', pain: 'Revenue means nothing. Profit pays bills.' },
   { id: 'tyre-kicker', title: 'Tyre-Kicker Check', tag: 'SCORER', desc: 'Score a lead before you waste a visit. Budget, distance, urgency, photos — all weighted.', cta: 'SCORE THE LEAD', pain: 'Half your site visits are to people who will never buy.' },
   { id: 'travel-cost', title: 'Travel Cost', tag: 'CALCULATOR', desc: 'Know the exact fuel cost before you quote. Miles, MPG, diesel price — done.', cta: 'WORK IT OUT', pain: 'Travel you do not price is profit you give away.' },
+  { id: 'material-price', title: 'Material Price Engine', tag: 'REAL SUPPLIER DATA', desc: 'Compare traceable UK supplier prices before you quote. Source URL, checked time, confidence.', cta: 'COMPARE MATERIALS', pain: 'Material jumps quietly kill your margin.', to: '/material-price-engine' },
   { id: 'time-waster', title: 'Time-Waster Cost', tag: 'CALCULATOR', desc: 'See what weak enquiries cost you per year. Hours, miles, bad visits — annualised.', cta: 'SEE THE DAMAGE', pain: 'You think it is just one bad visit. It is not.' },
   { id: 'smart-quote', title: 'Smart Quote Starter', tag: 'GENERATOR', desc: 'Pick your trade and job type. Get a professional opening paragraph ready to paste.', cta: 'GET STARTER', pain: 'Writing the same quote intro every time is wasted minutes.' },
 ];
@@ -26,6 +32,7 @@ const TOOL_RECS: Record<ToolId, { label: string; to: string }> = {
   'profit-check': { label: 'Tyre-Kicker Check', to: '#tyre-kicker' },
   'tyre-kicker': { label: 'Quote Floor', to: '#quote-floor' },
   'travel-cost': { label: 'Time-Waster Cost', to: '#time-waster' },
+  'material-price': { label: 'Quote Floor', to: '#quote-floor' },
   'time-waster': { label: 'Travel Cost', to: '#travel-cost' },
   'smart-quote': { label: 'Quote Floor', to: '#quote-floor' },
 };
@@ -40,7 +47,6 @@ export function FreeToolsPage() {
   const [optInSignals, setOptInSignals] = useState(true);
 
   const isPaywalled = false;
-  const DEV_MODE = import.meta.env.DEV;
 
   const handleToolUse = useCallback(() => {}, []);
 
@@ -87,7 +93,7 @@ export function FreeToolsPage() {
             <p className="mt-1 text-sm font-black text-[var(--ink)]/70">See real leads in your area. No email needed.</p>
           </div>
           <div className="flex flex-col items-start sm:items-end gap-1">
-            <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" to="/find-jobs">
+            <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" href="/find-jobs">
               SCAN MY AREA →
             </Link>
             <span className="text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</span>
@@ -110,7 +116,7 @@ export function FreeToolsPage() {
                 <span className="block text-xs font-black text-[var(--ink)] mt-0.5">Enter email. Get 3 more scans + weekly trade signals.</span>
               </div>
             </button>
-            <Link className="jf-button bg-[var(--navy)] text-white text-left h-auto py-4" to="/pricing">
+            <Link className="jf-button bg-[var(--navy)] text-white text-left h-auto py-4" href="/pricing">
               <div>
                 <span className="block text-sm">UNLIMITED — FROM £39/MO</span>
                 <span className="block text-xs font-black text-white/90 mt-0.5">Founding price. No contracts. Cancel anytime.</span>
@@ -161,7 +167,7 @@ export function FreeToolsPage() {
                   UNLOCK 3 MORE SCANS
                 </button>
                 <p className="text-center text-xs font-black text-[var(--muted)]">
-                  Or go <Link className="text-[var(--navy)] underline font-black" to="/pricing">straight to Founding 30</Link> for unlimited.
+                  Or go <Link className="text-[var(--navy)] underline font-black" href="/pricing">straight to Founding 30</Link> for unlimited.
                 </p>
               </form>
             </div>
@@ -177,12 +183,12 @@ export function FreeToolsPage() {
           <p className="mt-2 font-black text-[var(--muted)]">Here is what to do next:</p>
           <ol className="mt-3 grid gap-2 text-sm font-black text-[var(--muted)]">
             <li className="flex items-start gap-2"><span className="text-[var(--green)]">1.</span> Try another free tool below</li>
-            <li className="flex items-start gap-2"><span className="text-[var(--green)]">2.</span> Scan your area for real leads → <Link className="text-[var(--navy)] underline" to="/find-jobs">/find-jobs</Link></li>
+            <li className="flex items-start gap-2"><span className="text-[var(--green)]">2.</span> Scan your area for real leads → <Link className="text-[var(--navy)] underline" href="/find-jobs">/find-jobs</Link></li>
             <li className="flex items-start gap-2"><span className="text-[var(--green)]">3.</span> Check your email for weekly trade signals</li>
           </ol>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA →</Link>
-            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">SEE FOUNDING 30</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">SEE FOUNDING 30</Link>
           </div>
         </section>
       )}
@@ -220,7 +226,7 @@ export function FreeToolsPage() {
             <span key={t} className="border border-white/20 px-2 py-1">{t}</span>
           ))}
         </div>
-        <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">OPEN SMART QUOTE →</Link>
+        <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/smart-quote">OPEN SMART QUOTE →</Link>
       </section>
 
       {/* ── Free vs Paid Comparison ──────────────────────────────────────────── */}
@@ -263,27 +269,11 @@ export function FreeToolsPage() {
         </div>
           <div className="mt-5 flex flex-wrap gap-3 items-center">
             <div className="flex flex-col items-start gap-0.5">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE →</Link>
+              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
               <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
-            <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
-      </section>
-
-      {/* ── Intake Engine paywall CTA ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
-        <p className="micro-label text-[var(--orange)]">THE INTAKE ENGINE</p>
-        <h2 className="headline text-3xl sm:text-4xl">REAL LEADS. SCORED. SENT TO YOUR PHONE.</h2>
-        <p className="mt-2 max-w-2xl font-black text-[var(--muted)]">
-          Free tools help you make better decisions. Full lead detail, WhatsApp alerts, saved leads, and Letterhead Pack stay behind access.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-3 items-center">
-          <div className="flex flex-col items-start gap-0.5">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
-          </div>
-          <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
-        </div>
       </section>
 
       {/* ── Risk Reversal ──────────────────────────────────────────── */}
@@ -310,13 +300,13 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
   onUse: () => void;
   key?: string;
 }) {
-  return (
+  const card = (
     <article
       id={tool.id}
       className={`jf-box cursor-pointer p-5 transition-all ${
         isActive ? 'border-[var(--yellow)] bg-[var(--yellow)]' : isPaywalled ? 'opacity-50' : 'bg-white hover:border-[var(--yellow)]'
       }`}
-      onClick={() => { if (!isPaywalled) { onActivate(); onUse(); } }}
+      onClick={() => { if (!isPaywalled && !tool.to) { onActivate(); onUse(); } }}
     >
       <p className={`micro-label ${isActive ? 'text-[var(--ink)]' : 'text-[var(--orange)]'}`}>{tool.tag}</p>
       <h3 className={`headline mt-2 text-2xl sm:text-3xl ${isActive ? 'text-[var(--ink)]' : ''}`}>{tool.title}</h3>
@@ -327,6 +317,12 @@ function ToolCard({ tool, isActive, isPaywalled, onActivate, onUse }: {
       </span>
     </article>
   );
+
+  if (tool.to && !isPaywalled) {
+    return <Link href={tool.to}>{card}</Link>;
+  }
+
+  return card;
 }
 
 /* ── Tool Workspace (inline calculator) ──────────────────────────────────── */
@@ -385,8 +381,8 @@ function QuoteFloorTool() {
         <NumberField label="Margin %" value={margin} onChange={setMargin} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">BUILD FULL QUOTE →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/smart-quote">BUILD FULL QUOTE →</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
       </div>
     </section>
   );
@@ -420,7 +416,7 @@ function ProfitCheckTool() {
         <NumberField label="Margin %" value={margin} onChange={setMargin} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
       </div>
     </section>
   );
@@ -462,8 +458,8 @@ function TyreKickerTool() {
         <NumberField label="Photos sent (0/1)" value={hasPhotos} max={1} onChange={setHasPhotos} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN FOR REAL LEADS →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">GET FOUNDING 30</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FOR REAL LEADS →</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">GET FOUNDING 30</Link>
       </div>
     </section>
   );
@@ -491,7 +487,7 @@ function TravelCostTool() {
         <NumberField label="Diesel £/litre" value={dieselPrice} step={0.01} onChange={setDieselPrice} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--navy)] text-white" to="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
       </div>
     </section>
   );
@@ -516,7 +512,7 @@ function TimeWasterTool() {
         <NumberField label="Bad visits/week" value={badVisits} onChange={setBadVisits} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">STOP THE BLEED — FROM £39/MO →</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">STOP THE BLEED — FROM £39/MO →</Link>
       </div>
     </section>
   );
@@ -529,7 +525,7 @@ function SmartQuoteTeaser() {
       <p className="micro-label text-[var(--orange)]">SMART QUOTE STARTER</p>
       <p className="headline mt-2 text-2xl">6 TRADES. 30+ JOB TYPES. FREE.</p>
       <p className="mt-2 font-black text-[var(--muted)]">Professional quote opening paragraphs — ready to paste. Full version behind Founding 30.</p>
-      <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]" to="/smart-quote">OPEN SMART QUOTE →</Link>
+      <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]" href="/smart-quote">OPEN SMART QUOTE →</Link>
     </section>
   );
 }

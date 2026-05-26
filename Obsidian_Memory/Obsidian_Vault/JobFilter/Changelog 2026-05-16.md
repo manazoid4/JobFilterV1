@@ -126,4 +126,4 @@ Now:
 ## Related
 - [[Changelog 2026-05-15]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Radar, Database, Layers, Target, HardHat, Send, CheckCircle, ArrowRight } from 'lucide-react';
 
 const pipelineSteps = [
@@ -56,11 +58,11 @@ const scoreFactors = [
   { factor: 'Fresh signal', weight: '+5 pts', why: 'Less shopped = better chance' },
 ];
 
-const ghostFactors = [
-  { signal: 'Planning approved + recent sale', risk: 'LOW', meaning: 'Homeowner invested. Ready to proceed.' },
-  { signal: 'Planning submitted only', risk: 'MEDIUM', meaning: 'Interest confirmed. Verify timeline.' },
-  { signal: 'No official data', risk: 'HIGH', meaning: 'No verification. High ghost probability.' },
-  { signal: 'Old signal (>14 days)', risk: 'HIGH', meaning: 'Likely shopped or cancelled.' },
+const readinessFactors = [
+  { signal: 'Planning approved + recent sale', readiness: 'READY', meaning: 'Homeowner invested. Ready to proceed.' },
+  { signal: 'Planning submitted only', readiness: 'VERIFY', meaning: 'Interest confirmed. Verify timeline.' },
+  { signal: 'No official data', readiness: 'LOW CONFIDENCE', meaning: 'No verification. Check before spending time.' },
+  { signal: 'Old signal (>14 days)', readiness: 'LOW CONFIDENCE', meaning: 'Likely shopped or cancelled.' },
 ];
 
 export function MethodologyPage() {
@@ -141,29 +143,29 @@ export function MethodologyPage() {
         </div>
       </section>
 
-      {/* Ghost Risk */}
+      {/* Lead Readiness */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">GHOST RISK</p>
+        <p className="micro-label text-[var(--orange)]">LEAD READINESS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
           HOW WE SPOT TIME-WASTERS BEFORE YOU DO.
         </h2>
         <p className="mt-4 max-w-2xl copy">
-          Ghost leads cost tradesmen £2,000-5,000 a year. We built a system to flag them before you waste fuel.
+          Dead leads cost tradesmen £2,000-5,000 a year. We flag weak signals before you waste fuel.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {ghostFactors.map((g) => (
+          {readinessFactors.map((g) => (
             <div key={g.signal} className={`jf-box p-5 border-2 ${
-              g.risk === 'LOW' ? 'border-[var(--green)] bg-[var(--green)]/5' :
-              g.risk === 'MEDIUM' ? 'border-[var(--yellow)] bg-[var(--yellow)]/5' :
+              g.readiness === 'READY' ? 'border-[var(--green)] bg-[var(--green)]/5' :
+              g.readiness === 'VERIFY' ? 'border-[var(--yellow)] bg-[var(--yellow)]/5' :
               'border-[var(--orange)] bg-[var(--orange)]/5'
             }`}>
               <div className="flex items-center gap-2 mb-2">
                 <span className={`micro-label ${
-                  g.risk === 'LOW' ? 'text-[var(--green)]' :
-                  g.risk === 'MEDIUM' ? 'text-[var(--yellow)]' :
+                  g.readiness === 'READY' ? 'text-[var(--green)]' :
+                  g.readiness === 'VERIFY' ? 'text-[var(--yellow)]' :
                   'text-[var(--orange)]'
-                }`}>{g.risk} RISK</span>
+                }`}>{g.readiness}</span>
               </div>
               <p className="font-black text-[var(--ink)]">{g.signal}</p>
               <p className="mt-1 text-sm font-bold text-[var(--muted)]">{g.meaning}</p>
@@ -212,10 +214,10 @@ export function MethodologyPage() {
           Free scan. No signup. See real scored leads in your area right now.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link to="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
             SCAN MY AREA FREE →
           </Link>
-          <Link to="/trust" className="jf-button bg-white text-[var(--ink)]">
+          <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">
             READ OUR PROMISE
           </Link>
         </div>

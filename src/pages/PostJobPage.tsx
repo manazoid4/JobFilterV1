@@ -1,11 +1,13 @@
+"use client";
 import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { ClipboardCheck, MapPin, Radar, ShieldCheck } from 'lucide-react';
 
 const trades = ['Builder', 'Roofer', 'Electrician', 'Plumber', 'Heat pump installer', 'Bathroom fitter', 'Landscaper', 'Not sure'];
 const proofCards = [
   { icon: ShieldCheck, label: 'No quote circus' },
-  { icon: Radar, label: 'Signal-matched' },
+  { icon: Radar, label: 'Matched by trade' },
   { icon: MapPin, label: 'Local patch fit' },
 ];
 
@@ -27,6 +29,7 @@ export function PostJobPage() {
           name: fd.get('name'),
           trade: fd.get('trade'),
           contact: fd.get('contact'),
+          details: fd.get('details'),
           source: `post-job-${String(fd.get('postcode') ?? '').toUpperCase()}`,
         }),
       });
@@ -48,7 +51,7 @@ export function PostJobPage() {
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
             No lead auction. No spam. We check the job, route it by trade and patch, and only send it where it makes sense.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" to="/">Back to JobFilter</Link>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/">Back to JobFilter</Link>
         </section>
       </main>
     );
@@ -97,14 +100,14 @@ export function PostJobPage() {
           <label className="field-label">Trade needed<select name="trade" className="field-input bg-white">{trades.map((trade) => <option key={trade}>{trade}</option>)}</select></label>
           <label className="field-label">Job details<textarea name="details" className="field-input min-h-32 bg-white" required placeholder="What needs doing, when, and any useful details" /></label>
           {error && <p className="text-sm font-black text-[var(--orange)]">{error}</p>}
-          <button disabled={sending} className="jf-button bg-[var(--ink)] text-white disabled:opacity-50">{sending ? 'SENDING...' : 'Send Job For Matching'}</button>
+          <button disabled={sending} className="jf-button bg-[var(--ink)] text-white disabled:opacity-50">{sending ? 'SENDING...' : 'SUBMIT JOB FOR MATCHING'}</button>
         </form>
 
         <aside className="grid gap-4">
           {[
             ['No public bidding war', 'Your job is treated like a signal, not bait for a lead auction.'],
             ['Better first call', 'The right context means the first reply can be practical, not a generic sales script.'],
-            ['Built on intelligence', 'Planning, EPC, patch demand, and local trade capacity make the matching smarter over time.'],
+            ['Smarter match over time', 'Planning approvals, energy signals, patch demand, and local capacity all feed into the match — not just your postcode.'],
           ].map(([title, body]) => (
             <article key={title} className="ops-panel bg-white p-5">
               <ClipboardCheck className="text-[var(--orange)]" size={24} strokeWidth={3} />

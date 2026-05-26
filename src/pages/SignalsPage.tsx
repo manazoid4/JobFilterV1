@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const signals = [
   {
@@ -171,8 +173,40 @@ export function SignalsPage() {
             All 10 signals included. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
-            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" to="/find-jobs">Scan Free →</Link>
-            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" to="/pricing">See Pricing</Link>
+            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">Scan Free →</Link>
+            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" href="/pricing">See Pricing</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 2c. Works Starting Now */}
+      <section className="border-b-4 border-[var(--line)] bg-white">
+        <div className="page-shell section-pad">
+          <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
+            <div>
+              <p className="micro-label text-[var(--orange)]">START SIGNAL ENGINE</p>
+              <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
+              <p className="mt-4 max-w-3xl text-lg font-black leading-tight text-[var(--ink)]/80">
+                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {['READY = act now', 'MAYBE = verify source', 'WASTE = skip'].map((label) => (
+                  <span key={label} className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="jf-box bg-[var(--ink)] p-5 text-white">
+              <p className="micro-label text-[var(--yellow)]">PAID MODE</p>
+              <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
+              <p className="mt-3 text-sm font-black text-white/85">
+                Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
+              </p>
+              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
+                OPEN WORKS STARTING NOW →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -233,7 +267,7 @@ export function SignalsPage() {
                     return (
                       <div
                         key={label}
-                        className={`flex items-center gap-2 text-sm font-black ${on ? 'text-[var(--ink)]' : 'text-[var(--muted)] opacity-40'}`}
+                        className={`flex items-center gap-2 text-sm font-black ${on ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}
                       >
                         <span className={`text-base leading-none ${on ? 'text-[var(--green)]' : ''}`}>
                           {on ? '✓' : '✗'}
@@ -260,7 +294,7 @@ export function SignalsPage() {
             Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
           </p>
           <div className="mt-8">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
           </div>

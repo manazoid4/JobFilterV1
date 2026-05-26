@@ -1,0 +1,40 @@
+{
+  "name": "JobFilter — 05 Lead Dedup Memory (sub-workflow)",
+  "nodes": [
+    {
+      "id": "05aaaaaa-0005-0005-0005-000000000001",
+      "name": "When Called",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            { "name": "leads", "type": "array" },
+            { "name": "agent", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "05aaaaaa-0005-0005-0005-000000000002",
+      "name": "Dedup Against Vault",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst seenPath = path.join(vaultPath, 'JobFilter', 'Agent Runs', '.seen-lead-ids.json');\nconst input = $input.first().json;\nconst incoming = Array.isArray(input.leads) ? input.leads : [];\nconst agent = input.agent || 'unknown';\nlet seen = {};\nif (fs.existsSync(seenPath)) { try { seen = JSON.parse(fs.readFileSync(seenPath, 'utf-8')); } catch {} }\nseen.ids = seen.ids || {};\nconst now = Date.now();\nconst expiryMs = 14 * 86400000;\nfor (const id of Object.keys(seen.ids)) { if (now - seen.ids[id] > expiryMs) delete seen.ids[id]; }\nconst fresh = [];\nconst dupes = [];\nfor (const lead of incoming) {\n  const id = lead.id || lead.leadId || `${lead.source}-${lead.title}`;\n  if (!id) { fresh.push(lead); continue; }\n  if (seen.ids[id]) { dupes.push(id); continue; }\n  seen.ids[id] = now;\n  fresh.push(lead);\n}\nfs.mkdirSync(path.dirname(seenPath), { recursive: true });\nfs.writeFileSync(seenPath, JSON.stringify(seen, null, 2));\nreturn [{ json: { fresh, freshCount: fresh.length, dupeCount: dupes.length, dupeIds: dupes, agent } }];"
+      }
+    }
+  ],
+  "connections": {
+    "When Called": {
+      "main": [[{ "node": "Dedup Against Vault", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Sub-workflow. Parent passes { leads[], agent }. Returns { fresh, freshCount, dupeCount, dupeIds }. Persists seen IDs to vault .seen-lead-ids.json w/ 14-day TTL."
+  }
+}

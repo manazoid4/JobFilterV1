@@ -1,0 +1,145 @@
+{
+  "name": "JobFilter — Multi-Trade Weekly Sweep",
+  "nodes": [
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000001",
+      "name": "Every Monday 8am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000002",
+      "name": "Set Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "cfg-001", "name": "postcode", "value": "SW1A 1AA", "type": "string" },
+            { "id": "cfg-002", "name": "radiusMiles", "value": 20, "type": "number" },
+            { "id": "cfg-003", "name": "trades", "value": "=[\"plumbing\",\"electrical\",\"roofing\"]", "type": "array" },
+            { "id": "cfg-004", "name": "serverUrl", "value": "http://localhost:3000", "type": "string" }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000003",
+      "name": "Split Into Trades",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "parameters": {
+        "fieldToSplitOut": "trades",
+        "options": {}
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000004",
+      "name": "Search Each Trade",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Set Config').item.json.serverUrl }}/api/leads/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "body": {
+          "postcode": "={{ $('Set Config').item.json.postcode }}",
+          "trade": "={{ $json.trades }}",
+          "radiusMiles": "={{ $('Set Config').item.json.radiusMiles }}"
+        },
+        "options": {
+          "timeout": 30000
+        }
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000005",
+      "name": "Aggregate All Results",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1120, 300],
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000006",
+      "name": "Build Weekly Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300],
+      "parameters": {
+        "jsCode": "const allResults = $input.first().json.data;\n\nlet totalLeads = 0;\nlet totalGold = 0;\nconst tradeBlocks = [];\n\nfor (const result of allResults) {\n  if (!result.ok || !result.leads) continue;\n  const leads = result.leads.sort((a, b) => (b.score || 0) - (a.score || 0));\n  const goldLeads = leads.filter(l => l.revenueTier === 'gold');\n  const worthLeads = leads.filter(l => l.revenueTier === 'worth-checking');\n  totalLeads += leads.length;\n  totalGold += goldLeads.length;\n  const tradeName = leads[0]?.trade || 'unknown';\n  tradeBlocks.push(`\n<div style=\"border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:12px 0\">\n  <h3 style=\"margin:0 0 8px;text-transform:capitalize\">${tradeName}</h3>\n  <p style=\"margin:0 0 8px;color:#374151\">${leads.length} leads &middot; ${goldLeads.length} gold &middot; near ${result.outward}</p>\n  ${goldLeads.slice(0, 3).map(l =>\n    `<div style=\"padding:6px 0;border-top:1px solid #f3f4f6\">\n      <strong>${l.title || 'Lead'}</strong> &mdash; ${l.location || l.postcodeOutward || ''} &mdash; Score ${l.score}\n    </div>`\n  ).join('')}\n  ${goldLeads.length === 0 ? `<div style=\"color:#6b7280;font-size:13px\">${worthLeads.length} worth-checking</div>` : ''}\n</div>`);\n}\n\nconst week = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });\nconst html = `\n<h1>JobFilter Weekly — ${week}</h1>\n<p><strong>${totalLeads} total &middot; ${totalGold} gold</strong> across ${allResults.length} trade${allResults.length !== 1 ? 's' : ''}.</p>\n${tradeBlocks.join('')}\n<p style=\"color:#6b7280;font-size:12px\">n8n weekly sweep</p>`;\n\nreturn [{ json: { html, totalLeads, totalGold, tradeCount: allResults.length } }];"
+      }
+    },
+    {
+      "id": "c3d4e5f6-0003-0003-0003-000000000007",
+      "name": "Send Weekly Report",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1560, 300],
+      "parameters": {
+        "fromEmail": "jobfilter@yourdomain.com",
+        "toEmail": "you@youremail.com",
+        "subject": "=JobFilter Weekly — {{ $json.totalGold }} Gold across {{ $json.tradeCount }} trades",
+        "emailType": "html",
+        "html": "={{ $json.html }}"
+      }
+    }
+  ],
+  "connections": {
+    "Every Monday 8am": {
+      "main": [[{ "node": "Set Config", "type": "main", "index": 0 }]]
+    },
+    "Set Config": {
+      "main": [[{ "node": "Split Into Trades", "type": "main", "index": 0 }]]
+    },
+    "Split Into Trades": {
+      "main": [[{ "node": "Search Each Trade", "type": "main", "index": 0 }]]
+    },
+    "Search Each Trade": {
+      "main": [[{ "node": "Aggregate All Results", "type": "main", "index": 0 }]]
+    },
+    "Aggregate All Results": {
+      "main": [[{ "node": "Build Weekly Report", "type": "main", "index": 0 }]]
+    },
+    "Build Weekly Report": {
+      "main": [[{ "node": "Send Weekly Report", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Every Monday sweeps multiple trades, aggregates results, sends one combined report.",
+    "configure": [
+      "Set Config > postcode — your UK postcode",
+      "Set Config > trades — e.g. ['plumbing','electrical','roofing']",
+      "Set Config > radiusMiles — radius applied to all trades",
+      "Set Config > serverUrl — your deployed server URL",
+      "Send Weekly Report — add SMTP credential, set fromEmail/toEmail"
+    ]
+  }
+}

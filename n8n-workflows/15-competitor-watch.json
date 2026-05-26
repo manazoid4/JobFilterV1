@@ -1,0 +1,114 @@
+{
+  "name": "JobFilter — 15 Competitor Watch",
+  "nodes": [
+    {
+      "id": "15fffff5-0015-0015-0015-000000000001",
+      "name": "Weekly Tuesday 7am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 7 * * 2" }] }
+      }
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000002",
+      "name": "Set Watchlist",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "cw-001", "name": "trade", "value": "plumbing", "type": "string" },
+            { "id": "cw-002", "name": "postcodes", "value": "=[\"M1 1AA\",\"M14 5AA\",\"M20 1AA\"]", "type": "array" },
+            { "id": "cw-003", "name": "radiusMiles", "value": 5, "type": "number" }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000003",
+      "name": "Split By Postcode",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "parameters": { "fieldToSplitOut": "postcodes", "options": {} }
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000004",
+      "name": "Search Each Postcode",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3000/api/leads/search",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
+        "sendBody": true,
+        "contentType": "json",
+        "body": {
+          "postcode": "={{ $json.postcodes }}",
+          "trade": "={{ $('Set Watchlist').item.json.trade }}",
+          "radiusMiles": "={{ $('Set Watchlist').item.json.radiusMiles }}"
+        },
+        "options": { "timeout": 30000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000005",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1120, 300],
+      "parameters": { "aggregate": "aggregateAllItemData", "options": {} }
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000006",
+      "name": "Diff vs Last Week",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst snap = path.join(vaultPath, 'JobFilter', 'Agent Runs', '.competitor-watch-prev.json');\nconst allResults = $input.first().json.data || [];\nconst current = {};\nfor (const r of allResults) {\n  if (!r.ok) continue;\n  current[r.outward || 'unknown'] = (r.leads || []).map(l => ({ id: l.id, title: l.title, score: l.score, source: l.source }));\n}\nlet prev = {};\nif (fs.existsSync(snap)) { try { prev = JSON.parse(fs.readFileSync(snap, 'utf-8')); } catch {} }\nconst movement = {};\nfor (const out of Object.keys(current)) {\n  const curIds = new Set(current[out].map(l => l.id).filter(Boolean));\n  const prevIds = new Set((prev[out] || []).map(l => l.id).filter(Boolean));\n  const added = [...curIds].filter(id => !prevIds.has(id));\n  const removed = [...prevIds].filter(id => !curIds.has(id));\n  movement[out] = { now: curIds.size, then: prevIds.size, added: added.length, removed: removed.length, addedIds: added.slice(0, 10), removedIds: removed.slice(0, 10) };\n}\nfs.mkdirSync(path.dirname(snap), { recursive: true });\nfs.writeFileSync(snap, JSON.stringify(current, null, 2));\nconst now = new Date();\nconst dateStr = now.toISOString().slice(0,10);\nconst intelDir = path.join(vaultPath, 'JobFilter', 'Intel');\nfs.mkdirSync(intelDir, { recursive: true });\nconst file = path.join(intelDir, 'competitor-watch-' + dateStr + '.md');\nconst rows = Object.entries(movement).map(([k, v]) => `| ${k} | ${v.now} | ${v.then} | +${v.added} | -${v.removed} |`).join('\\n');\nconst md = `---\\ntype: competitor-watch\\nrun_at: ${now.toISOString()}\\nfor_date: ${dateStr}\\ntags: [jobfilter, intel, competitor]\\n---\\n\\n# Competitor Watch — ${dateStr}\\n\\n| Outward | Now | Last week | Added | Removed |\\n|---------|-----|-----------|-------|---------|\\n${rows}\\n\\n## Raw movement\\n\\n\\`\\`\\`json\\n${JSON.stringify(movement, null, 2)}\\n\\`\\`\\`\\n`;\nfs.writeFileSync(file, md);\nreturn [{ json: { file, movement, postcodeCount: Object.keys(current).length } }];"
+      }
+    },
+    {
+      "id": "15fffff5-0015-0015-0015-000000000007",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [1560, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "competitor-watch" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Competitor watch swept ' + $json.postcodeCount + ' postcodes' }}" },
+            { "name": "payload", "value": "={{ { movement: $json.movement, intelFile: $json.file } }}" },
+            { "name": "counts", "value": "={{ { postcodes: $json.postcodeCount } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly Tuesday 7am": { "main": [[{ "node": "Set Watchlist", "type": "main", "index": 0 }]] },
+    "Set Watchlist": { "main": [[{ "node": "Split By Postcode", "type": "main", "index": 0 }]] },
+    "Split By Postcode": { "main": [[{ "node": "Search Each Postcode", "type": "main", "index": 0 }]] },
+    "Search Each Postcode": { "main": [[{ "node": "Aggregate", "type": "main", "index": 0 }]] },
+    "Aggregate": { "main": [[{ "node": "Diff vs Last Week", "type": "main", "index": 0 }]] },
+    "Diff vs Last Week": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Tuesday 7am weekly. Sweeps competitor postcodes via /api/leads/search. Diffs vs last week. Writes JobFilter/Intel/competitor-watch-YYYY-MM-DD.md."
+  }
+}

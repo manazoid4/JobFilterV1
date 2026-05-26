@@ -1,0 +1,65 @@
+{
+  "name": "JobFilter — 08 Territory Summary",
+  "nodes": [
+    {
+      "id": "08fffff8-0008-0008-0008-000000000001",
+      "name": "Sunday 9am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 9 * * 0" }] }
+      }
+    },
+    {
+      "id": "08fffff8-0008-0008-0008-000000000002",
+      "name": "GET Territory Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/territory-summary",
+        "options": { "timeout": 25000 }
+      }
+    },
+    {
+      "id": "08fffff8-0008-0008-0008-000000000003",
+      "name": "Write Territory Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst data = $input.first().json || {};\nconst now = new Date();\nconst dateStr = now.toISOString().slice(0,10);\nconst dir = path.join(vaultPath, 'JobFilter', 'Territory');\nfs.mkdirSync(dir, { recursive: true });\nconst file = path.join(dir, dateStr + '.md');\nconst md = `---\\ntype: territory-report\\nproject: JobFilter\\nrun_at: ${now.toISOString()}\\nfor_week: ${dateStr}\\ntags: [jobfilter, territory, weekly]\\n---\\n\\n# Territory Summary — week of ${dateStr}\\n\\n## Raw payload\\n\\n\\`\\`\\`json\\n${JSON.stringify(data, null, 2)}\\n\\`\\`\\`\\n`;\nfs.writeFileSync(file, md);\nreturn [{ json: { file, dateStr, payload: data } }];"
+      }
+    },
+    {
+      "id": "08fffff8-0008-0008-0008-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "territory-summary" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Territory report for week of ' + $json.dateStr + ' written' }}" },
+            { "name": "payload", "value": "={{ $json.payload }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Sunday 9am": { "main": [[{ "node": "GET Territory Summary", "type": "main", "index": 0 }]] },
+    "GET Territory Summary": { "main": [[{ "node": "Write Territory Report", "type": "main", "index": 0 }]] },
+    "Write Territory Report": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": { "description": "Sunday 9am. GET /api/territory-summary → JobFilter/Territory/YYYY-MM-DD.md → log via 04." }
+}
