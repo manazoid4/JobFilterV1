@@ -1,10 +1,11 @@
+import Link from 'next/link';
 import { useState, type MouseEvent } from 'react';
-import { Link } from 'react-router-dom';
+
 import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
 import { ScoreBadge } from './ScoreBadge';
 import { Tag } from './Tag';
-import { GhostRiskBadge } from './GhostRiskBadge';
+import { LeadReadinessBadge } from './LeadReadinessBadge';
 import { ScoreBadgeCompact } from './SeriousBuyerScore';
 
 type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'ignored';
@@ -28,16 +29,16 @@ type LeadCardProps = {
   href?: string;
   meta?: string;
   showStatus?: boolean;
-  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   buyerScore?: number;
   freshness?: string;
 };
 
-export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, ghostRisk, buyerScore, freshness }: LeadCardProps) {
+export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, leadReadiness, buyerScore, freshness }: LeadCardProps) {
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
-    return (localStorage.getItem(storageKey) as LeadStatus | null);
+    return ((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(storageKey) as LeadStatus | null);
   });
 
   function handleStatusClick(event: MouseEvent, value: LeadStatus) {
@@ -45,9 +46,9 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
     event.stopPropagation();
     const next = status === value ? null : value;
     if (next) {
-      localStorage.setItem(storageKey, next);
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(storageKey, next);
     } else {
-      localStorage.removeItem(storageKey);
+      (typeof window !== "undefined" ? localStorage : {removeItem:()=>{}}).removeItem(storageKey);
     }
     setStatus(next);
   }
@@ -70,9 +71,9 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
             </span>
           )}
         </div>
-        {(ghostRisk || buyerScore !== undefined) && (
+        {(leadReadiness || buyerScore !== undefined) && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
-            {ghostRisk && <GhostRiskBadge level={ghostRisk} size="sm" />}
+            {leadReadiness && <LeadReadinessBadge level={leadReadiness} size="sm" />}
             {buyerScore !== undefined && <ScoreBadgeCompact score={buyerScore} />}
           </div>
         )}
@@ -104,5 +105,5 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
     return <a href={href} target="_blank" rel="noreferrer">{content}</a>;
   }
 
-  return <Link to={to ?? `/leads/${id ?? ''}`}>{content}</Link>;
+  return <Link href={to ?? `/leads/${id ?? ''}`}>{content}</Link>;
 }

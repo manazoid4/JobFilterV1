@@ -21,6 +21,16 @@ export type LeadDecision = {
   tier?: 'GOLD' | 'SILVER' | 'BIN';
   status: LeadDecisionStatus;
   createdAt: string;
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  quoteFloor?: string;
+  followUpCadence?: string[];
+  evidenceBadges?: string[];
+  signalStack?: string[];
+  signalClass?: string;
+  fusionKey?: string;
 };
 
 export type Lead = {
@@ -45,16 +55,50 @@ export type Lead = {
   score: number;
   distanceMiles?: number;
   isCommercial?: boolean;
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  quoteFloor?: string;
+  followUpCadence?: string[];
+  evidenceBadges?: string[];
+  signalStack?: string[];
+  signalClass?: string;
+  fusionKey?: string;
+  readiness?: 'READY' | 'MAYBE' | 'WASTE';
+  evidenceCount?: number;
+  whyNow?: string;
+  sourceUrls?: string[];
+  updatedAt?: string;
+};
+
+export type SourceStats = {
+  fetched?: number;
+  passed?: number;
+  dropped?: number;
+  failed?: boolean;
+  error?: string;
+  latencyMs?: number;
+  readiness?: 'live' | 'key-required' | 'disabled' | 'demo';
 };
 
 export type LeadSearchResponse = {
   ok: boolean;
-  source: 'contracts_finder' | 'lead_engine';
+  source: 'contracts_finder' | 'lead_engine' | 'start_signal_engine';
   count: number;
   region: string;
   outward: string;
   leads: Lead[];
   lockedCount?: number;
+  accessMode?: string;
+  sources?: Record<string, SourceStats>;
+  sourceHealth?: Record<string, SourceStats>;
+  persistence?: {
+    stored: boolean;
+    count: number;
+    provider: string;
+    error?: string;
+  };
   errors: string[];
 };
 

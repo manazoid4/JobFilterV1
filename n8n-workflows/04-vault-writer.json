@@ -1,0 +1,85 @@
+{
+  "name": "JobFilter — 04 Vault Writer (sub-workflow)",
+  "nodes": [
+    {
+      "id": "d4e5f6a7-0004-0004-0004-000000000001",
+      "name": "When Called by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "type": "string" },
+            { "name": "trigger", "type": "string" },
+            { "name": "status", "type": "string" },
+            { "name": "summary", "type": "string" },
+            { "name": "payload", "type": "object" },
+            { "name": "counts", "type": "object" },
+            { "name": "actions", "type": "array" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d4e5f6a7-0004-0004-0004-000000000002",
+      "name": "Build Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst now = new Date();\nconst pad = n => String(n).padStart(2, '0');\nconst dateFolder = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;\nconst timeSlug = `${pad(now.getHours())}${pad(now.getMinutes())}`;\nconst agentSlug = String(input.agent || 'unknown').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');\n\nconst vaultPath = $vars.VAULT_PATH || 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst folder = `${vaultPath}/JobFilter/Agent Runs/${dateFolder}`;\nconst fileName = `${agentSlug}-${timeSlug}.md`;\nconst filePath = `${folder}/${fileName}`;\n\nconst counts = input.counts || {};\nconst countsLine = Object.keys(counts).length ? `counts: ${JSON.stringify(counts)}` : '';\n\nconst frontmatter = [\n  '---',\n  'type: agent-run',\n  `agent: ${input.agent || 'unknown'}`,\n  `run_at: ${now.toISOString()}`,\n  `trigger: ${input.trigger || 'cron'}`,\n  `status: ${input.status || 'success'}`,\n  countsLine,\n  `tags: [jobfilter, agent-run, ${agentSlug}]`,\n  '---'\n].filter(Boolean).join('\\n');\n\nconst actionsBlock = (input.actions && input.actions.length)\n  ? `\\n## Actions taken\\n${input.actions.map(a => `- ${a}`).join('\\n')}\\n`\n  : '';\n\nconst payloadJson = JSON.stringify(input.payload || {}, null, 2);\nconst md = `${frontmatter}\\n\\n# ${input.agent || 'Agent'} — ${dateFolder} ${pad(now.getHours())}:${pad(now.getMinutes())}\\n\\n## Summary\\n${input.summary || '(no summary provided)'}\\n${actionsBlock}\\n## Raw payload\\n\\n\\`\\`\\`json\\n${payloadJson}\\n\\`\\`\\`\\n`;\n\nreturn [{\n  json: { filePath, fileName, folder, content: md, agent: input.agent, dateFolder, timeSlug },\n  binary: {\n    data: {\n      data: Buffer.from(md, 'utf-8').toString('base64'),\n      mimeType: 'text/markdown',\n      fileName,\n      fileExtension: 'md'\n    }\n  }\n}];"
+      }
+    },
+    {
+      "id": "d4e5f6a7-0004-0004-0004-000000000003",
+      "name": "Write File to Vault",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [680, 300],
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $json.filePath }}",
+        "dataPropertyName": "data",
+        "options": { "append": false }
+      }
+    },
+    {
+      "id": "d4e5f6a7-0004-0004-0004-000000000004",
+      "name": "Return Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [900, 300],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "ret-001", "name": "saved", "value": "=true", "type": "boolean" },
+            { "id": "ret-002", "name": "filePath", "value": "={{ $('Build Markdown').item.json.filePath }}", "type": "string" },
+            { "id": "ret-003", "name": "fileName", "value": "={{ $('Build Markdown').item.json.fileName }}", "type": "string" }
+          ]
+        },
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "When Called by Another Workflow": {
+      "main": [[{ "node": "Build Markdown", "type": "main", "index": 0 }]]
+    },
+    "Build Markdown": {
+      "main": [[{ "node": "Write File to Vault", "type": "main", "index": 0 }]]
+    },
+    "Write File to Vault": {
+      "main": [[{ "node": "Return Result", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Reusable sub-workflow. Parent agents call via Execute Workflow node w/ { agent, trigger, status, summary, payload, counts, actions[] }. Writes markdown to JobFilter/Agent Runs/YYYY-MM-DD/<agent>-<HHmm>.md.",
+    "configure": [
+      "n8n Settings → Variables → VAULT_PATH (default works for current machine)",
+      "Parent workflows: Execute Workflow node → select '04 Vault Writer'"
+    ]
+  }
+}

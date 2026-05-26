@@ -1,7 +1,9 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
-import { getMonthlyStats, getWinData } from '../lib/winStore';
+import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 export function DashboardPage() {
@@ -9,6 +11,7 @@ export function DashboardPage() {
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
+  const [breakdown, setBreakdown] = useState<ReturnType<typeof getWinBreakdown>>({ byTrade: [], byLocation: [], bySource: [] });
   const [territory, setTerritory] = useState<string | null>(null);
   const [scanTrade, setScanTrade] = useState<string | null>(null);
   const [scanPostcode, setScanPostcode] = useState<string | null>(null);
@@ -23,11 +26,12 @@ export function DashboardPage() {
     const wd = getWinData();
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
-    setTerritory(localStorage.getItem('jobfilter.territory'));
-    setScanTrade(localStorage.getItem('jobfilter.trade'));
-    setScanPostcode(localStorage.getItem('jobfilter.postcode'));
-    setScansUsed(Number(localStorage.getItem('jf-weekly-scans-used')) || 0);
-    const tracked = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    setBreakdown(getWinBreakdown());
+    setTerritory((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory'));
+    setScanTrade((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade'));
+    setScanPostcode((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode'));
+    setScansUsed(Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-weekly-scans-used')) || 0);
+    const tracked = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
     setTrackedLeadCount(tracked.length);
   }, []);
 
@@ -50,24 +54,29 @@ export function DashboardPage() {
         <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
+          Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
         </p>
+        {!isEmpty && (
+          <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+            SCAN FOR JOBS →
+          </Link>
+        )}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              Territory: {territory ?? 'Not Locked'}
+              YOUR PATCH: {territory ?? 'NOT LOCKED'}
             </span>
           </div>
           {territory ? (
             <p className="text-xs font-black text-white/60">
-              Locked — Gold leads in this patch won&apos;t go to other {territory.split(' ')[1] || 'trades'} before you.
+              Gold leads shown to you first — your competition gets them 24h later.
             </p>
           ) : (
             <p className="text-xs font-black text-white/60">
-              No territory = same leads as everyone else.{' '}
-              <Link to="/territories" className="text-[var(--yellow)] underline underline-offset-2">
-                Lock yours →
+              No patch locked — you&apos;re racing every other trade for the same leads.{' '}
+              <Link href="/territories" className="text-[var(--yellow)] underline underline-offset-2">
+                Lock your patch →
               </Link>
             </p>
           )}
@@ -75,44 +84,46 @@ export function DashboardPage() {
       </section>
 
       {isEmpty && (
-        <section className="jf-box bg-[var(--yellow)] p-8 text-center">
-          <p className="micro-label text-[var(--ink)]">START HERE</p>
-          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR PIPELINE IS EMPTY.</h2>
-          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]">
-            Enter your postcode. Pick your trade. See what jobs are live near you — then track the ones worth chasing.
+        <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">
+          <p className="micro-label text-[var(--orange)]">NO PIPELINE YET</p>
+          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
+          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
+            Run a scan, find one £2,000 job, and your Patch Plan pays for itself in a single win. Founding rate locks in at £39/mo.
           </p>
-          <Link to="/find-jobs" className="jf-button mt-5 bg-[var(--ink)] text-white inline-block">
-            SCAN FOR JOBS →
-          </Link>
-        </section>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
+          </div>
+        </div>
       )}
 
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Link to="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+          <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
             <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
             <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
           </Link>
-          <Link to="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition">
+          <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
-              {activeChase === 0 ? 'Scan for jobs → add them here to track' : 'leads in your pipeline'}
+              {activeChase === 0 ? 'Your active chases — scan first, then tap TRACK THIS LEAD' : 'leads in your pipeline'}
             </p>
             <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View chase list →</p>
             {overdueCount > 0 && (
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
           </Link>
-          <div className="block border-2 border-[var(--ink)] bg-white p-5">
+          <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{monthlyStats.count}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
-              {monthlyStats.count === 0 ? 'Open any lead → mark it Won to record value' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
+              {monthlyStats.count === 0 ? 'Your wins this month — chase a lead and mark it WON' : `won this month · £${monthlyStats.totalValue.toLocaleString()}`}
             </p>
-          </div>
+            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">Review leads →</p>
+          </Link>
         </div>
       </section>
 
@@ -139,7 +150,7 @@ export function DashboardPage() {
                   >
                     SNOOZE 24H
                   </button>
-                  <Link to={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
+                  <Link href={`/leads/${l.leadId}`} className="jf-button bg-[var(--navy)] text-white text-sm">
                     VIEW →
                   </Link>
                 </div>
@@ -149,25 +160,46 @@ export function DashboardPage() {
         </section>
       )}
 
+      {/* Admin Guard Entry Card */}
+      <section className="jf-box bg-[var(--yellow)] p-5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="micro-label text-[var(--ink)]">TRADE COMMAND CENTRE</p>
+            <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)]">ADMIN GUARD</h2>
+            <p className="mt-2 font-black text-[var(--ink)]/80 text-sm max-w-sm">
+              HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link href="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
+              OPEN ADMIN GUARD →
+            </Link>
+            <Link href="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
+              WHAT DOES IT TRACK? →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Find Summary */}
         <section className="jf-box bg-white p-5">
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">SCAN</p>
-            <Link to="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
+            <Link href="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
             <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
             <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : `${scansUsed} run`} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>
 
         {/* Chase Summary */}
-        <section className="jf-box bg-white p-5">
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
           </div>
@@ -178,10 +210,15 @@ export function DashboardPage() {
             <Row label="Won" value={`${wonChase} closed`} />
             {overdueCount > 0 && <Row label="Overdue" value={`${overdueCount} need attention`} />}
           </div>
+          {activeChase === 0 && (
+            <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
+              Scan your postcode, then tap TRACK THIS LEAD on any result. Jobs land here so you can chase them in order.
+            </p>
+          )}
         </section>
 
         {/* Win Summary */}
-        <section className="jf-box bg-white p-5">
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">RESULTS</p>
           </div>
@@ -192,24 +229,86 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
+          {winData.wins === 0 && (
+            <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
+              Chase a lead and tap WON after you land the job. Your wins, earnings, and loss reasons track here.
+            </p>
+          )}
+          <Link href="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
         </section>
 
         {/* Quick Actions */}
-        <section className="jf-box bg-[var(--navy)] p-5 text-white">
+        <section className="jf-box bg-[var(--navy)] p-5 text-white" id="quick-actions">
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
             {!territory && (
-              <Link to="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-                LOCK YOUR TERRITORY →
+              <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+                LOCK YOUR PATCH →
               </Link>
             )}
-            <Link to="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
-              SCAN FOR JOBS
-            </Link>
+            {isEmpty ? (
+              <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
+                SCAN FOR JOBS →
+              </Link>
+            ) : (
+              <Link href="/leads" className="jf-button w-full bg-white text-[var(--ink)] text-center">
+                REVIEW LEADS →
+              </Link>
+            )}
           </div>
         </section>
       </div>
+
+      {/* Win Breakdown — drill down by trade, location, source */}
+      {winData.wins > 0 && (
+        <section className="jf-box bg-white p-5">
+          <div className="flex items-center justify-between border-b-2 border-[var(--line)] pb-3">
+            <p className="micro-label text-[var(--muted)]">WIN BREAKDOWN</p>
+            <span className="text-xs font-black text-[var(--muted)]">Where your money comes from</span>
+          </div>
+          <div className="mt-4 grid gap-5 md:grid-cols-3">
+            <BreakdownBlock title="By trade" rows={breakdown.byTrade.slice(0, 5)} />
+            <BreakdownBlock title="By location" rows={breakdown.byLocation.slice(0, 5)} />
+            <BreakdownBlock title="By source" rows={breakdown.bySource.slice(0, 5)} />
+          </div>
+        </section>
+      )}
     </main>
+  );
+}
+
+function BreakdownBlock({ title, rows }: { title: string; rows: { key: string; count: number; value: number }[] }) {
+  if (rows.length === 0) {
+    return (
+      <div>
+        <p className="text-xs font-black uppercase text-[var(--muted)]">{title}</p>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">No data yet</p>
+      </div>
+    );
+  }
+  const max = Math.max(...rows.map((r) => r.value), 1);
+  return (
+    <div>
+      <p className="text-xs font-black uppercase text-[var(--muted)]">{title}</p>
+      <div className="mt-2 grid gap-2">
+        {rows.map((r) => (
+          <div key={r.key}>
+            <div className="flex items-baseline justify-between gap-2">
+              <span className="truncate text-sm font-black text-[var(--ink)] capitalize">{r.key}</span>
+              <span className="text-xs font-black text-[var(--muted)]">
+                {r.count} · £{r.value.toLocaleString()}
+              </span>
+            </div>
+            <div className="mt-1 h-2 bg-[var(--bg-main)] border border-[var(--line)]">
+              <div
+                className="h-full bg-[var(--yellow)]"
+                style={{ width: `${Math.max(4, (r.value / max) * 100)}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

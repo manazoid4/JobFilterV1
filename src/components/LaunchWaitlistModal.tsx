@@ -1,19 +1,23 @@
+"use client";
+
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+
+import { X } from 'lucide-react';
 import { WaitlistForm } from './WaitlistForm';
 
 const STORAGE_KEY = 'jobfilter.waitlistModalSeen';
 
 export function LaunchWaitlistModal() {
-  const location = useLocation();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (location.pathname !== '/') return;
+    if (pathname !== '/') return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
     const timer = window.setTimeout(() => setOpen(true), 18000);
     return () => window.clearTimeout(timer);
-  }, [location.pathname]);
+  }, [pathname]);
 
   function close() {
     sessionStorage.setItem(STORAGE_KEY, '1');
@@ -34,14 +38,15 @@ export function LaunchWaitlistModal() {
             <div>
               <p className="micro-label text-[var(--orange)]">EARLY ACCESS</p>
               <h2 className="headline mt-2 text-4xl leading-none">FOUNDER PRICE: £39/MO.</h2>
-              <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. One trade partner per postcode. No shared leads. No ghosts.</p>
+              <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. Priority routing by postcode. No lead auction. No dead leads.</p>
             </div>
             <button
-              className="min-h-[44px] min-w-[44px] border-2 border-[var(--line)] bg-white px-3 py-1 text-[var(--ink)] shadow-[2px_2px_0_var(--line)] hover:bg-[var(--yellow)] transition-colors"
+              type="button"
+              className="grid h-9 w-9 shrink-0 place-items-center text-[var(--muted)] hover:bg-[var(--ink)]/5 hover:text-[var(--ink)] transition-colors rounded-sm"
               onClick={close}
               aria-label="Close waitlist"
             >
-              ✕
+              <X size={20} strokeWidth={2.5} />
             </button>
           </div>
           <div className="mt-5">

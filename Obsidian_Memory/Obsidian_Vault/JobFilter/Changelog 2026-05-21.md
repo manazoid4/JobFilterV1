@@ -6,120 +6,85 @@ branch: main
 source: NightlyBuildAgent
 ---
 
-# JobFilter Changelog — 2026-05-21
+# JobFilter Changelog — 2026-05-21 (Run 2)
 
 ## Summary
-NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. Copy polish: source naming violations fixed on TradePlumbers, TradeRoofers, TradeBuilders, TradeHeatPumps (4 pages). Site health: DashboardPage SCAN CTA hierarchy fixed, HomePage Step 02 copy sharpened.
+NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 3 files changed. Closed NEEDLE #1 and NEEDLE #3 from 2026-05-28 Daily To-Do. Rewrote HomePage hero proof points to be tradesman-first. All changes pushed to main.
 
-## Commit Pushed
+## Commits Pushed
 
 | Commit | Files | Change |
 |--------|-------|--------|
-| bee6f46 | TradePlumbers, TradeRoofers, TradeBuilders, TradeHeatPumps, DashboardPage, HomePage | Source naming fixes, SCAN CTA, Step 02 copy |
+| fa7e6cb | 3 files | DashboardPage duplicate CTA fix, PricingPage tagline-first cards, HomePage proof point copy |
 
 ---
 
 ## PHASE 1 — Pre-flight
 
-- Build: GREEN (2.98s)
+- npm install: required (fresh container, vite not found)
+- git fetch + pull: fast-forwarded local main from ade198d → 2808137 (103 commits)
+- Build: GREEN (3.26s after npm install)
 - TypeScript: CLEAN (0 errors)
-- Previous session: b32e6f6 [vault] Changelog 2026-05-20 + Daily To-Do update
-- All Tier 1 features confirmed ALREADY BUILT: scan counter, ICS calendar, WinStatsBanner, WhatsApp templates (6 total incl. quick_quote_offer + availability_check), trade-specific scoring
+- Previous session: 2808137 (2026-05-28 4-Agent Loop PricingPage)
 
 ---
 
-## PHASE 3 — Copy Polish: 4 Trade Pages (Outstanding To-Do Item)
+## PHASE 2 — Feature Check
 
-Checked TradePlumbers, TradeRoofers, TradeBuilders, TradeHeatPumps for the same source naming violations fixed in TradeElectricians (2026-05-20). All 4 had violations.
-
-### TradePlumbers.tsx
-
-| Location | Before | After |
-|----------|--------|-------|
-| signals[1] label | `'EPC retrofit signals'` | `'Energy efficiency signals'` |
-| signals[1] body | `cross-references EPC data with` | `cross-references energy efficiency signals with` |
-| howItWorks[0] | `scan planning portals, EPC registers` | `scan planning approvals, energy efficiency signals` |
-| howItWorks[2] | `a property hits F-rated EPC` | `a low-rated energy property is flagged` |
-| tradeLeadExample row | `'Official Source', 'Planning Portal — 94%'` | `'Signal type', 'Verified planning signal — 94%'` |
-| comparisonNew[1] | `'Every signal is exclusive — no one else sees your scan'` | `'No shared auction — lead goes to you, not five other plumbers'` |
-| comparisonNew[3] | `'Official planning data, EPC ratings, council contracts'` | `'Verified planning signals, energy ratings, council contracts'` |
-| metaDescription | `EPC data, and council contracts` | `verified signals` |
-
-### TradeRoofers.tsx
-
-| Location | Before | After |
-|----------|--------|-------|
-| signals[1] label | `'EPC data'` | `'Energy signals'` |
-| signals[1] body | `EPC data shows which properties` | `Verified energy signals show which properties` |
-| howItWorks[0] | `planning portals, EPC registers` | `planning approvals, energy efficiency signals` |
-| tradeLeadExample row | `'Official Source', 'Hackney Council Planning — 93%'` | `'Signal type', 'Verified planning signal — 93%'` |
-| comparisonNew[1] | `'Exclusive scans — no one else sees your results'` | `'No shared auction — lead goes to you, not five other roofers'` |
-
-### TradeBuilders.tsx
-
-| Location | Before | After |
-|----------|--------|-------|
-| sub | `reads planning portals across 400+` | `reads planning approvals across 400+` |
-| signals[1] label | `'EPC data'` | `'Energy signals'` |
-| signals[1] body | `poor EPC ratings often need structural upgrades` | `flagged for energy upgrades often need structural work` |
-| howItWorks[0] | `planning portals, council contracts, and EPC data` | `planning approvals, council contracts, and energy signals` |
-| tradeLeadExample row | `'Official Source', 'Leeds City Council Planning — 96%'` | `'Signal type', 'Verified planning signal — 96%'` |
-| comparisonNew[1] | `'Exclusive — no one else sees your scan results'` | `'No shared auction — lead goes to you, not five other builders'` |
-| metaDescription | `council planning portals` | `council planning approvals` |
-
-### TradeHeatPumps.tsx
-
-| Location | Before | After |
-|----------|--------|-------|
-| headline | `Find EPC Retrofit Work Before the` | `Find Retrofit Work Before the` |
-| painPoints[2] label | `'EPC data is public but unusable'` | `'Energy data is public but unusable'` |
-| painPoints[2] body | `The EPC register is online but...` | `The official data is out there — but it's a 30-million-row spreadsheet...` |
-| signals[0] label | `'EPC register'` | `'Energy efficiency signals'` |
-| howItWorks[0] | `scan the EPC register for F/G rated` | `scan for low-rated properties` |
-| tradeLeadExample Urgency | `EPC F + extension approved` | `Low energy rating + extension approved` |
-| tradeLeadExample Official Source | `EPC Register + Planning Portal` | `Verified energy + planning signals` |
-| tradeLeadExample Signal | `F-rated property...` | `Low-rated property...` |
-| tags[0] | `'EPC signal'` | `'Energy signal'` |
-| whatsappMessage Urgency | `EPC F + extension approved` | `Low energy rating + extension approved` |
-| comparisonOld[4] | `EPC register is a 30-million-row spreadsheet` | `Official energy data is a 30-million-row spreadsheet` |
-| comparisonNew[0] | `all EPC and retrofit signals` | `all energy and retrofit signals` |
-| metaTitle | `Find EPC Retrofit Work Before the Deadline` | `Find Retrofit Work Before the Deadline` |
-| metaDescription | `JobFilter scans EPC data and` | `JobFilter scans energy efficiency signals and` |
+Reviewed chaseTemplates.ts — `quick_quote_offer` and `availability_check` templates are already built (added in a prior session). No new feature needed — all Tier 1 WhatsApp template work is complete.
 
 ---
 
-## PHASE 4 — Site Health Check
+## PHASE 3 — Copy Polish
 
-### NEEDLE findings (top 3)
-1. **DashboardPage Pipeline Visual** — SCAN box (the only CTA) looks identical to TRACKING/RESULTS info boxes (all white, same border). A tradesman can't see which one does something.
-2. **HomePage Step 02** — "Get GOLD alerts" is vague; doesn't name WhatsApp delivery, weaker than Steps 01 and 03.
-3. **TradePlumbers/Roofers/Builders** — "Official Source" row label in lead card examples still named specific councils/portals (now fixed in Phase 3).
+### DashboardPage: Remove duplicate "Scan for Jobs" CTA (NEEDLE #1)
 
-### BUILDER fix 1: DashboardPage SCAN box
+**Problem (Daily To-Do, 28 May):** Header section always showed `SCAN FOR JOBS →` button regardless of pipeline state. When `isEmpty=true`, the page also showed a large empty-state block with `RUN YOUR FIRST SCAN →`. Two competing scan CTAs on the same screen confuse new users.
 
-**Before:** `bg-white p-5 hover:bg-[var(--yellow)]/20`
-**After:** `bg-[var(--yellow)] p-5 hover:opacity-90 shadow-[4px_4px_0_var(--ink)]` + label changed `SCAN` → `SCAN NOW →`
+**Fix:** Wrapped header `SCAN FOR JOBS →` in `{!isEmpty && (...)}`. New users (isEmpty=true) see only the primary empty-state CTA. Returning users (isEmpty=false) see the header CTA as expected.
 
-**CRITIC:** Clearer in <3 seconds? YES — yellow box immediately signals "press here", white boxes signal "data".
-**REVENUE:** Increases £39/mo conversion? YES — any tradesman who scans sees better leads; scan is the entry to the conversion funnel.
+**File:** `src/pages/DashboardPage.tsx`
 
-### BUILDER fix 2: HomePage Step 02 copy
+---
 
-**Before:** `Get GOLD alerts`
-**After:** `Gold hits your WhatsApp`
+### PricingPage: Feature cards lead with plain-English tagline (NEEDLE #3)
 
-**CRITIC:** Clearer in <3 seconds? YES — WhatsApp is named, delivery mechanism is explicit.
-**REVENUE:** YES — WhatsApp is the daily habit mechanism; naming it on the how-it-works step reinforces the core value prop.
+**Problem (Daily To-Do, 28 May):** Feature cards showed brand name (First Strike, Vicinity, Vantage, Win Engine) as the large h3 heading, with the plain-English tagline in tiny 10px muted text below. A tradesman scanning the page sees jargon brand names, not what the feature does.
+
+**Fix:** Swapped layout in both featured and non-featured card variants — brand name to micro-label above, plain-English tagline promoted to h3.
+
+**Files:** `src/pages/PricingPage.tsx`
+
+---
+
+## PHASE 4 — HomePage Proof Points Rewrite (Site Health NEEDLE fix)
+
+**Before:**
+- 'Official UK signal sources checked server-side'
+- 'Planning, energy & council signals — verified'
+- 'One trade per postcode — locked to you'
+- 'No shared lead trap. Cancel anytime.'
+
+**After:**
+- 'Jobs spotted before Checkatrade lists them'
+- 'Verified signals — not recycled from job boards'
+- 'One trade per postcode — no five-way blast'
+- 'No shared auction. Cancel anytime.'
+
+**File:** `src/pages/HomePage.tsx`
+
+**CRITIC:** YES — readable in <1 second, directly answers "why not Checkatrade?"
+**REVENUE:** YES — first proof point handles biggest objection before tradesman scrolls
 
 ---
 
 ## Build Status
-- `npm run build`: GREEN (2.98s)
+- `npm run build`: GREEN (3.26s)
 - `npx tsc --noEmit`: CLEAN (0 errors)
 
 ---
 
 ## Related
-- [[Changelog 2026-05-20]]
+- [[Changelog 2026-05-28]]
+- [[Recent]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]

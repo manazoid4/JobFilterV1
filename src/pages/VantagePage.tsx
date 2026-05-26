@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const recentBids = [
@@ -58,19 +60,22 @@ export function VantagePage() {
               </span>
             </h1>
             <p className="max-w-md text-[17px] font-medium leading-[1.55] text-[var(--muted)]">
-              Professional, high-conversion proposals generated from your raw job documents in seconds.
+              Drop your tender documents. Get a properly structured bid deck in under a minute — no copy-paste, no blank-page terror.
             </p>
           </div>
 
-          {/* Upload card */}
+          {/* Upload card — DEMO PREVIEW */}
           <div
-            className="p-8"
+            className="relative p-8"
             style={{
               background: 'var(--paper)',
               border: '2px solid var(--navy)',
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
+            <div className="absolute top-3 right-3 px-2 py-1 text-[10px] font-black uppercase tracking-wider" style={{ background: 'var(--navy)', color: 'var(--yellow)' }}>
+              DEMO PREVIEW
+            </div>
             <div
               className="flex cursor-pointer flex-col items-center justify-center gap-4 p-12 text-center transition-colors hover:bg-white"
               style={{ border: '2px dashed var(--navy)', background: 'var(--offwhite)' }}
@@ -253,7 +258,7 @@ export function VantagePage() {
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
               Good tradesmen lose work when buyers can't see the value. Vantage closes the presentation gap without turning you into a marketing agency.
             </p>
-            <Link to="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
+            <Link href="/find-jobs" className="jf-button mt-6 inline-flex bg-[var(--yellow)] text-[var(--navy)]">
               Scan Jobs Free →
             </Link>
           </div>
@@ -268,8 +273,8 @@ export function VantagePage() {
             Vantage writes the bid. Intake finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">ENTER THE INTAKE →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
         </section>
 
@@ -277,13 +282,13 @@ export function VantagePage() {
         <section className="mt-6 jf-box bg-white p-5">
           <p className="micro-label text-[var(--muted)]">TRY ANOTHER FREE TOOL</p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/free-tools">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/free-tools">
               ALL FREE TOOLS
             </Link>
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/vicinity">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/vicinity">
               VICINITY — PROOF GENERATOR
             </Link>
-            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" to="/smart-quote">
+            <Link className="jf-button text-sm !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors" href="/smart-quote">
               SMART QUOTE STARTER
             </Link>
           </div>

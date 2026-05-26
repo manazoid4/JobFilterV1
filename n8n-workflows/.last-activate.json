@@ -1,0 +1,117 @@
+{
+  "activated_at": "2026-05-22T03:38:03.125Z",
+  "results": [
+    {
+      "id": "hlT2YtrEBHMS0mwt",
+      "name": "JobFilter — Daily Lead Digest",
+      "status": 400,
+      "ok": false,
+      "body": "{\"message\":\"Cannot publish workflow: 1 node have configuration issues:\\n\\nNode \\\"Send Email Digest\\\":\\n  - Missing required credential: smtp\"}"
+    },
+    {
+      "id": "DbfARpb9uVhOdie7",
+      "name": "JobFilter — READY Signal Alert",
+      "status": 400,
+      "ok": false,
+      "body": "{\"message\":\"Cannot publish workflow: 1 node have configuration issues:\\n\\nNode \\\"Send Alert Email\\\":\\n  - Missing required credential: smtp\"}"
+    },
+    {
+      "id": "67CVueXovSGu1l50",
+      "name": "JobFilter — Multi-Trade Weekly Sweep",
+      "status": 400,
+      "ok": false,
+      "body": "{\"message\":\"Cannot publish workflow: 1 node have configuration issues:\\n\\nNode \\\"Send Weekly Report\\\":\\n  - Missing required credential: smtp\"}"
+    },
+    {
+      "id": "KPPRqOtDhPJhe7Kc",
+      "name": "JobFilter — 04 Vault Writer (sub-workflow)",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "XbhFFSqPXg7OT48c",
+      "name": "JobFilter — 05 Lead Dedup Memory (sub-workflow)",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "2Oar5tVrrKQWxyN3",
+      "name": "JobFilter — 06 Outcome Logger",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "wK1QMco772GKXSQl",
+      "name": "JobFilter — 07 Material Price Watcher",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "mJ2jqkaEcljpAG3a",
+      "name": "JobFilter — 08 Territory Summary",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "XylHASk4kvRZmsLt",
+      "name": "JobFilter — 09 Waitlist Health",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "2f4zmgH6jVn5ekhZ",
+      "name": "JobFilter — 10 Stripe Webhook → Vault",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "93yhO5CYnzrGdq92",
+      "name": "JobFilter — 11 Chase Check Reminder",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "NMO8gGyB1vy6jHcW",
+      "name": "JobFilter — 12 Intake Score Triage",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "enCGdpU5usm1Hy84",
+      "name": "JobFilter — 13 Calendar Sync",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "u5sWqnbh4gXY7oKj",
+      "name": "JobFilter — 14 Source Health Watchdog",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "zxjXt1x1yZA1YGN9",
+      "name": "JobFilter — 15 Competitor Watch",
+      "status": 200,
+      "ok": true,
+      "body": null
+    },
+    {
+      "id": "dkeRwtZ1lygxeY0w",
+      "name": "JobFilter — 16 LLM Brief Builder",
+      "status": 200,
+      "ok": true,
+      "body": null
+    }
+  ]
+}

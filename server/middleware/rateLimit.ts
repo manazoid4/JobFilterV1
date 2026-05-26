@@ -5,7 +5,9 @@ const WINDOW_MS = 60_000;
 const LIMIT = 20;
 
 export function rateLimit(req: Request, res: Response, next: NextFunction) {
-  const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? 'unknown')
+  const forwardedFor = req.headers['x-forwarded-for'];
+  const forwardedIp = Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor;
+  const ip = String(forwardedIp ?? req.socket.remoteAddress ?? 'unknown')
     .split(',')[0]
     .trim();
   const now = Date.now();

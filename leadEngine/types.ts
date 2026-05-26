@@ -26,6 +26,14 @@ export interface Lead {
   scoreReasons?: string[];
   distanceMiles?: number;
   isCommercial?: boolean;
+  fusionKey?: string;
+  signalStack?: string[];
+  signalClass?: 'homeowner_retrofit' | 'active_site' | 'commercial_fitout' | 'distressed_property' | 'public_contract' | 'internal_fallback';
+  qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
+  leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
+  recommendedAction?: string;
+  evidenceBadges?: string[];
 }
 
 export interface LeadStoreEntry {
@@ -41,6 +49,7 @@ export interface ScanResult {
   outward: string;
   lockedCount: number;
   sources: Record<string, SourceStats>;
+  sourceHealth: Record<string, SourceHealth>;
   errors: string[];
 }
 
@@ -50,6 +59,17 @@ export interface SourceStats {
   dropped: number;
   failed: boolean;
   error?: string;
+  latencyMs?: number;
+}
+
+export interface SourceHealth {
+  fetched: number;
+  passed: number;
+  dropped: number;
+  failed: boolean;
+  error?: string;
+  latencyMs?: number;
+  readiness: 'live' | 'key-required' | 'disabled' | 'demo';
 }
 
 export interface RawLead {

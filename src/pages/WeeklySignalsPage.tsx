@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { useState, useMemo } from 'react';
 import {
   generateWeekData,
@@ -270,11 +272,8 @@ export function WeeklySignalsPage() {
         <div className="page-shell section-pad">
           <div className="flex flex-wrap items-center gap-3 mb-5">
             <p className="micro-label text-[var(--yellow)]">
-              {isCurrentWeek ? 'LIVE THIS WEEK' : `ARCHIVE — ${week.weekLabel}`}
+              {isCurrentWeek ? 'THIS WEEK\'S SIGNALS' : `ARCHIVE — ${week.weekLabel}`}
             </p>
-            {isCurrentWeek && (
-              <span className="h-2.5 w-2.5 rounded-full bg-[var(--green)] shadow-[0_0_6px_var(--green)] animate-pulse" />
-            )}
           </div>
           <h1 className="headline text-[clamp(2.5rem,7vw,6rem)] leading-[0.88] text-[var(--yellow)]">
             SIGNALS THIS WEEK.
@@ -288,15 +287,15 @@ export function WeeklySignalsPage() {
             </p>
           )}
           <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={() => setShowShare(true)} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SHARE THIS WEEK →
-            </button>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
-              SUBSCRIBE TO WEEKLY →
-            </button>
-            <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN YOUR AREA →
             </Link>
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
+              GET WEEKLY ALERTS →
+            </button>
+            <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
+              SHARE →
+            </button>
           </div>
         </div>
       </section>
@@ -426,7 +425,7 @@ export function WeeklySignalsPage() {
                   </div>
 
                   <div className="mt-auto pt-4 border-t-2 border-[var(--line)]">
-                    <Link to="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+                    <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
                       SCAN YOUR AREA →
                     </Link>
                   </div>
@@ -543,7 +542,7 @@ export function WeeklySignalsPage() {
             {CURRENT_WEEK.totalGold} GOLD leads are waiting somewhere in the UK. How many are in your postcode?
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">

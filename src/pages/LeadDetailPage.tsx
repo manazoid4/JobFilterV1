@@ -1,9 +1,14 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+"use client";
+import { useRouter, useParams } from 'next/navigation';
+import Link from 'next/link';
+
 import { useState } from 'react';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
+import { TrustBadges } from '../components/TrustBadges';
+import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
-import { getChaseLeads } from '../lib/chaseStore';
+import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
@@ -87,21 +92,25 @@ function CalendarCopyLink({ lead }: { lead: LeadDecision }) {
 }
 
 export function LeadDetailPage() {
-  const { id = '' } = useParams();
-  const navigate = useNavigate();
+  const params = useParams();
+  const id  = (params?.id  as string) || '' ;
+  const router = useRouter();
   const lead = getStoredLeads().find((item) => item.id === id);
   const [lostReason, setLostReason] = useState('');
+  const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const [showWonCapture, setShowWonCapture] = useState(false);
   const [wonValueInput, setWonValueInput] = useState('');
+  const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
+  const [snoozed, setSnoozed] = useState(false);
 
   if (!lead) {
     return (
       <main className="page-shell py-8">
         <section className="jf-box bg-white p-6">
           <h1 className="headline text-4xl">LEAD NOT FOUND</h1>
-          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)] min-h-[44px]" to="/leads">BACK</Link>
+          <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)] min-h-[44px]" href="/leads">BACK</Link>
         </section>
       </main>
     );
@@ -110,12 +119,32 @@ export function LeadDetailPage() {
   const chaseLead = getChaseLeads().find((cl) => cl.leadId === id);
   const chaseStage = chaseLead?.stage ?? 'not_contacted';
   const waTemplates = MESSAGE_TEMPLATES.filter((t) => {
+    if (t.channel && t.channel !== 'whatsapp') return false;
     if (chaseStage === 'won') return t.stage === 'won';
     if (chaseStage === 'following_up' || chaseStage === 'contacted') return t.stage === 'following_up';
     return t.stage === 'not_contacted';
   });
+  const otherTemplates = MESSAGE_TEMPLATES.filter((t) => {
+    if (!t.channel || t.channel === 'whatsapp') return false;
+    const targetStage = chaseStage === 'won' ? 'won'
+      : (chaseStage === 'following_up' || chaseStage === 'contacted') ? 'following_up'
+      : 'not_contacted';
+    return t.stage === targetStage;
+  });
   const selectedTemplate = waTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
+
+  function handleSnooze() {
+    snoozeChaseLead(id);
+    setSnoozed(true);
+  }
+
+  function copyOtherTemplate(key: string, body: string) {
+    navigator.clipboard.writeText(body).then(() => {
+      setCopiedOtherKey(key);
+      setTimeout(() => setCopiedOtherKey(null), 2500);
+    });
+  }
 
   async function setStatus(status: LeadDecisionStatus) {
     const outcome: Record<string, string> = {};
@@ -127,7 +156,7 @@ export function LeadDetailPage() {
     await fetch('/api/leads/outcome', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ leadId: lead!.id, status, title: lead!.jobType, value: lead!.budget, lostReason }),
+      body: JSON.stringify({ leadId: lead!.id, status, title: lead!.jobType, value: lead!.budget, lostReason, postcode: lead!.postcode }),
     }).catch(() => {});
 
     if (status === 'won') {
@@ -145,7 +174,7 @@ export function LeadDetailPage() {
       } catch {}
     }
 
-    navigate('/leads');
+    router.push('/leads');
   }
 
   function handleWonClick() {
@@ -173,6 +202,7 @@ export function LeadDetailPage() {
         status: 'won',
         title: lead!.jobType,
         value: parsedValue > 0 ? `£${parsedValue.toLocaleString()}` : lead!.budget,
+        postcode: lead!.postcode,
       }),
     }).catch(() => {});
     setShowWonCapture(false);
@@ -188,7 +218,7 @@ export function LeadDetailPage() {
         return;
       }
     } catch {}
-    navigate('/leads');
+    router.push('/leads');
   }
 
   return (
@@ -211,6 +241,67 @@ export function LeadDetailPage() {
           {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
           {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
+        {lead.score >= 80 ? (
+          <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Chase now.</p>
+          </div>
+        ) : lead.score >= 50 ? (
+          <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — worth watching. Job signal is verified but timing or budget not confirmed. Worth a quick call, not a full chase yet.</p>
+          </div>
+        ) : (
+          <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — check timing. Signal detected but work may not start immediately. Verify before spending time chasing.</p>
+          </div>
+        )}
+      </section>
+
+      {(lead.signalStack?.length || lead.recommendedAction || lead.signalClass) && (
+        <section className="jf-box bg-white p-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="micro-label text-[var(--orange)]">TIMING SIGNAL</p>
+              <h2 className="headline text-2xl sm:text-3xl">WHY NOW</h2>
+            </div>
+            {lead.leadReadiness && (
+              <span className="inline-block border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
+                {lead.leadReadiness}
+              </span>
+            )}
+          </div>
+          <div className="mt-4 grid gap-4">
+            {lead.signalClass && (
+              <p className="micro-label text-[var(--orange)]">{lead.signalClass.replace(/_/g, ' ').toUpperCase()}</p>
+            )}
+            {lead.signalStack?.length ? (
+              <div className="flex flex-wrap gap-2">
+                {lead.signalStack.map((source) => (
+                  <span key={source} className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
+                    {source}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            {lead.recommendedAction && (
+              <div className="border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/20 px-4 py-3">
+                <p className="text-sm font-black text-[var(--ink)]">{lead.recommendedAction}</p>
+              </div>
+            )}
+            {lead.evidenceBadges?.length ? <TrustBadges badges={lead.evidenceBadges} /> : null}
+            <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--ink)]">VERIFY BEFORE CONTACT</p>
+              <p className="mt-1 text-sm font-black text-[var(--ink)]/75">
+                Source data can lag or change. Confirm the linked evidence before quoting, visiting, or making contact.
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="jf-box bg-white p-6">
+        <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">The paid part is not just the lead. It is the quote floor and the chase plan around it.</p>
+        <LeadValueKit lead={lead} unlocked title="LEAD VALUE KIT" />
       </section>
 
       {lead.details && (
@@ -238,8 +329,11 @@ export function LeadDetailPage() {
             </button>
           ))}
         </div>
+        {selectedTemplate && (
+          <p className="mt-3 text-xs font-black text-[var(--muted)]">{selectedTemplate.timing} — {selectedTemplate.purpose}</p>
+        )}
         {filledMessage && (
-          <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
             <a
               className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
@@ -253,6 +347,35 @@ export function LeadDetailPage() {
         )}
       </section>
 
+      {otherTemplates.length > 0 && (
+        <section className="jf-box bg-white p-6">
+          <h2 className="headline text-2xl sm:text-3xl">OTHER APPROACHES</h2>
+          <p className="mt-2 text-sm font-black text-[var(--muted)]">Portal, door-step, or letter — copy the message and use it your way.</p>
+          <div className="mt-4 grid gap-4">
+            {otherTemplates.map((t) => {
+              const filled = fillTemplate(t, { job_type: lead.jobType, area: lead.area });
+              return (
+                <div key={t.key} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-black uppercase text-[var(--ink)]">{t.label}</p>
+                      <p className="mt-0.5 text-xs font-black text-[var(--muted)]">{t.timing} — {t.purpose}</p>
+                    </div>
+                    <button
+                      onClick={() => copyOtherTemplate(t.key, filled)}
+                      className={`shrink-0 px-3 py-1.5 text-xs font-black uppercase border-2 ${copiedOtherKey === t.key ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)] text-[var(--ink)]'}`}
+                    >
+                      {copiedOtherKey === t.key ? 'COPIED' : 'COPY'}
+                    </button>
+                  </div>
+                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filled}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>
         <p className="mt-2 font-black text-[var(--muted)] text-sm">Block time to chase this job. Adds a 9am reminder for tomorrow — works with Google Calendar, Apple Calendar, and Outlook.</p>
@@ -264,6 +387,15 @@ export function LeadDetailPage() {
             ADD TO CALENDAR
           </button>
           <CalendarCopyLink lead={lead} />
+          {chaseLead && chaseLead.stage !== 'won' && chaseLead.stage !== 'lost' && (
+            <button
+              className={`jf-button ${snoozed ? 'bg-[var(--green)] text-white' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
+              onClick={handleSnooze}
+              disabled={snoozed}
+            >
+              {snoozed ? 'SNOOZED — BACK TOMORROW' : 'SNOOZE 24H'}
+            </button>
+          )}
         </div>
       </section>
 
@@ -273,22 +405,31 @@ export function LeadDetailPage() {
         <p className="mt-2 font-black text-[var(--muted)]">
           Status: {outcomeLabel(lead.status)} — mark the result so your wins build up over time.
         </p>
-        <div className="mt-2 grid gap-2 sm:grid-cols-4">
-          {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
-            <button
-              key={reason}
-              onClick={() => setLostReason(reason)}
-              className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
-            >
-              {reason}
-            </button>
-          ))}
-        </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={handleWonClick}>WON</button>
-          <button className="jf-button bg-white text-[var(--ink)]" onClick={() => setStatus('lost')}>LOST</button>
+          <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowLostPicker(true); setLostReason(''); }}>LOST</button>
           <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('no_answer')}>NO ANSWER</button>
         </div>
+        {showLostPicker && (
+          <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why did you lose it? (optional)</p>
+            <div className="grid gap-2 sm:grid-cols-4">
+              {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+                <button
+                  key={reason}
+                  onClick={() => setLostReason(reason)}
+                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                >
+                  {reason}
+                </button>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button className="jf-button bg-[var(--ink)] text-white" onClick={() => { setShowLostPicker(false); setStatus('lost'); }}>CONFIRM LOSS</button>
+              <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowLostPicker(false); setLostReason(''); }}>CANCEL</button>
+            </div>
+          </div>
+        )}
         {showWonCapture && (
           <div className="mt-4 border-2 border-[var(--ink)] bg-[var(--yellow)] p-5">
             <p className="headline text-xl">WHAT WAS THE JOB WORTH?</p>

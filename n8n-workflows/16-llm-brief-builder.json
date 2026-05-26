@@ -1,0 +1,156 @@
+{
+  "name": "JobFilter — 16 LLM Brief Builder",
+  "nodes": [
+    {
+      "id": "16abcdef-0016-0016-0016-000000000001",
+      "name": "Daily 6:50am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "cronExpression", "expression": "50 6 * * *" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000002",
+      "name": "Set Vault Path",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "v-001", "name": "vaultPath", "value": "C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault", "type": "string" },
+            { "id": "v-002", "name": "lookbackDays", "value": 7, "type": "number" },
+            { "id": "v-003", "name": "serverUrl", "value": "http://localhost:3000", "type": "string" }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000003",
+      "name": "Hit Health",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 200],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Set Vault Path').item.json.serverUrl }}/api/health",
+        "options": { "timeout": 15000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000004",
+      "name": "Hit Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 400],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Set Vault Path').item.json.serverUrl }}/api/status",
+        "options": { "timeout": 15000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000005",
+      "name": "Hit Waitlist Count",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 500],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Set Vault Path').item.json.serverUrl }}/api/waitlist-count",
+        "options": { "timeout": 15000 }
+      },
+      "continueOnFail": true
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000006",
+      "name": "Build Brief Markdown",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 350],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\n\nconst vaultPath = $('Set Vault Path').item.json.vaultPath;\nconst lookbackDays = $('Set Vault Path').item.json.lookbackDays;\nconst now = new Date();\nconst today = now.toISOString().slice(0,10);\n\nconst health = $('Hit Health').item?.json || { ok: false };\nconst status = $('Hit Status').item?.json || { ok: false };\nconst waitlist = $('Hit Waitlist Count').item?.json || {};\n\nconst runsRoot = path.join(vaultPath, 'JobFilter', 'Agent Runs');\nconst recentRuns = [];\nlet daysScanned = 0;\nfor (let d = 0; d < lookbackDays; d++) {\n  const dt = new Date(now.getTime() - d * 86400000);\n  const folder = path.join(runsRoot, dt.toISOString().slice(0,10));\n  if (!fs.existsSync(folder)) continue;\n  daysScanned++;\n  const files = fs.readdirSync(folder).filter(f => f.endsWith('.md'));\n  for (const f of files) {\n    const stat = fs.statSync(path.join(folder, f));\n    recentRuns.push({ date: dt.toISOString().slice(0,10), file: f, size: stat.size });\n  }\n}\n\nconst jobFolder = path.join(vaultPath, 'JobFilter');\nconst changelogs = fs.existsSync(jobFolder)\n  ? fs.readdirSync(jobFolder).filter(f => f.startsWith('Changelog ') && f.endsWith('.md')).sort().reverse().slice(0, 3)\n  : [];\n\nconst md = `---\\ntype: daily-brief\\nproject: JobFilter\\nrun_at: ${now.toISOString()}\\nfor_date: ${today}\\nstatus: ${health.ok ? 'healthy' : 'degraded'}\\ntags: [jobfilter, daily-brief, llm-context]\\n---\\n\\n# JobFilter Daily Brief — ${today}\\n\\n> **LLM agents**: canonical morning context. Read first. Then \\`AGENTS.md\\` for vault rules. Then \\`n8n Agent Roster.md\\` for automation surface.\\n\\n## North star\\n- Lead quality > volume\\n- One paid-tier-worthy lead per week\\n- Free tier useful, real value behind subscription\\n\\n## System health (just polled)\\n- API health: \\`${JSON.stringify(health)}\\`\\n- Source status: \\`${JSON.stringify(status).slice(0, 400)}\\`\\n- Waitlist: \\`${JSON.stringify(waitlist)}\\`\\n\\n## Last ${daysScanned} days of agent activity\\n${recentRuns.length === 0 ? '_No agent runs yet — automation queue still building._' : ''}\\n${recentRuns.slice(0, 30).map(r => '- ' + r.date + ' · ' + r.file + ' (' + r.size + 'b)').join('\\n')}\\n${recentRuns.length > 30 ? '\\n_+' + (recentRuns.length - 30) + ' more runs not listed_' : ''}\\n\\n## Recent changelogs\\n${changelogs.map(c => '- [[' + c.replace('.md','') + ']]').join('\\n') || '_none_'}\\n\\n## What an LLM should do next\\n1. Read \\`JobFilter/RALPH_PLAN.md\\` — find top unchecked item\\n2. Execute it\\n3. Commit + push\\n4. Update RALPH_PLAN check + done log\\n\\n## Related\\n- [[AGENTS]]\\n- [[n8n Agent Roster]]\\n- [[RALPH_PLAN]]\\n- [[Vault Map]]\\n`;\n\nconst briefPath = path.join(vaultPath, 'JobFilter', 'Daily Brief.md');\nreturn [{\n  json: { briefPath, today, runCount: recentRuns.length, daysScanned, content: md },\n  binary: {\n    data: {\n      data: Buffer.from(md, 'utf-8').toString('base64'),\n      mimeType: 'text/markdown',\n      fileName: 'Daily Brief.md',\n      fileExtension: 'md'\n    }\n  }\n}];"
+      }
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000007",
+      "name": "Write Daily Brief",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [1120, 350],
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $json.briefPath }}",
+        "dataPropertyName": "data",
+        "options": { "append": false }
+      }
+    },
+    {
+      "id": "16abcdef-0016-0016-0016-000000000008",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [1340, 350],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "llm-brief-builder" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Rebuilt Daily Brief for ' + $('Build Brief Markdown').item.json.today + ' — ' + $('Build Brief Markdown').item.json.runCount + ' recent agent runs scanned' }}" },
+            { "name": "payload", "value": "={{ { briefPath: $('Build Brief Markdown').item.json.briefPath, daysScanned: $('Build Brief Markdown').item.json.daysScanned, runCount: $('Build Brief Markdown').item.json.runCount } }}" },
+            { "name": "counts", "value": "={{ { runs: $('Build Brief Markdown').item.json.runCount, days: $('Build Brief Markdown').item.json.daysScanned } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily 6:50am": {
+      "main": [[{ "node": "Set Vault Path", "type": "main", "index": 0 }]]
+    },
+    "Set Vault Path": {
+      "main": [[
+        { "node": "Hit Health", "type": "main", "index": 0 },
+        { "node": "Hit Status", "type": "main", "index": 0 },
+        { "node": "Hit Waitlist Count", "type": "main", "index": 0 }
+      ]]
+    },
+    "Hit Health": {
+      "main": [[{ "node": "Build Brief Markdown", "type": "main", "index": 0 }]]
+    },
+    "Hit Status": {
+      "main": [[{ "node": "Build Brief Markdown", "type": "main", "index": 0 }]]
+    },
+    "Hit Waitlist Count": {
+      "main": [[{ "node": "Build Brief Markdown", "type": "main", "index": 0 }]]
+    },
+    "Build Brief Markdown": {
+      "main": [[{ "node": "Write Daily Brief", "type": "main", "index": 0 }]]
+    },
+    "Write Daily Brief": {
+      "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "6:50am daily. Polls /api/health /api/status /api/waitlist-count. Scans last 7 days of Agent Runs/. Writes JobFilter/Daily Brief.md = canonical LLM entry point. Logs via 04-vault-writer.",
+    "configure": [
+      "Set Vault Path > vaultPath — adjust if vault moves",
+      "Set Vault Path > serverUrl — your deployed JobFilter server",
+      "Log Run via Vault Writer > workflowId — paste 04-vault-writer's ID after importing it"
+    ]
+  }
+}

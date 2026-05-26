@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import type { ChaseStage } from '../lib/types';
 import { updateChaseStage } from '../lib/chaseStore';

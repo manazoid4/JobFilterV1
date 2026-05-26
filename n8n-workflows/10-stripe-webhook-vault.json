@@ -1,0 +1,82 @@
+{
+  "name": "JobFilter — 10 Stripe Webhook → Vault",
+  "nodes": [
+    {
+      "id": "10aaaaa0-0010-0010-0010-000000000001",
+      "name": "Stripe Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jobfilter-stripe",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "10aaaaa0-0010-0010-0010-000000000002",
+      "name": "Extract Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst evt = raw.body || raw;\nconst type = String(evt.type || 'unknown');\nconst id = String(evt.id || '');\nconst created = evt.created ? new Date(evt.created * 1000).toISOString() : new Date().toISOString();\nconst obj = evt.data?.object || {};\nconst amount = obj.amount_total ?? obj.amount ?? obj.amount_received ?? 0;\nconst currency = obj.currency || 'gbp';\nconst customer = obj.customer || obj.customer_email || '';\nconst status = obj.status || '';\nconst summary = type + ' · ' + (amount/100).toFixed(2) + ' ' + currency.toUpperCase() + ' · ' + (customer || '(no customer)') + ' · ' + status;\nreturn [{ json: { type, id, created, amount, currency, customer, status, summary, event: evt } }];"
+      }
+    },
+    {
+      "id": "10aaaaa0-0010-0010-0010-000000000003",
+      "name": "Append to Revenue Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst e = $input.first().json;\nconst dateStr = e.created.slice(0, 10);\nconst dir = path.join(vaultPath, 'JobFilter', 'Revenue');\nfs.mkdirSync(dir, { recursive: true });\nconst file = path.join(dir, dateStr + '.md');\nconst entry = `\\n### ${e.created} — ${e.type}\\n- **Amount:** ${(e.amount/100).toFixed(2)} ${e.currency.toUpperCase()}\\n- **Customer:** ${e.customer || '_(none)_'}\\n- **Status:** ${e.status || '_(n/a)_'}\\n- **Event ID:** \\`${e.id}\\`\\n\\n\\`\\`\\`json\\n${JSON.stringify(e.event, null, 2)}\\n\\`\\`\\`\\n`;\nlet body;\nif (fs.existsSync(file)) { body = fs.readFileSync(file, 'utf-8') + entry; }\nelse { body = `---\\ntype: revenue-log\\nproject: JobFilter\\nfor_date: ${dateStr}\\ntags: [jobfilter, revenue, stripe]\\n---\\n\\n# Stripe Revenue — ${dateStr}\\n` + entry; }\nfs.writeFileSync(file, body);\nreturn [{ json: { file, dateStr, summary: e.summary, type: e.type } }];"
+      }
+    },
+    {
+      "id": "10aaaaa0-0010-0010-0010-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "stripe-webhook" },
+            { "name": "trigger", "value": "webhook" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ $json.summary }}" },
+            { "name": "payload", "value": "={{ { revenueFile: $json.file, type: $json.type } }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10aaaaa0-0010-0010-0010-000000000005",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 300],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { received: true } }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Stripe Webhook": { "main": [[{ "node": "Extract Event", "type": "main", "index": 0 }]] },
+    "Extract Event": { "main": [[{ "node": "Append to Revenue Log", "type": "main", "index": 0 }]] },
+    "Append to Revenue Log": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] },
+    "Log Run via Vault Writer": { "main": [[{ "node": "Respond OK", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "POST /webhook/jobfilter-stripe receives Stripe events → appends JobFilter/Revenue/YYYY-MM-DD.md → logs via 04.",
+    "security_note": "Add Stripe signature verification before production. Insert Code node before Extract Event to verify Stripe-Signature header against STRIPE_WEBHOOK_SECRET."
+  }
+}

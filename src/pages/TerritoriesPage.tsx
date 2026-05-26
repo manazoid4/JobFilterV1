@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { Filter, LockKeyhole, Search, ShieldCheck, TrendingUp, Clock, AlertTriangle, CheckCircle, ArrowRight, Star, MapPin, Users, Zap, Mail } from 'lucide-react';
 
 type TerritoryStatus = 'OPEN' | 'CLAIMED' | 'FOUNDER SLOT' | 'RESERVED' | 'WAITLIST';
@@ -17,14 +19,14 @@ type Territory = {
 };
 
 const territories: Territory[] = [
-  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: '£38k–£62k', liveSignals: 14, confidence: 'High', claimNote: 'One roofing slot open' },
-  { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: '£55k–£90k', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot available' },
-  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: '£24k–£40k', liveSignals: 9, confidence: 'Medium', claimNote: 'Interest registered — decision pending' },
-  { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: '£18k–£32k', liveSignals: 7, confidence: 'Medium', claimNote: 'Manchester batch pending' },
-  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: '£32k–£58k', liveSignals: 13, confidence: 'High', claimNote: 'Retrofit slot open' },
-  { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: '£70k–£120k', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },
-  { id: 'ls8-electrical', patch: 'Leeds East', postcode: 'LS8', trade: 'Electrical', status: 'FOUNDER SLOT', signalStrength: 89, monthlyPotential: '£28k–£48k', liveSignals: 12, confidence: 'High', claimNote: 'Electrician slot open' },
-  { id: 'g42-plumbing', patch: 'Glasgow South', postcode: 'G42', trade: 'Plumbing', status: 'OPEN', signalStrength: 85, monthlyPotential: '£22k–£38k', liveSignals: 10, confidence: 'High', claimNote: 'Plumber slot available' },
+  { id: 'b12-roofing', patch: 'Birmingham South', postcode: 'B12', trade: 'Roofing', status: 'FOUNDER SLOT', signalStrength: 91, monthlyPotential: '£2k–£9k avg job', liveSignals: 14, confidence: 'High', claimNote: 'One roofing slot open' },
+  { id: 'b17-extensions', patch: 'Harborne', postcode: 'B17', trade: 'Extensions', status: 'OPEN', signalStrength: 88, monthlyPotential: '£8k–£25k avg job', liveSignals: 11, confidence: 'High', claimNote: 'Builder slot open' },
+  { id: 'cv1-solar', patch: 'Coventry Central', postcode: 'CV1', trade: 'Solar', status: 'RESERVED', signalStrength: 84, monthlyPotential: '£4k–£12k avg job', liveSignals: 9, confidence: 'Medium', claimNote: 'Interest registered — decision pending' },
+  { id: 'm20-bathrooms', patch: 'Didsbury', postcode: 'M20', trade: 'Bathrooms', status: 'WAITLIST', signalStrength: 79, monthlyPotential: '£3k–£7k avg job', liveSignals: 7, confidence: 'Medium', claimNote: 'Join waitlist — Manchester batch opening soon' },
+  { id: 'bs3-heat-pumps', patch: 'Bristol South', postcode: 'BS3', trade: 'Heat Pumps', status: 'OPEN', signalStrength: 86, monthlyPotential: '£5k–£14k avg job', liveSignals: 12, confidence: 'High', claimNote: 'Retrofit slot open' },
+  { id: 'se15-groundworks', patch: 'Peckham', postcode: 'SE15', trade: 'Groundworks', status: 'CLAIMED', signalStrength: 93, monthlyPotential: '£10k–£40k avg job', liveSignals: 16, confidence: 'High', claimNote: 'Partner secured' },
+  { id: 'ls8-electrical', patch: 'Leeds East', postcode: 'LS8', trade: 'Electrical', status: 'FOUNDER SLOT', signalStrength: 89, monthlyPotential: '£1.5k–£5k avg job', liveSignals: 13, confidence: 'High', claimNote: 'Electrician slot open' },
+  { id: 'g42-plumbing', patch: 'Glasgow South', postcode: 'G42', trade: 'Plumbing', status: 'OPEN', signalStrength: 85, monthlyPotential: '£1.2k–£4k avg job', liveSignals: 10, confidence: 'High', claimNote: 'Plumber slot open' },
 ];
 
 const statusClass: Record<TerritoryStatus, string> = {
@@ -35,16 +37,10 @@ const statusClass: Record<TerritoryStatus, string> = {
   WAITLIST: 'bg-[var(--offwhite)] text-[var(--ink)]',
 };
 
-const recentClaims = [
-  { trade: 'Roofer', patch: 'M14', time: '2 hours ago' },
-  { trade: 'Builder', patch: 'B32', time: '5 hours ago' },
-  { trade: 'Electrician', patch: 'CV3', time: 'Yesterday' },
-];
-
 const objections = [
   {
     q: 'What if my patch has no signals?',
-    a: 'Every patch we list has verified live signals right now. If signals drop below viable levels for 60 days, we release the lock and refund that month.',
+    a: 'We only recommend a patch when source coverage shows viable signals. If signals drop below viable levels for 60 days, we release the lock and refund that month.',
   },
   {
     q: 'Can I change my trade or patch later?',
@@ -76,7 +72,7 @@ export function TerritoriesPage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#claim">LOCK MY PATCH →</a>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
             </div>
           </div>
           <aside className="ops-panel bg-[var(--steel)] p-5 text-white">
@@ -104,12 +100,12 @@ export function TerritoriesPage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                <span className="underline">{recentClaims.length} patches claimed this week</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} slots still open
+                <span className="underline">Patch lock model: one trade per postcode cluster</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} example slots shown
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">Founder price ends when slots fill</p>
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo — locked forever while active. Founder price ends when slots fill.</p>
             </div>
           </div>
         </div>
@@ -144,12 +140,12 @@ export function TerritoriesPage() {
       <section className="page-shell py-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="micro-label text-[var(--muted)]">LIVE REGISTER</p>
+            <p className="micro-label text-[var(--muted)]">SAMPLE REGISTER</p>
             <h2 className="headline mt-2 text-3xl">AVAILABLE PATCHES</h2>
           </div>
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 animate-pulse rounded-full bg-[var(--green)]" />
-            <span className="text-xs font-black uppercase text-[var(--muted)]">Live now</span>
+            <span className="text-xs font-black uppercase text-[var(--muted)]">Model preview</span>
           </div>
         </div>
       </section>
@@ -159,8 +155,8 @@ export function TerritoriesPage() {
           <div className="grid grid-cols-[1.1fr_0.8fr_0.8fr_0.6fr_0.7fr] border-b-2 border-[var(--line)] bg-[var(--ink)] p-4 text-xs font-black uppercase tracking-[0.08em] text-white max-lg:hidden">
             <span>Patch</span>
             <span>Trade</span>
-            <span>Area value</span>
-            <span>Live signals</span>
+            <span>Area model</span>
+            <span>Signals/mo</span>
             <span>Status</span>
           </div>
           <div className="divide-y-2 divide-[var(--line)]">
@@ -181,7 +177,7 @@ export function TerritoriesPage() {
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
-                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" to="/pricing">Lock Patch</Link>
+                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">Lock Patch</Link>
                 </div>
               </article>
             ))}
@@ -199,7 +195,7 @@ export function TerritoriesPage() {
                 ONE SMALL JOB COVERS YOUR YEAR.
               </h2>
               <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
-                At £39 per month, one £2,000 job covers 51 months of JobFilter. Most founding members close their first lead within 14 days.
+                At £39 per month, one £2,000 job covers 51 months of JobFilter. That is the benchmark: one small won job should make the subscription obvious.
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 <div className="jf-box bg-white p-5 text-center">
@@ -207,8 +203,8 @@ export function TerritoriesPage() {
                   <p className="headline mt-1 text-4xl text-[var(--green)]">£39</p>
                 </div>
                 <div className="jf-box bg-white p-5 text-center">
-                  <p className="micro-label text-[var(--muted)]">Average lead value</p>
-                  <p className="headline mt-1 text-4xl text-[var(--yellow)]">£42k</p>
+                  <p className="micro-label text-[var(--muted)]">Target job value</p>
+                  <p className="headline mt-1 text-4xl text-[var(--yellow)]">£2k+</p>
                 </div>
                 <div className="jf-box bg-white p-5 text-center">
                   <p className="micro-label text-[var(--muted)]">Close 1 job =</p>
@@ -225,7 +221,7 @@ export function TerritoriesPage() {
                   'Gold leads controlled by trade, patch, and timing — no shared auction, no five-trade blast',
                   'Unlimited WhatsApp alerts',
                   'Unlimited direct letters — 1st class postage included',
-                  'Full lead scoring + Ghost Risk rating',
+                  'Full lead scoring + lead readiness markers',
                   'Pipeline tracking for every opportunity',
                   'Founder price locked forever while active',
                 ].map((item) => (
@@ -269,8 +265,8 @@ export function TerritoriesPage() {
               Founder monthly includes one territory lock, unlimited WhatsApp alerts, and unlimited direct letters with 1st class postage included. Extra territory is +£19/month.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="jf-button bg-[var(--ink)] text-white" to="/pricing">LOCK MY PATCH →</Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" to="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK MY PATCH →</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
             </div>
           </div>
           <div className="jf-box bg-white p-6">

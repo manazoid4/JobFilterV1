@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { createServer as createViteServer } from 'vite';
 import { registerIntakeScoreRoute } from './routes/intakeScore';
 import { registerLeadSearchRoute } from './routes/leadsSearch';
 import { registerWaitlistRoute } from './routes/waitlist';
@@ -10,10 +9,17 @@ import { registerChaseCheckRoute } from './routes/chaseCheck';
 import { registerOutcomeReportRoute } from './routes/outcomeReport';
 import { registerStripeRoutes } from './routes/stripe';
 import { registerCalendarExportRoute } from './routes/calendarExport';
+import { registerTerritorySummaryRoute } from './routes/territorySummary';
+import { registerStatusRoute } from './routes/status';
+import { registerMaterialPricesRoute } from './routes/materialPrices';
+import { registerStartSignalsRoute } from './routes/startSignals';
+import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary';
+import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus';
 
 export async function createApp() {
   const app = express();
 
+  app.use('/api/stripe/webhook', express.raw({ type: 'application/json', limit: '64kb' }));
   app.use(express.json({ limit: '64kb' }));
   app.use((_req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -29,9 +35,20 @@ export async function createApp() {
   registerOutcomeReportRoute(app);
   registerStripeRoutes(app);
   registerCalendarExportRoute(app);
+  registerTerritorySummaryRoute(app);
+  registerStatusRoute(app);
+  registerMaterialPricesRoute(app);
+  registerStartSignalsRoute(app);
+  registerSourceHealthSummaryRoute(app);
+  registerSubscriptionStatusRoute(app);
 
   app.get('/api/health', (_req, res) => {
-    res.json({ ok: true, service: 'jobfilter', source: 'lead_engine' });
+    res.json({ ok: true, service: 'jobfilter', source: 'lead_engine', ts: new Date().toISOString() });
+  });
+
+  // Bare /health for deployment health checks (Vercel, load balancers)
+  app.get('/health', (_req, res) => {
+    res.json({ ok: true, service: 'jobfilter', ts: new Date().toISOString() });
   });
 
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
@@ -62,5 +79,6 @@ export async function createApp() {
 }
 
 async function createServerVite() {
+  const { createServer: createViteServer } = await import('vite');
   return createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 }

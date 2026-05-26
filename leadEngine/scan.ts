@@ -13,7 +13,7 @@
  * Never blocks on a single source.
  */
 
-import type { Lead, RawLead, ScanResult, SourceStats } from './types';
+import type { Lead, RawLead, ScanResult, SourceStats, SourceHealth } from './types';
 import { CONFIG, TRADE_KEYS } from './config';
 import { lookupPostcode, haversineMiles, regionFromOutward } from './postcode';
 import { contractsFetcher } from './fetchers/contractsFetcher';
@@ -28,6 +28,7 @@ import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher'
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 import { sourceRegistryEndpoints } from './sourceRegistry';
+import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
@@ -108,39 +109,41 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const { postcode, trade = '', tier = 'free', radiusMiles } = opts;
   const cleanTrade = validateTrade(trade);
 
-  // 1. Resolve postcode
-  const pcInfo = await lookupPostcode(postcode);
+  // 1. Resolve postcode + warm source config cache (DB overrides, 5-min TTL)
+  const [pcInfo] = await Promise.all([lookupPostcode(postcode), warmSourceConfigCache()]);
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
   const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult, ccResult, fcResult] = await Promise.allSettled([
-    CONFIG.sources.contractsFinder || CONFIG.sources.fts
+    isSourceEnabled('ContractsFinder') || isSourceEnabled('FTS')
       ? contractsFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
-    CONFIG.sources.planningData
+    isSourceEnabled('PlanningData')
       ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
       : Promise.resolve(disabledSources(['PlanningData'])),
-    CONFIG.sources.companiesHouse
+    isSourceEnabled('CompaniesHouse')
       ? companiesHouseFetcher(region, cleanTrade, outward)
       : Promise.resolve(disabledSources(['CompaniesHouse'])),
-    CONFIG.sources.publicContractsScotland || CONFIG.sources.sell2wales
+    isSourceEnabled('PublicContractsScotland') || isSourceEnabled('Sell2Wales')
       ? pcsS2wFetcher(cleanTrade)
       : Promise.resolve(disabledSources(['PCS', 'Sell2Wales'])),
-    CONFIG.sources.epcData
+    isSourceEnabled('EPC')
       ? epcFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['EPC'])),
-    CONFIG.sources.landRegistry
+    isSourceEnabled('LandRegistry')
       ? landRegistryFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['LandRegistry'])),
-    CONFIG.sources.charityCommission
+    isSourceEnabled('CharityCommission')
       ? charityCommissionFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['CharityCommission'])),
-    CONFIG.sources.forestryCommission
+    isSourceEnabled('ForestryCommission')
       ? forestryCommissionFetcher(outward, cleanTrade)
       : Promise.resolve(disabledSources(['ForestryCommission'])),
   ]);
 
-  const dirResult = directorySignalFetcher(region, cleanTrade, outward); // sync
+  const dirResult = isSourceEnabled('DirectorySignal')
+    ? directorySignalFetcher(region, cleanTrade, outward)
+    : disabledSources(['DirectorySignal']);
 
   // 3. Collect raw leads + merge stats
   const allRaw = [
@@ -229,10 +232,33 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     unique.push(lead);
   }
 
+  // 5b. Fuse signals
+  const fused = fuseSignals(unique, outward);
+
   // 6. Score, update stats.passed, rank
-  const scored: Lead[] = unique.map(l => {
-    const { score, reasons } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
-    const leadWithDistance: Lead = { ...l, score, scoreReasons: reasons };
+  const scored: Lead[] = fused.map(l => {
+    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
+    const scoreReasons = [...reasons];
+    let finalScore = score;
+    const stack = l.signalStack ?? [l.source].filter(Boolean);
+    if (l.signalClass === 'internal_fallback' || (stack.length === 1 && stack[0] === 'DirectorySignal')) {
+      finalScore = Math.max(0, finalScore - 8);
+      scoreReasons.push('Internal fallback — lower confidence');
+    }
+    if (stack.length > 1) {
+      finalScore = Math.min(100, finalScore + 5);
+      scoreReasons.push('Multi-source verified');
+    }
+    finalScore = Math.min(Math.max(finalScore, 0), 100);
+    const leadWithDistance: Lead = {
+      ...l,
+      score: finalScore,
+      scoreReasons,
+      qualityLabel,
+      leadReadiness,
+      recommendedAction,
+      evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
+    };
     const leadOutward = l.postcodeOutward?.toUpperCase() ?? '';
     if (leadOutward === outward.toUpperCase()) {
       leadWithDistance.distanceMiles = 0;
@@ -275,8 +301,84 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     outward,
     lockedCount,
     sources: mergedStats,
+    sourceHealth: buildSourceHealth(mergedStats),
     errors,
   };
+}
+
+function buildSourceHealth(stats: Record<string, SourceStats>): Record<string, SourceHealth> {
+  const health: Record<string, SourceHealth> = {};
+  for (const [source, sourceStats] of Object.entries(stats)) {
+    health[source] = {
+      fetched: sourceStats.fetched,
+      passed: sourceStats.passed,
+      dropped: sourceStats.dropped,
+      failed: sourceStats.failed,
+      error: sourceStats.error,
+      latencyMs: sourceStats.latencyMs,
+      readiness: sourceReadiness(source, sourceStats),
+    };
+  }
+  return health;
+}
+
+function sourceReadiness(source: string, stats: SourceStats): SourceHealth['readiness'] {
+  if (stats.failed) return 'disabled';
+  if (source === 'CompaniesHouse' && !process.env.COMPANIES_HOUSE_API_KEY && process.env.DEMO_MODE !== 'true') return 'key-required';
+  if (source === 'EPC' && !process.env.EPC_BEARER_TOKEN && !process.env.EPC_API_KEY) return 'key-required';
+  if (source === 'DirectorySignal') return 'demo';
+  if (source === 'LandRegistry' && process.env.DEMO_MODE !== 'true') return 'disabled';
+  if ((source === 'CharityCommission' || source === 'ForestryCommission') && process.env.DEMO_MODE !== 'true') return 'disabled';
+  return 'live';
+}
+
+function fuseSignals(leads: Lead[], outward: string): Lead[] {
+  const groups = new Map<string, Lead[]>();
+  for (const lead of leads) {
+    const key = lead.fusionKey || `${lead.postcodeOutward || outward}|${normaliseFusionTitle(lead.title)}`;
+    const bucket = groups.get(key) ?? [];
+    bucket.push(lead);
+    groups.set(key, bucket);
+  }
+
+  return leads.map((lead) => {
+    const key = lead.fusionKey || `${lead.postcodeOutward || outward}|${normaliseFusionTitle(lead.title)}`;
+    const stack = uniqueSources(groups.get(key) ?? [lead]);
+    return {
+      ...lead,
+      fusionKey: key,
+      signalStack: stack,
+      signalClass: classifySignalStack(stack),
+    };
+  });
+}
+
+function normaliseFusionTitle(title: string): string {
+  return String(title ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter(word => word.length > 2)
+    .slice(0, 6)
+    .join('-');
+}
+
+function uniqueSources(leads: Lead[]): string[] {
+  return [...new Set(leads.map(lead => lead.source).filter(Boolean))];
+}
+
+function classifySignalStack(sources: string[]): NonNullable<Lead['signalClass']> {
+  const lower = sources.map(source => source.toLowerCase());
+  const has = (needle: string) => lower.some(source => source.includes(needle));
+  const hasPlanning = has('planning') || has('plan');
+  const hasContracts = has('contracts') || has('fts') || has('pcs') || has('sell2wales');
+
+  if (hasPlanning && has('epc')) return 'homeowner_retrofit';
+  if (hasPlanning && has('buildingcontrol')) return 'active_site';
+  if (has('companies') && hasPlanning) return 'commercial_fitout';
+  if (hasContracts) return 'public_contract';
+  if (sources.length === 1 && sources[0] === 'DirectorySignal') return 'internal_fallback';
+  return 'active_site';
 }
 
 function validateTrade(trade: string): Exclude<ScanOptions['trade'], undefined | 'all'> {

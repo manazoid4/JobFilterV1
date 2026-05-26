@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Eye, Crown } from 'lucide-react';
 
 const verifiedSignals = [
@@ -13,7 +15,7 @@ const verifiedSignals = [
   'Government retrofit and grant-funded work',
 ];
 
-const antiGhostSteps = [
+const qualityFilterSteps = [
   {
     num: '01',
     title: 'Official data only',
@@ -34,8 +36,8 @@ const antiGhostSteps = [
   },
   {
     num: '04',
-    title: 'Ghost Risk rating',
-    body: 'Every lead gets a LOW, MEDIUM, or HIGH ghost risk. Protect your time.',
+    title: 'Lead readiness marker',
+    body: 'Every lead gets a clear action marker: call now, verify first, or skip.',
     icon: ShieldCheck,
   },
 ];
@@ -53,7 +55,7 @@ const guaranteeFeatures = [
   'Unlimited lead alerts within locked territory',
   'Unlimited WhatsApp alerts',
   'Unlimited direct letters — 1st class postage included',
-  'Full lead scoring + Ghost Risk rating',
+  'Full lead scoring + lead readiness markers',
   'Pipeline tracking for every opportunity',
   'All free tools included',
   'Founder price locked forever while active',
@@ -157,18 +159,18 @@ export function TrustCenterPage() {
         </div>
       </section>
 
-      {/* 4. Anti-Ghost Philosophy */}
+      {/* 4. Quality Filter Philosophy */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">ANTI-GHOST PHILOSOPHY</p>
+        <p className="micro-label text-[var(--orange)]">QUALITY FILTER PHILOSOPHY</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          GHOST LEADS COST TRADESMEN £2,000-5,000 A YEAR.
+          DEAD LEADS COST TRADESMEN £2,000-5,000 A YEAR.
         </h2>
         <p className="mt-4 max-w-2xl copy">
           Wasted fuel. Wasted time. Wasted hope. We built JobFilter to stop that.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {antiGhostSteps.map((step) => {
+          {qualityFilterSteps.map((step) => {
             const Icon = step.icon;
             return (
               <div key={step.num} className="jf-box bg-[var(--bg-main)] p-6">
@@ -189,7 +191,7 @@ export function TrustCenterPage() {
 
         <div className="mt-6 p-6 border-2 border-[var(--orange)] bg-[var(--orange)]/5">
           <p className="headline text-2xl text-[var(--orange)]">
-            "Half your site visits are to people who will never buy. We flag the time-wasters before you waste fuel."
+            "Half your site visits are to people who will never buy. We surface the warning signs before you waste fuel."
           </p>
         </div>
       </section>
@@ -238,10 +240,10 @@ export function TrustCenterPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
             SEE PRICING →
           </Link>
-          <Link to="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
             TRY FREE SCAN
           </Link>
         </div>
@@ -257,19 +259,12 @@ export function TrustCenterPage() {
           No chatbots. No ticket systems. Direct contact with the team.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-8">
           <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--ink)]">
             <Mail size={24} strokeWidth={2.5} className="text-[var(--navy)]" />
             <div>
               <p className="headline text-lg">Email</p>
-              <p className="text-sm font-black text-[var(--muted)]">support@jobfilter.uk</p>
-            </div>
-          </a>
-          <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--green)]">
-            <MessageSquare size={24} strokeWidth={2.5} className="text-[var(--green)]" />
-            <div>
-              <p className="headline text-lg">Support</p>
-              <p className="text-sm font-black text-[var(--muted)]">Same-day reply</p>
+              <p className="text-sm font-black text-[var(--muted)]">support@jobfilter.uk — within 4 hours, Mon–Fri</p>
             </div>
           </a>
         </div>

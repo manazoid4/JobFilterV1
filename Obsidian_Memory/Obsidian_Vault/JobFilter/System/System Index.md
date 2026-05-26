@@ -4,6 +4,7 @@
 
 - [[Agent Running Model]]
 - [[Obsidian Visual Maps]]
+- [[Code Graph]]
 - [[Simple Competitor List]]
 - [[Earliest Buying Signals Research Brief - 2026-05-11]]
 

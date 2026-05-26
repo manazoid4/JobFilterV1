@@ -3,8 +3,23 @@ import { triggerGoldLeadWhatsApp } from '../services/sms';
 
 const chaseStatuses: Record<string, { status: string; sentAt: string; nudged: boolean }> = {};
 
+async function isAuthenticated(req: Request): Promise<boolean> {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return false;
+  const token = authHeader.slice(7);
+  try {
+    const { supabase } = await import('../lib/supabase');
+    if (!supabase) return false;
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    return !error && !!user;
+  } catch { return false; }
+}
+
 export function registerChaseCheckRoute(app: Express) {
-  app.post('/api/chase/update', (req: Request, res: Response) => {
+  app.post('/api/chase/update', async (req: Request, res: Response) => {
+    if (!(await isAuthenticated(req))) {
+      return res.status(401).json({ ok: false, error: 'Unauthorised.' });
+    }
     try {
       const { leadId, status } = req.body || {};
       if (!leadId || !status) {
@@ -22,6 +37,9 @@ export function registerChaseCheckRoute(app: Express) {
   });
 
   app.post('/api/chase/nudge', async (req: Request, res: Response) => {
+    if (!(await isAuthenticated(req))) {
+      return res.status(401).json({ ok: false, error: 'Unauthorised.' });
+    }
     try {
       const { leadId, phoneNumber, trade, area } = req.body || {};
       if (!leadId || !phoneNumber) {
@@ -36,12 +54,15 @@ export function registerChaseCheckRoute(app: Express) {
       }
       chaseStatuses[leadId] = { ...entry, status: entry?.status || 'sent', sentAt: entry?.sentAt || new Date().toISOString(), nudged: true };
       const result = await triggerGoldLeadWhatsApp({
+        leadId,
         score: 75,
         jobType: trade || 'Trade',
         area: area || 'your area',
         budget: undefined,
         phone: phoneNumber,
         postcode: undefined,
+        ghostRisk: 'MAYBE',
+        qualityLabel: 'SILVER',
       });
       return res.json({ ok: true, nudged: true, result });
     } catch (error: any) {

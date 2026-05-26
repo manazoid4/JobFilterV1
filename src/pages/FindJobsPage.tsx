@@ -1,25 +1,42 @@
+"use client";
 import { FormEvent, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+
 import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
+import { TrustBadges } from '../components/TrustBadges';
+import { LeadValueKit } from '../components/LeadValueKit';
 import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch';
-import { GhostRiskBadge } from '../components/GhostRiskBadge';
+import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
+import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
-const OPEN_ACCESS = import.meta.env.VITE_OPEN_ACCESS === 'true';
+const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
+const SHOW_ADVANCED_TOOLS = false;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
+type ScanMode = 'all' | 'start_now';
 
 const WEEKLY_SCAN_LIMIT = DEV_MODE ? 999 : 3;
 const SCAN_COUNT_KEY = 'jf-weekly-scans-used';
 const SCAN_WEEK_KEY = 'jf-weekly-scans-week';
+const DEV_UNLOCK_KEY = 'jf-unlimited-tester';
+
+function hasDevUnlock(): boolean {
+  try {
+    return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(DEV_UNLOCK_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
 
 function getMondayKey(): string {
   const d = new Date();
@@ -32,14 +49,14 @@ function getMondayKey(): string {
 
 function getWeeklyScansUsed(): number {
   try {
-    const storedWeek = localStorage.getItem(SCAN_WEEK_KEY);
+    const storedWeek = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(SCAN_WEEK_KEY);
     const thisWeek = getMondayKey();
     if (storedWeek !== thisWeek) {
-      localStorage.setItem(SCAN_WEEK_KEY, thisWeek);
-      localStorage.setItem(SCAN_COUNT_KEY, '0');
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_WEEK_KEY, thisWeek);
+      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, '0');
       return 0;
     }
-    return Number(localStorage.getItem(SCAN_COUNT_KEY)) || 0;
+    return Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(SCAN_COUNT_KEY)) || 0;
   } catch {
     return 0;
   }
@@ -48,7 +65,7 @@ function getWeeklyScansUsed(): number {
 function recordWeeklyScan(): number {
   const next = getWeeklyScansUsed() + 1;
   try {
-    localStorage.setItem(SCAN_COUNT_KEY, String(next));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, String(next));
   } catch { /* ignore */ }
   return next;
 }
@@ -88,7 +105,7 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
 
 
 function getSavedRadius(): number {
-  const saved = localStorage.getItem('jobfilter.radius');
+  const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.radius');
   if (saved) {
     const n = Number(saved);
     if (RADIUS_OPTIONS.includes(n)) return n;
@@ -97,11 +114,11 @@ function getSavedRadius(): number {
 }
 
 function getSavedPostcode(): string {
-  return localStorage.getItem('jobfilter.postcode') || 'B14 7QH';
+  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode') || 'B14 7QH';
 }
 
 function getSavedTrade(): Trade {
-  const saved = localStorage.getItem('jobfilter.trade');
+  const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade');
   if (saved && trades.includes(saved as Trade)) return saved as Trade;
   return 'electrical';
 }
@@ -111,6 +128,14 @@ function isNewLead(publishedAt: string): boolean {
   const now = new Date();
   const hoursDiff = (now.getTime() - published.getTime()) / (1000 * 60 * 60);
   return hoursDiff < 24;
+}
+
+function timeAgoShort(iso: string): string {
+  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
 }
 
 function getSourceIcon(source: string): React.ReactNode {
@@ -123,7 +148,7 @@ function getSourceIcon(source: string): React.ReactNode {
 }
 
 export function FindJobsPage() {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [postcode, setPostcode] = useState(getSavedPostcode);
   const [trade, setTrade] = useState<Trade>(getSavedTrade);
   const [radiusMiles, setRadiusMiles] = useState(getSavedRadius);
@@ -135,12 +160,14 @@ export function FindJobsPage() {
   const [hasScanned, setHasScanned] = useState(false);
   const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
-    const leads = JSON.parse(localStorage.getItem('jobfilter.find.tracked') || '[]') as string[];
+    const leads = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
     return new Set(leads);
   });
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
+  const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
+  const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
 
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
@@ -148,31 +175,35 @@ export function FindJobsPage() {
   const [commercialOnly, setCommercialOnly] = useState(false);
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
 
-  const weeklyScansRemaining = Math.max(0, WEEKLY_SCAN_LIMIT - weeklyScansUsed);
+  const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
+  const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
   const commercialCount = result?.leads.filter((l) => l.isCommercial).length ?? 0;
   const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);
 
   useEffect(() => {
-    const tradeParam = searchParams.get('trade');
-    const areaParam = searchParams.get('area');
+    const tradeParam = searchParams?.get('trade');
+    const areaParam = searchParams?.get('area');
     if (tradeParam && trades.includes(tradeParam as Trade)) {
       setTrade(tradeParam as Trade);
     }
     if (areaParam) {
       setPostcode(areaParam);
     }
+    if (searchParams?.get('mode') === 'start_now') {
+      setScanMode('start_now');
+    }
   }, [searchParams]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.radius', String(radiusMiles));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.radius', String(radiusMiles));
   }, [radiusMiles]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.postcode', postcode);
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.postcode', postcode);
   }, [postcode]);
 
   useEffect(() => {
-    localStorage.setItem('jobfilter.trade', trade);
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.trade', trade);
   }, [trade]);
 
   useEffect(() => {
@@ -180,7 +211,7 @@ export function FindJobsPage() {
   }, []);
 
   const trackLead = (lead: Lead) => {
-    if (trackedLeads.has(lead.id)) return;
+    if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
     importLeadToChase({
       id: lead.id,
       title: lead.title,
@@ -192,7 +223,7 @@ export function FindJobsPage() {
     const next = new Set(trackedLeads);
     next.add(lead.id);
     setTrackedLeads(next);
-    localStorage.setItem('jobfilter.find.tracked', JSON.stringify([...next]));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.find.tracked', JSON.stringify([...next]));
   };
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade; postcode?: string }) {
@@ -209,19 +240,24 @@ export function FindJobsPage() {
     saveScanHistory(effectivePostcode, effectiveTrade);
     setScanHistory(getScanHistory());
     try {
-      const response = await fetch('/api/leads/search', {
+      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postcode: effectivePostcode,
           trade: effectiveTrade,
           radiusMiles: overrides?.radiusMiles ?? radiusMiles,
+          mode: scanMode,
         }),
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
+      } else {
+        saveScanHistory(postcode, overrides?.trade ?? trade);
+        setScanHistory(getScanHistory());
       }
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch {
@@ -260,6 +296,10 @@ export function FindJobsPage() {
             score: lead.score,
             source: lead.source,
             planningRef: lead.url,
+            id: lead.id,
+            leadReadiness: lead.leadReadiness,
+            qualityLabel: lead.qualityLabel,
+            postcodeOutward: lead.postcodeOutward,
           },
         }),
       });
@@ -279,13 +319,15 @@ export function FindJobsPage() {
     setFillWeekPhase('Ranking the best jobs near you...');
     await new Promise(r => setTimeout(r, 400));
     try {
-      const response = await fetch('/api/leads/search', {
+      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postcode,
           trade,
           radiusMiles: Math.max(radiusMiles, 25),
+          mode: scanMode,
         }),
       });
       const data = await response.json() as LeadSearchResponse;
@@ -311,6 +353,9 @@ export function FindJobsPage() {
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
+  const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
+  const bestSource = getBestSource(result?.sources);
+  const sourceMix = getSourceMix(result?.sources);
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
@@ -329,7 +374,7 @@ export function FindJobsPage() {
             No Checkatrade membership. No Bark credits. Scan free — unlock full leads from £39/mo.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-4">
-            <Link to="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
+            <Link href="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
               VIEW PIPELINE →
             </Link>
           </div>
@@ -357,12 +402,55 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE LEAD SCANNER</p>
-        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
+        <h2 className="headline text-3xl leading-none sm:text-4xl">TAP YOUR TRADE TO SCAN NOW</h2>
+        {!unlimitedTester && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">BEFORE CHECKATRADE SEES IT</span>
+          </div>
+        )}
+
+        {SHOW_ADVANCED_TOOLS && <div className="mt-5 grid gap-2 sm:grid-cols-2" role="tablist" aria-label="Lead scan mode">
+          <button
+            type="button"
+            onClick={() => setScanMode('all')}
+            className={`border-2 border-[var(--line)] px-4 py-3 text-left font-black uppercase transition ${
+              scanMode === 'all'
+                ? 'bg-[var(--ink)] text-white'
+                : 'bg-white text-[var(--ink)] hover:bg-[var(--paper)]'
+            }`}
+          >
+            <span className="block text-sm">All signals</span>
+            <span className={`block text-xs ${scanMode === 'all' ? 'text-white/80' : 'text-[var(--muted)]'}`}>
+              Broad scan across planning, contracts, EPC and property signals.
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setScanMode('start_now')}
+            className={`border-2 border-[var(--line)] px-4 py-3 text-left font-black uppercase transition ${
+              scanMode === 'start_now'
+                ? 'bg-[var(--yellow)] text-[var(--ink)] shadow-[4px_4px_0_var(--line)]'
+                : 'bg-white text-[var(--ink)] hover:bg-[var(--paper)]'
+            }`}
+          >
+            <span className="block text-sm">Works Starting Now</span>
+            <span className={`block text-xs ${scanMode === 'start_now' ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>
+              Filters for READY/MAYBE leads with stronger timing evidence.
+            </span>
+          </button>
+        </div>}
+
+        {scanMode === 'start_now' && (
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
+            Start Signal mode ranks source-fused evidence like planning approvals, building-control movement, energy signals, business registrations, and property data. Verify source links before contacting anyone.
+          </div>
+        )}
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — INSTANT SCAN</p>
+          <p className="micro-label text-[var(--muted)]">ONE TAP — INSTANT SCAN — NO SIGNUP</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -425,15 +513,21 @@ export function FindJobsPage() {
 
       {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!OPEN_ACCESS && weeklyScansUsed > 0 && (
+      {!unlimitedTester && (
         <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
           <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
           <p className="text-sm font-black text-[var(--ink)]">
-            {weeklyScansRemaining > 0 ? `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week` : 'Weekly free scans used. Upgrade for unlimited.'}
+            {weeklyScansRemaining > 0
+              ? weeklyScansUsed === 0
+                ? `Try up to 3 free scans — no credit card required`
+                : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
+              : 'Free scans used this week — upgrade for unlimited.'}
           </p>
-          {weeklyScansRemaining === 0 && (
-            <Link to="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          )}
+          {weeklyScansRemaining === 0 ? (
+            <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+          ) : weeklyScansUsed > 0 ? (
+            <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
+          ) : null}
         </div>
       )}
 
@@ -441,22 +535,22 @@ export function FindJobsPage() {
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
-            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{planningCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">PLANNING</p>
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{scanMode === 'start_now' ? startReadyCount : planningCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">{scanMode === 'start_now' ? 'READY NOW' : 'PLANNING'}</p>
           </div>
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">ENERGY</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">ENERGY</p>
           </div>
           <div className="p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/60 mt-1">CONTRACTS</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">CONTRACTS</p>
           </div>
         </section>
       )}
 
       {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
-      <section className="jf-box bg-white p-6">
+      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
@@ -482,14 +576,14 @@ export function FindJobsPage() {
                 setDocSearchQuery(query);
               }}
               searchesRemaining={3}
-              isPro={OPEN_ACCESS}
+              isPro={unlimitedTester}
             />
           </div>
         )}
-      </section>
+      </section>}
 
       {/* ── DOCUMENT SEARCH RESULTS ──────────────────────────────────────── */}
-      {docSearchResults.length > 0 && (
+      {SHOW_ADVANCED_TOOLS && docSearchResults.length > 0 && (
         <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
       )}
 
@@ -539,20 +633,20 @@ export function FindJobsPage() {
                     DEV_MODE is active. All locked fields, WhatsApp alerts, and paid features are fully unlocked for testing.
                   </p>
                 </section>
-              ) : OPEN_ACCESS ? (
+              ) : unlimitedTester ? (
                 <section className="jf-box bg-[var(--green)] p-5">
-                  <p className="micro-label text-white">PRE-LAUNCH — OPEN ACCESS</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">SCAN, TRACK, AND TEST EVERYTHING</h2>
+                  <p className="micro-label text-white">UNLIMITED ACCESS</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl text-white">FULL SCAN — ALL SIGNALS UNLOCKED</h2>
                   <p className="mt-2 max-w-2xl font-black text-white/80">
-                    Launch gates are off until the product is ready. Set VITE_OPEN_ACCESS=true to enable open access for pre-launch testing.
+                    All scored signals for your patch are visible. Gold leads include buyer detail, quote floor, and follow-up cadence.
                   </p>
                 </section>
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE PREVIEW — THIS IS A SAMPLE</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE SIGNAL IS REAL. THE DETAIL IS LOCKED.</h2>
+                  <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB EXISTS. THE BUYER DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free view proves the signal exists. Unlock from £39/month for buyer detail, deadline, verification proof, WhatsApp alerts, letters, and the full Money Filter breakdown.
+                    Free scan confirms the signal is live near you. Unlock from £39/mo to see who to call, when to quote, and how to beat the five other trades who don&apos;t have this yet.
                   </p>
                 </section>
               )}
@@ -582,6 +676,23 @@ export function FindJobsPage() {
                 <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
               ))}
 
+
+              {/* Patch Pulse */}
+              {displayedLeads.length > 0 && (
+                <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white mt-2">
+                  <p className="micro-label text-[var(--yellow)]">PATCH PULSE</p>
+                  <p className="mt-1 font-black text-white">
+                    {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                  </p>
+                  {sourceMix && (
+                    <p className="mt-0.5 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
+                  )}
+                  {bestSource && (
+                    <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
+                  )}
+                </div>
+              )}
+
               {/* Results footer */}
               {displayedLeads.length > 0 && (
                 <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
@@ -591,17 +702,30 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {!DEV_MODE && !OPEN_ACCESS && (
+              {!DEV_MODE && !unlimitedTester && (
                 <div className="jf-box bg-[var(--ink)] p-5 text-center">
-                  <p className="font-black text-[var(--yellow)]">READY TO UNLOCK?</p>
-                  <p className="mt-1 font-black text-white/75">
-                    Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.
+                  <p className="font-black text-[var(--yellow)]">
+                    {goldCount > 0
+                      ? `YOUR SCAN FOUND ${goldCount} GOLD LEAD${goldCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
+                      : silverCount > 0
+                      ? `YOUR SCAN FOUND ${silverCount} LEAD${silverCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
+                      : 'READY TO UNLOCK?'}
                   </p>
-                  <Link to="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
+                  <p className="mt-1 font-black text-white/80">
+                    {goldCount > 0
+                      ? `Unlock the buyer name, phone, and job detail for £39/mo — cheaper than one lead on Bark.`
+                      : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
+                  </p>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">CANCEL ANYTIME</span>
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">NO CONTRACT</span>
+                  </div>
+                  <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
                     LOCK FOUNDER PRICE — £39/MO →
                   </Link>
-                  <p className="mt-2 text-xs font-black text-white/50">
-                    30-day money-back guarantee. Founding rate stays locked while you stay active.
+                  <p className="mt-2 text-xs font-black text-white/80">
+                    No credit card required to scan. Pay only when you want to unlock full leads.
                   </p>
                 </div>
               )}
@@ -611,14 +735,14 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
-            <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
-            <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              One tap. Full scan — planning approvals, energy upgrades, public contracts. Top {trade} jobs within {radiusMiles} miles, ranked by score, ready to chase.
-            </p>
+          <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
+          <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
+          <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
+              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. {scanMode === 'start_now' ? 'Filters for jobs likely active or imminent.' : 'Planning approvals, energy upgrades, public contracts.'} Ranked for {titleCase(trade)}, ready to chase.
+          </p>
           </div>
           <button
             type="button"
@@ -663,7 +787,7 @@ export function FindJobsPage() {
             <p className="font-black text-[var(--ink)]">No matches right now. Try widening your radius or switching trade.</p>
           </div>
         )}
-      </section>
+      </section>}
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
@@ -684,14 +808,14 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No signup needed.
+            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => void submit()} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              TRY A DIFFERENT POSTCODE
+              SCAN MY AREA →
             </button>
             <button onClick={() => { setTrade('building'); void submit(undefined, { trade: 'building' }); }} className="jf-button bg-white text-[var(--ink)]">
-              WIDEN YOUR TRADE SEARCH
+              SCAN BUILDING WORK
             </button>
           </div>
         </section>
@@ -731,13 +855,38 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
+function getBestSource(sources?: LeadSearchResponse['sources']): string {
+  if (!sources) return '';
+  let best = '';
+  let bestPassed = -1;
+  for (const [source, stats] of Object.entries(sources)) {
+    const passed = stats.passed ?? 0;
+    if (passed > bestPassed) {
+      best = source;
+      bestPassed = passed;
+    }
+  }
+  return bestPassed > 0 ? `${best} (${bestPassed} passed)` : '';
+}
+
+function getSourceMix(sources?: LeadSearchResponse['sources']): string {
+  if (!sources) return '';
+  return Object.entries(sources)
+    .map(([source, stats]) => [source, stats.passed ?? 0] as const)
+    .filter(([, passed]) => passed > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([source, passed]) => `${source} ${passed}`)
+    .join(' · ');
+}
+
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
+  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock();
   const outward = lead.postcodeOutward || 'Unknown';
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
-
   const fields = [
     ['Trade', titleCase(String(lead.trade || lead.tradeMatch || 'trade'))],
     ['Location', lead.location || outward],
@@ -759,15 +908,33 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
       : 'bg-[var(--muted)]/15 text-[var(--muted)]';
 
   return (
-    <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
-      {/* Enhanced score badge with color coding */}
-      <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
-        <div className="flex flex-col items-center">
-          <span className="headline leading-none text-3xl">{lead.score}</span>
-          <span className="text-[10px] font-black uppercase">
-            {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
-          </span>
+    <article className="jf-box bg-white overflow-hidden">
+      {/* ── First-mover urgency bar (GOLD only) ── */}
+      {isGold && lead.publishedAt && (
+        <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-4 py-2">
+          <div className="flex items-center gap-2">
+            <Clock className="w-3.5 h-3.5 text-[var(--ink)]" />
+            <span className="text-xs font-black uppercase tracking-wider text-[var(--ink)]">
+              Detected {timeAgoShort(lead.publishedAt)} — first mover window open
+            </span>
+          </div>
+          <span className="text-[10px] font-black uppercase text-[var(--orange)]">GOLD LEAD</span>
         </div>
+      )}
+      <div className="grid gap-4 p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_260px]">
+      {/* Enhanced score badge with color coding */}
+      <div className="flex flex-col items-center gap-1">
+        <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
+          <div className="flex flex-col items-center">
+            <span className="headline leading-none text-3xl">{lead.score}</span>
+            <span className="text-[10px] font-black uppercase">
+              {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
+            </span>
+          </div>
+        </div>
+        {lead.qualityLabel && (
+          <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel}</span>
+        )}
       </div>
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
@@ -792,13 +959,18 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
               COMMERCIAL
             </span>
           )}
-          <GhostRiskBadge level={lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE'} size="sm" />
+          <LeadReadinessBadge level={lead.leadReadiness ?? lead.readiness ?? (lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE')} size="sm" />
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
             New business nearby — commercial fit-out likely
           </p>
         )}
+        {lead.evidenceBadges?.length ? (
+          <div className="mt-2">
+            <TrustBadges badges={lead.evidenceBadges} max={3} />
+          </div>
+        ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         {!OPEN_ACCESS && (
           <Link to="/pricing" className="mt-3 flex lg:hidden items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
@@ -820,12 +992,18 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             </span>
           ))}
         </div>
+        {lead.evidenceBadges && lead.evidenceBadges.length > 0 && (
+          <div className="mt-2">
+            <TrustBadges badges={lead.evidenceBadges} max={3} />
+          </div>
+        )}
+        <BuyerActionPack lead={lead} unlocked={cardOpenAccess} />
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer} />
-        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} />
-        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} />
-        {OPEN_ACCESS ? (
+        <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} />
+        <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} devUnlocked={cardOpenAccess} />
+        <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} devUnlocked={cardOpenAccess} />
+        {cardOpenAccess ? (
           <>
             {isTracked ? (
               <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
@@ -845,13 +1023,33 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
           </>
         ) : (
-          <Link to="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK FULL LEAD
-          </Link>
+          <div className="grid gap-1">
+            <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
+              UNLOCK FULL LEAD →
+            </Link>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+          </div>
         )}
+        <QuickResponseKit
+          leadId={lead.id}
+          trade={String(lead.trade || lead.tradeMatch || 'job')}
+          area={lead.location || outward}
+          score={lead.score}
+          publishedAt={lead.publishedAt}
+          unlocked={cardOpenAccess}
+          title={lead.title}
+          estimatedValue={String(lead.estimatedValue || '')}
+          contactSignal={lead.contactSignal}
+          url={lead.url}
+        />
+      </div>
       </div>
     </article>
   );
+}
+
+function BuyerActionPack({ lead, unlocked }: { lead: Lead; unlocked: boolean }) {
+  return <LeadValueKit lead={lead} unlocked={unlocked} />;
 }
 
 const EPC_RATING_COLOURS: Record<string, string> = {
@@ -932,7 +1130,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
         <p className="font-black text-[var(--navy)] text-sm">Pro users get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" to="/pricing">
+        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
           GET WHATSAPP ALERTS — FROM £39/MO
         </Link>
       </div>
@@ -957,13 +1155,17 @@ const LOCKED_PLACEHOLDERS: Record<string, string> = {
   'Source URL': 'planning.gov.uk/████',
 };
 
-function LockedValue({ label, value, isLink, href }: { label: string; value: string | undefined; isLink?: boolean; href?: string }) {
+function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
   if (!value) {
-    const placeholder = LOCKED_PLACEHOLDERS[label] ?? '████████';
+    const placeholder = devUnlocked
+      ? label === 'Source URL'
+        ? 'No source URL returned in preview payload'
+        : `${label} not returned in preview payload`
+      : LOCKED_PLACEHOLDERS[label] ?? '████████';
     return (
-      <div className="border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
+      <div className={`border-2 p-3 ${devUnlocked ? 'border-[var(--line)] bg-[var(--bg-main)]' : 'border-[var(--orange)]/40 bg-[var(--orange)]/5'}`}>
         <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className="mt-1 select-none font-black text-[var(--ink)] text-sm blur-[3px]">{placeholder}</p>
+        <p className={`mt-1 font-black text-[var(--ink)] text-sm ${devUnlocked ? '' : 'select-none blur-[3px]'}`}>{placeholder}</p>
       </div>
     );
   }
@@ -993,7 +1195,7 @@ function Stat({ label, value }: { key?: string; label: string; value: string }) 
 }
 
 function safePreviewValue(value: string) {
-  if (!value) return 'Unlock exact value';
+  if (!value) return 'See quote floor →';
   return value;
 }
 

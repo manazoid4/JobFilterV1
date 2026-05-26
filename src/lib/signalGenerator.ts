@@ -405,7 +405,7 @@ export function generateRSSFeed(week: WeekData): string {
   <channel>
     <title>JobFilter Weekly Signals</title>
     <link>https://jobfilter.uk/signals/weekly</link>
-    <description>Weekly construction signals from official UK data sources. Planning applications, EPC ratings, council contracts, property sales, and new business registrations.</description>
+    <description>Weekly construction signals from verified UK sources. Planning applications, energy signals, council contracts, property sales, and new business registrations.</description>
     <language>en-GB</language>
     <lastBuildDate>${pubDate}</lastBuildDate>
     <ttl>10080</ttl>${items}

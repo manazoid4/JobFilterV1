@@ -1,19 +1,24 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Zap, MapPinned, FileText, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, MessageSquare, LetterText, FileSearch, Eye } from 'lucide-react';
+import Link from 'next/link';
+
+import { Zap, MapPinned, FileText, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, MessageSquare, LetterText, Eye } from 'lucide-react';
 import { getChaseLeads } from '../lib/chaseStore';
 import { getMonthlyStats } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 const memberTools = [
-  { id: 'codex', name: 'Codex', desc: 'Simplify technical documents', icon: FileSearch, path: '/codex', colour: 'bg-[var(--navy)] text-white' },
+  { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
+  { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
 
 const quickActions = [
-  { label: 'Scan My Area', path: '/find-jobs', icon: Radio, colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { label: 'Works Starting Now', path: '/find-jobs?mode=start_now', icon: ShieldCheck, colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { label: 'Scan My Area', path: '/find-jobs', icon: Radio, colour: 'bg-white text-[var(--ink)]' },
   { label: 'My Pipeline', path: '/dashboard', icon: TrendingUp, colour: 'bg-[var(--navy)] text-white' },
   { label: 'My Territory', path: '/territories', icon: MapPinned, colour: 'bg-[var(--green)] text-white' },
   { label: 'Free Tools', path: '/free-tools', icon: Zap, colour: 'bg-[var(--orange)] text-white' },
@@ -31,9 +36,9 @@ export function TradieZonePage() {
     const ms = getMonthlyStats();
     setMonthlyStats(ms);
     try {
-      const stored = localStorage.getItem('jf-member-name');
+      const stored = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-member-name');
       if (stored) setMemberName(stored);
-      const territory = localStorage.getItem('jf-territory');
+      const territory = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory');
       if (territory) setMemberTerritory(territory);
     } catch { /* ignore */ }
   }, []);
@@ -52,7 +57,7 @@ export function TradieZonePage() {
           {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'WELCOME TO YOUR ZONE.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Everything you need in one place. Your leads, your tools, your territory. No fluff.
+          Your pipeline, your patch, your leads — spotted before Checkatrade even lists them. Use the tools below to stay ahead.
         </p>
       </section>
 
@@ -92,17 +97,17 @@ export function TradieZonePage() {
       {/* Quick Actions */}
       <section>
         <p className="micro-label text-[var(--muted)]">QUICK ACTIONS</p>
-        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
               <Link
                 key={action.label}
-                to={action.path}
-                className={`jf-box flex items-center gap-3 p-4 transition-all hover:shadow-[4px_4px_0_var(--line)] ${action.colour}`}
+                href={action.path}
+                className={`jf-box flex min-h-[84px] items-center gap-3 p-4 transition-all hover:shadow-[4px_4px_0_var(--line)] ${action.colour}`}
               >
                 <Icon size={24} strokeWidth={2.5} />
-                <span className="headline text-lg">{action.label}</span>
+                <span className="headline text-base leading-none sm:text-lg">{action.label}</span>
               </Link>
             );
           })}
@@ -112,20 +117,20 @@ export function TradieZonePage() {
       {/* Member Tools */}
       <section>
         <p className="micro-label text-[var(--muted)]">MEMBER TOOLS</p>
-        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {memberTools.map((tool) => {
             const Icon = tool.icon;
             return (
               <Link
                 key={tool.id}
-                to={tool.path}
+                href={tool.path}
                 className="jf-box group bg-white p-5 transition-all hover:border-[var(--yellow)]"
               >
                 <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
                   <Icon size={20} strokeWidth={2.5} />
                 </div>
-                <h3 className="headline mt-3 text-xl">{tool.name}</h3>
-                <p className="mt-1 text-sm font-black text-[var(--muted)]">{tool.desc}</p>
+                <h3 className="headline mt-3 text-xl text-[var(--ink)]">{tool.name}</h3>
+                <p className="mt-1 text-sm font-black leading-snug text-[var(--ink)]/75">{tool.desc}</p>
                 <span className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] group-hover:underline">
                   OPEN →
                 </span>
@@ -139,12 +144,12 @@ export function TradieZonePage() {
       <section>
         <div className="flex items-center justify-between">
           <p className="micro-label text-[var(--muted)]">RECENT LEADS</p>
-          <Link to="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
+          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
-            <p className="font-black text-[var(--muted)]">No leads yet. Start scanning to see real jobs in your area.</p>
-            <Link to="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
+            <p className="font-black text-[var(--muted)]">No leads in the pipeline yet. Scan your postcode — jobs appear in minutes.</p>
+            <Link href="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
           </div>
         ) : (
           <div className="mt-3 divide-y-2 divide-[var(--line)] border-2 border-[var(--line)] bg-white">
@@ -189,8 +194,8 @@ export function TradieZonePage() {
             )}
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link to="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
-            <Link to="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
+            <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
+            <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
           </div>
         </div>
       </section>

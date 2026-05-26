@@ -1,0 +1,68 @@
+{
+  "name": "JobFilter — 09 Waitlist Health",
+  "nodes": [
+    {
+      "id": "09ddddd9-0009-0009-0009-000000000001",
+      "name": "Hourly",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters": {
+        "rule": { "interval": [{ "field": "cronExpression", "expression": "0 * * * *" }] }
+      }
+    },
+    {
+      "id": "09ddddd9-0009-0009-0009-000000000002",
+      "name": "GET Waitlist Count",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/waitlist-count",
+        "options": { "timeout": 15000 }
+      }
+    },
+    {
+      "id": "09ddddd9-0009-0009-0009-000000000003",
+      "name": "Check Milestones",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300],
+      "parameters": {
+        "jsCode": "const fs = require('fs');\nconst path = require('path');\nconst vaultPath = 'C:/Users/manaz/Desktop/JobFilter/JobFilterV1/Obsidian_Memory/Obsidian_Vault';\nconst statePath = path.join(vaultPath, 'JobFilter', 'Agent Runs', '.waitlist-state.json');\nconst body = $input.first().json || {};\nconst count = Number(body.count ?? body.total ?? 0);\nconst milestones = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000];\nlet prev = { lastCount: 0, hit: [] };\nif (fs.existsSync(statePath)) { try { prev = JSON.parse(fs.readFileSync(statePath, 'utf-8')); } catch {} }\nconst newlyHit = milestones.filter(m => count >= m && !(prev.hit || []).includes(m));\nconst state = { lastCount: count, hit: Array.from(new Set([...(prev.hit || []), ...newlyHit])).sort((a,b)=>a-b), updated_at: new Date().toISOString() };\nfs.mkdirSync(path.dirname(statePath), { recursive: true });\nfs.writeFileSync(statePath, JSON.stringify(state, null, 2));\nreturn [{ json: { count, newlyHit, hitCount: newlyHit.length, hasMilestone: newlyHit.length > 0, prevCount: prev.lastCount || 0, delta: count - (prev.lastCount || 0) } }];"
+      }
+    },
+    {
+      "id": "09ddddd9-0009-0009-0009-000000000004",
+      "name": "Log Run via Vault Writer",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [900, 300],
+      "parameters": {
+        "source": "parameter",
+        "workflowId": "KPPRqOtDhPJhe7Kc",
+        "workflowInputs": {
+          "values": [
+            { "name": "agent", "value": "waitlist-health" },
+            { "name": "trigger", "value": "cron" },
+            { "name": "status", "value": "success" },
+            { "name": "summary", "value": "={{ 'Waitlist: ' + $json.count + ' (delta ' + ($json.delta>=0?'+':'') + $json.delta + '). Milestones hit this run: ' + ($json.newlyHit.join(',') || 'none') }}" },
+            { "name": "payload", "value": "={{ { count: $json.count, newlyHit: $json.newlyHit, delta: $json.delta } }}" },
+            { "name": "counts", "value": "={{ { waitlist: $json.count, newMilestones: $json.hitCount } }}" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Hourly": { "main": [[{ "node": "GET Waitlist Count", "type": "main", "index": 0 }]] },
+    "GET Waitlist Count": { "main": [[{ "node": "Check Milestones", "type": "main", "index": 0 }]] },
+    "Check Milestones": { "main": [[{ "node": "Log Run via Vault Writer", "type": "main", "index": 0 }]] }
+  },
+  "active": false,
+  "settings": { "saveManualExecutions": true },
+  "_readme": {
+    "description": "Hourly. GET /api/waitlist-count. Milestones 10/25/50/100/250/500/1k/2.5k/5k tracked in .waitlist-state.json. Logs via 04."
+  }
+}

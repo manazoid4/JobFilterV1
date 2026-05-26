@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 
 const comparison = [
   { feature: 'Planning applications', old: 'Yes — raw data', new: 'Yes — scored & filtered' },
@@ -62,8 +64,8 @@ export function BuildUkAlternativePage() {
             And we do more. Five signals. Scored leads. WhatsApp alerts. All for less than you were paying.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="#comparison">SEE THE DIFFERENCE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">SEE THE DIFFERENCE</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO CHASING</p>
@@ -128,8 +130,8 @@ export function BuildUkAlternativePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" to="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
         </div>
       </section>
@@ -238,13 +240,13 @@ export function BuildUkAlternativePage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" to="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
-              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" to="/pricing">SEE PRICING</Link>
+              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">SEE PRICING</Link>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">
@@ -261,7 +263,7 @@ export function BuildUkAlternativePage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
               ['Exclusive scans', 'No one else sees your results. Not shared. Not resold.'],
-              ['Official sources only', 'Planning portals, contracts finders, EPC registers. Not forms. Not ads.'],
+              ['Verified signals only', 'Planning approvals, public contracts, verified energy signals. Not forms. Not ads.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No top-ups.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands.'],
               ['Cancel anytime', 'No contracts. No lock-in. Leave if it doesn\'t work for you.'],
@@ -288,8 +290,8 @@ export function BuildUkAlternativePage() {
             Scan your area free. See what work is active near you. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" to="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

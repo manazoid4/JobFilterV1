@@ -61,16 +61,18 @@ export function registerOutcomeReportRoute(app: Express) {
   app.get('/api/wins/stats', (req: Request, res: Response) => {
     try {
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const won = Object.values(outcomes).filter((o) => o.status === 'won');
+      const areaPrefix = postcodePrefix.slice(0, 2);
+      const won = Object.values(outcomes).filter((o) => {
+        if (o.status !== 'won') return false;
+        if (!areaPrefix || !o.postcode) return true;
+        return o.postcode.toUpperCase().startsWith(areaPrefix);
+      });
 
-      const liveWonCount = won.length;
-      const liveTotal = won.reduce((sum, o) => {
-        const v = parseFloat(o.value?.replace(/[^0-9.]/g, '') || '0');
+      const totalWonCount = won.length;
+      const totalValue = won.reduce((sum, o) => {
+        const v = parseFloat((o.value || '').replace(/[^0-9.]/g, ''));
         return sum + (isNaN(v) ? 0 : v);
       }, 0);
-
-      const totalWonCount = liveWonCount;
-      const totalValue = liveTotal;
 
       return res.json({
         ok: true,
@@ -91,7 +93,7 @@ export function registerOutcomeReportRoute(app: Express) {
     try {
       const { leadId, customerName, trade } = req.body || {};
       const message = `Hi ${customerName || 'there'}, thanks for choosing us for your ${trade || 'trade'} work. If you're happy with the job, a quick Google review would mean the world — just paste your review link here before sending: [YOUR GOOGLE REVIEW LINK]`;
-      return res.json({ ok: true, reviewUrl: '', message });
+      return res.json({ ok: true, message });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Review link failed.') });
     }

@@ -1,5 +1,6 @@
-﻿import type { Lead, TradeKey } from './types';
+import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
+import { getScoreBonus } from './sourceConfig';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {
@@ -50,30 +51,12 @@ const HIGH_INTENT_KEYWORDS = [
   'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession',
 ];
 
-const SOURCE_CLASS_BONUS: Record<string, number> = {
-  BuildingControl: 10,
-  PlanAPI: 8,
-  PlanNexus: 8,
-  PlanWire: 8,
-  PlanningData: 7,
-  ContractsFinder: 7,
-  FTS: 7,
-  PublicContractsScotland: 7,
-  EPC: 6,
-  HMOLicensing: 6,
-  RetrofitSchemes: 6,
-  LandRegistry: 4,
-  CompaniesHouse: 3,
-  AuctionProperty: 3,
-  DirectorySignal: -8,
-  PortalTrendIntelligence: -4,
-};
 
 export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey): number {
   return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[] } {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[]; qualityLabel: Lead['qualityLabel']; ghostRisk: Lead['ghostRisk']; leadReadiness: Lead['leadReadiness']; recommendedAction: string; evidenceBadges: string[] } {
   let score = 0;
   const reasons: string[] = [];
 
@@ -81,7 +64,7 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   score += sourcePts;
   reasons.push(`Source confidence ${lead.sourceConfidence}% (+${sourcePts})`);
 
-  const sourceClassBonus = SOURCE_CLASS_BONUS[lead.source] ?? 0;
+  const sourceClassBonus = getScoreBonus(lead.source);
   if (sourceClassBonus !== 0) {
     score += sourceClassBonus;
     reasons.push(`Source class ${lead.source} (${sourceClassBonus > 0 ? '+' : ''}${sourceClassBonus})`);
@@ -198,7 +181,58 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     }
   }
 
-  return { score: Math.min(Math.max(score, 0), 100), reasons };
+  const finalScore = Math.min(Math.max(score, 0), 100);
+
+  // Quality label
+  let qualityLabel: Lead['qualityLabel'];
+  if (finalScore >= 90) qualityLabel = 'GOLD';
+  else if (finalScore >= 75) qualityLabel = 'SILVER';
+  else if (finalScore >= 60) qualityLabel = 'BRONZE';
+  else if (finalScore >= 40) qualityLabel = 'CHECK';
+  else qualityLabel = 'SKIP';
+
+  // Ghost risk
+  const sourceLower = (lead.source ?? '').toLowerCase();
+  const isDirectorySource = sourceLower.includes('directory');
+  let ghostRisk: Lead['ghostRisk'];
+  if (
+    finalScore >= 65 &&
+    lead.sourceConfidence >= 60 &&
+    lead.contactSignal !== 'none' &&
+    !isDirectorySource
+  ) {
+    ghostRisk = 'READY';
+  } else if (
+    finalScore < 40 ||
+    (isDirectorySource && lead.sourceConfidence < 50) ||
+    (lead.urgency === 'low' && lead.contactSignal === 'none')
+  ) {
+    ghostRisk = 'WASTE';
+  } else {
+    ghostRisk = 'MAYBE';
+  }
+
+  // Recommended action
+  const recommendedAction =
+    ghostRisk === 'READY' ? 'Call within 24 hours' :
+    ghostRisk === 'WASTE' ? 'Do not spend site-visit time yet' :
+    'Verify by phone before quoting';
+
+  // Evidence badges
+  const evidenceBadges: string[] = [];
+  if (sourceLower.includes('planning')) evidenceBadges.push('Planning Verified');
+  if (sourceLower.includes('contracts') || sourceLower.includes('fts') || sourceLower.includes('pcs')) evidenceBadges.push('Tender Live');
+  if (lead.publishedAt) {
+    const ageDays = (Date.now() - new Date(lead.publishedAt).getTime()) / 86_400_000;
+    if (ageDays <= 7) evidenceBadges.push('Fresh');
+  }
+  if (sourceLower.includes('companies') || sourceLower.includes('company')) evidenceBadges.push('Company Verified');
+  if (sourceLower.includes('land') || sourceLower.includes('registry')) evidenceBadges.push('New Owner');
+  if (lead.estimatedValue && !lead.estimatedValue.includes('POA') && lead.estimatedValue !== '') evidenceBadges.push('Budget Band');
+  evidenceBadges.push('Exclusive');
+
+  const leadReadiness = ghostRisk;
+  return { score: finalScore, reasons, qualityLabel, ghostRisk, leadReadiness, recommendedAction, evidenceBadges };
 }
 
 function parseValueToMidpoint(val: string): number {
@@ -214,4 +248,3 @@ function parseValueToMidpoint(val: string): number {
   if (!values.length) return 0;
   return values.reduce((a, b) => a + b, 0) / values.length;
 }
-

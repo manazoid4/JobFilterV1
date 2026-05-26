@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from 'next/link';
+
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const ratings = [
@@ -19,12 +21,12 @@ export function EpcPage() {
   return (
     <main className="page-shell grid gap-6 py-8 pb-8">
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">EPC LEADS</p>
+        <p className="micro-label text-[var(--yellow)]">RETROFIT LEADS</p>
         <h1 className="headline mt-4 max-w-5xl text-5xl leading-none text-[var(--yellow)] md:text-7xl">
-          EPC ENERGY UPGRADES — FLAGGED BEFORE ANYONE KNOCKS.
+          ENERGY UPGRADES — FLAGGED BEFORE ANYONE KNOCKS.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-          Properties rated F and G cannot be legally rented without energy improvements. JobFilter identifies these addresses and alerts you before they post anywhere.
+          Properties rated F and G cannot be legally rented without retrofit work. Landlords must fix them — or stop renting. JobFilter identifies these addresses and alerts you before they post anywhere. No Checkatrade. No five-trade blast. Just you and the job.
         </p>
       </section>
 
@@ -70,21 +72,21 @@ export function EpcPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TARGETED ADS</p>
-        <h2 className="headline mt-3 text-5xl leading-none">VICINITY: HYPER-LOCAL EPC ADS.</h2>
+        <h2 className="headline mt-3 text-5xl leading-none">VICINITY: HYPER-LOCAL RETROFIT ADS.</h2>
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--muted)]">
           Run targeted ads to every F/G rated property owner in your postcode. Vicinity handles the design and placement - you take the calls.
         </p>
-        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/vicinity">OPEN VICINITY</Link>
+        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/vicinity">OPEN VICINITY</Link>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">
         <div className="jf-box bg-[var(--navy)] p-6 text-white">
-          <p className="micro-label text-[var(--yellow)]">GET EPC ALERTS</p>
+          <p className="micro-label text-[var(--yellow)]">GET RETROFIT ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
-            Join the EPC lead list. Gold signals go to WhatsApp when the paid alert flow opens.
+            Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" to="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
         </div>
         <WaitlistForm source="epc-leads" />
       </section>

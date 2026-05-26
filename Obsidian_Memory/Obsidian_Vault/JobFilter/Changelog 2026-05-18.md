@@ -130,7 +130,7 @@ Also replaced "upstream signals: approvals, tenders, property condition, local a
 ## Related
 - [[Changelog 2026-05-17]]
 - [[Feature Roadmap - 8th May 2026]]
-- [[Sessions/Daily To-Do]]
+- [[Recent]]
 
 ---
 
