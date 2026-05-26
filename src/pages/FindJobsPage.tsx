@@ -168,12 +168,12 @@ export function FindJobsPage() {
   const [showDocSearch, setShowDocSearch] = useState(false);
   const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
+  const [scanMode, setScanMode] = useState<ScanMode>('all');
 
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
-  const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -973,7 +973,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         {!OPEN_ACCESS && (
-          <Link to="/pricing" className="mt-3 flex lg:hidden items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
+          <Link href="/pricing" className="mt-3 flex lg:hidden items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
             UNLOCK FULL LEAD →
           </Link>
         )}
