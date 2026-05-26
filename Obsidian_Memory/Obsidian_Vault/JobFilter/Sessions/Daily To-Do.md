@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 26 May 2026 (Run 3 — NightlyBuildAgent)
+
+- [x] Auth routes: create app/login, app/forgot-password, app/reset-password Next.js wrappers (all were 404ing)
+- [x] LoginPage: replace react-router-dom + AuthProvider with Next.js navigation + createBrowserSupabaseClient
+- [x] ForgotPasswordPage: replace react-router-dom Link + Vite supabase with next/link + createBrowserSupabaseClient
+- [x] ResetPasswordPage: replace useNavigate + Vite supabase with useRouter + createBrowserSupabaseClient
+- [x] AccountPage: replace Navigate(react-router-dom) with useRouter.replace('/login')
+- [x] TopNav: add Sign In link (desktop + mobile) — existing users had no discoverable login path
+- [x] SignupPage: "Work email" → "Email", "Postcode cluster" → "Your area (e.g. B14)", hero "LOCK THE ACCOUNT FIRST." → "CREATE YOUR ACCOUNT."
+- [x] ActivationPendingPage: pre-checkout copy clarified — "under 2 minutes" + plain language
+- [x] DashboardPage: YOUR INTAKE "Not set" rows → actionable RowLink CTAs to /find-jobs + yellow scan CTA when unset (NEEDLE #1)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-26 Run 3 written
+- [ ] AccountPage still uses AuthProvider (which uses Vite env vars) — needs full migration to createBrowserSupabaseClient when AuthProvider is refactored
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+
+---
+
 ## Today - 26 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] FindJobsPage: data source naming violations fixed (4 locations) — formatSourceLabel() helper added; lead card source badge, PATCH PULSE source mix, PATCH PULSE best source, locked Source URL placeholder
