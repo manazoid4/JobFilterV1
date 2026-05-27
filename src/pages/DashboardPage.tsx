@@ -200,7 +200,7 @@ export function DashboardPage() {
             <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
-          {(!scanTrade || !scanPostcode) && (
+          {isEmpty && (!scanTrade || !scanPostcode) && (
             <Link href="/find-jobs" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
               RUN YOUR FIRST SCAN →
             </Link>
