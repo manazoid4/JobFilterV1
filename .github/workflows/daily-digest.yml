@@ -1,0 +1,37 @@
+name: Daily Digest Email
+
+on:
+  schedule:
+    # 7:00 AM UTC daily — adjust cron for your timezone if needed
+    # UK Summer (BST = UTC+1): fires at 8am local
+    - cron: '0 7 * * *'
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-digest:
+    name: Build and send daily digest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run digest script
+        env:
+          # Auto-provided by GitHub Actions — no setup needed
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          # Add these three in: Settings → Secrets and variables → Actions → New repository secret
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_TO_EMAIL: ${{ secrets.DIGEST_TO_EMAIL }}
+          DIGEST_FROM_EMAIL: ${{ secrets.DIGEST_FROM_EMAIL }}
+        run: node .github/scripts/daily-digest.js
