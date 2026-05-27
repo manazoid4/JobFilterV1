@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const result = {
     ok: true,
     score,
-    model: process.env.GEMINI_API_KEY ? 'gemini-ready' : 'rules-fallback',
+    model: 'rules-v1',
     reasons: [
       'urgency weighted first',
       'estimated value weighted second',

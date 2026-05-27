@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 import { WaitlistForm } from '../components/WaitlistForm';
 
-const recentBids = [
-  { age: '2 hours ago', title: 'Hackney High St — Retrofit', score: 88 },
-  { age: 'Yesterday', title: 'Battersea Phase 4 — Electrical', score: 92 },
-  { age: '3 days ago', title: 'Greenwich Loft — Carpentry', score: 74 },
+const exampleBids = [
+  { title: 'Retrofit Project — Central London', score: 88 },
+  { title: 'Electrical Package — South London', score: 92 },
+  { title: 'Carpentry Package — East London', score: 74 },
 ];
 
 const steps = [
@@ -186,21 +186,19 @@ export function VantagePage() {
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
-            <h3 className="headline mb-6 text-[18px] uppercase text-[var(--yellow)]">Recent Bids</h3>
+            <h3 className="headline mb-1 text-[18px] uppercase text-[var(--yellow)]">Example Bids</h3>
+            <p className="mb-5 text-[10px] font-bold uppercase tracking-wider text-white/40">Illustrative — your real bids appear here</p>
             <div className="flex flex-col gap-4">
-              {recentBids.map((bid) => (
+              {exampleBids.map((bid) => (
                 <div
                   key={bid.title}
                   className="cursor-pointer pb-4"
                   style={{ borderBottom: '2px solid rgba(255,255,255,0.15)' }}
                 >
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--yellow)]">
-                    {bid.age}
-                  </p>
                   <h4 className="text-[13px] font-bold uppercase leading-tight text-white">
                     {bid.title}
                   </h4>
-                  <p className="text-[10px] uppercase text-white/90">Success Score: {bid.score}%</p>
+                  <p className="text-[10px] uppercase text-white/90">Example Score: {bid.score}%</p>
                 </div>
               ))}
             </div>

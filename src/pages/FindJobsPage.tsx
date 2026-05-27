@@ -18,7 +18,7 @@ import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
-const SHOW_ADVANCED_TOOLS = false;
+const SHOW_ADVANCED_TOOLS = true;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -253,7 +253,7 @@ export function FindJobsPage() {
     saveScanHistory(effectivePostcode, effectiveTrade);
     setScanHistory(getScanHistory());
     try {
-      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -332,7 +332,7 @@ export function FindJobsPage() {
     setFillWeekPhase('Ranking the best jobs near you...');
     await new Promise(r => setTimeout(r, 400));
     try {
-      const endpoint = scanMode === 'start_now' ? '/api/start-signals/search' : '/api/leads/search';
+      const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
