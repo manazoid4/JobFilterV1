@@ -8,7 +8,10 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = links.filter((l) => l.to !== '/find-jobs' && l.to !== '/pricing');
+const mobileLinks = [
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Live Signals' },
+];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -63,6 +66,9 @@ export function TopNav() {
               </span>
             </div>
           )}
+          <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+            Sign in
+          </Link>
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
             START £39/MO
           </Link>
@@ -123,11 +129,11 @@ export function TopNav() {
             })}
           </div>
           <Link
-            href="/find-jobs"
+            href="/pricing"
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            SCAN MY AREA FREE
+            START £39/MO — FOUNDING PRICE
           </Link>
         </div>
       )}

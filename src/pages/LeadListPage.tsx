@@ -3,7 +3,10 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
+
+const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
 
 type Tab = 'gold' | 'silver' | 'bin';
 
@@ -48,6 +51,10 @@ export function LeadListPage() {
   const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
   const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
 
+  const wonCount       = stored.filter((l) => l.status === 'won').length;
+  const lostCount      = stored.filter((l) => l.status === 'lost').length;
+  const noAnswerCount  = stored.filter((l) => l.status === 'no_answer').length;
+
   const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
 
   const tabs: { id: Tab; label: string; count: number }[] = [
@@ -61,12 +68,12 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">INTAKE ENGINE</p>
+        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
+          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
         </p>
       </div>
 
@@ -80,11 +87,29 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Trade match, distance, urgency, job value, and verification proof — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
             </p>
           </div>
         </div>
       </div>
+
+      {/* ── OUTCOMES summary ─────────────────────────────────── */}
+      {stored.length > 0 && (wonCount > 0 || lostCount > 0 || noAnswerCount > 0) && (
+        <div className="jf-box bg-white p-4">
+          <p className="micro-label text-[var(--muted)] mb-3">OUTCOMES</p>
+          <div className="flex flex-wrap gap-3">
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--green)] text-sm font-black text-[var(--green)]">
+              WON <span className="ml-1">{wonCount}</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--orange)] text-sm font-black text-[var(--orange)]">
+              LOST <span className="ml-1">{lostCount}</span>
+            </span>
+            <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--muted)] text-sm font-black text-[var(--muted)]">
+              NO ANSWER <span className="ml-1">{noAnswerCount}</span>
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* ── Tip banner ────────────────────────────────────── */}
       <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
@@ -157,16 +182,38 @@ export function LeadListPage() {
       {/* ── Lead cards ────────────────────────────────────────── */}
       {stored.length > 0 && visible.length === 0 ? (
         <div className="jf-box bg-white p-8 text-center">
-          <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
-          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
-            Try a different tab or clear your search filter.
-          </p>
-          <button
-            onClick={() => { setQuery(''); setTab('gold'); }}
-            className="jf-button mt-5 bg-[var(--navy)] text-white"
-          >
-            CLEAR FILTER
-          </button>
+          {query ? (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">NO {tab.toUpperCase()} LEADS MATCH</h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                Try a different tab or clear your search filter.
+              </p>
+              <button
+                onClick={() => { setQuery(''); setTab('gold'); }}
+                className="jf-button mt-5 bg-[var(--navy)] text-white"
+              >
+                CLEAR FILTER
+              </button>
+            </>
+          ) : (
+            <>
+              <h2 className="headline text-2xl uppercase text-[var(--navy)]">
+                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'BIN IS EMPTY'}
+              </h2>
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+                {tab === 'gold'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
+                  : tab === 'silver'
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan to fill your pipeline.'
+                  : 'Good — no low-quality leads in your pipeline.'}
+              </p>
+              {tab !== 'bin' && (
+                <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+                  SCAN FOR JOBS →
+                </Link>
+              )}
+            </>
+          )}
         </div>
       ) : stored.length > 0 ? (
         <div className="flex flex-col gap-5">
@@ -210,7 +257,7 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Hi, saw your ${lead.jobType} job in ${lead.area}. I'm local and can quote this week — happy to pop round. Let me know.`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(FIRST_TOUCH_TEMPLATE, { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"

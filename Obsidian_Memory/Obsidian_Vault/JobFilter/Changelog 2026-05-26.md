@@ -9,98 +9,88 @@ source: NightlyBuildAgent
 # JobFilter Changelog — 2026-05-26
 
 ## Summary
-NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 3 files changed. Closed NEEDLE #2 (DashboardPage 0-state micro-copy for TRACKING and RESULTS), fixed LeadListPage empty-state flow confusion, and strengthened PricingPage copy with specific competitor naming.
+NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 4 files changed. Fixed data source naming violations across FindJobsPage and LeadDetailPage, removed duplicate Dashboard CTA, strengthened TradieZonePage territory urgency copy.
 
 ## Commit Pushed
-
-| Commit | Files | Change |
-|--------|-------|--------|
-| 8dbc019 | 3 files | DashboardPage 0-state micro-copy, LeadListPage flow fix, PricingPage copy |
+`396db01` — [NightlyBuildAgent] Fix source naming violations + copy polish + dashboard CTA dedup
 
 ---
 
 ## PHASE 1 — Pre-flight
 
-- npm install: required (vite not found — fresh container, deps not cached)
-- Build: GREEN (3.97s)
+- npm install: required (fresh container, node_modules empty)
+- Build: GREEN (Next.js 16.2.6 Turbopack)
 - TypeScript: CLEAN (0 errors)
-- Previous session: b3cbc3e (2026-05-25 NightlyBuildAgent run)
+- Previous session: c6db128 (fix: resolve duplicate scanHistory state and missing scanMode #194)
 
 ---
 
-## PHASE 2 — Feature / UX Improvement
+## PHASE 2 — Feature / Naming Violation Fix
 
-### DashboardPage: 0-State Micro-Copy for TRACKING and RESULTS
+### FindJobsPage: Data Source Naming Violations Fixed (4 locations)
 
-**Problem (NEEDLE #2 from 2026-05-25):** New users landing on the Dashboard with 0 leads and 0 wins saw raw zeros in the YOUR PIPELINE (TRACKING) and YOUR SCOREBOARD (RESULTS) sections with no explanation of what these cards are for or what to do next.
+Raw backend source keys (`EPC`, `PlanningData`, `ContractsFinder`, `FTS`, `LandRegistry`, etc.) were exposed in 4 places — violating the product rule prohibiting data source naming publicly.
 
-**Fix:**
-- YOUR PIPELINE (TRACKING): When `activeChase === 0`, a brief help line now appears below the stat rows:
-  _"Scan your postcode, then tap TRACK THIS LEAD on any result. Jobs land here so you can chase them in order."_
+**Fixed:**
+1. Lead card source badge: `{lead.source}` → `{formatSourceLabel(lead.source)}`
+2. PATCH PULSE source mix: `PlanningData 8 · EPC 3` → `Planning signal ×8 · Energy signal ×3`
+3. PATCH PULSE best source: `PlanningData (8 passed)` → `Planning signal (8)`
+4. LOCKED_PLACEHOLDERS Source URL: `'planning.gov.uk/████'` → `'████ — unlock to verify'`
 
-- YOUR SCOREBOARD (RESULTS): When `winData.wins === 0`, a brief help line now appears:
-  _"Chase a lead and tap WON after you land the job. Your wins, earnings, and loss reasons track here."_
+Added `formatSourceLabel(source: string): string` helper mapping raw source system names to generic signal labels.
 
-**File:** `src/pages/DashboardPage.tsx` (lines ~209-216, ~228-235)
-
-**CRITIC:** YES — new users understand what both cards are for in <3 seconds.
-**REVENUE:** YES — removes confusion that made new users think the dashboard was broken.
+**File:** `src/pages/FindJobsPage.tsx`
 
 ---
 
 ## PHASE 3 — Copy Polish
 
-### LeadListPage: Empty State Flow Explanation
+### LeadDetailPage: signalStack Badges Fixed
 
-**Problem (NEEDLE #3 from 4-agent NEEDLE analysis):** Empty state said "Enter your postcode. Pick your trade. See what jobs are live near you in under 30 seconds." — this doesn't explain the scan→track→view flow. Users who scanned but didn't tap TRACK THIS LEAD didn't understand why their list was empty.
+WHY THIS LEAD section was showing raw `signalStack` values ("EPC", "PlanningData", "CompaniesHouse") as yellow badges.
 
-**Before:** "Enter your postcode. Pick your trade. See what jobs are live near you in under 30 seconds."
-**After:** "Scan your postcode → find jobs scored for your trade → tap TRACK THIS LEAD on any result. It lands here so you can chase it."
+Added `formatSignalLabel()` — "EPC" → "Energy signal", "PlanningData" → "Planning approval", etc.
 
-**File:** `src/pages/LeadListPage.tsx` (line ~101)
+**File:** `src/pages/LeadDetailPage.tsx`
 
-**CRITIC:** YES — the arrow-separated flow is scannable and uses the exact button label from FindJobsPage.
-**REVENUE:** YES — users who understand the full flow are more likely to start using it and see value.
+**CRITIC:** YES. **REVENUE:** YES — reinforces "verified signals" brand language.
 
-### PricingPage: Corporate Language Removed
+---
 
-**Before:** "Not a lead marketplace. A construction intelligence layer."
-**After:** "Not a directory. Not an auction. Jobs found before Checkatrade lists them."
+### TradieZonePage: Territory Urgency Copy
 
-**Before (Free Scan body):** "See if your patch is worth paying for — before you pay."
-**After:** "See what's active in your postcode right now — before you spend a penny. Most trades find a lead worth chasing in under 3 minutes."
+**Before:** "OPEN" / "No patch claimed yet" — passive, no fear  
+**After:** "NOT LOCKED" (orange) / "Another trade could claim your area." (orange)
 
-**File:** `src/pages/PricingPage.tsx` (lines ~304, ~178)
+Empty leads state now names Checkatrade/Bark + "No credit card required" trust line.
 
-**CRITIC:** YES — specific competitor naming (Checkatrade) + time proof ("3 minutes") clears in <3 seconds.
-**REVENUE:** YES — "under 3 minutes" reduces trial friction; naming Checkatrade anchors against known cost.
+**File:** `src/pages/TradieZonePage.tsx`
+
+**CRITIC:** YES. **REVENUE:** YES — urgency to lock territory → paid plan.
 
 ---
 
 ## PHASE 4 — Site Health Check
 
-### NEEDLE Findings (4-Agent Analysis)
+### NEEDLE #1 Fixed: DashboardPage Duplicate Scan CTAs
 
-1. **LeadListPage empty state flow confusion (HIGH)** — "Enter your postcode" didn't explain the scan→track→view flow. → FIXED THIS SESSION.
+When `isEmpty=true`, QUICK ACTIONS showed "SCAN FOR JOBS →" duplicating "RUN YOUR FIRST SCAN →" in the orange empty-state block.
 
-2. **Tracking flow fragmented — "Chase" jargon (MEDIUM)** — On FindJobsPage, "TRACK THIS LEAD" button adds to the Chase store, but it's not clear to new users where tracked leads land. DashboardPage TRACKING section now has the guide text — partially addresses this.
+**Fix:** isEmpty branch → "SEE WHAT YOU UNLOCK →" pointing to /pricing (white button, not yellow).  
+Non-empty: still shows "REVIEW LEADS →".
 
-3. **Duplicate unlock CTAs on FindJobsPage (MEDIUM)** — Per-card "UNLOCK FULL LEAD" button + larger "PATCH WATCH / BUYER ACTION PACK" upsell section below. The NEEDLE agent flagged these as competing. The card CTA is clear; the upsell section is explanatory content, not a CTA — this is by design. No change needed.
+**File:** `src/pages/DashboardPage.tsx`
 
-### BUILDER fix: LeadListPage empty state (see above)
-
-**CRITIC:** YES — explicit scan→track→view flow is clear in <3 seconds.
-**REVENUE:** YES — trades who understand the flow use it, then see value, then upgrade.
+**CRITIC:** YES. **REVENUE:** YES — routes empty-pipeline users to pricing page.
 
 ---
 
 ## Build Status
-- `npm run build`: GREEN (3.97s)
+- `npm run build`: GREEN
 - `npx tsc --noEmit`: CLEAN (0 errors)
 
 ---
 
 ## Related
-- [[Changelog 2026-05-25]]
-- [[Recent]]
+- [[Changelog 2026-05-25 Run 3]]
 - [[Feature Roadmap - 8th May 2026]]

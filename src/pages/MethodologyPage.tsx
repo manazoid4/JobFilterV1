@@ -43,7 +43,7 @@ const pipelineSteps = [
     num: '06',
     label: 'DELIVER',
     icon: Send,
-    body: 'Gold signals route to WhatsApp, direct letters, territory locks, and follow-up tracking. The right trade gets the right lead at the right time.',
+    body: 'Gold signals route to WhatsApp, letter drop scripts, territory locks, and follow-up tracking. The right trade gets the right lead at the right time.',
     detail: 'WhatsApp first. Dashboard second. One trade partner per postcode cluster.',
   },
 ];

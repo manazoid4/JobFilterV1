@@ -66,11 +66,6 @@ function MapPinIcon() {
 export function HomePage() {
   return (
     <main className="bg-[var(--paper)] pb-0">
-      {/* ── LAUNCH BANNER ─────────────────────────────── */}
-      <div className="flex items-center justify-center gap-3 border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-center font-mono text-xs font-black uppercase tracking-widest text-[var(--ink)]">
-        <span>FOUNDING 30 OPEN — £39/MO LOCKS FOREVER — CANCEL ANYTIME</span>
-      </div>
-
       {/* ── HERO ──────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         {/* Radial gradient overlay */}
@@ -120,15 +115,9 @@ export function HomePage() {
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/news">
-                  Trade news →
-                </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
                   Claim Territory →
                 </Link>
-                <a className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">
-                  Follow on Instagram →
-                </a>
               </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/60">
@@ -412,9 +401,14 @@ export function HomePage() {
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
               Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
-            <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/territories">
-              Open Territory Grid
-            </Link>
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
+                SEE OPEN TERRITORIES →
+              </Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
+                SCAN FREE — NO CARD NEEDED
+              </Link>
+            </div>
           </div>
           <div className="grid gap-3">
             {territoryCards.map(([name, status, score]) => {
@@ -485,7 +479,7 @@ export function HomePage() {
             {[
               { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
               { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
-              { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
+              { icon: FileText, title: 'Letter drop scripts', body: 'Pre-written for your trade and area. Print and post in minutes.' },
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },

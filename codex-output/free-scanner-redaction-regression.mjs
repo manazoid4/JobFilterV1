@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const route = fs.readFileSync('server/routes/leadsSearch.ts', 'utf8');
-const functionsIndex = fs.readFileSync('functions/index.ts', 'utf8');
+const functionsIndex = fs.readFileSync('legacy/firebase/functions/index.ts', 'utf8');
 const findJobsPage = fs.readFileSync('src/pages/FindJobsPage.tsx', 'utf8');
 const pricing = fs.readFileSync('src/pages/PricingPage.tsx', 'utf8');
 
@@ -35,10 +35,9 @@ for (const forbidden of [
 
 for (const required of [
   'safePreviewValue',
-  'Unlock exact value',
-  'Unlock timing',
-  'Timing locked',
-  'Free view proves the signal exists',
+  'UNLOCK FULL LEAD',
+  'LockedValue',
+  'Free scan confirms the signal is live',
 ]) {
   assert.ok(findJobsPage.includes(required), `free scanner UI missing lock copy: ${required}`);
 }

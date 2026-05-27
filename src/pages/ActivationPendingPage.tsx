@@ -83,13 +83,13 @@ export function ActivationPendingPage() {
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
           {paid
             ? 'One step left. Confirm your details below so we can activate your patch and start routing Gold leads to your WhatsApp.'
-            : 'Confirm your WhatsApp, trade and postcode. Then checkout opens with your account attached.'}
+            : 'Set your trade and area below. Then we\'ll take you straight to payment — takes under 2 minutes.'}
         </p>
       </section>
 
       <section className="jf-box bg-white p-7">
           <p className="micro-label text-[var(--orange)]">CONFIRM YOUR SETUP</p>
-        <h2 className="headline mt-2 text-3xl leading-none">{paid ? 'Your leads go live in 2 hours.' : 'Set your patch before payment.'}</h2>
+        <h2 className="headline mt-2 text-3xl leading-none">{paid ? 'Your leads go live in 2 hours.' : 'Set your patch — then straight to payment.'}</h2>
         <form onSubmit={submit} className="mt-6 grid gap-4">
           <label className="field-label">
             WhatsApp number (required — this is where Gold leads are sent)

@@ -1,17 +1,23 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-for (const configPath of ['leadEngine/config.ts', 'functions/leadEngine/config.ts']) {
-  const config = fs.readFileSync(configPath, 'utf8');
-  assert.match(config, /planningData:\s*process\.env\.SOURCE_PLANNING_DATA !== 'false'/, `${configPath} must expose a PlanningData source flag`);
-  assert.match(config, /freeTierLimit:\s*5,/, `${configPath} must keep launch free tier limited to 5`);
-  assert.doesNotMatch(config, /freeTierLimit:\s*25/, `${configPath} must not ship the old test-mode free limit`);
-}
+// Source enabling now lives in leadEngine/sourceConfig.ts via isSourceEnabled().
+// The old CONFIG.sources.planningData flag was removed in the sourceConfig refactor.
 
-for (const scanPath of ['leadEngine/scan.ts', 'functions/leadEngine/scan.ts']) {
-  const scan = fs.readFileSync(scanPath, 'utf8');
-  assert.match(scan, /CONFIG\.sources\.planningData\s*\?\s*planningDataFetcher/s, `${scanPath} must gate PlanningData on planningData flag`);
-  assert.doesNotMatch(scan, /CONFIG\.sources\.contractsFinder\s*\?\s*planningDataFetcher/s, `${scanPath} must not gate PlanningData on ContractsFinder`);
-}
+const config = fs.readFileSync('leadEngine/config.ts', 'utf8');
+const sourceConfig = fs.readFileSync('leadEngine/sourceConfig.ts', 'utf8');
+const scan = fs.readFileSync('leadEngine/scan.ts', 'utf8');
+
+// freeTierLimit must remain at 5 for launch
+assert.match(config, /freeTierLimit:\s*5,/, 'leadEngine/config.ts must keep launch free tier limited to 5');
+assert.doesNotMatch(config, /freeTierLimit:\s*25/, 'leadEngine/config.ts must not ship old test-mode free limit');
+
+// Source enablement now lives in sourceConfig via isSourceEnabled()
+assert.ok(sourceConfig.includes("key: 'PlanningData'"), 'sourceConfig must register PlanningData source');
+assert.ok(sourceConfig.includes('isSourceEnabled'), 'sourceConfig must export isSourceEnabled');
+
+// scan.ts must gate PlanningData on isSourceEnabled, not hardcoded
+assert.ok(scan.includes("isSourceEnabled('PlanningData')"), 'scan.ts must gate PlanningData on isSourceEnabled');
+assert.doesNotMatch(scan, /CONFIG\.sources\.planningData/, 'scan.ts must not use old CONFIG.sources.planningData flag');
 
 console.log('lead engine source config regression passed');

@@ -3,136 +3,95 @@ type: changelog
 date: 2026-05-25
 repo: JobFilterV1
 branch: main
-source: NightlyBuildAgent
+source: NightlyBuildAgent (Run 2)
 ---
 
-# JobFilter Changelog — 2026-05-25
+# JobFilter Changelog — 2026-05-25 (Run 2)
 
 ## Summary
-NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 4 files changed. UX polish across LeadDetailPage (loss reason progressive reveal + template purpose hints), FindJobsPage (scan counter new-user framing + FILL MY WEEK description), AdminGuardTeaserPage (ops strip copy), TradieZonePage (hero copy + empty state).
-
-## Commit Pushed
-
-| Commit | Files | Change |
-|--------|-------|--------|
-| b3cbc3e | 4 files | UX polish: loss reason reveal, template hints, scan counter, copy |
+NightlyBuildAgent session. Build: GREEN. TypeScript: CLEAN. 2 files changed. Feature: personal scan history on FindJobsPage (localStorage-based, replaces hardcoded postcodes). Copy polish: FindJobsPage hero (bait-and-switch fix), PricingPage hero + bottom CTA. Site health BUILDER fix: mobile UNLOCK CTA added inline in lead card center column so it's visible above the fold on phones and tablets.
 
 ---
 
 ## PHASE 1 — Pre-flight
 
-- Build: GREEN (4.61s after npm install)
+- Build: GREEN (npm install required — node_modules absent in fresh container)
 - TypeScript: CLEAN (0 errors)
-- Previous session commit: cf33fdd (Merge PR #140 — admin guard paid feature)
+- Previous session commit: 7614702 (vault: Changelog 2026-05-24 Run 2)
 
 ---
 
-## PHASE 2 — Feature / UI Polish
+## PHASE 2 — Feature Built
 
-### WhatsApp Template Picker — Purpose Hints
+### Personal Scan History (FindJobsPage)
 
-All 6 templates (including the 2 already-built new ones: Quick quote offer + Availability check) were confirmed in `src/lib/chaseTemplates.ts` and rendering correctly in LeadDetailPage via the stage-filtered picker. Added UX polish: when a template is selected, its `timing` and `purpose` are shown as a micro-text hint between the buttons and the filled message body.
+**Problem:** `RECENT_SEARCHES` was a hardcoded list of 5 postcodes. Also hidden behind `SHOW_ADVANCED_TOOLS = false` so never actually shown.
 
-**File:** `src/pages/LeadDetailPage.tsx` (lines ~275-280)
+**Built:**
+- `SCAN_HISTORY_KEY = 'jf-scan-history'` localStorage key
+- `getScanHistory()` reads last 5 (postcode, trade) pairs from localStorage
+- `saveScanHistory(postcode, trade)` deduplicates by (postcode+trade), prepends, caps at 5
+- `submit()` extended with `postcode?: string` override so history chips can trigger auto-scan correctly without waiting for setState
+- `scanHistory` state initialised from localStorage on mount, updates after each scan
+- JSX chip row "YOUR RECENT SCANS:" — visible only when user has actual history, removed SHOW_ADVANCED_TOOLS guard
+- One-tap chip click: sets postcode + trade + auto-scans immediately
 
-**CRITIC:** Yes — trade now knows WHY to pick each template without clicking through all of them.
-**REVENUE:** YES — removes guesswork, trade sends faster, feels more in control.
+**File:** `src/pages/FindJobsPage.tsx`
+
+**CRITIC:** YES — returning tradesman re-scans usual patch in one tap.
+**REVENUE:** YES — lower friction for repeat scanning → more lead finds → more paid unlocks.
 
 ---
 
 ## PHASE 3 — Copy Polish
 
-### LeadDetailPage: Loss Reason Progressive Reveal
+### FindJobsPage: Hero — Bait-and-Switch Fix (NEEDLE #2 from 24 May)
 
-**Before:**
-- 4 loss reason buttons always visible (before trade has even chosen to mark it Lost)
-- LOST button immediately called `setStatus('lost')` without confirming reason
-- Loss reasons cluttered the "DID YOU WIN IT?" section for winning trades
+**Before:** "No card needed — free first scan." → implies lead details are also free.
+**After:** "Scan free — unlock full leads from £39/mo." → two-tier structure explicit in hero.
 
-**After:**
-- Loss reason picker hidden by default
-- Clicking LOST → expands a panel with "Why did you lose it? (optional)" + 4 reason buttons + CONFIRM LOSS + CANCEL
-- CONFIRM LOSS calls `setStatus('lost')` and closes the panel
-- WON and NO ANSWER behaviour unchanged
+**File:** `src/pages/FindJobsPage.tsx`
 
-**File:** `src/pages/LeadDetailPage.tsx`
+### PricingPage: Hero body + Bottom CTA
 
-**CRITIC:** YES — section is clean for trades marking Won; loss reason panel only appears when needed.
-**REVENUE:** YES — cleaner DID YOU WIN IT? section encourages more outcome tracking.
+**Hero body before:** "Real lead signals. Filtered by urgency, value, source confidence and postcode fit."
+**Hero body after:** "Not Checkatrade. Not Bark. No auction, no shared blast. Verified signals filtered by urgency, value, and postcode — sent to your WhatsApp when worth chasing."
 
-### FindJobsPage: Scan Counter — New-User Framing
+**Bottom CTA before:** "LOCK THE ACCOUNT. THEN CONTROL THE JOBS."
+**Bottom CTA after:** "LOCK YOUR PATCH. OWN THE JOBS." + "No credit card required to scan." trust line added
 
-Open to-do (2026-05-24): NEEDLE #1 identified scan counter showing "3 free scans left this week" + "Resets Monday" for brand new users (0 scans used) — creates countdown anxiety before first use.
-
-**Before:**
-- All states: "X free scans left this week — no credit card required" + "Resets Monday"
-- New user sees "3 free scans LEFT this week" — implies they started with more
-
-**After:**
-- When 0 scans used: "Try up to 3 free scans — no credit card required" (no "Resets Monday")
-- When 1+ scans used: "X free scans left this week" + "Resets Monday"
-- When 0 remaining: "Free scans used this week — upgrade for unlimited." + UNLOCK link
-
-**File:** `src/pages/FindJobsPage.tsx` (lines ~418-425)
-
-**CRITIC:** YES — new users see positive framing (try 3 scans); "Resets Monday" only appears after they've actually used a scan.
-**REVENUE:** YES — removes pre-use anxiety, increases first-scan completion rate.
-
-### FindJobsPage: FILL MY WEEK Description
-
-**Before:** "One tap. Full scan — planning approvals, energy upgrades, public contracts. Top {trade} jobs within {radiusMiles} miles, ranked by score, ready to chase."
-
-**After:** "Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. Planning approvals, energy upgrades, public contracts. Ranked for {titleCase(trade)}, ready to chase."
-
-Note: "QUIET WEEK? FIX IT." micro-label intentionally preserved (stronger emotional hook than alternative "NOT YOUR REGULAR SCAN").
-
-### AdminGuardTeaserPage: Ops Strip Copy
-
-**Before:** `"Don't let admin ambush your trade business."` — corporate, generic
-
-**After:** `Tradesmen miss HMRC deadlines not because they're careless — they're on tools all day. Admin Guard tracks the dates you'd otherwise miss.`
-
-Fear → cause → solution structure. Names the real mechanism (on tools all day = busy).
-
-### TradieZonePage: Hero Body + Empty State
-
-**Before:** "Everything you need in one place. Your leads, your tools, your territory. No fluff."
-**After:** "Your pipeline, your patch, your leads — spotted before Checkatrade even lists them. Use the tools below to stay ahead."
-
-Names Checkatrade. Reinforces the core JobFilter promise (early access to leads).
-
-Empty state: "No leads yet. Start scanning to see real jobs in your area." → "No leads in the pipeline yet. Scan your postcode — jobs appear in minutes."
-
-Specific ("minutes") beats vague.
+**File:** `src/pages/PricingPage.tsx`
 
 ---
 
 ## PHASE 4 — Site Health Check
 
-### NEEDLE findings (top 3 — FindJobsPage, DashboardPage, PricingPage)
+### NEEDLE — Top 3 Issues Found
 
-1. **Scan counter anxiety (HIGH)** — "3 free scans LEFT" framing + "Resets Monday" shown to new users before they've scanned. → FIXED THIS SESSION.
+1. **Mobile UNLOCK button below fold** — On screens < 1024px, the UNLOCK button lives in the 3rd grid column which stacks after all lead details. Mobile free users must scroll 400–600px past the title to find the CTA. **FIXED.**
+2. **Hero bait-and-switch framing** — "free first scan" implied leads were also free. **FIXED.**
+3. **DashboardPage YOUR INTAKE "Not set" values** — new users see passive "not set" copy with no inline CTA. Header SCAN button covers it partially but specific field rows are dead ends. Carry forward.
 
-2. **Dashboard TRACKING/RESULTS cards still confusing (HIGH)** — Both link to /leads, both are white (left border accent was added 2026-05-24 but copy still vague: "Scan for jobs → add them here to track"). New users with 0 leads don't know what these cards are for.
+### BUILDER Fix Applied
 
-3. **PricingPage Checkatrade FAQ buried (MEDIUM)** — "WHY NOT CHECKATRADE/BARK?" section is ~350 lines in, below the fold, with text-only CTAs instead of buttons.
+Added inline UNLOCK CTA in lead card center column, below title, `lg:hidden` (only shows on mobile/tablet where right column is not visible):
 
-### BUILDER fix
+```tsx
+{!cardOpenAccess && (
+  <Link href="/pricing" className="mt-3 flex lg:hidden ... bg-[var(--yellow)] ...">
+    UNLOCK FULL LEAD →
+  </Link>
+)}
+```
 
-Fixed issue #1 (scan counter new-user framing — see above).
-
-**CRITIC:** YES — new user now sees "Try up to 3 free scans" not a countdown. Removes first-visit friction.
-**REVENUE:** YES — higher first-scan completion rate → more leads seen → more likely to upgrade.
+**CRITIC:** YES — yellow button visible in first screen on mobile. Clear action in < 3 seconds.
+**REVENUE:** YES — removes biggest friction point for mobile free users.
 
 ---
 
-## Build Status
-- `npm run build`: GREEN (3.83s)
-- `npx tsc --noEmit`: CLEAN (0 errors)
+## Outstanding (carry forward)
 
----
-
-## Related
-- [[Changelog 2026-05-24]]
-- [[Feature Roadmap - 8th May 2026]]
-- [[Recent]]
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm `NEXT_PUBLIC_OPEN_ACCESS=false` in Vercel/Firebase env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] DashboardPage: "Not set" rows in YOUR INTAKE — inline scan CTA within each row

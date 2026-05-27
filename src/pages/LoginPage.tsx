@@ -1,10 +1,11 @@
+"use client";
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthProvider';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
 export function LoginPage() {
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,10 +15,16 @@ export function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const { error } = await signIn(email, password);
-    setLoading(false);
-    if (error) { setError(error); return; }
-    navigate('/dashboard');
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) { setError(signInError.message); return; }
+      router.push('/dashboard');
+    } catch (err: unknown) {
+      setError(String((err as Error)?.message ?? 'Sign in failed'));
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -50,13 +57,13 @@ export function LoginPage() {
           </button>
         </form>
         <p className="mt-4 text-sm text-center">
-          <Link to="/forgot-password" className="font-black underline hover:text-[var(--yellow)]">
+          <Link href="/forgot-password" className="font-black underline hover:text-[var(--yellow)]">
             Forgot password?
           </Link>
         </p>
         <p className="mt-2 text-sm text-center">
           No account?{' '}
-          <Link to="/signup" className="font-black underline hover:text-[var(--yellow)]">
+          <Link href="/signup" className="font-black underline hover:text-[var(--yellow)]">
             Create one →
           </Link>
         </p>
