@@ -292,6 +292,87 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── NEVER MISS A LEAD ─────────────────────────── */}
+      <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--yellow)]">READY-TO-SEND MESSAGES — INCLUDED WITH PATCH PLAN</p>
+          <h2 className="headline mt-3 text-4xl leading-none text-white sm:text-5xl">
+            GOLD LEAD ARRIVES.<br />RIGHT MESSAGE. ONE TAP. SENT.
+          </h2>
+          <p className="mt-5 max-w-2xl font-bold text-white/70 leading-relaxed">
+            When a Gold lead lands, the right message is already written — matched to the job type, your trade, and your postcode. One tap copies it to your clipboard. You&apos;re calling while competitors are still reading the notification.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">2h</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">first-touch window before buyer goes cold</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">1 tap</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">to copy a ready-written message for any lead</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
+              <p className="headline text-3xl text-[var(--yellow)]">0</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">leads shared with other tradesmen in your territory</p>
+            </div>
+          </div>
+          <div className="mt-8 border-2 border-[var(--yellow)]/40 bg-white/5 p-5 max-w-2xl">
+            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)] mb-3">EXAMPLE — COPY IN ONE TAP</p>
+            <p className="text-sm font-bold text-white/80 leading-relaxed italic">
+              "Hi, I saw your builder job in SW12 come up. I'm local and available this week. Happy to pop round and give you a proper quote — no obligation. Give me a shout if you want to arrange a time."
+            </p>
+            <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/75">Pre-filled with trade + postcode from the lead</p>
+          </div>
+          <div className="mt-8">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
+              SEE LIVE LEADS IN YOUR AREA
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ADD-ON SERVICES ───────────────────────────── */}
+      <section className="bg-white border-t-2 border-[var(--line)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — OPTIONAL, BOOK AS NEEDED</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
+            WIN THE JOBS THE INTAKE ENGINE FINDS.
+          </h2>
+          <p className="mt-4 max-w-2xl copy">
+            The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VANTAGE</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
+            </Link>
+            <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VICINITY</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
+            </Link>
+            <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">CODEX</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Codex →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── TERRITORY CARDS ───────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_460px] lg:items-center">

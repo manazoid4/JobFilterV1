@@ -420,7 +420,7 @@ export function FindJobsPage() {
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
             <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
-            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">BEFORE CHECKATRADE SEES IT</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — NOT ON JOB BOARDS YET</span>
           </div>
         )}
 
@@ -659,7 +659,7 @@ export function FindJobsPage() {
                   <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB EXISTS. THE BUYER DETAIL IS LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free scan confirms the signal is live near you. Unlock from £39/mo to see who to call, when to quote, and how to beat the five other trades who don&apos;t have this yet.
+                    Free scan confirms the signal is live near you. Unlock from £39/mo to see the full buyer detail, quote floor, and when to call. Cheaper than one Bark lead — 30-day money-back if you don&apos;t see a job worth pricing.
                   </p>
                 </section>
               )}

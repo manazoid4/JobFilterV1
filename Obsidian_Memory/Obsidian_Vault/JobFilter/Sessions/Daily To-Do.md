@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 27 May 2026 (Run 3 — NightlyBuildAgent)
+
+- [x] DashboardPage: duplicate scan CTA fixed — `RUN YOUR FIRST SCAN →` in YOUR INTAKE now gated on `isEmpty` (no more duplicate with header `SCAN FOR JOBS →`)
+- [x] HomePage: "FIRST STRIKE" jargon removed — section label → "READY-TO-SEND MESSAGES — INCLUDED WITH PATCH PLAN"; body rewritten without brand name
+- [x] FindJobsPage: trust badge "BEFORE CHECKATRADE SEES IT" → "REAL LEADS — NOT ON JOB BOARDS YET" (removes ambiguity)
+- [x] FindJobsPage: upgrade banner adds "Cheaper than one Bark lead — 30-day money-back" (price anchor + guarantee at conversion point)
+- [x] Build: GREEN (67 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-27 Run 3 written
+- [x] PR #198 created, Vercel preview building
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] Planning locality fix — planningDataFetcher broad fallback stamps non-local leads with outward code
+- [ ] WhatsApp delivery truth — sms.ts stub success not safe for production
+- [ ] Delivery lock key — deliveryLockKey = trade + postcodeOutward + sourceId not implemented
+- [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+- [ ] EpcPage: "JobFilter can send a professional introductory letter" copy — review if this is real service or aspirational
+
+---
+
 ## Today - 27 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] False letter claim removed — "Unlimited direct letters — 1st class postage included" fixed across 7 pages (TerritoriesPage x2, TrustCenterPage, FaqPage, HomePage, MethodologyPage, BlueprintPage). No physical letter delivery backend exists; replaced with "Letter drop scripts for every lead — print and post in minutes"
