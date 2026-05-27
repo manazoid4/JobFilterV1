@@ -91,7 +91,7 @@ const signalTypeStyle: Record<SignalType, string> = {
   'BEFORE THE CALL': 'bg-[var(--yellow)] text-[var(--ink)]',
   'LIVE TENDER': 'bg-[var(--yellow)] text-[var(--ink)]',
   'LEGAL TRIGGER': 'bg-[var(--orange)] text-white',
-  'FRESH PURCHASE': 'bg-blue-600 text-white',
+  'FRESH PURCHASE': 'bg-[var(--navy)] text-white',
   'NEW BUSINESS': 'bg-[var(--steel)] text-white',
   'COMPLIANCE WORK': 'bg-[var(--orange)] text-white',
   'SITE MOVEMENT': 'bg-[var(--ink)] text-white',
@@ -299,7 +299,7 @@ export function SignalsPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week. Founder access: £39/month while founder slots remain.
+            3 free scans every week — no credit card required. Founder access: £39/month. Checkatrade charges £180/month for shared leads. This is unshared and filtered.
           </p>
         </div>
       </section>

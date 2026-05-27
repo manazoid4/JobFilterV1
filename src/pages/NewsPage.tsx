@@ -31,12 +31,12 @@ const ARTICLES: Article[] = [
     body: [
       'The Minimum Energy Efficiency Standard (MEES) tightening for rented homes is no longer a debate — landlords with F or G-rated stock are getting compliance letters and starting to gather quotes. The legal pressure has moved from "by 2030" planning conversation to "next budget cycle" action.',
       'For tradesmen, that means the next 9–12 months will see a steady stream of single-trade and multi-trade jobs aimed at moving a property from band F or G up to D or better. The work is rarely one trade only — boiler swaps, loft and cavity insulation, double glazing replacement, ventilation upgrades, and electrical re-wires usually appear in clusters on the same address.',
-      'The cleanest signal is a recently filed EPC certificate showing band F or G on a property classed as rented. JobFilter\'s Intake Engine pulls this from the public EPC register daily and matches it to your trade — so a heating engineer sees the boilers and a glazier sees the windows, both on the same property if applicable.',
+      'The cleanest signal is a recently filed energy certificate showing band F or G on a property classed as rented. JobFilter\'s Intake Engine reads verified energy signals daily and matches them to your trade — so a heating engineer sees the boilers and a glazier sees the windows, both on the same property if applicable.',
     ],
     takeaway:
       'If your trade does any retrofit work, build a saved search for F and G rentals in your postcode area. The landlords already know they have a problem — they want a quote, not a sales pitch.',
     forTrades: ['Heating engineers', 'Insulation firms', 'Glaziers', 'Electricians', 'Builders'],
-    sources: ['Open Data Communities EPC register', 'Gov.uk MEES guidance update'],
+    sources: ['Verified energy efficiency signals', 'Gov.uk MEES guidance update'],
   },
   {
     slug: 'building-safety-act-fire-doors',
@@ -89,7 +89,7 @@ const FUNDAMENTALS = [
   {
     tag: 'COMMERCIAL',
     headline: 'New company formations point to fit-out work before the site is visible.',
-    body: 'A new restaurant, gym, salon or office leasing premises usually needs electrical, plumbing, HVAC, joinery and decorating before opening. Companies House and EPC filings together flag this earlier than walk-bys.',
+    body: 'A new restaurant, gym, salon or office leasing premises usually needs electrical, plumbing, HVAC, joinery and decorating before opening. Business registration signals and energy filings together flag this earlier than walk-bys.',
   },
   {
     tag: 'LEAD QUALITY',

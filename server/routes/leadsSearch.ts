@@ -10,6 +10,36 @@ const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry'
 const TRADES = new Set(TRADE_LIST);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
+async function resolveAccessTier(req: Request): Promise<'full' | 'preview'> {
+  if (FULL_ACCESS_TEST_MODE) return 'full';
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return 'preview';
+
+  const token = authHeader.slice(7);
+  try {
+    const { supabase } = await import('../lib/supabase');
+    if (!supabase) return 'preview';
+
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) return 'preview';
+
+    const { data: sub } = await supabase
+      .from('subscriptions')
+      .select('active, status')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (sub?.active || sub?.status === 'active') return 'full';
+  } catch {
+    // Supabase unavailable — fall through to preview
+  }
+
+  return 'preview';
+}
+
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
     const started = Date.now();
@@ -18,13 +48,17 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const result = await scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles });
+      const [result, accessTier] = await Promise.all([
+        scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles }),
+        resolveAccessTier(req),
+      ]);
       const persistence = await persistLeads(result.leads);
-      const leads = FULL_ACCESS_TEST_MODE
+      const isPaid = accessTier === 'full';
+      const leads = isPaid
         ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
         : result.leads.slice(0, CONFIG.freeTierLimit).map(toFreePreviewLead);
 
-      console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, ms: Date.now() - started });
+      console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, accessTier, ms: Date.now() - started });
       return res.json({
         ok: true,
         source: 'lead_engine',
@@ -32,8 +66,8 @@ export function registerLeadSearchRoute(app: Express) {
         region: result.region,
         outward: result.outward,
         leads,
-        lockedCount: FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, result.total - leads.length),
-        accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
+        lockedCount: isPaid ? 0 : Math.max(0, result.total - leads.length),
+        accessMode: isPaid ? (FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'paid') : 'free-preview',
         persistence,
         sources: result.sources,
         sourceHealth: result.sourceHealth,

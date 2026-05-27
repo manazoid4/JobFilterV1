@@ -1,6 +1,12 @@
 import Link from 'next/link';
 
 
+export interface TradeAddon {
+  slug: string;
+  title: string;
+  tagline: string;
+}
+
 export interface TradePageData {
   slug: string;
   trade: string;
@@ -23,14 +29,31 @@ export interface TradePageData {
   ctaPostcode?: string;
   metaTitle: string;
   metaDescription: string;
+  addOns?: TradeAddon[];
 }
 
 const ALL_TRADES = [
+  { slug: 'builders', label: 'Builders' },
   { slug: 'plumbers', label: 'Plumbers' },
   { slug: 'electricians', label: 'Electricians' },
-  { slug: 'builders', label: 'Builders' },
-  { slug: 'heat-pump-installers', label: 'Heat Pump Installers' },
   { slug: 'roofers', label: 'Roofers' },
+  { slug: 'heat-pump-installers', label: 'Heat Pump Installers' },
+  { slug: 'solar-pv-installers', label: 'Solar PV Installers' },
+  { slug: 'ev-charger-installers', label: 'EV Charger Installers' },
+  { slug: 'gas-engineers', label: 'Gas Engineers' },
+  { slug: 'decorators', label: 'Decorators' },
+  { slug: 'groundworkers', label: 'Groundworkers' },
+  { slug: 'hvac-engineers', label: 'HVAC Engineers' },
+  { slug: 'structural-engineers', label: 'Structural Engineers' },
+  { slug: 'quantity-surveyors', label: 'Quantity Surveyors' },
+  { slug: 'fire-safety', label: 'Fire Safety Engineers' },
+  { slug: 'asbestos-surveyors', label: 'Asbestos Surveyors' },
+  { slug: 'scaffolders', label: 'Scaffolders' },
+  { slug: 'damp-proofers', label: 'Damp Proofers' },
+  { slug: 'fibre-installers', label: 'Fibre Installers' },
+  { slug: 'cctv-security', label: 'CCTV & Security' },
+  { slug: 'smart-home-installers', label: 'Smart Home Installers' },
+  { slug: 'data-cabling', label: 'Data Cabling Engineers' },
 ];
 
 export function TradePage({ data }: { data: TradePageData }) {
@@ -287,6 +310,28 @@ export function TradePage({ data }: { data: TradePageData }) {
           <p className="mt-6 font-black text-[var(--ink)]/90">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.</p>
         </div>
       </section>
+
+      {/* ── TRADE-SPECIFIC ADD-ONS ───────────────────── */}
+      {data.addOns && data.addOns.length > 0 && (
+        <section className="border-y-4 border-[var(--line)] bg-white">
+          <div className="page-shell section-pad">
+            <p className="micro-label text-[var(--orange)]">ADD-ON TOOLS FOR {data.tradePlural.toUpperCase()}</p>
+            <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-5xl">WIN THE JOBS. HANDLE THE PAPERWORK.</h2>
+            <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+              Optional services built specifically for {data.trade.toLowerCase()}. Submit a job, get a deliverable back. No subscription — book as needed.
+            </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {data.addOns.map(({ slug, title, tagline }) => (
+                <Link key={slug} href={`/${slug}`} className="jf-box bg-[var(--bg-main)] p-5 block hover:bg-[var(--yellow)] transition-colors">
+                  <p className="micro-label text-[var(--orange)]">{title}</p>
+                  <p className="mt-2 font-black text-[var(--ink)] leading-snug">{tagline}</p>
+                  <span className="mt-3 inline-block text-sm font-black uppercase text-[var(--ink)]">See details →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── FINAL CTA ────────────────────────────────── */}
       <section className="bg-[var(--navy)] text-white">

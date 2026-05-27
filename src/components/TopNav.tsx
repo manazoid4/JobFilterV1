@@ -5,12 +5,18 @@ import { useEffect, useState } from 'react';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
+// Mobile: all nav links shown in the dropdown menu
 const mobileLinks = [
-  ...links,
-].filter((l) => l.to !== '/find-jobs');
+  { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
+  { to: '/pricing', label: 'Pricing' },
+];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,7 +45,7 @@ export function TopNav() {
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
+        <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
           {links.map((link) => {
             const isActive = pathname === link.to;
             return (
@@ -54,9 +60,9 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 xl:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           {foundingSlots !== null && foundingSlots <= 30 && (
-            <div className="hidden items-center gap-2 2xl:flex">
+            <div className="hidden items-center gap-2 xl:flex">
               <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
               </span>
@@ -65,6 +71,9 @@ export function TopNav() {
               </span>
             </div>
           )}
+          <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+            Sign in
+          </Link>
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
             START £39/MO
           </Link>
@@ -72,7 +81,7 @@ export function TopNav() {
 
         <button
           type="button"
-          className="xl:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
+          className="lg:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -83,7 +92,7 @@ export function TopNav() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
+        <div id="mobile-menu" className="lg:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <Link href="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
@@ -125,11 +134,11 @@ export function TopNav() {
             })}
           </div>
           <Link
-            href="/find-jobs"
+            href="/pricing"
             onClick={() => setMenuOpen(false)}
             className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
           >
-            SCAN MY AREA FREE
+            START £39/MO — FOUNDING PRICE
           </Link>
         </div>
       )}

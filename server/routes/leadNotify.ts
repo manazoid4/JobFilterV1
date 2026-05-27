@@ -1,8 +1,23 @@
 import type { Express, Request, Response } from 'express';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
 
+async function isAuthenticated(req: Request): Promise<boolean> {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return false;
+  const token = authHeader.slice(7);
+  try {
+    const { supabase } = await import('../lib/supabase');
+    if (!supabase) return false;
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    return !error && !!user;
+  } catch { return false; }
+}
+
 export function registerLeadNotifyRoute(app: Express) {
   app.post('/api/leads/notify', async (req: Request, res: Response) => {
+    if (!(await isAuthenticated(req))) {
+      return res.status(401).json({ ok: false, error: 'Unauthorised.' });
+    }
     try {
       const { phoneNumber, leadData } = req.body || {};
       if (!phoneNumber || !leadData) {

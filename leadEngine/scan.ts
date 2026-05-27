@@ -242,8 +242,9 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     let finalScore = score;
     const stack = l.signalStack ?? [l.source].filter(Boolean);
     if (l.signalClass === 'internal_fallback' || (stack.length === 1 && stack[0] === 'DirectorySignal')) {
-      finalScore = Math.max(0, finalScore - 8);
-      scoreReasons.push('Internal fallback — lower confidence');
+      // scoreLeadBreakdown already applies getScoreBonus('DirectorySignal') = -8 via sourceConfig.
+      // Do not double-apply the penalty here.
+      scoreReasons.push('Internal fallback signal');
     }
     if (stack.length > 1) {
       finalScore = Math.min(100, finalScore + 5);

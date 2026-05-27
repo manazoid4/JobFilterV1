@@ -1,22 +1,26 @@
+"use client";
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { useRouter } from 'next/navigation';
+import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
 export function ResetPasswordPage() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [ready, setReady] = useState(false);
 
-  // Supabase sends token in the URL hash — auth state fires PASSWORD_RECOVERY
   useEffect(() => {
-    if (!supabase) return;
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') setReady(true);
-    });
-    return () => subscription.unsubscribe();
+    let subscription: { unsubscribe: () => void } | null = null;
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { data } = supabase.auth.onAuthStateChange((event) => {
+        if (event === 'PASSWORD_RECOVERY') setReady(true);
+      });
+      subscription = data.subscription;
+    } catch { /* env vars not set */ }
+    return () => subscription?.unsubscribe();
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -24,12 +28,17 @@ export function ResetPasswordPage() {
     setError('');
     if (password !== confirm) { setError('Passwords do not match'); return; }
     if (password.length < 8) { setError('Password must be at least 8 characters'); return; }
-    if (!supabase) { setError('Auth not available'); return; }
     setLoading(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    setLoading(false);
-    if (error) { setError(error.message); return; }
-    navigate('/dashboard');
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) { setError(updateError.message); return; }
+      router.push('/dashboard');
+    } catch {
+      setError('Could not update password — try again');
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (!ready) {
