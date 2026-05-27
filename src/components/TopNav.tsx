@@ -10,7 +10,11 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = links;
+// Mobile: only show secondary links — primary actions are in the quick-access grid and sticky CTA
+const mobileLinks = [
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
+];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
