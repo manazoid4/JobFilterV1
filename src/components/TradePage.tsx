@@ -26,11 +26,27 @@ export interface TradePageData {
 }
 
 const ALL_TRADES = [
+  { slug: 'builders', label: 'Builders' },
   { slug: 'plumbers', label: 'Plumbers' },
   { slug: 'electricians', label: 'Electricians' },
-  { slug: 'builders', label: 'Builders' },
-  { slug: 'heat-pump-installers', label: 'Heat Pump Installers' },
   { slug: 'roofers', label: 'Roofers' },
+  { slug: 'heat-pump-installers', label: 'Heat Pump Installers' },
+  { slug: 'solar-pv-installers', label: 'Solar PV Installers' },
+  { slug: 'ev-charger-installers', label: 'EV Charger Installers' },
+  { slug: 'gas-engineers', label: 'Gas Engineers' },
+  { slug: 'decorators', label: 'Decorators' },
+  { slug: 'groundworkers', label: 'Groundworkers' },
+  { slug: 'hvac-engineers', label: 'HVAC Engineers' },
+  { slug: 'structural-engineers', label: 'Structural Engineers' },
+  { slug: 'quantity-surveyors', label: 'Quantity Surveyors' },
+  { slug: 'fire-safety', label: 'Fire Safety Engineers' },
+  { slug: 'asbestos-surveyors', label: 'Asbestos Surveyors' },
+  { slug: 'scaffolders', label: 'Scaffolders' },
+  { slug: 'damp-proofers', label: 'Damp Proofers' },
+  { slug: 'fibre-installers', label: 'Fibre Installers' },
+  { slug: 'cctv-security', label: 'CCTV & Security' },
+  { slug: 'smart-home-installers', label: 'Smart Home Installers' },
+  { slug: 'data-cabling', label: 'Data Cabling Engineers' },
 ];
 
 export function TradePage({ data }: { data: TradePageData }) {
