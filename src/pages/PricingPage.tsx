@@ -83,6 +83,30 @@ export function PricingPage() {
         </p>
       </section>
 
+      <section className="ops-panel bg-[var(--bg-main)] p-7 border-4 border-[var(--line)]">
+        <p className="micro-label text-[var(--orange)]">WHAT ONE MONTH LOOKS LIKE</p>
+        <h2 className="headline mt-3 text-3xl leading-none">ONE JOB COVERS IT. THAT&apos;S THE MATHS.</h2>
+        <p className="mt-3 font-black text-[var(--muted)] max-w-2xl">
+          Average UK trade job: £800–£3,000. One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
+            { signal: 'Energy: F-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
+            { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
+          ].map(({ signal, detail, band, trade }) => (
+            <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--orange)]">{trade}</p>
+              <p className="mt-1 text-base font-black text-[var(--ink)]">{signal}</p>
+              <p className="mt-1 text-xs font-black text-[var(--muted)]">{detail}</p>
+              <p className="mt-3 font-mono text-xl font-black text-[var(--ink)]">{band}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">estimated job value</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-xs font-black text-[var(--muted)]">Signal types seen across UK patches. Not guaranteed — signals vary by location, trade, and timing.</p>
+      </section>
+
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">STRAIGHT ANSWERS</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NO AUCTION. NO CREDIT BURN. NO FLUFF.</h2>

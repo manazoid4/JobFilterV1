@@ -5,12 +5,15 @@ import { useEffect, useState } from 'react';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
+// Mobile: only show secondary links — primary actions are in the quick-access grid and sticky CTA
 const mobileLinks = [
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/signals', label: 'Live Signals' },
+  { to: '/signals', label: 'Signals' },
 ];
 
 export function TopNav() {
