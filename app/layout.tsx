@@ -15,8 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
         {/* ── Site-wide announcement bar ── */}
-        <div className="flex items-center justify-center gap-3 border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-center font-mono text-xs font-black uppercase tracking-widest text-[var(--ink)]">
-          <span>FOUNDING 30 OPEN — £39/MO LOCKS FOREVER — CANCEL ANYTIME</span>
+        <div className="flex items-center justify-center gap-2 border-b border-[var(--line)] bg-[var(--ink)] px-4 py-1.5 text-center text-[11px] font-black text-white/70">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--yellow)]" aria-hidden="true" />
+          <span>Founder price — £39/mo locks forever while active · 30-day money-back guarantee · No shared leads</span>
         </div>
         <TopNav />
         {children}

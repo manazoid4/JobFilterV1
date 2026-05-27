@@ -5,13 +5,12 @@ import { useEffect, useState } from 'react';
 
 const links = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
-const mobileLinks = [
-  { to: '/free-tools', label: 'Free Tools' },
-  { to: '/signals', label: 'Live Signals' },
-];
+const mobileLinks = links;
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
