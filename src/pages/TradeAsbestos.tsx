@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/asb441`,
   ],
   ctaPostcode: 'B6',
   metaTitle: 'How Asbestos Surveyors Find Work From Demolition Notices — JobFilter',
+  addOns: [
+    { slug: 'acm-report-pack', title: 'ACM REPORT PACK', tagline: 'Management surveys, R  metaDescription:D specs, waste consignment notes — HSE L143 compliant.' },
+  ],
   metaDescription: 'JobFilter scans demolition notices and planning applications across 400+ councils for asbestos survey opportunities. Pre-1985 buildings, industrial refurbs, school works — Gold leads sent to WhatsApp. Free scan.',
 };
 

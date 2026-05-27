@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/gas731`,
   ],
   ctaPostcode: 'S5',
   metaTitle: 'How Gas Engineers Find Boiler Jobs Before They Hit Directories — JobFilter',
+  addOns: [
+    { slug: 'gas-safe-kit', title: 'GAS SAFE KIT', tagline: 'CP12s, warning notices, RIDDOR reports — correct documents for every gas job.' },
+  ],
   metaDescription: 'JobFilter scans EPC data and planning applications across 400+ councils for boiler replacement signals. EPC F/G properties, property transactions, social housing tenders — Gold leads to WhatsApp. Free scan.',
 };
 

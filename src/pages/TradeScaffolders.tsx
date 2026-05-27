@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/scf612`,
   ],
   ctaPostcode: 'LS6',
   metaTitle: 'How Scaffolders Win Jobs From Planning Approvals — JobFilter',
+  addOns: [
+    { slug: 'nasc-pack', title: 'NASC PACK', tagline: 'TG20:21 scaffold handover cert, inspection register and client sign-off documentation.' },
+  ],
   metaDescription: 'JobFilter scans planning applications across 400+ councils for scaffolding opportunities. Extensions, loft conversions, new builds, re-roofs — Gold leads sent to WhatsApp. Free scan for scaffolding contractors.',
 };
 

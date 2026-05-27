@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/fsa288`,
   ],
   ctaPostcode: 'N1',
   metaTitle: 'How Fire Safety Engineers Win Work From Compliance Triggers — JobFilter',
+  addOns: [
+    { slug: 'fra-template', title: 'FRA TEMPLATE', tagline: 'PAS 79:2020-compliant Fire Risk Assessments with Responsible Person documentation.' },
+  ],
   metaDescription: 'JobFilter scans HMO licensing, planning applications, and Building Safety Act compliance triggers across 400+ councils for fire safety engineering opportunities. Gold leads sent to WhatsApp. Free scan.',
 };
 
