@@ -2,26 +2,32 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider';
 
-const links = [
+const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
 ];
 
-// Mobile: all nav links shown in the dropdown menu
-const mobileLinks = [
+const memberLinks = [
+  { to: '/dashboard', label: 'Dashboard' },
+  { to: '/leads', label: 'My Leads' },
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/signals', label: 'Signals' },
-  { to: '/pricing', label: 'Pricing' },
 ];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
   const pathname = usePathname();
+  const { user, signOut } = useAuth();
+  const isLoggedIn = !!user;
+  const links = isLoggedIn ? memberLinks : publicLinks;
+  const mobileLinks = isLoggedIn
+    ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
+    : publicLinks;
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -61,7 +67,7 @@ export function TopNav() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          {foundingSlots !== null && foundingSlots <= 30 && (
+          {!isLoggedIn && foundingSlots !== null && foundingSlots <= 30 && (
             <div className="hidden items-center gap-2 xl:flex">
               <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
@@ -71,12 +77,25 @@ export function TopNav() {
               </span>
             </div>
           )}
-          <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
-            Sign in
-          </Link>
-          <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-            START £39/MO
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="/tradie-zone" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+                Member Hub
+              </Link>
+              <button onClick={() => signOut()} className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+                Sign in
+              </Link>
+              <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                START £39/MO
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -98,12 +117,19 @@ export function TopNav() {
               <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </Link>
-            <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
-              <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/tradie-zone" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+                <p className="text-[10px] font-black text-[var(--muted)]">MEMBER</p>
+                <p className="text-base font-black text-[var(--ink)]">HUB</p>
+              </Link>
+            ) : (
+              <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+                <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
+                <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
+              </Link>
+            )}
           </div>
-          {foundingSlots !== null && foundingSlots <= 30 && (
+          {!isLoggedIn && foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
               <span className="text-sm font-black text-[var(--ink)]">
                 Early Access: {foundingSlots} founder slots left — £39/mo
@@ -133,13 +159,22 @@ export function TopNav() {
               );
             })}
           </div>
-          <Link
-            href="/pricing"
-            onClick={() => setMenuOpen(false)}
-            className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
-          >
-            START £39/MO — FOUNDING PRICE
-          </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={() => { signOut(); setMenuOpen(false); }}
+              className="bg-[var(--navy)] px-4 py-4 text-sm font-black uppercase text-white text-center min-h-[44px] flex items-center justify-center"
+            >
+              SIGN OUT
+            </button>
+          ) : (
+            <Link
+              href="/pricing"
+              onClick={() => setMenuOpen(false)}
+              className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
+            >
+              START £39/MO — FOUNDING PRICE
+            </Link>
+          )}
         </div>
       )}
     </header>
