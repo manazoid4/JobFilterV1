@@ -43,6 +43,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  /* Offset anchored sections so sticky nav never covers headings */
+  scroll-padding-top: 72px;
 }
 
 #root {

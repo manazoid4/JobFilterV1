@@ -161,23 +161,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="border-b-4 border-[var(--line)] bg-white">
-        <div className="page-shell grid gap-5 py-8 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div>
-            <p className="micro-label text-[var(--orange)]">TRADE INTELLIGENCE</p>
-            <h2 className="headline mt-2 text-3xl leading-none sm:text-5xl">WRITTEN BY PEOPLE WHO KNOW HOW CONSTRUCTION WORK IS WON.</h2>
-            <p className="mt-3 max-w-2xl font-bold text-[var(--muted)]">
-              Planning signals. Retrofit pressure. Tender timing. Commercial fit-out leads. Published every weekday — practical enough to act on, not just read.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/news">READ NEWS</Link>
-            <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="https://www.instagram.com/jobfilter.uk/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">CLAIM PATCH</Link>
-          </div>
-        </div>
-      </section>
-
       {/* ── SOCIAL PROOF + URGENCY ────────────────────── */}
       <section className="border-b-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell py-4">
@@ -295,7 +278,7 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--yellow)] pt-1">02</span>
               <div>
                 <p className="headline text-xl text-white">Every signal is scored before you see it</p>
-                <p className="mt-1 text-sm font-bold text-white/60">Budget confidence, buyer readiness, and timing pressure are all checked. GOLD leads go straight to your WhatsApp. Low-value noise stays out.</p>
+                <p className="mt-1 text-sm font-bold text-white/60">Signals are scored 0–100 for budget confidence, buyer readiness, and timing pressure. 80+ scores GOLD and hit your WhatsApp. Low-value noise stays out.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-white px-6 py-6">
@@ -305,87 +288,6 @@ export function HomePage() {
                 <p className="mt-1 text-sm font-bold text-[var(--muted)]">Most leads on job boards are already four quotes deep. JobFilter finds the work before it gets posted anywhere.</p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── NEVER MISS A LEAD ─────────────────────────── */}
-      <section className="bg-[var(--ink)] border-y-4 border-[var(--yellow)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--yellow)]">FIRST STRIKE — INCLUDED WITH PATCH PLAN</p>
-          <h2 className="headline mt-3 text-4xl leading-none text-white sm:text-5xl">
-            GOLD LEAD ARRIVES.<br />RIGHT MESSAGE. ONE TAP. SENT.
-          </h2>
-          <p className="mt-5 max-w-2xl font-bold text-white/70 leading-relaxed">
-            First Strike picks the right message for how old the lead is, fills in the trade and postcode, and puts it in your clipboard. No thinking. No typing. You're calling while your competitors are still reading the notification.
-          </p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
-              <p className="headline text-3xl text-[var(--yellow)]">2h</p>
-              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">first-touch window before buyer goes cold</p>
-            </div>
-            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
-              <p className="headline text-3xl text-[var(--yellow)]">1 tap</p>
-              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">to copy a ready-written message for any lead</p>
-            </div>
-            <div className="border-2 border-[var(--yellow)]/30 bg-white/5 p-5">
-              <p className="headline text-3xl text-[var(--yellow)]">0</p>
-              <p className="mt-2 text-sm font-black uppercase tracking-wider text-white/60">leads shared with other tradesmen in your territory</p>
-            </div>
-          </div>
-          <div className="mt-8 border-2 border-[var(--yellow)]/40 bg-white/5 p-5 max-w-2xl">
-            <p className="text-[10px] font-black uppercase tracking-wider text-[var(--yellow)] mb-3">EXAMPLE — COPY IN ONE TAP</p>
-            <p className="text-sm font-bold text-white/80 leading-relaxed italic">
-              "Hi, I saw your builder job in SW12 come up. I'm local and available this week. Happy to pop round and give you a proper quote — no obligation. Give me a shout if you want to arrange a time."
-            </p>
-            <p className="mt-3 text-[10px] font-black uppercase tracking-wider text-white/75">Pre-filled with trade + postcode from the lead</p>
-          </div>
-          <div className="mt-8">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              SEE LIVE LEADS IN YOUR AREA
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── ADD-ON SERVICES ───────────────────────────── */}
-      <section className="bg-white border-t-2 border-[var(--line)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — OPTIONAL, BOOK AS NEEDED</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
-            WIN THE JOBS THE INTAKE ENGINE FINDS.
-          </h2>
-          <p className="mt-4 max-w-2xl copy">
-            The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">VANTAGE</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
-            </Link>
-            <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">VICINITY</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
-            </Link>
-            <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">CODEX</p>
-              </div>
-              <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Codex →</span>
-            </Link>
           </div>
         </div>
       </section>
@@ -440,34 +342,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── PUBLIC DEMAND ENGINE ──────────────────────── */}
-      <section className="bg-white">
-        <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_420px] lg:items-center">
-          <div>
-            <p className="micro-label text-[var(--orange)]">MORE THAN SIGNALS</p>
-            <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              WE ALSO PULL JOBS DIRECTLY INTO YOUR PATCH.
-            </h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
-              Homeowners can post jobs straight into the system. Territory-locked firms get first look — no directory, no competition, no shared auction.
-            </p>
-          </div>
-          <div className="ops-panel bg-[var(--paper)] p-5">
-            <p className="micro-label text-[var(--ink)]">INCLUDED WITH YOUR TERRITORY</p>
-            <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
-              <p>✓ Homeowner jobs routed to your trade and postcode</p>
-              <p>✓ Company-branded letters for high-value signals</p>
-              <p>✓ Neighbour Signal — turn one job into local demand</p>
-              <p>✓ Weekly digest of your area's best opportunities</p>
-            </div>
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">See What's Included</Link>
-              <Link className="jf-button bg-[var(--ink)] text-white" href="/blueprint">How It Works</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── WHAT YOU GET ─────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
         <div className="page-shell py-14">
@@ -496,17 +370,61 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── CITY INTELLIGENCE TEASER ─────────────────── */}
-      <section className="page-shell py-12">
-        <div className="jf-box bg-[var(--yellow)] p-7">
-          <p className="micro-label text-[var(--ink)]">WEEKLY TERRITORY BRIEFING</p>
-          <h2 className="headline mt-3 text-4xl leading-none">CITY INTELLIGENCE</h2>
-          <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/80">
-            Every week: territory score, hot lead spotlight, market note, and one actionable move for your patch.
+      {/* ── ADD-ON SERVICES ───────────────────────────── */}
+      <section className="bg-white border-t-2 border-[var(--line)]">
+        <div className="page-shell py-14">
+          <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — OPTIONAL, BOOK AS NEEDED</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
+            WIN THE JOBS THE INTAKE ENGINE FINDS.
+          </h2>
+          <p className="mt-4 max-w-2xl copy">
+            The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/intelligence/birmingham" className="jf-button bg-[var(--ink)] text-white text-sm">VIEW SAMPLE BRIEFING →</Link>
-            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)] text-sm">UNLOCK WITH PATCH PLAN — £39/MO</Link>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VANTAGE</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
+            </Link>
+            <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">VICINITY</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
+            </Link>
+            <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
+              <div className="flex items-center gap-3">
+                <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                <p className="micro-label text-[var(--orange)]">CODEX</p>
+              </div>
+              <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Codex →</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRUST STRIP ──────────────────────────────── */}
+      <section className="border-b-2 border-[var(--line)] bg-[var(--paper)]">
+        <div className="page-shell py-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <img src="/union-flag.svg" alt="" className="h-6 w-6 border border-[var(--line)]" aria-hidden="true" />
+              <p className="text-sm font-black uppercase text-[var(--ink)]">Built in Birmingham — not a London startup guessing how trades work</p>
+            </div>
+            <div className="flex flex-wrap gap-4 text-xs font-black uppercase text-[var(--muted)]">
+              <span>✓ WhatsApp-first</span>
+              <span>✓ No shared leads</span>
+              <span>✓ 30-day money-back</span>
+            </div>
           </div>
         </div>
       </section>
@@ -525,9 +443,9 @@ export function HomePage() {
               <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
-              QUIT WORKING FOR GHOSTS.
+              ONE TRADE.<br />ONE PATCH.<br />NO SHARING.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a lead marketplace. A construction intelligence layer. Gold leads are controlled by trade, patch, and timing before they hit your WhatsApp.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a lead marketplace. A construction intelligence layer. Gold leads are scored by trade, patch, and timing — and sent only to you.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
                 ['No shared auction', 'No five-trade blast. No race-to-the-bottom resale. If a lead looks crowded, it gets marked down or blocked.'],
@@ -549,14 +467,17 @@ export function HomePage() {
                 <h3 className="headline text-3xl">Claim early. Keep the rate.</h3>
               </div>
             </div>
-            <p className="mt-4 text-lg font-black text-[var(--muted)]">
-              Gold leads are controlled before they hit WhatsApp — no shared auction, no five-trade blast. If you don't see one job worth chasing in 30 days, we refund every penny.
+            <p className="mt-4 text-base font-black text-[var(--muted)]">
+              No shared auction. No five-trade blast. Scored leads hit your WhatsApp before the job goes public.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               CLAIM YOUR PATCH — £39/MO →
             </Link>
-            <p className="mt-4 border-t-2 border-[var(--line)] pt-4 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
-              Not ready yet? Join the list below.
+            <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
+              ✓ 30-DAY MONEY-BACK GUARANTEE — No job worth chasing? Full refund.
+            </div>
+            <p className="mt-3 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
+              Not ready yet? Drop your email below.
             </p>
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>
