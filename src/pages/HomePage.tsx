@@ -66,11 +66,6 @@ function MapPinIcon() {
 export function HomePage() {
   return (
     <main className="bg-[var(--paper)] pb-0">
-      {/* ── LAUNCH BANNER ─────────────────────────────── */}
-      <div className="flex items-center justify-center gap-3 border-b-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-center font-mono text-xs font-black uppercase tracking-widest text-[var(--ink)]">
-        <span>FOUNDING 30 OPEN — £39/MO LOCKS FOREVER — CANCEL ANYTIME</span>
-      </div>
-
       {/* ── HERO ──────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b-4 border-[var(--line)] bg-[var(--ink)] text-white">
         {/* Radial gradient overlay */}
