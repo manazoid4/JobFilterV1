@@ -1,5 +1,26 @@
 # Daily To-Do
 
+## Today - 27 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] False letter claim removed — "Unlimited direct letters — 1st class postage included" fixed across 7 pages (TerritoriesPage x2, TrustCenterPage, FaqPage, HomePage, MethodologyPage, BlueprintPage). No physical letter delivery backend exists; replaced with "Letter drop scripts for every lead — print and post in minutes"
+- [x] CompareBuildAlertPage: "Letter delivery" row updated to "Physical letter service: Template included — you post"
+- [x] LeadListPage: SEND WHATSAPP now uses first_touch_2h template from chaseTemplates.ts (consistent with LeadDetailPage)
+- [x] HomePage: "Open Territory Grid" → "SEE OPEN TERRITORIES →" + secondary "SCAN FREE — NO CARD NEEDED" dual-button
+- [x] TerritoriesPage: "Lock Patch" CTA → "LOCK PATCH →" (uppercase, brutalist style)
+- [x] Build: GREEN (67 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-27 Run 2 written
+- [ ] AccountPage still uses AuthProvider (Vite env vars) — needs full migration to createBrowserSupabaseClient
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] Planning locality fix — planningDataFetcher broad fallback stamps non-local leads with outward code
+- [ ] WhatsApp delivery truth — sms.ts stub success not safe for production
+- [ ] Delivery lock key — deliveryLockKey = trade + postcodeOutward + sourceId not implemented
+- [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+- [ ] EpcPage: "JobFilter can send a professional introductory letter" copy — review if this is real service or aspirational; if not live, update to "enquiry only" framing (currently EpcPage CTA says ENQUIRE which is fine)
+
+---
+
 ## Today - 26 May 2026 (Run 4 — AuditAgent)
 
 - [x] Lead engine double-penalty bug fixed — DirectorySignal leads were -16 instead of -8 (scorer + scan.ts both applied -8; now scorer only)
@@ -10,7 +31,7 @@
 - [x] `outcome-tracking-regression.mjs` — added OUTCOMES summary strip (WON/LOST/NO ANSWER counts) to LeadListPage
 - [x] 6/6 regressions PASS. Build GREEN. TypeScript CLEAN. PR #196 merged.
 - [x] Vault: Changelog 2026-05-26 Run 4 written. RALPH_PLAN done log updated.
-- [ ] AccountPage still uses AuthProvider (Vite env vars) — needs full migration to createBrowserSupabaseClient
+- [x] AccountPage: DONE — migrated to createBrowserSupabaseClient in Run 5 (2026-05-26)
 - [ ] Wire Stripe Checkout live test end-to-end with test key
 - [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
 - [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
@@ -18,6 +39,7 @@
 - [ ] WhatsApp delivery truth — sms.ts stub success not safe for production
 - [ ] Delivery lock key — deliveryLockKey = trade + postcodeOutward + sourceId not implemented
 - [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+- [ ] EpcPage: review "JobFilter can send a professional introductory letter" — if not a live service, remove or gate behind enquiry only
 
 ---
 
