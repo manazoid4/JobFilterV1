@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/cctv677`,
   ],
   ctaPostcode: 'E1',
   metaTitle: 'How CCTV & Security Installers Win Commercial Contracts From Licensing Applications — JobFilter',
+  addOns: [
+    { slug: 'cctv-compliance-pack', title: 'CCTV COMPLIANCE PACK', tagline: 'DPIA, privacy notices and ICO-compliant signage spec for every commercial install.' },
+  ],
   metaDescription: 'JobFilter scans licensed premises applications, HMO licensing, and planning across 400+ councils for CCTV and security installation opportunities. Gold leads sent to WhatsApp. Free scan.',
 };
 

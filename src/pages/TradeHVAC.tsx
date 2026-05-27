@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/hvc362`,
   ],
   ctaPostcode: 'EC1',
   metaTitle: 'How HVAC Engineers Win Commercial Jobs From Planning Applications — JobFilter',
+  addOns: [
+    { slug: 'om-builder', title: 'O  metaDescription:M BUILDER', tagline: 'Operations   metaDescription: Maintenance manual to BSRIA BG 1 standard — ready for client handover.' },
+  ],
   metaDescription: 'JobFilter scans commercial planning applications across 400+ councils for HVAC opportunities. Office conversions, school refurbs, data centres — Gold leads sent to WhatsApp. Free scan for HVAC engineers.',
 };
 

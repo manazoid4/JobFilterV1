@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/gnd847`,
   ],
   ctaPostcode: 'B45',
   metaTitle: 'How Groundworkers Win Jobs From Planning Permissions — JobFilter',
+  addOns: [
+    { slug: 'swmp-template', title: 'SWMP TEMPLATE', tagline: 'Site Waste Management Plan built to Environment Agency requirements for your project.' },
+  ],
   metaDescription: 'JobFilter scans planning applications across 400+ councils for groundwork opportunities. Brownfield sites, new builds, drainage applications — Gold leads sent to WhatsApp. Free scan for groundworkers.',
 };
 

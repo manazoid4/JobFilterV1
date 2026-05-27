@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/str109`,
   ],
   ctaPostcode: 'SW15',
   metaTitle: 'How Structural Engineers Win Commissions From Planning Applications — JobFilter',
+  addOns: [
+    { slug: 'calc-pack', title: 'CALC PACK', tagline: 'Residential structural calcs, beam specs and scope letters — delivered in 6 hours.' },
+  ],
   metaDescription: 'JobFilter scans planning applications across 400+ councils for structural engineering commissions. Loft conversions, extensions, basements — Gold leads sent to WhatsApp. Free scan for structural engineers.',
 };
 

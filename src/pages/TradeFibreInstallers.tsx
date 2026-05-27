@@ -66,6 +66,9 @@ Action: Open notice → jobfilter.uk/lead/fib334`,
   ],
   ctaPostcode: 'BS1',
   metaTitle: 'How Fibre Installers Win New Build Contracts Before Tender Closes — JobFilter',
+  addOns: [
+    { slug: 'wayleave-pack', title: 'WAYLEAVE PACK', tagline: 'Wayleave agreements and property owner permission packs that actually get signed.' },
+  ],
   metaDescription: 'JobFilter scans planning applications across 400+ councils for FTTP and fibre installation opportunities. New builds, commercial fit-outs, Part R compliance — Gold leads sent to WhatsApp. Free scan for fibre installers.',
 };
 

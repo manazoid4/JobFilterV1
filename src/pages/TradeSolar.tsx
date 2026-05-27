@@ -66,6 +66,10 @@ Action: Open notice → jobfilter.uk/lead/sol482`,
   ],
   ctaPostcode: 'B30',
   metaTitle: 'How Solar PV Installers Find Rooftops Ready For Panels — JobFilter',
+  addOns: [
+    { slug: 'dno-brief', title: 'DNO BRIEF', tagline: 'Grid connection application pack — pre-filled for your DNO area.' },
+    { slug: 'ozev-grant-pack', title: 'OZEV GRANT PACK', tagline: 'Close more solar jobs with OZEV and grant paperwork sorted for the customer.' },
+  ],
   metaDescription: 'JobFilter scans planning applications and EPC data across 400+ councils for solar installation opportunities. New builds, extensions, EPC-flagged properties — Gold leads sent to WhatsApp. Free scan for solar installers.',
 };
 
