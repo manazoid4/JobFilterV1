@@ -13,6 +13,16 @@ const planBullets = [
   'Win tracking',
 ];
 
+const standardBullets = [
+  'WhatsApp Gold leads',
+  'Buyer/contact signals',
+  'Quote floor + next action',
+  'Territory priority',
+  'Win tracking',
+  'Multi-territory expansion (coming)',
+  'Priority support (coming)',
+];
+
 const objections = [
   ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
   ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
@@ -35,6 +45,7 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
         </div>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
         <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
@@ -58,7 +69,7 @@ export function PricingPage() {
           title="Standard"
           price="£79/mo"
           body="Full paid access after the founder window closes."
-          items={planBullets}
+          items={standardBullets}
           dark
           cta={<CheckoutButton tier="pro" billing="monthly" label="START STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}
         />
