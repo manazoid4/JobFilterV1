@@ -54,7 +54,7 @@ const guaranteeFeatures = [
   'One territory lock per founding member',
   'Unlimited lead alerts within locked territory',
   'Unlimited WhatsApp alerts',
-  'Unlimited direct letters — 1st class postage included',
+  'Letter drop scripts for every lead — print and post in minutes',
   'Full lead scoring + lead readiness markers',
   'Pipeline tracking for every opportunity',
   'All free tools included',

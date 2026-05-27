@@ -401,9 +401,14 @@ export function HomePage() {
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
               Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
             </p>
-            <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/territories">
-              Open Territory Grid
-            </Link>
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
+                SEE OPEN TERRITORIES →
+              </Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
+                SCAN FREE — NO CARD NEEDED
+              </Link>
+            </div>
           </div>
           <div className="grid gap-3">
             {territoryCards.map(([name, status, score]) => {
@@ -474,7 +479,7 @@ export function HomePage() {
             {[
               { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
               { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
-              { icon: FileText, title: 'Unlimited direct letters', body: 'Written with your company details. 1st class postage included.' },
+              { icon: FileText, title: 'Letter drop scripts', body: 'Pre-written for your trade and area. Print and post in minutes.' },
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },

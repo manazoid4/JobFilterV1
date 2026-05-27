@@ -3,7 +3,10 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
+
+const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
 
 type Tab = 'gold' | 'silver' | 'bin';
 
@@ -254,7 +257,7 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`Hi, saw your ${lead.jobType} job in ${lead.area}. I'm local and can quote this week — happy to pop round. Let me know.`)}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(FIRST_TOUCH_TEMPLATE, { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
