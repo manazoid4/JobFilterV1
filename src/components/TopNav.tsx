@@ -66,6 +66,9 @@ export function TopNav() {
               </span>
             </div>
           )}
+          <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+            Sign in
+          </Link>
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
             START £39/MO
           </Link>

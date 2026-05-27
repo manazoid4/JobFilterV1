@@ -1,7 +1,18 @@
-import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../components/AuthProvider';
-import { useSubscription } from '../lib/useSubscription';
+"use client";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { createBrowserSupabaseClient } from '../lib/supabase/client';
+import type { User } from '@supabase/supabase-js';
+
+type SubStatus = {
+  tier: 'free' | 'founding' | 'pro' | 'business';
+  status: 'active' | 'inactive' | 'past_due' | 'cancelled';
+  active: boolean;
+  loading: boolean;
+};
+
+const DEFAULT_SUB: SubStatus = { tier: 'free', status: 'inactive', active: false, loading: true };
 
 const TIER_LABELS: Record<string, string> = {
   founding: 'Founding 30',
@@ -18,13 +29,43 @@ const TIER_PRICES: Record<string, string> = {
 };
 
 export function AccountPage() {
-  const { user, signOut, loading: authLoading } = useAuth();
-  const sub = useSubscription();
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [sub, setSub] = useState<SubStatus>(DEFAULT_SUB);
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState('');
 
+  useEffect(() => {
+    try {
+      const supabase = createBrowserSupabaseClient();
+      supabase.auth.getUser().then(({ data }) => {
+        setUser(data.user);
+        setAuthLoading(false);
+        if (data.user?.email) {
+          fetch(`/api/subscription-status?user_id=${encodeURIComponent(data.user.id)}&email=${encodeURIComponent(data.user.email)}`)
+            .then(r => r.json())
+            .then(d => setSub({ ...d, loading: false }))
+            .catch(() => setSub({ ...DEFAULT_SUB, loading: false }));
+        } else {
+          setSub({ ...DEFAULT_SUB, loading: false });
+        }
+      });
+    } catch {
+      setAuthLoading(false);
+    }
+  }, []);
+
   if (authLoading) return null;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) { router.replace('/login'); return null; }
+
+  async function signOut() {
+    try {
+      const supabase = createBrowserSupabaseClient();
+      await supabase.auth.signOut();
+    } catch { /* proceed if supabase unavailable */ }
+    router.replace('/login');
+  }
 
   async function openBillingPortal() {
     setPortalLoading(true);
@@ -118,9 +159,9 @@ export function AccountPage() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-black uppercase text-[var(--muted)]">Password</span>
-            <a href="/forgot-password" className="text-sm font-black underline hover:text-[var(--yellow)]">
+            <Link href="/forgot-password" className="text-sm font-black underline hover:text-[var(--yellow)]">
               Reset password →
-            </a>
+            </Link>
           </div>
         </div>
       </section>

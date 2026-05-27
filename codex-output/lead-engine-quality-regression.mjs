@@ -5,6 +5,8 @@ process.env.SOURCE_FTS = 'false';
 process.env.SOURCE_PCS = 'false';
 process.env.SOURCE_S2W = 'false';
 process.env.SOURCE_CH = 'false';
+// Enable DirectorySignal so tests have deterministic internal leads when all real sources are off
+process.env.SOURCE_DIRECTORY_SIGNAL = 'true';
 
 const { scan } = await import('../leadEngine/scan.ts');
 

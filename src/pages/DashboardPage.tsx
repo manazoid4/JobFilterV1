@@ -191,11 +191,20 @@ export function DashboardPage() {
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
-            <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
-            <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
+            {scanTrade
+              ? <Row label="Trade" value={scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1)} />
+              : <RowLink label="Trade" href="/find-jobs" cta="Pick your trade →" />}
+            {scanPostcode
+              ? <Row label="Postcode" value={scanPostcode} />
+              : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
+          {(!scanTrade || !scanPostcode) && (
+            <Link href="/find-jobs" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+              RUN YOUR FIRST SCAN →
+            </Link>
+          )}
         </section>
 
         {/* Chase Summary */}
@@ -317,6 +326,15 @@ function Row({ label, value }: { label: string; value: string }) {
     <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
       <span className="font-black text-[var(--muted)]">{label}</span>
       <span className="text-right font-black">{value}</span>
+    </div>
+  );
+}
+
+function RowLink({ label, href, cta }: { label: string; href: string; cta: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
+      <span className="font-black text-[var(--muted)]">{label}</span>
+      <Link href={href} className="text-right font-black text-[var(--navy)] underline underline-offset-2">{cta}</Link>
     </div>
   );
 }

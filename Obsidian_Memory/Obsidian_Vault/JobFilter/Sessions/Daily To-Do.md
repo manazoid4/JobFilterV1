@@ -1,5 +1,134 @@
 # Daily To-Do
 
+## Today - 26 May 2026 (Run 4 — AuditAgent)
+
+- [x] Lead engine double-penalty bug fixed — DirectorySignal leads were -16 instead of -8 (scorer + scan.ts both applied -8; now scorer only)
+- [x] `lead-engine-quality-regression.mjs` — added `SOURCE_DIRECTORY_SIGNAL=true`; was failing for all 5 postcode/trade combos
+- [x] `free-scanner-redaction-regression.mjs` — fixed dead `functions/index.ts` path → `legacy/firebase/functions/index.ts`; updated stale UI copy assertions
+- [x] `lead-engine-source-config-regression.mjs` — rewritten for `sourceConfig.ts` / `isSourceEnabled` architecture (old CONFIG.sources.planningData is gone)
+- [x] `package-copy-regression.mjs` — updated from removed Letterhead Pack copy to current £39/mo / Founding 30 copy
+- [x] `outcome-tracking-regression.mjs` — added OUTCOMES summary strip (WON/LOST/NO ANSWER counts) to LeadListPage
+- [x] 6/6 regressions PASS. Build GREEN. TypeScript CLEAN. PR #196 merged.
+- [x] Vault: Changelog 2026-05-26 Run 4 written. RALPH_PLAN done log updated.
+- [ ] AccountPage still uses AuthProvider (Vite env vars) — needs full migration to createBrowserSupabaseClient
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] Planning locality fix — planningDataFetcher broad fallback stamps non-local leads with outward code
+- [ ] WhatsApp delivery truth — sms.ts stub success not safe for production
+- [ ] Delivery lock key — deliveryLockKey = trade + postcodeOutward + sourceId not implemented
+- [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+
+---
+
+## n8n Automation Stack — All 16 Workflows
+
+All workflow JSONs live in `JobFilterV1/n8n-workflows/`. Pushed via `node scripts/n8n-push.mjs`. Activate in n8n UI at `http://localhost:5678`.
+
+| # | Agent | ID | Type | Cron / Trigger | Purpose |
+|---|-------|----|------|----------------|---------|
+| 01 | Daily Lead Digest | `hlT2YtrEBHMS0mwt` | cron | Mon–Fri 7am | `/api/leads/search` → morning lead summary |
+| 02 | READY Signal Alert | `DbfARpb9uVhOdie7` | cron | every 2h | `/api/start-signals/search` → alert on READY leads (dedup via 05) |
+| 03 | Multi-Trade Weekly Sweep | `67CVueXovSGu1l50` | cron | Mon 8am | `/api/leads/search` × N trades → weekly pipeline fill |
+| 04 | Vault Writer | `KPPRqOtDhPJhe7Kc` | sub-workflow | called by others | Reusable node: writes `JobFilter/Agent Runs/YYYY-MM-DD/<agent>-<HHmm>.md` |
+| 05 | Lead Dedup Memory | `XbhFFSqPXg7OT48c` | sub-workflow | called by 02 | Reads/writes `.seen-lead-ids.json` — prevents repeat alerts |
+| 06 | Outcome Logger | `2Oar5tVrrKQWxyN3` | webhook | inbound | Won/lost → `/api/start-signals/:id/feedback` → vault `JobFilter/Outcomes/` |
+| 07 | Material Price Watcher | `wK1QMco772GKXSQl` | cron | daily 6am | `/api/material-prices` diff vs snapshot → alert on >5% spike |
+| 08 | Territory Summary | `mJ2jqkaEcljpAG3a` | cron | Sun 9am | `/api/territory-summary` → vault `JobFilter/Territory/` |
+| 09 | Waitlist Health | `XylHASk4kvRZmsLt` | cron | hourly | `/api/waitlist-count` → alert on 10/50/100/500 milestones |
+| 10 | Stripe Webhook → Vault | `2f4zmgH6jVn5ekhZ` | webhook | Stripe events | Payment/cancel events → vault `JobFilter/Revenue/YYYY-MM-DD.md` |
+| 11 | Chase Check Reminder | `93yhO5CYnzrGdq92` | cron | daily 10am | Leads aged 3/7/14d no outcome → `/api/chase-check` + email |
+| 12 | Intake Score Triage | `NMO8gGyB1vy6jHcW` | webhook | new intake | `/api/intake-score` → routes gold/silver/bronze vault folder |
+| 13 | Calendar Sync | `enCGdpU5usm1Hy84` | cron | daily 6pm | `/api/calendar-export` → push ICS to Google/Outlook |
+| 14 | Source Health Watchdog | `u5sWqnbh4gXY7oKj` | cron | every 4h | `/api/status` → alert if any source down |
+| 15 | Competitor Watch | `zxjXt1x1yZA1YGN9` | cron | weekly | `/api/leads/search` on competitor postcodes → weekly diff |
+| 16 | LLM Brief Builder | `dkeRwtZ1lygxeY0w` | cron | daily 6:50am | Reads last 7d Agent Runs → rebuilds `JobFilter/Daily Brief.md` |
+
+**Status:** All 16 JSONs pushed to n8n. Most active. Workflows 01/02/03 need SMTP creds before email nodes fire. Workflow 16 still awaiting manual activation test.
+
+To re-push after any JSON change:
+```bash
+node scripts/n8n-push.mjs
+```
+
+---
+
+## NEXT BUILD AGENT PROMPT
+
+Copy this exactly into the next NightlyBuildAgent or Claude Code session:
+
+```
+You are working on JobFilter in this repo. Read AGENTS.md, AGENT_RUNNING_MODEL.md, and Obsidian_Memory/Obsidian_Vault/Vault Map.md first. Also read Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md before any copy, pricing, or lead gating changes.
+
+Context as of 2026-05-26 Run 4:
+- Stack: Next.js App Router + Express API (proxied via pages/api/[[...path]].ts) + React SPA (src/App.tsx inside app/page.tsx ClientApp wrapper). Vite config is dead — Next.js is live.
+- Production: https://jobfilter.uk (Vercel). Branch main is live.
+- Lead engine: leadEngine/scan.ts → sourceConfig.ts (isSourceEnabled) → individual fetchers. DirectorySignal is the internal fallback (enabled in DEMO_MODE or SOURCE_DIRECTORY_SIGNAL=true).
+- Auth: Supabase. createBrowserSupabaseClient() for client-side. AuthProvider still uses Vite env vars — needs migration (only AccountPage still uses it).
+- Stripe: checkout wired, webhook wired. NEEDS live test with test key.
+- WhatsApp: sms.ts has stub success path — NOT production safe. OpenWA plan saved but not wired.
+- 6/6 regressions green as of last session.
+
+Priority order for this session:
+1. NEEDLE CHECK — scan all pages for regressions or new opportunities (run a quick 4-agent check: Builder, Critic, Copywriter, Data):
+   - Builder: anything broken or incomplete in the flow?
+   - Critic: what would a paying tradesperson find confusing or untrustworthy?
+   - Copywriter: any copy that can be tightened, made more direct, or better aligned to AGENTS.md tone?
+   - Data: anything that leaks source names, shows fake data, or breaks the product rule?
+
+2. TOP LAUNCH BLOCKERS (pick the highest-impact one and fix it):
+   a. AccountPage: replace AuthProvider (Vite env vars) with createBrowserSupabaseClient() — blocks returning users who change their account
+   b. Planning locality: planningDataFetcher broad fallback stamps non-local planning records with the searched outward postcode — fix or filter non-local results
+   c. WhatsApp delivery truth: sms.ts can report stub success. Real delivery = Twilio response check, status field 'queued'/'sent'/'failed', no production stub.
+   d. Delivery lock key: implement deliveryLockKey = trade + postcodeOutward + sourceId, suppress duplicate same-trade same-patch leads
+
+3. After any changes:
+   - npm run build → must pass
+   - npm run lint → must pass
+   - Run applicable regression tests from codex-output/
+   - git add -A && git commit -m "[NightlyBuildAgent] ..." && git push origin <branch>
+   - Write vault changelog: Obsidian_Memory/Obsidian_Vault/JobFilter/Changelog YYYY-MM-DD Run N.md
+   - Update Sessions/Daily To-Do.md with what was done + what's still open
+
+Do not: expose source names publicly, add placeholder/fake leads to production paths, rewrite unrelated files, over-engineer before lead quality is proven.
+```
+
+---
+
+## Today - 26 May 2026 (Run 3 — NightlyBuildAgent)
+
+
+- [x] Auth routes: create app/login, app/forgot-password, app/reset-password Next.js wrappers (all were 404ing)
+- [x] LoginPage: replace react-router-dom + AuthProvider with Next.js navigation + createBrowserSupabaseClient
+- [x] ForgotPasswordPage: replace react-router-dom Link + Vite supabase with next/link + createBrowserSupabaseClient
+- [x] ResetPasswordPage: replace useNavigate + Vite supabase with useRouter + createBrowserSupabaseClient
+- [x] AccountPage: replace Navigate(react-router-dom) with useRouter.replace('/login')
+- [x] TopNav: add Sign In link (desktop + mobile) — existing users had no discoverable login path
+- [x] SignupPage: "Work email" → "Email", "Postcode cluster" → "Your area (e.g. B14)", hero "LOCK THE ACCOUNT FIRST." → "CREATE YOUR ACCOUNT."
+- [x] ActivationPendingPage: pre-checkout copy clarified — "under 2 minutes" + plain language
+- [x] DashboardPage: YOUR INTAKE "Not set" rows → actionable RowLink CTAs to /find-jobs + yellow scan CTA when unset (NEEDLE #1)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-26 Run 3 written
+- [x] AccountPage still uses AuthProvider — FIXED Run 5: migrated to createBrowserSupabaseClient, /account route created
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] SignupPage AuthProvider migration — signUp() still uses useAuth(); needs createBrowserSupabaseClient
+
+## Today - 26 May 2026 (Run 5 — NightlyBuildAgent)
+
+- [x] Auth routes restored: app/login, app/forgot-password, app/reset-password (lost in PR #196 merge, re-created)
+- [x] LoginPage, ForgotPasswordPage, ResetPasswordPage: react-router-dom + Vite supabase → Next.js + createBrowserSupabaseClient
+- [x] AccountPage: full AuthProvider removal, createBrowserSupabaseClient + inline subscription fetch
+- [x] app/account/page.tsx created — /account route now live
+- [x] SignalsPage: bg-blue-600 design violation fixed → bg-[var(--navy)]; Checkatrade price comparison added to CTA
+- [x] FreeToolsPage: comparison table "Live lead scanner" free column: '—' → '3 free/wk'
+- [x] FindJobsPage: mobile UNLOCK CTA now shows "Buyer · deadline · proof link" hint (matches desktop)
+- [x] Build: GREEN (67 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-26 Run 5 written
+
+---
+
 ## Today - 26 May 2026 (Run 2 — NightlyBuildAgent)
 
 - [x] FindJobsPage: data source naming violations fixed (4 locations) — formatSourceLabel() helper added; lead card source badge, PATCH PULSE source mix, PATCH PULSE best source, locked Source URL placeholder
