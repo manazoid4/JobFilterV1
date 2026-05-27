@@ -52,6 +52,7 @@ export function Footer() {
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link href="/privacy" className="hover:text-[var(--yellow)]">Privacy</Link>
               <Link href="/terms" className="hover:text-[var(--yellow)]">Terms</Link>
+              <a href="mailto:hello@jobfilter.uk" className="hover:text-[var(--yellow)] normal-case">hello@jobfilter.uk</a>
             </div>
           </div>
 

@@ -10,10 +10,12 @@ const links = [
   { to: '/pricing', label: 'Pricing' },
 ];
 
-// Mobile: only show secondary links — primary actions are in the quick-access grid and sticky CTA
+// Mobile: all nav links shown in the dropdown menu
 const mobileLinks = [
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/signals', label: 'Signals' },
+  { to: '/pricing', label: 'Pricing' },
 ];
 
 export function TopNav() {
@@ -43,7 +45,7 @@ export function TopNav() {
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
+        <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
           {links.map((link) => {
             const isActive = pathname === link.to;
             return (
@@ -58,9 +60,9 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 xl:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           {foundingSlots !== null && foundingSlots <= 30 && (
-            <div className="hidden items-center gap-2 2xl:flex">
+            <div className="hidden items-center gap-2 xl:flex">
               <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
               </span>
@@ -79,7 +81,7 @@ export function TopNav() {
 
         <button
           type="button"
-          className="xl:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
+          className="lg:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -90,7 +92,7 @@ export function TopNav() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
+        <div id="mobile-menu" className="lg:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <Link href="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
