@@ -7,7 +7,7 @@ const data: TradePageData = {
   tradePlural: 'CCTV & Security Installers',
   headline: 'How Security Installers Win Commercial Contracts From',
   highlightedPhrase: 'Licensing Applications',
-  sub: 'Most councils make CCTV a condition of any new licensed premises — bars, restaurants, off-licences. HMO licence applications drive residential security demand. Commercial planning for retail and hospitality triggers security system requirements. JobFilter scans licensing and planning applications across 400+ councils and flags security installation opportunities before the applicant starts looking for an installer.',
+  sub: '2,973 security businesses compete in a £1.9B and growing UK market. NSI and SSAIB certification separates real installers from generics — but winning work still means being first. A wasted survey costs £70–£200+. JobFilter reads licensing applications, HMO registers, and commercial planning 2–10 weeks before open-market demand appears.',
   painPoints: [
     ['Licensed premises applicants find security installers too late', 'A bar or restaurant gets its licence granted. The conditions include a requirement for an approved CCTV system within 30 days. They search Google in a panic. You have 30 days to win the job or lose it to whoever ranks highest.'],
     ['HMO licensing security requirements are reactive', 'HMO licence applicants are told by the council they need an intruder alarm or entry system. They ask whoever the letting agent recommends. You\'re not in that conversation unless you knew about the HMO application before the licence was granted.'],
@@ -15,10 +15,10 @@ const data: TradePageData = {
     ['NACOSS and NSI-approved work is hard to find without a pipeline', 'Being NACOSS or NSI approved means you can win premium commercial security contracts. But the premium work goes to firms that find it early — not firms waiting for the phone to ring.'],
   ],
   stats: [
-    ['Every new licensed premises', 'requires a CCTV system as standard council condition'],
-    ['£1,500-£15,000', 'Average commercial CCTV and security installation value'],
-    ['400+', 'Councils scanned for licensing and planning applications'],
-    ['HMO licensing', 'drives recurring residential security demand across all regions'],
+    ['2,973', 'UK security system businesses in 2025 — growing year on year (IBISWorld)'],
+    ['£1.9 billion', 'UK security system services market value in 2026'],
+    ['£800–£3,000', 'Typical domestic CCTV install. Commercial and monitored systems much larger.'],
+    ['2–10 weeks', 'Signal advantage before open-market demand appears'],
   ],
   signals: [
     ['Licensed premises applications', 'New premises licence applications for bars, restaurants, off-licences, and nightclubs almost universally carry CCTV conditions. We flag them the moment the application is filed — before the licence is even granted.'],

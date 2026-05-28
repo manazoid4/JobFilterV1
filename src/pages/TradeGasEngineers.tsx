@@ -7,7 +7,7 @@ const data: TradePageData = {
   tradePlural: 'Gas Engineers',
   headline: 'How Gas Engineers Find Boiler Jobs Before They Hit',
   highlightedPhrase: 'Directories',
-  sub: 'EPC F and G-rated properties with ageing boilers, property transactions where new owners inherit failing systems, and social housing retrofit programmes — all visible before the homeowner starts searching Checkatrade. JobFilter scans energy data and planning approvals across 400+ councils to find boiler replacement jobs before anyone else.',
+  sub: '76,630 Gas Safe businesses serve 21.2 million gas-heated homes. The market is £8–12B annually — but the best jobs (boiler swaps, landlord CP12s, social housing programmes) are found in planning data and licensing registers, not comparison sites. A wasted diagnostic costs £60–£180. JobFilter surfaces install and compliance jobs 2–12 weeks before directories know they exist.',
   painPoints: [
     ['Boiler breakdown work is unpredictable', 'Emergency callouts keep the lights on but they\'re impossible to plan around. You need a pipeline of replacement jobs booked in advance — not a phone that either rings constantly or goes silent.'],
     ['Directory leads go to whoever is cheapest', 'Homeowners post boiler replacement jobs on Checkatrade and compare quotes instantly. You\'re a Gas Safe engineer with a reputation — competing on price with someone charging £200 less is a race to the bottom.'],

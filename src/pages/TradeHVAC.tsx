@@ -7,7 +7,7 @@ const data: TradePageData = {
   tradePlural: 'HVAC Engineers',
   headline: 'How HVAC Engineers Win Commercial Jobs From',
   highlightedPhrase: 'Planning Applications',
-  sub: 'Every commercial planning approval — office conversion, school refurb, data centre build, mixed-use development — carries an HVAC specification requirement under Part L of the Building Regulations. JobFilter scans 400+ councils and flags these applications at the point of approval, weeks before the M&E contractor goes out to tender.',
+  sub: '~9,000 REFCOM-registered businesses compete for a £4–6B market. F-gas rules banning high-GWP single-split systems from 2025 are forcing replacement cycles now. The Warm Homes Plan added air-to-air heat pumps. A wasted commercial survey costs £80–£250+. JobFilter reads planning and compliance signals 4–12 weeks before any M&E tender is published.',
   painPoints: [
     ['Commercial M&E tenders go to framework contractors', 'Procurement frameworks lock most commercial HVAC work to a short list of M&E firms. Unless you\'re on the framework, you\'re tendering blind and late. The only way to change that is to be in conversation before the tender is written.'],
     ['Office-to-residential conversions are huge HVAC contracts', 'Permitted development and full planning approvals for office-to-resi conversions require complete HVAC redesign. These are £45k-£120k contracts — but they\'re sitting in planning portals, not on any M&E tender platform.'],
@@ -67,7 +67,7 @@ Action: Open notice → jobfilter.uk/lead/hvc362`,
   ctaPostcode: 'EC1',
   metaTitle: 'How HVAC Engineers Win Commercial Jobs From Planning Applications — JobFilter',
   addOns: [
-    { slug: 'om-builder', title: 'O  metaDescription:M BUILDER', tagline: 'Operations   metaDescription: Maintenance manual to BSRIA BG 1 standard — ready for client handover.' },
+    { slug: 'om-builder', title: 'O&M BUILDER', tagline: 'Operations & Maintenance manual to BSRIA BG 1 standard — ready for client handover.' },
   ],
   metaDescription: 'JobFilter scans commercial planning applications across 400+ councils for HVAC opportunities. Office conversions, school refurbs, data centres — Gold leads sent to WhatsApp. Free scan for HVAC engineers.',
 };

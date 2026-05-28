@@ -7,7 +7,7 @@ const data: TradePageData = {
   tradePlural: 'EV Charger Installers',
   headline: 'How EV Charger Installers Win Jobs Before The',
   highlightedPhrase: 'Car Arrives',
-  sub: 'Every new build needs EV charger provision under Part S of the Building Regulations. Every commercial planning approval for a car park or office block is a charging infrastructure contract. JobFilter scans planning approvals across 400+ councils and flags EV charger work before the developer puts it out to tender.',
+  sub: 'OZEV grants run to March 2027. Part S makes EV charging mandatory on all new residential builds. Domestic installs average £900–£1,800; fleet and workplace jobs hit £50,000+. A wasted domestic lead costs £60–£150 when parking rights, landlord consent, or grant eligibility are wrong. JobFilter flags these signals 2–12 weeks before any directory knows the job exists.',
   painPoints: [
     ['Part S compliance work goes to the main contractor\'s list', 'New builds legally require EV charger provision under Part S. But most of that work gets allocated to whoever the main contractor already knows — you never hear about the job.'],
     ['OZEV grant work is competitive and slow', 'The OZEV grant scheme drives residential installs, but it pushes homeowners to compare quotes online. By the time they\'re comparing, five other installers are already in the running.'],

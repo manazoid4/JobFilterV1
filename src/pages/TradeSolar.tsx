@@ -7,7 +7,7 @@ const data: TradePageData = {
   tradePlural: 'Solar PV Installers',
   headline: 'How Solar Installers Find Rooftops Ready For',
   highlightedPhrase: 'Panels',
-  sub: 'South-facing roofs on new extensions, EPC C-band properties pushed toward solar, and new estate planning approvals — all visible in planning data before the homeowner starts Googling installers. JobFilter scans 400+ councils and flags solar-ready properties before your competition knows they exist.',
+  sub: 'The Warm Homes Plan commits £15B and targets upgrades to 5 million homes by 2030. The Future Homes Standard puts solar on the majority of new builds. 369,000 certified installs happened in 2025 alone — a record. JobFilter reads planning approvals, EPC data, and retrofit award lists 4–16 weeks before the homeowner ever starts Googling installers.',
   painPoints: [
     ['Leads go to comparison sites first', 'Homeowners visit comparison platforms and get four or five solar quotes within hours. You\'re competing on price with every other installer in your region before you\'ve even spoken to them.'],
     ['New build estates are invisible', 'A planning approval for a 60-unit estate in your area means 60 potential solar installs — but no installer hears about it until the developer puts the contract out to tender late in the build.'],
@@ -15,15 +15,15 @@ const data: TradePageData = {
     ['Energy cost pressure creates demand but no direction', 'Homeowners researching solar because of energy bills start on comparison sites, not by calling local installers. You need to be in front of them before they reach that comparison page.'],
   ],
   stats: [
-    ['350,000+', 'Solar installs per year across the UK'],
-    ['£6k-£12k', 'Average residential solar installation value'],
-    ['3+', 'Signal types cross-referenced per solar lead'],
-    ['400+', 'Councils scanned for planning and EPC signals'],
+    ['5,006', 'MCS-certified solar PV installers in the UK (2025 — MCS dashboard)'],
+    ['369,000', 'Certified renewable installations in 2025 — a record year for solar'],
+    ['£7,000–£12,000+', 'Average residential solar installation value (battery bundles higher)'],
+    ['4–16 weeks', 'Typical signal advantage over homeowner directories'],
   ],
   signals: [
-    ['Planning applications', 'Extension approvals with south-facing roof additions, new build estates, and loft conversions all represent solar installation opportunities. We flag them at approval — weeks before the homeowner starts researching.'],
-    ['EPC energy signals', 'Properties rated EPC D and below near the C threshold are prime retrofit targets. Cross-referenced with property age, roof type, and ownership signals to identify homeowners most likely to invest in solar this year.'],
-    ['New estate completions', 'Residential planning approvals for 10+ units flag entire streets of potential solar customers before the first brick is laid. Early contact means you can tender for the whole estate, not just individual installs.'],
+    ['Planning applications', 'Extension approvals with south-facing roof additions, new build estates, loft conversions, barn conversions, and outbuildings — all visible at approval stage, 4–16 weeks before the homeowner starts Googling installers.'],
+    ['EPC energy signals', 'Properties rated EPC D and below are prime solar candidates — high electricity burden, weak fabric, strong payback case. Cross-referenced with ownership and property age to identify the warmest leads in your patch.'],
+    ['Social housing & retrofit programmes', 'Warm Homes Plan retrofit award lists, social-housing wave funding for solar, and council developer site-start files flag commercial and residential estate contracts before they reach any tender portal.'],
   ],
   howItWorks: [
     ['01', 'Enter your postcode', 'Tell us where you operate. We scan planning approvals, EPC data, and new build completions within your working radius for solar-relevant signals.'],
