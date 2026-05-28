@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 28 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] buildReasons() stub replaced — free-tier lead cards now show trade-specific scorer reasons (EV CHARGER — YOUR TRADE, BOILER — YOUR TRADE, JUST POSTED, GOOD VALUE, etc.) via parseTradeReasons() on client
+- [x] FindJobsPage upgrade banner: silver path → "X SILVER LEADS"; locked count path → "X MORE LEADS ARE LOCKED"; silver body copy specific
+- [x] TerritoriesPage claim box: "Unlimited letters — 1st class included" → "Letter drop scripts — print and post in minutes" (last remaining false letter claim)
+- [x] Build: GREEN, TypeScript: CLEAN
+- [x] PR #219 created, Vault: Changelog 2026-05-28 Run 2 written
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] Planning locality fix — planningDataFetcher broad fallback (postcode text search can return non-local results)
+- [ ] WinStatsBanner: show "Be the first in your area" when wonCount=0 (new users see no social proof)
+- [ ] valuePreview() in leadsSearch.ts: amounts < £5k return 'Unlock exact value' with no band — could show 'Small job signal' instead
+- [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+
+---
+
 ## Today - 27 May 2026 (Run 3 — NightlyBuildAgent)
 
 - [x] DashboardPage: duplicate scan CTA fixed — `RUN YOUR FIRST SCAN →` in YOUR INTAKE now gated on `isEmpty` (no more duplicate with header `SCAN FOR JOBS →`)
