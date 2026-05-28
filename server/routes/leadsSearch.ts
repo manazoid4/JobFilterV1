@@ -5,6 +5,7 @@ import { CONFIG } from '../../leadEngine/config';
 import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
 import { persistLeads } from '../services/leadPersistence';
+import { persistSourceBenchmarkRun } from '../services/sourceBenchmark';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -18,8 +19,11 @@ export function registerLeadSearchRoute(app: Express) {
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
+      const queryStartedAt = new Date(started).toISOString();
       const result = await scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles });
+      const queryFinishedAt = new Date().toISOString();
       const persistence = await persistLeads(result.leads);
+      const sourceBenchmark = await persistSourceBenchmarkRun({ result, trade, queryStartedAt, queryFinishedAt });
       const leads = FULL_ACCESS_TEST_MODE
         ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
         : result.leads.slice(0, CONFIG.freeTierLimit).map(toFreePreviewLead);
@@ -35,6 +39,7 @@ export function registerLeadSearchRoute(app: Express) {
         lockedCount: FULL_ACCESS_TEST_MODE ? 0 : Math.max(0, result.total - leads.length),
         accessMode: FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'free-preview',
         persistence,
+        sourceBenchmark,
         sources: result.sources,
         sourceHealth: result.sourceHealth,
         errors: result.errors,
@@ -115,6 +120,9 @@ function toFreePreviewLead(lead: Lead) {
     qualityLabel: lead.qualityLabel,
     leadReadiness: lead.leadReadiness,
     recommendedAction: lead.recommendedAction,
+    contactPath: lead.contactPath,
+    whyThisIsAJob: lead.whyThisIsAJob,
+    opportunityAtoms: lead.opportunityAtoms,
     evidenceBadges: lead.evidenceBadges,
     signalStack: lead.signalStack,
     signalClass: lead.signalClass,

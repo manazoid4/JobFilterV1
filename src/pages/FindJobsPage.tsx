@@ -271,6 +271,9 @@ export function FindJobsPage() {
             leadReadiness: lead.leadReadiness,
             qualityLabel: lead.qualityLabel,
             postcodeOutward: lead.postcodeOutward,
+            recommendedAction: lead.recommendedAction,
+            contactPath: lead.contactPath,
+            scoreReasons: lead.reasons,
           },
         }),
       });
@@ -963,6 +966,21 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <p className="mt-1 text-sm font-black text-[var(--ink)]">{lead.whyNow}</p>
           </div>
         )}
+        {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
+          <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+            {lead.whyThisIsAJob && (
+              <>
+                <p className="micro-label text-[var(--ink)]">WHY THIS IS A JOB</p>
+                <p className="mt-1 text-sm font-black text-[var(--ink)]">{lead.whyThisIsAJob}</p>
+              </>
+            )}
+            {lead.contactPath?.reason && (
+              <p className="mt-2 text-xs font-black uppercase text-[var(--muted)]">
+                Next action: {lead.contactPath.recommendedChannel.replace(/_/g, ' ')} · {lead.contactPath.complianceRisk} risk
+              </p>
+            )}
+          </div>
+        )}
         {typeof lead.evidenceCount === 'number' && (
           <p className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted)]">
             {lead.evidenceCount} evidence item{lead.evidenceCount === 1 ? '' : 's'} · source links required before purchase/contact decisions
@@ -1033,9 +1051,48 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           contactSignal={lead.contactSignal}
           url={lead.url}
         />
+        {cardOpenAccess && <OutcomeActions lead={lead} />}
       </div>
       </div>
     </article>
+  );
+}
+
+function OutcomeActions({ lead }: { lead: Lead }) {
+  const [busy, setBusy] = useState('');
+
+  async function report(status: 'contacted' | 'no_answer' | 'quoted' | 'won' | 'lost') {
+    setBusy(status);
+    try {
+      await fetch('/api/leads/outcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId: lead.id,
+          status,
+          title: lead.title,
+          trade: lead.trade,
+          location: lead.location,
+          postcodeOutward: lead.postcodeOutward,
+          source: lead.source,
+          score: lead.score,
+          scoreReasonsAtDelivery: lead.reasons ?? [],
+          contactPathUsed: lead.contactPath?.recommendedChannel,
+        }),
+      });
+    } finally {
+      setBusy('');
+    }
+  }
+
+  return (
+    <div className="grid grid-cols-2 gap-1">
+      <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('contacted')}>I called</button>
+      <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('no_answer')}>No answer</button>
+      <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('quoted')}>Quoted</button>
+      <button className="border-2 border-[var(--line)] bg-[var(--green)] px-2 py-2 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => void report('won')}>Won</button>
+      <button className="col-span-2 border-2 border-[var(--line)] bg-[var(--ink)] px-2 py-2 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => void report('lost')}>Lost</button>
+    </div>
   );
 }
 

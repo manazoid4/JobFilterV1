@@ -29,6 +29,7 @@ import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 import { sourceRegistryEndpoints } from './sourceRegistry';
 import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
+import { extractOpportunityAtoms, whyThisIsAJob } from './opportunityAtoms';
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
@@ -237,10 +238,16 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 6. Score, update stats.passed, rank
   const scored: Lead[] = fused.map(l => {
-    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges } = scoreLeadBreakdown(l, region, outward, cleanTrade as any);
+    const opportunityAtoms = extractOpportunityAtoms(l);
+    const enrichedLead = {
+      ...l,
+      opportunityAtoms,
+      whyThisIsAJob: whyThisIsAJob(opportunityAtoms),
+    };
+    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges, contactPath } = scoreLeadBreakdown(enrichedLead, region, outward, cleanTrade as any);
     const scoreReasons = [...reasons];
     let finalScore = score;
-    const stack = l.signalStack ?? [l.source].filter(Boolean);
+    const stack = enrichedLead.signalStack ?? [enrichedLead.source].filter(Boolean);
     if (l.signalClass === 'internal_fallback' || (stack.length === 1 && stack[0] === 'DirectorySignal')) {
       finalScore = Math.max(0, finalScore - 8);
       scoreReasons.push('Internal fallback — lower confidence');
@@ -251,21 +258,22 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     }
     finalScore = Math.min(Math.max(finalScore, 0), 100);
     const leadWithDistance: Lead = {
-      ...l,
+      ...enrichedLead,
       score: finalScore,
       scoreReasons,
       qualityLabel,
       leadReadiness,
       recommendedAction,
+      contactPath,
       evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
     };
     const leadOutward = l.postcodeOutward?.toUpperCase() ?? '';
     if (leadOutward === outward.toUpperCase()) {
       leadWithDistance.distanceMiles = 0;
-    } else if (regionFromOutward(leadOutward) === region) {
-      leadWithDistance.distanceMiles = Math.round((5 + Math.random() * 10) * 10) / 10;
-    } else {
-      leadWithDistance.distanceMiles = Math.round((15 + Math.random() * 35) * 10) / 10;
+    } else if (leadOutward && regionFromOutward(leadOutward) === region) {
+      leadWithDistance.distanceMiles = null as any;
+      leadWithDistance.score = Math.max(0, (leadWithDistance.score ?? 0) - 3);
+      leadWithDistance.scoreReasons = [...scoreReasons, 'Approximate regional distance only (-3)'];
     }
     return leadWithDistance;
   });

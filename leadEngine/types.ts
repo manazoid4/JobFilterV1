@@ -3,6 +3,48 @@ export type Urgency = 'low' | 'medium' | 'high';
 export type ContactSignal = 'none' | 'weak' | 'strong';
 export type LeadStatus = 'new' | 'saved' | 'ignored' | 'closed' | 'cancelled';
 export type Tier = 'free' | 'paid';
+export type ComplianceRisk = 'low' | 'medium' | 'high';
+export type AuditLabel =
+  | 'ACTIONABLE'
+  | 'WRONG_TRADE'
+  | 'TOO_EARLY'
+  | 'TOO_LATE'
+  | 'LOW_VALUE'
+  | 'NO_CONTACT_PATH'
+  | 'DUPLICATE'
+  | 'FAKE_OR_INTERNAL';
+
+export interface ContactPath {
+  recommendedChannel: string;
+  allowedChannels: string[];
+  blockedChannels: string[];
+  complianceRisk: ComplianceRisk;
+  reason: string;
+  script: string;
+  optOutRequired: boolean;
+  tpsCheckRequired: boolean;
+  evidenceNeeded: string[];
+}
+
+export interface OpportunityAtom {
+  trade: TradeKey | string;
+  atomType:
+    | 'extension'
+    | 'loft_dormer'
+    | 'roof_works'
+    | 'solar_ev'
+    | 'ashp_hvac'
+    | 'glazing_windows_doors'
+    | 'drainage_groundworks'
+    | 'tree_fencing_landscaping'
+    | 'hmo_fire_alarm_eicr'
+    | 'commercial_fit_out';
+  evidenceText: string;
+  sourceDocumentUrl: string;
+  confidence: number;
+  estimatedValueImpact: number;
+  urgencyImpact: number;
+}
 
 export interface Lead {
   id: string;
@@ -34,6 +76,9 @@ export interface Lead {
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
   evidenceBadges?: string[];
+  contactPath?: ContactPath;
+  opportunityAtoms?: OpportunityAtom[];
+  whyThisIsAJob?: string;
 }
 
 export interface LeadStoreEntry {
@@ -60,6 +105,10 @@ export interface SourceStats {
   failed: boolean;
   error?: string;
   latencyMs?: number;
+  queryStartedAt?: string;
+  queryFinishedAt?: string;
+  newestSourcePublishedAt?: string;
+  sourceLatencyHours?: number;
 }
 
 export interface SourceHealth {
@@ -69,6 +118,10 @@ export interface SourceHealth {
   failed: boolean;
   error?: string;
   latencyMs?: number;
+  queryStartedAt?: string;
+  queryFinishedAt?: string;
+  newestSourcePublishedAt?: string;
+  sourceLatencyHours?: number;
   readiness: 'live' | 'key-required' | 'disabled' | 'demo';
 }
 

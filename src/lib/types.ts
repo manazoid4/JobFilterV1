@@ -69,6 +69,27 @@ export type Lead = {
   evidenceCount?: number;
   whyNow?: string;
   sourceUrls?: string[];
+  contactPath?: {
+    recommendedChannel: string;
+    allowedChannels: string[];
+    blockedChannels: string[];
+    complianceRisk: 'low' | 'medium' | 'high';
+    reason: string;
+    script: string;
+    optOutRequired: boolean;
+    tpsCheckRequired: boolean;
+    evidenceNeeded: string[];
+  };
+  opportunityAtoms?: Array<{
+    trade: string;
+    atomType: string;
+    evidenceText: string;
+    sourceDocumentUrl: string;
+    confidence: number;
+    estimatedValueImpact: number;
+    urgencyImpact: number;
+  }>;
+  whyThisIsAJob?: string;
   updatedAt?: string;
 };
 
@@ -93,6 +114,12 @@ export type LeadSearchResponse = {
   accessMode?: string;
   sources?: Record<string, SourceStats>;
   sourceHealth?: Record<string, SourceStats>;
+  sourceBenchmark?: {
+    stored: boolean;
+    count: number;
+    provider: string;
+    error?: string;
+  };
   persistence?: {
     stored: boolean;
     count: number;

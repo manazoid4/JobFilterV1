@@ -1,78 +1,67 @@
 import type { Express, Request, Response } from 'express';
-import { readFileSync, appendFileSync, existsSync, mkdirSync } from 'fs';
-import path from 'path';
+import { supabase } from '../lib/supabase';
 
-type OutcomeRecord = { id: string; title: string; status: string; value?: string; postcode?: string; createdAt: string; lostReason?: string };
+const OUTCOME_STATUSES = new Set([
+  'delivered',
+  'opened',
+  'saved',
+  'contacted',
+  'answered',
+  'quoted',
+  'won',
+  'lost',
+  'no_answer',
+]);
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const OUTCOMES_FILE = path.join(DATA_DIR, 'outcomes.jsonl');
-
-const outcomes: Record<string, OutcomeRecord> = {};
-
-// Load persisted outcomes on startup
-function loadOutcomes() {
-  try {
-    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-    if (!existsSync(OUTCOMES_FILE)) return;
-    const lines = readFileSync(OUTCOMES_FILE, 'utf8').split('\n').filter(Boolean);
-    for (const line of lines) {
-      try {
-        const record: OutcomeRecord = JSON.parse(line);
-        if (record.id) outcomes[record.id] = record;
-      } catch { /* skip malformed line */ }
-    }
-  } catch { /* non-fatal — fresh start */ }
-}
-
-function persistOutcome(record: OutcomeRecord) {
-  try {
-    if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-    appendFileSync(OUTCOMES_FILE, JSON.stringify(record) + '\n', 'utf8');
-  } catch { /* non-fatal */ }
-}
-
-loadOutcomes();
-
+type OutcomeStatus = 'delivered' | 'opened' | 'saved' | 'contacted' | 'answered' | 'quoted' | 'won' | 'lost' | 'no_answer';
 
 export function registerOutcomeReportRoute(app: Express) {
-  app.post('/api/leads/outcome', (req: Request, res: Response) => {
+  app.post('/api/leads/outcome', async (req: Request, res: Response) => {
     try {
-      const { leadId, status, title, value, lostReason, postcode } = req.body || {};
-      if (!leadId || !status) {
-        return res.status(422).json({ ok: false, error: 'leadId and status required.' });
+      if (!supabase) {
+        return res.status(503).json({ ok: false, error: 'Supabase is not configured; outcome storage is disabled.' });
       }
-      const record: OutcomeRecord = {
-        id: leadId,
-        title: title || 'Unknown job',
-        status,
-        value: value || undefined,
-        postcode: postcode || undefined,
-        createdAt: outcomes[leadId]?.createdAt || new Date().toISOString(),
-        lostReason: status === 'lost' ? lostReason : undefined,
-      };
-      outcomes[leadId] = record;
-      persistOutcome(record);
-      return res.json({ ok: true });
+
+      const { leadId, status } = req.body || {};
+      const cleanStatus = String(status ?? '').toLowerCase() as OutcomeStatus;
+      if (!leadId || !OUTCOME_STATUSES.has(cleanStatus)) {
+        return res.status(422).json({ ok: false, error: 'leadId and valid status required.' });
+      }
+
+      const now = new Date().toISOString();
+      const row = buildOutcomeRow(req.body, cleanStatus, now);
+      const { error } = await supabase
+        .from('lead_outcomes')
+        .upsert(row, { onConflict: 'lead_id' });
+
+      if (error) {
+        return res.status(500).json({ ok: false, error: error.message });
+      }
+
+      await supabase
+        .from('leads')
+        .update({ status: cleanStatus, updated_at: now })
+        .eq('id', leadId);
+
+      return res.json({ ok: true, status: cleanStatus });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Outcome failed.') });
     }
   });
 
-  app.get('/api/wins/stats', (req: Request, res: Response) => {
+  app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
+      const rows = await readOutcomeRows();
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = Object.values(outcomes).filter((o) => {
+      const won = rows.filter((o) => {
         if (o.status !== 'won') return false;
-        if (!areaPrefix || !o.postcode) return true;
-        return o.postcode.toUpperCase().startsWith(areaPrefix);
+        if (!areaPrefix || !o.postcode_outward) return true;
+        return String(o.postcode_outward).toUpperCase().startsWith(areaPrefix);
       });
 
       const totalWonCount = won.length;
-      const totalValue = won.reduce((sum, o) => {
-        const v = parseFloat((o.value || '').replace(/[^0-9.]/g, ''));
-        return sum + (isNaN(v) ? 0 : v);
-      }, 0);
+      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
 
       return res.json({
         ok: true,
@@ -89,9 +78,25 @@ export function registerOutcomeReportRoute(app: Express) {
     }
   });
 
+  app.get('/api/outcomes/weekly-analytics', async (_req: Request, res: Response) => {
+    try {
+      const rows = await readOutcomeRows();
+      return res.json({
+        ok: true,
+        bestSourceByWinRate: bestByWinRate(rows, 'source'),
+        bestTradeByWinRate: bestByWinRate(rows, 'trade'),
+        bestPostcodeByWonValue: bestByWonValue(rows, 'postcode_outward'),
+        worstFalsePositiveScoreReason: worstFalsePositiveReason(rows),
+        leadScoreCalibration: scoreCalibration(rows),
+      });
+    } catch (error: any) {
+      return res.status(500).json({ ok: false, error: String(error?.message ?? 'Analytics failed.') });
+    }
+  });
+
   app.post('/api/leads/review-link', (req: Request, res: Response) => {
     try {
-      const { leadId, customerName, trade } = req.body || {};
+      const { customerName, trade } = req.body || {};
       const message = `Hi ${customerName || 'there'}, thanks for choosing us for your ${trade || 'trade'} work. If you're happy with the job, a quick Google review would mean the world — just paste your review link here before sending: [YOUR GOOGLE REVIEW LINK]`;
       return res.json({ ok: true, message });
     } catch (error: any) {
@@ -99,15 +104,12 @@ export function registerOutcomeReportRoute(app: Express) {
     }
   });
 
-  app.get('/api/leads/summary', (_req: Request, res: Response) => {
+  app.get('/api/leads/summary', async (_req: Request, res: Response) => {
     try {
-      const all = Object.values(outcomes);
-      const won = all.filter((o) => o.status === 'won');
+      const rows = await readOutcomeRows();
+      const won = rows.filter((o) => o.status === 'won');
       const wonCount = won.length;
-      const totalValue = won.reduce((sum, o) => {
-        const v = parseFloat(o.value?.replace(/[^0-9.]/g, '') || '0');
-        return sum + (isNaN(v) ? 0 : v);
-      }, 0);
+      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
       return res.json({
         ok: true,
         wonCount,
@@ -121,4 +123,103 @@ export function registerOutcomeReportRoute(app: Express) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Summary failed.') });
     }
   });
+}
+
+function buildOutcomeRow(body: any, status: OutcomeStatus, now: string) {
+  return {
+    lead_id: String(body.leadId),
+    delivery_event_id: body.deliveryEventId ?? null,
+    title: body.title ?? 'Unknown job',
+    trade: body.trade ?? null,
+    location: body.location ?? null,
+    postcode_outward: body.postcodeOutward ?? body.postcode ?? null,
+    status,
+    won_value: toMoneyInt(body.wonValue ?? body.value),
+    lost_reason: status === 'lost' ? body.lostReason ?? null : null,
+    quote_value: toMoneyInt(body.quoteValue),
+    contacted_at: status === 'contacted' || status === 'answered' || status === 'quoted' || status === 'won' ? body.contactedAt ?? now : body.contactedAt ?? null,
+    quoted_at: status === 'quoted' || status === 'won' ? body.quotedAt ?? now : body.quotedAt ?? null,
+    won_at: status === 'won' ? body.wonAt ?? now : null,
+    lost_at: status === 'lost' ? body.lostAt ?? now : null,
+    source_attribution: body.sourceAttribution ?? body.source ?? null,
+    source: body.sourceAttribution ?? body.source ?? null,
+    score_at_delivery: toMoneyInt(body.scoreAtDelivery ?? body.score),
+    score_reasons_at_delivery: Array.isArray(body.scoreReasonsAtDelivery) ? body.scoreReasonsAtDelivery : [],
+    contact_path_used: body.contactPathUsed ?? null,
+    updated_at: now,
+  };
+}
+
+async function readOutcomeRows() {
+  if (!supabase) return [] as any[];
+  const { data, error } = await supabase
+    .from('lead_outcomes')
+    .select('*')
+    .order('updated_at', { ascending: false })
+    .limit(1000);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
+
+function toMoneyInt(value: unknown) {
+  if (value === undefined || value === null || value === '') return null;
+  const parsed = Number(String(value).replace(/[^0-9.]/g, ''));
+  return Number.isFinite(parsed) ? Math.round(parsed) : null;
+}
+
+function bestByWinRate(rows: any[], key: string) {
+  const groups = groupRows(rows, key);
+  return [...groups.entries()]
+    .map(([value, list]) => ({ value, total: list.length, wins: list.filter(row => row.status === 'won').length }))
+    .filter(item => item.total > 0)
+    .map(item => ({ ...item, winRate: Math.round((item.wins / item.total) * 100) }))
+    .sort((a, b) => b.winRate - a.winRate || b.wins - a.wins)[0] ?? null;
+}
+
+function bestByWonValue(rows: any[], key: string) {
+  const groups = groupRows(rows.filter(row => row.status === 'won'), key);
+  return [...groups.entries()]
+    .map(([value, list]) => ({ value, wonValue: list.reduce((sum, row) => sum + Number(row.won_value ?? 0), 0) }))
+    .sort((a, b) => b.wonValue - a.wonValue)[0] ?? null;
+}
+
+function worstFalsePositiveReason(rows: any[]) {
+  const lost = rows.filter(row => row.status === 'lost' || row.status === 'no_answer');
+  const counts = new Map<string, number>();
+  for (const row of lost) {
+    for (const reason of row.score_reasons_at_delivery ?? []) {
+      counts.set(reason, (counts.get(reason) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+}
+
+function scoreCalibration(rows: any[]) {
+  const scored = rows.filter(row => typeof row.score_at_delivery === 'number');
+  const won = scored.filter(row => row.status === 'won');
+  const bad = scored.filter(row => row.status === 'lost' || row.status === 'no_answer');
+  return {
+    avgWonScore: average(won.map(row => row.score_at_delivery)),
+    avgBadScore: average(bad.map(row => row.score_at_delivery)),
+    sampleSize: scored.length,
+    recommendation: won.length && bad.length && (average(bad.map(row => row.score_at_delivery)) ?? 0) >= (average(won.map(row => row.score_at_delivery)) ?? 0)
+      ? 'Reduce weight on reasons that appear in lost/no-answer outcomes and increase contact-path and source-evidence weights.'
+      : 'Keep collecting outcomes before changing score weights materially.',
+  };
+}
+
+function groupRows(rows: any[], key: string) {
+  const groups = new Map<string, any[]>();
+  for (const row of rows) {
+    const value = String(row[key] ?? 'unknown');
+    const list = groups.get(value) ?? [];
+    list.push(row);
+    groups.set(value, list);
+  }
+  return groups;
+}
+
+function average(values: number[]) {
+  if (!values.length) return null;
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
 }
