@@ -98,7 +98,12 @@ export async function planningDataFetcher(
   byPostcode.set('limit', '30');
   attempts.push(byPostcode);
 
-  for (const params of attempts) {
+  for (let attemptIdx = 0; attemptIdx < attempts.length; attemptIdx++) {
+    const params = attempts[attemptIdx];
+    // First attempt is geo (lat/lon) when available — geo results are inherently local.
+    // Text search (?q=outward) can match unrelated records that mention the outward in
+    // a reference number, so we must require address-level confirmation for those.
+    const isGeoLookup = !!(lat && lon) && attemptIdx === 0;
     const url = `${PLANNING_ENTITY_URL}?${params}`;
     try {
       const r = await fetch(url, {
@@ -122,12 +127,12 @@ export async function planningDataFetcher(
 
       const kw = TRADE_KEYWORDS[trade] ?? TRADE_KEYWORDS.all;
 
-      const leads: RawLead[] = entities
+      const mapped: Array<RawLead | null> = entities
         .filter((e: any) => {
           const text = `${e?.name ?? ''} ${e?.description ?? ''} ${e?.reference ?? ''}`;
           return kw.test(text);
         })
-        .map((e: any, i: number) => {
+        .map((e: any, i: number): RawLead | null => {
           // planning.data.gov.uk can nest data under json_data or use top-level fields
           const jsonData = e?.json_data ?? e?.data ?? {};
           const desc = String(
@@ -138,22 +143,29 @@ export async function planningDataFetcher(
           const address = String(
             e?.address ?? jsonData?.site_address ?? jsonData?.address ?? e?.locality ?? ''
           ).trim();
+          const addressPostcode = extractUkPostcode(address);
+          const addressMentionsOutward = addressConfirmsOutward(address, outward);
+          // Locality: trust geo lookups; for text search require address to confirm outward
+          const isLocal = isGeoLookup || !!addressPostcode || addressMentionsOutward;
+          if (!isLocal) return null;
           const locationLabel = address.length > 3 ? address.substring(0, 60) : outward;
           return {
             rawId:         String(e?.entity ?? e?.reference ?? `planning-${Date.now()}-${i}`),
             rawTitle:      `Planning Approval: ${name || 'New Development'}`,
             rawDescription:`Planning application in ${locationLabel} — potential ${trade} work. Ref: ${e?.reference ?? 'N/A'}. ${desc || 'Development works approved.'}`.substring(0, 300),
             rawValue:      estimateValue(desc || name, trade),
-            rawLocation:   address || outward,
-            rawPostcode:   extractUkPostcode(address) || (addressConfirmsOutward(address, outward) ? outward : ''),
+            // Only stamp rawLocation with outward when geo-confirmed local; otherwise keep address only.
+            rawLocation:   address || (isGeoLookup ? outward : ''),
+            rawPostcode:   addressPostcode || (addressMentionsOutward || isGeoLookup ? outward : ''),
             rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
             rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
             rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? jsonData?.applicant_name ?? 'Local Authority').trim(),
             rawCpvCodes:   [],
             sourceSystem:  'PlanningData',
             sourceUrl:     e?.entity ? `https://www.planning.data.gov.uk/entity/${e.entity}` : undefined,
-          } satisfies RawLead;
+          };
         });
+      const leads: RawLead[] = mapped.filter((l): l is RawLead => l !== null);
 
       console.error(`[Planning] ${url} → entities=${entities.length} passed=${leads.length}`);
 
