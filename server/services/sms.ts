@@ -1,7 +1,9 @@
 import { supabase } from '../lib/supabase';
+import { getOutward } from '../../leadEngine/postcode';
 
 const deliveredSet = new Set<string>();
-// Patch-level lock: prevents multiple leads from the same source/trade/patch in one session
+// Patch-level lock: prevents multiple leads from the same source/trade/patch in one session.
+// Key format: trade + postcodeOutward + sourceSystem (per AGENT_RUNNING_MODEL.md spec).
 const patchLockSet = new Set<string>();
 
 type WhatsAppPayload = {
@@ -26,9 +28,11 @@ export async function triggerGoldLeadWhatsApp(payload: WhatsAppPayload) {
     return { triggered: false, provider: 'stub', reason: 'duplicate' };
   }
 
-  // deliveryLockKey: prevent saturating same trade+patch+source in one session
+  // deliveryLockKey: prevent saturating same trade+patch+source in one session.
+  // Normalise postcode to outward only — full postcode "B14 7AB" and outward "B14" must collide.
   if (payload.postcode && payload.jobType && payload.sourceSystem) {
-    const lockKey = `${payload.jobType.toLowerCase()}:${payload.postcode.toLowerCase()}:${payload.sourceSystem}`;
+    const outward = (getOutward(payload.postcode) || payload.postcode).toUpperCase();
+    const lockKey = `${payload.jobType.toLowerCase()}:${outward}:${payload.sourceSystem}`;
     if (patchLockSet.has(lockKey)) {
       return { triggered: false, provider: 'stub', reason: 'patch_locked' };
     }
