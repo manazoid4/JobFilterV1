@@ -1,16 +1,27 @@
-import Stripe from 'stripe';
+import { getAppOrigin, getStripe, resolvePriceId, type Tier } from '../../../../src/lib/stripe';
 
 export async function POST(request: Request) {
-  const secretKey = process.env.STRIPE_SECRET_KEY;
-  if (!secretKey) {
+  const stripe = getStripe();
+  if (!stripe) {
     return Response.json({ ok: false, error: 'STRIPE_SECRET_KEY is not configured' }, { status: 503 });
   }
 
-  const stripe = new Stripe(secretKey);
   const body = await request.json().catch(() => ({}));
-  const tier = body.tier === 'business' ? 'business' : body.tier === 'founding' ? 'founding' : 'pro';
-  const price = getPriceId(tier);
-  const userId = typeof body.userId === 'string' ? body.userId : '';
+
+  // Accept either `tier` (legacy) or `plan` (per task spec). Default 'pro'.
+  const rawTier = body.tier || body.plan;
+  const tier: Tier =
+    rawTier === 'founding' ? 'founding'
+    : rawTier === 'business' ? 'business'
+    : rawTier === 'epc' ? 'epc'
+    : 'pro';
+
+  const billing = body.billing === 'annual' ? 'annual' : 'monthly';
+
+  // Accept either explicit `priceId` (per task spec) or resolve from tier/billing.
+  const price = typeof body.priceId === 'string' && body.priceId ? body.priceId : resolvePriceId(tier, billing);
+
+  const userId = typeof body.userId === 'string' ? body.userId : typeof body.user_id === 'string' ? body.user_id : '';
   const email = typeof body.email === 'string' ? body.email : '';
 
   if (!userId || !email) {
@@ -26,33 +37,18 @@ export async function POST(request: Request) {
     mode: 'subscription',
     customer_email: email,
     line_items: [{ price, quantity: 1 }],
-    success_url: `${origin}/activation-pending?paid=1&tier=${tier}&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/pricing`,
+    success_url: `${origin}/dashboard?welcome=1&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/pricing?cancelled=1`,
+    allow_promotion_codes: true,
     metadata: {
       tier,
+      plan: tier,
+      user_id: userId,
       userId,
       trade: typeof body.trade === 'string' ? body.trade : '',
       postcodeOutward: typeof body.postcodeOutward === 'string' ? body.postcodeOutward : '',
     },
   });
 
-  return Response.json({ ok: true, url: session.url });
-}
-
-function getPriceId(tier: string) {
-  if (tier === 'founding') return process.env.STRIPE_PRICE_FOUNDING || process.env.STRIPE_PRICE_FOUNDING_MONTHLY;
-  if (tier === 'business') return process.env.STRIPE_PRICE_BUSINESS;
-  return process.env.STRIPE_PRICE_PRO || process.env.STRIPE_PRICE_PRO_MONTHLY;
-}
-
-function getAppOrigin(request: Request) {
-  const configured = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL;
-  if (configured) return configured.replace(/\/$/, '');
-
-  const requestOrigin = request.headers.get('origin');
-  if (requestOrigin && !requestOrigin.includes('localhost') && !requestOrigin.includes('127.0.0.1')) {
-    return requestOrigin;
-  }
-
-  return process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://jobfilter.uk';
+  return Response.json({ ok: true, url: session.url, sessionId: session.id });
 }
