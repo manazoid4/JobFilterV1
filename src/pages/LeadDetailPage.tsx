@@ -154,6 +154,11 @@ export function LeadDetailPage() {
   const selectedTemplate = waTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
 
+  const firstTouchTemplate = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
+  const quickWaUrl = firstTouchTemplate
+    ? `https://wa.me/?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
+    : null;
+
   function handleSnooze() {
     snoozeChaseLead(id);
     setSnoozed(true);
@@ -263,7 +268,17 @@ export function LeadDetailPage() {
         </div>
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Chase now.</p>
+            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h.</p>
+            {quickWaUrl && (
+              <a
+                href={quickWaUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
+              >
+                SEND WHATSAPP NOW →
+              </a>
+            )}
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
