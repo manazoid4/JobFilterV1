@@ -121,12 +121,13 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">READY</p>
+        <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">LOCK THE ACCOUNT. THEN CONTROL THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
         </div>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime. No credit card to scan free.</p>
       </section>
     </main>
   );

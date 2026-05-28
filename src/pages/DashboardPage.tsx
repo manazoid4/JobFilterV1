@@ -189,7 +189,7 @@ export function DashboardPage() {
             <p className="micro-label text-[var(--muted)]">SCAN</p>
             <Link href="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
-          <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
+          <p className="headline mt-3 text-2xl leading-none">YOUR SCAN SETUP</p>
           <div className="mt-4 grid gap-3 text-sm">
             {scanTrade
               ? <Row label="Trade" value={scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1)} />
@@ -221,7 +221,7 @@ export function DashboardPage() {
           </div>
           {activeChase === 0 && (
             <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
-              Scan your postcode, then tap TRACK THIS LEAD on any result. Jobs land here so you can chase them in order.
+              Track a lead from Find Jobs — your list stays here so you know who to contact first.
             </p>
           )}
         </section>

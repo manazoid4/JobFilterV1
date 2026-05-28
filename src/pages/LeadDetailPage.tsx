@@ -113,7 +113,13 @@ export function LeadDetailPage() {
   const [lostReason, setLostReason] = useState('');
   const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(() => {
+    const cl = getChaseLeads().find((c) => c.leadId === id);
+    const stage = cl?.stage ?? 'not_contacted';
+    if (stage === 'won') return 'won_thanks';
+    if (stage === 'following_up' || stage === 'contacted') return 'follow_up_24h';
+    return 'first_touch_2h';
+  });
   const [showWonCapture, setShowWonCapture] = useState(false);
   const [wonValueInput, setWonValueInput] = useState('');
   const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
@@ -327,7 +333,7 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">SEND WHATSAPP</h2>
-        <p className="mt-2 text-sm font-black text-[var(--muted)]">Pick a message — we fill in the job details. Tap SEND to open WhatsApp.</p>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">Message ready — tap SEND WHATSAPP to go. Swap template below if needed.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {waTemplates.map((t) => (
             <button
