@@ -2,6 +2,32 @@
 
 ---
 
+## 2026-05-28 — Skills Install + Vault Cleanup
+
+**PRs:** #205, #206, #207 (all merged)
+
+### What Changed
+
+- 21 trade landing pages updated with research-backed market stats (MCS, Gas Safe, REFCOM, IBISWorld, OZEV)
+- Vault daily digest GitHub Action added (`.github/workflows/vault-digest.yml`) — runs 7:30 AM UTC
+- 10 Claude Code skills installed: task-observer, ultrawork, lead-research-assistant, competitive-ads-extractor, content-research-writer, changelog-generator, webapp-testing, twitter-algorithm-optimizer, mcp-builder, internal-comms, canvas-design
+- task-observer meta-skill (rebelytics/one-skill-to-rule-them-all) installed — monitors sessions, auto-improves skills
+- CLAUDE.md updated: task-observer activation instruction added
+- bypassPermissions enabled — no more tool use prompts
+- Vault audit: AGENT_QUICKSTART.md created, PersistentMemory/Progress/Daily Brief/JobFilter HQ all updated
+
+### Launch Blockers (Unresolved)
+1. Delivery lock key not implemented
+2. Stripe E2E not verified
+3. WhatsApp stub success not production-safe
+4. Planning locality broad fallback
+5. NEXT_PUBLIC_OPEN_ACCESS=false not confirmed in Vercel
+6. Free scan counter in localStorage (bypassable)
+7. Legal pages status unconfirmed
+
+---
+
+
 ## 20 May 2026 — Homepage Improvements + City Intelligence
 
 **Branch:** `claude/homepage-improvements-20260519`
@@ -199,3 +225,4 @@ Every agent should be able to see:
 - what was tested
 - what is blocked
 - what to do next
+
