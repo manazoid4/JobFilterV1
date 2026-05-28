@@ -282,7 +282,7 @@ export function WeeklySignalsPage() {
             {week.totalSignals} signals detected across the UK. {week.totalGold} are GOLD. {week.totalSilver} are SILVER. The rest is noise.
           </p>
           <p className="mt-2 text-sm font-bold text-white/40">
-            Modelled estimates based on UK public data baselines (planning.data.gov.uk, EPC Open Data, Companies House) with seasonal adjustment. Live lead scoring from real API data.
+            Modelled estimates based on verified UK signal baselines with seasonal adjustment. Live lead scoring from real API data.
           </p>
           {isCurrentWeek && (
             <p className="mt-2 text-base font-black text-[var(--green)]">
