@@ -33,3 +33,4 @@ Obsidian_Memory/Obsidian_Vault/[0-9][0-9][0-9][0-9]-*.md
 Obsidian_Memory/Obsidian_Vault/.obsidian/
 .codegraph/
 .vercel
+.claude/worktrees/

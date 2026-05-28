@@ -10,8 +10,10 @@
  *   HOURS               — how many hours back to cover (default 24)
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const REPO = process.env.GITHUB_REPOSITORY || 'manazoid4/JobFilterV1';
 const GH_TOKEN = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
