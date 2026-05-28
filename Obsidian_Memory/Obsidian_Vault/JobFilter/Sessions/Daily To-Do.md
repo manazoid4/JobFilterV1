@@ -1,5 +1,27 @@
 # Daily To-Do
 
+## Today - 28 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] sms.ts: delivery lock key implemented — `patchLockSet` (trade+postcode+sourceSystem) prevents same-source/patch/trade saturation; stub now returns `triggered:false` with `reason:'no_twilio_config'` (no more fake success)
+- [x] LeadDetailPage: GOLD tier banner now contains `SEND WHATSAPP NOW →` button — no more disconnect between urgency text and action
+- [x] MethodologyPage: score thresholds corrected (GOLD 90+→80+, SILVER 75-89→50-79, BRONZE 60-74→below 50); UPRN jargon removed; 'price-paid history'→'value history'; source naming fixes ('Government contracts portal', 'UK public tenders portal')
+- [x] HomePage: 'construction intelligence layer' jargon fixed → competitor-naming contrast ('Not a directory. Not an auction.')
+- [x] Build: GREEN (94 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-28 Run 2 written
+- [x] PR #218 merged
+- [x] Planning locality: addressConfirmsOutward already guards this — confirmed DONE
+- [x] EpcPage letter claim: 'PRINT & POST TEMPLATE' + mailto CTA — already honest — confirmed DONE
+- [x] SignupPage auth migration: using createBrowserSupabaseClient — confirmed DONE
+- [ ] Wire Stripe Checkout live test end-to-end with test key
+- [ ] Confirm NEXT_PUBLIC_OPEN_ACCESS=false in Vercel env before public launch
+- [ ] TradeFlow "Send to TradeFlow" button (needs URL scheme from founder)
+- [ ] FindJobsPage paywall trigger: "READY TO UNLOCK?" lacks emotional hook — upgrade CTA below fold on mobile (NEEDLE #2 from Run 2 health check)
+- [ ] DashboardPage empty state: two competing CTAs ("RUN FIRST SCAN" vs "SEE PRICING") → single clear path for new user (NEEDLE #3 from Run 2 health check)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still inactive, needs SMTP creds + manual activation
+- [ ] sms.ts: pass `sourceSystem` from callers (leadNotify.ts, chaseCheck.ts) into payload to activate patch lock in practice
+
+---
+
 ## Today - 27 May 2026 (Run 3 — NightlyBuildAgent)
 
 - [x] DashboardPage: duplicate scan CTA fixed — `RUN YOUR FIRST SCAN →` in YOUR INTAKE now gated on `isEmpty` (no more duplicate with header `SCAN FOR JOBS →`)
