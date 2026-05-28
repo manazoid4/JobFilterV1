@@ -445,7 +445,7 @@ export function HomePage() {
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE TRADE.<br />ONE PATCH.<br />NO SHARING.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a lead marketplace. A construction intelligence layer. Gold leads are scored by trade, patch, and timing — and sent only to you.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a directory. Not an auction. Gold leads scored by trade, patch, and timing — sent to you, not four other trades bidding on the same job.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
                 ['No shared auction', 'No five-trade blast. No race-to-the-bottom resale. If a lead looks crowded, it gets marked down or blocked.'],

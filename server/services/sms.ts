@@ -1,6 +1,8 @@
 import { supabase } from '../lib/supabase';
 
 const deliveredSet = new Set<string>();
+// Patch-level lock: prevents multiple leads from the same source/trade/patch in one session
+const patchLockSet = new Set<string>();
 
 type WhatsAppPayload = {
   score: number;
@@ -15,12 +17,22 @@ type WhatsAppPayload = {
   recommendedAction?: string;
   contactPathUsed?: string;
   scoreReasons?: string[];
+  sourceSystem?: string;
 };
 
 export async function triggerGoldLeadWhatsApp(payload: WhatsAppPayload) {
   const dedupKey = `${payload.leadId ?? ''}:${payload.phone ?? ''}`;
   if (payload.leadId && payload.phone && deliveredSet.has(dedupKey)) {
     return { triggered: false, provider: 'stub', reason: 'duplicate' };
+  }
+
+  // deliveryLockKey: prevent saturating same trade+patch+source in one session
+  if (payload.postcode && payload.jobType && payload.sourceSystem) {
+    const lockKey = `${payload.jobType.toLowerCase()}:${payload.postcode.toLowerCase()}:${payload.sourceSystem}`;
+    if (patchLockSet.has(lockKey)) {
+      return { triggered: false, provider: 'stub', reason: 'patch_locked' };
+    }
+    patchLockSet.add(lockKey);
   }
 
   const message = `GOLD LEAD
@@ -65,7 +77,8 @@ Next: ${payload.recommendedAction || 'Review proof link and contact path before 
       result = { triggered: true, provider: 'twilio-whatsapp' };
     }
   } else {
-    result = { triggered: true, provider: 'stub' };
+    // No Twilio config — log intent but do not claim delivery
+    result = { triggered: false, provider: 'stub', reason: 'no_twilio_config' };
   }
 
   deliveredSet.add(dedupKey);
@@ -79,8 +92,8 @@ Next: ${payload.recommendedAction || 'Review proof link and contact path before 
         provider: result.provider,
         channel: 'whatsapp_to_tradesman',
         message_body: message,
-        status: result.triggered ? (result.provider === 'stub' ? 'stubbed' : 'sent') : 'failed',
-        delivery_status: result.triggered ? (result.provider === 'stub' ? 'stubbed' : 'sent') : 'failed',
+        status: result.provider === 'stub' ? 'stubbed' : (result.triggered ? 'sent' : 'failed'),
+        delivery_status: result.provider === 'stub' ? 'stubbed' : (result.triggered ? 'sent' : 'failed'),
         sent_at: new Date().toISOString(),
         error: result.reason ?? null,
         is_duplicate: false,
