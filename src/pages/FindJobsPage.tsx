@@ -724,12 +724,16 @@ export function FindJobsPage() {
                     {goldCount > 0
                       ? `YOUR SCAN FOUND ${goldCount} GOLD LEAD${goldCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
                       : silverCount > 0
-                      ? `YOUR SCAN FOUND ${silverCount} LEAD${silverCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
-                      : 'READY TO UNLOCK?'}
+                      ? `YOUR SCAN FOUND ${silverCount} SILVER LEAD${silverCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
+                      : (result.lockedCount ?? 0) > 0
+                      ? `${result.lockedCount} MORE LEAD${(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()} ARE LOCKED.`
+                      : 'UNLOCK FULL DETAIL — BUYER, VALUE, NEXT ACTION.'}
                   </p>
                   <p className="mt-1 font-black text-white/80">
                     {goldCount > 0
                       ? `Unlock the buyer name, phone, and job detail for £39/mo — cheaper than one lead on Bark.`
+                      : silverCount > 0
+                      ? `Worth watching. Unlock buyer name, quote floor, and timing detail for £39/mo — cheaper than one Bark lead.`
                       : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
                   </p>
                   <div className="mt-3 flex flex-wrap justify-center gap-2">

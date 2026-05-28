@@ -188,8 +188,14 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(_lead: Lead, _score: number): string[] {
-  return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
+function buildReasons(lead: Lead, _score: number): string[] {
+  // Pass through scorer reasons — parseTradeReasons() on the client formats them
+  // as trade-specific labels (e.g. "EV CHARGER — YOUR TRADE").
+  // Filter internal/non-displayable reasons that parseTradeReasons already skips anyway.
+  const reasons = (lead.scoreReasons ?? []).filter(
+    (r) => !r.startsWith('Not your trade') && !r.startsWith('Source confidence') && !r.startsWith('Source class') && !r.startsWith('Proximity fit')
+  );
+  return reasons.length > 0 ? reasons : ['Verified signal — unlock buyer, value, and action route'];
 }
 
 function sanitizeTrade(input: unknown) {
