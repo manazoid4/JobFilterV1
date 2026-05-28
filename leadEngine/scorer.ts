@@ -1,6 +1,7 @@
 import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
 import { getScoreBonus } from './sourceConfig';
+import { buildContactPath, contactPathScoreAdjustment } from './contactPath';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {
@@ -56,9 +57,10 @@ export function scoreLead(lead: Lead, userRegion: string, userTrade?: TradeKey):
   return scoreLeadBreakdown(lead, userRegion, '', userTrade).score;
 }
 
-export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[]; qualityLabel: Lead['qualityLabel']; ghostRisk: Lead['ghostRisk']; leadReadiness: Lead['leadReadiness']; recommendedAction: string; evidenceBadges: string[] } {
+export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward = '', userTrade?: TradeKey): { score: number; reasons: string[]; qualityLabel: Lead['qualityLabel']; ghostRisk: Lead['ghostRisk']; leadReadiness: Lead['leadReadiness']; recommendedAction: string; evidenceBadges: string[]; contactPath: NonNullable<Lead['contactPath']> } {
   let score = 0;
   const reasons: string[] = [];
+  const contactPath = buildContactPath(lead);
 
   const sourcePts = Math.round((lead.sourceConfidence / 100) * 20);
   score += sourcePts;
@@ -101,6 +103,10 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     score -= 12;
     reasons.push('No contact signal (-12)');
   }
+
+  const contactAdjustment = contactPathScoreAdjustment(contactPath);
+  score += contactAdjustment.points;
+  reasons.push(contactAdjustment.reason);
 
   const raw = parseValueToMidpoint(lead.estimatedValue);
   if (raw >= 5_000 && raw <= 150_000) {
@@ -151,6 +157,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
   }
 
+  const atomBoost = Math.min((lead.opportunityAtoms ?? []).reduce((sum, atom) => sum + Math.round(atom.confidence * 4) + Math.min(atom.urgencyImpact, 5), 0), 14);
+  if (atomBoost > 0) {
+    score += atomBoost;
+    reasons.push(`Document opportunity atoms (+${atomBoost})`);
+  }
+
   if (lead.isCommercial) {
     const commercialBonus = (userTrade === 'hvac' || userTrade === 'building' || userTrade === 'electrical') ? 5 : 2;
     score += commercialBonus;
@@ -199,13 +211,15 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     finalScore >= 65 &&
     lead.sourceConfidence >= 60 &&
     lead.contactSignal !== 'none' &&
-    !isDirectorySource
+    !isDirectorySource &&
+    contactPath.allowedChannels.length > 0
   ) {
     ghostRisk = 'READY';
   } else if (
     finalScore < 40 ||
     (isDirectorySource && lead.sourceConfidence < 50) ||
-    (lead.urgency === 'low' && lead.contactSignal === 'none')
+    (lead.urgency === 'low' && lead.contactSignal === 'none') ||
+    contactPath.recommendedChannel === 'do_not_contact_yet'
   ) {
     ghostRisk = 'WASTE';
   } else {
@@ -214,9 +228,9 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
 
   // Recommended action
   const recommendedAction =
-    ghostRisk === 'READY' ? 'Call within 24 hours' :
+    ghostRisk === 'READY' ? contactPath.reason :
     ghostRisk === 'WASTE' ? 'Do not spend site-visit time yet' :
-    'Verify by phone before quoting';
+    contactPath.reason;
 
   // Evidence badges
   const evidenceBadges: string[] = [];
@@ -229,10 +243,10 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   if (sourceLower.includes('companies') || sourceLower.includes('company')) evidenceBadges.push('Company Verified');
   if (sourceLower.includes('land') || sourceLower.includes('registry')) evidenceBadges.push('New Owner');
   if (lead.estimatedValue && !lead.estimatedValue.includes('POA') && lead.estimatedValue !== '') evidenceBadges.push('Budget Band');
-  evidenceBadges.push('Exclusive');
+  if (lead.opportunityAtoms?.length) evidenceBadges.push('Why this is a job');
 
   const leadReadiness = ghostRisk;
-  return { score: finalScore, reasons, qualityLabel, ghostRisk, leadReadiness, recommendedAction, evidenceBadges };
+  return { score: finalScore, reasons, qualityLabel, ghostRisk, leadReadiness, recommendedAction, evidenceBadges, contactPath };
 }
 
 function parseValueToMidpoint(val: string): number {

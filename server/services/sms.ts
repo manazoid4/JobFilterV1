@@ -12,6 +12,9 @@ type WhatsAppPayload = {
   leadId?: string;
   ghostRisk?: string;
   qualityLabel?: string;
+  recommendedAction?: string;
+  contactPathUsed?: string;
+  scoreReasons?: string[];
 };
 
 export async function triggerGoldLeadWhatsApp(payload: WhatsAppPayload) {
@@ -25,7 +28,7 @@ Trade: ${payload.jobType}
 Area: ${payload.area}
 Value: ${payload.budget || 'Confirm on call'}
 Ghost Risk: ${payload.ghostRisk || 'READY'}
-Next: Call within 24 hours`;
+Next: ${payload.recommendedAction || 'Review proof link and contact path before outreach'}`;
 
   console.log('[whatsapp/gold-lead]', message);
 
@@ -42,7 +45,7 @@ Next: Call within 24 hours`;
       `${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`
     ).toString('base64');
 
-    await fetch(url, {
+    const twilioResponse = await fetch(url, {
       method: 'POST',
       headers: {
         Authorization: `Basic ${auth}`,
@@ -55,7 +58,12 @@ Next: Call within 24 hours`;
       }).toString(),
     });
 
-    result = { triggered: true, provider: 'twilio-whatsapp' };
+    if (!twilioResponse.ok) {
+      const body = await twilioResponse.text().catch(() => '');
+      result = { triggered: false, provider: 'twilio-whatsapp', reason: `Twilio HTTP ${twilioResponse.status}: ${body.substring(0, 120)}` };
+    } else {
+      result = { triggered: true, provider: 'twilio-whatsapp' };
+    }
   } else {
     result = { triggered: true, provider: 'stub' };
   }
@@ -69,10 +77,17 @@ Next: Call within 24 hours`;
         lead_id: payload.leadId ?? '',
         phone: payload.phone ?? null,
         provider: result.provider,
+        channel: 'whatsapp_to_tradesman',
         message_body: message,
-        status: 'sent',
+        status: result.triggered ? (result.provider === 'stub' ? 'stubbed' : 'sent') : 'failed',
+        delivery_status: result.triggered ? (result.provider === 'stub' ? 'stubbed' : 'sent') : 'failed',
         sent_at: new Date().toISOString(),
+        error: result.reason ?? null,
         is_duplicate: false,
+        next_action: payload.recommendedAction ?? null,
+        score_at_delivery: Math.round(Number(payload.score ?? 0)),
+        score_reasons_at_delivery: payload.scoreReasons ?? [],
+        contact_path_used: payload.contactPathUsed ?? null,
       });
     } catch (err: any) {
       console.warn('[sms] Could not insert delivery_event:', err?.message);

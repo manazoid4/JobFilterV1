@@ -41,7 +41,13 @@ function toLeadRow(lead: Lead) {
     quality_label: lead.qualityLabel ?? null,
     ghost_risk: lead.ghostRisk ?? lead.leadReadiness ?? null,
     signal_class: lead.signalClass ?? null,
+    signal_stack: lead.signalStack ?? [],
+    evidence_badges: lead.evidenceBadges ?? [],
+    score_reasons: lead.scoreReasons ?? [],
     recommended_action: lead.recommendedAction ?? null,
+    contact_path: lead.contactPath ?? null,
+    opportunity_atoms: lead.opportunityAtoms ?? [],
+    why_this_is_a_job: lead.whyThisIsAJob ?? null,
     is_commercial: Boolean(lead.isCommercial),
     payload: {
       signalStack: lead.signalStack ?? [],

@@ -34,6 +34,9 @@ export function registerLeadNotifyRoute(app: Express) {
         postcode: leadData.postcodeOutward,
         leadReadiness: leadData.leadReadiness,
         qualityLabel: leadData.qualityLabel,
+        recommendedAction: leadData.recommendedAction,
+        contactPathUsed: leadData.contactPath?.recommendedChannel || leadData.contactPathUsed,
+        scoreReasons: leadData.scoreReasons || leadData.reasons,
       };
 
       const result = await triggerGoldLeadWhatsApp(payload);
