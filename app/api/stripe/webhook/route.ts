@@ -1,15 +1,15 @@
 import Stripe from 'stripe';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { getStripe } from '../../../../src/lib/stripe';
 
 export async function POST(request: Request) {
-  const secretKey = process.env.STRIPE_SECRET_KEY;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const stripe = getStripe();
 
-  if (!secretKey || !webhookSecret) {
+  if (!stripe || !webhookSecret) {
     return Response.json({ ok: false, error: 'Stripe webhook is not configured' }, { status: 503 });
   }
 
-  const stripe = new Stripe(secretKey);
   const signature = request.headers.get('stripe-signature');
   const rawBody = await request.text();
 
@@ -50,8 +50,8 @@ async function upsertSubscriptionFromCheckout(session: Stripe.Checkout.Session) 
   const supabase = getSupabaseServiceClient();
   if (!supabase) return;
 
-  const userId = session.metadata?.userId;
-  const plan = session.metadata?.tier || 'pro';
+  const userId = session.metadata?.user_id || session.metadata?.userId;
+  const plan = session.metadata?.plan || session.metadata?.tier || 'pro';
   const stripeSubscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
   const stripeCustomerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
 
@@ -69,6 +69,7 @@ async function upsertSubscriptionFromCheckout(session: Stripe.Checkout.Session) 
 
   await supabase.from('profiles').update({
     plan,
+    stripe_customer_id: stripeCustomerId ?? null,
     onboarding_status: 'paid',
     updated_at: new Date().toISOString(),
   }).eq('id', userId);
