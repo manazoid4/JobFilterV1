@@ -11,7 +11,7 @@ const comparison = [
   { feature: 'New business signals', buildalert: 'No', jobfilter: 'Yes — new businesses needing premises work', jf: true },
   { feature: 'GOLD / SILVER / BIN scoring', buildalert: 'No', jobfilter: 'Yes — chase only what pays', jf: true },
   { feature: 'WhatsApp alerts', buildalert: 'No', jobfilter: 'Yes — within minutes', jf: true },
-  { feature: 'Letter delivery', buildalert: 'Yes — £2 per letter', jobfilter: 'No — instant digital delivery', jf: false },
+  { feature: 'Physical letter service', buildalert: 'Yes — £2 per letter', jobfilter: 'Template included — you post', jf: false },
   { feature: 'Exclusive leads', buildalert: 'Yes — planning access', jobfilter: 'Yes — no one sees your scan', jf: true },
   { feature: 'Delivery speed', buildalert: 'Days — mail cycle + browse', jobfilter: 'Minutes — pushed to your phone', jf: true },
   { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '5 — planning, energy, contracts, ownership, business', jf: true },

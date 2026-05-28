@@ -1,0 +1,47 @@
+name: Vault Daily Digest
+
+on:
+  schedule:
+    # 7:30 AM UTC daily (8:30 AM BST)
+    - cron: '30 7 * * *'
+  # Trigger manually from Actions tab — pick how many hours back to cover
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Hours to look back (default 24)'
+        required: false
+        default: '24'
+
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    name: Generate vault digest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Generate digest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          HOURS: ${{ github.event.inputs.hours || '24' }}
+        run: node .github/scripts/vault-digest.js
+
+      - name: Commit digest to vault
+        run: |
+          git config user.name "JobFilter Digest Bot"
+          git config user.email "noreply@github.com"
+          git add "Obsidian_Memory/Obsidian_Vault/JobFilter/Sessions/"
+          git diff --staged --quiet || git commit -m "[vault] Auto-digest $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push

@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, Bell, Calculator, Clock, ExternalLink, Fuel, MapPin, PackageCheck, Search, Star, Wallet, type LucideIcon } from 'lucide-react';
+import { AlertTriangle, Calculator, Clock, ExternalLink, Fuel, MapPin, PackageCheck, Search, Star, Wallet, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { apiGet } from '../lib/api';
@@ -165,7 +165,7 @@ export function MaterialPriceEnginePage() {
               STOP OVERPAYING BEFORE YOU QUOTE.
             </h1>
             <p className="mt-4 max-w-3xl text-lg font-black text-white/85">
-              Compare real supplier prices near the job. Every result shows source URL, last checked timestamp and confidence.
+              Reference prices from major UK suppliers — Selco, Travis Perkins, Buildbase. Use as a quoting baseline; confirm live prices with supplier before ordering.
             </p>
           </div>
           <div className="border-2 border-white bg-[var(--yellow)] p-4 text-[var(--ink)] shadow-[4px_4px_0_white]">
@@ -321,19 +321,11 @@ export function MaterialPriceEnginePage() {
             )}
           </section>
 
-          <section className="jf-box bg-[var(--ink)] p-5 text-white">
-            <p className="micro-label text-[var(--yellow)]">PRICE-DROP ALERTS</p>
-            <div className="mt-3 flex items-center gap-3">
-              <Bell className="h-7 w-7 text-[var(--yellow)]" />
-              <p className="font-black">Placeholder: alert when a saved material drops below your target price.</p>
-            </div>
-          </section>
-
           <section className="jf-box border-[var(--orange)] bg-white p-5">
             <div className="flex gap-3">
               <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-[var(--orange)]" />
               <p className="text-sm font-black text-[var(--muted)]">
-                {data?.disclaimer ?? 'Prices and stock can change. Confirm with supplier before purchase.'} Stale data is flagged after 24 hours.
+                {data?.disclaimer ?? 'Static reference prices. Confirm with supplier before purchase.'}
               </p>
             </div>
           </section>

@@ -54,7 +54,7 @@ export function DashboardPage() {
         <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Scan. Track. Close. Everything in one place. No fluff, no jargon — just your work, organised.
+          Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
         </p>
         {!isEmpty && (
           <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
@@ -65,18 +65,18 @@ export function DashboardPage() {
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              Territory: {territory ?? 'Not Locked'}
+              YOUR PATCH: {territory ?? 'NOT LOCKED'}
             </span>
           </div>
           {territory ? (
             <p className="text-xs font-black text-white/60">
-              Locked — Gold leads in this patch won&apos;t go to other {territory.split(' ')[1] || 'trades'} before you.
+              Gold leads shown to you first — your competition gets them 24h later.
             </p>
           ) : (
             <p className="text-xs font-black text-white/60">
-              No territory = same leads as everyone else.{' '}
+              No patch locked — you&apos;re racing every other trade for the same leads.{' '}
               <Link href="/territories" className="text-[var(--yellow)] underline underline-offset-2">
-                Lock yours →
+                Lock your patch →
               </Link>
             </p>
           )}
@@ -191,11 +191,20 @@ export function DashboardPage() {
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR INTAKE</p>
           <div className="mt-4 grid gap-3 text-sm">
-            <Row label="Trade" value={scanTrade ? scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1) : 'Not set — pick on scan page'} />
-            <Row label="Postcode" value={scanPostcode ?? 'Not set — enter on scan page'} />
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet — run your first scan' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
+            {scanTrade
+              ? <Row label="Trade" value={scanTrade.charAt(0).toUpperCase() + scanTrade.slice(1)} />
+              : <RowLink label="Trade" href="/find-jobs" cta="Pick your trade →" />}
+            {scanPostcode
+              ? <Row label="Postcode" value={scanPostcode} />
+              : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
+          {isEmpty && (!scanTrade || !scanPostcode) && (
+            <Link href="/find-jobs" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+              RUN YOUR FIRST SCAN →
+            </Link>
+          )}
         </section>
 
         {/* Chase Summary */}
@@ -243,12 +252,18 @@ export function DashboardPage() {
           <div className="mt-4 grid gap-3">
             {!territory && (
               <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-                LOCK YOUR TERRITORY →
+                LOCK YOUR PATCH →
               </Link>
             )}
-            <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center">
-              SCAN FOR JOBS
-            </Link>
+            {isEmpty ? (
+              <Link href="/pricing" className="jf-button w-full bg-white text-[var(--ink)] text-center">
+                SEE WHAT YOU UNLOCK →
+              </Link>
+            ) : (
+              <Link href="/leads" className="jf-button w-full bg-white text-[var(--ink)] text-center">
+                REVIEW LEADS →
+              </Link>
+            )}
           </div>
         </section>
       </div>
@@ -311,6 +326,15 @@ function Row({ label, value }: { label: string; value: string }) {
     <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
       <span className="font-black text-[var(--muted)]">{label}</span>
       <span className="text-right font-black">{value}</span>
+    </div>
+  );
+}
+
+function RowLink({ label, href, cta }: { label: string; href: string; cta: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
+      <span className="font-black text-[var(--muted)]">{label}</span>
+      <Link href={href} className="text-right font-black text-[var(--navy)] underline underline-offset-2">{cta}</Link>
     </div>
   );
 }

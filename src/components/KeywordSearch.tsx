@@ -182,7 +182,7 @@ function KeywordResultCard({ result }: { key?: string; result: DocumentSearchRes
 
         {snippet && (
           <div className="mt-3 p-3 bg-[var(--bg-main)] border-2 border-[var(--line)]">
-            <p className="text-sm text-[var(--ink)]" dangerouslySetInnerHTML={{ __html: snippet }} />
+            <p className="text-sm text-[var(--ink)]">{snippet.replace(/<[^>]*>/g, '')}</p>
           </div>
         )}
 

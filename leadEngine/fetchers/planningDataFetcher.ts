@@ -38,6 +38,19 @@ const TRADE_KEYWORDS: Record<string, RegExp> = {
   all:         /.+/,
 };
 
+function extractUkPostcode(text: string): string {
+  const m = text.match(/\b([A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2})\b/i);
+  return m ? m[1].toUpperCase().replace(/\s+/, ' ') : '';
+}
+
+// Only use outward as a fallback if the address text actually contains that outward code as a word.
+// Avoids stamping records that mention the code in a reference number or unrelated context.
+function addressConfirmsOutward(address: string, outward: string): boolean {
+  if (!address || !outward) return false;
+  const escaped = outward.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b${escaped}\\b`, 'i').test(address);
+}
+
 function estimateValue(description: string, trade: string): number {
   const d = description.toLowerCase();
   if (d.includes('loft') || d.includes('dormer'))          return 35_000;
@@ -123,15 +136,16 @@ export async function planningDataFetcher(
           ).trim();
           const name = String(e?.name ?? jsonData?.site_name ?? desc).substring(0, 80);
           const address = String(
-            e?.address ?? jsonData?.site_address ?? jsonData?.address ?? e?.locality ?? outward
+            e?.address ?? jsonData?.site_address ?? jsonData?.address ?? e?.locality ?? ''
           ).trim();
+          const locationLabel = address.length > 3 ? address.substring(0, 60) : outward;
           return {
             rawId:         String(e?.entity ?? e?.reference ?? `planning-${Date.now()}-${i}`),
             rawTitle:      `Planning Approval: ${name || 'New Development'}`,
-            rawDescription:`Approved planning application in ${outward} — potential ${trade} work. Ref: ${e?.reference ?? 'N/A'}. ${desc || 'Development works approved.'}`.substring(0, 300),
+            rawDescription:`Planning application in ${locationLabel} — potential ${trade} work. Ref: ${e?.reference ?? 'N/A'}. ${desc || 'Development works approved.'}`.substring(0, 300),
             rawValue:      estimateValue(desc || name, trade),
             rawLocation:   address || outward,
-            rawPostcode:   outward,
+            rawPostcode:   extractUkPostcode(address) || (addressConfirmsOutward(address, outward) ? outward : ''),
             rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
             rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
             rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? jsonData?.applicant_name ?? 'Local Authority').trim(),

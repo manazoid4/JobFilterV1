@@ -5,7 +5,7 @@ export function createBrowserSupabaseClient() {
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !anonKey) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+    throw new Error('Login is temporarily unavailable. Please try again later.');
   }
 
   return createClient(url, anonKey);

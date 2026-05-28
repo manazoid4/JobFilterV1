@@ -251,7 +251,7 @@ export function FreeToolsPage() {
                 ['Travel Cost calculator', '✓', '✓'],
                 ['Time-Waster cost', '✓', '✓'],
                 ['Smart Quote starter', 'Preview', 'Full version'],
-                ['Live lead scanner', '', '✓'],
+                ['Live lead scanner', '3 free/wk', '✓'],
                 ['WhatsApp lead alerts', '', '✓'],
                 ['Saved leads', '', '✓'],
                 ['Full lead details (buyer, deadline, score)', '', '✓'],

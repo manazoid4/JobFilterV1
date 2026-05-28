@@ -177,7 +177,7 @@ export function TerritoriesPage() {
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
-                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">Lock Patch</Link>
+                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">LOCK PATCH →</Link>
                 </div>
               </article>
             ))}
@@ -220,7 +220,7 @@ export function TerritoriesPage() {
                   'One territory lock — your trade + postcode patch',
                   'Gold leads controlled by trade, patch, and timing — no shared auction, no five-trade blast',
                   'Unlimited WhatsApp alerts',
-                  'Unlimited direct letters — 1st class postage included',
+                  'Letter drop scripts for every lead — print and post in minutes',
                   'Full lead scoring + lead readiness markers',
                   'Pipeline tracking for every opportunity',
                   'Founder price locked forever while active',
@@ -262,7 +262,7 @@ export function TerritoriesPage() {
             <p className="micro-label text-[var(--ink)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">CLAIM FIRST LOOK IN YOUR WORKING AREA.</h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-              Founder monthly includes one territory lock, unlimited WhatsApp alerts, and unlimited direct letters with 1st class postage included. Extra territory is +£19/month.
+              Founder monthly includes one territory lock, unlimited WhatsApp alerts, and letter drop scripts for every lead. Extra territory is +£19/month.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK MY PATCH →</Link>

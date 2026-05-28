@@ -2,21 +2,32 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider';
 
-const links = [
+const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/dashboard', label: 'Dashboard' },
 ];
 
-const mobileLinks = [
-  ...links,
-].filter((l) => l.to !== '/find-jobs');
+const memberLinks = [
+  { to: '/dashboard', label: 'Dashboard' },
+  { to: '/leads', label: 'My Leads' },
+  { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/free-tools', label: 'Free Tools' },
+];
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
   const pathname = usePathname();
+  const { user, signOut } = useAuth();
+  const isLoggedIn = !!user;
+  const links = isLoggedIn ? memberLinks : publicLinks;
+  const mobileLinks = isLoggedIn
+    ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
+    : publicLinks;
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -40,7 +51,7 @@ export function TopNav() {
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 items-center gap-0.5 xl:flex">
+        <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
           {links.map((link) => {
             const isActive = pathname === link.to;
             return (
@@ -55,9 +66,9 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 xl:flex">
-          {foundingSlots !== null && foundingSlots <= 30 && (
-            <div className="hidden items-center gap-2 2xl:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+          {!isLoggedIn && foundingSlots !== null && foundingSlots <= 30 && (
+            <div className="hidden items-center gap-2 xl:flex">
               <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
                 {foundingSlots} left
               </span>
@@ -66,14 +77,30 @@ export function TopNav() {
               </span>
             </div>
           )}
-          <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-            START £39/MO
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link href="/tradie-zone" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+                Member Hub
+              </Link>
+              <button onClick={() => signOut()} className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
+                Sign in
+              </Link>
+              <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                START £39/MO
+              </Link>
+            </>
+          )}
         </div>
 
         <button
           type="button"
-          className="xl:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
+          className="lg:hidden border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-black text-sm min-h-[44px] min-w-[44px]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
           aria-expanded={menuOpen}
@@ -84,18 +111,25 @@ export function TopNav() {
       </div>
 
       {menuOpen && (
-        <div id="mobile-menu" className="xl:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
+        <div id="mobile-menu" className="lg:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <Link href="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">FREE</p>
               <p className="text-base font-black text-[var(--ink)]">SCAN</p>
             </Link>
-            <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
-              <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/tradie-zone" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+                <p className="text-[10px] font-black text-[var(--muted)]">MEMBER</p>
+                <p className="text-base font-black text-[var(--ink)]">HUB</p>
+              </Link>
+            ) : (
+              <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+                <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
+                <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
+              </Link>
+            )}
           </div>
-          {foundingSlots !== null && foundingSlots <= 30 && (
+          {!isLoggedIn && foundingSlots !== null && foundingSlots <= 30 && (
             <div className="border-b border-[var(--line)] bg-[var(--yellow)]/10 px-4 py-3">
               <span className="text-sm font-black text-[var(--ink)]">
                 Early Access: {foundingSlots} founder slots left — £39/mo
@@ -125,13 +159,22 @@ export function TopNav() {
               );
             })}
           </div>
-          <Link
-            href="/find-jobs"
-            onClick={() => setMenuOpen(false)}
-            className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
-          >
-            SCAN MY AREA FREE
-          </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={() => { signOut(); setMenuOpen(false); }}
+              className="bg-[var(--navy)] px-4 py-4 text-sm font-black uppercase text-white text-center min-h-[44px] flex items-center justify-center"
+            >
+              SIGN OUT
+            </button>
+          ) : (
+            <Link
+              href="/pricing"
+              onClick={() => setMenuOpen(false)}
+              className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
+            >
+              START £39/MO — FOUNDING PRICE
+            </Link>
+          )}
         </div>
       )}
     </header>

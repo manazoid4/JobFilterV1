@@ -32,6 +32,8 @@ export function Footer() {
               <Link href="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
               <Link href="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
               <Link href="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
+              <Link href="/for-your-trade" className="hover:text-[var(--yellow)]">By Trade</Link>
+              <Link href="/blueprint" className="hover:text-[var(--yellow)]">How It Works</Link>
               <Link href="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
             </div>
           </div>
@@ -52,6 +54,7 @@ export function Footer() {
             <div className="grid gap-2.5 text-sm font-black uppercase text-white/90">
               <Link href="/privacy" className="hover:text-[var(--yellow)]">Privacy</Link>
               <Link href="/terms" className="hover:text-[var(--yellow)]">Terms</Link>
+              <a href="mailto:hello@jobfilter.uk" className="hover:text-[var(--yellow)] normal-case">hello@jobfilter.uk</a>
             </div>
           </div>
 

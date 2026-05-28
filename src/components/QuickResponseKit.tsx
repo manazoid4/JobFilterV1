@@ -95,17 +95,14 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
         </div>
         <p className="text-xs font-bold text-[var(--muted)] mb-3">
           {contactSignal === 'none'
-            ? 'No direct contact on this signal — get portal pitch, site canvass script, and letter template.'
-            : 'Pre-written message templates that auto-fill with trade and postcode. Copy and send in one tap.'}
+            ? 'No direct contact on this signal — portal pitch, site canvass script, and letter template included with paid plan.'
+            : 'Pre-written message templates that auto-fill with trade and postcode. Copy and send in one tap. Included when you unlock.'}
         </p>
-        <div className="select-none blur-[3px] pointer-events-none text-xs font-bold text-[var(--ink)] mb-3 border border-[var(--line)] p-3 bg-white">
+        <div className="select-none blur-[3px] pointer-events-none text-xs font-bold text-[var(--ink)] border border-[var(--line)] p-3 bg-white">
           {contactSignal === 'none'
             ? "I'm a {job_type} contractor in {area} and I'd like to express interest..."
             : "Hi, I saw your builder job in SW12 come up. I'm local and available this week..."}
         </div>
-        <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-xs text-center block">
-          UNLOCK FIRST STRIKE →
-        </Link>
       </div>
     );
   }

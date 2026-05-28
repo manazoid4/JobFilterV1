@@ -13,11 +13,21 @@ const planBullets = [
   'Win tracking',
 ];
 
+const standardBullets = [
+  'WhatsApp Gold leads',
+  'Buyer/contact signals',
+  'Quote floor + next action',
+  'Territory priority',
+  'Win tracking',
+  'Multi-territory expansion (coming)',
+  'Priority support (coming)',
+];
+
 const objections = [
-  ['Is this another job board?', 'No. JobFilter watches planning, tender, EPC and company signals, then filters out noise before it reaches you.'],
+  ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
   ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
-  ['Can I scan before paying?', 'Yes. Free scans show signal quality. Paid unlocks full buyer context and WhatsApp delivery.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
@@ -29,19 +39,21 @@ export function PricingPage() {
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-          Real lead signals. Filtered by urgency, value, source confidence and postcode fit. Sent to WhatsApp when they are worth chasing.
+          Real job signals — not recycled from Checkatrade or Bark. Filtered by urgency, value, and distance. Hits your WhatsApp when it&apos;s worth pricing.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
         </div>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-3">
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check whether your patch has live signals before you pay."
+          body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Limited lead detail', 'No WhatsApp routing', 'No territory priority']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
         />
@@ -57,7 +69,7 @@ export function PricingPage() {
           title="Standard"
           price="£79/mo"
           body="Full paid access after the founder window closes."
-          items={planBullets}
+          items={standardBullets}
           dark
           cta={<CheckoutButton tier="pro" billing="monthly" label="START STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}
         />
@@ -65,10 +77,34 @@ export function PricingPage() {
 
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE USEFUL JOB SIGNAL OR YOUR MONEY BACK.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE JOB WORTH PRICING OR YOUR £39 BACK.</h2>
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Use JobFilter for 30 days. If you do not see one job worth chasing after setting up your patch, we refund you.
+          Set up your patch, run your scans, check at least 10 scored leads. If you don&apos;t see one job worth quoting in 30 days, we refund every penny. No forms — just email us.
         </p>
+      </section>
+
+      <section className="ops-panel bg-[var(--bg-main)] p-7 border-4 border-[var(--line)]">
+        <p className="micro-label text-[var(--orange)]">WHAT ONE MONTH LOOKS LIKE</p>
+        <h2 className="headline mt-3 text-3xl leading-none">ONE JOB COVERS IT. THAT&apos;S THE MATHS.</h2>
+        <p className="mt-3 font-black text-[var(--muted)] max-w-2xl">
+          Average UK trade job: £800–£3,000. One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
+            { signal: 'Energy: F-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
+            { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
+          ].map(({ signal, detail, band, trade }) => (
+            <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--orange)]">{trade}</p>
+              <p className="mt-1 text-base font-black text-[var(--ink)]">{signal}</p>
+              <p className="mt-1 text-xs font-black text-[var(--muted)]">{detail}</p>
+              <p className="mt-3 font-mono text-xl font-black text-[var(--ink)]">{band}</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">estimated job value</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-xs font-black text-[var(--muted)]">Signal types seen across UK patches. Not guaranteed — signals vary by location, trade, and timing.</p>
       </section>
 
       <section className="ops-panel bg-white p-7">

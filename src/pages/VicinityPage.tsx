@@ -14,35 +14,31 @@ const templates = [
 const recentProofs = [
   {
     id: 1,
-    title: 'Dulwich Kitchen Fit',
-    area: 'SE21',
+    title: 'Kitchen Refit',
+    area: 'Example',
     template: 'WhatsApp Status',
     img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
-    age: '2 hours ago',
   },
   {
     id: 2,
-    title: 'Brixton Bathroom Tile',
-    area: 'SW9',
+    title: 'Bathroom Tiling',
+    area: 'Example',
     template: 'Instagram Post',
     img: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80',
-    age: 'Yesterday',
   },
   {
     id: 3,
-    title: 'Peckham Full Rewire',
-    area: 'SE15',
+    title: 'Full Rewire',
+    area: 'Example',
     template: 'Website Review',
     img: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&q=80',
-    age: '3 days ago',
   },
   {
     id: 4,
-    title: 'Hackney Boiler Swap',
-    area: 'E8',
+    title: 'Boiler Swap',
+    area: 'Example',
     template: 'WhatsApp Status',
     img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-    age: '5 days ago',
   },
 ];
 
@@ -50,12 +46,12 @@ const beforeAfterPairs = [
   {
     before: { img: 'https://images.unsplash.com/photo-1585128903994-9788298932a4?w=400&q=80', label: 'Before: Dated Bathroom' },
     after: { img: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=80', label: 'After: Modern Refit' },
-    caption: 'Full bathroom strip & refit. New tiles, suite, and underfloor heating. SE21. 5 days.',
+    caption: 'Example: Full bathroom strip & refit. New tiles, suite, and underfloor heating. Vicinity generates this from your own before/after photos.',
   },
   {
     before: { img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80', label: 'Before: Old Kitchen' },
     after: { img: 'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=400&q=80', label: 'After: Contemporary Kitchen' },
-    caption: 'Kitchen gutted and rebuilt. New units, quartz worktops, LED splashback. SW9. 7 days.',
+    caption: 'Example: Kitchen gutted and rebuilt. New units, quartz worktops, LED splashback. Vicinity generates this from your own before/after photos.',
   },
 ];
 
@@ -486,12 +482,17 @@ export function VicinityPage() {
 
         {/* ── BEFORE / AFTER SHOWCASE ─────────────────── */}
         <section className="mb-12">
-          <h2
-            className="headline mb-8 pl-4 text-[clamp(22px,3vw,36px)] uppercase text-[var(--navy)]"
-            style={{ borderLeft: '8px solid var(--yellow)' }}
-          >
-            Before → After
-          </h2>
+          <div className="mb-8">
+            <h2
+              className="headline pl-4 text-[clamp(22px,3vw,36px)] uppercase text-[var(--navy)]"
+              style={{ borderLeft: '8px solid var(--yellow)' }}
+            >
+              Before → After
+            </h2>
+            <p className="mt-2 text-[13px] font-semibold text-[var(--muted)]">
+              Illustrative examples of the before/after format Vicinity generates from your own job photos.
+            </p>
+          </div>
           <div className="grid gap-8 lg:grid-cols-2">
             {beforeAfterPairs.map((pair, i) => (
               <div
@@ -535,12 +536,17 @@ export function VicinityPage() {
 
         {/* ── TEMPLATE EXAMPLES GRID ──────────────────── */}
         <section className="mb-12">
-          <h2
-            className="headline mb-8 pl-4 text-[clamp(22px,3vw,36px)] uppercase text-[var(--navy)]"
-            style={{ borderLeft: '8px solid var(--yellow)' }}
-          >
-            Real Posts, Real Work
-          </h2>
+          <div className="mb-8">
+            <h2
+              className="headline pl-4 text-[clamp(22px,3vw,36px)] uppercase text-[var(--navy)]"
+              style={{ borderLeft: '8px solid var(--yellow)' }}
+            >
+              Example Posts
+            </h2>
+            <p className="mt-2 text-[13px] font-semibold text-[var(--muted)]">
+              These are illustrative templates — your own photos and jobs replace these when you use Vicinity.
+            </p>
+          </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {examplePosts.map((post, i) => (
               <div
@@ -618,14 +624,19 @@ export function VicinityPage() {
           </div>
         </section>
 
-        {/* ── Recent Proofs grid ─────────────────── */}
+        {/* ── Example Proofs grid ─────────────────── */}
         <section className="mb-10">
-          <h3
-            className="headline mb-8 pl-4 text-[clamp(22px,3vw,32px)] uppercase text-[var(--navy)]"
-            style={{ borderLeft: '8px solid var(--yellow)' }}
-          >
-            Recent Proofs
-          </h3>
+          <div className="mb-8">
+            <h3
+              className="headline pl-4 text-[clamp(22px,3vw,32px)] uppercase text-[var(--navy)]"
+              style={{ borderLeft: '8px solid var(--yellow)' }}
+            >
+              Example Proofs
+            </h3>
+            <p className="mt-2 text-[13px] font-semibold text-[var(--muted)]">
+              Illustrative examples — upload your own job photos to generate real proofs for your trade.
+            </p>
+          </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {recentProofs.map((proof) => (
               <div
@@ -644,10 +655,7 @@ export function VicinityPage() {
                   style={{ height: 180, borderBottom: '2px solid var(--navy)' }}
                 />
                 <div className="p-4">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
-                    {proof.age}
-                  </p>
-                  <h4 className="headline mt-1 text-[15px] uppercase text-[var(--navy)]">{proof.title}</h4>
+                  <h4 className="headline text-[15px] uppercase text-[var(--navy)]">{proof.title}</h4>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <span
                       className="px-2 py-[2px] text-[10px] font-bold uppercase"

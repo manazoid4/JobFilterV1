@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS email_captures (
 
 CREATE TABLE IF NOT EXISTS n8n_events (
   id text primary key default gen_random_uuid()::text,
-  event text not null,
+  event_type text not null,
   payload jsonb,
   status text default 'sent',
   created_at timestamptz default now()
@@ -208,7 +208,7 @@ CREATE INDEX IF NOT EXISTS subscriptions_customer_idx ON subscriptions(stripe_cu
 CREATE INDEX IF NOT EXISTS subscriptions_user_idx ON subscriptions(user_id);
 CREATE INDEX IF NOT EXISTS postcode_searches_postcode_idx ON postcode_searches(postcode);
 CREATE INDEX IF NOT EXISTS tool_outputs_tool_idx ON tool_outputs(tool_name);
-CREATE INDEX IF NOT EXISTS n8n_events_event_idx ON n8n_events(event);
+CREATE INDEX IF NOT EXISTS n8n_events_event_type_idx ON n8n_events(event_type);
 
 -- ─── ROW LEVEL SECURITY ───────────────────────────────────────────────────────
 
