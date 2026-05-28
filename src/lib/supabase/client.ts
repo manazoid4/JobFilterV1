@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
 export function createBrowserSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -8,5 +8,5 @@ export function createBrowserSupabaseClient() {
     throw new Error('Login is temporarily unavailable. Please try again later.');
   }
 
-  return createClient(url, anonKey);
+  return createBrowserClient(url, anonKey);
 }
