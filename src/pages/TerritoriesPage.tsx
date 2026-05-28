@@ -274,7 +274,7 @@ export function TerritoriesPage() {
               {[
                 { icon: LockKeyhole, text: 'Trade + postcode priority' },
                 { icon: ShieldCheck, text: 'Verification proof on every lead' },
-                { icon: Mail, text: 'Unlimited letters — 1st class included' },
+                { icon: Mail, text: 'Letter drop scripts — print and post in minutes' },
                 { icon: Star, text: 'Founder price locked forever' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-3 last:border-0 last:pb-0">
