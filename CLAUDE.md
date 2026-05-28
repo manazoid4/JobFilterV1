@@ -5,6 +5,9 @@ Claude and Claude-like agents should follow:
 - `AGENT_RUNNING_MODEL.md`
 - `Obsidian_Memory/Obsidian_Vault/Vault Map.md`
 
+## Task Observer (Meta-Skill)
+
+At the start of every task-oriented session, invoke the `task-observer` skill (`/task-observer`). It monitors work for skill improvement opportunities, captures user corrections, and feeds the skill-creator. Also known as "One Skill to Rule Them All". Source: https://github.com/rebelytics/one-skill-to-rule-them-all
 ## Short Version
 - JobFilter sells control over better work.
 - Lead quality beats UI.
