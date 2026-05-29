@@ -566,7 +566,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-white p-6">
+      {SHOW_ADVANCED_TOOLS && hasScanned && <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
@@ -599,7 +599,7 @@ export function FindJobsPage() {
       </section>}
 
       {/* ── DOCUMENT SEARCH RESULTS ──────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && docSearchResults.length > 0 && (
+      {SHOW_ADVANCED_TOOLS && hasScanned && docSearchResults.length > 0 && (
         <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
       )}
 
@@ -755,7 +755,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_ADVANCED_TOOLS && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
