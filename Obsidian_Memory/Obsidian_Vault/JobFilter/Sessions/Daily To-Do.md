@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 29 May 2026 (Run 6 — NightlyBuildAgent)
+
+- [x] ActivationPendingPage: full two-state visual split — paid=0 dark ink hero (urgency/checkout), paid=1 yellow (confirmed/setup). Copy improved for both states + done screen.
+- [x] DashboardPage: SCAN card subtitle "Before Checkatrade lists them"; empty state adds Checkatrade + no-auction; inline upgrade CTA when scan limit reached.
+- [x] LeadDetailPage: WHY THIS LEAD tier blocks rewritten (fear→proof→control for GOLD/SILVER/BRONZE).
+- [x] FindJobsPage: `trackLead()` now saves minimal LeadDecision to leadStore — fixes "LEAD NOT FOUND" when clicking VIEW → from dashboard on tracked scan leads.
+- [x] Scan counter Monday reset test — verified code is correct (getMondayKey() handles Sunday correctly, resets on week change).
+- [x] Build: GREEN (95 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-29 Run 6 written
+- [ ] Stripe live test — end-to-end with test key (4242...), confirm /dashboard?welcome=1 + profiles.plan update
+- [ ] Commercial lead detection UX review — commercial badge built but scoring consistency for commercial-focused trades needs check
+- [ ] WhatsApp delivery hardening — sms.ts stub success path not production-safe
+
 ## Today - 29 May 2026 (Run 5 — NightlyBuildAgent Copy Polish)
 
 - [x] All Tier 1 features verified built (scan counter, ICS export, leaderboard, WA templates, trade scoring)
@@ -9,9 +22,9 @@
 - [x] ActivationPendingPage: footer activation timeline now conditional on paid flag (pre-payment users no longer misled about "active within 2 hours")
 - [x] Build: GREEN (67 pages), TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-29 Run 5 written
-- [ ] Scan counter Monday reset test — verify localStorage resets at Monday midnight
+- [x] Scan counter Monday reset test — DONE Run 6 (code verified correct)
+- [x] ActivationPendingPage: full two-state visual split — DONE Run 6
 - [ ] Commercial lead detection — Tier 2 next feature (score 3.25), opens commercial segment
-- [ ] ActivationPendingPage: full two-state visual split for paid vs pre-paid journey if needed
 
 ## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
 
