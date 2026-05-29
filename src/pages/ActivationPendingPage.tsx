@@ -134,7 +134,7 @@ export function ActivationPendingPage() {
           <button type="submit" disabled={status === 'loading'} className="jf-button bg-[var(--ink)] text-white">
             {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP' : 'SAVE PATCH AND CHECKOUT'}
           </button>
-          <p className="text-sm font-black text-[var(--muted)]">We'll have your patch active within 2 hours. Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
+          <p className="text-sm font-black text-[var(--muted)]">{paid ? 'We\'ll have your patch active within 2 hours.' : 'After checkout, your patch goes live within 2 hours.'} Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
         </form>
       </section>
     </main>
