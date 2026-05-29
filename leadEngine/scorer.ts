@@ -164,7 +164,12 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   }
 
   if (lead.isCommercial) {
-    const commercialBonus = (userTrade === 'hvac' || userTrade === 'building' || userTrade === 'electrical') ? 5 : 2;
+    // Commercial leads score significantly higher for trades that regularly win commercial contracts.
+    // hvac/electrical/building: typically 30–50% of turnover is commercial. landscaping/carpentry: occasional.
+    const commercialBonus = (userTrade === 'hvac' || userTrade === 'electrical') ? 14
+      : (userTrade === 'building') ? 12
+      : (userTrade === 'plumbing' || userTrade === 'landscaping' || userTrade === 'carpentry') ? 6
+      : 3;
     score += commercialBonus;
     reasons.push(`Commercial project (+${commercialBonus})`);
   }

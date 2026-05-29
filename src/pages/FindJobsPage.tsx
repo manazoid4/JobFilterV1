@@ -681,10 +681,14 @@ export function FindJobsPage() {
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB EXISTS. THE BUYER DETAIL IS LOCKED.</h2>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB IS REAL. THE NAME, PHONE, AND JOB DETAIL ARE LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free scan confirms the signal is live near you. Unlock from £39/mo to see the full buyer detail, quote floor, and when to call. Cheaper than one Bark lead — 30-day money-back if you don&apos;t see a job worth pricing.
+                    Your free scan found live signals near you. To see who needs the work, how much it&apos;s worth, and when to call — unlock for £39/mo. Cheaper than one Bark lead. 30-day money-back guaranteed.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan</span>
+                  </div>
                 </section>
               )}
 
