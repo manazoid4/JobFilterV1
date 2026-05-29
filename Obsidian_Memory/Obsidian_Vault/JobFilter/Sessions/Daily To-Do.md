@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 29 May 2026 (Run 7 — NightlyBuildAgent)
+
+- [x] Commercial scoring boost — hvac/electrical now +14, building +12, plumbing/landscaping/carpentry +6 (was +5/+2 flat). Commercial leads reliably reach GOLD for commercial-focused trades.
+- [x] FaqPage copy: "Serious Buyer Score" → accurate GOLD/SILVER/BRONZE language. New FAQ entry explaining all three tiers with actionable guidance.
+- [x] PostJobPage copy: hero names Checkatrade; proof cards "One trade, not five bidders"; aside section fear→proof→control vs Bark/Checkatrade.
+- [x] FindJobsPage unlock CTA fix: yellow banner now has "UNLOCK FOR £39/MO →" button + plain-English "name, phone, and job detail" copy. Previously had no button.
+- [x] sms.ts stub verified fixed (returns triggered=false + reason='no_twilio_config' — not a stub-success issue)
+- [x] Build: GREEN (95 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-29 Run 7 written
+- [ ] Stripe live test — end-to-end with test key (4242...), confirm /dashboard?welcome=1 + profiles.plan update
+- [ ] WhatsApp delivery hardening — verify Twilio response status field check (`queued|sent|failed`) before production launch
+- [ ] Commercial detection expansion — add "apartment block", "block of flats", "HMO", "student accommodation" to COMMERCIAL_KEYWORDS (high-value for plumbers/electricians)
+
 ## Today - 29 May 2026 (Run 6 — NightlyBuildAgent)
 
 - [x] ActivationPendingPage: full two-state visual split — paid=0 dark ink hero (urgency/checkout), paid=1 yellow (confirmed/setup). Copy improved for both states + done screen.
@@ -9,9 +22,7 @@
 - [x] Scan counter Monday reset test — verified code is correct (getMondayKey() handles Sunday correctly, resets on week change).
 - [x] Build: GREEN (95 pages), TypeScript: CLEAN
 - [x] Vault: Changelog 2026-05-29 Run 6 written
-- [ ] Stripe live test — end-to-end with test key (4242...), confirm /dashboard?welcome=1 + profiles.plan update
-- [ ] Commercial lead detection UX review — commercial badge built but scoring consistency for commercial-focused trades needs check
-- [ ] WhatsApp delivery hardening — sms.ts stub success path not production-safe
+- [x] Commercial lead detection UX review — DONE Run 7 (scoring boosted, sms.ts verified)
 
 ## Today - 29 May 2026 (Run 5 — NightlyBuildAgent Copy Polish)
 
