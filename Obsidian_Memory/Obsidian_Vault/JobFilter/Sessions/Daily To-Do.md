@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
+
+- [x] **Root cause of broken auth identified + fixed**: Vercel had VITE_SUPABASE_URL/ANON_KEY but NO NEXT_PUBLIC_* mirrors. Next.js client code was getting undefined Supabase URL. Login appeared broken because browser client could not reach Supabase at all.
+- [x] Added to Vercel (Production + Preview): NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, NEXT_PUBLIC_APP_URL — mirrored from VITE_* equivalents.
+- [x] Added to GitHub repo secrets (11 total): STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_FOUNDING/PRO/BUSINESS, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_APP_URL.
+- [x] Vercel production deploy triggered manually after env update: `job-filter-v1-lauhge9zm` — READY.
+- [x] Live smoke test: jobfilter.uk /, /login, /signup, /pricing all return 200.
+- [x] Pulled .env.vercel-pull deleted (secrets safety).
+
+## Today - 29 May 2026 (Stripe Wired Agent)
+
+- [x] **Stripe Checkout wired end-to-end** — PR #222 merged to main.
+- [x] `src/lib/stripe.ts` helper added (`getStripe`, `resolvePriceId`, `getAppOrigin`) — server-side only.
+- [x] `app/api/stripe/checkout/route.ts` — accepts `{ priceId, plan }`; `success_url` → `/dashboard?welcome=1`; `cancel_url` → `/pricing?cancelled=1`; metadata `{ user_id, plan }` for webhook; `allow_promotion_codes` enabled.
+- [x] `app/api/stripe/webhook/route.ts` — reads `user_id`/`plan` metadata (snake_case + legacy fallback); upserts `profiles.stripe_customer_id` alongside `profiles.plan` on `checkout.session.completed`.
+- [x] Pricing CTAs (`<CheckoutButton>` on PricingPage hero, Founder card, bottom strip) wire to live `/api/stripe/checkout` — no client changes needed.
+- [x] Build: GREEN. TypeScript: CLEAN.
+- [ ] **Vercel env vars to confirm in production** (names only — set values in Vercel UI): `STRIPE_SECRET_KEY` (test key for E2E), `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_PRICE_FOUNDING_MONTHLY` (or `STRIPE_PRICE_FOUNDING`), `STRIPE_PRICE_FOUNDING_ANNUAL`, `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_PRO_ANNUAL`, `STRIPE_PRICE_BUSINESS`, `STRIPE_PRICE_EPC_MONTHLY`, `NEXT_PUBLIC_APP_URL` or `APP_URL`. `vercel env ls` requires `vercel link` (not run from this worktree).
+- [ ] **Live test**: with test Stripe key set in Vercel, click `LOCK FOUNDER PRICE` on /pricing signed-in → complete `4242 4242 4242 4242` → confirm `/dashboard?welcome=1` lands and `profiles.plan` flips to `founding` in Supabase.
+
 ## Today - 29 May 2026 (Run 2 — Feature Audit Agent)
 
 - [x] Planning locality fix — `planningDataFetcher.ts` text-search results now require address-level confirmation (UK postcode in address OR outward token in address). Geo (lat/lon) results still trusted. `rawLocation` no longer falls back to bare outward on non-geo lookups.
