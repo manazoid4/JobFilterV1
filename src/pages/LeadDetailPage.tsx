@@ -268,7 +268,7 @@ export function LeadDetailPage() {
         </div>
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h.</p>
+            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
             {quickWaUrl && (
               <a
                 href={quickWaUrl}
@@ -282,11 +282,11 @@ export function LeadDetailPage() {
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">SILVER — worth watching. Job signal is verified but timing or budget not confirmed. Worth a quick call, not a full chase yet.</p>
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A 2-minute call finds out if they're ready now. Use the availability check template below — takes 30 seconds.</p>
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-black text-[var(--muted)]">BRONZE — check timing. Signal detected but work may not start immediately. Verify before spending time chasing.</p>
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when pipeline is low.</p>
           </div>
         )}
       </section>

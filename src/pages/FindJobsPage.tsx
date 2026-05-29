@@ -12,8 +12,9 @@ import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch
 import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
-import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
+import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
+import { saveStoredLead } from '../lib/leadStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
@@ -232,6 +233,26 @@ export function FindJobsPage() {
       location: lead.location || lead.postcodeOutward || 'Unknown',
       estimatedValue: lead.estimatedValue || 'TBC',
       score: lead.score,
+    });
+    const urgencyMap: Record<string, LeadDecision['urgency']> = { high: 'Emergency', medium: 'This week', low: 'Later' };
+    saveStoredLead({
+      id: lead.id,
+      title: lead.title,
+      score: lead.score,
+      jobType: String(lead.trade || lead.tradeMatch || 'Job'),
+      urgency: urgencyMap[lead.urgency] ?? 'This week',
+      postcode: lead.postcodeOutward,
+      area: lead.location || lead.postcodeOutward,
+      flags: [],
+      details: lead.title,
+      status: 'new',
+      createdAt: new Date().toISOString(),
+      qualityLabel: lead.qualityLabel,
+      recommendedAction: lead.recommendedAction,
+      signalStack: lead.signalStack,
+      signalClass: lead.signalClass,
+      quoteFloor: lead.quoteFloor,
+      evidenceBadges: lead.evidenceBadges,
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);

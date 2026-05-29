@@ -88,7 +88,7 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--orange)]">NO PIPELINE YET</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
           <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
-            Run a scan, find one £2,000 job, and your Patch Plan pays for itself in a single win. Founding rate locks in at £39/mo.
+            Find a job before Checkatrade lists it. One £2,000 win and the Patch Plan pays for itself — founding rate £39/mo, no shared auction.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
@@ -103,7 +103,7 @@ export function DashboardPage() {
           <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
             <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-            <p className="mt-1 text-sm font-black text-[var(--ink)]">Find jobs worth pricing</p>
+            <p className="mt-1 text-sm font-black text-[var(--ink)]">Before Checkatrade lists them</p>
           </Link>
           <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
@@ -197,7 +197,8 @@ export function DashboardPage() {
             {scanPostcode
               ? <Row label="Postcode" value={scanPostcode} />
               : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used — upgrade for unlimited` : `${scansUsed} of 3 free used`} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used` : `${scansUsed} of 3 free used`} />
+            {scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
           {isEmpty && (!scanTrade || !scanPostcode) && (
