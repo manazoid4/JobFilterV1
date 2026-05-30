@@ -45,7 +45,8 @@ export function PricingPage() {
           price="£0"
           body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</Link>}
+          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
+          order="order-last lg:order-none"
         />
         <PlanCard
           title="Founder"
@@ -55,6 +56,7 @@ export function PricingPage() {
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}
+          order="order-first lg:order-none"
         />
       </section>
 
@@ -116,7 +118,7 @@ export function PricingPage() {
   );
 }
 
-function PlanCard({ title, price, priceNote, body, items, cta, featured = false }: {
+function PlanCard({ title, price, priceNote, body, items, cta, featured = false, order = '' }: {
   title: string;
   price: string;
   priceNote?: string;
@@ -124,14 +126,16 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false 
   items: string[];
   cta: ReactNode;
   featured?: boolean;
+  order?: string;
 }) {
   const wrapClass = featured
-    ? 'bg-white text-[var(--ink)] border-4 border-[var(--ink)] shadow-[6px_6px_0_var(--yellow)]'
+    ? 'bg-white text-[var(--ink)] border-4 border-[var(--yellow)] lg:border-[var(--ink)] shadow-[6px_6px_0_var(--yellow)]'
     : 'bg-[var(--paper)] text-[var(--ink)]';
 
   return (
-    <section className={`ops-panel p-6 ${wrapClass}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDING PRICE' : title}</p>
+    <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
+      {featured && <p className="micro-label text-[var(--orange)]">FOUNDING PRICE</p>}
+      <p className="micro-label text-[var(--orange)]">{title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
