@@ -8,7 +8,7 @@ import type { LeadDecision } from '../lib/types';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
 
-type Tab = 'gold' | 'silver' | 'bin';
+type Tab = 'gold' | 'silver' | 'bronze';
 
 function leadsToCsv(leads: LeadDecision[]): string {
   const headers = ['Score', 'Job Type', 'Area', 'Postcode', 'Urgency', 'Budget', 'Phone', 'Status', 'Flags', 'Created'];
@@ -47,20 +47,20 @@ export function LeadListPage() {
     );
   }, [stored, query]);
 
-  const gold   = filtered.filter((l) => l.score >= 80 && l.status !== 'ignored');
-  const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
-  const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
+  const gold   = filtered.filter((l) => l.score >= 90 && l.status !== 'ignored');
+  const silver = filtered.filter((l) => l.score >= 75 && l.score < 90 && l.status !== 'ignored');
+  const bronze = filtered.filter((l) => l.score < 75 || l.status === 'ignored');
 
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;
   const noAnswerCount  = stored.filter((l) => l.status === 'no_answer').length;
 
-  const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
+  const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bronze;
 
   const tabs: { id: Tab; label: string; count: number }[] = [
     { id: 'gold',   label: 'GOLD',   count: gold.length },
     { id: 'silver', label: 'SILVER', count: silver.length },
-    { id: 'bin',    label: 'BIN',    count: bin.length },
+    { id: 'bronze', label: 'BRONZE', count: bronze.length },
   ];
 
   return (
@@ -73,7 +73,7 @@ export function LeadListPage() {
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
+          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BRONZE = check when your week is quiet.
         </p>
       </div>
 
@@ -87,7 +87,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when your pipeline is light.
             </p>
           </div>
         </div>
@@ -198,16 +198,16 @@ export function LeadListPage() {
           ) : (
             <>
               <h2 className="headline text-2xl uppercase text-[var(--navy)]">
-                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'BIN IS EMPTY'}
+                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'NO BRONZE LEADS YET'}
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 50–79) appear here. Run a scan to fill your pipeline.'
-                  : 'Good — no low-quality leads in your pipeline.'}
+                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
+                  : 'No lower-scored leads in your pipeline yet.'}
               </p>
-              {tab !== 'bin' && (
+              {tab !== 'bronze' && (
                 <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
                   SCAN FOR JOBS →
                 </Link>

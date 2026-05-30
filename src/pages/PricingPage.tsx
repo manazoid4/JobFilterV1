@@ -45,7 +45,7 @@ export function PricingPage() {
           price="£0"
           body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
+          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</Link>}
         />
         <PlanCard
           title="Founder"

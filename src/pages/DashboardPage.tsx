@@ -102,11 +102,26 @@ export function DashboardPage() {
       {/* Pipeline Visual */}
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
-          <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
-            <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
-            <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-            <p className="mt-1 text-sm font-black text-[var(--ink)]">Before Checkatrade lists them</p>
-          </Link>
+          {isEmpty ? (
+            <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+              <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
+              <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
+              <p className="mt-1 text-sm font-black text-[var(--ink)]">Before Checkatrade lists them</p>
+            </Link>
+          ) : (
+            <div className="border-2 border-[var(--ink)] bg-[var(--yellow)] p-5">
+              <p className="micro-label text-[var(--ink)]">LAST SCAN</p>
+              <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">
+                {scansUsed > 0 ? scansUsed : '—'}
+              </p>
+              <p className="mt-1 text-sm font-black text-[var(--ink)]">
+                {scanTrade && scanPostcode ? `${scanTrade} · ${scanPostcode}` : 'scans this week'}
+              </p>
+              <Link href="/find-jobs" className="mt-2 block text-xs font-black text-[var(--ink)] underline underline-offset-2">
+                SCAN AGAIN →
+              </Link>
+            </div>
+          )}
           <Link href="/leads" className="block border-2 border-[var(--ink)] bg-white p-5 relative hover:bg-[var(--offwhite)] transition" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>

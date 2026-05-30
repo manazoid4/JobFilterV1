@@ -682,7 +682,7 @@ export function FindJobsPage() {
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">Signals found. Buyer name, phone, and job detail are locked.</h2>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER NAME, PHONE, AND JOB DETAIL ARE LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
                     Your free scan found live signals near you. To see who needs the work, how much it&apos;s worth, and when to call — unlock for £39/mo. Cheaper than one Bark lead. 30-day money-back guaranteed.
                   </p>
@@ -1010,18 +1010,13 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             New business nearby — commercial fit-out likely
           </p>
         )}
-        {lead.evidenceBadges?.length ? (
-          <div className="mt-2">
-            <TrustBadges badges={lead.evidenceBadges} max={3} />
-          </div>
-        ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         {!OPEN_ACCESS && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1094,7 +1089,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
           </div>
         )}
         <QuickResponseKit
