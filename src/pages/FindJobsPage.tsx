@@ -19,7 +19,8 @@ import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
-const SHOW_ADVANCED_TOOLS = true;
+const SHOW_ADVANCED_TOOLS = false;
+const SHOW_FILL_MY_WEEK = true;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -680,8 +681,8 @@ export function FindJobsPage() {
                 </section>
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB IS REAL. THE NAME, PHONE, AND JOB DETAIL ARE LOCKED.</h2>
+                  <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">Signals found. Buyer name, phone, and job detail are locked.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
                     Your free scan found live signals near you. To see who needs the work, how much it&apos;s worth, and when to call — unlock for £39/mo. Cheaper than one Bark lead. 30-day money-back guaranteed.
                   </p>
@@ -761,14 +762,12 @@ export function FindJobsPage() {
                       ? `Worth watching. Unlock buyer name, quote floor, and timing detail for £39/mo — cheaper than one Bark lead.`
                       : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
                   </p>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2">
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">CANCEL ANYTIME</span>
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">NO CONTRACT</span>
-                  </div>
                   <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
                     LOCK FOUNDER PRICE — £39/MO →
                   </Link>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
+                  </div>
                   <p className="mt-2 text-xs font-black text-white/80">
                     No credit card required to scan. Pay only when you want to unlock full leads.
                   </p>
@@ -780,7 +779,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
