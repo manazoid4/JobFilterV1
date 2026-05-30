@@ -488,7 +488,7 @@ export function FindJobsPage() {
         </div>
 
         {/* Form — postcode + radius */}
-        <form onSubmit={submit} className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
+        <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
@@ -499,7 +499,7 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--navy)] text-white disabled:opacity-60">
+          <button disabled={loading || fillWeekLoading} className="jf-button col-span-2 lg:col-span-1 self-end bg-[var(--navy)] text-white disabled:opacity-60">
             <Search className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>

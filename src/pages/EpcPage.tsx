@@ -42,7 +42,7 @@ export function EpcPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TRADES THAT BENEFIT</p>
-        <div className="mt-5 grid gap-4 md:grid-cols-5">
+        <div className="mt-5 grid gap-4 grid-cols-2 md:grid-cols-5">
           {trades.map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h2 className="headline text-2xl">{title}</h2>

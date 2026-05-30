@@ -9,6 +9,9 @@ const publicLinks = [
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/for-your-trade', label: 'Trades' },
+  { to: '/news', label: 'News' },
+  { to: '/faq', label: 'FAQ' },
 ];
 
 const memberLinks = [
@@ -20,6 +23,7 @@ const memberLinks = [
 
 export function TopNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
   const pathname = usePathname();
   const { user, signOut } = useAuth();
@@ -27,7 +31,11 @@ export function TopNav() {
   const links = isLoggedIn ? memberLinks : publicLinks;
   const mobileLinks = isLoggedIn
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
-    : publicLinks;
+    : [
+        ...publicLinks,
+        { to: '/features', label: 'How It Works' },
+        { to: '/construction-leads/london', label: 'Cities' },
+      ];
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -52,7 +60,7 @@ export function TopNav() {
         </Link>
 
         <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
-          {links.map((link) => {
+          {(isLoggedIn ? memberLinks : publicLinks.slice(0, 4)).map((link) => {
             const isActive = pathname === link.to;
             return (
               <Link
@@ -64,6 +72,35 @@ export function TopNav() {
               </Link>
             );
           })}
+          {!isLoggedIn && (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMoreOpen(!moreOpen)}
+                onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
+                className={`nav-link flex items-center gap-1 ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
+              >
+                More ▾
+              </button>
+              {moreOpen && (
+                <div className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
+                  {publicLinks.slice(4).map((link) => {
+                    const isActive = pathname === link.to;
+                    return (
+                      <Link
+                        key={link.to}
+                        href={link.to}
+                        onClick={() => setMoreOpen(false)}
+                        className={`block px-4 py-2 text-sm font-black uppercase hover:bg-[var(--yellow)] ${isActive ? 'bg-[var(--yellow)]' : ''}`}
+                      >
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
@@ -108,6 +145,10 @@ export function TopNav() {
         >
           {menuOpen ? 'CLOSE' : 'MENU'}
         </button>
+      </div>
+
+      <div className="border-t-2 border-[var(--line)] bg-[var(--yellow)] px-4 py-1.5 text-center text-xs font-black uppercase text-[var(--ink)]">
+        FOUNDER PRICE — £39/MO. LOCKS FOREVER WHILE ACTIVE. NO CONTRACTS.
       </div>
 
       {menuOpen && (

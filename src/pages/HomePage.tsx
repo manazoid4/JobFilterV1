@@ -90,7 +90,7 @@ export function HomePage() {
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <p className="micro-label text-[var(--yellow)]">JOBFILTER INTAKE ENGINE — UK CONSTRUCTION LEADS, SCORED BEFORE THEY GO PUBLIC</p>
-            <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
+            <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               QUIT WORKING{' '}
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>

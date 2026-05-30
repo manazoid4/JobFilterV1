@@ -32,7 +32,7 @@ export function LaunchWaitlistModal() {
 
   return (
     <div className="fixed inset-0 z-[100] grid place-items-center bg-black/80 px-4 py-6 backdrop-blur-sm">
-      <div className="w-full max-w-lg">
+      <div className="w-full max-w-sm md:max-w-lg">
         <div className="jf-box bg-[var(--paper)] p-6 text-[var(--ink)] shadow-[8px_8px_0_var(--yellow)]">
           <div className="flex items-start justify-between gap-4">
             <div>

@@ -59,7 +59,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
       <div className="min-w-0">
         <p className="micro-label text-[var(--muted)]">{meta ?? 'Decision'}</p>
         <h3 className="mt-2 text-xl font-black leading-tight">{title}</h3>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-1">
           {tags.slice(0, 4).map((tag) => (
             <Tag key={tag} label={tag} />
           ))}
@@ -81,7 +81,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
         </div>
         {showStatus && id && (
-          <div className="mt-3 flex flex-wrap gap-2" onClick={(e) => e.stopPropagation()}>
+          <div className="mt-3 flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>
             {STATUS_PILLS.map(({ label, value }) => (
               <button
                 key={value}
