@@ -73,12 +73,14 @@ export function DashboardPage() {
               Gold leads shown to you first — your competition gets them 24h later.
             </p>
           ) : (
-            <p className="text-xs font-black text-white/60">
-              No patch locked — you&apos;re racing every other trade for the same leads.{' '}
-              <Link href="/territories" className="text-[var(--yellow)] underline underline-offset-2">
-                Lock your patch →
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <p className="text-xs font-black text-white/60">
+                No patch locked — you&apos;re racing every other trade for the same leads.
+              </p>
+              <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
+                LOCK YOUR PATCH →
               </Link>
-            </p>
+            </div>
           )}
         </div>
       </section>
