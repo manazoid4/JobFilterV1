@@ -59,45 +59,45 @@ Next: ${payload.recommendedAction || 'Review proof link and contact path before 
 
   console.log('[whatsapp/gold-lead]', message);
 
-  const twilioSid = process.env.TWILIO_ACCOUNT_SID;
-  const twilioToken = process.env.TWILIO_AUTH_TOKEN;
-  const twilioFrom = process.env.TWILIO_WHATSAPP_FROM;
-  const twilioTo = process.env.TWILIO_WHATSAPP_TO;
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+  const recipientPhone = process.env.WHATSAPP_TO || payload.phone;
 
-  if (!twilioSid || !twilioToken || !twilioFrom || !twilioTo) {
-    // Credentials missing — throw so callers know delivery failed rather than silently claiming success.
+  if (!phoneNumberId || !accessToken) {
     const missing = [
-      !twilioSid && 'TWILIO_ACCOUNT_SID',
-      !twilioToken && 'TWILIO_AUTH_TOKEN',
-      !twilioFrom && 'TWILIO_WHATSAPP_FROM',
-      !twilioTo && 'TWILIO_WHATSAPP_TO',
+      !phoneNumberId && 'WHATSAPP_PHONE_NUMBER_ID',
+      !accessToken && 'WHATSAPP_ACCESS_TOKEN',
     ].filter(Boolean).join(', ');
     throw new Error(`WhatsApp delivery not configured — missing env vars: ${missing}`);
   }
 
+  if (!recipientPhone) {
+    throw new Error('WhatsApp delivery not configured — no recipient phone number (set WHATSAPP_TO or pass payload.phone)');
+  }
+
   let result: { triggered: boolean; provider: string; reason?: string };
 
-  const url = `https://api.twilio.com/2010-04-01/Accounts/${twilioSid}/Messages.json`;
-  const auth = Buffer.from(`${twilioSid}:${twilioToken}`).toString('base64');
+  const url = `https://graph.facebook.com/v17.0/${phoneNumberId}/messages`;
 
-  const twilioResponse = await fetch(url, {
+  const metaResponse = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Basic ${auth}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
-    body: new URLSearchParams({
-      From: formatWhatsAppNumber(twilioFrom),
-      To: formatWhatsAppNumber(twilioTo),
-      Body: message,
-    }).toString(),
+    body: JSON.stringify({
+      messaging_product: 'whatsapp',
+      to: recipientPhone,
+      type: 'text',
+      text: { body: message },
+    }),
   });
 
-  if (!twilioResponse.ok) {
-    const body = await twilioResponse.text().catch(() => '');
-    result = { triggered: false, provider: 'twilio-whatsapp', reason: `Twilio HTTP ${twilioResponse.status}: ${body.substring(0, 120)}` };
+  if (!metaResponse.ok) {
+    const body = await metaResponse.text().catch(() => '');
+    result = { triggered: false, provider: 'meta-whatsapp', reason: `Meta API HTTP ${metaResponse.status}: ${body.substring(0, 120)}` };
   } else {
-    result = { triggered: true, provider: 'twilio-whatsapp' };
+    result = { triggered: true, provider: 'meta-whatsapp' };
   }
 
   if (supabase) {
@@ -115,8 +115,8 @@ Next: ${payload.recommendedAction || 'Review proof link and contact path before 
         provider: result.provider,
         channel: 'whatsapp_to_tradesman',
         message_body: message,
-        status: result.provider === 'stub' ? 'stubbed' : (result.triggered ? 'sent' : 'failed'),
-        delivery_status: result.provider === 'stub' ? 'stubbed' : (result.triggered ? 'sent' : 'failed'),
+        status: result.triggered ? 'sent' : 'failed',
+        delivery_status: result.triggered ? 'sent' : 'failed',
         sent_at: new Date().toISOString(),
         error: result.reason ?? null,
         is_duplicate: false,
@@ -132,8 +132,4 @@ Next: ${payload.recommendedAction || 'Review proof link and contact path before 
   }
 
   return result;
-}
-
-function formatWhatsAppNumber(value: string) {
-  return value.startsWith('whatsapp:') ? value : `whatsapp:${value}`;
 }
