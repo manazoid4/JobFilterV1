@@ -30,7 +30,7 @@ const pipelineSteps = [
     label: 'SCORE',
     icon: Target,
     body: 'Rank by value, urgency, rarity, distance, win probability, and contactability. Not volume. A hundred weak leads are worth less than five strong ones.',
-    detail: 'Score: 0-100. GOLD (80+). SILVER (50-79). BRONZE (below 50). Higher = chase today.',
+    detail: 'Score: 0-100. GOLD (90+). SILVER (75-89). BRONZE (60-74). Higher = chase today.',
   },
   {
     num: '05',
