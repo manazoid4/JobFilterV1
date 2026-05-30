@@ -223,6 +223,14 @@ function hasAccess() {
   return OPEN_ACCESS || (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-unlimited-tester') === 'true';
 }
 
+function currentWeekLabel(): string {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = now.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(now.setDate(diff));
+  return `Week of ${monday.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+}
+
 export function CityIntelligencePage() {
   const params = useParams();
   const city  = (params?.city  as string) || 'birmingham' ;
@@ -285,9 +293,9 @@ export function CityIntelligencePage() {
           <h1 className="headline text-4xl leading-none text-white sm:text-6xl">
             TRADE BRIEFING<br />{intel.city.toUpperCase()}
           </h1>
-          <p className="mt-3 text-sm font-black uppercase tracking-wider text-white/75">{intel.weekOf} · Postcode area: {intel.postcode}</p>
+          <p className="mt-3 text-sm font-black uppercase tracking-wider text-white/75">{currentWeekLabel()} · Postcode area: {intel.postcode}</p>
           <p className="mt-2 max-w-2xl text-xs font-bold text-white/60">
-            Sample briefing showing the format. Live briefings pull from real planning, EPC and tender feeds — only delivered to founder-patch subscribers in covered postcodes.
+            Sample briefing showing the format. Live briefings pull from verified planning, energy, and tender signals — only delivered to founder-patch subscribers in covered postcodes.
           </p>
           <div className="mt-6 flex flex-wrap gap-4">
             <div className="border-2 border-[var(--yellow)]/30 bg-white/5 px-5 py-3">
