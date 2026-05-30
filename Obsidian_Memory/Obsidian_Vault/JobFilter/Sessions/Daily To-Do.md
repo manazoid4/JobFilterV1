@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 30 May 2026 (Run 2 — NightlyBuildAgent)
+
+- [x] DashboardPage NEEDLE-2: removed duplicate `SCAN FOR JOBS →` header CTA when user has pipeline data
+- [x] TradeSolar: 7+ EPC naming violations fixed → "energy signals"; Checkatrade/Bark/MCS competitor names added
+- [x] TradeStructuralEngineers: "no platform tracks" → "nobody tracks"; Bark competitor named; "staff utilisation" → "quote load"
+- [x] CityIntelligencePage: stale hardcoded "Week of 19 May 2026" → currentWeekLabel() computed dynamically; EPC removed from footer text
+- [x] Build: GREEN (95 pages), TypeScript: CLEAN
+- [x] PR #228 created: nightly-build-2026-05-30 → main
+- [x] Vault: Changelog 2026-05-30 Run 2 written
+- [ ] Stripe live test — wire end-to-end with test key (4242 4242 4242 4242). Blocked on test keys in Vercel env.
+- [ ] TradeDampProofers + TradeFireSafety — check for source naming violations and competitor naming gaps
+- [ ] DashboardPage SCAN card: show "N leads found" from localStorage scan history instead of raw scansUsed count
+
+---
+
 ## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
 
 - [x] **Root cause of broken auth identified + fixed**: Vercel had VITE_SUPABASE_URL/ANON_KEY but NO NEXT_PUBLIC_* mirrors. Next.js client code was getting undefined Supabase URL. Login appeared broken because browser client could not reach Supabase at all.
