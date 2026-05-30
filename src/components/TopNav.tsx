@@ -147,10 +147,6 @@ export function TopNav() {
         </button>
       </div>
 
-      <div className="border-t-2 border-[var(--line)] bg-[var(--yellow)] px-4 py-1.5 text-center text-xs font-black uppercase text-[var(--ink)]">
-        FOUNDER PRICE — £39/MO. LOCKS FOREVER WHILE ACTIVE. NO CONTRACTS.
-      </div>
-
       {menuOpen && (
         <div id="mobile-menu" className="lg:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
