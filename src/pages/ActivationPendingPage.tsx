@@ -62,10 +62,10 @@ export function ActivationPendingPage() {
     return (
       <main className="page-shell py-10">
         <section className="ops-panel bg-[var(--yellow)] p-8">
-          <p className="micro-label text-[var(--ink)]">SETUP RECEIVED</p>
+          <p className="micro-label text-[var(--ink)]">PATCH CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
-            Your territory details are confirmed. We'll have your patch active and WhatsApp alerts running within 2 hours. While you wait — run your first free scan.
+            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run your first free scan while you wait.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">RUN FIRST SCAN →</Link>
@@ -77,19 +77,21 @@ export function ActivationPendingPage() {
 
   return (
     <main className="page-shell py-10 grid gap-6">
-      <section className="ops-panel bg-[var(--yellow)] p-8">
-          <p className="micro-label text-[var(--ink)]">{paid ? 'PAYMENT RECEIVED' : 'ACCOUNT CONFIRMED'}</p>
-          <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">{paid ? 'TERRITORY ACTIVATION PENDING.' : 'CONFIRM YOUR PATCH.'}</h1>
-          <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
+      <section className={`ops-panel p-8 ${paid ? 'bg-[var(--yellow)]' : 'bg-[var(--ink)]'}`}>
+        <p className={`micro-label ${paid ? 'text-[var(--ink)]' : 'text-[var(--yellow)]'}`}>{paid ? 'PAYMENT CONFIRMED' : 'ACCOUNT CONFIRMED'}</p>
+        <h1 className={`headline mt-3 text-5xl leading-none md:text-7xl ${paid ? 'text-[var(--ink)]' : 'text-white'}`}>
+          {paid ? 'SET YOUR PATCH. LIVE IN 2 HOURS.' : 'ONE STEP FROM YOUR FIRST LEAD.'}
+        </h1>
+        <p className={`mt-4 max-w-2xl text-xl font-black ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
           {paid
-            ? 'One step left. Confirm your details below so we can activate your patch and start routing Gold leads to your WhatsApp.'
-            : 'Set your trade and area below. Then we\'ll take you straight to payment — takes under 2 minutes.'}
+            ? 'Payment confirmed by Stripe. Tell us your trade and area — Gold leads hit your WhatsApp within 2 hours.'
+            : 'Set your trade and patch. Then checkout — under 2 minutes. First scan is free while you wait.'}
         </p>
       </section>
 
       <section className="jf-box bg-white p-7">
-          <p className="micro-label text-[var(--orange)]">CONFIRM YOUR SETUP</p>
-        <h2 className="headline mt-2 text-3xl leading-none">{paid ? 'Your leads go live in 2 hours.' : 'Set your patch — then straight to payment.'}</h2>
+        <p className="micro-label text-[var(--orange)]">CONFIRM YOUR SETUP</p>
+        <h2 className="headline mt-2 text-3xl leading-none">{paid ? '4 details — then you\'re live.' : 'Set up below. Pay in under 2 minutes.'}</h2>
         <form onSubmit={submit} className="mt-6 grid gap-4">
           <label className="field-label">
             WhatsApp number (required — this is where Gold leads are sent)
@@ -134,7 +136,7 @@ export function ActivationPendingPage() {
           <button type="submit" disabled={status === 'loading'} className="jf-button bg-[var(--ink)] text-white">
             {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP' : 'SAVE PATCH AND CHECKOUT'}
           </button>
-          <p className="text-sm font-black text-[var(--muted)]">We'll have your patch active within 2 hours. Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
+          <p className="text-sm font-black text-[var(--muted)]">{paid ? 'We\'ll have your patch active within 2 hours.' : 'After checkout, your patch goes live within 2 hours.'} Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
         </form>
       </section>
     </main>

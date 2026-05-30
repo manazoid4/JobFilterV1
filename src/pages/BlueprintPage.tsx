@@ -29,7 +29,7 @@ const pipelineSteps = [
     num: '01',
     label: 'FETCH',
     icon: Radar,
-    body: 'Scan official sources — planning applications, government contracts, energy ratings, land registry, company filings, council notices, and streetworks permits.',
+    body: 'Scan official sources — planning applications, government contracts, energy ratings, property data, business registrations, council notices, and streetworks permits.',
   },
   {
     num: '02',
@@ -673,12 +673,13 @@ export function BlueprintPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-                Scan a Patch <ArrowRight className="ml-1 inline h-5 w-5" />
+                SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
               </Link>
               <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" href="/pricing">
-                Get Early Access
+                LOCK YOUR PATCH →
               </Link>
             </div>
+            <p className="mt-3 text-sm font-black text-white/50">No credit card required — 3 free scans every week</p>
           </div>
 
           <div className="hidden lg:block">
@@ -891,7 +892,7 @@ export function BlueprintPage() {
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--yellow)]">SEE IT IN ACTION</p>
           <h2 className="headline mt-3 max-w-4xl text-[clamp(32px,6vw,64px)] leading-[0.9] text-white">
-            This is what a gold lead looks like.
+            THIS IS WHAT A GOLD LEAD LOOKS LIKE.
           </h2>
           <p className="mt-4 max-w-3xl text-lg font-black leading-snug text-white/90">
             Real signals, delivered in real time, to the right trade. No noise. No shared leads. Just the work that matters.
@@ -943,14 +944,14 @@ export function BlueprintPage() {
         />
         <div className="page-shell py-12 text-center relative z-10">
           <h2 className="headline max-w-3xl mx-auto text-[clamp(32px,6vw,64px)] leading-[0.9] text-[var(--ink)]">
-            See what your patch looks like.
+            SEE WHAT YOUR PATCH LOOKS LIKE.
           </h2>
           <p className="mt-4 text-lg font-black text-[var(--ink)]">
-            Run a free postcode scan. No signup required.
+            Free postcode scan. No credit card. See real leads before Checkatrade or Bark list them.
           </p>
           <div className="mt-6">
             <Link className="jf-button jf-button-lg bg-[var(--ink)] text-[var(--yellow)]" href="/find-jobs">
-              Scan a Patch <ArrowRight className="ml-1 inline h-5 w-5" />
+              SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
             </Link>
           </div>
         </div>

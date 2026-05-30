@@ -12,13 +12,15 @@ import { KeywordSearch, KeywordSearchResults } from '../components/KeywordSearch
 import { LeadReadinessBadge } from '../components/LeadReadinessBadge';
 import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
-import type { Lead, LeadSearchResponse, Trade } from '../lib/types';
+import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
+import { saveStoredLead } from '../lib/leadStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
-const SHOW_ADVANCED_TOOLS = true;
+const SHOW_ADVANCED_TOOLS = false;
+const SHOW_FILL_MY_WEEK = true;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -232,6 +234,26 @@ export function FindJobsPage() {
       location: lead.location || lead.postcodeOutward || 'Unknown',
       estimatedValue: lead.estimatedValue || 'TBC',
       score: lead.score,
+    });
+    const urgencyMap: Record<string, LeadDecision['urgency']> = { high: 'Emergency', medium: 'This week', low: 'Later' };
+    saveStoredLead({
+      id: lead.id,
+      title: lead.title,
+      score: lead.score,
+      jobType: String(lead.trade || lead.tradeMatch || 'Job'),
+      urgency: urgencyMap[lead.urgency] ?? 'This week',
+      postcode: lead.postcodeOutward,
+      area: lead.location || lead.postcodeOutward,
+      flags: [],
+      details: lead.title,
+      status: 'new',
+      createdAt: new Date().toISOString(),
+      qualityLabel: lead.qualityLabel,
+      recommendedAction: lead.recommendedAction,
+      signalStack: lead.signalStack,
+      signalClass: lead.signalClass,
+      quoteFloor: lead.quoteFloor,
+      evidenceBadges: lead.evidenceBadges,
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);
@@ -566,7 +588,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── DOCUMENT SEARCH ──────────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-white p-6">
+      {SHOW_ADVANCED_TOOLS && hasScanned && <section className="jf-box bg-white p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="micro-label text-[var(--orange)]">DOCUMENT SEARCH</p>
@@ -599,7 +621,7 @@ export function FindJobsPage() {
       </section>}
 
       {/* ── DOCUMENT SEARCH RESULTS ──────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && docSearchResults.length > 0 && (
+      {SHOW_ADVANCED_TOOLS && hasScanned && docSearchResults.length > 0 && (
         <KeywordSearchResults results={docSearchResults} query={docSearchQuery || 'keyword'} />
       )}
 
@@ -659,11 +681,15 @@ export function FindJobsPage() {
                 </section>
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE SCAN — SIGNAL IS REAL</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">THE JOB EXISTS. THE BUYER DETAIL IS LOCKED.</h2>
+                  <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER NAME, PHONE, AND JOB DETAIL ARE LOCKED.</h2>
                   <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Free scan confirms the signal is live near you. Unlock from £39/mo to see the full buyer detail, quote floor, and when to call. Cheaper than one Bark lead — 30-day money-back if you don&apos;t see a job worth pricing.
+                    Your free scan found live signals near you. To see who needs the work, how much it&apos;s worth, and when to call — unlock for £39/mo. Cheaper than one Bark lead. 30-day money-back guaranteed.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan</span>
+                  </div>
                 </section>
               )}
 
@@ -736,14 +762,12 @@ export function FindJobsPage() {
                       ? `Worth watching. Unlock buyer name, quote floor, and timing detail for £39/mo — cheaper than one Bark lead.`
                       : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
                   </p>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2">
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">CANCEL ANYTIME</span>
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">NO CONTRACT</span>
-                  </div>
                   <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
                     LOCK FOUNDER PRICE — £39/MO →
                   </Link>
+                  <div className="mt-3 flex flex-wrap justify-center gap-2">
+                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
+                  </div>
                   <p className="mt-2 text-xs font-black text-white/80">
                     No credit card required to scan. Pay only when you want to unlock full leads.
                   </p>
@@ -755,7 +779,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      {SHOW_ADVANCED_TOOLS && <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
@@ -986,18 +1010,13 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             New business nearby — commercial fit-out likely
           </p>
         )}
-        {lead.evidenceBadges?.length ? (
-          <div className="mt-2">
-            <TrustBadges badges={lead.evidenceBadges} max={3} />
-          </div>
-        ) : null}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
         {!OPEN_ACCESS && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1070,7 +1089,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">Buyer · deadline · proof link</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
           </div>
         )}
         <QuickResponseKit

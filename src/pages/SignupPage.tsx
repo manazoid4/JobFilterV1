@@ -112,7 +112,7 @@ export function SignupPage() {
           </select>
         </label>
         <label className="field-label">
-          Your area (e.g. B14)
+          Postcode cluster (e.g. B14, SW1, M20)
           <input className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
         </label>
         {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}

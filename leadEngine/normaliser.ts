@@ -81,6 +81,9 @@ const COMMERCIAL_KEYWORDS = [
   'surgery', 'depot', 'workshop', 'showroom', 'studio', 'theatre', 'stadium',
   'business park', 'trading estate', 'mixed use', 'change of use', 'fit-out',
   'fit out', 'fitout', 'leisure centre', 'sports hall', 'community centre',
+  // High-value residential-commercial crossover — plumbers/electricians win big here
+  'hmo', 'house in multiple occupation', 'apartment block', 'block of flats',
+  'student accommodation', 'student housing', 'purpose built', 'co-living',
 ];
 
 const COMMERCIAL_BUYER_PATTERNS = /\b(ltd|limited|plc|llp|nhs|council|borough|county\s+council|district\s+council|university|college|trust|housing\s+association|group\s+plc)\b/i;
