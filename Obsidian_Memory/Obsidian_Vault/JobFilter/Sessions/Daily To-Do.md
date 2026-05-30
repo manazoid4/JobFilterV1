@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 30 May 2026 (Run 1 — NightlyBuildAgent)
+
+- [x] Commercial keyword expansion — HMO, apartment block, block of flats, student accommodation, co-living added to COMMERCIAL_KEYWORDS (high-value for plumbers/electricians)
+- [x] MethodologyPage: "SERIOUS BUYER SCORE" stale label fixed → "LEAD SCORING — GOLD / SILVER / BRONZE"; score thresholds corrected (90+/75-89/60-74 matching scorer.ts); Checkatrade/MyBuilder named in hero; "No credit card required" added to CTA
+- [x] BlueprintPage: source naming violation fixed (land registry, company filings → property data, business registrations); ALL CAPS button style applied; competitor naming + "No credit card required" added to CTAs
+- [x] DashboardPage NEEDLE-1: "Lock your patch →" text link → yellow jf-button "LOCK YOUR PATCH →" — converts hidden conversion moment to visible CTA for free users without a locked territory
+- [x] Build: GREEN (95 pages), TypeScript: CLEAN
+- [x] Vault: Changelog 2026-05-30 Run 1 written
+- [ ] Stripe live test — end-to-end with test key (4242...), confirm /dashboard?welcome=1 + profiles.plan update
+- [ ] Score threshold audit — verify FaqPage "GOLD/SILVER/BRONZE" FAQ (added Run 7) uses same thresholds as scorer.ts (90/75/60)
+- [ ] DashboardPage NEEDLE-2 — duplicate SCAN CTAs when !isEmpty (header CTA + pipeline card both link to /find-jobs); repurpose pipeline card to show last scan count or "View recent leads →"
+- [ ] WhatsApp delivery hardening — verify Twilio response status field check (`queued|sent|failed`) before production launch
+
+---
+
 ## Today - 29 May 2026 (Run 7 — NightlyBuildAgent)
 
 - [x] Commercial scoring boost — hvac/electrical now +14, building +12, plumbing/landscaping/carpentry +6 (was +5/+2 flat). Commercial leads reliably reach GOLD for commercial-focused trades.
