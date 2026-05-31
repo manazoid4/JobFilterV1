@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 31 May 2026 (NightlyBuildAgent)
+
+- [x] **TypeScript fix** — leadsSearch.ts AccessContext: `return 'full'` → `return { tier: 'full', ... }` (build was failing)
+- [x] **DashboardPage NEEDLE-2** — removed triple scan CTA when isEmpty (third redundant "RUN YOUR FIRST SCAN →" removed from YOUR SCAN SETUP section)
+- [x] **HomePage territory** — "Manchester Bathrooms COMING SOON" → "AVAILABLE" (score 79→82, removes unfinished-product signal)
+- [x] **CompareBarkPage** — 3 EPC/land registry naming violations fixed in comparison table + HOW JOBFILTER WORKS list
+- [x] **CompareMyBuilderPage** — 2 EPC/land registry naming violations fixed
+- [x] **TradeSolar** — 3 EPC naming violations fixed (EPC-flagged → energy-flagged, EPC data → energy signal)
+- [x] **FindJobsPage** — EPC badge → ENERGY, COMPANIES HOUSE fallback → BUSINESS SIGNAL, scan mode copy EPC → energy
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] **TradeDampProofers EPC sweep** — EPC mentioned in sub/stats/howItWorks (lower priority trade page)
+- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
 
 - [x] **Root cause of broken auth identified + fixed**: Vercel had VITE_SUPABASE_URL/ANON_KEY but NO NEXT_PUBLIC_* mirrors. Next.js client code was getting undefined Supabase URL. Login appeared broken because browser client could not reach Supabase at all.
