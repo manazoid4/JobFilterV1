@@ -6,6 +6,7 @@ import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
 import { persistLeads } from '../services/leadPersistence';
 import { persistSourceBenchmarkRun } from '../services/sourceBenchmark';
+import { resolveOwnerFromToken } from '../lib/ownerAccess';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -42,6 +43,11 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
   if (!authHeader?.startsWith('Bearer ')) return noAuth;
 
   const token = authHeader.slice(7);
+
+  // Owner always gets full access
+  const ownerEmail = await resolveOwnerFromToken(token);
+  if (ownerEmail) return 'full';
+
   try {
     const { supabase } = await import('../lib/supabase');
     if (!supabase) return noAuth;
@@ -215,6 +221,7 @@ function toFreePreviewLead(lead: Lead) {
     url: '',
     estimatedValue: valuePreview(lead.estimatedValue),
     urgency: 'medium' as const,
+    // Paid intelligence: source confidence is blurred, contact signal locked to none
     sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
     contactSignal: 'none' as const,
     source: lead.source,
@@ -225,14 +232,16 @@ function toFreePreviewLead(lead: Lead) {
     reasons: buildReasons(lead, score),
     distanceMiles: lead.distanceMiles,
     qualityLabel: lead.qualityLabel,
-    leadReadiness: lead.leadReadiness,
-    recommendedAction: lead.recommendedAction,
-    contactPath: lead.contactPath,
-    whyThisIsAJob: lead.whyThisIsAJob,
-    opportunityAtoms: lead.opportunityAtoms,
-    evidenceBadges: lead.evidenceBadges,
-    signalStack: lead.signalStack,
-    signalClass: lead.signalClass,
+    // Locked paid fields — show upgrade teaser, not real data
+    leadReadiness: undefined,
+    recommendedAction: 'Upgrade to see recommended action',
+    contactPath: undefined,
+    whyThisIsAJob: undefined,
+    opportunityAtoms: undefined,
+    evidenceBadges: (lead.evidenceBadges ?? []).slice(0, 1), // Show at most one badge as teaser
+    signalStack: undefined,
+    signalClass: undefined,
+    locked: true,
   };
 }
 

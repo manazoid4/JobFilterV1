@@ -133,6 +133,14 @@ async function updateSubscriptionStatus(subscription: Stripe.Subscription) {
     .maybeSingle();
 
   if (data?.user_id) {
+    // Check if this user is an owner — never downgrade owner accounts via Stripe webhook
+    const { data: profile } = await supabase.from('profiles').select('email').eq('id', data.user_id).maybeSingle();
+    const ownerEmails = ['manazoid4@gmail.com', ...(process.env.JOBFILTER_SUPERUSER_EMAILS ?? '').split(',').map((e: string) => e.trim().toLowerCase()).filter(Boolean)];
+    if (profile?.email && ownerEmails.includes(profile.email.toLowerCase())) {
+      console.log('[stripe-webhook] skipping plan change for owner account', profile.email);
+      return;
+    }
+
     await supabase.from('profiles').update({
       plan: active ? data.plan : 'free',
       onboarding_status: active ? 'paid' : 'payment_inactive',

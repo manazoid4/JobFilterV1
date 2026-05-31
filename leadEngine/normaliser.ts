@@ -24,14 +24,22 @@ function inferTradeFromCpv(cpvCodes: string[]): TradeKey | null {
 }
 
 const KEYWORD_TRADE_MAP: Array<[RegExp, TradeKey]> = [
-  [/plumb|boiler|sanit|hot water|drain/i, 'plumbing'],
-  [/electric|rewire|wiring|lighting|ev charg|solar pv/i, 'electrical'],
-  [/roof|tile|flat roof|epdm|gutter|fascia/i, 'roofing'],
-  [/hvac|ventilat|air.?con|heat pump|ashp|mechanical/i, 'hvac'],
-  [/landscap|ground|garden|lawn/i, 'landscaping'],
-  [/carpet|joine|floor|timber|door|window frame/i, 'carpentry'],
-  [/paint|decorat|plaster|render/i, 'painting'],
-  [/build|construct|refurb|renovat|extension|conversion/i, 'building'],
+  // Plumbing — includes gas engineer signals (gas safe, gas work, boiler install)
+  [/plumb|boiler|sanit|hot water|drain|gas safe|gas work|gas engineer|gas install|unvented|combi boiler|central heating/i, 'plumbing'],
+  // Electrical — EV chargers, solar PV, rewires, fire alarms, CCTV, EICR
+  [/electric|rewire|wiring|lighting|ev charg|solar pv|fuse board|consumer unit|fire alarm|eicr|cctv/i, 'electrical'],
+  // Roofing — flat roof, guttering, fascias, soffits, lead work, chimney
+  [/\broof\b|flat roof|epdm|gutter|fascia|soffit|slate|chimney|lead work|flashings|ridge tile|felt roof/i, 'roofing'],
+  // HVAC — heat pumps, air source, ground source, ventilation, MVHR, air con
+  [/hvac|ventilat|air.?con|heat pump|\bashp\b|\bgshp\b|ground source|air source|mechanical services|mvhr|refrigerat|ductwork/i, 'hvac'],
+  // Landscaping — groundworks, paving, fencing, turf, driveways, retaining walls
+  [/landscap|grounds maintenance|garden|lawn|paving|fencing|turf|driveway|retaining wall|patio|decking/i, 'landscaping'],
+  // Carpentry — joinery, flooring, fitted furniture, doors, skirting, staircases
+  [/carpent|joine|floor|door hang|skirting|architrave|staircase|fitted wardrob|cabinet|bespoke furniture/i, 'carpentry'],
+  // Painting & decorating — includes plastering, skimming, rendering, tiling
+  [/paint|decorat|plaster|render|skimming|wallpaper|tiling|ceramic tile|porcelain tile/i, 'painting'],
+  // Building — extensions, conversions, structural, refurbishment, new build
+  [/build|construct|refurb|renovat|extension|conversion|structural|new build|loft|basement|steel beam/i, 'building'],
 ];
 
 function inferTradeFromText(title: string, description: string): TradeKey | null {
