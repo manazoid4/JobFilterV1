@@ -64,7 +64,7 @@ export function VantagePage() {
             </p>
           </div>
 
-          {/* Upload card — DEMO PREVIEW */}
+          {/* Upload card — waitlist preview */}
           <div
             className="relative p-8"
             style={{
@@ -73,9 +73,6 @@ export function VantagePage() {
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
-            <div className="absolute top-3 right-3 px-2 py-1 text-[10px] font-black uppercase tracking-wider" style={{ background: 'var(--navy)', color: 'var(--yellow)' }}>
-              DEMO PREVIEW
-            </div>
             <div
               className="flex cursor-pointer flex-col items-center justify-center gap-4 p-12 text-center transition-colors hover:bg-white"
               style={{ border: '2px dashed var(--navy)', background: 'var(--offwhite)' }}
@@ -247,9 +244,6 @@ export function VantagePage() {
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
-            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-              Coming soon
-            </p>
             <h2 className="headline text-[clamp(24px,3vw,36px)] uppercase text-[var(--navy)]">
               Stop losing £1M bids to prettier firms. That's the Vantage™ fix.
             </h2>

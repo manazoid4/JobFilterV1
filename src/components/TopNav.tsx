@@ -33,7 +33,7 @@ export function TopNav() {
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
     : [
         ...publicLinks,
-        { to: '/features', label: 'How It Works' },
+        { to: '/blueprint', label: 'How It Works' },
         { to: '/construction-leads/london', label: 'Cities' },
       ];
 
