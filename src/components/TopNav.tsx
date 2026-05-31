@@ -205,13 +205,22 @@ export function TopNav() {
               SIGN OUT
             </button>
           ) : (
-            <Link
-              href="/pricing"
-              onClick={() => setMenuOpen(false)}
-              className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
-            >
-              START £39/MO — FOUNDING PRICE
-            </Link>
+            <div className="flex border-t-2 border-[var(--line)]">
+              <Link
+                href="/login"
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 bg-[var(--paper)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center border-r-2 border-[var(--line)]"
+              >
+                SIGN IN
+              </Link>
+              <Link
+                href="/pricing"
+                onClick={() => setMenuOpen(false)}
+                className="flex-[2] bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
+              >
+                START £39/MO
+              </Link>
+            </div>
           )}
         </div>
       )}
