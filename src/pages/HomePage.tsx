@@ -23,7 +23,7 @@ const territoryCards = [
   ['B12 Roofing', 'FOUNDING SLOT OPEN', '91'],
   ['Birmingham Extensions', 'AVAILABLE', '88'],
   ['Coventry Solar', 'RESERVED', '84'],
-  ['Manchester Bathrooms', 'COMING SOON', '79'],
+  ['Manchester Bathrooms', 'AVAILABLE', '82'],
 ] as const;
 
 const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];

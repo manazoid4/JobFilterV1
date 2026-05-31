@@ -3,14 +3,14 @@ import Link from 'next/link';
 
 const comparison = [
   { feature: 'Lead exclusivity', bark: 'Sold to 3-5 trades simultaneously', jobfilter: 'Your scan — private, unseen by competitors', jf: true },
-  { feature: 'Lead source', bark: 'Homeowner fills a Bark form', jobfilter: 'Planning, tenders, ownership data, EPC signals', jf: true },
+  { feature: 'Lead source', bark: 'Homeowner fills a Bark form', jobfilter: 'Planning approvals, tender data, ownership signals, retrofit intelligence', jf: true },
   { feature: 'Pay per lead', bark: 'Yes — credits per response', jobfilter: 'No — flat £39/mo unlimited scanning', jf: true },
   { feature: 'Lead quality scoring', bark: 'Basic category match only', jobfilter: 'GOLD/SILVER/SKIP scoring with intent signals', jf: true },
   { feature: 'Contact detail included', bark: 'Only after spending credits', jobfilter: 'Contact path shown — buyer named where available', jf: true },
   { feature: 'WhatsApp delivery', bark: 'No', jobfilter: 'Yes — Gold leads direct to your phone', jf: true },
   { feature: 'Planning application signals', bark: 'No', jobfilter: 'Yes — approved applications in your patch', jf: true },
   { feature: 'Public contract alerts', bark: 'No', jobfilter: 'Yes — council and NHS tenders with budgets', jf: true },
-  { feature: 'Energy retrofit signals', bark: 'No', jobfilter: 'Yes — EPC-backed retrofit demand', jf: true },
+  { feature: 'Energy retrofit signals', bark: 'No', jobfilter: 'Yes — verified retrofit demand signals', jf: true },
   { feature: 'Free tier', bark: 'No free preview', jobfilter: 'Yes — see leads before paying', jf: true },
   { feature: 'Monthly cost ceiling', bark: 'Uncapped — more leads = more spend', jobfilter: '£39/mo fixed', jf: true },
   { feature: 'Review profile required', bark: 'Yes — rankings depend on reviews', jobfilter: 'No — leads based on data, not reviews', jf: true },
@@ -83,7 +83,7 @@ export function CompareBarkPage() {
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">HOW JOBFILTER WORKS</p>
               <ul className="mt-3 space-y-2 font-black text-sm text-white">
-                <li>• We scan planning data, contracts, EPC, land registry signals</li>
+                <li>• We scan planning approvals, contracts, retrofit signals, and ownership data</li>
                 <li>• Your scan is private — no other trade sees your results</li>
                 <li>• GOLD/SILVER/SKIP scoring so you only chase what pays</li>
                 <li>• Contact path shown — decision maker identified where possible</li>

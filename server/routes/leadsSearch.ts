@@ -46,7 +46,7 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
 
   // Owner always gets full access
   const ownerEmail = await resolveOwnerFromToken(token);
-  if (ownerEmail) return 'full';
+  if (ownerEmail) return { tier: 'full', userId: null, scanLimitExceeded: false, scansUsed: 0 };
 
   try {
     const { supabase } = await import('../lib/supabase');

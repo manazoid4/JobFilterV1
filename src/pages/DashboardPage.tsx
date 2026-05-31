@@ -213,11 +213,6 @@ export function DashboardPage() {
             {scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
-          {isEmpty && (!scanTrade || !scanPostcode) && (
-            <Link href="/find-jobs" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-              RUN YOUR FIRST SCAN →
-            </Link>
-          )}
         </section>
 
         {/* Chase Summary */}

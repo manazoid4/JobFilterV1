@@ -461,7 +461,7 @@ export function FindJobsPage() {
           >
             <span className="block text-sm">All signals</span>
             <span className={`block text-xs ${scanMode === 'all' ? 'text-white/80' : 'text-[var(--muted)]'}`}>
-              Broad scan across planning, contracts, EPC and property signals.
+              Broad scan across planning, contracts, energy and property signals.
             </span>
           </button>
           <button
@@ -1169,7 +1169,7 @@ function EpcSourceBadge({ title }: { title: string }) {
   const ratingColour = rating ? (EPC_RATING_COLOURS[rating] ?? 'bg-gray-400 text-white') : '';
   return (
     <span className="flex items-center gap-1">
-      <span className="badge bg-[#2d7a4f] text-white font-black text-xs px-2 py-1">EPC</span>
+      <span className="badge bg-[#2d7a4f] text-white font-black text-xs px-2 py-1">ENERGY</span>
       {rating && (
         <span className={`badge font-black text-xs px-2 py-1 ${ratingColour}`}>{rating}</span>
       )}
@@ -1180,7 +1180,7 @@ function EpcSourceBadge({ title }: { title: string }) {
 function CompaniesHouseSourceBadge({ title }: { title: string }) {
   const isFitOut = /restaurant|hotel|retail|tech company|office|fit.out|opening/i.test(title);
   const isContractor = /contractor|plumbing|electrical|building|carpentry|painting|roofing|hvac/i.test(title);
-  const label = isFitOut ? 'NEW BUSINESS' : isContractor ? 'NEW FIRM' : 'COMPANIES HOUSE';
+  const label = isFitOut ? 'NEW BUSINESS' : isContractor ? 'NEW FIRM' : 'BUSINESS SIGNAL';
 
   return (
     <span className="flex items-center gap-1">
