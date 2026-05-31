@@ -339,6 +339,21 @@ export function LeadDetailPage() {
         <LeadValueKit lead={lead} unlocked title="LEAD VALUE KIT" />
       </section>
 
+      <section className="jf-box bg-[var(--paper)] p-5">
+        <p className="micro-label text-[var(--orange)]">MATERIAL COSTS</p>
+        <h2 className="headline mt-1 text-2xl">KNOW YOUR FLOOR BEFORE YOU QUOTE.</h2>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">
+          Material price jumps quietly kill your margin. Check traceable UK supplier prices for {lead.jobType} before you commit to a number.
+        </p>
+        <Link
+          href={`/material-price-engine?q=${encodeURIComponent(lead.jobType)}&postcode=${encodeURIComponent(lead.postcode)}`}
+          className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+        >
+          ESTIMATE MATERIALS FOR THIS JOB →
+        </Link>
+        <p className="mt-2 text-[10px] font-black text-[var(--muted)] uppercase">Benchmark estimates — verify with supplier before purchase</p>
+      </section>
+
       {lead.details && (
         <section className="jf-box bg-white p-6">
           <h2 className="headline text-2xl sm:text-3xl">DETAILS</h2>
@@ -494,11 +509,25 @@ export function LeadDetailPage() {
         )}
       </section>
 
+      {!lead.phone && (
+        <section className="jf-box bg-[var(--navy)] p-5 text-white">
+          <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
+          <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
+          <p className="mt-2 text-sm font-black text-white/80">
+            Paid members see the recommended contact channel, compliance risk rating, and next action script for every lead — not just a score.
+          </p>
+          <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+            UNLOCK CONTACT DETAILS — £39/MO →
+          </Link>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back guarantee. No credit card to scan.</p>
+        </section>
+      )}
+
       <ActionBar>
         {lead.phone ? (
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`tel:${lead.phone}`}>CALL</a>
         ) : (
-          <button className="jf-button bg-[#D7D9D4] text-[var(--ink)]" disabled>NO PHONE</button>
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK CONTACT →</Link>
         )}
         <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('ignored')}>IGNORE</button>
         <button className="jf-button bg-[var(--navy)] text-white" onClick={() => setStatus('saved')}>SAVE</button>

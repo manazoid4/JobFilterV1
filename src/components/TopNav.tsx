@@ -19,6 +19,7 @@ const memberLinks = [
   { to: '/leads', label: 'My Leads' },
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
+  { to: '/material-price-engine', label: 'Materials' },
 ];
 
 export function TopNav() {
