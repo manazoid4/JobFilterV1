@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 31 May 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Job value capture in OutcomeActions (FindJobsPage)** — £ input on Won click; markWon() now called from Find page (Tier 2 feature complete)
+- [x] **Duplicate UNLOCK CTAs** — dark bottom "LOCK FOUNDER PRICE" banner removed; 4→3 CTAs on FindJobsPage
+- [x] **Yellow banner CTA** — restructured: button now above explanatory text, visible in <3s on mobile (NEEDLE fix)
+- [x] **FILL MY WEEK progress UX** — step progress bar (3 segments) + "Takes about 5 seconds" added
+- [x] **ForYourTradePage copy** — competitor names in all 6 trade signals; "Why tradesmen use JobFilter" rewritten with specific proof/control language
+- [x] **FaqPage copy** — data source naming fix ("property transactions" → "property ownership data"); money-back answer strengthened; hero adds competitor mentions
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Dashboard patch lock CTA** — "LOCK YOUR PATCH" buried in empty-state; should be a prominent button for new users
+- [ ] **Scan counter Monday reset note** — add "Count resets every Monday" for clarity when scans are running low
+- [ ] **Job value average on Dashboard** — show "Your average won job: £X,XXX" now that FindJobsPage captures values
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 31 May 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **TradeDampProofers EPC sweep** — 14 violations fixed (EPC data → energy signals throughout)
