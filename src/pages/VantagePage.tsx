@@ -64,7 +64,7 @@ export function VantagePage() {
             </p>
           </div>
 
-          {/* Upload card — DEMO PREVIEW */}
+          {/* Upload card — waitlist preview */}
           <div
             className="relative p-8"
             style={{
@@ -73,12 +73,9 @@ export function VantagePage() {
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
-            <div className="absolute top-3 right-3 px-2 py-1 text-[10px] font-black uppercase tracking-wider" style={{ background: 'var(--navy)', color: 'var(--yellow)' }}>
-              DEMO PREVIEW
-            </div>
             <div
-              className="flex cursor-pointer flex-col items-center justify-center gap-4 p-12 text-center transition-colors hover:bg-white"
-              style={{ border: '2px dashed var(--navy)', background: 'var(--offwhite)' }}
+              className="flex cursor-default flex-col items-center justify-center gap-4 p-12 text-center"
+              style={{ border: '2px dashed var(--navy)', background: 'var(--offwhite)', pointerEvents: 'none' }}
             >
               <div
                 className="flex h-16 w-16 items-center justify-center"
@@ -114,6 +111,7 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
+                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 ⚡ Generate Bid Deck
               </button>
@@ -130,6 +128,7 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
+                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 📷 Scan Document
               </button>
@@ -247,9 +246,6 @@ export function VantagePage() {
               boxShadow: '8px 8px 0 var(--yellow)',
             }}
           >
-            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-              Coming soon
-            </p>
             <h2 className="headline text-[clamp(24px,3vw,36px)] uppercase text-[var(--navy)]">
               Stop losing £1M bids to prettier firms. That's the Vantage™ fix.
             </h2>
@@ -260,7 +256,9 @@ export function VantagePage() {
               Scan Jobs Free →
             </Link>
           </div>
-          <WaitlistForm source="vantage" />
+          <div id="vantage-waitlist">
+            <WaitlistForm source="vantage" />
+          </div>
         </section>
 
         {/* ── Conversion CTA: Intake Engine ─────────── */}
