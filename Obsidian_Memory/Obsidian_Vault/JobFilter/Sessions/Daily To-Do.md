@@ -1,6 +1,22 @@
 # Daily To-Do
 
-## Today - 31 May 2026 (NightlyBuildAgent)
+## Today - 31 May 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **TradeDampProofers EPC sweep** — 14 violations fixed (EPC data → energy signals throughout)
+- [x] **TradeGasEngineers EPC sweep** — 15 violations fixed (EPC F/G-rated → low energy-rated, EPC cluster → low-efficiency cluster)
+- [x] **CompareRatedPeoplePage** — 4 EPC/land registry naming violations fixed
+- [x] **NewsPage** — 2 EPC violations fixed (trend label + hero body)
+- [x] **TradeSolar** — 1 remaining EPC violation fixed (whatsappMessage "EPC D" → "low energy rating")
+- [x] **FindJobsPage NEEDLE fix** — "source-fused evidence" jargon → plain English ("Works Starting Now shows jobs with the strongest timing signals...")
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Duplicate UNLOCK CTAs on FindJobsPage** — 4× "UNLOCK FOR £39/MO →" causing decision fatigue; consolidate to max 2 placements
+- [ ] **FILL MY WEEK progress UX** — no time estimate or progress indicator; looks broken on slow connection
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 31 May 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **TypeScript fix** — leadsSearch.ts AccessContext: `return 'full'` → `return { tier: 'full', ... }` (build was failing)
 - [x] **DashboardPage NEEDLE-2** — removed triple scan CTA when isEmpty (third redundant "RUN YOUR FIRST SCAN →" removed from YOUR SCAN SETUP section)
@@ -10,11 +26,6 @@
 - [x] **TradeSolar** — 3 EPC naming violations fixed (EPC-flagged → energy-flagged, EPC data → energy signal)
 - [x] **FindJobsPage** — EPC badge → ENERGY, COMPANIES HOUSE fallback → BUSINESS SIGNAL, scan mode copy EPC → energy
 - [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
-- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
-- [ ] **TradeDampProofers EPC sweep** — EPC mentioned in sub/stats/howItWorks (lower priority trade page)
-- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
-- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
-- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
 
 ## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
 
