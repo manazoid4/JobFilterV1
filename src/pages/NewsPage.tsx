@@ -27,7 +27,7 @@ const ARTICLES: Article[] = [
     title: 'F & G-rated rentals: landlords are quoting now for the 2027 deadline.',
     dek: 'New MEES guidance brings 1.2m UK rentals into scope. Heating, insulation, glazing and electrical re-wires are the biggest spends.',
     readMin: 3,
-    trend: { label: 'EPC-driven quote requests +21% wk/wk', direction: 'up' },
+    trend: { label: 'Energy upgrade quote requests +21% wk/wk', direction: 'up' },
     body: [
       'The Minimum Energy Efficiency Standard (MEES) tightening for rented homes is no longer a debate — landlords with F or G-rated stock are getting compliance letters and starting to gather quotes. The legal pressure has moved from "by 2030" planning conversation to "next budget cycle" action.',
       'For tradesmen, that means the next 9–12 months will see a steady stream of single-trade and multi-trade jobs aimed at moving a property from band F or G up to D or better. The work is rarely one trade only — boiler swaps, loft and cavity insulation, double glazing replacement, ventilation upgrades, and electrical re-wires usually appear in clusters on the same address.',
@@ -128,7 +128,7 @@ export function NewsPage() {
             UK CONSTRUCTION SIGNALS.<br />FILTERED FOR TRADES.
           </h1>
           <p className="mt-4 max-w-2xl font-bold text-[var(--ink)] text-base sm:text-lg leading-snug">
-            Planning approvals. EPC compliance. Tender deadlines. Funded schemes. Written for builders, plumbers, electricians, roofers and fit-out firms — not for marketing teams. Free to read.
+            Planning approvals. Energy compliance. Tender deadlines. Funded schemes. Written for builders, plumbers, electricians, roofers and fit-out firms — not for marketing teams. Free to read.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">

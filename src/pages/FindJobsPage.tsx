@@ -482,7 +482,7 @@ export function FindJobsPage() {
 
         {scanMode === 'start_now' && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
-            Start Signal mode ranks source-fused evidence like planning approvals, building-control movement, energy signals, business registrations, and property data. Verify source links before contacting anyone.
+            Works Starting Now shows jobs with the strongest timing signals — planning approvals, building-control movement, energy upgrades, and business activity. Check the source link before contacting anyone.
           </div>
         )}
 

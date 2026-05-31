@@ -46,7 +46,7 @@ const data: TradePageData = {
 Area: B30 / Birmingham South
 Value: £7k-£11k solar installation
 Urgency: Extension approved 8 days ago
-Why it matters: South-facing roof added, existing EPC D — prime solar candidate
+Why it matters: South-facing roof added, low energy rating — prime solar candidate
 Action: Open notice → jobfilter.uk/lead/sol482`,
   comparisonOld: [
     'Pay for leads on Checkatrade, Bark, or MCS — shared with 4-5 other installers',

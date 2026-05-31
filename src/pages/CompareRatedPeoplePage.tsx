@@ -2,14 +2,14 @@
 import Link from 'next/link';
 
 const comparison = [
-  { feature: 'Lead source', ratedpeople: 'Homeowner job posts', jobfilter: 'Planning data, public contracts, EPC, land registry', jf: true },
+  { feature: 'Lead source', ratedpeople: 'Homeowner job posts', jobfilter: 'Planning approvals, public contracts, energy signals, property data', jf: true },
   { feature: 'Lead exclusivity', ratedpeople: 'Up to 3 trades per job', jobfilter: 'Private — only you see your scan results', jf: true },
   { feature: 'Pricing', ratedpeople: 'Credits to apply for jobs', jobfilter: '£39/mo flat — no credits, no limits', jf: true },
   { feature: 'Lead scoring', ratedpeople: 'None — all jobs shown equally', jobfilter: 'GOLD/SILVER/SKIP intent scoring', jf: true },
   { feature: 'Budget data', ratedpeople: 'Customer estimate — often low', jobfilter: 'Published tender value for contract leads', jf: true },
   { feature: 'Planning signals', ratedpeople: 'No', jobfilter: 'Yes — approved planning applications in your area', jf: true },
   { feature: 'Council tenders', ratedpeople: 'No', jobfilter: 'Yes — NHS, council, and public authority contracts', jf: true },
-  { feature: 'Energy upgrade signals', ratedpeople: 'No', jobfilter: 'Yes — retrofit demand mapped from EPC data', jf: true },
+  { feature: 'Energy upgrade signals', ratedpeople: 'No', jobfilter: 'Yes — verified retrofit demand signals', jf: true },
   { feature: 'WhatsApp alerts', ratedpeople: 'No', jobfilter: 'Yes — Gold leads direct to your phone', jf: true },
   { feature: 'Review requirement', ratedpeople: 'Yes — rank depends on reviews', jobfilter: 'No — leads sourced from data, not review count', jf: true },
   { feature: 'Free preview', ratedpeople: 'No', jobfilter: 'Yes — see live leads before paying', jf: true },
@@ -50,7 +50,7 @@ export function CompareRatedPeoplePage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
-            Rated People connects homeowner requests to multiple competing trades. JobFilter scans planning data, council contracts, and EPC signals — and your results are private to you alone.
+            Rated People connects homeowner requests to multiple competing trades. JobFilter scans planning approvals, council contracts, and energy signals — and your results are private to you alone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
@@ -82,7 +82,7 @@ export function CompareRatedPeoplePage() {
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">JOBFILTER SOURCE</p>
               <ul className="mt-3 space-y-2 font-black text-sm text-white">
-                <li>• Government planning, council tenders, land registry, EPC data</li>
+                <li>• Government planning, council tenders, property ownership data, energy signals</li>
                 <li>• Scan is private — only you see your area's results</li>
                 <li>• GOLD/SILVER/SKIP scoring — only call what's worth your time</li>
                 <li>• Published budget data on contract leads where available</li>
