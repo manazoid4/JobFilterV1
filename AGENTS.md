@@ -81,11 +81,11 @@ A founder who has seen how broken the system is — and fixed it.
 All agents must also read:
 - `AGENT_RUNNING_MODEL.md`
 - `CLAUDE.md` when operating through Claude or Claude-like tools
-- `Obsidian_Memory/Obsidian_Vault/Vault Map.md` for linked memory
-- `Obsidian_Memory/Obsidian_Vault/JobFilter/Product/Problems and Solutions.md` before product copy, pricing, lead delivery, lead gating, or customer trust changes
-- `Obsidian_Memory/Obsidian_Vault/AI Knowledge/Instagram Saved Posts Memory.md` for private Instagram saved-post inspiration when creative source material is needed
+- GitHub vault repo `manazoid4/JobFilter-Obsidian-Vault` for linked memory. The embedded/local vault is obsolete unless explicitly re-synced from GitHub.
+- `JobFilter/Daily Brief.md` in the GitHub vault before product, pricing, lead delivery, lead gating, or customer trust changes
+- `JobFilter/Agent System Map.md` and recent `JobFilter/Changelog YYYY-MM-DD.md` files in the GitHub vault before agent or pipeline work
 
-Keep Obsidian notes short, linked, and in the right folder.
+Keep Obsidian notes short, linked, and committed to the GitHub vault repo.
 
 ## DEPLOYMENT RULE — READ THIS
 
