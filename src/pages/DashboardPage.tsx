@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
+import { ROITracker } from '../components/ROITracker';
 import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
@@ -17,6 +18,7 @@ export function DashboardPage() {
   const [scanPostcode, setScanPostcode] = useState<string | null>(null);
   const [scansUsed, setScansUsed] = useState(0);
   const [trackedLeadCount, setTrackedLeadCount] = useState(0);
+  const [isPaid, setIsPaid] = useState(false);
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -33,6 +35,10 @@ export function DashboardPage() {
     setScansUsed(Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-weekly-scans-used')) || 0);
     const tracked = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
     setTrackedLeadCount(tracked.length);
+    // Check paid status for ROI Tracker gating
+    fetch('/api/leads/roi-stats', { credentials: 'include' })
+      .then((r) => { if (r.status === 200 || r.status === 503) setIsPaid(true); })
+      .catch(() => {});
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
@@ -197,6 +203,9 @@ export function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {/* ROI Tracker */}
+      <ROITracker isPaid={isPaid} />
 
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">

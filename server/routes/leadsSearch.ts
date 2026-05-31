@@ -134,38 +134,59 @@ function previewTitle(lead: Lead): string {
   return `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`;
 }
 
+/**
+ * SERVER-SIDE contact gating — strips ALL direct contact fields and paid intelligence.
+ * This is an explicit allowlist: only the fields listed here reach free/unauthenticated users.
+ * Do NOT spread lead fields — new fields added to Lead type must be explicitly evaluated.
+ * Paid fields stripped: contactPath, buyerName, url/sourceUrl, phone, email, contactName,
+ * whatsappNumber, whyThisIsAJob, opportunityAtoms, signalStack, signalClass, leadReadiness,
+ * recommendedAction, and exact score/confidence/value data.
+ */
 function toFreePreviewLead(lead: Lead) {
   const score = Number(lead.score ?? 0);
   return {
+    // Identity (safe)
     id: lead.id,
     title: previewTitle(lead),
     trade: lead.trade,
-    buyer: '',
-    location: lead.location,
-    postcodeOutward: lead.postcodeOutward,
-    publishedAt: '',
-    deadlineAt: '',
-    url: '',
-    estimatedValue: valuePreview(lead.estimatedValue),
-    urgency: 'medium' as const,
-    // Paid intelligence: source confidence is blurred, contact signal locked to none
-    sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
-    contactSignal: 'none' as const,
     source: lead.source,
     status: lead.status,
-    revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
-    tradeMatch: String(lead.trade),
-    score: previewScore(score),
-    reasons: buildReasons(lead, score),
     distanceMiles: lead.distanceMiles,
     qualityLabel: lead.qualityLabel,
-    // Locked paid fields — show upgrade teaser, not real data
+    // Location blurred to outward code only — no full postcode
+    location: lead.location,
+    postcodeOutward: lead.postcodeOutward,
+    // Dates stripped — reveal timeline only to paid
+    publishedAt: '',
+    deadlineAt: '',
+    // Contact — all stripped
+    buyer: '',
+    // buyerName: STRIPPED
+    // contactPath: STRIPPED (contains phone, email, script, contact strategy)
+    // sourceUrl / url: STRIPPED
+    url: '',
+    // Value blurred
+    estimatedValue: valuePreview(lead.estimatedValue),
+    // Urgency blurred
+    urgency: 'medium' as const,
+    // Intelligence blurred
+    sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
+    contactSignal: 'none' as const,
+    score: previewScore(score),
+    revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
+    tradeMatch: String(lead.trade),
+    reasons: buildReasons(lead, score),
+    evidenceBadges: (lead.evidenceBadges ?? []).slice(0, 1), // teaser only
+    // Paid intelligence — all stripped
+    // whyThisIsAJob: STRIPPED
+    // opportunityAtoms: STRIPPED
+    // signalStack: STRIPPED
+    // signalClass: STRIPPED
     leadReadiness: undefined,
     recommendedAction: 'Upgrade to see recommended action',
     contactPath: undefined,
     whyThisIsAJob: undefined,
     opportunityAtoms: undefined,
-    evidenceBadges: (lead.evidenceBadges ?? []).slice(0, 1), // Show at most one badge as teaser
     signalStack: undefined,
     signalClass: undefined,
     locked: true,

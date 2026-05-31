@@ -34,14 +34,45 @@ type LeadCardProps = {
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   buyerScore?: number;
   freshness?: string;
+  /** Paid users only: show Send to WhatsApp button */
+  showWhatsApp?: boolean;
+  /** Full lead object for WhatsApp delivery */
+  leadData?: Record<string, unknown>;
 };
 
-export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, leadReadiness, buyerScore, freshness }: LeadCardProps) {
+export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, leadReadiness, buyerScore, freshness, showWhatsApp = false, leadData }: LeadCardProps) {
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
     return (localStorage.getItem(storageKey) as LeadStatus | null);
   });
+  const [whatsappSending, setWhatsappSending] = useState(false);
+  const [whatsappDone, setWhatsappDone] = useState(false);
+
+  async function handleSendWhatsApp(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    const phone = prompt('Enter your WhatsApp number (e.g. +447700900000):');
+    if (!phone) return;
+    setWhatsappSending(true);
+    try {
+      const res = await fetch('/api/leads/whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lead: leadData ?? { id, title, score }, phone_number: phone }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setWhatsappDone(true);
+      } else {
+        alert(data.error ?? 'WhatsApp delivery failed');
+      }
+    } catch {
+      alert('WhatsApp delivery failed');
+    } finally {
+      setWhatsappSending(false);
+    }
+  }
 
   function handleStatusClick(event: MouseEvent, value: LeadStatus) {
     event.preventDefault();
@@ -90,8 +121,18 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
             {buyerScore !== undefined && <ScoreBadgeCompact score={buyerScore} />}
           </div>
         )}
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
+          {showWhatsApp && (
+            <button
+              type="button"
+              onClick={handleSendWhatsApp}
+              disabled={whatsappSending || whatsappDone}
+              className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1.5 text-[10px] font-black uppercase text-[var(--green)] min-h-[44px] hover:bg-[var(--green)]/20 disabled:opacity-50"
+            >
+              {whatsappDone ? 'SENT ✓' : whatsappSending ? 'SENDING…' : 'SEND TO WHATSAPP'}
+            </button>
+          )}
         </div>
         {showStatus && id && (
           <div className="mt-3 flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>

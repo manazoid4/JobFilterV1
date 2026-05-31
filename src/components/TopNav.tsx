@@ -61,7 +61,8 @@ export function TopNav() {
         </Link>
 
         <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
-          {(isLoggedIn ? memberLinks : publicLinks.slice(0, 4)).map((link) => {
+          {/* First 4 links shown always; 5th collapses into More dropdown */}
+          {(isLoggedIn ? memberLinks.slice(0, 4) : publicLinks.slice(0, 4)).map((link) => {
             const isActive = pathname === link.to;
             return (
               <Link
@@ -73,35 +74,34 @@ export function TopNav() {
               </Link>
             );
           })}
-          {!isLoggedIn && (
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setMoreOpen(!moreOpen)}
-                onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
-                className={`nav-link flex items-center gap-1 ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
-              >
-                More ▾
-              </button>
-              {moreOpen && (
-                <div className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
-                  {publicLinks.slice(4).map((link) => {
-                    const isActive = pathname === link.to;
-                    return (
-                      <Link
-                        key={link.to}
-                        href={link.to}
-                        onClick={() => setMoreOpen(false)}
-                        className={`block px-4 py-2 text-sm font-black uppercase hover:bg-[var(--yellow)] ${isActive ? 'bg-[var(--yellow)]' : ''}`}
-                      >
-                        {link.label}
-                      </Link>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+          {/* More dropdown: covers overflow links for both member and public nav */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setMoreOpen(!moreOpen)}
+              onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
+              className={`nav-link flex items-center gap-1 ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
+            >
+              More ▾
+            </button>
+            {moreOpen && (
+              <div className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
+                {(isLoggedIn ? memberLinks.slice(4) : publicLinks.slice(4)).map((link) => {
+                  const isActive = pathname === link.to;
+                  return (
+                    <Link
+                      key={link.to}
+                      href={link.to}
+                      onClick={() => setMoreOpen(false)}
+                      className={`block px-4 py-2 text-sm font-black uppercase hover:bg-[var(--yellow)] ${isActive ? 'bg-[var(--yellow)]' : ''}`}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
