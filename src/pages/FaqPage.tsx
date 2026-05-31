@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely do not see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.',
+    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you do not see one job worth quoting in that time, email us and we process the refund the same day. No forms, no argument.',
   },
   {
     q: 'How does territory exclusivity work?',
@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Where does your data come from?',
-    a: 'Verified UK government data published under the Open Government Licence — planning approvals, energy efficiency signals, property transactions, business registrations, and public contracts. We clean, score, and deliver the signals. You get actionable leads, not raw data.',
+    a: 'Verified official UK sources — planning approvals, energy signals, property ownership data, business registrations, and public contracts. All published under open government licences. We clean, score, and route the signals. You get ranked leads, not raw data.',
   },
   {
     q: 'Is my data safe?',
@@ -64,7 +64,7 @@ export function FaqPage() {
           QUESTIONS? STRAIGHT ANSWERS.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
-          No corporate speak. No evasion. Just direct answers to the questions tradesmen actually ask.
+          If you&apos;ve used Checkatrade, Bark, or MyBuilder and got burned — you probably have questions. Here are the straight answers.
         </p>
       </section>
 

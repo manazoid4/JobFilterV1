@@ -15,6 +15,7 @@ import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 import { saveStoredLead } from '../lib/leadStore';
+import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 
 const DEV_MODE = false;
@@ -682,14 +683,14 @@ export function FindJobsPage() {
               ) : (
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER NAME, PHONE, AND JOB DETAIL ARE LOCKED.</h2>
-                  <p className="mt-2 max-w-2xl font-black text-[var(--ink)]/75">
-                    Your free scan found live signals near you. To see who needs the work, how much it&apos;s worth, and when to call — unlock for £39/mo. Cheaper than one Bark lead. 30-day money-back guaranteed.
-                  </p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER DETAIL IS LOCKED.</h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required · 30-day money-back</span>
                   </div>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+                    Cheaper than one Bark lead. See who needs the work, what it&apos;s worth, and when to call.
+                  </p>
                 </section>
               )}
 
@@ -744,35 +745,6 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {!DEV_MODE && !unlimitedTester && (
-                <div className="jf-box bg-[var(--ink)] p-5 text-center">
-                  <p className="font-black text-[var(--yellow)]">
-                    {goldCount > 0
-                      ? `YOUR SCAN FOUND ${goldCount} GOLD LEAD${goldCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
-                      : silverCount > 0
-                      ? `YOUR SCAN FOUND ${silverCount} SILVER LEAD${silverCount > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()}.`
-                      : (result.lockedCount ?? 0) > 0
-                      ? `${result.lockedCount} MORE LEAD${(result.lockedCount ?? 0) > 1 ? 'S' : ''} IN ${(result.outward || postcode).toUpperCase()} ARE LOCKED.`
-                      : 'UNLOCK FULL DETAIL — BUYER, VALUE, NEXT ACTION.'}
-                  </p>
-                  <p className="mt-1 font-black text-white/80">
-                    {goldCount > 0
-                      ? `Unlock the buyer name, phone, and job detail for £39/mo — cheaper than one lead on Bark.`
-                      : silverCount > 0
-                      ? `Worth watching. Unlock buyer name, quote floor, and timing detail for £39/mo — cheaper than one Bark lead.`
-                      : 'Founder price is £39/mo — cheaper than one lead on Bark. Locks forever while active.'}
-                  </p>
-                  <Link href="/pricing" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">
-                    LOCK FOUNDER PRICE — £39/MO →
-                  </Link>
-                  <div className="mt-3 flex flex-wrap justify-center gap-2">
-                    <span className="border border-white/30 bg-white/10 px-2 py-1 text-[10px] font-black uppercase text-white/90">30-DAY MONEY-BACK</span>
-                  </div>
-                  <p className="mt-2 text-xs font-black text-white/80">
-                    No credit card required to scan. Pay only when you want to unlock full leads.
-                  </p>
-                </div>
-              )}
             </div>
           )}
         </section>
@@ -801,8 +773,19 @@ export function FindJobsPage() {
         {fillWeekLoading && (
           <div className="mt-5 bg-[var(--ink)] text-white p-4">
             <div className="flex items-center gap-3">
-              <div className="w-5 h-5 border-2 border-[var(--yellow)] border-t-transparent rounded-full animate-spin" />
-              <p className="font-black">{fillWeekPhase}</p>
+              <div className="w-5 h-5 border-2 border-[var(--yellow)] border-t-transparent rounded-full animate-spin shrink-0" />
+              <div className="min-w-0">
+                <p className="font-black">{fillWeekPhase}</p>
+                <p className="text-xs font-black text-white/50 mt-0.5">Takes about 5 seconds — checking all sources</p>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-1">
+              {['Checking signals', 'Scoring leads', 'Ranking results'].map((step, i) => {
+                const stepIdx = fillWeekPhase.includes('Matching') ? 1 : fillWeekPhase.includes('Ranking') ? 2 : 0;
+                return (
+                  <div key={step} className={`h-1 flex-1 transition-colors ${i <= stepIdx ? 'bg-[var(--yellow)]' : 'bg-white/20'}`} />
+                );
+              })}
             </div>
           </div>
         )}
@@ -1113,8 +1096,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
 
 function OutcomeActions({ lead }: { lead: Lead }) {
   const [busy, setBusy] = useState('');
+  const [showWonCapture, setShowWonCapture] = useState(false);
+  const [wonValueInput, setWonValueInput] = useState('');
+  const [done, setDone] = useState('');
 
-  async function report(status: 'contacted' | 'no_answer' | 'quoted' | 'won' | 'lost') {
+  async function report(status: 'contacted' | 'no_answer' | 'quoted' | 'lost', value?: number) {
     setBusy(status);
     try {
       await fetch('/api/leads/outcome', {
@@ -1131,11 +1117,87 @@ function OutcomeActions({ lead }: { lead: Lead }) {
           score: lead.score,
           scoreReasonsAtDelivery: lead.reasons ?? [],
           contactPathUsed: lead.contactPath?.recommendedChannel,
+          ...(value !== undefined ? { wonValue: value } : {}),
         }),
       });
+      setDone(status);
     } finally {
       setBusy('');
     }
+  }
+
+  async function confirmWon() {
+    const parsedValue = parseInt(wonValueInput.replace(/[^0-9]/g, ''), 10) || 0;
+    setBusy('won');
+    markWon({
+      leadId: lead.id,
+      title: lead.title ?? 'Job',
+      trade: String(lead.trade ?? 'building'),
+      location: lead.location ?? lead.postcodeOutward ?? '',
+      value: parsedValue,
+      source: 'chase',
+    });
+    try {
+      await fetch('/api/leads/outcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          leadId: lead.id,
+          status: 'won',
+          title: lead.title,
+          trade: lead.trade,
+          location: lead.location,
+          postcodeOutward: lead.postcodeOutward,
+          source: lead.source,
+          score: lead.score,
+          scoreReasonsAtDelivery: lead.reasons ?? [],
+          wonValue: parsedValue > 0 ? parsedValue : undefined,
+        }),
+      });
+    } catch {}
+    setBusy('');
+    setShowWonCapture(false);
+    setDone('won');
+  }
+
+  if (done === 'won') {
+    return (
+      <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-2 text-center">
+        <p className="text-[10px] font-black uppercase text-[var(--green)]">WIN LOGGED{wonValueInput ? ` — £${parseInt(wonValueInput.replace(/[^0-9]/g, ''), 10).toLocaleString()}` : ''}</p>
+      </div>
+    );
+  }
+
+  if (done) {
+    return (
+      <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-center">
+        <p className="text-[10px] font-black uppercase text-[var(--muted)]">{done.replace('_', ' ')} logged</p>
+      </div>
+    );
+  }
+
+  if (showWonCapture) {
+    return (
+      <div className="border-2 border-[var(--green)] bg-[var(--green)]/5 p-3 grid gap-2">
+        <p className="text-[10px] font-black uppercase text-[var(--green)]">What did you win it for?</p>
+        <div className="flex items-center gap-1">
+          <span className="text-sm font-black text-[var(--ink)]">£</span>
+          <input
+            type="number"
+            placeholder="0"
+            value={wonValueInput}
+            onChange={e => setWonValueInput(e.target.value)}
+            className="w-full border-2 border-[var(--line)] px-2 py-1 text-sm font-black focus:outline-none focus:border-[var(--green)]"
+          />
+        </div>
+        <div className="flex gap-1">
+          <button className="flex-1 border-2 border-[var(--green)] bg-[var(--green)] px-2 py-1.5 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => void confirmWon()}>
+            {busy === 'won' ? '...' : 'LOG WIN'}
+          </button>
+          <button className="border-2 border-[var(--line)] bg-white px-2 py-1.5 text-[10px] font-black uppercase" onClick={() => setShowWonCapture(false)}>SKIP</button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -1143,7 +1205,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
       <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('contacted')}>I called</button>
       <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('no_answer')}>No answer</button>
       <button className="border-2 border-[var(--line)] bg-white px-2 py-2 text-[10px] font-black uppercase" disabled={Boolean(busy)} onClick={() => void report('quoted')}>Quoted</button>
-      <button className="border-2 border-[var(--line)] bg-[var(--green)] px-2 py-2 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => void report('won')}>Won</button>
+      <button className="border-2 border-[var(--green)] bg-[var(--green)] px-2 py-2 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => setShowWonCapture(true)}>Won ★</button>
       <button className="col-span-2 border-2 border-[var(--line)] bg-[var(--ink)] px-2 py-2 text-[10px] font-black uppercase text-white" disabled={Boolean(busy)} onClick={() => void report('lost')}>Lost</button>
     </div>
   );
