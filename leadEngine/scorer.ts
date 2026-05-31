@@ -5,51 +5,66 @@ import { buildContactPath, contactPathScoreAdjustment } from './contactPath';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {
-    high: ['boiler', 'bathroom', 'plumb', 'heating', 'radiator', 'hot water', 'central heating', 'gas safe', 'unvented', 'pressurised'],
-    medium: ['kitchen', 'wet room', 'shower', 'pipe', 'drain', 'sanitary', 'water supply', 'mechanical services'],
+    // Gas engineers, plumbers, heating engineers
+    high: ['boiler', 'bathroom', 'plumb', 'heating', 'radiator', 'hot water', 'central heating', 'gas safe', 'unvented', 'pressurised', 'gas engineer', 'gas installation', 'combi', 'heat exchanger', 'pipework'],
+    medium: ['kitchen', 'wet room', 'shower', 'pipe', 'drain', 'sanitary', 'water supply', 'mechanical services', 'immersion', 'cylinder'],
     low: ['rewire', 'solar panel', 'roof', 'extension', 'landscap', 'paint', 'carpentry', 'joinery'],
   },
   electrical: {
-    high: ['rewire', 'electrical', 'wiring', 'ev charger', 'electric vehicle', 'solar', 'consumer unit', 'fuse board', 'lighting', 'fire alarm'],
-    medium: ['kitchen', 'bathroom', 'smart home', 'data cabling', 'security system', 'cctv', 'access control'],
-    low: ['boiler', 'plumb', 'roof', 'flat roof', 'tiling', 'landscap', 'paint', 'decorat'],
+    high: ['rewire', 'electrical', 'wiring', 'ev charger', 'electric vehicle', 'solar', 'consumer unit', 'fuse board', 'lighting', 'fire alarm', 'eicr', 'pat test', 'rcd', 'electrical installation'],
+    medium: ['kitchen', 'bathroom', 'smart home', 'data cabling', 'security system', 'cctv', 'access control', 'solar pv', 'battery storage'],
+    low: ['boiler', 'plumb', 'roof', 'flat roof', 'tiling', 'landscap', 'paint', 'decorat', 'gas'],
   },
   roofing: {
-    high: ['roof', 'roofing', 'flat roof', 'velux', 'slate', 'tile roof', 'gutter', 'fascia', 'soffit', 'cladding', 'felt roof'],
-    medium: ['loft', 'chimney', 'lead work', 'flashings', 'ridge tile', 'dormer', 'loft conversion'],
-    low: ['rewire', 'boiler', 'plumb', 'kitchen', 'bathroom', 'landscap', 'paint', 'ev charger'],
+    high: ['roof', 'roofing', 'flat roof', 'velux', 'slate', 'tile roof', 'gutter', 'fascia', 'soffit', 'cladding', 'felt roof', 'epdm', 'lead flashing', 'ridge', 're-roof'],
+    medium: ['loft', 'chimney', 'lead work', 'flashings', 'ridge tile', 'dormer', 'loft conversion', 'scaffolding'],
+    low: ['rewire', 'boiler', 'plumb', 'kitchen', 'bathroom', 'landscap', 'paint', 'ev charger', 'tiling'],
   },
   building: {
-    high: ['extension', 'new build', 'loft conversion', 'garage', 'structural', 'building work', 'construction', 'refurbishment', 'renovation'],
-    medium: ['kitchen', 'bathroom', 'basement', 'conversion', 'knock through', 'steel beam', 'foundation'],
-    low: ['boiler', 'rewire', 'ev charger', 'gutter', 'fascia', 'landscap', 'paint', 'decorat'],
+    high: ['extension', 'new build', 'loft conversion', 'garage', 'structural', 'building work', 'construction', 'refurbishment', 'renovation', 'groundwork', 'foundation', 'underpinning'],
+    medium: ['kitchen', 'bathroom', 'basement', 'conversion', 'knock through', 'steel beam', 'block work', 'brickwork'],
+    low: ['boiler', 'rewire', 'ev charger', 'gutter', 'fascia', 'landscap', 'paint', 'decorat', 'solar'],
   },
   carpentry: {
-    high: ['carpentry', 'joinery', 'staircase', 'bespoke', 'fitted wardrob', 'kitchen fitting', 'door hanging', 'skirting', 'architrave', 'wood floor'],
-    medium: ['loft', 'stud partition', 'door', 'window', 'decking', 'fencing', 'shelving', 'cabinet'],
-    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'landscap', 'paint'],
+    high: ['carpentry', 'joinery', 'staircase', 'bespoke', 'fitted wardrob', 'kitchen fitting', 'door hanging', 'skirting', 'architrave', 'wood floor', 'hardwood floor', 'engineered floor'],
+    medium: ['loft', 'stud partition', 'door', 'window', 'decking', 'fencing', 'shelving', 'cabinet', 'timber frame'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'landscap', 'paint', 'solar'],
   },
   painting: {
-    high: ['paint', 'decorat', 'plaster', 'render', 'wallpaper', 'exterior paint', 'interior paint', 'magnolia', 'emulsion', 'gloss'],
-    medium: ['refurbishment', 'renovation', 'kitchen', 'bathroom', 'ceiling', 'skimming', 'coving'],
-    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'ev charger', 'landscap'],
+    // Decorators, plasterers, tilers all map here
+    high: ['paint', 'decorat', 'plaster', 'render', 'wallpaper', 'exterior paint', 'interior paint', 'emulsion', 'gloss', 'skimming', 'skim coat', 'plastering', 'tiling', 'tile', 'ceramic', 'porcelain'],
+    medium: ['refurbishment', 'renovation', 'kitchen', 'bathroom', 'ceiling', 'coving', 'artex', 'floor tile', 'wall tile'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'ev charger', 'landscap', 'structural'],
   },
   hvac: {
-    high: ['heat pump', 'air conditioning', 'ventilation', 'hvac', 'mechanical', 'ductwork', 'extractor', 'mvhr', 'air source', 'ground source'],
-    medium: ['boiler', 'heating', 'radiator', 'bathroom', 'kitchen', 'commercial', 'refrigeration'],
+    high: ['heat pump', 'air conditioning', 'ventilation', 'hvac', 'mechanical', 'ductwork', 'extractor', 'mvhr', 'air source', 'ground source', 'ashp', 'gshp', 'refrigeration', 'vrf'],
+    medium: ['boiler', 'heating', 'radiator', 'bathroom', 'kitchen', 'commercial', 'energy efficiency', 'underfloor heating'],
     low: ['rewire', 'electrical', 'roof', 'flat roof', 'paint', 'decorat', 'landscap', 'carpentry'],
   },
   landscaping: {
-    high: ['landscape', 'grounds', 'garden', 'paving', 'decking', 'fencing', 'turf', 'retaining wall', 'patio', 'driveway', 'groundwork'],
-    medium: ['tree', 'hedge', 'irrigation', 'shed', 'gazebo', 'pergola', 'planting', 'boundary'],
-    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'kitchen', 'bathroom'],
+    high: ['landscape', 'grounds', 'garden', 'paving', 'decking', 'fencing', 'turf', 'retaining wall', 'patio', 'driveway', 'groundwork', 'block paving', 'resin driveway'],
+    medium: ['tree', 'hedge', 'irrigation', 'shed', 'gazebo', 'pergola', 'planting', 'boundary', 'drainage', 'lawn maintenance'],
+    low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'kitchen', 'bathroom', 'solar'],
   },
 };
 
 const HIGH_INTENT_KEYWORDS = [
-  'emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure',
+  // Emergency / reactive — very high likelihood of real work
+  'emergency', 'leak', 'repair', 'broken', 'failed', 'urgent', 'burst', 'failure', 'no hot water', 'no heating',
+  // Planning/construction intent signals
   'approved', 'commencement', 'building control', 'licence renewal', 'hmo',
-  'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession',
+  'planning approved', 'full planning permission', 'planning granted', 'permitted development',
+  // Financial urgency / distress / procurement
+  'void', 'retrofit', 'grant approved', 'deadline', 'auction', 'possession', 'repossession',
+  'probate', 'estate agent', 'chain free', 'cash buyer',
+  // Gas/electrical compliance urgency
+  'gas safe', 'eicr required', 'landlord certificate', 'remedial work', 'compliance',
+];
+
+// Keywords suggesting low quality / ghost / spam leads
+const GHOST_RISK_KEYWORDS = [
+  'test', 'example', 'lorem ipsum', 'dummy', 'placeholder', 'tbc', 'to be confirmed',
+  'seeking quotes', 'idea stage', 'no budget', 'enquiry only',
 ];
 
 
@@ -149,12 +164,31 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
     }
   }
 
-  const text = `${lead.title} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
-  const matched = HIGH_INTENT_KEYWORDS.filter(k => text.includes(k));
+  const fullText = `${lead.title} ${lead.description ?? ''} ${lead.scoreReasons?.join(' ') ?? ''}`.toLowerCase();
+  const matched = HIGH_INTENT_KEYWORDS.filter(k => fullText.includes(k));
   if (matched.length > 0) {
     const bonus = Math.min(matched.length * 5, 10);
     score += bonus;
-    reasons.push(`High intent keywords: ${matched.join(', ')} (+${bonus})`);
+    reasons.push(`High intent keywords: ${matched.slice(0, 3).join(', ')} (+${bonus})`);
+  }
+
+  // Ghost/spam risk penalty — keywords that suggest low-quality or fake signals
+  const ghostMatched = GHOST_RISK_KEYWORDS.filter(k => fullText.includes(k));
+  if (ghostMatched.length > 0) {
+    const penalty = Math.min(ghostMatched.length * 8, 20);
+    score -= penalty;
+    reasons.push(`Ghost/spam signal: ${ghostMatched.join(', ')} (-${penalty})`);
+  }
+
+  // Data completeness bonus — leads with more fields filled are higher quality
+  let completenessBonus = 0;
+  if (lead.buyerName) completenessBonus += 3;
+  if (lead.deadlineAt) completenessBonus += 3;
+  if (lead.sourceUrl) completenessBonus += 2;
+  if (lead.description && lead.description.length > 50) completenessBonus += 2;
+  if (completenessBonus > 0) {
+    score += completenessBonus;
+    reasons.push(`Data completeness (+${completenessBonus})`);
   }
 
   const atomBoost = Math.min((lead.opportunityAtoms ?? []).reduce((sum, atom) => sum + Math.round(atom.confidence * 4) + Math.min(atom.urgencyImpact, 5), 0), 14);

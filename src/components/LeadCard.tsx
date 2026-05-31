@@ -8,13 +8,15 @@ import { Tag } from './Tag';
 import { LeadReadinessBadge } from './LeadReadinessBadge';
 import { ScoreBadgeCompact } from './SeriousBuyerScore';
 
-type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'ignored';
+// Mirrors leadEngine/types.ts LeadStatus and server/routes/outcomeReport.ts OUTCOME_STATUSES
+type LeadStatus = 'contacted' | 'quoted' | 'won' | 'lost' | 'no_answer' | 'ignored';
 
 const STATUS_PILLS: { label: string; value: LeadStatus }[] = [
   { label: 'CONTACTED', value: 'contacted' },
   { label: 'QUOTED', value: 'quoted' },
   { label: 'WON', value: 'won' },
   { label: 'LOST', value: 'lost' },
+  { label: 'NO ANSWER', value: 'no_answer' },
   { label: 'IGNORE', value: 'ignored' },
 ];
 
@@ -38,19 +40,30 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
-    return ((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem(storageKey) as LeadStatus | null);
+    return (localStorage.getItem(storageKey) as LeadStatus | null);
   });
 
   function handleStatusClick(event: MouseEvent, value: LeadStatus) {
     event.preventDefault();
     event.stopPropagation();
     const next = status === value ? null : value;
+    // Local-first: update localStorage immediately for offline resilience
     if (next) {
-      (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(storageKey, next);
+      localStorage.setItem(storageKey, next);
     } else {
-      (typeof window !== "undefined" ? localStorage : {removeItem:()=>{}}).removeItem(storageKey);
+      localStorage.removeItem(storageKey);
     }
     setStatus(next);
+    // Backend sync: fire-and-forget, non-blocking
+    if (id && next) {
+      fetch('/api/leads/outcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: id, status: next, title }),
+      }).catch(() => {
+        // Swallow silently — local state is always the source of truth
+      });
+    }
   }
 
   const content = (
