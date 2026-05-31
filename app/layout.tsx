@@ -5,6 +5,7 @@ import { TopNav } from '../src/components/TopNav';
 import { Footer } from '../src/components/Footer';
 import { LaunchWaitlistModal } from '../src/components/LaunchWaitlistModal';
 import { ToastWrapper } from '../src/components/ToastWrapper';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'JobFilter | High-intent UK construction leads',
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <LaunchWaitlistModal />
           <ToastWrapper />
+          <Analytics />
         </AuthProvider>
       </body>
     </html>
