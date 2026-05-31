@@ -18,11 +18,11 @@ project: SecureShift
 
 ## Product
 
-[[Product Overview]] · [[Pricing]] · [[MVP Scope]]
+[[Product Overview]] · [[Pricing]] · [[Employer Monetization]] · [[MVP Scope]]
 
 ## Research
 
-[[Market Analysis]] · [[Competitor Intel]]
+[[Market Analysis]] · [[Competitor Intel]] · [[Employer Monetization]]
 
 ## Agents
 
