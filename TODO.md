@@ -35,6 +35,21 @@ Adds: owner role, lead status check constraints, tier sync trigger.
 
 ---
 
+### 4. Run lead_alerts Migration
+File: `supabase/migrations/20260531_lead_alerts.sql`
+Supabase Dashboard → SQL Editor → run. Required for email alert API to work.
+
+### 5. Add new Vercel env vars (WhatsApp + Email)
+
+| Variable | Purpose |
+|----------|---------|
+| `TWILIO_ACCOUNT_SID` | WhatsApp delivery via Twilio |
+| `TWILIO_AUTH_TOKEN` | WhatsApp delivery via Twilio |
+| `TWILIO_WHATSAPP_FROM` | e.g. `whatsapp:+14155238886` |
+| `RESEND_API_KEY` | Email alert delivery (or use SENDGRID_API_KEY) |
+
+---
+
 ## SOON
 
 - Verify owner access post-deploy: `/api/subscription/status` → `{ tier: "business", active: true, isOwner: true }`
@@ -46,10 +61,18 @@ Adds: owner role, lead status check constraints, tier sync trigger.
 ## Recently Completed (no action needed)
 
 - Owner access: `server/lib/ownerAccess.ts` server-side, Stripe-safe
+- Server-side contact gating: explicit allowlist in `toFreePreviewLead()` — phone/email/contactPath stripped
 - Free gating: contactPath/signalStack/opportunityAtoms hidden from free tier
 - Query-param bypass removed from source health
 - Lead statuses: 11 values in types, UI, migration
 - Trade aliases: gas safe, HVAC, tiling, plastering, decorating in normaliser
 - Scoring: ghost risk, data completeness, high-intent signals improved
 - Outcomes: LeadCard POSTs to `/api/leads/outcome`, localStorage fallback
-- SEO: /vs/bark, /vs/mybuilder, /vs/rated-people added
+- WhatsApp delivery: `app/api/leads/whatsapp/route.ts` — paid only, Twilio-backed
+- ROI Tracker: `src/components/ROITracker.tsx` + `/api/leads/roi-stats` — on dashboard
+- TopNav: 5th link in "More ▾" dropdown — no overflow at 1024px
+- Email alert skeleton: `app/api/alerts/route.ts` + migration — instant/daily=paid, weekly=free
+- Sitemap: `app/sitemap.ts` — all routes, comparison, trade, city pages
+- Comparison pages: /vs/trustatrader added
+- Mobile signin: "Sign In" link added to mobile hamburger menu
+- SEO: /vs/bark, /vs/mybuilder, /vs/rated-people, /vs/trustatrader added
