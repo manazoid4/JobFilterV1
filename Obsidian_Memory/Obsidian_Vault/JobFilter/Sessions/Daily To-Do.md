@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 1 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **LeadCard "EXCLUSIVE · NOT SHARED" badge** — product rule violation fixed; changed to "NO SHARED AUCTION" (approved language from Problems and Solutions.md)
+- [x] **Flag Bad Lead wired to backend** — `POST /api/leads/flag` endpoint added; `handleFlagLead()` now calls backend; copy fixed ("credit noted" → "We'll review it")
+- [x] **DashboardPage win rate bug** — was always 100% (markLost never called); now derived from chaseLeads stage tracking which reflects real user actions
+- [x] **NewsPage CTA** — "SCAN MY POSTCODE →" → "SCAN MY POSTCODE FREE →" + "No credit card required" trust line added
+- [x] **TrustCenterPage CTA** — "TRY FREE SCAN" → "SCAN MY AREA FREE →" + "No credit card required" trust line added
+- [x] **LeadListPage OUTCOMES strip value** — confirmed already built (£X,XXX won in WON strip, line 105-109)
+- [x] **FreeToolsPage isPaywalled** — confirmed `const isPaywalled = false` is correct
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Commercial lead detection UX** — verify FILL MY WEEK resets commercialOnly filter after recent changes
+- [ ] **WeeklySignalsPage/SignalsPage copy audit** — not polished recently; check for weak CTAs and violations
+
 ## Today - 1 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Dashboard isEmpty LOCK YOUR PATCH CTA** — yellow button added to isEmpty block alongside RUN YOUR FIRST SCAN and SEE PRICING (new users with no territory get direct path)
@@ -7,11 +23,6 @@
 - [x] **Dashboard avg per win stat** — "Avg per win: £X,XXX" row added to YOUR SCOREBOARD when wins > 0 (tradesmen can now benchmark job values)
 - [x] **CompareBarkPage CTA copy** — "Stop paying per lead. Start scanning smarter." → "Bark credits burn. Your pipeline doesn't have to." + stronger body copy + "SCAN MY AREA FREE — NO CARD" button
 - [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
-- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
-- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
-- [ ] **LeadListPage OUTCOMES strip value** — show "£X,XXX won" aggregate in the WON/LOST/NO ANSWER strip at top of page
-- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
-- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
 
 ## Today - 31 May 2026 (NightlyBuildAgent — Run 3)
 
