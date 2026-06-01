@@ -1,6 +1,71 @@
 # Competitor Ad Inspiration Notes
 
 Created: 2026-05-18
+Last updated: 2026-06-01
+
+---
+
+## Instagram Ad Capture — 2026-06-01
+
+Four live Instagram ads from adjacent/competing products captured and analysed.
+
+---
+
+### Clearmate (Skip-Hire Leads)
+
+- **Promise:** "Stop paying for tyre-kickers." Phone-verified local skip-hire enquiries with size, waste type, placement and permit pre-checked before delivery.
+- **CTA:** GET VERIFIED LEADS
+- **Pricing/offer:** Not stated; exclusive lead model. "Credit-back for duds" — lead refunded if bad.
+- **Strongest angle:** Pre-qualified leads that have already passed a phone call. Exclusive (not shared). Zero-risk framing via credit-back. Specific job details pre-checked (size, waste, permit).
+- **Weakness:** Single trade vertical (skip hire). No visible pricing on-site to self-serve — likely high-ticket lead model.
+- **JobFilter build implication:** "Stop paying for tyre-kickers" is a line to test directly. Credit-back for duds is a powerful trust mechanism — JobFilter should surface this concept: "If the lead is wrong, we credit you." Phone-verification-first framing maps directly to JobFilter's quality filter pitch. Copy angle: *"Checkatrade sends enquiries. JobFilter sends verified signals."*
+
+---
+
+### Find a Local (London Builders)
+
+- **Promise:** "London Builders Need More Jobs to Price?" Homeowner quote requests for refurbishment, extension and renovation work across London. Domestic only. Homeowner wants someone to visit, look at the job, and provide a quote.
+- **CTA:** Learn more
+- **Pricing/offer:** Not stated; lead allocation model.
+- **Strongest angle:** Explicit anti-shared-portal positioning ("Not shared portal leads"). Geo-specific (London). Specific trade action ("visit, look at the job, provide a quote"). Outcome framing not a vague impression.
+- **Weakness:** Agency-generated demand — expensive and capped by ad spend. No proof of volume or quality. Generic funnel feel.
+- **JobFilter build implication:** "Not shared portal leads" is a direct attack on Checkatrade and MyBuilder — the same angle JobFilter owns. Use it explicitly. Geo-targeted messaging ("London Builders") converts better than generic — JobFilter's postcode logic is the technical version of this. "Visit and quote" framing = the exact validation signal. Copy angle: *"Not shared. Not portals. Just the jobs near you that are worth your time."*
+
+---
+
+### Blueprint Crusher (AI Tender Pricing)
+
+- **Promise:** "30% More Tenders Won." AI prices tenders in a fraction of the time — flags discrepancies, matches your rate library, protects margins.
+- **CTA:** Not shown (ad image only)
+- **Pricing/offer:** Not stated
+- **Strongest angle:** Hard outcome metrics in the headline (30% more tenders won, 85% less manual data entry). "Your competitors are already using AI" — fear-of-missing-out urgency. Credible construction visual (crane/steelwork).
+- **Weakness:** Only useful at the quoting/tendering stage — assumes a tender already exists to price. No lead discovery. Not useful for sole traders or small builders.
+- **JobFilter build implication:** Outcome metrics in ad headlines are proven — test "X more leads worth chasing" or "Y% fewer time-wasters". FOMO framing ("your competitors already use this") is worth A/B testing. Blueprint Crusher is a downstream tool — JobFilter is upstream: *"Get the tender before Blueprint Crusher prices it."* No competitive threat — different job, different buyer.
+
+---
+
+### The Trade Core (Directory)
+
+- **Promise:** "Get More Local Work." Directory connecting local tradespeople with local customers. "Let quality jobs in your area find you."
+- **CTA:** JOIN NOW
+- **Pricing/offer:** £9.99 (listing fee)
+- **Strongest angle:** Very low price entry point (£9.99). Simple passive model. Large following (8,192+ followers noted in ad). Join-now urgency.
+- **Weakness:** Passive directory model — work finds you only if a homeowner searches. No lead quality filtering. Not exclusive. No official data signals. Shared pool of tradespeople.
+- **JobFilter build implication:** £9.99 sets the bottom anchor for trade lead tools. JobFilter at £29-49/mo must justify the premium clearly — quality, exclusivity, and proactive scanning vs passive listing. Use contrast copy: *"Trade Core waits for work to find you. JobFilter finds it first."* Directory-vs-scanner is a strong product differentiation frame to add to comparison table.
+
+---
+
+## Key Patterns from 2026-06-01 Capture
+
+| Pattern | Source | JobFilter Implication |
+|---|---|---|
+| "Stop paying for tyre-kickers" | Clearmate | Test directly as a headline |
+| Credit-back for bad leads | Clearmate | Add lead credit mechanic or guarantee copy |
+| "Not shared portal leads" | Find a Local | Own this line explicitly |
+| Hard outcome metrics (30%, 85%) | Blueprint Crusher | A/B test outcome-number headlines |
+| FOMO — "competitors already use AI" | Blueprint Crusher | Test fear-of-missing-out framing |
+| Directory as anchor (£9.99) | Trade Core | Use price contrast: directory vs scanner |
+| Passive vs proactive framing | Trade Core | "They wait. JobFilter finds." |
 
 ---
 
