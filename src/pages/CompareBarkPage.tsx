@@ -143,14 +143,14 @@ export function CompareBarkPage() {
       <section className="bg-[var(--navy)]">
         <div className="page-shell section-pad text-center">
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-            Stop paying per lead. Start scanning smarter.
+            Bark credits burn. Your pipeline doesn&apos;t have to.
           </h2>
           <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
-            See real UK construction leads scored by intent — not shared form-fillers competing with four other trades.
+            One trade per job. No credits, no auction, no racing four other electricians to the same form-filler. Scan your area for £39/mo flat — no credit card needed to try it.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              START FREE — NO CARD
+              SCAN MY AREA FREE — NO CARD
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
               VIEW PRICING

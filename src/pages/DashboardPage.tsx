@@ -89,6 +89,9 @@ export function DashboardPage() {
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            {!territory && (
+              <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">LOCK YOUR PATCH →</Link>
+            )}
             <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
           </div>
         </div>
@@ -209,7 +212,7 @@ export function DashboardPage() {
             {scanPostcode
               ? <Row label="Postcode" value={scanPostcode} />
               : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used` : `${scansUsed} of 3 free used`} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : `${scansUsed} of 3 used · resets Mon`} />
             {scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
@@ -244,6 +247,9 @@ export function DashboardPage() {
             <Row label="This month" value={`${monthlyStats.count} wins`} />
             <Row label="This month value" value={`£${monthlyStats.totalValue.toLocaleString()}`} />
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
+            {winData.wins > 0 && (
+              <Row label="Avg per win" value={`£${Math.round(totalValueAllTime / winData.wins).toLocaleString()}`} />
+            )}
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
           {winData.wins === 0 && (
