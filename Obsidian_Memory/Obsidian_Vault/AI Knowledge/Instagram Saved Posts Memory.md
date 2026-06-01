@@ -20,6 +20,12 @@ This note is the shared agent entry point for Instagram saved-post inspiration.
 
 Pipeline installed. No Instagram posts have been downloaded in this session because login requires the account owner.
 
+## Manual Ad Captures
+
+| Date | Ads Captured | Note |
+|---|---|---|
+| 2026-06-01 | Clearmate, Find a Local, Blueprint Crusher, The Trade Core | 4 competitor Instagram ads analysed → [[Competitor_Ad_Inspiration_Notes]] |
+
 ## Links
 
 - [[AI Knowledge Index]]
