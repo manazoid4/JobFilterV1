@@ -36,6 +36,12 @@ export function DashboardPage() {
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
+  const winRate = winData.wins + winData.losses > 0
+    ? Math.round((winData.wins / (winData.wins + winData.losses)) * 100)
+    : null;
+  const monthlyRoi = monthlyStats.totalValue > 0
+    ? Math.round(monthlyStats.totalValue / 39)
+    : null;
   const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
   const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
   const overdueCount = overdueLeads.length;
@@ -249,6 +255,12 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             {winData.wins > 0 && (
               <Row label="Avg per win" value={`£${Math.round(totalValueAllTime / winData.wins).toLocaleString()}`} />
+            )}
+            {winRate !== null && (
+              <Row label="Win rate" value={`${winRate}%`} />
+            )}
+            {monthlyRoi !== null && monthlyRoi > 1 && (
+              <Row label="This month ROI" value={`${monthlyRoi}x return on £39`} />
             )}
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>

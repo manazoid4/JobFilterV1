@@ -124,6 +124,22 @@ export function LeadDetailPage() {
   const [wonValueInput, setWonValueInput] = useState('');
   const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
   const [snoozed, setSnoozed] = useState(false);
+  const [flagged, setFlagged] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[]).includes(id);
+  });
+  const [showFlagPicker, setShowFlagPicker] = useState(false);
+  const [flagReason, setFlagReason] = useState('');
+
+  function handleFlagLead() {
+    const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
+    if (!stored.includes(id)) {
+      stored.push(id);
+      localStorage.setItem('jf-flagged-leads', JSON.stringify(stored));
+    }
+    setFlagged(true);
+    setShowFlagPicker(false);
+  }
 
   if (!lead) {
     return (
@@ -491,6 +507,43 @@ export function LeadDetailPage() {
             <p className="font-black uppercase text-[var(--ink)]">Review request ready — send this to your customer:</p>
             <p className="mt-2 font-black">{reviewLink}</p>
           </div>
+        )}
+      </section>
+
+      <section className="jf-box bg-white p-6">
+        <p className="micro-label text-[var(--muted)]">NOT WHAT YOU EXPECTED?</p>
+        <h2 className="headline mt-2 text-2xl sm:text-3xl">FLAG THIS LEAD</h2>
+        {flagged ? (
+          <div className="mt-4 border-2 border-[var(--green)] bg-[var(--green)]/10 p-4">
+            <p className="font-black text-[var(--ink)]">FLAGGED — credit noted.</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">3+ flagged duds in a month? Email us for a partial credit. Every flag improves signal quality for you and other trades.</p>
+          </div>
+        ) : (
+          <>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Wrong area, fake, or already gone? Flag it — we credit duds. Stop paying for tyre-kickers.</p>
+            {!showFlagPicker ? (
+              <button className="jf-button mt-4 bg-white text-[var(--ink)]" onClick={() => setShowFlagPicker(true)}>FLAG AS A DUD</button>
+            ) : (
+              <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+                <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why? (optional)</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {['Wrong area', 'Fake or spam', 'Already started', 'Duplicate lead'].map((reason) => (
+                    <button
+                      key={reason}
+                      onClick={() => setFlagReason(reason)}
+                      className={`border-2 px-2 py-1 text-xs font-black ${flagReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                    >
+                      {reason}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <button className="jf-button bg-[var(--ink)] text-white" onClick={handleFlagLead}>CONFIRM FLAG</button>
+                  <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowFlagPicker(false); setFlagReason(''); }}>CANCEL</button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </section>
 
