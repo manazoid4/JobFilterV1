@@ -412,12 +412,6 @@ export function FindJobsPage() {
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
             No Checkatrade membership. No Bark credits. Scan free — unlock full leads from £39/mo.
           </p>
-          <div className="mt-3 flex flex-wrap items-center gap-4">
-            <Link href="/dashboard" className="text-sm font-black text-[var(--yellow)] underline underline-offset-4 hover:text-white transition-colors">
-              VIEW PIPELINE →
-            </Link>
-          </div>
-
           {/* SVG illustration: magnifying glass over UK map with pins */}
           <div className="mt-6 hidden md:block">
             <svg viewBox="0 0 320 180" className="w-64 h-auto opacity-30" fill="none" xmlns="http://www.w3.org/2000/svg">
