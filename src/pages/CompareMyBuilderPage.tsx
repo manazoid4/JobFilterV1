@@ -141,14 +141,14 @@ export function CompareMyBuilderPage() {
       <section className="bg-[var(--navy)]">
         <div className="page-shell section-pad text-center">
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-            Stop competing. Start scanning.
+            MyBuilder sends the job to ten trades. Get there before the queue forms.
           </h2>
           <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
-            Find leads no other trade is looking at — scored by planning data, contract value, and contact strength.
+            Scan your area for jobs nobody is chasing yet — before they hit MyBuilder, Bark, or Checkatrade.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              START FREE — NO CARD
+              SCAN MY AREA FREE — NO CARD
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
               VIEW PRICING

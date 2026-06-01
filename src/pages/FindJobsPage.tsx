@@ -470,7 +470,7 @@ export function FindJobsPage() {
           >
             <span className="block text-sm">Works Starting Now</span>
             <span className={`block text-xs ${scanMode === 'start_now' ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>
-              Filters for READY/MAYBE leads with stronger timing evidence.
+              Jobs starting this week or next — approved, active, or urgent.
             </span>
           </button>
         </div>}
