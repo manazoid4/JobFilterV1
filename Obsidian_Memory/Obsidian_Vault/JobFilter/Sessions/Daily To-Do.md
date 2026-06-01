@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 1 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Dashboard isEmpty LOCK YOUR PATCH CTA** — yellow button added to isEmpty block alongside RUN YOUR FIRST SCAN and SEE PRICING (new users with no territory get direct path)
+- [x] **Dashboard scan counter reset note** — "X of 3 used · resets Mon" replaces ambiguous "X of 3 free used" (matches FindJobsPage which had this since 22 May)
+- [x] **Dashboard avg per win stat** — "Avg per win: £X,XXX" row added to YOUR SCOREBOARD when wins > 0 (tradesmen can now benchmark job values)
+- [x] **CompareBarkPage CTA copy** — "Stop paying per lead. Start scanning smarter." → "Bark credits burn. Your pipeline doesn't have to." + stronger body copy + "SCAN MY AREA FREE — NO CARD" button
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
+- [ ] **LeadListPage OUTCOMES strip value** — show "£X,XXX won" aggregate in the WON/LOST/NO ANSWER strip at top of page
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 31 May 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Job value capture in OutcomeActions (FindJobsPage)** — £ input on Won click; markWon() now called from Find page (Tier 2 feature complete)
@@ -9,13 +22,6 @@
 - [x] **ForYourTradePage copy** — competitor names in all 6 trade signals; "Why tradesmen use JobFilter" rewritten with specific proof/control language
 - [x] **FaqPage copy** — data source naming fix ("property transactions" → "property ownership data"); money-back answer strengthened; hero adds competitor mentions
 - [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
-- [ ] **Dashboard patch lock CTA** — "LOCK YOUR PATCH" buried in empty-state; should be a prominent button for new users
-- [ ] **Scan counter Monday reset note** — add "Count resets every Monday" for clarity when scans are running low
-- [ ] **Job value average on Dashboard** — show "Your average won job: £X,XXX" now that FindJobsPage captures values
-- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
-- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
-- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
-- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
 
 ## Today - 31 May 2026 (NightlyBuildAgent — Run 2)
 
