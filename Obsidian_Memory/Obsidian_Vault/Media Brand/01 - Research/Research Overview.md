@@ -14,21 +14,21 @@
 ### The Onion
 - Forensic accuracy of bureaucratic/corporate language applied to absurd content
 - The closer to real the format, the funnier and more viral — "BREAKING:" works because it's indistinguishable at a glance
-- **Application:** Meridian press briefings, memos, and advertisements must be formally flawless
+- **Application:** Inkweave press briefings, memos, and advertisements must be formally flawless
 
 ### Private Eye (UK)
 - 65-year-old satirical magazine. Still read by journalists, politicians, lawyers
 - Longevity + consistency = institutional credibility. It became a reference, not just a joke
-- **Application:** The Meridian should feel like it has been publishing since before you were paying attention
+- **Application:** Inkweave should feel like it has been publishing since before you were paying attention
 
 ### Brass Eye / Chris Morris
 - Indistinguishable from real documentary. Disturbing in its realism
 - Most effective satire causes momentary genuine belief before the reveal — that discomfort IS the point
-- **Application:** Meridian content should pass the "is this real?" test for at least 2 seconds
+- **Application:** Inkweave content should pass the "is this real?" test for at least 2 seconds
 
 ### The Babylon Bee — What NOT To Do
 - Became pure partisan comfort food. Lost credibility with half the audience
-- **Rule:** The Meridian mocks ALL sides of elite culture equally — left philanthropists, right oligarchs, center technocrats
+- **Rule:** Inkweave mocks ALL sides of elite culture equally — left philanthropists, right oligarchs, center technocrats
 
 ---
 
@@ -37,7 +37,7 @@
 ### The Economist
 - Authoritative house style + consistent anonymous bylines + global scope
 - Minimal, typographic, confident. No exclamation marks. No breathless headlines
-- **Application:** Meridian visual style inherits from this aesthetic tradition
+- **Application:** Inkweave visual style inherits from this aesthetic tradition
 
 ### Foreign Affairs / Foreign Policy
 - Academic + policy world credibility loop. Authors = current/former officials
@@ -46,7 +46,7 @@
 ### Lex Fridman
 - Extreme patience + long-form + unusual guest range + consistent visual identity
 - Guest range is the secret — never associated with only one "type" of guest
-- **Application:** Meridian guest list must span ideologies, geographies, disciplines
+- **Application:** Inkweave guest list must span ideologies, geographies, disciplines
 
 ---
 
@@ -55,7 +55,7 @@
 ### Banksy
 - Anonymous = mythology. Every piece carries the mystery of the maker
 - Anonymity is a *feature*, not a security measure. It creates cultural intrigue
-- **Application:** The Meridian's founders are permanently anonymous. This IS the brand
+- **Application:** Inkweave's founders are permanently anonymous. This IS the brand
 
 ### @dril (Twitter)
 - Consistent satirical persona. So precise it became a cultural reference point
@@ -71,15 +71,15 @@
 
 ### Bottega Veneta
 - No visible logo. Product speaks. Rarity is the message
-- **Application:** Meridian never over-explains itself. No "we are a satire account" disclaimer
+- **Application:** Inkweave never over-explains itself. No "we are a satire account" disclaimer
 
 ### Aesop
 - Consistent restraint in copy. Every word earns its place
-- **Application:** Meridian copy is never verbose. Economy of language = sophistication signal
+- **Application:** Inkweave copy is never verbose. Economy of language = sophistication signal
 
 ### Patek Philippe
 - "You never actually own a Patek Philippe..." — product as generational transmission
-- **Application:** "You were always going to read The Meridian." — exclusivity of *understanding*, not access
+- **Application:** "You were always going to read Inkweave." — exclusivity of *understanding*, not access
 
 ---
 
@@ -132,10 +132,10 @@
 4. Legitimacy cascade: subsequent guests see prior guest as permission slip
 5. Institution: brand becomes reference point beyond any individual piece
 
-**The Meridian's trigger:** first tier-1 dissident, academic, or political figure who says yes.
+**Inkweave's trigger:** first tier-1 dissident, academic, or political figure who says yes.
 
 ---
 
 ## Key Synthesis
 
-> The brand that wins is not the most accurate, the most viral, or the most serious. It's the one that makes the audience feel *smarter for watching it*. The Meridian must be the publication that intelligent, curious, politically aware people feel sophisticated for following — and slightly embarrassed if they haven't heard of it.
+> The brand that wins is not the most accurate, the most viral, or the most serious. It's the one that makes the audience feel *smarter for watching it*. Inkweave must be the publication that intelligent, curious, politically aware people feel sophisticated for following — and slightly embarrassed if they haven't heard of it.

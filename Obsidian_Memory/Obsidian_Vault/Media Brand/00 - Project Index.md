@@ -1,18 +1,19 @@
-# THE MERIDIAN — Project Index
+# INKWEAVE — Project Index
 
 > *"Clarity from altitude."*
 
-**Brand:** The Meridian Brief  
-**Handle:** @themeridianbrief  
+**Brand:** Inkweave  
+**Handle:** @inkweave  
 **Classification:** Satirical geopolitical media platform → legitimate interview platform  
 **Status:** Pre-launch — brand architecture phase  
 **Created:** 2026-05-10
+**Renamed:** 2026-06-01 (previously "The Meridian Brief")
 
 ---
 
 ## What This Is
 
-The Meridian is an anonymous geopolitical satire brand that mocks elite culture, political theatre, and billionaire hypocrisy — while building genuine credibility as an intelligent commentary platform capable of attracting real notable guests.
+Inkweave is an anonymous geopolitical satire brand that mocks elite culture, political theatre, and billionaire hypocrisy — while building genuine credibility as an intelligent commentary platform capable of attracting real notable guests.
 
 **Satire = growth engine.**  
 **Real interviews + commentary = long-term asset.**
@@ -36,7 +37,7 @@ Feels like: **The Economist × dark luxury × intelligence briefing × internet 
 
 ## Core Positioning
 
-> *The Meridian Brief is an anonymous geopolitical media platform publishing intelligence-grade commentary on power, money, and the theatre of modern governance. The only publication that treats elite absurdity with the seriousness it deserves.*
+> *Inkweave is an anonymous geopolitical media platform publishing intelligence-grade commentary on power, money, and the theatre of modern governance. The only publication that treats elite absurdity with the seriousness it deserves.*
 
 ---
 
