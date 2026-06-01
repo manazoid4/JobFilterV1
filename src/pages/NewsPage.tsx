@@ -132,12 +132,13 @@ export function NewsPage() {
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
-              SCAN MY POSTCODE →
+              SCAN MY POSTCODE FREE →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/signals">
               SEE LIVE SIGNALS
             </Link>
           </div>
+          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 

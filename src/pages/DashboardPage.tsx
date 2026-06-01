@@ -36,8 +36,10 @@ export function DashboardPage() {
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
-  const winRate = winData.wins + winData.losses > 0
-    ? Math.round((winData.wins / (winData.wins + winData.losses)) * 100)
+  const chaseWons = chaseLeads.filter((l) => l.stage === 'won').length;
+  const chaseLosts = chaseLeads.filter((l) => l.stage === 'lost').length;
+  const winRate = chaseWons + chaseLosts > 0
+    ? Math.round((chaseWons / (chaseWons + chaseLosts)) * 100)
     : null;
   const monthlyRoi = monthlyStats.totalValue > 0
     ? Math.round(monthlyStats.totalValue / 39)

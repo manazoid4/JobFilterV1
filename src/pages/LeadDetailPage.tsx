@@ -139,6 +139,11 @@ export function LeadDetailPage() {
     }
     setFlagged(true);
     setShowFlagPicker(false);
+    fetch('/api/leads/flag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId: id, reason: flagReason || null }),
+    }).catch(() => {});
   }
 
   if (!lead) {
@@ -515,12 +520,12 @@ export function LeadDetailPage() {
         <h2 className="headline mt-2 text-2xl sm:text-3xl">FLAG THIS LEAD</h2>
         {flagged ? (
           <div className="mt-4 border-2 border-[var(--green)] bg-[var(--green)]/10 p-4">
-            <p className="font-black text-[var(--ink)]">FLAGGED — credit noted.</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">3+ flagged duds in a month? Email us for a partial credit. Every flag improves signal quality for you and other trades.</p>
+            <p className="font-black text-[var(--ink)]">FLAGGED. We'll review it.</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">3+ flagged duds in a month? Email support@jobfilter.uk — we'll look at a partial credit. Every flag improves signal quality for everyone.</p>
           </div>
         ) : (
           <>
-            <p className="mt-2 text-sm font-black text-[var(--muted)]">Wrong area, fake, or already gone? Flag it — we credit duds. Stop paying for tyre-kickers.</p>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Wrong area, fake, or already gone? Flag it. Every dud you report makes the next scan sharper.</p>
             {!showFlagPicker ? (
               <button className="jf-button mt-4 bg-white text-[var(--ink)]" onClick={() => setShowFlagPicker(true)}>FLAG AS A DUD</button>
             ) : (

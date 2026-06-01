@@ -94,6 +94,24 @@ export function registerOutcomeReportRoute(app: Express) {
     }
   });
 
+  app.post('/api/leads/flag', async (req: Request, res: Response) => {
+    try {
+      const { leadId, reason } = req.body || {};
+      if (!leadId) return res.status(422).json({ ok: false, error: 'leadId required.' });
+
+      if (supabase) {
+        const now = new Date().toISOString();
+        await supabase
+          .from('lead_outcomes')
+          .upsert({ lead_id: String(leadId), status: 'flagged', lost_reason: reason ?? null, updated_at: now }, { onConflict: 'lead_id' });
+      }
+
+      return res.json({ ok: true });
+    } catch (error: any) {
+      return res.status(500).json({ ok: false, error: String(error?.message ?? 'Flag failed.') });
+    }
+  });
+
   app.post('/api/leads/review-link', (req: Request, res: Response) => {
     try {
       const { customerName, trade } = req.body || {};
