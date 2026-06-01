@@ -80,7 +80,8 @@ CREATE TABLE IF NOT EXISTS delivery_events (
   contact_path_used TEXT,
   sent_at TIMESTAMPTZ DEFAULT now(),
   error TEXT,
-  is_duplicate BOOLEAN DEFAULT false
+  is_duplicate BOOLEAN DEFAULT false,
+  delivery_lock_key TEXT
 );
 
 CREATE TABLE IF NOT EXISTS lead_outcomes (
