@@ -689,7 +689,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">No credit card required · 30-day money-back</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Cheaper than one Bark lead. See who needs the work, what it&apos;s worth, and when to call.
+                    Free scan confirms the signal is live. Pro unlocks who needs the work, what it&apos;s worth, and when to call.
                   </p>
                 </section>
               )}

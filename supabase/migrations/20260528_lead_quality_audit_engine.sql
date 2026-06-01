@@ -17,7 +17,8 @@ alter table if exists delivery_events
   add column if not exists next_action text,
   add column if not exists score_at_delivery integer,
   add column if not exists score_reasons_at_delivery text[] default '{}',
-  add column if not exists contact_path_used text;
+  add column if not exists contact_path_used text,
+  add column if not exists delivery_lock_key text;
 
 alter table if exists lead_outcomes
   add column if not exists delivery_event_id text,

@@ -19,7 +19,7 @@
       "position": [460, 300],
       "parameters": {
         "method": "GET",
-        "url": "http://localhost:3000/api/waitlist-count",
+        "url": "http://localhost:3000/api/waitlist/count",
         "options": { "timeout": 15000 }
       }
     },
@@ -63,6 +63,6 @@
   "active": false,
   "settings": { "saveManualExecutions": true },
   "_readme": {
-    "description": "Hourly. GET /api/waitlist-count. Milestones 10/25/50/100/250/500/1k/2.5k/5k tracked in .waitlist-state.json. Logs via 04."
+    "description": "Hourly. GET /api/waitlist/count. Milestones 10/25/50/100/250/500/1k/2.5k/5k tracked in .waitlist-state.json. Logs via 04."
   }
 }

@@ -66,7 +66,7 @@
       "position": [680, 500],
       "parameters": {
         "method": "GET",
-        "url": "={{ $('Set Vault Path').item.json.serverUrl }}/api/waitlist-count",
+        "url": "={{ $('Set Vault Path').item.json.serverUrl }}/api/waitlist/count",
         "options": { "timeout": 15000 }
       },
       "continueOnFail": true
@@ -146,7 +146,7 @@
   "active": false,
   "settings": { "saveManualExecutions": true },
   "_readme": {
-    "description": "6:50am daily. Polls /api/health /api/status /api/waitlist-count. Scans last 7 days of Agent Runs/. Writes JobFilter/Daily Brief.md = canonical LLM entry point. Logs via 04-vault-writer.",
+    "description": "6:50am daily. Polls /api/health /api/status /api/waitlist/count. Scans last 7 days of Agent Runs/. Writes JobFilter/Daily Brief.md = canonical LLM entry point. Logs via 04-vault-writer.",
     "configure": [
       "Set Vault Path > vaultPath — adjust if vault moves",
       "Set Vault Path > serverUrl — your deployed JobFilter server",
