@@ -99,7 +99,7 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--orange)]">NO PIPELINE YET</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
           <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
-            Find a job before Checkatrade lists it. One £2,000 win and the Patch Plan pays for itself — founding rate £39/mo, no shared auction.
+            Find a job before Checkatrade lists it. One £2,000 win and £39/mo pays for itself 50 times over — no shared auction, no credit burn.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>

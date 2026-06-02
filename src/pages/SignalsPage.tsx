@@ -247,7 +247,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
-            CORE SIGNALS LIVE · NO SHARED LEADS · EXCLUSIVE TERRITORY PROTECTION
+            CORE SIGNALS LIVE · NO SHARED LEADS · TERRITORY LOCK ACTIVE
           </p>
         </div>
       </section>
