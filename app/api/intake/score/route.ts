@@ -1,11 +1,20 @@
 import { scoreIntake } from '../../../../server/services/decisionScoring';
 import { outwardFromPostcode } from '../../../../server/utils/postcode';
+import { persistLeads } from '../../../../server/services/leadPersistence';
+import { triggerGoldLeadWhatsApp } from '../../../../server/services/sms';
+import type { Lead } from '../../../../leadEngine/types';
 
 const JOB_TYPES = new Set([
   'Electrical', 'Plumbing', 'Roofing', 'Building',
   'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps',
 ]);
 const URGENCY_TYPES = new Set(['Emergency', 'This week', 'Later']);
+
+const TRADE_MAP: Record<string, string> = {
+  Electrical: 'electrical', Plumbing: 'plumbing', Roofing: 'roofing',
+  Building: 'building', HVAC: 'hvac', Carpentry: 'carpentry',
+  Landscaping: 'landscaping', Painting: 'painting', 'Heat Pumps': 'hvac',
+};
 
 export async function POST(request: Request) {
   try {
@@ -17,15 +26,59 @@ export async function POST(request: Request) {
     const phone = sanitizeText(body?.phone);
     const hasPhotos = Boolean(body?.hasPhotos);
     const budget = sanitizeText(body?.budget);
+    const username = sanitizeText(body?.username);
     const area = outwardFromPostcode(postcode) || postcode || 'Area unknown';
     const { score, flags, tier } = scoreIntake({ jobType, urgency, details, postcode, hasPhotos, budget });
 
+    const qualityLabel = tier === 'GOLD' ? 'GOLD' : tier === 'SILVER' ? 'SILVER' : 'BRONZE';
+    const leadUrgency = urgency === 'Emergency' ? 'high' : urgency === 'This week' ? 'medium' : 'low';
+
+    const lead: Lead = {
+      id: `intake-${Date.now()}`,
+      title: `${jobType} job`,
+      trade: TRADE_MAP[jobType] ?? 'building',
+      location: area,
+      postcodeOutward: area,
+      estimatedValue: budget || 'POA',
+      urgency: leadUrgency,
+      source: 'Intake',
+      sourceConfidence: hasPhotos ? 85 : 70,
+      contactSignal: phone ? 'strong' : 'weak',
+      status: 'new',
+      description: details,
+      score,
+      scoreReasons: flags,
+      qualityLabel,
+      recommendedAction: phone ? 'Call or WhatsApp the buyer today' : 'Request phone number before quoting',
+      evidenceBadges: hasPhotos ? ['Customer photos'] : ['Customer request'],
+      signalStack: username ? [`intake:${username}`] : ['customer_intake'],
+    };
+
+    const persistence = await persistLeads([lead]).catch(() => ({ stored: false, count: 0, provider: 'supabase' }));
+
+    let whatsapp: { triggered: boolean; provider: string; reason?: string } = { triggered: false, provider: 'none' };
+    if (tier === 'GOLD') {
+      whatsapp = await triggerGoldLeadWhatsApp({
+        score,
+        jobType,
+        area,
+        budget,
+        phone,
+        postcode,
+        leadId: lead.id,
+        sourceSystem: 'Intake',
+        scoreReasons: flags,
+        recommendedAction: lead.recommendedAction,
+      }).catch((err: Error) => ({ triggered: false, provider: 'meta-whatsapp', reason: err.message }));
+    }
+
     return Response.json({
       ok: true,
-      whatsapp: { triggered: false, provider: 'none' },
+      whatsapp,
+      persistence,
       lead: {
-        id: `lead-${Date.now()}`,
-        title: `${jobType} job`,
+        id: lead.id,
+        title: lead.title,
         score,
         jobType,
         urgency,
@@ -35,9 +88,13 @@ export async function POST(request: Request) {
         flags,
         details,
         budget,
-        tier,
+        tier: qualityLabel,
+        qualityLabel,
         status: 'new',
         createdAt: new Date().toISOString(),
+        recommendedAction: lead.recommendedAction,
+        evidenceBadges: lead.evidenceBadges,
+        signalStack: lead.signalStack,
       },
     });
   } catch (error: any) {

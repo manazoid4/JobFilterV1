@@ -6,7 +6,7 @@ import { rateLimit } from '../middleware/rateLimit';
 import { outwardFromPostcode } from '../utils/postcode';
 import { persistLeads } from '../services/leadPersistence';
 
-const JOB_TYPES = new Set(['Electrical', 'Plumbing', 'Roofing', 'Building']);
+const JOB_TYPES = new Set(['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps']);
 const URGENCY_TYPES = new Set(['Emergency', 'This week', 'Later']);
 
 export function registerIntakeScoreRoute(app: Express) {

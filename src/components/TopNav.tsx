@@ -7,9 +7,9 @@ import { useAuth } from './AuthProvider';
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/for-your-trade', label: 'Trades' },
+  { to: '/signals', label: 'Signals' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];
@@ -55,7 +55,7 @@ export function TopNav() {
           />
           <span className="headline text-2xl tracking-normal sm:text-3xl">JOBFILTER</span>
           <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
-            Construction Intelligence
+            UK Trade Leads
           </span>
         </Link>
 
