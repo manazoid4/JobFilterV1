@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 2 June 2026 (NightlyBuildAgent — Run 4)
+
+- [x] **DashboardPage territory urgency** — text-xs/60% → text-sm/90%; "Another trade could claim your area today" added; button "LOCK YOUR PATCH NOW →"; QUICK ACTIONS section adds "Founder price £39/mo — no shared auction, no credit burn" context
+- [x] **LeadListPage trust line prominence** — text-xs/60% → text-sm/80%; "No credit card required" → "No credit card required — 3 free scans every week"
+- [x] **SignupPage "Postcode cluster" jargon** — regression fixed: "Postcode cluster (e.g. B14, SW1, M20)" → "Your area (e.g. B14, SW1, M20)" — was fixed in May 26 run but regressed in merge
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **LeadDetailPage "60% drop" stat** — "Response rate drops 60% after 24 hours" — unvalidated stat, consider softening to "significantly" to avoid false precision
+- [ ] **SignupPage TRADES dropdown** — missing gas engineers, decorators, heat pump installers — high-volume UK trades that feed trade scoring
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 2 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **SignalsPage "EXCLUSIVE TERRITORY PROTECTION"** — fixed to "TERRITORY LOCK ACTIVE" (product rule compliance)
