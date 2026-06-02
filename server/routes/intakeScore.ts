@@ -100,6 +100,11 @@ function toTradeKey(jobType: string): TradeKey {
     Plumbing: 'plumbing',
     Roofing: 'roofing',
     Building: 'building',
+    HVAC: 'hvac',
+    Carpentry: 'carpentry',
+    Landscaping: 'landscaping',
+    Painting: 'painting',
+    'Heat Pumps': 'hvac',
   };
   return map[jobType] ?? 'building';
 }

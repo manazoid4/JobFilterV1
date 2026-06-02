@@ -62,8 +62,9 @@ export async function POST(request: Request) {
     const persistence = await persistLeads([lead]).catch(() => ({ stored: false, count: 0, provider: 'supabase' }));
 
     // Also persist to `intake_submissions` for intake-specific tracking (username, budget, etc.)
+    // Awaited so the write completes before the serverless function is frozen.
     if (supabase) {
-      supabase.from('intake_submissions').insert({
+      const { error: intakeErr } = await supabase.from('intake_submissions').insert({
         id: leadId,
         username,
         job_type: jobType,
@@ -78,11 +79,10 @@ export async function POST(request: Request) {
         area,
         flags,
         created_at: new Date().toISOString(),
-      }).then(({ error }) => {
-        if (error && error.code !== '42P01') {
-          console.warn('[intake] intake_submissions insert failed:', error.message);
-        }
       });
+      if (intakeErr && intakeErr.code !== '42P01') {
+        console.warn('[intake] intake_submissions insert failed:', intakeErr.message);
+      }
     }
 
     // Trigger WhatsApp notification for GOLD leads
@@ -91,12 +91,13 @@ export async function POST(request: Request) {
       provider: 'none',
     };
     if (tier === 'GOLD') {
+      // Do NOT pass `phone` here — that is the customer's number, not the tradesperson's.
+      // The tradesperson recipient is resolved via WHATSAPP_TO env var in triggerGoldLeadWhatsApp.
       whatsapp = await triggerGoldLeadWhatsApp({
         score,
         jobType,
         area,
         budget,
-        phone,
         postcode,
         leadId,
         sourceSystem: `Intake:${username}`,
