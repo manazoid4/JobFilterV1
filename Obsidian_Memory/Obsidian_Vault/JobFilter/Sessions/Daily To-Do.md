@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 2 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **SignalsPage "EXCLUSIVE TERRITORY PROTECTION"** — fixed to "TERRITORY LOCK ACTIVE" (product rule compliance)
+- [x] **CompareMyBuilderPage signals count** — "Signals per scan" row added ("10 verified signals per scan") + EPC/land-registry naming violation fixed
+- [x] **CompareTrustATraderPage** — 3 naming violations fixed (EPC, land registry, planning portals); "Signals per scan" row added; "No credit card required" trust line added
+- [x] **CompareRatedPeoplePage** — 4 naming violations fixed (EPC, land registry × 4 instances)
+- [x] **CompareBarkPage** — 3 naming violations fixed (EPC × 3 instances)
+- [x] **DashboardPage isEmpty "Patch Plan" jargon** — "the Patch Plan pays for itself" → "£39/mo pays for itself 50 times over — no shared auction, no credit burn"
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage territory CTA urgency** — NEEDLE #2: "you're racing every other trade" + "LOCK YOUR PATCH NOW" scarcity language
+- [ ] **LeadListPage trust line prominence** — NEEDLE #3: move "No credit card required" higher / larger text near first CTA
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 2 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Stage-aware WhatsApp templates on LeadListPage** — `getChaseLeads()` cross-referenced; following_up/contacted leads now get `follow_up_24h` template + "SEND FOLLOW-UP" button label; not_contacted keeps first_touch_2h
