@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 2 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Stage-aware WhatsApp templates on LeadListPage** — `getChaseLeads()` cross-referenced; following_up/contacted leads now get `follow_up_24h` template + "SEND FOLLOW-UP" button label; not_contacted keeps first_touch_2h
+- [x] **"FIVE SIGNALS. ONE SCAN." copy fixed** — BuildUkAlternativePage, CompareBuildAlertPage, CompareCheckatradePage all updated to "TEN SIGNALS. ONE SCAN." + 5 new signal cards each (HMO, Building Control, Auction, Void Premises, Retrofit Grants)
+- [x] **WeeklySignalsPage heading** — "TEN SOURCES. ONE SCAN." → "TEN SIGNALS. ONE SCAN."
+- [x] **"Exclusive" product rule violations removed** — 6 instances across BlueprintPage, BuildUkAlternativePage, CompareBuildAlertPage, CompareBarkPage fixed to "No shared auction" approved language
+- [x] **CompareMyBuilderPage EPC violation** — "EPC signals" → "energy signals" in comparison table + "No credit card required" trust line added to hero
+- [x] **DevPortalPage env var** — VITE_OPEN_ACCESS=true → NEXT_PUBLIC_OPEN_ACCESS=true
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **SignalsPage "EXCLUSIVE TERRITORY PROTECTION"** — line 250 has "EXCLUSIVE" in footer badge; check if product rule violation (territory lock context may make it OK)
+- [ ] **CompareMyBuilderPage signals count** — table has no signal count for JobFilter; add "10 signals" row
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 2 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Trade scoring reasons on LeadListPage** — `scoreReasons` persisted to localStorage when tracking leads; `tradeHighlights()` parser added; yellow badges ("EV CHARGER — YOUR TRADE", "BOILER — YOUR TRADE") now visible on pipeline cards
