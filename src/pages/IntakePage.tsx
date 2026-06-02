@@ -67,7 +67,10 @@ export function IntakePage() {
   return (
     <main className="page-shell grid min-h-[calc(100svh-126px)] content-center py-10 pb-24 md:min-h-[calc(100vh-72px)] md:pb-8">
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">JOBFILTER FOR {username}</p>
+        <p className="micro-label text-[var(--orange)]">GET A QUOTE FROM {username.replace(/-/g, ' ').toUpperCase()}</p>
+        <p className="mb-5 text-sm font-black text-[var(--muted)]">
+          Answer 3 quick questions. Your request is scored for urgency and value — {username.replace(/-/g, ' ')} gets a notification so they can respond fast.
+        </p>
 
         {step === 1 && (
           <Step title="What's the job?">

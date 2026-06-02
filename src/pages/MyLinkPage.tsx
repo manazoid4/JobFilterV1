@@ -47,10 +47,23 @@ export function MyLinkPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">USE THIS EVERYWHERE</h2>
-        <div className="mt-4 grid gap-3 text-lg font-black">
-          <p>WhatsApp</p>
-          <p>Instagram</p>
-          <p>Calls</p>
+        <div className="mt-4 grid gap-4">
+          <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-sm font-black uppercase text-[var(--ink)]">WhatsApp</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">Send it to anyone who asks for a quote. They fill in 3 questions — you get a scored lead so you know if it&apos;s worth your time before you drive out.</p>
+          </div>
+          <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-sm font-black uppercase text-[var(--ink)]">Instagram bio &amp; social</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">Put it in your bio so enquiries arrive pre-scored — no chaotic DM threads, no time-wasters.</p>
+          </div>
+          <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-sm font-black uppercase text-[var(--ink)]">On the phone</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">&ldquo;Send me your job details on that link and I&apos;ll know if it&apos;s worth a visit before I drive out.&rdquo;</p>
+          </div>
+          <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+            <p className="text-sm font-black uppercase text-[var(--ink)]">Leaflets &amp; van sticker</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">Print it as a QR code. Anyone who scans it lands on your intake page — not a generic job board that forwards the same job to five other trades.</p>
+          </div>
         </div>
       </section>
 
