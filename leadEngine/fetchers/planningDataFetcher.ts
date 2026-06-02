@@ -145,8 +145,14 @@ export async function planningDataFetcher(
           ).trim();
           const addressPostcode = extractUkPostcode(address);
           const addressMentionsOutward = addressConfirmsOutward(address, outward);
-          // Locality: trust geo lookups; for text search require address to confirm outward
-          const isLocal = isGeoLookup || !!addressPostcode || addressMentionsOutward;
+          // Locality: for geo lookups, trust the lat/lon proximity.
+          // For text search (?q=outward), only accept records whose extracted postcode
+          // starts with the target outward code, OR whose address text explicitly
+          // contains the outward code as a word-boundary match.
+          // A record with a postcode from a different district is NOT local.
+          const postcodeMatchesOutward = !!addressPostcode &&
+            addressPostcode.toUpperCase().startsWith(outward.toUpperCase());
+          const isLocal = isGeoLookup || postcodeMatchesOutward || addressMentionsOutward;
           if (!isLocal) return null;
           const locationLabel = address.length > 3 ? address.substring(0, 60) : outward;
           return {
@@ -156,7 +162,7 @@ export async function planningDataFetcher(
             rawValue:      estimateValue(desc || name, trade),
             // Only stamp rawLocation with outward when geo-confirmed local; otherwise keep address only.
             rawLocation:   address || (isGeoLookup ? outward : ''),
-            rawPostcode:   addressPostcode || (addressMentionsOutward || isGeoLookup ? outward : ''),
+            rawPostcode:   addressPostcode || (isGeoLookup ? outward : ''),
             rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
             rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
             rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? jsonData?.applicant_name ?? 'Local Authority').trim(),

@@ -13,7 +13,7 @@ type StatusPayload = {
     stripe: IntegrationStatus & { priceIds: Record<string, boolean>; webhookSecret: boolean };
     supabase: IntegrationStatus;
     resend: IntegrationStatus;
-    twilio: IntegrationStatus;
+    whatsapp: IntegrationStatus;
     companiesHouse: IntegrationStatus;
     epc: IntegrationStatus;
   };
@@ -238,12 +238,12 @@ export function TestConsolePage() {
               missingHint="Add RESEND_API_KEY"
             />
             <IntegrationCard
-              label="Twilio (WhatsApp)"
-              ok={status.integrations.twilio.configured}
+              label="WhatsApp (Meta Cloud API)"
+              ok={status.integrations.whatsapp.configured}
               extras={[
-                ['Custom FROM override', Boolean(status.integrations.twilio.fromOverride)],
+                ['Recipient override (WHATSAPP_TO)', Boolean(status.integrations.whatsapp.recipientOverride)],
               ]}
-              missingHint="Add TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN + TWILIO_WHATSAPP_TO (FROM defaults to Twilio sandbox)"
+              missingHint="Add WHATSAPP_PHONE_NUMBER_ID + WHATSAPP_ACCESS_TOKEN (recipient defaults to payload.phone)"
             />
             <IntegrationCard
               label="Companies House"

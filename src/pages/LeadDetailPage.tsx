@@ -124,6 +124,27 @@ export function LeadDetailPage() {
   const [wonValueInput, setWonValueInput] = useState('');
   const [copiedOtherKey, setCopiedOtherKey] = useState<string | null>(null);
   const [snoozed, setSnoozed] = useState(false);
+  const [flagged, setFlagged] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[]).includes(id);
+  });
+  const [showFlagPicker, setShowFlagPicker] = useState(false);
+  const [flagReason, setFlagReason] = useState('');
+
+  function handleFlagLead() {
+    const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
+    if (!stored.includes(id)) {
+      stored.push(id);
+      localStorage.setItem('jf-flagged-leads', JSON.stringify(stored));
+    }
+    setFlagged(true);
+    setShowFlagPicker(false);
+    fetch('/api/leads/flag', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId: id, reason: flagReason || null }),
+    }).catch(() => {});
+  }
 
   if (!lead) {
     return (
@@ -282,7 +303,7 @@ export function LeadDetailPage() {
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A 2-minute call finds out if they're ready now. Use the availability check template below — takes 30 seconds.</p>
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
@@ -337,6 +358,21 @@ export function LeadDetailPage() {
         <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>
         <p className="mt-2 text-sm font-black text-[var(--muted)]">The paid part is not just the lead. It is the quote floor and the chase plan around it.</p>
         <LeadValueKit lead={lead} unlocked title="LEAD VALUE KIT" />
+      </section>
+
+      <section className="jf-box bg-[var(--paper)] p-5">
+        <p className="micro-label text-[var(--orange)]">MATERIAL COSTS</p>
+        <h2 className="headline mt-1 text-2xl">KNOW YOUR FLOOR BEFORE YOU QUOTE.</h2>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">
+          Material price jumps quietly kill your margin. Check traceable UK supplier prices for {lead.jobType} before you commit to a number.
+        </p>
+        <Link
+          href={`/material-price-engine?q=${encodeURIComponent(lead.jobType)}&postcode=${encodeURIComponent(lead.postcode)}`}
+          className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+        >
+          ESTIMATE MATERIALS FOR THIS JOB →
+        </Link>
+        <p className="mt-2 text-[10px] font-black text-[var(--muted)] uppercase">Benchmark estimates — verify with supplier before purchase</p>
       </section>
 
       {lead.details && (
@@ -494,11 +530,62 @@ export function LeadDetailPage() {
         )}
       </section>
 
+      {!lead.phone && (
+        <section className="jf-box bg-[var(--navy)] p-5 text-white">
+          <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
+          <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
+          <p className="mt-2 text-sm font-black text-white/80">
+            Paid members see the recommended contact channel, compliance risk rating, and next action script for every lead — not just a score.
+          </p>
+          <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+            UNLOCK CONTACT DETAILS — £39/MO →
+          </Link>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back guarantee. No credit card to scan.</p>
+        </section>
+      )}
+
+      <section className="jf-box bg-white p-6">
+        <p className="micro-label text-[var(--muted)]">NOT WHAT YOU EXPECTED?</p>
+        <h2 className="headline mt-2 text-2xl sm:text-3xl">FLAG THIS LEAD</h2>
+        {flagged ? (
+          <div className="mt-4 border-2 border-[var(--green)] bg-[var(--green)]/10 p-4">
+            <p className="font-black text-[var(--ink)]">FLAGGED. We'll review it.</p>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">3+ flagged duds in a month? Email support@jobfilter.uk — we'll look at a partial credit. Every flag improves signal quality for everyone.</p>
+          </div>
+        ) : (
+          <>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Wrong area, fake, or already gone? Flag it. Every dud you report makes the next scan sharper.</p>
+            {!showFlagPicker ? (
+              <button className="jf-button mt-4 bg-white text-[var(--ink)]" onClick={() => setShowFlagPicker(true)}>FLAG AS A DUD</button>
+            ) : (
+              <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+                <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why? (optional)</p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {['Wrong area', 'Fake or spam', 'Already started', 'Duplicate lead'].map((reason) => (
+                    <button
+                      key={reason}
+                      onClick={() => setFlagReason(reason)}
+                      className={`border-2 px-2 py-1 text-xs font-black ${flagReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                    >
+                      {reason}
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <button className="jf-button bg-[var(--ink)] text-white" onClick={handleFlagLead}>CONFIRM FLAG</button>
+                  <button className="jf-button bg-white text-[var(--ink)]" onClick={() => { setShowFlagPicker(false); setFlagReason(''); }}>CANCEL</button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
       <ActionBar>
         {lead.phone ? (
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`tel:${lead.phone}`}>CALL</a>
         ) : (
-          <button className="jf-button bg-[#D7D9D4] text-[var(--ink)]" disabled>NO PHONE</button>
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK CONTACT →</Link>
         )}
         <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('ignored')}>IGNORE</button>
         <button className="jf-button bg-[var(--navy)] text-white" onClick={() => setStatus('saved')}>SAVE</button>

@@ -1,7 +1,19 @@
 export type TradeKey = 'plumbing' | 'electrical' | 'roofing' | 'building' | 'carpentry' | 'painting' | 'hvac' | 'landscaping' | 'all';
 export type Urgency = 'low' | 'medium' | 'high';
 export type ContactSignal = 'none' | 'weak' | 'strong';
-export type LeadStatus = 'new' | 'saved' | 'ignored' | 'closed' | 'cancelled';
+// Full status lifecycle — must match outcomeReport OUTCOME_STATUSES and LeadCard STATUS_PILLS
+export type LeadStatus =
+  | 'new'
+  | 'saved'
+  | 'contacted'
+  | 'answered'
+  | 'quoted'
+  | 'won'
+  | 'lost'
+  | 'no_answer'
+  | 'ignored'
+  | 'closed'
+  | 'cancelled';
 export type Tier = 'free' | 'paid';
 export type ComplianceRisk = 'low' | 'medium' | 'high';
 export type AuditLabel =

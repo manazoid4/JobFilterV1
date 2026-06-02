@@ -3,12 +3,35 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { getChaseLeads } from '../lib/chaseStore';
+import { getWinData } from '../lib/winStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
+const FOLLOW_UP_TEMPLATE   = MESSAGE_TEMPLATES.find((t) => t.key === 'follow_up_24h') ?? FIRST_TOUCH_TEMPLATE;
 
-type Tab = 'gold' | 'silver' | 'bin';
+function getWaTemplate(chaseStage: string | undefined) {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return FOLLOW_UP_TEMPLATE;
+  return FIRST_TOUCH_TEMPLATE;
+}
+
+function getWaButtonLabel(chaseStage: string | undefined): string {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return 'SEND FOLLOW-UP';
+  return 'SEND WHATSAPP';
+}
+
+function tradeHighlights(reasons: string[] | undefined): string[] {
+  if (!reasons?.length) return [];
+  const out: string[] = [];
+  for (const r of reasons) {
+    const m = r.match(/^Trade match: (.+?) \(/);
+    if (m) m[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push(`${k} — YOUR TRADE`));
+  }
+  return out.slice(0, 2);
+}
+
+type Tab = 'gold' | 'silver' | 'bronze';
 
 function leadsToCsv(leads: LeadDecision[]): string {
   const headers = ['Score', 'Job Type', 'Area', 'Postcode', 'Urgency', 'Budget', 'Phone', 'Status', 'Flags', 'Created'];
@@ -36,6 +59,11 @@ export function LeadListPage() {
   const [tab, setTab] = useState<Tab>('gold');
   const [query, setQuery] = useState('');
   const stored = getStoredLeads();
+  const chaseStageMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const cl of getChaseLeads()) map.set(cl.leadId, cl.stage);
+    return map;
+  }, [stored]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -47,20 +75,21 @@ export function LeadListPage() {
     );
   }, [stored, query]);
 
-  const gold   = filtered.filter((l) => l.score >= 80 && l.status !== 'ignored');
-  const silver = filtered.filter((l) => l.score >= 50 && l.score < 80 && l.status !== 'ignored');
-  const bin    = filtered.filter((l) => l.score < 50 || l.status === 'ignored');
+  const gold   = filtered.filter((l) => l.score >= 90 && l.status !== 'ignored');
+  const silver = filtered.filter((l) => l.score >= 75 && l.score < 90 && l.status !== 'ignored');
+  const bronze = filtered.filter((l) => l.score < 75 || l.status === 'ignored');
 
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;
   const noAnswerCount  = stored.filter((l) => l.status === 'no_answer').length;
+  const totalWonValue  = getWinData().wins.reduce((sum, w) => sum + (w.value || 0), 0);
 
-  const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bin;
+  const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bronze;
 
   const tabs: { id: Tab; label: string; count: number }[] = [
     { id: 'gold',   label: 'GOLD',   count: gold.length },
     { id: 'silver', label: 'SILVER', count: silver.length },
-    { id: 'bin',    label: 'BIN',    count: bin.length },
+    { id: 'bronze', label: 'BRONZE', count: bronze.length },
   ];
 
   return (
@@ -73,7 +102,7 @@ export function LeadListPage() {
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BIN = don't waste your time.
+          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BRONZE = check when your week is quiet.
         </p>
       </div>
 
@@ -87,7 +116,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BIN it if the score says don't bother.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when your pipeline is light.
             </p>
           </div>
         </div>
@@ -100,6 +129,11 @@ export function LeadListPage() {
           <div className="flex flex-wrap gap-3">
             <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--green)] text-sm font-black text-[var(--green)]">
               WON <span className="ml-1">{wonCount}</span>
+              {totalWonValue > 0 && (
+                <span className="ml-1 px-2 py-0.5 bg-[var(--green)] text-white text-xs font-black">
+                  £{totalWonValue.toLocaleString()}
+                </span>
+              )}
             </span>
             <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--orange)] text-sm font-black text-[var(--orange)]">
               LOST <span className="ml-1">{lostCount}</span>
@@ -131,7 +165,7 @@ export function LeadListPage() {
           <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
-          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
+          <p className="mt-3 text-sm font-black text-[var(--ink)]/80">No credit card required — 3 free scans every week</p>
         </div>
       )}
 
@@ -198,16 +232,16 @@ export function LeadListPage() {
           ) : (
             <>
               <h2 className="headline text-2xl uppercase text-[var(--navy)]">
-                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'BIN IS EMPTY'}
+                {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'NO BRONZE LEADS YET'}
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 50–79) appear here. Run a scan to fill your pipeline.'
-                  : 'Good — no low-quality leads in your pipeline.'}
+                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
+                  : 'No lower-scored leads in your pipeline yet.'}
               </p>
-              {tab !== 'bin' && (
+              {tab !== 'bronze' && (
                 <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
                   SCAN FOR JOBS →
                 </Link>
@@ -242,7 +276,12 @@ export function LeadListPage() {
 
                 {/* Tags row */}
                 <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b-2 border-[var(--navy)]">
-                  {(lead.flags ?? []).slice(0, 4).map((flag: string) => (
+                  {tradeHighlights(lead.scoreReasons).map((badge) => (
+                    <span key={badge} className="px-2 py-1 text-xs font-black uppercase border border-[var(--ink)] bg-[var(--yellow)] text-[var(--ink)]">
+                      {badge}
+                    </span>
+                  ))}
+                  {(lead.flags ?? []).slice(0, 3).map((flag: string) => (
                     <span key={flag} className="px-2 py-1 text-xs font-black uppercase border border-[var(--navy)] bg-[var(--offwhite)] text-[var(--navy)]">
                       {flag}
                     </span>
@@ -257,12 +296,12 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(FIRST_TOUCH_TEMPLATE, { job_type: lead.jobType, area: lead.area }))}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
                   >
-                    SEND WHATSAPP
+                    {getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
                   <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →

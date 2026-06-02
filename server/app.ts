@@ -15,6 +15,7 @@ import { registerMaterialPricesRoute } from './routes/materialPrices';
 import { registerStartSignalsRoute } from './routes/startSignals';
 import { registerSourceHealthSummaryRoute } from './routes/sourceHealthSummary';
 import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus';
+import { registerSourceConfigRoute } from './routes/sourceConfig';
 
 export async function createApp() {
   const app = express();
@@ -41,6 +42,7 @@ export async function createApp() {
   registerStartSignalsRoute(app);
   registerSourceHealthSummaryRoute(app);
   registerSubscriptionStatusRoute(app);
+  registerSourceConfigRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine', ts: new Date().toISOString() });

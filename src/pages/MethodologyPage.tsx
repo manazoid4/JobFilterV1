@@ -30,7 +30,7 @@ const pipelineSteps = [
     label: 'SCORE',
     icon: Target,
     body: 'Rank by value, urgency, rarity, distance, win probability, and contactability. Not volume. A hundred weak leads are worth less than five strong ones.',
-    detail: 'Score: 0-100. GOLD (80+). SILVER (50-79). BRONZE (below 50). Higher = chase today.',
+    detail: 'Score: 0-100. GOLD (90+). SILVER (75-89). BRONZE (60-74). Higher = chase today.',
   },
   {
     num: '05',
@@ -75,7 +75,7 @@ export function MethodologyPage() {
           HOW WE TURN OFFICIAL DATA INTO SCORED LEADS.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
-          No guesswork. No scraping. Every lead comes from a verified government or public register, scored for intent, and delivered before anyone else knows the job exists.
+          No guesswork. No scraped job boards. Every lead comes from a verified official register, scored for intent, and in your hands before Checkatrade or MyBuilder even know the job exists.
         </p>
       </section>
 
@@ -113,12 +113,12 @@ export function MethodologyPage() {
 
       {/* Scoring */}
       <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">SERIOUS BUYER SCORE</p>
+        <p className="micro-label text-[var(--ink)]">LEAD SCORING — GOLD / SILVER / BRONZE</p>
         <h2 className="headline mt-3 text-4xl leading-none">
           WHAT MAKES A LEAD WORTH CHASING?
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
-          Every signal gets a score from 0 to 100. Here's what goes into it.
+          Every signal gets a score from 0 to 100. GOLD (90+) — call today. SILVER (75–89) — worth a check. BRONZE (60–74) — quiet week only.
         </p>
 
         <div className="mt-8 grid gap-3">
@@ -211,7 +211,7 @@ export function MethodologyPage() {
           SEE IT IN ACTION.
         </h2>
         <p className="mt-4 max-w-xl mx-auto text-lg font-black text-[var(--ink)]/75">
-          Free scan. No signup. See real scored leads in your area right now.
+          Free scan. No credit card required. See real scored leads in your area — before Checkatrade or Bark list them.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
@@ -221,6 +221,7 @@ export function MethodologyPage() {
             READ OUR PROMISE
           </Link>
         </div>
+        <p className="mt-3 text-sm font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
       </section>
     </main>
   );

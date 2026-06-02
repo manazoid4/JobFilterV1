@@ -27,11 +27,16 @@ const painPoints = [
 ];
 
 const signals = [
-  ['Planning data', 'Approved applications before they hit any directory.'],
+  ['Planning approved', 'Approved applications before they hit any directory.'],
   ['Energy signals', 'Low-rated properties legally need retrofit work.'],
   ['Council contracts', 'Public tenders with buyer names and values.'],
-  ['Property activity', 'Recent sales show where owners are ready to invest.'],
+  ['Property sales', 'Recent sales show where owners are ready to invest.'],
   ['Business starts', 'New commercial premises needing fit-out work.'],
+  ['HMO licensing', 'Landlords need compliance work before the licence clears — fire doors, electrics, plumbing.'],
+  ['Building control', 'Projects past planning and into real site movement — extensions, conversions, structural.'],
+  ['Auction property', 'New auction wins need fast turnaround: refurb, roof, damp, electrics, heating.'],
+  ['Void premises', 'Business distress and empty premises create urgent make-safe and refit work for local trades.'],
+  ['Retrofit grants', 'Funded upgrade windows create timed demand for insulation, solar, heating and electrical work.'],
 ];
 
 export function CompareCheckatradePage() {
@@ -290,13 +295,13 @@ export function CompareCheckatradePage() {
         </div>
       </section>
 
-      {/* ── FIVE SIGNALS ──────────────────────────────────────────── */}
+      {/* ── TEN SIGNALS ──────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-            Checkatrade waits for homeowners to fill out a form. JobFilter reads official data that tells you work is coming — before the homeowner even thinks about posting a job.
+            Checkatrade waits for homeowners to fill out a form. JobFilter reads ten verified signals that tell you work is coming — before the homeowner even thinks about posting a job.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (

@@ -22,7 +22,7 @@
       "position": [460, 300],
       "parameters": {
         "method": "POST",
-        "url": "http://localhost:3000/api/intake-score",
+        "url": "http://localhost:3000/api/intake/score",
         "sendHeaders": true,
         "headerParameters": { "parameters": [{ "name": "Content-Type", "value": "application/json" }] },
         "sendBody": true,
@@ -84,6 +84,6 @@
   "active": false,
   "settings": { "saveManualExecutions": true },
   "_readme": {
-    "description": "POST /webhook/jobfilter-intake → /api/intake-score → tier gold(80+)/silver(55-79)/bronze(<55) → Outcomes/<tier>/<id>.md → log via 04."
+    "description": "POST /webhook/jobfilter-intake → /api/intake/score → tier gold(80+)/silver(55-79)/bronze(<55) → Outcomes/<tier>/<id>.md → log via 04."
   }
 }
