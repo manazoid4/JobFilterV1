@@ -377,7 +377,7 @@ export function WeeklySignalsPage() {
       <section className="bg-white border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">SIGNAL BREAKDOWN</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIVE SOURCES. ONE SCAN.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">TEN SOURCES. ONE SCAN.</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {week.signals.map((s) => {
               const trend = calcTrend(s.thisWeek, s.lastWeek);
