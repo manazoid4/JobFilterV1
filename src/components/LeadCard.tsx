@@ -121,7 +121,10 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
             {buyerScore !== undefined && <ScoreBadgeCompact score={buyerScore} />}
           </div>
         )}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-3 inline-flex items-center gap-1 border border-[var(--green)] bg-[var(--green)]/10 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-[var(--green)]">
+          NO SHARED AUCTION
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
           {showWhatsApp && (
             <button

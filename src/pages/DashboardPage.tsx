@@ -42,6 +42,14 @@ export function DashboardPage() {
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
+  const chaseWons = chaseLeads.filter((l) => l.stage === 'won').length;
+  const chaseLosts = chaseLeads.filter((l) => l.stage === 'lost').length;
+  const winRate = chaseWons + chaseLosts > 0
+    ? Math.round((chaseWons / (chaseWons + chaseLosts)) * 100)
+    : null;
+  const monthlyRoi = monthlyStats.totalValue > 0
+    ? Math.round(monthlyStats.totalValue / 39)
+    : null;
   const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
   const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
   const overdueCount = overdueLeads.length;
@@ -62,11 +70,6 @@ export function DashboardPage() {
         <p className="mt-3 max-w-2xl font-black text-white/90">
           Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
         </p>
-        {!isEmpty && (
-          <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-            SCAN FOR JOBS →
-          </Link>
-        )}
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
@@ -100,6 +103,9 @@ export function DashboardPage() {
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            {!territory && (
+              <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">LOCK YOUR PATCH →</Link>
+            )}
             <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
           </div>
         </div>
@@ -223,15 +229,10 @@ export function DashboardPage() {
             {scanPostcode
               ? <Row label="Postcode" value={scanPostcode} />
               : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : scansUsed >= 3 ? `${scansUsed} of 3 used` : `${scansUsed} of 3 free used`} />
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : `${scansUsed} of 3 used · resets Mon`} />
             {scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
-          {isEmpty && (!scanTrade || !scanPostcode) && (
-            <Link href="/find-jobs" className="jf-button mt-4 block w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-              RUN YOUR FIRST SCAN →
-            </Link>
-          )}
         </section>
 
         {/* Chase Summary */}
@@ -263,6 +264,15 @@ export function DashboardPage() {
             <Row label="This month" value={`${monthlyStats.count} wins`} />
             <Row label="This month value" value={`£${monthlyStats.totalValue.toLocaleString()}`} />
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
+            {winData.wins > 0 && (
+              <Row label="Avg per win" value={`£${Math.round(totalValueAllTime / winData.wins).toLocaleString()}`} />
+            )}
+            {winRate !== null && (
+              <Row label="Win rate" value={`${winRate}%`} />
+            )}
+            {monthlyRoi !== null && monthlyRoi > 1 && (
+              <Row label="This month ROI" value={`${monthlyRoi}x return on £39`} />
+            )}
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
           {winData.wins === 0 && (

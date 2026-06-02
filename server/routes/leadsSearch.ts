@@ -12,25 +12,50 @@ const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry'
 const TRADES = new Set(TRADE_LIST);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
-async function resolveAccessTier(req: Request): Promise<'full' | 'preview'> {
-  if (FULL_ACCESS_TEST_MODE) return 'full';
+// Weekly scan limit for free-tier authenticated users.
+// Unauthenticated requests get the same limit but are only tracked by rate-limit middleware.
+const FREE_WEEKLY_SCAN_LIMIT = 3;
+
+/** Returns the ISO week key for the current week: YYYY-WXX */
+function getWeekKey(): string {
+  const now = new Date();
+  const day = now.getDay() === 0 ? 7 : now.getDay(); // Mon=1..Sun=7
+  const thursday = new Date(now);
+  thursday.setDate(now.getDate() + (4 - day));
+  const year = thursday.getFullYear();
+  const jan1 = new Date(year, 0, 1);
+  const weekNum = Math.ceil((((thursday.getTime() - jan1.getTime()) / 86400000) + 1) / 7);
+  return `${year}-W${String(weekNum).padStart(2, '0')}`;
+}
+
+type AccessContext = {
+  tier: 'full' | 'preview';
+  userId: string | null;
+  scanLimitExceeded: boolean;
+  scansUsed: number;
+};
+
+async function resolveAccessContext(req: Request): Promise<AccessContext> {
+  const noAuth: AccessContext = { tier: 'preview', userId: null, scanLimitExceeded: false, scansUsed: 0 };
+  if (FULL_ACCESS_TEST_MODE) return { tier: 'full', userId: null, scanLimitExceeded: false, scansUsed: 0 };
 
   const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith('Bearer ')) return 'preview';
+  if (!authHeader?.startsWith('Bearer ')) return noAuth;
 
   const token = authHeader.slice(7);
 
   // Owner always gets full access
   const ownerEmail = await resolveOwnerFromToken(token);
-  if (ownerEmail) return 'full';
+  if (ownerEmail) return { tier: 'full', userId: null, scanLimitExceeded: false, scansUsed: 0 };
 
   try {
     const { supabase } = await import('../lib/supabase');
-    if (!supabase) return 'preview';
+    if (!supabase) return noAuth;
 
     const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) return 'preview';
+    if (error || !user) return noAuth;
 
+    // Check subscription
     const { data: sub } = await supabase
       .from('subscriptions')
       .select('active, status')
@@ -39,13 +64,42 @@ async function resolveAccessTier(req: Request): Promise<'full' | 'preview'> {
       .limit(1)
       .single();
 
-    if (sub?.active || sub?.status === 'active') return 'full';
-  } catch {
-    // Supabase unavailable — fall through to preview
-  }
+    if (sub?.active || sub?.status === 'active') {
+      return { tier: 'full', userId: user.id, scanLimitExceeded: false, scansUsed: 0 };
+    }
 
-  return 'preview';
+    // Free tier — check + increment server-side weekly scan counter
+    const thisWeek = getWeekKey();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('weekly_scan_week, weekly_scan_count')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    const storedWeek: string | null = profile?.weekly_scan_week ?? null;
+    const storedCount: number = (storedWeek === thisWeek ? (profile?.weekly_scan_count ?? 0) : 0);
+
+    if (storedCount >= FREE_WEEKLY_SCAN_LIMIT) {
+      return { tier: 'preview', userId: user.id, scanLimitExceeded: true, scansUsed: storedCount };
+    }
+
+    // Increment counter (best-effort — never block the scan if this fails)
+    const newCount = storedCount + 1;
+    supabase.from('profiles').update({
+      weekly_scan_week: thisWeek,
+      weekly_scan_count: newCount,
+      updated_at: new Date().toISOString(),
+    }).eq('id', user.id).then(({ error: e }) => {
+      if (e) console.warn('[leads/search] scan counter update failed:', e.message);
+    });
+
+    return { tier: 'preview', userId: user.id, scanLimitExceeded: false, scansUsed: newCount };
+  } catch {
+    // Supabase unavailable — allow scan to proceed
+    return noAuth;
+  }
 }
+
 
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
@@ -56,19 +110,36 @@ export function registerLeadSearchRoute(app: Express) {
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
       const queryStartedAt = new Date(started).toISOString();
-      const [result, accessTier] = await Promise.all([
+      const [result, accessCtx] = await Promise.all([
         scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles }),
-        resolveAccessTier(req),
+        resolveAccessContext(req),
       ]);
       const queryFinishedAt = new Date().toISOString();
+
+      // Server-side free scan gate — blocks after FREE_WEEKLY_SCAN_LIMIT scans/week
+      if (accessCtx.scanLimitExceeded) {
+        return res.status(429).json({
+          ok: false,
+          source: 'lead_engine',
+          count: 0,
+          region: result.region,
+          outward: result.outward,
+          leads: [],
+          errors: [`Free scan limit reached (${FREE_WEEKLY_SCAN_LIMIT} per week). Upgrade to scan without limits.`],
+          scanLimitExceeded: true,
+          scansUsed: accessCtx.scansUsed,
+          weeklyLimit: FREE_WEEKLY_SCAN_LIMIT,
+        });
+      }
+
       const persistence = await persistLeads(result.leads);
       const sourceBenchmark = await persistSourceBenchmarkRun({ result, trade, queryStartedAt, queryFinishedAt });
-      const isPaid = accessTier === 'full';
+      const isPaid = accessCtx.tier === 'full';
       const leads = isPaid
         ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
         : result.leads.slice(0, CONFIG.freeTierLimit).map(toFreePreviewLead);
 
-      console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, accessTier, ms: Date.now() - started });
+      console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, accessTier: accessCtx.tier, scansUsed: accessCtx.scansUsed, ms: Date.now() - started });
       return res.json({
         ok: true,
         source: 'lead_engine',
@@ -78,6 +149,8 @@ export function registerLeadSearchRoute(app: Express) {
         leads,
         lockedCount: isPaid ? 0 : Math.max(0, result.total - leads.length),
         accessMode: isPaid ? (FULL_ACCESS_TEST_MODE ? 'full-test-access' : 'paid') : 'free-preview',
+        scansUsed: accessCtx.scansUsed,
+        weeklyLimit: isPaid ? null : FREE_WEEKLY_SCAN_LIMIT,
         persistence,
         sourceBenchmark,
         sources: result.sources,
@@ -134,59 +207,38 @@ function previewTitle(lead: Lead): string {
   return `${titleCase(lead.trade)} opportunity near ${lead.postcodeOutward}`;
 }
 
-/**
- * SERVER-SIDE contact gating — strips ALL direct contact fields and paid intelligence.
- * This is an explicit allowlist: only the fields listed here reach free/unauthenticated users.
- * Do NOT spread lead fields — new fields added to Lead type must be explicitly evaluated.
- * Paid fields stripped: contactPath, buyerName, url/sourceUrl, phone, email, contactName,
- * whatsappNumber, whyThisIsAJob, opportunityAtoms, signalStack, signalClass, leadReadiness,
- * recommendedAction, and exact score/confidence/value data.
- */
 function toFreePreviewLead(lead: Lead) {
   const score = Number(lead.score ?? 0);
   return {
-    // Identity (safe)
     id: lead.id,
     title: previewTitle(lead),
     trade: lead.trade,
-    source: lead.source,
-    status: lead.status,
-    distanceMiles: lead.distanceMiles,
-    qualityLabel: lead.qualityLabel,
-    // Location blurred to outward code only — no full postcode
+    buyer: '',
     location: lead.location,
     postcodeOutward: lead.postcodeOutward,
-    // Dates stripped — reveal timeline only to paid
     publishedAt: '',
     deadlineAt: '',
-    // Contact — all stripped
-    buyer: '',
-    // buyerName: STRIPPED
-    // contactPath: STRIPPED (contains phone, email, script, contact strategy)
-    // sourceUrl / url: STRIPPED
     url: '',
-    // Value blurred
     estimatedValue: valuePreview(lead.estimatedValue),
-    // Urgency blurred
     urgency: 'medium' as const,
-    // Intelligence blurred
+    // Paid intelligence: source confidence is blurred, contact signal locked to none
     sourceConfidence: previewSourceConfidence(lead.sourceConfidence),
     contactSignal: 'none' as const,
-    score: previewScore(score),
+    source: lead.source,
+    status: lead.status,
     revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
     tradeMatch: String(lead.trade),
+    score: previewScore(score),
     reasons: buildReasons(lead, score),
-    evidenceBadges: (lead.evidenceBadges ?? []).slice(0, 1), // teaser only
-    // Paid intelligence — all stripped
-    // whyThisIsAJob: STRIPPED
-    // opportunityAtoms: STRIPPED
-    // signalStack: STRIPPED
-    // signalClass: STRIPPED
+    distanceMiles: lead.distanceMiles,
+    qualityLabel: lead.qualityLabel,
+    // Locked paid fields — show upgrade teaser, not real data
     leadReadiness: undefined,
     recommendedAction: 'Upgrade to see recommended action',
     contactPath: undefined,
     whyThisIsAJob: undefined,
     opportunityAtoms: undefined,
+    evidenceBadges: (lead.evidenceBadges ?? []).slice(0, 1), // Show at most one badge as teaser
     signalStack: undefined,
     signalClass: undefined,
     locked: true,

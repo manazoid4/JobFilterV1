@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { getWinData } from '../lib/winStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
 
@@ -54,6 +55,7 @@ export function LeadListPage() {
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;
   const noAnswerCount  = stored.filter((l) => l.status === 'no_answer').length;
+  const totalWonValue  = getWinData().wins.reduce((sum, w) => sum + (w.value || 0), 0);
 
   const visible = tab === 'gold' ? gold : tab === 'silver' ? silver : bronze;
 
@@ -100,6 +102,11 @@ export function LeadListPage() {
           <div className="flex flex-wrap gap-3">
             <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--green)] text-sm font-black text-[var(--green)]">
               WON <span className="ml-1">{wonCount}</span>
+              {totalWonValue > 0 && (
+                <span className="ml-1 px-2 py-0.5 bg-[var(--green)] text-white text-xs font-black">
+                  £{totalWonValue.toLocaleString()}
+                </span>
+              )}
             </span>
             <span className="flex items-center gap-2 px-3 py-2 border-2 border-[var(--orange)] text-sm font-black text-[var(--orange)]">
               LOST <span className="ml-1">{lostCount}</span>

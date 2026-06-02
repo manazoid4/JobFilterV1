@@ -134,8 +134,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      {featured && <p className="micro-label text-[var(--orange)]">FOUNDING PRICE</p>}
-      <p className="micro-label text-[var(--orange)]">{title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDING PRICE' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-black text-[var(--muted)]">{body}</p>

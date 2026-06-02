@@ -244,9 +244,10 @@ export function TrustCenterPage() {
             SEE PRICING →
           </Link>
           <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
-            TRY FREE SCAN
+            SCAN MY AREA FREE →
           </Link>
         </div>
+        <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
       </section>
 
       {/* 7. Contact */}

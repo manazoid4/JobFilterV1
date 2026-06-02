@@ -11,7 +11,7 @@ const data: TradePageData = {
   painPoints: [
     ['Clients find structural engineers at the last minute', 'A homeowner gets planning approved, starts their loft conversion, and only calls a structural engineer when the builder says they need calcs — often days before the steels need to be ordered. You\'re brought in late with no time to do the job properly.'],
     ['Word of mouth is unpredictable', 'Most structural engineering commissions come via architect or builder referral. That network takes years to build and can go quiet overnight. You need a way to find projects before they\'ve even appointed an architect.'],
-    ['Loft conversions and extensions are invisible demand', 'Hundreds of loft conversions and extensions get planning approved every week. Every single one needs structural calcs. But no platform tracks this demand — it sits in planning portals, unread.'],
+    ['Loft conversions and extensions are invisible demand', 'Hundreds of loft conversions and extensions get planning approved every week. Every single one needs structural calcs. But nobody tracks this demand and routes it to engineers — it sits unread until the client starts Googling.'],
     ['Basement projects are high-value but hard to find', 'Basement conversions and underpinning projects are among the highest-fee structural commissions available — but they\'re buried in planning applications as change-of-use or extension notices with no clear signal.'],
   ],
   stats: [
@@ -53,8 +53,8 @@ Action: Open notice → jobfilter.uk/lead/str109`,
     'Clients call you when the build has already started and they need calcs yesterday',
     'No visibility into loft and extension planning approvals in your area',
     'Miss basement and underpinning commissions — buried in planning portals',
-    'Compete with every other structural engineer when the homeowner finally searches online',
-    'No forward pipeline — can\'t plan capacity or staff utilisation',
+    'Compete with every other engineer on Bark or Google — race to the bottom on fees',
+    'No forward pipeline — can\'t plan engineer availability or quote load',
   ],
   comparisonNew: [
     '£39/month founder — all structural signals, unlimited area scans',
