@@ -57,7 +57,7 @@ export function scoreIntake(input: IntakeScoreInput) {
   }
 
   const finalScore = Math.max(0, Math.min(100, score));
-  const tier = finalScore >= 80 ? 'GOLD' : finalScore >= 50 ? 'SILVER' : 'BIN';
+  const tier = finalScore >= 80 ? 'GOLD' : finalScore >= 50 ? 'SILVER' : 'BRONZE';
 
   return {
     score: finalScore,

@@ -1,13 +1,21 @@
 import { scoreIntake } from '../../../../server/services/decisionScoring';
 import { outwardFromPostcode } from '../../../../server/utils/postcode';
 import { supabase } from '../../../../server/lib/supabase';
+import { persistLeads } from '../../../../server/services/leadPersistence';
 import { triggerGoldLeadWhatsApp } from '../../../../server/services/sms';
+import type { Lead } from '../../../../leadEngine/types';
 
 const JOB_TYPES = new Set([
   'Electrical', 'Plumbing', 'Roofing', 'Building',
   'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps',
 ]);
 const URGENCY_TYPES = new Set(['Emergency', 'This week', 'Later']);
+
+const TRADE_MAP: Record<string, string> = {
+  Electrical: 'electrical', Plumbing: 'plumbing', Roofing: 'roofing',
+  Building: 'building', HVAC: 'hvac', Carpentry: 'carpentry',
+  Landscaping: 'landscaping', Painting: 'painting', 'Heat Pumps': 'hvac',
+};
 
 export async function POST(request: Request) {
   try {
@@ -26,32 +34,36 @@ export async function POST(request: Request) {
     const recommendedAction = phone
       ? 'Call or WhatsApp the buyer today'
       : 'Request phone number before quoting';
+    const leadUrgency = urgency === 'Emergency' ? 'high' : urgency === 'This week' ? 'medium' : 'low';
 
     const leadId = `intake-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    const lead = {
+    const lead: Lead = {
       id: leadId,
       title: `${jobType} job`,
+      trade: TRADE_MAP[jobType] ?? 'building',
+      location: area,
+      postcodeOutward: area,
+      estimatedValue: budget || 'POA',
+      urgency: leadUrgency,
+      source: 'Intake',
+      sourceConfidence: hasPhotos ? 85 : 70,
+      contactSignal: phone ? 'strong' : 'weak',
+      status: 'new',
+      description: details,
       score,
-      jobType,
-      urgency,
-      postcode,
-      phone,
-      area,
-      flags,
-      details,
-      budget,
-      tier,
+      scoreReasons: flags,
       qualityLabel,
       recommendedAction,
       evidenceBadges: hasPhotos ? ['Customer photos'] : ['Customer request'],
-      signalStack: ['customer_intake'],
-      status: 'new' as const,
-      createdAt: new Date().toISOString(),
+      signalStack: [`intake:${username}`],
     };
 
-    // Persist intake submission to Supabase so the tradesperson can see it
+    // Persist to `leads` table via standard persistence service
+    const persistence = await persistLeads([lead]).catch(() => ({ stored: false, count: 0, provider: 'supabase' }));
+
+    // Also persist to `intake_submissions` for intake-specific tracking (username, budget, etc.)
     if (supabase) {
-      await supabase.from('intake_submissions').insert({
+      supabase.from('intake_submissions').insert({
         id: leadId,
         username,
         job_type: jobType,
@@ -65,11 +77,10 @@ export async function POST(request: Request) {
         tier,
         area,
         flags,
-        created_at: lead.createdAt,
+        created_at: new Date().toISOString(),
       }).then(({ error }) => {
         if (error && error.code !== '42P01') {
-          // 42P01 = table doesn't exist yet — silently skip until founder creates it
-          console.warn('[intake] Supabase insert failed:', error.message);
+          console.warn('[intake] intake_submissions insert failed:', error.message);
         }
       });
     }
@@ -80,29 +91,45 @@ export async function POST(request: Request) {
       provider: 'none',
     };
     if (tier === 'GOLD') {
-      try {
-        whatsapp = await triggerGoldLeadWhatsApp({
-          score,
-          jobType,
-          area,
-          budget,
-          phone,
-          postcode,
-          leadId,
-          sourceSystem: `Intake:${username}`,
-          scoreReasons: flags,
-          recommendedAction,
-        });
-      } catch (err: any) {
-        whatsapp = {
-          triggered: false,
-          provider: 'meta-whatsapp',
-          reason: String(err?.message ?? err),
-        };
-      }
+      whatsapp = await triggerGoldLeadWhatsApp({
+        score,
+        jobType,
+        area,
+        budget,
+        phone,
+        postcode,
+        leadId,
+        sourceSystem: `Intake:${username}`,
+        scoreReasons: flags,
+        recommendedAction,
+      }).catch((err: Error) => ({ triggered: false, provider: 'meta-whatsapp', reason: err.message }));
     }
 
-    return Response.json({ ok: true, whatsapp, lead });
+    return Response.json({
+      ok: true,
+      whatsapp,
+      persistence,
+      lead: {
+        id: leadId,
+        title: lead.title,
+        score,
+        jobType,
+        urgency,
+        postcode,
+        phone,
+        area,
+        flags,
+        details,
+        budget,
+        tier,
+        qualityLabel,
+        recommendedAction,
+        evidenceBadges: lead.evidenceBadges,
+        signalStack: lead.signalStack,
+        status: 'new',
+        createdAt: new Date().toISOString(),
+      },
+    });
   } catch (error: any) {
     return Response.json({
       ok: false,

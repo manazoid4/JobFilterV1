@@ -73,7 +73,7 @@ export function IntakePage() {
         </p>
 
         {step === 1 && (
-          <Step title="What's the job?">
+          <Step title="What type of job?">
             {jobTypes.map((item) => (
               <button key={item} className="choice-button" onClick={() => pickJob(item)}>{item}</button>
             ))}
@@ -81,7 +81,7 @@ export function IntakePage() {
         )}
 
         {step === 2 && (
-          <Step title="When do you need it?" onBack={() => setStep(1)}>
+          <Step title="How urgent is it?" onBack={() => setStep(1)}>
             {urgencyTypes.map((item) => (
               <button key={item} className="choice-button" onClick={() => pickUrgency(item)}>{item}</button>
             ))}
@@ -99,17 +99,18 @@ export function IntakePage() {
         {step === 4 && (
           <div>
             <button type="button" onClick={() => setStep(3)} className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)]">← Back</button>
-            <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">ADD DETAILS</h1>
+            <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">LAST STEP</h1>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Add your details and we&apos;ll send the tradesman your request.</p>
             <div className="mt-6 grid gap-3">
-              <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number" />
-              <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Postcode" />
-              <textarea className="field-input min-h-28 resize-none" value={details} onChange={(event) => setDetails(event.target.value)} placeholder="Optional details" />
+              <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number (for the tradesman to call)" />
+              <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Your postcode" />
+              <textarea className="field-input min-h-28 resize-none" value={details} onChange={(event) => setDetails(event.target.value)} placeholder="Describe the job — more detail means a more accurate quote" />
               <input className="field-input" type="file" accept="image/*" multiple onChange={onPhoto} />
               {submitError && (
                 <p className="border-2 border-[var(--orange)] bg-[var(--bg-main)] p-3 font-black text-[var(--orange)]">{submitError}</p>
               )}
               <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={submitting} onClick={() => void submit()}>
-                {submitting ? 'SENDING…' : 'SEND REQUEST'}
+                {submitting ? 'SENDING…' : 'SEND TO TRADESMAN'}
               </button>
             </div>
           </div>
