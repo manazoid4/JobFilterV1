@@ -255,6 +255,7 @@ export function FindJobsPage() {
       signalClass: lead.signalClass,
       quoteFloor: lead.quoteFloor,
       evidenceBadges: lead.evidenceBadges,
+      scoreReasons: lead.reasons ?? [],
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);

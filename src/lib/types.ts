@@ -31,6 +31,7 @@ export type LeadDecision = {
   signalStack?: string[];
   signalClass?: string;
   fusionKey?: string;
+  scoreReasons?: string[];
 };
 
 export type Lead = {

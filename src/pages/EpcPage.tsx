@@ -86,7 +86,8 @@ export function EpcPage() {
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
             Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button mt-6 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+          <p className="mt-2 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
         </div>
         <WaitlistForm source="epc-leads" />
       </section>

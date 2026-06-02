@@ -9,6 +9,16 @@ import type { LeadDecision } from '../lib/types';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
 
+function tradeHighlights(reasons: string[] | undefined): string[] {
+  if (!reasons?.length) return [];
+  const out: string[] = [];
+  for (const r of reasons) {
+    const m = r.match(/^Trade match: (.+?) \(/);
+    if (m) m[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push(`${k} — YOUR TRADE`));
+  }
+  return out.slice(0, 2);
+}
+
 type Tab = 'gold' | 'silver' | 'bronze';
 
 function leadsToCsv(leads: LeadDecision[]): string {
@@ -249,7 +259,12 @@ export function LeadListPage() {
 
                 {/* Tags row */}
                 <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b-2 border-[var(--navy)]">
-                  {(lead.flags ?? []).slice(0, 4).map((flag: string) => (
+                  {tradeHighlights(lead.scoreReasons).map((badge) => (
+                    <span key={badge} className="px-2 py-1 text-xs font-black uppercase border border-[var(--ink)] bg-[var(--yellow)] text-[var(--ink)]">
+                      {badge}
+                    </span>
+                  ))}
+                  {(lead.flags ?? []).slice(0, 3).map((flag: string) => (
                     <span key={flag} className="px-2 py-1 text-xs font-black uppercase border border-[var(--navy)] bg-[var(--offwhite)] text-[var(--navy)]">
                       {flag}
                     </span>

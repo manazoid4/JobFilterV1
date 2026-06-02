@@ -303,7 +303,7 @@ export function LeadDetailPage() {
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A 2-minute call finds out if they're ready now. Use the availability check template below — takes 30 seconds.</p>
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
