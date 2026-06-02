@@ -17,7 +17,37 @@ const TRADE_MAP: Record<string, string> = {
   Landscaping: 'landscaping', Painting: 'painting', 'Heat Pumps': 'hvac',
 };
 
+// 10 submissions per IP per minute — prevents table flooding and WhatsApp spam
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 10;
+
 export async function POST(request: Request) {
+  // IP-based rate limit check
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    ?? request.headers.get('x-real-ip')
+    ?? 'unknown';
+
+  if (supabase && ip !== 'unknown') {
+    const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
+    let submissionCount = 0;
+    try {
+      const result = await supabase
+        .from('intake_submissions')
+        .select('id', { count: 'exact', head: true })
+        .eq('ip', ip)
+        .gte('created_at', windowStart);
+      submissionCount = result.count ?? 0;
+    } catch {
+      submissionCount = 0;
+    }
+    if (submissionCount >= RATE_LIMIT_MAX) {
+      return Response.json(
+        { ok: false, errors: ['Too many requests — please wait a moment before trying again.'] },
+        { status: 429 },
+      );
+    }
+  }
+
   try {
     const body = await request.json().catch(() => ({}));
     const jobType = sanitizeJobType(body?.jobType);
@@ -35,6 +65,22 @@ export async function POST(request: Request) {
       ? 'Call or WhatsApp the buyer today'
       : 'Request phone number before quoting';
     const leadUrgency = urgency === 'Emergency' ? 'high' : urgency === 'This week' ? 'medium' : 'low';
+
+    // Look up the tradesperson's WhatsApp number from their profile.
+    // Gracefully falls back to WHATSAPP_TO env var if profiles table doesn't exist yet.
+    let tradespersonPhone: string | undefined;
+    if (supabase && username !== 'unknown') {
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('whatsapp_number')
+          .eq('username', username)
+          .maybeSingle();
+        tradespersonPhone = profile?.whatsapp_number ?? undefined;
+      } catch {
+        tradespersonPhone = undefined;
+      }
+    }
 
     const leadId = `intake-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const lead: Lead = {
@@ -60,14 +106,20 @@ export async function POST(request: Request) {
     };
 
     // Persist to `leads` table via standard persistence service
-    const persistence = await persistLeads([lead]).catch(() => ({ stored: false, count: 0, provider: 'supabase' }));
+    let persistence: { stored: boolean; count: number; provider: string; error?: string };
+    try {
+      persistence = await persistLeads([lead]);
+    } catch {
+      persistence = { stored: false, count: 0, provider: 'supabase' };
+    }
 
-    // Also persist to `intake_submissions` for intake-specific tracking (username, budget, etc.)
+    // Also persist to `intake_submissions` for intake-specific tracking.
     // Awaited so the write completes before the serverless function is frozen.
     if (supabase) {
       const { error: intakeErr } = await supabase.from('intake_submissions').insert({
         id: leadId,
         username,
+        ip,
         job_type: jobType,
         urgency,
         details: details || null,
@@ -86,25 +138,30 @@ export async function POST(request: Request) {
       }
     }
 
-    // Trigger WhatsApp notification for GOLD leads
+    // Trigger WhatsApp notification for GOLD leads.
+    // tradespersonPhone routes to the link owner; falls back to WHATSAPP_TO env var
+    // if the profiles table doesn't exist yet or the username has no stored number.
     let whatsapp: { triggered: boolean; provider: string; reason?: string } = {
       triggered: false,
       provider: 'none',
     };
     if (tier === 'GOLD') {
-      // Do NOT pass `phone` here — that is the customer's number, not the tradesperson's.
-      // The tradesperson recipient is resolved via WHATSAPP_TO env var in triggerGoldLeadWhatsApp.
-      whatsapp = await triggerGoldLeadWhatsApp({
-        score,
-        jobType,
-        area,
-        budget,
-        postcode,
-        leadId,
-        sourceSystem: `Intake:${username}`,
-        scoreReasons: flags,
-        recommendedAction,
-      }).catch((err: Error) => ({ triggered: false, provider: 'meta-whatsapp', reason: err.message }));
+      try {
+        whatsapp = await triggerGoldLeadWhatsApp({
+          score,
+          jobType,
+          area,
+          budget,
+          phone: tradespersonPhone,
+          postcode,
+          leadId,
+          sourceSystem: `Intake:${username}`,
+          scoreReasons: flags,
+          recommendedAction,
+        });
+      } catch (err: any) {
+        whatsapp = { triggered: false, provider: 'meta-whatsapp', reason: String(err?.message ?? err) };
+      }
     }
 
     return Response.json({
