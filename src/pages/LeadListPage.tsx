@@ -3,11 +3,23 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { getChaseLeads } from '../lib/chaseStore';
 import { getWinData } from '../lib/winStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
+const FOLLOW_UP_TEMPLATE   = MESSAGE_TEMPLATES.find((t) => t.key === 'follow_up_24h') ?? FIRST_TOUCH_TEMPLATE;
+
+function getWaTemplate(chaseStage: string | undefined) {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return FOLLOW_UP_TEMPLATE;
+  return FIRST_TOUCH_TEMPLATE;
+}
+
+function getWaButtonLabel(chaseStage: string | undefined): string {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return 'SEND FOLLOW-UP';
+  return 'SEND WHATSAPP';
+}
 
 function tradeHighlights(reasons: string[] | undefined): string[] {
   if (!reasons?.length) return [];
@@ -47,6 +59,11 @@ export function LeadListPage() {
   const [tab, setTab] = useState<Tab>('gold');
   const [query, setQuery] = useState('');
   const stored = getStoredLeads();
+  const chaseStageMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const cl of getChaseLeads()) map.set(cl.leadId, cl.stage);
+    return map;
+  }, [stored]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -279,12 +296,12 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(FIRST_TOUCH_TEMPLATE, { job_type: lead.jobType, area: lead.area }))}`}
+                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
                   >
-                    SEND WHATSAPP
+                    {getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
                   <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →

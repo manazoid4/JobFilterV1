@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 const comparison = [
-  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning, contracts, ownership & EPC signals', jf: true },
+  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning, contracts, ownership & energy signals', jf: true },
   { feature: 'Lead exclusivity', mybuilder: 'Shared — multiple trades quote', jobfilter: 'Private scan — no competitor sees your results', jf: true },
   { feature: 'Pricing model', mybuilder: 'Free listing; paid leads optional', jobfilter: '£39/mo flat — unlimited scanning', jf: true },
   { feature: 'Lead scoring', mybuilder: 'None — all leads treated equally', jobfilter: 'GOLD/SILVER/SKIP based on intent and value signals', jf: true },
@@ -59,6 +59,7 @@ export function CompareMyBuilderPage() {
               FULL COMPARISON
             </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 

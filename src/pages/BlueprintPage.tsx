@@ -582,7 +582,7 @@ function ReactiveProactiveSvg() {
           </li>
           <li className="flex items-start gap-2 text-sm font-bold text-white/80">
             <Zap className="mt-0.5 h-4 w-4 shrink-0 text-[var(--yellow)]" />
-            Exclusive to you — no shared lead lists
+            No shared auction — no five-trade blast, no race-to-the-bottom
           </li>
         </ul>
       </div>
@@ -669,7 +669,7 @@ export function BlueprintPage() {
               We find the work before it hits the bid boards.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans verified UK construction signals — planning applications, permits, energy signals, streetworks, company activity — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared leads. No homeowner posts. Just early, exclusive signals routed to the right trade.
+              JobFilter scans verified UK construction signals — planning applications, permits, energy signals, streetworks, company activity — fuses them around each property, scores them for real job value, and delivers the best leads straight to your WhatsApp. No shared auction. No homeowner posts. Just early, verified signals routed to the right trade.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">

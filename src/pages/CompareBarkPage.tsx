@@ -51,7 +51,7 @@ export function CompareBarkPage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
-            Bark charges you credits for shared leads from form-fillers. JobFilter scans planning data, council contracts, and ownership signals — and delivers scored, exclusive intelligence direct to your phone.
+            Bark charges you credits for shared leads from form-fillers. JobFilter scans planning data, council contracts, and ownership signals — and delivers scored, private intelligence direct to your phone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
