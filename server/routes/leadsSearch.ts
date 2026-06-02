@@ -229,9 +229,9 @@ function toFreePreviewLead(lead: Lead) {
     revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
     tradeMatch: String(lead.trade),
     score: previewScore(score),
-    reasons: buildReasons(lead, score),
+    reasons: buildReasons(),
     distanceMiles: lead.distanceMiles,
-    qualityLabel: lead.qualityLabel,
+    qualityLabel: undefined,
     // Locked paid fields — show upgrade teaser, not real data
     leadReadiness: undefined,
     recommendedAction: 'Upgrade to see recommended action',
@@ -270,14 +270,8 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(lead: Lead, _score: number): string[] {
-  // Pass through scorer reasons — parseTradeReasons() on the client formats them
-  // as trade-specific labels (e.g. "EV CHARGER — YOUR TRADE").
-  // Filter internal/non-displayable reasons that parseTradeReasons already skips anyway.
-  const reasons = (lead.scoreReasons ?? []).filter(
-    (r) => !r.startsWith('Not your trade') && !r.startsWith('Source confidence') && !r.startsWith('Source class') && !r.startsWith('Proximity fit')
-  );
-  return reasons.length > 0 ? reasons : ['Verified signal — unlock buyer, value, and action route'];
+function buildReasons(): string[] {
+  return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
 }
 
 function sanitizeTrade(input: unknown) {
