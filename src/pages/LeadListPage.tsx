@@ -165,7 +165,7 @@ export function LeadListPage() {
           <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
-          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
+          <p className="mt-3 text-sm font-black text-[var(--ink)]/80">No credit card required — 3 free scans every week</p>
         </div>
       )}
 

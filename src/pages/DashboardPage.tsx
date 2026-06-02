@@ -83,11 +83,11 @@ export function DashboardPage() {
             </p>
           ) : (
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <p className="text-xs font-black text-white/60">
-                No patch locked — you&apos;re racing every other trade for the same leads.
+              <p className="text-sm font-black text-white/90">
+                No patch locked — you&apos;re racing every other trade for the same leads. Another trade could claim your area today.
               </p>
               <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
-                LOCK YOUR PATCH →
+                LOCK YOUR PATCH NOW →
               </Link>
             </div>
           )}
@@ -288,9 +288,14 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
             {!territory && (
-              <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-                LOCK YOUR PATCH →
-              </Link>
+              <div>
+                <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+                  LOCK YOUR PATCH NOW →
+                </Link>
+                <p className="mt-1.5 text-xs font-black text-white/70 text-center">
+                  Founder price £39/mo — no shared auction, no credit burn
+                </p>
+              </div>
             )}
             {isEmpty ? (
               <Link href="/pricing" className="jf-button w-full bg-white text-[var(--ink)] text-center">
