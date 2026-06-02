@@ -56,6 +56,7 @@ function toLeadRow(lead: Lead) {
       cpvCodes: lead.cpvCodes ?? [],
       distanceMiles: lead.distanceMiles ?? null,
       description: lead.description ?? '',
+      buyerPhone: lead.buyerPhone ?? null,
     },
     updated_at: new Date().toISOString(),
   };

@@ -75,6 +75,7 @@ export interface Lead {
   publishedAt?: string;
   deadlineAt?: string;
   buyerName?: string;
+  buyerPhone?: string;
   cpvCodes?: string[];
   score?: number;
   scoreReasons?: string[];

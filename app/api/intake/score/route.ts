@@ -48,6 +48,7 @@ export async function POST(request: Request) {
       source: 'Intake',
       sourceConfidence: hasPhotos ? 85 : 70,
       contactSignal: phone ? 'strong' : 'weak',
+      buyerPhone: phone || undefined,
       status: 'new',
       description: details,
       score,
