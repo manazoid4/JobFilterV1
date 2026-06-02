@@ -76,7 +76,7 @@ export function VicinityPage() {
   const [selectedPreview, setSelectedPreview] = useState<string | null>(null);
 
   return (
-    <main style={{ background: 'var(--offwhite)', minHeight: '100vh' }} className="pb-24 md:pb-0">
+    <main className="bg-[var(--paper)] pb-24 md:pb-0">
       <div className="page-shell py-10">
 
         {/* ── ENHANCED HERO ──────────────────────────── */}
