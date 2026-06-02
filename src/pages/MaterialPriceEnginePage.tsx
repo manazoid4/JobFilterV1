@@ -310,12 +310,24 @@ export function MaterialPriceEnginePage() {
               <p className="mt-3 font-black text-[var(--muted)]">Save supplier lines to build a quote basket.</p>
             ) : (
               <div className="mt-3 grid gap-3">
-                {saved.map((line) => (
-                  <div key={line.id} className="border-2 border-[var(--line)] bg-[var(--paper)] p-3">
-                    <p className="text-sm font-black">{line.name}</p>
-                    <p className="mt-1 text-xs font-black text-[var(--muted)]">Qty {line.qty} x {money(line.unitPrice)}</p>
+                <div className="border-2 border-[var(--ink)] bg-[var(--yellow)] p-3">
+                  <p className="text-xs font-black uppercase text-[var(--ink)]">BASKET TOTAL ({saved.length} lines)</p>
+                  <p className="headline mt-1 text-3xl">{money(basketTotal)}</p>
+                </div>
+                <div className="relative">
+                  <div className="pointer-events-none select-none blur-[2px] grid gap-2">
+                    {saved.map((line) => (
+                      <div key={line.id} className="border-2 border-[var(--line)] bg-[var(--paper)] p-3">
+                        <p className="text-sm font-black">{line.name}</p>
+                        <p className="mt-1 text-xs font-black text-[var(--muted)]">Qty {line.qty} x {money(line.unitPrice)}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
+                    <p className="text-xs font-black uppercase text-[var(--ink)] text-center">Full breakdown + export</p>
+                    <Link href="/pricing" className="jf-button mt-2 bg-[var(--navy)] text-white text-xs">UPGRADE — £39/MO</Link>
+                  </div>
+                </div>
                 <button className="jf-button bg-white text-[var(--ink)]" type="button" onClick={() => setSaved([])}>Clear list</button>
               </div>
             )}

@@ -2,7 +2,7 @@
 import Link from 'next/link';
 
 const comparison = [
-  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning approvals, contracts, ownership signals, retrofit intelligence', jf: true },
+  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning, contracts, ownership & EPC signals', jf: true },
   { feature: 'Lead exclusivity', mybuilder: 'Shared — multiple trades quote', jobfilter: 'Private scan — no competitor sees your results', jf: true },
   { feature: 'Pricing model', mybuilder: 'Free listing; paid leads optional', jobfilter: '£39/mo flat — unlimited scanning', jf: true },
   { feature: 'Lead scoring', mybuilder: 'None — all leads treated equally', jobfilter: 'GOLD/SILVER/SKIP based on intent and value signals', jf: true },
@@ -81,7 +81,7 @@ export function CompareMyBuilderPage() {
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">JOBFILTER MODEL</p>
               <ul className="mt-3 space-y-2 font-black text-sm text-white">
-                <li>• We scan planning approvals, council tenders, ownership signals, and retrofit data</li>
+                <li>• We scan planning data, council tenders, EPC and land registry</li>
                 <li>• Your scan is private — no other trade gets the same results</li>
                 <li>• GOLD/SILVER/SKIP scoring — call only what's worth your time</li>
                 <li>• Estimated value from published tender data, not guesswork</li>
@@ -141,14 +141,14 @@ export function CompareMyBuilderPage() {
       <section className="bg-[var(--navy)]">
         <div className="page-shell section-pad text-center">
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-            MyBuilder sends the job to ten trades. Get there before the queue forms.
+            Stop competing. Start scanning.
           </h2>
           <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
-            Scan your area for jobs nobody is chasing yet — before they hit MyBuilder, Bark, or Checkatrade.
+            Find leads no other trade is looking at — scored by planning data, contract value, and contact strength.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              SCAN MY AREA FREE — NO CARD
+              START FREE — NO CARD
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
               VIEW PRICING

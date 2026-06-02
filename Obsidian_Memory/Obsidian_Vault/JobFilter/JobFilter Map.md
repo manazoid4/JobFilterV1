@@ -20,6 +20,11 @@
 - [[Agent Running Model]]
 - [[Obsidian Visual Maps]]
 
+## Sessions
+- [[Session-2026-05-31-Autonomous-Build]] — Material estimator, monetisation hooks, build prompts
+- [[Session-2026-05-29-Stripe-Wired]] — Stripe webhook, owner access, comparison pages
+- [[Session-2026-05-29-Feature-Audit]] — Lead scoring, source reliability, outcome wiring
+
 ## Rule
 - Build for [[Intake Engine]] first.
 - Lead quality beats UI.
