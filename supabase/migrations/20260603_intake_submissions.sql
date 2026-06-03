@@ -21,3 +21,7 @@ CREATE TABLE IF NOT EXISTS intake_submissions (
 -- Rate-limit queries filter by ip + created_at window; this index makes them fast.
 CREATE INDEX IF NOT EXISTS intake_submissions_ip_created_at
   ON intake_submissions (ip, created_at DESC);
+
+-- RLS: table contains PII (phone, postcode, IP). Enable RLS with no policies so
+-- only service_role (server-side) can read or write — anon/authenticated are blocked.
+ALTER TABLE intake_submissions ENABLE ROW LEVEL SECURITY;
