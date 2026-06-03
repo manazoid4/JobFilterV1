@@ -75,9 +75,13 @@ export function LeadListPage() {
     );
   }, [stored, query]);
 
-  const gold   = filtered.filter((l) => l.score >= 90 && l.status !== 'ignored');
-  const silver = filtered.filter((l) => l.score >= 75 && l.score < 90 && l.status !== 'ignored');
-  const bronze = filtered.filter((l) => l.score < 75 || l.status === 'ignored');
+  const gold   = filtered.filter((l) => (l.qualityLabel === 'GOLD'   || (!l.qualityLabel && (l.tier === 'GOLD'   || (!l.tier && l.score >= 80)))) && l.status !== 'ignored');
+  const silver = filtered.filter((l) => (l.qualityLabel === 'SILVER' || (!l.qualityLabel && (l.tier === 'SILVER' || (!l.tier && l.score >= 50 && l.score < 80)))) && l.status !== 'ignored');
+  const bronze = filtered.filter((l) => {
+    const isGold = l.qualityLabel === 'GOLD'   || (!l.qualityLabel && (l.tier === 'GOLD'   || (!l.tier && l.score >= 80)));
+    const isSilv = l.qualityLabel === 'SILVER' || (!l.qualityLabel && (l.tier === 'SILVER' || (!l.tier && l.score >= 50 && l.score < 80)));
+    return (!isGold && !isSilv) || l.status === 'ignored';
+  });
 
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;

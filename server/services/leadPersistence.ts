@@ -45,7 +45,7 @@ function toLeadRow(lead: Lead) {
     evidence_badges: lead.evidenceBadges ?? [],
     score_reasons: lead.scoreReasons ?? [],
     recommended_action: lead.recommendedAction ?? null,
-    contact_path: lead.contactPath ?? null,
+    contact_path: lead.contactPath ?? {},
     opportunity_atoms: lead.opportunityAtoms ?? [],
     why_this_is_a_job: lead.whyThisIsAJob ?? null,
     is_commercial: Boolean(lead.isCommercial),
@@ -56,6 +56,7 @@ function toLeadRow(lead: Lead) {
       cpvCodes: lead.cpvCodes ?? [],
       distanceMiles: lead.distanceMiles ?? null,
       description: lead.description ?? '',
+      buyerPhone: lead.buyerPhone ?? null,
     },
     updated_at: new Date().toISOString(),
   };

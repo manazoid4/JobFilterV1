@@ -50,7 +50,7 @@ export function registerIntakeScoreRoute(app: Express) {
             jobType,
             area,
             budget,
-            phone,
+            buyerPhone: phone || undefined,
             postcode,
             leadId: lead.id,
             sourceSystem: 'Intake',
@@ -100,6 +100,11 @@ function toTradeKey(jobType: string): TradeKey {
     Plumbing: 'plumbing',
     Roofing: 'roofing',
     Building: 'building',
+    HVAC: 'hvac',
+    Carpentry: 'carpentry',
+    Landscaping: 'landscaping',
+    Painting: 'painting',
+    'Heat Pumps': 'hvac',
   };
   return map[jobType] ?? 'building';
 }
