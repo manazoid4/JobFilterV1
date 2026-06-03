@@ -155,7 +155,7 @@ export function TerritoriesPage() {
           <div className="grid grid-cols-[1.1fr_0.8fr_0.8fr_0.6fr_0.7fr] border-b-2 border-[var(--line)] bg-[var(--ink)] p-4 text-xs font-black uppercase tracking-[0.08em] text-white max-lg:hidden">
             <span>Patch</span>
             <span>Trade</span>
-            <span>Area model</span>
+            <span>Avg job value</span>
             <span>Signals/mo</span>
             <span>Status</span>
           </div>

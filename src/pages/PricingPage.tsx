@@ -33,10 +33,9 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -107,12 +106,12 @@ export function PricingPage() {
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">LOCK THE ACCOUNT. THEN CONTROL THE JOBS.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime. No credit card to scan free.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
       </section>
     </main>
   );
