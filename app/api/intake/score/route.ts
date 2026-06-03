@@ -129,11 +129,12 @@ export async function POST(request: Request) {
 
     // Trigger WhatsApp notification for GOLD leads. Routes to WHATSAPP_TO env var
     // until profiles.whatsapp_number column exists for per-owner routing.
+    // Requires supabase: without it the rate limit is unenforced and alerts are disabled.
     let whatsapp: { triggered: boolean; provider: string; reason?: string } = {
       triggered: false,
       provider: 'none',
     };
-    if (tier === 'GOLD') {
+    if (tier === 'GOLD' && supabase) {
       try {
         whatsapp = await triggerGoldLeadWhatsApp({
           score,
