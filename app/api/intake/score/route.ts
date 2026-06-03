@@ -22,31 +22,9 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 10;
 
 export async function POST(request: Request) {
-  // IP-based rate limit check
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     ?? request.headers.get('x-real-ip')
     ?? 'unknown';
-
-  if (supabase && ip !== 'unknown') {
-    const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
-    let submissionCount = 0;
-    try {
-      const result = await supabase
-        .from('intake_submissions')
-        .select('id', { count: 'exact', head: true })
-        .eq('ip', ip)
-        .gte('created_at', windowStart);
-      submissionCount = result.count ?? 0;
-    } catch {
-      submissionCount = 0;
-    }
-    if (submissionCount >= RATE_LIMIT_MAX) {
-      return Response.json(
-        { ok: false, errors: ['Too many requests — please wait a moment before trying again.'] },
-        { status: 429 },
-      );
-    }
-  }
 
   try {
     const body = await request.json().catch(() => ({}));
@@ -69,6 +47,57 @@ export async function POST(request: Request) {
     // profiles.whatsapp_number and profiles.username columns don't exist yet in the schema;
     // owner routing is handled via the WHATSAPP_TO env var until those columns are added.
     const leadId = `intake-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+    // Insert to intake_submissions first so the row anchors this request before we count.
+    // This makes the rate limit check atomic: count includes our row, so parallel requests
+    // all see each other's inserts and the check is meaningful.
+    if (supabase) {
+      const { error: intakeErr } = await supabase.from('intake_submissions').insert({
+        id: leadId,
+        username,
+        ip,
+        job_type: jobType,
+        urgency,
+        details: details || null,
+        postcode: postcode || null,
+        phone: phone || null,
+        has_photos: hasPhotos,
+        budget: budget || null,
+        score,
+        tier,
+        area,
+        flags,
+        created_at: new Date().toISOString(),
+      });
+
+      if (intakeErr && intakeErr.code !== '42P01') {
+        console.warn('[intake] intake_submissions insert failed:', intakeErr.message);
+      }
+
+      // Count after insert (our row is now included). If over limit, delete and reject.
+      if (!intakeErr && ip !== 'unknown') {
+        const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
+        let submissionCount = 0;
+        try {
+          const result = await supabase
+            .from('intake_submissions')
+            .select('id', { count: 'exact', head: true })
+            .eq('ip', ip)
+            .gte('created_at', windowStart);
+          submissionCount = result.count ?? 0;
+        } catch {
+          submissionCount = 0;
+        }
+        if (submissionCount > RATE_LIMIT_MAX) {
+          try { await supabase.from('intake_submissions').delete().eq('id', leadId); } catch { /* best-effort */ }
+          return Response.json(
+            { ok: false, errors: ['Too many requests — please wait a moment before trying again.'] },
+            { status: 429 },
+          );
+        }
+      }
+    }
+
     const lead: Lead = {
       id: leadId,
       title: `${jobType} job`,
@@ -91,37 +120,11 @@ export async function POST(request: Request) {
       signalStack: [`intake:${username}`],
     };
 
-    // Persist to `leads` table via standard persistence service
     let persistence: { stored: boolean; count: number; provider: string; error?: string };
     try {
       persistence = await persistLeads([lead]);
     } catch {
       persistence = { stored: false, count: 0, provider: 'supabase' };
-    }
-
-    // Also persist to `intake_submissions` for intake-specific tracking.
-    // Awaited so the write completes before the serverless function is frozen.
-    if (supabase) {
-      const { error: intakeErr } = await supabase.from('intake_submissions').insert({
-        id: leadId,
-        username,
-        ip,
-        job_type: jobType,
-        urgency,
-        details: details || null,
-        postcode: postcode || null,
-        phone: phone || null,
-        has_photos: hasPhotos,
-        budget: budget || null,
-        score,
-        tier,
-        area,
-        flags,
-        created_at: new Date().toISOString(),
-      });
-      if (intakeErr && intakeErr.code !== '42P01') {
-        console.warn('[intake] intake_submissions insert failed:', intakeErr.message);
-      }
     }
 
     // Trigger WhatsApp notification for GOLD leads. Routes to WHATSAPP_TO env var
