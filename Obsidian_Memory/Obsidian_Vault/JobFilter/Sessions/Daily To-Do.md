@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 3 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **QuickResponseKit email subject parsing** — email preview now shows subject in navy box + body below (matches LeadDetailPage; b3a2300 added email channel but preview showed raw "Subject: ..." inline)
+- [x] **ActivationPendingPage "Postcode cluster" regression** — "Postcode cluster (e.g. B14, SW1, M20)" → "Your area (e.g. B14, SW1, M20)" (was fixed on SignupPage in Run 1 but missed on ActivationPendingPage)
+- [x] **TipsPage CTA jargon** — "ENTER THE INTAKE →" → "SCAN MY AREA FREE →" + "No credit card required" trust line (NEEDLE fix — page CTA used internal jargon)
+- [x] **FindJobsPage hero sub-line** — "Scan free — unlock full leads from £39/mo" → "3 free scans every week — no credit card" (NEEDLE fix — mixed free entry + paid ask before tradesman reaches scanner)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **Gas engineer / heat pump lead quality** — verify boiler/heating leads surface at top for plumbing trade in B14 scan
+- [ ] **ActivationPendingPage TRADES list** — old flat list ("Heat Pumps") vs SignupPage's specific trades ("Heat pump installer") — consider aligning
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 3 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **PricingPage bottom CTA headline** — "LOCK THE ACCOUNT. THEN CONTROL THE JOBS." → "CLAIM YOUR PATCH. OWN THE JOBS." (NEEDLE fix: "lock" appeared twice; "claim" = urgency, "own" = empowering)
