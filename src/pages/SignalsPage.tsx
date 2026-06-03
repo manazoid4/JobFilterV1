@@ -20,7 +20,7 @@ const signals = [
   {
     source: 'SIGNAL 3 · ENERGY',
     name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
-    description: 'F and G rated rental properties cannot be legally let without energy improvements. JobFilter identifies them before the landlord posts anywhere. First trade to call wins.',
+    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
   },

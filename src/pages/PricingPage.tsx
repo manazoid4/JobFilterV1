@@ -77,7 +77,7 @@ export function PricingPage() {
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
             { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
-            { signal: 'Energy: F-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
+            { signal: 'Energy: Low-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
             { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
           ].map(({ signal, detail, band, trade }) => (
             <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
