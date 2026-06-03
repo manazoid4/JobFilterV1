@@ -50,7 +50,7 @@ export function registerIntakeScoreRoute(app: Express) {
             jobType,
             area,
             budget,
-            phone,
+            buyerPhone: phone || undefined,
             postcode,
             leadId: lead.id,
             sourceSystem: 'Intake',
