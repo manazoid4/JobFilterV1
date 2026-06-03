@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
 
-import { fillTemplate, MESSAGE_TEMPLATES, type TemplateChannel } from '../lib/chaseTemplates';
+import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
 
@@ -196,7 +196,23 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
 
           {/* Message preview */}
           <div className="border border-[var(--line)] bg-[var(--offwhite)] p-3 mb-3">
-            <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>
+            {(() => {
+              if (activeChannel === 'email') {
+                const emailParts = parseEmailSubject(filledMsg);
+                return (
+                  <>
+                    {emailParts.subject && (
+                      <div className="mb-2 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
+                        <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                        <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
+                      </div>
+                    )}
+                    <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{emailParts.body}</p>
+                  </>
+                );
+              }
+              return <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>;
+            })()}
           </div>
 
           <div className="flex gap-2">

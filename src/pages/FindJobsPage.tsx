@@ -411,7 +411,7 @@ export function FindJobsPage() {
             Pick your trade. Enter your postcode. See what's live near you right now.
           </p>
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
-            No Checkatrade membership. No Bark credits. Scan free — unlock full leads from £39/mo.
+            No Checkatrade membership. No Bark credits. 3 free scans every week — no credit card.
           </p>
           {/* SVG illustration: magnifying glass over UK map with pins */}
           <div className="mt-6 hidden md:block">

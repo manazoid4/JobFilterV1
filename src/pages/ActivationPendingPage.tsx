@@ -112,7 +112,7 @@ export function ActivationPendingPage() {
             </select>
           </label>
           <label className="field-label">
-            Postcode cluster (e.g. B14, SW1, M20)
+            Your area (e.g. B14, SW1, M20)
             <input
               className="field-input"
               value={postcode}
