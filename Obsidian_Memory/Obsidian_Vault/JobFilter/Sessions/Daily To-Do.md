@@ -1,5 +1,16 @@
 # Daily To-Do
 
+## Today - 3 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **PricingPage bottom CTA headline** — "LOCK THE ACCOUNT. THEN CONTROL THE JOBS." → "CLAIM YOUR PATCH. OWN THE JOBS." (NEEDLE fix: "lock" appeared twice; "claim" = urgency, "own" = empowering)
+- [x] **PricingPage free CTAs** — both "SCAN FREE FIRST" buttons → "SCAN FREE — NO CARD NEEDED" (trust signal now in button label; consistent with rest of site)
+- [x] **TerritoriesPage table column** — "Area model" → "Avg job value" (was meaningless jargon; column shows "£2k–£9k avg job" data)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **Gas engineer / heat pump lead quality** — now that gas engineers can sign up correctly (as of Run 1), verify boiler/heating leads surface at top for plumbing trade in B14 scan
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 3 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Build error fixed** — score/route.ts had duplicate variable block (qualityLabel, leadUrgency, lead, persistence, whatsapp declared twice); removed duplicate block + cleaned return statement of duplicate keys
