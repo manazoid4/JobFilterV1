@@ -156,48 +156,6 @@ export async function POST(request: Request) {
       }
     }
 
-    const qualityLabel = tier === 'GOLD' ? 'GOLD' : tier === 'SILVER' ? 'SILVER' : 'BRONZE';
-    const leadUrgency = urgency === 'Emergency' ? 'high' : urgency === 'This week' ? 'medium' : 'low';
-
-    const lead: Lead = {
-      id: `intake-${Date.now()}`,
-      title: `${jobType} job`,
-      trade: TRADE_MAP[jobType] ?? 'building',
-      location: area,
-      postcodeOutward: area,
-      estimatedValue: budget || 'POA',
-      urgency: leadUrgency,
-      source: 'Intake',
-      sourceConfidence: hasPhotos ? 85 : 70,
-      contactSignal: phone ? 'strong' : 'weak',
-      status: 'new',
-      description: details,
-      score,
-      scoreReasons: flags,
-      qualityLabel,
-      recommendedAction: phone ? 'Call or WhatsApp the buyer today' : 'Request phone number before quoting',
-      evidenceBadges: hasPhotos ? ['Customer photos'] : ['Customer request'],
-      signalStack: username ? [`intake:${username}`] : ['customer_intake'],
-    };
-
-    const persistence = await persistLeads([lead]).catch(() => ({ stored: false, count: 0, provider: 'supabase' }));
-
-    let whatsapp: { triggered: boolean; provider: string; reason?: string } = { triggered: false, provider: 'none' };
-    if (tier === 'GOLD') {
-      whatsapp = await triggerGoldLeadWhatsApp({
-        score,
-        jobType,
-        area,
-        budget,
-        phone,
-        postcode,
-        leadId: lead.id,
-        sourceSystem: 'Intake',
-        scoreReasons: flags,
-        recommendedAction: lead.recommendedAction,
-      }).catch((err: Error) => ({ triggered: false, provider: 'meta-whatsapp', reason: err.message }));
-    }
-
     return Response.json({
       ok: true,
       whatsapp,
@@ -221,9 +179,6 @@ export async function POST(request: Request) {
         signalStack: lead.signalStack,
         status: 'new',
         createdAt: new Date().toISOString(),
-        recommendedAction: lead.recommendedAction,
-        evidenceBadges: lead.evidenceBadges,
-        signalStack: lead.signalStack,
       },
     });
   } catch (error: any) {

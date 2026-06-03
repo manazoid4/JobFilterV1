@@ -78,7 +78,7 @@ export function DashboardPage() {
             </span>
           </div>
           {territory ? (
-            <p className="text-xs font-black text-white/60">
+            <p className="text-sm font-black text-[var(--yellow)]">
               Gold leads shown to you first — your competition gets them 24h later.
             </p>
           ) : (
