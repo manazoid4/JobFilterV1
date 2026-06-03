@@ -66,22 +66,8 @@ export async function POST(request: Request) {
       : 'Request phone number before quoting';
     const leadUrgency = urgency === 'Emergency' ? 'high' : urgency === 'This week' ? 'medium' : 'low';
 
-    // Look up the tradesperson's WhatsApp number from their profile.
-    // Gracefully falls back to WHATSAPP_TO env var if profiles table doesn't exist yet.
-    let tradespersonPhone: string | undefined;
-    if (supabase && username !== 'unknown') {
-      try {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('whatsapp_number')
-          .eq('username', username)
-          .maybeSingle();
-        tradespersonPhone = profile?.whatsapp_number ?? undefined;
-      } catch {
-        tradespersonPhone = undefined;
-      }
-    }
-
+    // profiles.whatsapp_number and profiles.username columns don't exist yet in the schema;
+    // owner routing is handled via the WHATSAPP_TO env var until those columns are added.
     const leadId = `intake-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const lead: Lead = {
       id: leadId,
@@ -138,9 +124,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // Trigger WhatsApp notification for GOLD leads.
-    // tradespersonPhone routes to the link owner; falls back to WHATSAPP_TO env var
-    // if the profiles table doesn't exist yet or the username has no stored number.
+    // Trigger WhatsApp notification for GOLD leads. Routes to WHATSAPP_TO env var
+    // until profiles.whatsapp_number column exists for per-owner routing.
     let whatsapp: { triggered: boolean; provider: string; reason?: string } = {
       triggered: false,
       provider: 'none',
@@ -152,10 +137,12 @@ export async function POST(request: Request) {
           jobType,
           area,
           budget,
-          phone: tradespersonPhone,
           postcode,
           leadId,
-          sourceSystem: `Intake:${username}`,
+          // Include leadId in sourceSystem so each intake submission gets a unique
+          // delivery_lock_key — prevents the second GOLD lead in the same patch/trade
+          // from being suppressed by the patch-level lock.
+          sourceSystem: `Intake:${username}:${leadId}`,
           scoreReasons: flags,
           recommendedAction,
         });
