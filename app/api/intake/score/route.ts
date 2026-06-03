@@ -141,6 +141,7 @@ export async function POST(request: Request) {
           jobType,
           area,
           budget,
+          buyerPhone: phone || undefined,
           postcode,
           leadId,
           // Include leadId in sourceSystem so each intake submission gets a unique
