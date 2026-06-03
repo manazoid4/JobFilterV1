@@ -20,9 +20,9 @@ type Props = {
 };
 
 function getChannels(contactSignal?: ContactSignal): TemplateChannel[] {
-  if (contactSignal === 'strong') return ['whatsapp'];
-  if (contactSignal === 'weak') return ['whatsapp', 'portal'];
-  return ['portal', 'canvass', 'letter'];
+  if (contactSignal === 'strong') return ['whatsapp', 'email'];
+  if (contactSignal === 'weak') return ['whatsapp', 'portal', 'email'];
+  return ['portal', 'canvass', 'letter', 'email'];
 }
 
 const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.ElementType; copyLabel: string; copiedLabel: string }> = {
@@ -30,6 +30,7 @@ const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.Element
   portal: { label: 'Portal Pitch', icon: Mail, copyLabel: 'COPY FOR PORTAL', copiedLabel: 'COPIED — PASTE INTO PORTAL' },
   canvass: { label: 'Site Canvass', icon: MapPin, copyLabel: 'COPY SCRIPT', copiedLabel: 'COPIED — USE ON SITE' },
   letter: { label: 'Letter Drop', icon: Mail, copyLabel: 'COPY LETTER', copiedLabel: 'COPIED — PRINT & POST' },
+  email: { label: 'Email', icon: Mail, copyLabel: 'COPY EMAIL', copiedLabel: 'COPIED — PASTE INTO EMAIL' },
 };
 
 const WA_TIMING_KEYS = ['first_touch_2h', 'follow_up_24h', 'final_nudge_48h'];
@@ -41,6 +42,7 @@ function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): strin
     if (hrs > 20) return 'follow_up_24h';
     return 'first_touch_2h';
   }
+  if (channels.includes('email')) return 'email_first_touch';
   if (channels.includes('portal')) return 'portal_pitch';
   if (channels.includes('canvass')) return 'canvass_script';
   return 'letter_drop';

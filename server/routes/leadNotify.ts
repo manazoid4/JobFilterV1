@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
 
 async function isAuthenticated(req: Request): Promise<boolean> {
@@ -14,7 +15,7 @@ async function isAuthenticated(req: Request): Promise<boolean> {
 }
 
 export function registerLeadNotifyRoute(app: Express) {
-  app.post('/api/leads/notify', async (req: Request, res: Response) => {
+  app.post('/api/leads/notify', rateLimit, async (req: Request, res: Response) => {
     if (!(await isAuthenticated(req))) {
       return res.status(401).json({ ok: false, error: 'Unauthorised.' });
     }

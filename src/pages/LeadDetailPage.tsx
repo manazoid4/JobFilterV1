@@ -9,7 +9,7 @@ import { TrustBadges } from '../components/TrustBadges';
 import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
-import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
+import { MESSAGE_TEMPLATES, fillTemplate, parseEmailSubject } from '../lib/chaseTemplates';
 import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
 
@@ -423,10 +423,13 @@ export function LeadDetailPage() {
       {otherTemplates.length > 0 && (
         <section className="jf-box bg-white p-6">
           <h2 className="headline text-2xl sm:text-3xl">OTHER APPROACHES</h2>
-          <p className="mt-2 text-sm font-black text-[var(--muted)]">Portal, door-step, or letter — copy the message and use it your way.</p>
+          <p className="mt-2 text-sm font-black text-[var(--muted)]">Email, portal, door-step, or letter — copy the message and use it your way.</p>
           <div className="mt-4 grid gap-4">
             {otherTemplates.map((t) => {
               const filled = fillTemplate(t, { job_type: lead.jobType, area: lead.area });
+              const isEmail = t.channel === 'email';
+              const emailParts = isEmail ? parseEmailSubject(filled) : null;
+              const copyText = emailParts ? `Subject: ${emailParts.subject}\n\n${emailParts.body}` : filled;
               return (
                 <div key={t.key} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -435,13 +438,19 @@ export function LeadDetailPage() {
                       <p className="mt-0.5 text-xs font-black text-[var(--muted)]">{t.timing} — {t.purpose}</p>
                     </div>
                     <button
-                      onClick={() => copyOtherTemplate(t.key, filled)}
+                      onClick={() => copyOtherTemplate(t.key, copyText)}
                       className={`shrink-0 px-3 py-1.5 text-xs font-black uppercase border-2 ${copiedOtherKey === t.key ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)] text-[var(--ink)]'}`}
                     >
                       {copiedOtherKey === t.key ? 'COPIED' : 'COPY'}
                     </button>
                   </div>
-                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filled}</p>
+                  {isEmail && emailParts?.subject && (
+                    <div className="mt-3 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
+                      <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                      <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
+                    </div>
+                  )}
+                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{emailParts ? emailParts.body : filled}</p>
                 </div>
               );
             })}

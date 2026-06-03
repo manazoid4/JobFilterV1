@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
 
 const chaseStatuses: Record<string, { status: string; sentAt: string; nudged: boolean }> = {};
@@ -16,7 +17,7 @@ async function isAuthenticated(req: Request): Promise<boolean> {
 }
 
 export function registerChaseCheckRoute(app: Express) {
-  app.post('/api/chase/update', async (req: Request, res: Response) => {
+  app.post('/api/chase/update', rateLimit, async (req: Request, res: Response) => {
     if (!(await isAuthenticated(req))) {
       return res.status(401).json({ ok: false, error: 'Unauthorised.' });
     }
@@ -36,7 +37,7 @@ export function registerChaseCheckRoute(app: Express) {
     }
   });
 
-  app.post('/api/chase/nudge', async (req: Request, res: Response) => {
+  app.post('/api/chase/nudge', rateLimit, async (req: Request, res: Response) => {
     if (!(await isAuthenticated(req))) {
       return res.status(401).json({ ok: false, error: 'Unauthorised.' });
     }
