@@ -59,10 +59,7 @@ Buyer: ${payload.buyerPhone || 'No number provided'}
 Ghost Risk: ${payload.ghostRisk || 'READY'}
 Next: ${payload.recommendedAction || 'Review proof link and contact path before outreach'}`;
 
-  const safeLog = message.replace(
-    /(Buyer: )(\S+)/,
-    (_m, label, num) => `${label}${num.slice(0, 4)}****`,
-  );
+  const safeLog = message.replace(/(Buyer: )[^\n]+/, '$1[REDACTED]');
   console.log('[whatsapp/gold-lead]', safeLog);
 
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
