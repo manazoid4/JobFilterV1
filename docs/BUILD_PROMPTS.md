@@ -1,99 +1,57 @@
-# JobFilter Build Prompts
+# JobFilter — Autonomous Build Prompts
 
-Use these prompts for focused build sessions. Run one prompt at a time.
+Each prompt is designed to be executed by an autonomous agent without clarification. Search before editing. Read before touching.
 
-## Prompt 1: Lead Quality Audit
+---
 
-Audit `leadEngine/` and `/api/leads/search` for lead quality.
+## 1. Lead Scoring Calibration
 
-Goal: make every returned lead more actionable for a UK tradesman.
+Review the lead scoring logic in `leadEngine/scorer.ts` and `leadEngine/normaliser.ts`. Identify any hardcoded weights that produce skewed GOLD/SILVER/BRONZE ratios across different trade types. Compare scoring distributions across the stored lead samples. Adjust weights so that GOLD (score >=90) represents roughly 10-20% of total leads for typical urban UK postcodes. Verify by re-scoring at least 5 sample leads and checking the output distribution. Do not change the scoring formula shape — only adjust weights.
 
-Do:
-- Check source, trade fit, location fit, urgency, value, and contact path.
-- Add or improve structured reasons when a lead is rejected.
-- Keep the fixed lead schema intact.
-- Add a small regression test or script if behaviour changes.
+---
 
-Do not:
-- Change landing page UI.
-- Add fake leads.
-- Hide empty results without a structured reason.
+## 2. Source Reliability Audit
 
-## Prompt 2: Paid Depth Gate
+Search `leadEngine/fetchers/` and `server/services/` for all active data source fetchers. For each source, check: (a) whether it has a `sourceConfidence` or equivalent reliability field, (b) whether stale data is flagged to the UI (look for `stale`, `checkedAt`, or `readiness` fields), (c) whether errors are surfaced in `sourceHealth` on the `LeadSearchResponse`. Add a `readiness` field to any fetcher missing it, using the `SourceStats` type in `src/lib/types.ts`. Ensure `sourceHealth` is returned on every `/api/find-jobs` response. Do not change API contracts — extend only.
 
-Implement or audit free vs paid lead depth.
+---
 
-Goal: free users see proof; paid users get deeper contact/action data.
+## 3. Material Price Engine (Next Iteration)
 
-Do:
-- Confirm free output redacts contact-sensitive fields.
-- Confirm paid output keeps full contact path, score, and priority.
-- Add test cases for free and paid responses.
+The Material Price Engine page is at `src/pages/MaterialPriceEnginePage.tsx`. The API endpoint is `/api/material-prices`. Static benchmark data is also available in `src/components/MaterialEstimator.tsx`. Next iteration goals: (a) add a `MaterialEstimator` embed directly on the Material Price Engine page below the API results, pre-seeded with the searched trade; (b) add CSV export for paid users only — detect `useSubscription().active` from `src/lib/useSubscription.ts` and gate the export button behind it; (c) expand benchmark data in `MaterialEstimator.tsx` to cover at least 3 more trades (Painting, Landscaping, Gas/Heating). Do not modify the API fetching logic.
 
-Do not:
-- Block the whole UI behind payment.
-- Gate source attribution.
+---
 
-## Prompt 3: WhatsApp Ready Leads
+## 4. Paid Gating Audit
 
-Audit WhatsApp delivery readiness.
+Search all page components in `src/pages/` for patterns where data is shown unconditionally that should require `useSubscription().active === true`. Key targets: (a) `contactPath` data on leads — should show upgrade prompt if `active === false`; (b) full lead details (buyer name, budget) on `FindJobsPage.tsx` — already partially gated via `lockedCount` but verify the lock is enforced server-side not just client-side; (c) material estimate CSV export; (d) source health breakdown. For each gating point found, add a visible upgrade prompt using the pattern established in `LeadDetailPage.tsx` (navy box with yellow CTA to `/pricing`). Do not add full UI blocks — always show partial value, then the prompt.
 
-Goal: only send concise, lawful, high-intent leads.
+---
 
-Do:
-- Deliver only leads with `READY` or equivalent status.
-- Include trade, location, value/urgency, source, and next action.
-- Respect `contactPath` and avoid homeowner cold-contact assumptions.
+## 5. Owner/Superuser Access
 
-Do not:
-- Send raw planning text.
-- Send leads with weak source confidence.
+The owner access system is in `src/lib/adminGuard.ts` and the UI is at `src/pages/AdminGuardPage.tsx`. Check that the owner email (`manazoid4@gmail.com`) bypasses subscription gating on all protected routes. Verify the `ProtectedRoute` component in `src/components/ProtectedRoute.tsx` correctly checks admin status. If any routes guard against non-admin owners, add the bypass. Also check `AGENT_RUNNING_MODEL.md` for the canonical owner access model. Do not create new auth flows — extend the existing `adminGuard` pattern only.
 
-## Prompt 4: Source Benchmark Run
+---
 
-Run a source benchmark for one trade and one territory.
+## 6. Outcome Tracking + ROI Reporting
 
-Input:
-- Trade: electrician, roofer, plumber, builder, landscaper
-- Territory: postcode outward or region
+The win/loss tracking system is in `src/lib/winStore.ts`. The outcome API is `/api/leads/outcome`. The dashboard shows win stats via `DashboardPage.tsx`. Extend the reporting to include: (a) a "Return on subscription" calculation — total value of won jobs this month divided by the 39 GBP subscription cost, displayed as `Nx return`; (b) a simple trade-level win rate (wins / (wins + losses) per trade) — add to `getWinBreakdown()` in `winStore.ts`; (c) display both on `DashboardPage.tsx` in the existing stats section. All data is local (localStorage); no backend changes needed. Ensure the calculation handles zero-state gracefully.
 
-Output:
-- leads found
-- actionable count
-- rejected count
-- top rejection reasons
-- next source/scoring fix
+---
 
-Do not:
-- Optimise for lead count over lead quality.
+## 7. Comparison/SEO Expansion
 
-## Prompt 5: Production Deploy Readiness
+The comparison pages live in `src/pages/Compare*.tsx` and `app/vs/*/page.tsx`. Existing pages cover Checkatrade, BuildAlert, Bark, MyBuilder, and RatedPeople. Add two more: (a) `src/pages/CompareLocalHeroPage.tsx` + `app/vs/local-hero/page.tsx` comparing JobFilter vs Local Heroes; (b) `src/pages/CompareHaMPage.tsx` + `app/vs/homeadvisor/page.tsx` comparing JobFilter vs HomeAdvisor. Follow the exact same component structure as `src/pages/CompareCheckatradePage.tsx`. Add both to the sitemap if one exists (`app/sitemap.ts` or similar). Do not add them to the main nav — they are SEO landing pages only.
 
-Audit production readiness before deploy.
+---
 
-Do:
-- Confirm build command.
-- Confirm Vercel/Supabase env assumptions.
-- Confirm Stripe and WhatsApp secrets are server-only.
-- Confirm no preview-only config is treated as production.
+## 8. WhatsApp Lead Delivery
 
-Do not:
-- Deploy if `npm run build` or `npm run lint` fails.
+The WhatsApp integration currently uses wa.me links (outbound from user). Build a server-side push trigger: when a GOLD lead (score >=90) is stored via the scan API, send a formatted WhatsApp message to the user's registered number. Store the API key in `.env.local` as `WHATSAPP_API_KEY`. The notification format should match `FIRST_TOUCH_TEMPLATE` from `src/lib/chaseTemplates.ts` but sent TO the user, not from them. Add a `notifyUserViaWhatsApp(lead, userPhone)` function in `server/services/whatsappNotifier.ts` using Twilio WhatsApp API. Do not expose the API key client-side and do not modify the existing wa.me link pattern.
 
-## Prompt 6: Outcome Tracking
+---
 
-Build or audit lead outcome tracking.
+## 9. Supabase Schema Audit
 
-Goal: learn which leads turn into quotes and won jobs.
-
-Track:
-- delivered
-- opened
-- contacted
-- quoted
-- won
-- lost
-- bad fit reason
-
-Do not:
-- Treat lead volume as success.
+The Supabase client is configured in `src/lib/supabase/client.ts` and `src/lib/supabase/server.ts`. Check `supabase/migrations/` or `supabase/schema.sql` if they exist. Audit: (a) verify the `leads` table has `score`, `status`, `trade`, `postcode`, `created_at` columns; (b) verify the `subscriptions` table has `user_id`, `stripe_subscription_id`, `status`, `tier` columns; (c) check the `outcomes` table (created by `/api/leads/outcome`) has `lead_id`, `status`, `value`, `created_at`; (d) verify Row Level Security (RLS) is enabled on all tables. Output findings in `supabase/audit_report.md` with recommended SQL fixes. Do not run migrations automatically.

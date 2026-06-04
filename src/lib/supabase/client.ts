@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
 export function createBrowserSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -8,5 +8,8 @@ export function createBrowserSupabaseClient() {
     throw new Error('Login is temporarily unavailable. Please try again later.');
   }
 
-  return createClient(url, anonKey);
+  // Uses @supabase/ssr so the PKCE code verifier is stored in cookies,
+  // not localStorage — this lets the server-side /auth/callback route
+  // exchange the code without needing localStorage access.
+  return createBrowserClient(url, anonKey);
 }

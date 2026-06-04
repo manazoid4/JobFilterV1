@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
 
-import { fillTemplate, MESSAGE_TEMPLATES, type TemplateChannel } from '../lib/chaseTemplates';
+import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
 
@@ -20,9 +20,9 @@ type Props = {
 };
 
 function getChannels(contactSignal?: ContactSignal): TemplateChannel[] {
-  if (contactSignal === 'strong') return ['whatsapp'];
-  if (contactSignal === 'weak') return ['whatsapp', 'portal'];
-  return ['portal', 'canvass', 'letter'];
+  if (contactSignal === 'strong') return ['whatsapp', 'email'];
+  if (contactSignal === 'weak') return ['whatsapp', 'portal', 'email'];
+  return ['portal', 'canvass', 'letter', 'email'];
 }
 
 const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.ElementType; copyLabel: string; copiedLabel: string }> = {
@@ -30,6 +30,7 @@ const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.Element
   portal: { label: 'Portal Pitch', icon: Mail, copyLabel: 'COPY FOR PORTAL', copiedLabel: 'COPIED — PASTE INTO PORTAL' },
   canvass: { label: 'Site Canvass', icon: MapPin, copyLabel: 'COPY SCRIPT', copiedLabel: 'COPIED — USE ON SITE' },
   letter: { label: 'Letter Drop', icon: Mail, copyLabel: 'COPY LETTER', copiedLabel: 'COPIED — PRINT & POST' },
+  email: { label: 'Email', icon: Mail, copyLabel: 'COPY EMAIL', copiedLabel: 'COPIED — PASTE INTO EMAIL' },
 };
 
 const WA_TIMING_KEYS = ['first_touch_2h', 'follow_up_24h', 'final_nudge_48h'];
@@ -41,6 +42,7 @@ function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): strin
     if (hrs > 20) return 'follow_up_24h';
     return 'first_touch_2h';
   }
+  if (channels.includes('email')) return 'email_first_touch';
   if (channels.includes('portal')) return 'portal_pitch';
   if (channels.includes('canvass')) return 'canvass_script';
   return 'letter_drop';
@@ -194,7 +196,23 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
 
           {/* Message preview */}
           <div className="border border-[var(--line)] bg-[var(--offwhite)] p-3 mb-3">
-            <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>
+            {(() => {
+              if (activeChannel === 'email') {
+                const emailParts = parseEmailSubject(filledMsg);
+                return (
+                  <>
+                    {emailParts.subject && (
+                      <div className="mb-2 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
+                        <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                        <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
+                      </div>
+                    )}
+                    <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{emailParts.body}</p>
+                  </>
+                );
+              }
+              return <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>;
+            })()}
           </div>
 
           <div className="flex gap-2">

@@ -58,8 +58,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
-    if (!supabase) return;
-    await supabase.auth.signOut();
+    if (supabase) {
+      await supabase.auth.signOut();
+    }
+    // Also clear the SSR cookie so server components stop seeing the session.
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore — client session is already cleared above
+    }
   }
 
   return (

@@ -2,12 +2,45 @@ import type { Express, Request, Response } from 'express';
 import { getAllSourcesConfig } from '../../leadEngine/sourceConfig';
 import { rateLimit } from '../middleware/rateLimit';
 import { getSourceHealthSummary, summarizeSourceHealth } from '../services/sourceBenchmark';
+import { resolveOwnerFromToken } from '../lib/ownerAccess';
 
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
+async function resolveSourceHealthTier(req: Request): Promise<'paid' | 'free'> {
+  if (FULL_ACCESS_TEST_MODE) return 'paid';
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return 'free';
+
+  const token = authHeader.slice(7);
+
+  // Owner gets paid access
+  const ownerEmail = await resolveOwnerFromToken(token);
+  if (ownerEmail) return 'paid';
+
+  try {
+    const { supabase } = await import('../lib/supabase');
+    if (!supabase) return 'free';
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) return 'free';
+    const { data: sub } = await supabase
+      .from('subscriptions')
+      .select('active, status')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+    if (sub?.active || sub?.status === 'active') return 'paid';
+  } catch {
+    // Supabase unavailable — fall through to free
+  }
+  return 'free';
+}
+
 export function registerSourceHealthSummaryRoute(app: Express) {
   app.get('/api/source-health-summary', rateLimit, async (req: Request, res: Response) => {
-    const isPaid = FULL_ACCESS_TEST_MODE || String(req.query.tier).toLowerCase() === 'paid';
+    // NOTE: tier is resolved from auth token only — query param ?tier= is intentionally ignored
+    const isPaid = await resolveSourceHealthTier(req) === 'paid';
     const runData = await getSourceHealthSummary();
     const runSummary = summarizeSourceHealth(runData.rows);
     const configuredSources = getAllSourcesConfig();

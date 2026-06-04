@@ -6,9 +6,9 @@ import { ClipboardCheck, MapPin, Radar, ShieldCheck } from 'lucide-react';
 
 const trades = ['Builder', 'Roofer', 'Electrician', 'Plumber', 'Heat pump installer', 'Bathroom fitter', 'Landscaper', 'Not sure'];
 const proofCards = [
-  { icon: ShieldCheck, label: 'No quote circus' },
-  { icon: Radar, label: 'Matched by trade' },
-  { icon: MapPin, label: 'Local patch fit' },
+  { icon: ShieldCheck, label: 'One trade, not five bidders' },
+  { icon: Radar, label: 'Matched by trade and postcode' },
+  { icon: MapPin, label: 'Local — not a national agency' },
 ];
 
 export function PostJobPage() {
@@ -67,7 +67,7 @@ export function PostJobPage() {
               NEED A SERIOUS TRADE? SKIP THE QUOTE LOTTERY.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-              Tell us the job once. JobFilter packages it properly, checks local fit, and routes it to a serious firm instead of blasting your details around a shared lead market.
+              Tell us the job once. No Checkatrade auction. No five tradesmen phoning at once. JobFilter checks local fit and routes your job to one serious firm — not a queue of bidders.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {proofCards.map(({ icon: RealIcon, label }) => {
@@ -105,9 +105,9 @@ export function PostJobPage() {
 
         <aside className="grid gap-4">
           {[
-            ['No public bidding war', 'Your job is treated like a signal, not bait for a lead auction.'],
-            ['Better first call', 'The right context means the first reply can be practical, not a generic sales script.'],
-            ['Smarter match over time', 'Planning approvals, energy signals, patch demand, and local capacity all feed into the match — not just your postcode.'],
+            ['Your details go to one firm', 'Bark and Checkatrade sell your job to five trades at once. JobFilter routes it to one — the closest match by trade, patch, and capacity.'],
+            ['First call is practical, not a pitch', 'The trade gets the full job detail, your location, and the work scope before they ring — so the first call is a quote conversation, not a fact-finding exercise.'],
+            ['Verified local firms only', 'We do not pass jobs to agencies or national call centres. The trade is local, insured, and operating in your postcode area.'],
           ].map(([title, body]) => (
             <article key={title} className="ops-panel bg-white p-5">
               <ClipboardCheck className="text-[var(--orange)]" size={24} strokeWidth={3} />

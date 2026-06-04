@@ -1,4 +1,5 @@
 import type { Express, Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit';
 import { triggerGoldLeadWhatsApp } from '../services/sms';
 
 async function isAuthenticated(req: Request): Promise<boolean> {
@@ -14,7 +15,7 @@ async function isAuthenticated(req: Request): Promise<boolean> {
 }
 
 export function registerLeadNotifyRoute(app: Express) {
-  app.post('/api/leads/notify', async (req: Request, res: Response) => {
+  app.post('/api/leads/notify', rateLimit, async (req: Request, res: Response) => {
     if (!(await isAuthenticated(req))) {
       return res.status(401).json({ ok: false, error: 'Unauthorised.' });
     }
@@ -37,6 +38,7 @@ export function registerLeadNotifyRoute(app: Express) {
         recommendedAction: leadData.recommendedAction,
         contactPathUsed: leadData.contactPath?.recommendedChannel || leadData.contactPathUsed,
         scoreReasons: leadData.scoreReasons || leadData.reasons,
+        sourceSystem: leadData.source || leadData.sourceSystem,
       };
 
       const result = await triggerGoldLeadWhatsApp(payload);

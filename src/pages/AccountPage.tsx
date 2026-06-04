@@ -64,6 +64,9 @@ export function AccountPage() {
       const supabase = createBrowserSupabaseClient();
       await supabase.auth.signOut();
     } catch { /* proceed if supabase unavailable */ }
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch { /* SSR cookie may already be cleared */ }
     router.replace('/login');
   }
 

@@ -18,7 +18,7 @@ export type LeadDecision = {
   details?: string;
   phone?: string;
   budget?: string;
-  tier?: 'GOLD' | 'SILVER' | 'BIN';
+  tier?: 'GOLD' | 'SILVER' | 'BRONZE';
   status: LeadDecisionStatus;
   createdAt: string;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
@@ -31,6 +31,7 @@ export type LeadDecision = {
   signalStack?: string[];
   signalClass?: string;
   fusionKey?: string;
+  scoreReasons?: string[];
 };
 
 export type Lead = {

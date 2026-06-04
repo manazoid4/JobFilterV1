@@ -9,20 +9,20 @@ const faqs = [
     a: 'We do not sell shared leads. We scan verified official signals — planning approvals, energy efficiency data, and property information — and score every signal for intent. One trade partner per postcode. No bidding wars. No dead leads.',
   },
   {
-    q: 'How does the Serious Buyer Score work?',
-    a: 'Every signal gets a score from 0 to 100 based on verified official data: planning status, property type, recent sales, energy efficiency rating, and timing. We show you the evidence behind every score. You see what we see.',
+    q: 'How does the lead scoring work?',
+    a: 'Every signal scores 0–100 based on verified data: planning approval status, urgency, distance from your patch, estimated job value, and how closely it matches your trade. Leads land as GOLD (chase now), SILVER (worth watching), or BRONZE (add to quiet-week list). You see the evidence behind every score — not just a number.',
   },
   {
-    q: 'What is lead readiness?',
-    a: 'Every lead gets a simple readiness marker. High intent means call within 24 hours. Low confidence means verify first or skip the site visit.',
+    q: 'What does GOLD, SILVER, BRONZE mean?',
+    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your pipeline is light.',
   },
   {
     q: 'How fresh are the leads?',
-    a: 'Most signals are detected within 24-48 hours of appearing on official registers. Planning approvals. Property transactions. Energy efficiency triggers. You get them before they appear anywhere else.',
+    a: 'Most signals are detected within 24–48 hours of appearing on official registers. Planning approvals. Energy efficiency triggers. Business registrations. You get them before they appear on Checkatrade, Bark, or MyBuilder.',
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'One territory lock, unlimited WhatsApp alerts, letter drop scripts for every lead, full lead scoring, lead readiness markers, pipeline tracking, and all free tools. Founder price locks forever while your plan stays active.',
+    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, pipeline tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely do not see one job worth chasing, we refund every penny. No hoops — we just ask that you actually use the system.',
+    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you do not see one job worth quoting in that time, email us and we process the refund the same day. No forms, no argument.',
   },
   {
     q: 'How does territory exclusivity work?',
@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Where does your data come from?',
-    a: 'Verified UK government data published under the Open Government Licence — planning approvals, energy efficiency signals, property transactions, business registrations, and public contracts. We clean, score, and deliver the signals. You get actionable leads, not raw data.',
+    a: 'Verified official UK sources — planning approvals, energy signals, property ownership data, business registrations, and public contracts. All published under open government licences. We clean, score, and route the signals. You get ranked leads, not raw data.',
   },
   {
     q: 'Is my data safe?',
@@ -64,7 +64,7 @@ export function FaqPage() {
           QUESTIONS? STRAIGHT ANSWERS.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
-          No corporate speak. No evasion. Just direct answers to the questions tradesmen actually ask.
+          If you&apos;ve used Checkatrade, Bark, or MyBuilder and got burned — you probably have questions. Here are the straight answers.
         </p>
       </section>
 

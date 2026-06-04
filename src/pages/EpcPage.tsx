@@ -42,7 +42,7 @@ export function EpcPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TRADES THAT BENEFIT</p>
-        <div className="mt-5 grid gap-4 md:grid-cols-5">
+        <div className="mt-5 grid gap-4 grid-cols-2 md:grid-cols-5">
           {trades.map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h2 className="headline text-2xl">{title}</h2>
@@ -53,20 +53,20 @@ export function EpcPage() {
       </section>
 
       <section className="jf-box bg-[var(--yellow)] p-6">
-        <p className="micro-label text-[var(--ink)]">LETTER SERVICE</p>
-        <h2 className="headline mt-3 text-5xl leading-none">INTRODUCTORY LETTER SERVICE.</h2>
+        <p className="micro-label text-[var(--ink)]">LETTER TEMPLATE</p>
+        <h2 className="headline mt-3 text-5xl leading-none">PRINT &amp; POST TEMPLATE.</h2>
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
-          JobFilter can send a professional introductory letter to F/G rated property owners on your behalf. Company details, trade specialisation, compliance proof, and direct contact - before five other tradesmen are fighting for the same job.
+          Most trades only send WhatsApp. A physical letter to an F/G rated landlord stands out — and costs 85p. Use our ready-to-print template: fill in your details, print it, post it. You control the timing.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-4">
-          {['Printed on headed paper', 'Posted to the property address', 'Your details, proof, and trade specialisation', 'WhatsApp-ready PDF copy'].map((feature) => (
+          {['Ready to print — no design needed', 'Post it yourself — you control timing', 'Your trade, details, and credentials pre-filled', 'PDF version for digital follow-up'].map((feature) => (
             <div key={feature} className="border-2 border-[var(--ink)] bg-white p-3 font-black">
               {feature}
             </div>
           ))}
         </div>
         <div className="mt-6">
-          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Service%20Enquiry">ENQUIRE ABOUT LETTER SERVICE</a>
+          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Template%20Request">GET THE TEMPLATE</a>
         </div>
       </section>
 
@@ -86,7 +86,8 @@ export function EpcPage() {
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
             Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button mt-6 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+          <p className="mt-2 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
         </div>
         <WaitlistForm source="epc-leads" />
       </section>

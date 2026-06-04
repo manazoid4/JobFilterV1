@@ -10,17 +10,22 @@ const comparison = [
   { feature: 'New business signals', old: 'No', new: 'Yes — new businesses needing premises work' },
   { feature: 'GOLD / SILVER / BIN scoring', old: 'No', new: 'Yes — chase only what pays' },
   { feature: 'WhatsApp alerts', old: 'No', new: 'Yes — within minutes, not batched' },
-  { feature: 'Exclusive leads', old: 'Browse only', new: 'No one else sees your scan' },
+  { feature: 'Private scans', old: 'Browse only', new: 'No shared auction — scan is yours' },
   { feature: 'Delivery', old: 'Manual browsing', new: 'Pushed to your phone' },
   { feature: 'Price', old: '£30+/mo — for less', new: '£39/mo founding — forever' },
 ];
 
 const signals = [
-  ['Planning data', 'Approved applications before they hit any directory.'],
+  ['Planning approved', 'Approved applications before they hit any directory.'],
   ['Energy upgrade signals', 'Properties legally required to upgrade — retrofit work confirmed.'],
   ['Council contracts', 'Public tenders with buyer names and values.'],
   ['Ownership changes', 'New owners renovate. We catch the signal before the job goes up anywhere.'],
   ['New businesses', 'Newly registered businesses needing premises work done.'],
+  ['HMO licensing', 'Landlords need compliance work done before the licence clears — fire doors, electrics, plumbing.'],
+  ['Building control', 'Projects past planning talk and into real site movement — extensions, conversions, structural work.'],
+  ['Auction property', 'New auction wins need fast turnaround: refurb, roof, damp, electrics, heating.'],
+  ['Void premises', 'Business distress and empty premises create urgent make-safe and refit work for local trades.'],
+  ['Retrofit grants', 'Funded upgrade windows create timed demand for insulation, solar, heating and electrical work.'],
 ];
 
 export function BuildUkAlternativePage() {
@@ -136,13 +141,13 @@ export function BuildUkAlternativePage() {
         </div>
       </section>
 
-      {/* ── FIVE SIGNALS ─────────────────────────────── */}
+      {/* ── TEN SIGNALS ─────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-            2BuildUK gave you planning data. JobFilter gives you that plus four more sources that tell you work is coming.
+            2BuildUK gave you planning data. JobFilter gives you that plus nine more verified signals that tell you work is coming — before it reaches any directory.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (
@@ -262,7 +267,7 @@ export function BuildUkAlternativePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">ONE JOB PAYS FOR THE MONTH. EVERYTHING AFTER IS PROFIT.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
-              ['Exclusive scans', 'No one else sees your results. Not shared. Not resold.'],
+              ['No shared auction', 'Scored before delivery — no five-trade blast, no race-to-the-bottom resale.'],
               ['Verified signals only', 'Planning approvals, public contracts, verified energy signals. Not forms. Not ads.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No top-ups.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands.'],

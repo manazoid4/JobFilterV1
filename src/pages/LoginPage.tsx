@@ -28,8 +28,8 @@ export function LoginPage() {
   }
 
   return (
-    <main className="page-shell py-16">
-      <section className="jf-box max-w-md mx-auto bg-white p-8">
+    <main className="page-shell py-8 sm:py-16">
+      <section className="jf-box max-w-md mx-auto bg-white p-5 sm:p-8">
         <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
         <h1 className="headline text-3xl mt-2 mb-6">Sign in</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

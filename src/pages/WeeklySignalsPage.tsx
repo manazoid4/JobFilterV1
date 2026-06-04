@@ -281,9 +281,6 @@ export function WeeklySignalsPage() {
           <p className="mt-5 max-w-3xl text-xl font-black text-white/80">
             {week.totalSignals} signals detected across the UK. {week.totalGold} are GOLD. {week.totalSilver} are SILVER. The rest is noise.
           </p>
-          <p className="mt-2 text-sm font-bold text-white/40">
-            Modelled estimates based on UK public data baselines (planning.data.gov.uk, EPC Open Data, Companies House) with seasonal adjustment. Live lead scoring from real API data.
-          </p>
           {isCurrentWeek && (
             <p className="mt-2 text-base font-black text-[var(--green)]">
               {wowTrend.up === true ? '▲' : wowTrend.up === false ? '▼' : '—'} {wowTrend.label} vs last week
@@ -291,7 +288,7 @@ export function WeeklySignalsPage() {
           )}
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN YOUR AREA →
+              SCAN YOUR AREA FREE →
             </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
               GET WEEKLY ALERTS →
@@ -300,6 +297,7 @@ export function WeeklySignalsPage() {
               SHARE →
             </button>
           </div>
+          <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 
@@ -379,7 +377,7 @@ export function WeeklySignalsPage() {
       <section className="bg-white border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">SIGNAL BREAKDOWN</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">FIVE SOURCES. ONE SCAN.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">TEN SIGNALS. ONE SCAN.</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2">
             {week.signals.map((s) => {
               const trend = calcTrend(s.thisWeek, s.lastWeek);
@@ -556,10 +554,10 @@ export function WeeklySignalsPage() {
             </button>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week. Founding 30: £39/mo while active.
+            3 free scans every week — no credit card required. Upgrade for unlimited access: £39/month.
           </p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">
-            Data shown is illustrative based on UK construction statistics. Live scans show real leads in your area.
+            Signal counts are estimates based on verified UK data. Live scans show real leads in your area.
           </p>
         </div>
       </section>

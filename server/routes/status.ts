@@ -33,14 +33,12 @@ export function registerStatusRoute(app: Express) {
           webhookUrl: has('N8N_WEBHOOK_URL'),
           api: has('N8N_API_URL') && has('N8N_API_KEY'),
         },
-        twilio: {
-          // Runtime in server/services/sms.ts requires TWILIO_WHATSAPP_TO and
-          // defaults TWILIO_WHATSAPP_FROM, so match that contract here.
+        whatsapp: {
+          // Runtime in server/services/sms.ts uses Meta WhatsApp Cloud API.
           configured:
-            has('TWILIO_ACCOUNT_SID') &&
-            has('TWILIO_AUTH_TOKEN') &&
-            has('TWILIO_WHATSAPP_TO'),
-          fromOverride: has('TWILIO_WHATSAPP_FROM'),
+            has('WHATSAPP_PHONE_NUMBER_ID') &&
+            has('WHATSAPP_ACCESS_TOKEN'),
+          recipientOverride: has('WHATSAPP_TO'),
         },
         companiesHouse: {
           configured: has('COMPANIES_HOUSE_API_KEY'),

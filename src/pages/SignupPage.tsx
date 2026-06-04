@@ -5,7 +5,19 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
-const TRADES = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
+const TRADES = [
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'electrical', label: 'EV charger installer' },
+  { value: 'plumbing', label: 'Plumber' },
+  { value: 'plumbing', label: 'Gas engineer' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Builder / general contractor' },
+  { value: 'carpentry', label: 'Carpenter / joiner' },
+  { value: 'painting', label: 'Decorator / painter' },
+  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'hvac', label: 'Heat pump installer' },
+  { value: 'landscaping', label: 'Landscaper / groundworks' },
+];
 
 export function SignupPage() {
   const searchParams = useSearchParams();
@@ -69,6 +81,9 @@ export function SignupPage() {
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
             We sent the confirmation link to {email}. Click it to confirm your account and activate your patch.
           </p>
+          <p className="mt-3 max-w-2xl text-sm font-black text-[var(--ink)]/70">
+            Check your spam folder if you don&apos;t see it within 2 minutes.
+          </p>
           <Link href="/pricing" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BACK TO PRICING</Link>
         </section>
       </main>
@@ -105,11 +120,11 @@ export function SignupPage() {
         <label className="field-label">
           Trade
           <select className="field-input" value={trade} onChange={(event) => setTrade(event.target.value)} required>
-            {TRADES.map((item) => <option key={item} value={item}>{item.toUpperCase()}</option>)}
+            {TRADES.map((item) => <option key={item.label} value={item.value}>{item.label}</option>)}
           </select>
         </label>
         <label className="field-label">
-          Your area (e.g. B14)
+          Your area (e.g. B14, SW1, M20)
           <input className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
         </label>
         {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}

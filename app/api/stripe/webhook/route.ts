@@ -1,15 +1,15 @@
 import Stripe from 'stripe';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { getStripe } from '../../../../src/lib/stripe';
 
 export async function POST(request: Request) {
-  const secretKey = process.env.STRIPE_SECRET_KEY;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const stripe = getStripe();
 
-  if (!secretKey || !webhookSecret) {
+  if (!stripe || !webhookSecret) {
     return Response.json({ ok: false, error: 'Stripe webhook is not configured' }, { status: 503 });
   }
 
-  const stripe = new Stripe(secretKey);
   const signature = request.headers.get('stripe-signature');
   const rawBody = await request.text();
 
@@ -25,22 +25,40 @@ export async function POST(request: Request) {
   }
 
   const supabase = getSupabaseServiceClient();
-  if (supabase) {
-    await supabase.from('n8n_events').insert({
-      event_type: `stripe.${event.type}`,
-      payload: event as unknown as Record<string, unknown>,
-      status: 'received',
-    });
+  if (!supabase) {
+    console.error('[stripe/webhook] Supabase not configured — event not processed:', event.type);
+    return Response.json({ received: true });
+  }
 
+  // Log every event for audit trail
+  await supabase.from('n8n_events').insert({
+    event_type: `stripe.${event.type}`,
+    payload: event as unknown as Record<string, unknown>,
+    status: 'received',
+  }).then(({ error }) => {
+    if (error) console.warn('[stripe/webhook] Could not log event:', error.message);
+  });
+
+  try {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as Stripe.Checkout.Session;
-      await upsertSubscriptionFromCheckout(session);
+      const userId = session.metadata?.user_id || session.metadata?.userId;
+      if (!userId) {
+        console.error('[stripe/webhook] checkout.session.completed missing user_id in metadata — cannot upgrade plan. session_id:', session.id);
+      } else {
+        await upsertSubscriptionFromCheckout(session);
+        console.log('[stripe/webhook] plan upgraded for user_id:', userId, 'session_id:', session.id);
+      }
     }
 
     if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
       const subscription = event.data.object as Stripe.Subscription;
       await updateSubscriptionStatus(subscription);
+      console.log('[stripe/webhook]', event.type, 'processed for subscription:', subscription.id);
     }
+  } catch (err) {
+    console.error('[stripe/webhook] handler error for', event.type, ':', err instanceof Error ? err.message : err);
+    // Still return 200 so Stripe does not retry — error is logged above
   }
 
   return Response.json({ received: true });
@@ -50,14 +68,29 @@ async function upsertSubscriptionFromCheckout(session: Stripe.Checkout.Session) 
   const supabase = getSupabaseServiceClient();
   if (!supabase) return;
 
-  const userId = session.metadata?.userId;
-  const plan = session.metadata?.tier || 'pro';
+  const userId = session.metadata?.user_id || session.metadata?.userId;
+  const plan = session.metadata?.plan || session.metadata?.tier || 'pro';
   const stripeSubscriptionId = typeof session.subscription === 'string' ? session.subscription : session.subscription?.id;
   const stripeCustomerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
 
-  if (!userId || !stripeSubscriptionId) return;
+  if (!userId) {
+    console.error('[stripe/webhook] upsertSubscriptionFromCheckout: missing user_id');
+    return;
+  }
+  if (!stripeSubscriptionId) {
+    // Session mode may be 'payment' (one-time) — no subscription to upsert but still upgrade plan
+    console.warn('[stripe/webhook] checkout.session.completed has no subscription ID — upgrading profile only. session_id:', session.id);
+    const { error } = await supabase.from('profiles').update({
+      plan,
+      stripe_customer_id: stripeCustomerId ?? null,
+      onboarding_status: 'paid',
+      updated_at: new Date().toISOString(),
+    }).eq('id', userId);
+    if (error) console.error('[stripe/webhook] profiles update failed:', error.message);
+    return;
+  }
 
-  await supabase.from('subscriptions').upsert({
+  const { error: subError } = await supabase.from('subscriptions').upsert({
     user_id: userId,
     stripe_customer_id: stripeCustomerId ?? null,
     stripe_subscription_id: stripeSubscriptionId,
@@ -66,12 +99,15 @@ async function upsertSubscriptionFromCheckout(session: Stripe.Checkout.Session) 
     active: true,
     updated_at: new Date().toISOString(),
   }, { onConflict: 'stripe_subscription_id' });
+  if (subError) console.error('[stripe/webhook] subscriptions upsert failed:', subError.message);
 
-  await supabase.from('profiles').update({
+  const { error: profError } = await supabase.from('profiles').update({
     plan,
+    stripe_customer_id: stripeCustomerId ?? null,
     onboarding_status: 'paid',
     updated_at: new Date().toISOString(),
   }).eq('id', userId);
+  if (profError) console.error('[stripe/webhook] profiles update failed:', profError.message);
 }
 
 async function updateSubscriptionStatus(subscription: Stripe.Subscription) {
@@ -97,6 +133,14 @@ async function updateSubscriptionStatus(subscription: Stripe.Subscription) {
     .maybeSingle();
 
   if (data?.user_id) {
+    // Check if this user is an owner — never downgrade owner accounts via Stripe webhook
+    const { data: profile } = await supabase.from('profiles').select('email').eq('id', data.user_id).maybeSingle();
+    const ownerEmails = ['manazoid4@gmail.com', ...(process.env.JOBFILTER_SUPERUSER_EMAILS ?? '').split(',').map((e: string) => e.trim().toLowerCase()).filter(Boolean)];
+    if (profile?.email && ownerEmails.includes(profile.email.toLowerCase())) {
+      console.log('[stripe-webhook] skipping plan change for owner account', profile.email);
+      return;
+    }
+
     await supabase.from('profiles').update({
       plan: active ? data.plan : 'free',
       onboarding_status: active ? 'paid' : 'payment_inactive',

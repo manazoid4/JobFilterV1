@@ -1,5 +1,195 @@
 # Daily To-Do
 
+## Today - 3 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **QuickResponseKit email subject parsing** — email preview now shows subject in navy box + body below (matches LeadDetailPage; b3a2300 added email channel but preview showed raw "Subject: ..." inline)
+- [x] **ActivationPendingPage "Postcode cluster" regression** — "Postcode cluster (e.g. B14, SW1, M20)" → "Your area (e.g. B14, SW1, M20)" (was fixed on SignupPage in Run 1 but missed on ActivationPendingPage)
+- [x] **TipsPage CTA jargon** — "ENTER THE INTAKE →" → "SCAN MY AREA FREE →" + "No credit card required" trust line (NEEDLE fix — page CTA used internal jargon)
+- [x] **FindJobsPage hero sub-line** — "Scan free — unlock full leads from £39/mo" → "3 free scans every week — no credit card" (NEEDLE fix — mixed free entry + paid ask before tradesman reaches scanner)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **Gas engineer / heat pump lead quality** — verify boiler/heating leads surface at top for plumbing trade in B14 scan
+- [ ] **ActivationPendingPage TRADES list** — old flat list ("Heat Pumps") vs SignupPage's specific trades ("Heat pump installer") — consider aligning
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 3 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **PricingPage bottom CTA headline** — "LOCK THE ACCOUNT. THEN CONTROL THE JOBS." → "CLAIM YOUR PATCH. OWN THE JOBS." (NEEDLE fix: "lock" appeared twice; "claim" = urgency, "own" = empowering)
+- [x] **PricingPage free CTAs** — both "SCAN FREE FIRST" buttons → "SCAN FREE — NO CARD NEEDED" (trust signal now in button label; consistent with rest of site)
+- [x] **TerritoriesPage table column** — "Area model" → "Avg job value" (was meaningless jargon; column shows "£2k–£9k avg job" data)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **Gas engineer / heat pump lead quality** — now that gas engineers can sign up correctly (as of Run 1), verify boiler/heating leads surface at top for plumbing trade in B14 scan
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 3 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Build error fixed** — score/route.ts had duplicate variable block (qualityLabel, leadUrgency, lead, persistence, whatsapp declared twice); removed duplicate block + cleaned return statement of duplicate keys
+- [x] **SignupPage TRADES dropdown expanded** — added Gas engineer, EV charger installer, Heat pump installer, Decorator/painter with readable labels; internal trade keys correctly mapped (gas→plumbing, heat pump→hvac, ev charger→electrical)
+- [x] **LeadListPage "60% drop" stat softened** — "drops 60% after 24 hours" → "drops significantly after 24 hours" (unvalidated precision removed)
+- [x] **LeadListPage TIP banner gated on leads** — TIP now hidden when list is empty (was confusing for new users with no tracked leads)
+- [x] **DashboardPage patch-locked confirmation made prominent** — "Gold leads shown to you first" now text-sm/yellow instead of text-xs/white/60 (paying users now get clear patch confirmation, not a faint footnote)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **Homepage "Energy: F/G" signal bubble** — floating hero bubble uses F/G rating letters; consider changing to "Energy: LOW" to remove EPC F/G association
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 2 June 2026 (NightlyBuildAgent — Run 4)
+
+- [x] **DashboardPage territory urgency** — text-xs/60% → text-sm/90%; "Another trade could claim your area today" added; button "LOCK YOUR PATCH NOW →"; QUICK ACTIONS section adds "Founder price £39/mo — no shared auction, no credit burn" context
+- [x] **LeadListPage trust line prominence** — text-xs/60% → text-sm/80%; "No credit card required" → "No credit card required — 3 free scans every week"
+- [x] **SignupPage "Postcode cluster" jargon** — regression fixed: "Postcode cluster (e.g. B14, SW1, M20)" → "Your area (e.g. B14, SW1, M20)" — was fixed in May 26 run but regressed in merge
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [x] **LeadListPage "60% drop" stat** — DONE (3 June Run 1)
+- [x] **SignupPage TRADES dropdown** — DONE (3 June Run 1)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 2 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **SignalsPage "EXCLUSIVE TERRITORY PROTECTION"** — fixed to "TERRITORY LOCK ACTIVE" (product rule compliance)
+- [x] **CompareMyBuilderPage signals count** — "Signals per scan" row added ("10 verified signals per scan") + EPC/land-registry naming violation fixed
+- [x] **CompareTrustATraderPage** — 3 naming violations fixed (EPC, land registry, planning portals); "Signals per scan" row added; "No credit card required" trust line added
+- [x] **CompareRatedPeoplePage** — 4 naming violations fixed (EPC, land registry × 4 instances)
+- [x] **CompareBarkPage** — 3 naming violations fixed (EPC × 3 instances)
+- [x] **DashboardPage isEmpty "Patch Plan" jargon** — "the Patch Plan pays for itself" → "£39/mo pays for itself 50 times over — no shared auction, no credit burn"
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage territory CTA urgency** — NEEDLE #2: "you're racing every other trade" + "LOCK YOUR PATCH NOW" scarcity language
+- [ ] **LeadListPage trust line prominence** — NEEDLE #3: move "No credit card required" higher / larger text near first CTA
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 2 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Stage-aware WhatsApp templates on LeadListPage** — `getChaseLeads()` cross-referenced; following_up/contacted leads now get `follow_up_24h` template + "SEND FOLLOW-UP" button label; not_contacted keeps first_touch_2h
+- [x] **"FIVE SIGNALS. ONE SCAN." copy fixed** — BuildUkAlternativePage, CompareBuildAlertPage, CompareCheckatradePage all updated to "TEN SIGNALS. ONE SCAN." + 5 new signal cards each (HMO, Building Control, Auction, Void Premises, Retrofit Grants)
+- [x] **WeeklySignalsPage heading** — "TEN SOURCES. ONE SCAN." → "TEN SIGNALS. ONE SCAN."
+- [x] **"Exclusive" product rule violations removed** — 6 instances across BlueprintPage, BuildUkAlternativePage, CompareBuildAlertPage, CompareBarkPage fixed to "No shared auction" approved language
+- [x] **CompareMyBuilderPage EPC violation** — "EPC signals" → "energy signals" in comparison table + "No credit card required" trust line added to hero
+- [x] **DevPortalPage env var** — VITE_OPEN_ACCESS=true → NEXT_PUBLIC_OPEN_ACCESS=true
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **SignalsPage "EXCLUSIVE TERRITORY PROTECTION"** — line 250 has "EXCLUSIVE" in footer badge; check if product rule violation (territory lock context may make it OK)
+- [ ] **CompareMyBuilderPage signals count** — table has no signal count for JobFilter; add "10 signals" row
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 2 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Trade scoring reasons on LeadListPage** — `scoreReasons` persisted to localStorage when tracking leads; `tradeHighlights()` parser added; yellow badges ("EV CHARGER — YOUR TRADE", "BOILER — YOUR TRADE") now visible on pipeline cards
+- [x] **WeeklySignalsPage copy** — removed corporate "Modelled estimates" disclaimer; hero CTA → "SCAN YOUR AREA FREE →"; "No credit card required" trust line added; bottom pricing line cleaned up
+- [x] **EpcPage CTA** — "SCAN MY AREA FREE →" + "No credit card required" trust line added (consistent with all other free CTAs)
+- [x] **LeadDetailPage silver copy** — "availability check template below" was inaccurate for not_contacted leads; fixed to "use the WhatsApp templates below"
+- [x] **commercialOnly filter** — confirmed FILL MY WEEK already calls setCommercialOnly(false) at line 354 (no fix needed)
+- [x] **WeeklySignalsPage/SignalsPage copy audit** — DONE (WeeklySignals fixed; SignalsPage CTA section already had correct trust copy)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **SignalsPage heading fix** — "FIVE SOURCES. ONE SCAN." is inaccurate (there are 10 signals). Update to "TEN SIGNALS. ONE SCAN."
+- [ ] **Commercial lead COMMERCIAL badge** — verify backend actually sets `isCommercial` flag on real scan results (not just demo data)
+
+## Today - 1 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **LeadCard "EXCLUSIVE · NOT SHARED" badge** — product rule violation fixed; changed to "NO SHARED AUCTION" (approved language from Problems and Solutions.md)
+- [x] **Flag Bad Lead wired to backend** — `POST /api/leads/flag` endpoint added; `handleFlagLead()` now calls backend; copy fixed ("credit noted" → "We'll review it")
+- [x] **DashboardPage win rate bug** — was always 100% (markLost never called); now derived from chaseLeads stage tracking which reflects real user actions
+- [x] **NewsPage CTA** — "SCAN MY POSTCODE →" → "SCAN MY POSTCODE FREE →" + "No credit card required" trust line added
+- [x] **TrustCenterPage CTA** — "TRY FREE SCAN" → "SCAN MY AREA FREE →" + "No credit card required" trust line added
+- [x] **LeadListPage OUTCOMES strip value** — confirmed already built (£X,XXX won in WON strip, line 105-109)
+- [x] **FreeToolsPage isPaywalled** — confirmed `const isPaywalled = false` is correct
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Commercial lead detection UX** — verify FILL MY WEEK resets commercialOnly filter after recent changes
+- [ ] **WeeklySignalsPage/SignalsPage copy audit** — not polished recently; check for weak CTAs and violations
+
+## Today - 1 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Dashboard isEmpty LOCK YOUR PATCH CTA** — yellow button added to isEmpty block alongside RUN YOUR FIRST SCAN and SEE PRICING (new users with no territory get direct path)
+- [x] **Dashboard scan counter reset note** — "X of 3 used · resets Mon" replaces ambiguous "X of 3 free used" (matches FindJobsPage which had this since 22 May)
+- [x] **Dashboard avg per win stat** — "Avg per win: £X,XXX" row added to YOUR SCOREBOARD when wins > 0 (tradesmen can now benchmark job values)
+- [x] **CompareBarkPage CTA copy** — "Stop paying per lead. Start scanning smarter." → "Bark credits burn. Your pipeline doesn't have to." + stronger body copy + "SCAN MY AREA FREE — NO CARD" button
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+
+## Today - 31 May 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Job value capture in OutcomeActions (FindJobsPage)** — £ input on Won click; markWon() now called from Find page (Tier 2 feature complete)
+- [x] **Duplicate UNLOCK CTAs** — dark bottom "LOCK FOUNDER PRICE" banner removed; 4→3 CTAs on FindJobsPage
+- [x] **Yellow banner CTA** — restructured: button now above explanatory text, visible in <3s on mobile (NEEDLE fix)
+- [x] **FILL MY WEEK progress UX** — step progress bar (3 segments) + "Takes about 5 seconds" added
+- [x] **ForYourTradePage copy** — competitor names in all 6 trade signals; "Why tradesmen use JobFilter" rewritten with specific proof/control language
+- [x] **FaqPage copy** — data source naming fix ("property transactions" → "property ownership data"); money-back answer strengthened; hero adds competitor mentions
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+
+## Today - 31 May 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **TradeDampProofers EPC sweep** — 14 violations fixed (EPC data → energy signals throughout)
+- [x] **TradeGasEngineers EPC sweep** — 15 violations fixed (EPC F/G-rated → low energy-rated, EPC cluster → low-efficiency cluster)
+- [x] **CompareRatedPeoplePage** — 4 EPC/land registry naming violations fixed
+- [x] **NewsPage** — 2 EPC violations fixed (trend label + hero body)
+- [x] **TradeSolar** — 1 remaining EPC violation fixed (whatsappMessage "EPC D" → "low energy rating")
+- [x] **FindJobsPage NEEDLE fix** — "source-fused evidence" jargon → plain English ("Works Starting Now shows jobs with the strongest timing signals...")
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+- [ ] **Duplicate UNLOCK CTAs on FindJobsPage** — 4× "UNLOCK FOR £39/MO →" causing decision fatigue; consolidate to max 2 placements
+- [ ] **FILL MY WEEK progress UX** — no time estimate or progress indicator; looks broken on slow connection
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys)
+- [ ] **FreeToolsPage isPaywalled** — confirm `const isPaywalled = false` is still correct (free tools intentional)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 31 May 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **TypeScript fix** — leadsSearch.ts AccessContext: `return 'full'` → `return { tier: 'full', ... }` (build was failing)
+- [x] **DashboardPage NEEDLE-2** — removed triple scan CTA when isEmpty (third redundant "RUN YOUR FIRST SCAN →" removed from YOUR SCAN SETUP section)
+- [x] **HomePage territory** — "Manchester Bathrooms COMING SOON" → "AVAILABLE" (score 79→82, removes unfinished-product signal)
+- [x] **CompareBarkPage** — 3 EPC/land registry naming violations fixed in comparison table + HOW JOBFILTER WORKS list
+- [x] **CompareMyBuilderPage** — 2 EPC/land registry naming violations fixed
+- [x] **TradeSolar** — 3 EPC naming violations fixed (EPC-flagged → energy-flagged, EPC data → energy signal)
+- [x] **FindJobsPage** — EPC badge → ENERGY, COMPANIES HOUSE fallback → BUSINESS SIGNAL, scan mode copy EPC → energy
+- [x] Build GREEN (98 pages), TypeScript CLEAN, pushed to main
+
+## Today - 29 May 2026 (Run 4 — Vercel Env + GitHub Secrets + Prod Deploy)
+
+- [x] **Root cause of broken auth identified + fixed**: Vercel had VITE_SUPABASE_URL/ANON_KEY but NO NEXT_PUBLIC_* mirrors. Next.js client code was getting undefined Supabase URL. Login appeared broken because browser client could not reach Supabase at all.
+- [x] Added to Vercel (Production + Preview): NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, NEXT_PUBLIC_APP_URL — mirrored from VITE_* equivalents.
+- [x] Added to GitHub repo secrets (11 total): STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_FOUNDING/PRO/BUSINESS, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_APP_URL.
+- [x] Vercel production deploy triggered manually after env update: `job-filter-v1-lauhge9zm` — READY.
+- [x] Live smoke test: jobfilter.uk /, /login, /signup, /pricing all return 200.
+- [x] Pulled .env.vercel-pull deleted (secrets safety).
+
+## Today - 29 May 2026 (Stripe Wired Agent)
+
+- [x] **Stripe Checkout wired end-to-end** — PR #222 merged to main.
+- [x] `src/lib/stripe.ts` helper added (`getStripe`, `resolvePriceId`, `getAppOrigin`) — server-side only.
+- [x] `app/api/stripe/checkout/route.ts` — accepts `{ priceId, plan }`; `success_url` → `/dashboard?welcome=1`; `cancel_url` → `/pricing?cancelled=1`; metadata `{ user_id, plan }` for webhook; `allow_promotion_codes` enabled.
+- [x] `app/api/stripe/webhook/route.ts` — reads `user_id`/`plan` metadata (snake_case + legacy fallback); upserts `profiles.stripe_customer_id` alongside `profiles.plan` on `checkout.session.completed`.
+- [x] Pricing CTAs (`<CheckoutButton>` on PricingPage hero, Founder card, bottom strip) wire to live `/api/stripe/checkout` — no client changes needed.
+- [x] Build: GREEN. TypeScript: CLEAN.
+- [ ] **Vercel env vars to confirm in production** (names only — set values in Vercel UI): `STRIPE_SECRET_KEY` (test key for E2E), `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_PRICE_FOUNDING_MONTHLY` (or `STRIPE_PRICE_FOUNDING`), `STRIPE_PRICE_FOUNDING_ANNUAL`, `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_PRO_ANNUAL`, `STRIPE_PRICE_BUSINESS`, `STRIPE_PRICE_EPC_MONTHLY`, `NEXT_PUBLIC_APP_URL` or `APP_URL`. `vercel env ls` requires `vercel link` (not run from this worktree).
+- [ ] **Live test**: with test Stripe key set in Vercel, click `LOCK FOUNDER PRICE` on /pricing signed-in → complete `4242 4242 4242 4242` → confirm `/dashboard?welcome=1` lands and `profiles.plan` flips to `founding` in Supabase.
+
+## Today - 29 May 2026 (Run 2 — Feature Audit Agent)
+
+- [x] Planning locality fix — `planningDataFetcher.ts` text-search results now require address-level confirmation (UK postcode in address OR outward token in address). Geo (lat/lon) results still trusted. `rawLocation` no longer falls back to bare outward on non-geo lookups.
+- [x] Delivery lock key — `sms.ts` normalises `payload.postcode` to outward via `getOutward()`. Lock key is now `trade + postcodeOutward + sourceSystem` (collides whether caller passes "B14" or "B14 7AB").
+- [x] `leadNotify.ts` — forwards `leadData.source` as `sourceSystem` so the patch lock actually engages from `/api/leads/notify`.
+- [x] EpcPage letter copy reviewed — already "PRINT & POST TEMPLATE" (template only, no physical send claim). No code change needed.
+- [x] Routes audited: `/dashboard`, `/find-jobs`, `/login`, `/account` — all wire to live SPA pages. No dead `href="#"` in `app/` or `src/`. No `/contact` route exists or is linked.
+- [x] New regression `codex-output/planning-locality-regression.mjs` passes. `whatsapp-env-regression.mjs` + `planning-contact-signal-regression.mjs` still pass.
+- [x] Build GREEN.
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 29 May 2026 (Supabase SSR Bridge Agent)
+
+- [x] Auth root cause fixed — browser client now uses `createBrowserClient` from `@supabase/ssr` so logins write the SSR cookie that server components read. `src/lib/supabase.ts` legacy entry also migrated; `AuthProvider.signOut` + `AccountPage.signOut` now POST `/api/auth/logout` to clear the cookie. PR #221 merged to main.
+
 ## Today - 27 May 2026 (Run 3 — NightlyBuildAgent)
 
 - [x] DashboardPage: duplicate scan CTA fixed — `RUN YOUR FIRST SCAN →` in YOUR INTAKE now gated on `isEmpty` (no more duplicate with header `SCAN FOR JOBS →`)

@@ -150,7 +150,7 @@ export function DevPortalPage() {
         </div>
         <div className="mt-5 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
           <p className="micro-label text-[var(--yellow)]">ENV FLAGS</p>
-          <p className="mt-2 font-mono text-sm font-black">VITE_OPEN_ACCESS=true</p>
+          <p className="mt-2 font-mono text-sm font-black">NEXT_PUBLIC_OPEN_ACCESS=true</p>
           <p className="font-mono text-sm font-black">FULL_ACCESS_TEST_MODE=true</p>
           <p className="mt-2 text-xs font-bold text-white/70">
             Local tester unlocks the browser. These env flags unlock open-access UI at build time and full backend lead payloads at runtime.

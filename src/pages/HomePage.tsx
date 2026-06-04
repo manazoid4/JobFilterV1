@@ -14,16 +14,16 @@ const proofPoints = [
 
 const signalRows = [
   { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Sample' },
-  { source: 'Energy', signal: 'F-rated rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
+  { source: 'Energy', signal: 'Low-energy rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
   { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Sample' },
   { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Sample' },
 ];
 
 const territoryCards = [
-  ['B12 Roofing', 'FOUNDING SLOT OPEN', '91'],
-  ['Birmingham Extensions', 'AVAILABLE', '88'],
-  ['Coventry Solar', 'RESERVED', '84'],
-  ['Manchester Bathrooms', 'COMING SOON', '79'],
+  ['B12 Roofing', 'FOUNDER RATE', '91'],
+  ['Birmingham Extensions', 'FOUNDER RATE', '88'],
+  ['Coventry Solar', 'FOUNDER RATE', '84'],
+  ['Manchester Bathrooms', 'FOUNDER RATE', '82'],
 ] as const;
 
 const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];
@@ -77,7 +77,7 @@ export function HomePage() {
             Planning: B12
           </div>
           <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Energy: F/G
+            Energy: Low
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
             Extension: Approved
@@ -89,13 +89,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">JOBFILTER INTAKE ENGINE — UK CONSTRUCTION LEADS, SCORED BEFORE THEY GO PUBLIC</p>
-            <h1 className="headline mt-4 max-w-5xl text-[clamp(46px,9vw,106px)] leading-[0.88] text-white">
+            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
+            <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               QUIT WORKING{' '}
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              The Intake Engine reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
+              JobFilter reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -104,9 +104,6 @@ export function HomePage() {
                 </div>
               ))}
             </div>
-            <p className="mt-5 max-w-2xl text-sm font-semibold leading-snug text-white/70 md:text-base">
-              Knowledge workers fear layoffs. You don't. Trades don't get outsourced to a model — we just make sure the work reaches you first.
-            </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
@@ -314,13 +311,12 @@ export function HomePage() {
           </div>
           <div className="grid gap-3">
             {territoryCards.map(([name, status, score]) => {
-              const isFounding = status === 'FOUNDING SLOT OPEN';
               const signalLevel = Number(score) >= 90 ? 4 : Number(score) >= 85 ? 3 : Number(score) >= 80 ? 2 : 1;
               return (
                 <Link
                   key={name}
                   href="/territories"
-                  className={`group border-2 bg-white p-4 text-[var(--ink)] shadow-[4px_4px_0_var(--line)] transition-colors ${isFounding ? 'border-[var(--yellow)] shadow-[4px_4px_0_var(--yellow)]' : 'border-[var(--line)]'}`}
+                  className="group border-2 border-[var(--yellow)] bg-white p-4 text-[var(--ink)] shadow-[4px_4px_0_var(--yellow)] transition-colors hover:bg-[var(--yellow)]/10"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
@@ -329,7 +325,7 @@ export function HomePage() {
                         <h3 className="headline text-2xl">{name}</h3>
                       </div>
                       <div className="mt-1 flex items-center gap-3">
-                        <p className={`text-xs font-black uppercase tracking-[0.1em] ${isFounding ? 'text-[var(--orange)]' : 'text-[var(--muted)]'}`}>{status}</p>
+                        <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--orange)]">{status}</p>
                         <SignalStrengthBars level={signalLevel} />
                       </div>
                     </div>
@@ -375,10 +371,10 @@ export function HomePage() {
         <div className="page-shell py-14">
           <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — OPTIONAL, BOOK AS NEEDED</p>
           <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">
-            WIN THE JOBS THE INTAKE ENGINE FINDS.
+            WIN THE JOBS JOBFILTER FINDS.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            The Intake Engine puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
+            JobFilter puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
@@ -445,7 +441,7 @@ export function HomePage() {
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE TRADE.<br />ONE PATCH.<br />NO SHARING.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a lead marketplace. A construction intelligence layer. Gold leads are scored by trade, patch, and timing — and sent only to you.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a directory. Not an auction. Gold leads scored by trade, patch, and timing — sent to you, not four other trades bidding on the same job.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
                 ['No shared auction', 'No five-trade blast. No race-to-the-bottom resale. If a lead looks crowded, it gets marked down or blocked.'],

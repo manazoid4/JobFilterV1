@@ -13,16 +13,6 @@ const planBullets = [
   'Win tracking',
 ];
 
-const standardBullets = [
-  'WhatsApp Gold leads',
-  'Buyer/contact signals',
-  'Quote floor + next action',
-  'Territory priority',
-  'Win tracking',
-  'Multi-territory expansion (coming)',
-  'Priority support (coming)',
-];
-
 const objections = [
   ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
   ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
@@ -43,35 +33,29 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-3">
+      <section className="grid gap-4 lg:grid-cols-2">
         <PlanCard
           title="Free Scan"
           price="£0"
           body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
-          items={['Preview scored leads', 'Limited lead detail', 'No WhatsApp routing', 'No territory priority']}
+          items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
+          order="order-last lg:order-none"
         />
         <PlanCard
           title="Founder"
           price="£39/mo"
+          priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
           body="Best launch plan. Built for trades who want first look at serious work without chasing weak enquiries."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}
-        />
-        <PlanCard
-          title="Standard"
-          price="£79/mo"
-          body="Full paid access after the founder window closes."
-          items={standardBullets}
-          dark
-          cta={<CheckoutButton tier="pro" billing="monthly" label="START STANDARD" className="mt-5 bg-white text-[var(--ink)]" />}
+          order="order-first lg:order-none"
         />
       </section>
 
@@ -92,7 +76,7 @@ export function PricingPage() {
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
             { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
-            { signal: 'Energy: F-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
+            { signal: 'Energy: Low-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
             { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
           ].map(({ signal, detail, band, trade }) => (
             <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
@@ -121,41 +105,41 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">READY</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">LOCK THE ACCOUNT. THEN CONTROL THE JOBS.</h2>
+        <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
       </section>
     </main>
   );
 }
 
-function PlanCard({ title, price, body, items, cta, dark = false, featured = false }: {
+function PlanCard({ title, price, priceNote, body, items, cta, featured = false, order = '' }: {
   title: string;
   price: string;
+  priceNote?: string;
   body: string;
   items: string[];
   cta: ReactNode;
-  dark?: boolean;
   featured?: boolean;
+  order?: string;
 }) {
-  const wrapClass = dark
-    ? 'bg-[var(--ink)] text-white'
-    : featured
-      ? 'bg-white text-[var(--ink)] border-4 border-[var(--ink)] shadow-[6px_6px_0_var(--yellow)]'
-      : 'bg-[var(--paper)] text-[var(--ink)]';
+  const wrapClass = featured
+    ? 'bg-white text-[var(--ink)] border-4 border-[var(--yellow)] lg:border-[var(--ink)] shadow-[6px_6px_0_var(--yellow)]'
+    : 'bg-[var(--paper)] text-[var(--ink)]';
 
   return (
-    <section className={`ops-panel p-6 ${wrapClass}`}>
-      {featured && <p className="micro-label text-[var(--orange)]">BEST VALUE</p>}
-      <p className={`micro-label ${dark ? 'text-[var(--yellow)]' : 'text-[var(--orange)]'}`}>{title}</p>
-      <h2 className={`headline mt-3 text-5xl ${dark ? 'text-white' : ''}`}>{price}</h2>
-      <p className={`mt-3 font-black ${dark ? 'text-white/85' : 'text-[var(--muted)]'}`}>{body}</p>
+    <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDING PRICE' : title}</p>
+      <h2 className="headline mt-3 text-5xl">{price}</h2>
+      {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
+      <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
       <ul className="mt-5 grid gap-2">
         {items.map((item) => (
-          <li key={item} className={`flex gap-2 font-black ${dark ? 'text-white' : 'text-[var(--ink)]'}`}>
+          <li key={item} className="flex gap-2 font-black text-[var(--ink)]">
             <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--green)]" />
             <span>{item}</span>
           </li>

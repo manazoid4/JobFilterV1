@@ -76,11 +76,7 @@ export function FreeToolsPage() {
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <div className="inline-flex items-center gap-2 border-2 border-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--yellow)]">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)]" />
-            Unlimited — no signup required
-          </div>
-          <div className="inline-flex items-center gap-2 border border-white/20 px-3 py-1.5 text-xs font-black text-white/85">
-            <span className="h-2 w-2 rounded-full bg-[var(--green)]" />
-            Free to use — no account needed
+            Unlimited — no login, no signup, no card
           </div>
         </div>
       </section>
