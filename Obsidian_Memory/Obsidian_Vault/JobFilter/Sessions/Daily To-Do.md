@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 4 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **ActivationPendingPage TRADES alignment** — flat string array replaced with {value, label} matching SignupPage; all 11 trades present; backend now receives correct trade codes; Gas engineer + EV charger installer + Decorator/painter added
+- [x] **FaqPage free scan CTA** — "SEE REAL LEADS IN YOUR AREA — FREE" block added above contact section; FAQ-convinced visitors now have conversion path
+- [x] **FaqPage "territory exclusivity" → "territory lock"** — product rule compliance fix
+- [x] **FaqPage trades list** — EV charger installer + gas engineer + decorator/painter added (matches SignupPage)
+- [x] **SmartQuotePage hero copy** — Fear → Proof → Control structure applied; Bark + Checkatrade named; micro-label updated to "FREE TOOL — NO SIGNUP NEEDED"
+- [x] **FindJobsPage paywall position** — free-tier upgrade banner moved from ABOVE leads to BELOW leads ("SEEN ENOUGH? UNLOCK BUYER DETAIL") — users see lead quality before the ask
+- [x] Build GREEN, TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage YOUR INTAKE sections** — YOUR SCAN SETUP / YOUR PIPELINE / YOUR SCOREBOARD conflated; needs visual separation (NEEDLE #3 — medium refactor, defer to dedicated run)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 3 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **QuickResponseKit email subject parsing** — email preview now shows subject in navy box + body below (matches LeadDetailPage; b3a2300 added email channel but preview showed raw "Subject: ..." inline)
