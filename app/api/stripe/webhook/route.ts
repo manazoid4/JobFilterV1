@@ -30,6 +30,13 @@ export async function POST(request: Request) {
     return Response.json({ received: true });
   }
 
+  // Idempotency protection — skip if event already processed
+  const processed = await isEventProcessed(supabase, event.id);
+  if (processed) {
+    console.log('[stripe/webhook] duplicate event skipped:', event.type, 'id:', event.id);
+    return Response.json({ received: true, skipped: 'duplicate' });
+  }
+
   // Log every event for audit trail
   await supabase.from('n8n_events').insert({
     event_type: `stripe.${event.type}`,
@@ -51,6 +58,24 @@ export async function POST(request: Request) {
       }
     }
 
+    if (event.type === 'customer.subscription.created') {
+      const subscription = event.data.object as Stripe.Subscription;
+      await upsertSubscriptionFromCreated(subscription);
+      console.log('[stripe/webhook] customer.subscription.created processed for subscription:', subscription.id);
+    }
+
+    if (event.type === 'invoice.payment_succeeded') {
+      const invoice = event.data.object as Stripe.Invoice;
+      await handleInvoicePaymentSucceeded(supabase, invoice);
+      console.log('[stripe/webhook] invoice.payment_succeeded processed for invoice:', invoice.id);
+    }
+
+    if (event.type === 'invoice.payment_failed') {
+      const invoice = event.data.object as Stripe.Invoice;
+      await handleInvoicePaymentFailed(supabase, invoice);
+      console.log('[stripe/webhook] invoice.payment_failed processed for invoice:', invoice.id);
+    }
+
     if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
       const subscription = event.data.object as Stripe.Subscription;
       await updateSubscriptionStatus(subscription);
@@ -60,6 +85,9 @@ export async function POST(request: Request) {
     console.error('[stripe/webhook] handler error for', event.type, ':', err instanceof Error ? err.message : err);
     // Still return 200 so Stripe does not retry — error is logged above
   }
+
+  // Mark event as processed
+  await markEventProcessed(supabase, event.id, event.type);
 
   return Response.json({ received: true });
 }
@@ -147,4 +175,181 @@ async function updateSubscriptionStatus(subscription: Stripe.Subscription) {
       updated_at: new Date().toISOString(),
     }).eq('id', data.user_id);
   }
+}
+
+// ─── Idempotency protection ──────────────────────────────────────────────────
+
+async function isEventProcessed(supabase: ReturnType<typeof getSupabaseServiceClient>, eventId: string): Promise<boolean> {
+  const { data } = await supabase
+    .from('stripe_webhook_events')
+    .select('id')
+    .eq('event_id', eventId)
+    .maybeSingle();
+  return data !== null;
+}
+
+async function markEventProcessed(supabase: ReturnType<typeof getSupabaseServiceClient>, eventId: string, eventType: string): Promise<void> {
+  const { error } = await supabase.from('stripe_webhook_events').insert({
+    event_id: eventId,
+    event_type: eventType,
+    processed_at: new Date().toISOString(),
+  });
+  if (error) {
+    // Log but don't fail — the event was still processed successfully
+    console.warn('[stripe/webhook] could not mark event as processed:', error.message);
+  }
+}
+
+// ─── customer.subscription.created ──────────────────────────────────────────
+
+async function upsertSubscriptionFromCreated(subscription: Stripe.Subscription) {
+  const supabase = getSupabaseServiceClient();
+  if (!supabase) return;
+
+  const stripeCustomerId = typeof subscription.customer === 'string' ? subscription.customer : subscription.customer?.id;
+  const stripeSubscriptionId = subscription.id;
+  const status = subscription.status;
+  const active = ['active', 'trialing'].includes(status);
+  const plan = subscription.items.data[0]?.price?.nickname
+    ?? subscription.items.data[0]?.price?.id
+    ?? 'pro';
+  const periodEnd = subscription.current_period_end
+    ? new Date(subscription.current_period_end * 1000).toISOString()
+    : null;
+
+  // Find user by stripe customer id
+  const { data: subData } = await supabase
+    .from('subscriptions')
+    .select('user_id')
+    .eq('stripe_customer_id', stripeCustomerId)
+    .maybeSingle();
+
+  const userId = subData?.user_id;
+
+  if (!userId) {
+    console.warn('[stripe/webhook] customer.subscription.created: no user found for stripe_customer_id:', stripeCustomerId);
+    return;
+  }
+
+  const { error: subError } = await supabase.from('subscriptions').upsert({
+    user_id: userId,
+    stripe_customer_id: stripeCustomerId ?? null,
+    stripe_subscription_id: stripeSubscriptionId,
+    plan,
+    status,
+    active,
+    current_period_end: periodEnd,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: 'stripe_subscription_id' });
+  if (subError) console.error('[stripe/webhook] subscriptions upsert failed:', subError.message);
+
+  // Check owner protection before updating profile
+  const { data: profile } = await supabase.from('profiles').select('email').eq('id', userId).maybeSingle();
+  const ownerEmails = ['manazoid4@gmail.com', ...(process.env.JOBFILTER_SUPERUSER_EMAILS ?? '').split(',').map((e: string) => e.trim().toLowerCase()).filter(Boolean)];
+  if (profile?.email && ownerEmails.includes(profile.email.toLowerCase())) {
+    console.log('[stripe-webhook] skipping plan change for owner account:', profile.email);
+    return;
+  }
+
+  const { error: profError } = await supabase.from('profiles').update({
+    plan,
+    stripe_customer_id: stripeCustomerId ?? null,
+    onboarding_status: active ? 'paid' : 'payment_inactive',
+    updated_at: new Date().toISOString(),
+  }).eq('id', userId);
+  if (profError) console.error('[stripe/webhook] profiles update failed:', profError.message);
+}
+
+// ─── invoice.payment_succeeded ────────────────────────────────────────────────
+
+async function handleInvoicePaymentSucceeded(
+  supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>,
+  invoice: Stripe.Invoice,
+) {
+  const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+  if (!stripeCustomerId) return;
+
+  // Update subscription to active if not already
+  if (invoice.subscription) {
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+    if (subscriptionId) {
+      const { error } = await supabase.from('subscriptions').update({
+        status: 'active',
+        active: true,
+        updated_at: new Date().toISOString(),
+      }).eq('stripe_subscription_id', subscriptionId);
+      if (error) console.error('[stripe/webhook] invoice.payment_succeeded: subscriptions update failed:', error.message);
+
+      // Also refresh profile status
+      const { data } = await supabase
+        .from('subscriptions')
+        .select('user_id, plan')
+        .eq('stripe_subscription_id', subscriptionId)
+        .maybeSingle();
+
+      if (data?.user_id) {
+        const { data: profile } = await supabase.from('profiles').select('email').eq('id', data.user_id).maybeSingle();
+        const ownerEmails = ['manazoid4@gmail.com', ...(process.env.JOBFILTER_SUPERUSER_EMAILS ?? '').split(',').map((e: string) => e.trim().toLowerCase()).filter(Boolean)];
+        if (profile?.email && ownerEmails.includes(profile.email.toLowerCase())) {
+          console.log('[stripe-webhook] skipping profile update for owner account:', profile.email);
+          return;
+        }
+
+        await supabase.from('profiles').update({
+          plan: data.plan,
+          onboarding_status: 'paid',
+          updated_at: new Date().toISOString(),
+        }).eq('id', data.user_id);
+      }
+    }
+  }
+
+  console.log('[stripe/webhook] invoice.payment_succeeded: payment logged for customer:', stripeCustomerId, 'invoice:', invoice.id);
+}
+
+// ─── invoice.payment_failed ──────────────────────────────────────────────────
+
+async function handleInvoicePaymentFailed(
+  supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>,
+  invoice: Stripe.Invoice,
+) {
+  const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
+  if (!stripeCustomerId) return;
+
+  if (invoice.subscription) {
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+    if (subscriptionId) {
+      // Mark subscription as past_due
+      const { error } = await supabase.from('subscriptions').update({
+        status: 'past_due',
+        active: false,
+        updated_at: new Date().toISOString(),
+      }).eq('stripe_subscription_id', subscriptionId);
+      if (error) console.error('[stripe/webhook] invoice.payment_failed: subscriptions update failed:', error.message);
+
+      // Update profile status — but protect owner accounts
+      const { data } = await supabase
+        .from('subscriptions')
+        .select('user_id, plan')
+        .eq('stripe_subscription_id', subscriptionId)
+        .maybeSingle();
+
+      if (data?.user_id) {
+        const { data: profile } = await supabase.from('profiles').select('email').eq('id', data.user_id).maybeSingle();
+        const ownerEmails = ['manazoid4@gmail.com', ...(process.env.JOBFILTER_SUPERUSER_EMAILS ?? '').split(',').map((e: string) => e.trim().toLowerCase()).filter(Boolean)];
+        if (profile?.email && ownerEmails.includes(profile.email.toLowerCase())) {
+          console.log('[stripe-webhook] skipping past_due downgrade for owner account:', profile.email);
+          return;
+        }
+
+        await supabase.from('profiles').update({
+          plan: 'free',
+          onboarding_status: 'payment_failed',
+          updated_at: new Date().toISOString(),
+        }).eq('id', data.user_id);
+      }
+    }
+  }
+
+  console.warn('[stripe/webhook] invoice.payment_failed: marked past_due for customer:', stripeCustomerId, 'invoice:', invoice.id);
 }
