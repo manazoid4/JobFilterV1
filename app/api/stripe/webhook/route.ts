@@ -179,7 +179,7 @@ async function updateSubscriptionStatus(subscription: Stripe.Subscription) {
 
 // ─── Idempotency protection ──────────────────────────────────────────────────
 
-async function isEventProcessed(supabase: ReturnType<typeof getSupabaseServiceClient>, eventId: string): Promise<boolean> {
+async function isEventProcessed(supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>, eventId: string): Promise<boolean> {
   const { data } = await supabase
     .from('stripe_webhook_events')
     .select('id')
@@ -188,7 +188,7 @@ async function isEventProcessed(supabase: ReturnType<typeof getSupabaseServiceCl
   return data !== null;
 }
 
-async function markEventProcessed(supabase: ReturnType<typeof getSupabaseServiceClient>, eventId: string, eventType: string): Promise<void> {
+async function markEventProcessed(supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>, eventId: string, eventType: string): Promise<void> {
   const { error } = await supabase.from('stripe_webhook_events').insert({
     event_id: eventId,
     event_type: eventType,
@@ -213,8 +213,9 @@ async function upsertSubscriptionFromCreated(subscription: Stripe.Subscription) 
   const plan = subscription.items.data[0]?.price?.nickname
     ?? subscription.items.data[0]?.price?.id
     ?? 'pro';
-  const periodEnd = subscription.current_period_end
-    ? new Date(subscription.current_period_end * 1000).toISOString()
+  const rawPeriodEnd = (subscription as unknown as { current_period_end?: number }).current_period_end;
+  const periodEnd = rawPeriodEnd
+    ? new Date(rawPeriodEnd * 1000).toISOString()
     : null;
 
   // Find user by stripe customer id
@@ -262,6 +263,8 @@ async function upsertSubscriptionFromCreated(subscription: Stripe.Subscription) 
 
 // ─── invoice.payment_succeeded ────────────────────────────────────────────────
 
+type LegacyInvoice = Stripe.Invoice & { subscription?: string | { id: string } };
+
 async function handleInvoicePaymentSucceeded(
   supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>,
   invoice: Stripe.Invoice,
@@ -269,9 +272,10 @@ async function handleInvoicePaymentSucceeded(
   const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
   if (!stripeCustomerId) return;
 
+  const inv = invoice as LegacyInvoice;
   // Update subscription to active if not already
-  if (invoice.subscription) {
-    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+  if (inv.subscription) {
+    const subscriptionId = typeof inv.subscription === 'string' ? inv.subscription : inv.subscription?.id;
     if (subscriptionId) {
       const { error } = await supabase.from('subscriptions').update({
         status: 'active',
@@ -316,8 +320,9 @@ async function handleInvoicePaymentFailed(
   const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
   if (!stripeCustomerId) return;
 
-  if (invoice.subscription) {
-    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
+  const inv = invoice as LegacyInvoice;
+  if (inv.subscription) {
+    const subscriptionId = typeof inv.subscription === 'string' ? inv.subscription : inv.subscription?.id;
     if (subscriptionId) {
       // Mark subscription as past_due
       const { error } = await supabase.from('subscriptions').update({

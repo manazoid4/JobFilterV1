@@ -56,7 +56,7 @@ const guaranteeFeatures = [
   'Unlimited WhatsApp alerts',
   'Letter drop scripts for every lead — print and post in minutes',
   'Full lead scoring + lead readiness markers',
-  'Pipeline tracking for every opportunity',
+  'Job tracking — every lead from first call to won job',
   'All free tools included',
   'Founder price locked forever while active',
   '30-day money-back guarantee',

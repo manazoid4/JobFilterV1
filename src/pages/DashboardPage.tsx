@@ -65,7 +65,7 @@ export function DashboardPage() {
     <main className="page-shell grid gap-6 py-8 pb-24">
       {/* Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">PIPELINE</p>
+        <p className="micro-label text-[var(--yellow)]">JOB TRACKER</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
           Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
@@ -96,7 +96,7 @@ export function DashboardPage() {
 
       {isEmpty && (
         <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">
-          <p className="micro-label text-[var(--orange)]">NO PIPELINE YET</p>
+          <p className="micro-label text-[var(--orange)]">NO JOBS TRACKED YET</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
           <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
             Find a job before Checkatrade lists it. One £2,000 win and £39/mo pays for itself 50 times over — no shared auction, no credit burn.
@@ -138,9 +138,9 @@ export function DashboardPage() {
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
             <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">{activeChase}</p>
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
-              {activeChase === 0 ? 'Your active chases — scan first, then tap TRACK THIS LEAD' : 'leads in your pipeline'}
+              {activeChase === 0 ? 'Scan first, then tap TRACK THIS LEAD to start your job list' : 'jobs you are tracking'}
             </p>
-            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View chase list →</p>
+            <p className="mt-2 text-xs font-black text-[var(--navy)] underline underline-offset-2">View your jobs →</p>
             {overdueCount > 0 && (
               <span className="absolute top-3 right-3 badge bg-[var(--orange)] text-white text-[10px] font-black">{overdueCount} OVERDUE</span>
             )}
@@ -240,7 +240,7 @@ export function DashboardPage() {
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--muted)]">TRACKING</p>
           </div>
-          <p className="headline mt-3 text-2xl leading-none">YOUR PIPELINE</p>
+          <p className="headline mt-3 text-2xl leading-none">YOUR ACTIVE JOBS</p>
           <div className="mt-4 grid gap-3 text-sm">
             <Row label="Active" value={`${activeChase} leads`} />
             <Row label="Not contacted" value={`${notContacted} need first touch`} />
