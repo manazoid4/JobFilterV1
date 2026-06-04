@@ -440,8 +440,25 @@ export function FindJobsPage() {
         {!unlimitedTester && (
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
-            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
             <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — NOT ON JOB BOARDS YET</span>
+          </div>
+        )}
+
+        {!unlimitedTester && (
+          <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
+            <span className={`h-2 w-2 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
+            <p className="text-sm font-black text-[var(--ink)]">
+              {weeklyScansRemaining > 0
+                ? weeklyScansUsed === 0
+                  ? `3 free scans this week — no credit card required`
+                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
+                : 'Free scans used this week — upgrade for unlimited.'}
+            </p>
+            {weeklyScansRemaining === 0 ? (
+              <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+            ) : weeklyScansUsed > 0 ? (
+              <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
+            ) : null}
           </div>
         )}
 
@@ -545,25 +562,8 @@ export function FindJobsPage() {
         )}
       </section>
 
-      {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
+      {/* ── WIN STATS ──────────────────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!unlimitedTester && (
-        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
-          <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
-          <p className="text-sm font-black text-[var(--ink)]">
-            {weeklyScansRemaining > 0
-              ? weeklyScansUsed === 0
-                ? `Try up to 3 free scans — no credit card required`
-                : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-              : 'Free scans used this week — upgrade for unlimited.'}
-          </p>
-          {weeklyScansRemaining === 0 ? (
-            <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          ) : weeklyScansUsed > 0 ? (
-            <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
-          ) : null}
-        </div>
-      )}
 
       {/* ── STATS BAR ────────────────────────────────────────────────── */}
       {result && result.count > 0 && (
