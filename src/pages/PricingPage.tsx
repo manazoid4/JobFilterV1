@@ -6,11 +6,11 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'WhatsApp Gold leads',
-  'Buyer/contact signals',
-  'Quote floor + next action',
-  'Territory priority',
-  'Win tracking',
+  'Job alerts to your WhatsApp — within minutes of a signal match',
+  'Full buyer context + property details — no cold-calling strangers',
+  'Job value band before you quote — know if it\'s worth your time',
+  'One trade per postcode — you\'re not racing five strangers',
+  'Win tracker — see exactly what\'s converting in your patch',
 ];
 
 const objections = [
@@ -51,7 +51,7 @@ export function PricingPage() {
           title="Founder"
           price="£39/mo"
           priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Best launch plan. Built for trades who want first look at serious work without chasing weak enquiries."
+          body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}

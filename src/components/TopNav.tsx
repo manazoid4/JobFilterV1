@@ -8,8 +8,8 @@ const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/for-your-trade', label: 'Trades' },
   { to: '/signals', label: 'Signals' },
+  { to: '/for-your-trade', label: 'Trades' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];
