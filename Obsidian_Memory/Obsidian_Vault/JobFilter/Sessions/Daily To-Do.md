@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 4 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Stripe webhook TypeScript fixed** — Stripe v22 type changes for `Subscription.current_period_end` and `Invoice.subscription` patched with safe casts; `NonNullable` type fix for Supabase client params
+- [x] **DashboardPage "PIPELINE" jargon removed** — PIPELINE → JOB TRACKER, NO PIPELINE YET → NO JOBS TRACKED YET, "leads in your pipeline" → "jobs you are tracking", "View chase list" → "View your jobs", YOUR PIPELINE → YOUR ACTIVE JOBS
+- [x] **HomePage "Pipeline tracking" → "Job tracking"** — WHAT YOU GET section, body copy now specific
+- [x] **TerritoriesPage pipeline jargon** — two instances replaced with plain trade language
+- [x] **TrustCenterPage + ForYourTradePage + AdminGuardTeaserPage** — pipeline jargon removed (4 instances)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **PATCH PULSE unexplained labels** — GOLD/SILVER/LOCKED without explanation; add inline hint or tooltip
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage YOUR INTAKE sections** — YOUR SCAN SETUP / YOUR ACTIVE JOBS / YOUR SCOREBOARD could use visual separation (medium refactor, defer)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 4 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **ActivationPendingPage TRADES alignment** — flat string array replaced with {value, label} matching SignupPage; all 11 trades present; backend now receives correct trade codes; Gas engineer + EV charger installer + Decorator/painter added
