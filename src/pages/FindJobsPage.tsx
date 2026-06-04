@@ -658,7 +658,7 @@ export function FindJobsPage() {
             />
           ) : (
             <div className="grid gap-4">
-              {/* Preview banner */}
+              {/* Access banners — dev/unlimited only (not paywall; paywall shown after leads) */}
               {DEV_MODE ? (
                 <section className="jf-box bg-[var(--green)] p-5">
                   <p className="micro-label text-white">DEV MODE — ALL FEATURES UNLOCKED</p>
@@ -675,19 +675,7 @@ export function FindJobsPage() {
                     All scored signals for your patch are visible. Gold leads include buyer detail, quote floor, and follow-up cadence.
                   </p>
                 </section>
-              ) : (
-                <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER DETAIL IS LOCKED.</h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required · 30-day money-back</span>
-                  </div>
-                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Free scan confirms the signal is live. Pro unlocks who needs the work, what it&apos;s worth, and when to call.
-                  </p>
-                </section>
-              )}
+              ) : null}
 
               {/* COMMERCIAL FILTER TOGGLE */}
               {commercialCount > 0 && (
@@ -729,6 +717,21 @@ export function FindJobsPage() {
                     <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
                   )}
                 </div>
+              )}
+
+              {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
+              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
+                <section className="jf-box bg-[var(--yellow)] p-5">
+                  <p className="micro-label text-[var(--ink)]">SEEN ENOUGH?</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">UNLOCK BUYER DETAIL ON EVERY LEAD.</h2>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
+                  </div>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+                    Pro unlocks who needs the work, what it&apos;s worth, and when to call — for every lead above.
+                  </p>
+                </section>
               )}
 
               {/* Results footer */}

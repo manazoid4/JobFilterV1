@@ -69,10 +69,10 @@ export function SmartQuotePage() {
     <main>
       <section className="bg-[var(--navy)] text-white section-pad">
         <div className="page-shell">
-          <p className="micro-label text-[var(--yellow)]">SMART QUOTING</p>
+          <p className="micro-label text-[var(--yellow)]">FREE TOOL — NO SIGNUP NEEDED</p>
           <h1 className="headline mt-4 text-5xl md:text-6xl text-white">QUOTE FASTER. WIN MORE.</h1>
           <p className="mt-5 max-w-xl text-lg font-black text-white/80">
-            Pick your trade and job type. Get a professional quote opener — ready to send in 30 seconds. No blank page. No guessing what to say first.
+            Bark and Checkatrade make you compete on price. Walk in with a proper written proposal and you compete on quality. Pick your trade and job type — get a professional quote opener in 30 seconds. No blank page. No guesswork.
           </p>
         </div>
       </section>

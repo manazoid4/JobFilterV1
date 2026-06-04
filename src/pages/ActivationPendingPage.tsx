@@ -5,7 +5,19 @@ import { useSearchParams } from 'next/navigation';
 
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
-const TRADES = ['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps'];
+const TRADES = [
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'electrical', label: 'EV charger installer' },
+  { value: 'plumbing', label: 'Plumber' },
+  { value: 'plumbing', label: 'Gas engineer' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Builder / general contractor' },
+  { value: 'carpentry', label: 'Carpenter / joiner' },
+  { value: 'painting', label: 'Decorator / painter' },
+  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'hvac', label: 'Heat pump installer' },
+  { value: 'landscaping', label: 'Landscaper / groundworks' },
+];
 
 export function ActivationPendingPage() {
   const searchParams = useSearchParams();
@@ -108,7 +120,7 @@ export function ActivationPendingPage() {
             Your trade
             <select className="field-input" value={trade} onChange={(e) => setTrade(e.target.value)} required>
               <option value="">Select trade…</option>
-              {TRADES.map((t) => <option key={t} value={t}>{t}</option>)}
+              {TRADES.map((t) => <option key={t.label} value={t.value}>{t.label}</option>)}
             </select>
           </label>
           <label className="field-label">
