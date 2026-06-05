@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 5 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **WhatsApp templates exposed in QuickResponseKit** — Quick Quote + Avail. Check were in chaseTemplates.ts but unreachable from UI; added to WA_TEMPLATE_KEYS, reordered array for logical tab flow (First Touch → Quick Quote → 24h Follow-up → Avail. Check → Final Nudge)
+- [x] **DashboardPage section colour identity** — SCAN section gets navy left-border (matches orange/green on TRACKING/RESULTS); all 3 micro-labels now coloured (navy/orange/green) instead of grey muted
+- [x] **PricingPage competitor specificity** — named Checkatrade, MyBuilder, Bark, BuildAlert in objections; plan bullet uses "no shared auction, no five-trade blast" brand language
+- [x] **PATCH PULSE source mix labels** — verified formatSourceLabel() already maps all internal source names correctly; no change needed
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage INTAKE hero section** — top paid-user panel; check day-1 activation prompts (first scan, first WA send)
+- [ ] **FindJobsPage upgrade nudge specificity** — "SEEN ENOUGH?" section could name the 3 specific fields unlocked (buyer name, job value band, direct contact)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 5 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Trade-specific scoring teasers for free tier** — `buildPreviewReasons(lead)` extracts real trade keywords from scorer output (EV CHARGER, BOILER, REWIRE etc) and shows as grey teaser badges on free-tier lead cards; `parseTradeReasons()` updated to handle "Trade teaser:" format
