@@ -546,7 +546,7 @@ export function LeadDetailPage() {
           <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
           <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            Paid members see the recommended contact channel, compliance risk rating, and next action script for every lead — not just a score.
+            Paid members see who to contact, what the job is worth, and a ready-to-send WhatsApp template — not just a score.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             UNLOCK CONTACT DETAILS — £39/MO →

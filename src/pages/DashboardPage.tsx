@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { ROITracker } from '../components/ROITracker';
@@ -8,6 +9,8 @@ import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 export function DashboardPage() {
+  const searchParams = useSearchParams();
+  const isWelcome = searchParams?.get('welcome') === '1';
   const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
@@ -19,6 +22,7 @@ export function DashboardPage() {
   const [scansUsed, setScansUsed] = useState(0);
   const [trackedLeadCount, setTrackedLeadCount] = useState(0);
   const [isPaid, setIsPaid] = useState(false);
+  const [welcomeDismissed, setWelcomeDismissed] = useState(false);
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -39,6 +43,7 @@ export function DashboardPage() {
     fetch('/api/leads/roi-stats', { credentials: 'include' })
       .then((r) => { if (r.status === 200 || r.status === 503) setIsPaid(true); })
       .catch(() => {});
+    setWelcomeDismissed((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-welcome-seen') === '1');
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
@@ -93,6 +98,51 @@ export function DashboardPage() {
           )}
         </div>
       </section>
+
+      {/* Welcome banner — shown once after successful checkout */}
+      {isWelcome && !welcomeDismissed && (
+        <section className="jf-box border-2 border-[var(--yellow)] bg-[var(--yellow)] p-6">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <p className="micro-label text-[var(--ink)]">SUBSCRIPTION ACTIVE — YOU&apos;RE IN</p>
+              <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)] sm:text-3xl">HERE&apos;S WHAT TO DO NOW.</h2>
+            </div>
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined") localStorage.setItem('jf-welcome-seen', '1');
+                setWelcomeDismissed(true);
+              }}
+              className="shrink-0 text-xs font-black text-[var(--ink)]/50 underline underline-offset-2 mt-1"
+            >
+              DISMISS
+            </button>
+          </div>
+          <ol className="mt-4 grid gap-3">
+            <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
+              <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">01</span>
+              <div className="min-w-0">
+                <p className="font-black text-[var(--ink)] text-sm">SCAN YOUR AREA</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Enter your postcode and trade — takes 30 seconds. Gold leads come back first.</p>
+                <Link href="/find-jobs" className="mt-2 inline-block jf-button bg-[var(--ink)] text-white text-xs py-1 px-2">SCAN NOW →</Link>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
+              <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">02</span>
+              <div className="min-w-0">
+                <p className="font-black text-[var(--ink)] text-sm">TRACK YOUR FIRST GOLD LEAD</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Tap TRACK THIS LEAD on any Gold result. It drops into your list here so you know who to contact first.</p>
+              </div>
+            </li>
+            <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
+              <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">03</span>
+              <div className="min-w-0">
+                <p className="font-black text-[var(--ink)] text-sm">SEND THE WHATSAPP TEMPLATE</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">One pre-written message. One tap. You&apos;re first in before the job goes to Bark or Checkatrade.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+      )}
 
       {isEmpty && (
         <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">

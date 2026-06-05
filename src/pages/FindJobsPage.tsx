@@ -736,7 +736,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Pro unlocks who needs the work, what it&apos;s worth, and when to call — for every lead above.
+                    Pro unlocks buyer name, job value band, and direct contact link — locked on every lead above.
                   </p>
                 </section>
               )}
