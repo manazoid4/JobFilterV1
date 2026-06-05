@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 5 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Trade-specific scoring teasers for free tier** — `buildPreviewReasons(lead)` extracts real trade keywords from scorer output (EV CHARGER, BOILER, REWIRE etc) and shows as grey teaser badges on free-tier lead cards; `parseTradeReasons()` updated to handle "Trade teaser:" format
+- [x] **PATCH PULSE labels explained** — GOLD/SILVER/LOCKED now show "worth quoting now", "worth watching", "upgrade to see" inline sub-labels; muted locked count only shows when > 0
+- [x] **LeadListPage jargon sweep** — "JOB PIPELINE" → "LEAD TRACKER"; GOLD threshold copy "90+" → "80+" (was wrong); two "pipeline" empty state references cleaned
+- [x] **PricingPage Free Scan CTA** — "SCAN MY POSTCODE" → "SCAN FREE — NO CARD NEEDED" (only remaining inconsistent free CTA)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage YOUR INTAKE sections** — visual separation between SCAN SETUP / ACTIVE JOBS / SCOREBOARD still weak on mobile (medium refactor, defer)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 4 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Stripe webhook TypeScript fixed** — Stripe v22 type changes for `Subscription.current_period_end` and `Invoice.subscription` patched with safe casts; `NonNullable` type fix for Supabase client params
