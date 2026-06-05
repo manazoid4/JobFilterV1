@@ -216,9 +216,9 @@ export function DashboardPage() {
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Find Summary */}
-        <section className="jf-box bg-white p-5">
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--navy)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">SCAN</p>
+            <p className="micro-label text-[var(--navy)]">SCAN</p>
             <Link href="/find-jobs" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR SCAN SETUP</p>
@@ -238,7 +238,7 @@ export function DashboardPage() {
         {/* Chase Summary */}
         <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--orange)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">TRACKING</p>
+            <p className="micro-label text-[var(--orange)]">TRACKING</p>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR ACTIVE JOBS</p>
           <div className="mt-4 grid gap-3 text-sm">
@@ -257,7 +257,7 @@ export function DashboardPage() {
         {/* Win Summary */}
         <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--green)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">RESULTS</p>
+            <p className="micro-label text-[var(--green)]">RESULTS</p>
           </div>
           <p className="headline mt-3 text-2xl leading-none">YOUR SCOREBOARD</p>
           <div className="mt-4 grid gap-3 text-sm">

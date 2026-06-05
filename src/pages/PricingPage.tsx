@@ -9,13 +9,13 @@ const planBullets = [
   'Job alerts to your WhatsApp — within minutes of a signal match',
   'Full buyer context + property details — no cold-calling strangers',
   'Job value band before you quote — know if it\'s worth your time',
-  'One trade per postcode — you\'re not racing five strangers',
+  'One trade per postcode patch — no shared auction, no five-trade blast',
   'Win tracker — see exactly what\'s converting in your patch',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
-  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
+  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
+  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race — unlike Bark credits or Checkatrade matchups.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
