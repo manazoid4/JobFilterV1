@@ -101,7 +101,7 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
+        <p className="micro-label text-[var(--yellow)]">LEAD TRACKER</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
@@ -242,10 +242,10 @@ export function LeadListPage() {
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
-                  : 'No lower-scored leads in your pipeline yet.'}
+                  ? 'SILVER leads (score 75–89) appear here. Run a scan and track them.'
+                  : 'No lower-scored leads tracked yet.'}
               </p>
               {tab !== 'bronze' && (
                 <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">

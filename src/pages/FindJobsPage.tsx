@@ -708,10 +708,17 @@ export function FindJobsPage() {
                 <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white mt-2">
                   <p className="micro-label text-[var(--yellow)]">PATCH PULSE</p>
                   <p className="mt-1 font-black text-white">
-                    {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                    {(result.outward || postcode).toUpperCase()} — {trade}
                   </p>
+                  <div className="mt-2 flex flex-wrap gap-3 text-xs">
+                    <span className="font-black text-[var(--yellow)]">{goldCount} GOLD <span className="font-normal text-white/70">— worth quoting now</span></span>
+                    <span className="font-black text-white">{silverCount} SILVER <span className="font-normal text-white/70">— worth watching</span></span>
+                    {(result.lockedCount ?? 0) > 0 && (
+                      <span className="font-black text-white/50">{result.lockedCount} LOCKED <span className="font-normal">— upgrade to see</span></span>
+                    )}
+                  </div>
                   {sourceMix && (
-                    <p className="mt-0.5 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
+                    <p className="mt-2 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
                   )}
                   {bestSource && (
                     <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
@@ -855,6 +862,11 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
       tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      continue;
+    }
+    const tradeTeaser = r.match(/^Trade teaser: (.+)/);
+    if (tradeTeaser) {
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
