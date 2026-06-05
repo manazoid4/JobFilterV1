@@ -1,5 +1,15 @@
 # Daily To-Do
 
+## Today - 5 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **DashboardPage ?welcome=1 activation banner** — 3-step guide (scan → track → WhatsApp) shown to new paid users after Stripe checkout; dismisses to localStorage; Suspense wrapper added to app/dashboard/page.tsx
+- [x] **FindJobsPage SEEN ENOUGH specificity** — "who needs the work, what it's worth, and when to call" → "buyer name, job value band, and direct contact link — locked on every lead above"
+- [x] **LeadDetailPage locked section copy** — "compliance risk rating / next action script" jargon removed; plain trade language: "who to contact, what the job is worth, and a ready-to-send WhatsApp template"
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage welcome banner mobile** — verify 3-step ol/li layout renders cleanly at 375px
+- [ ] **LeadDetailPage ADD TO CALENDAR** — verify /api/leads/:id/calendar.ics route still functional
+
 ## Today - 5 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **WhatsApp templates exposed in QuickResponseKit** — Quick Quote + Avail. Check were in chaseTemplates.ts but unreachable from UI; added to WA_TEMPLATE_KEYS, reordered array for logical tab flow (First Touch → Quick Quote → 24h Follow-up → Avail. Check → Final Nudge)
