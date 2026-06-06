@@ -30,7 +30,7 @@ const pipelineSteps = [
     label: 'SCORE',
     icon: Target,
     body: 'Rank by value, urgency, rarity, distance, win probability, and contactability. Not volume. A hundred weak leads are worth less than five strong ones.',
-    detail: 'Score: 0-100. GOLD (90+). SILVER (75-89). BRONZE (60-74). Higher = chase today.',
+    detail: 'Score: 0-100. GOLD (80+). SILVER (50–79). BRONZE (below 50). Higher = chase today.',
   },
   {
     num: '05',
@@ -118,7 +118,7 @@ export function MethodologyPage() {
           WHAT MAKES A LEAD WORTH CHASING?
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
-          Every signal gets a score from 0 to 100. GOLD (90+) — call today. SILVER (75–89) — worth a check. BRONZE (60–74) — quiet week only.
+          Every signal gets a score from 0 to 100. GOLD (80+) — call today. SILVER (50–79) — worth a check. BRONZE (below 50) — quiet week only.
         </p>
 
         <div className="mt-8 grid gap-3">

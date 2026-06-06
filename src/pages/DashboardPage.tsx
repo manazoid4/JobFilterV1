@@ -158,6 +158,7 @@ export function DashboardPage() {
             )}
             <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
           </div>
+          <p className="mt-3 text-xs font-black text-[var(--ink)]/50">No credit card required — 3 free scans every week</p>
         </div>
       )}
 

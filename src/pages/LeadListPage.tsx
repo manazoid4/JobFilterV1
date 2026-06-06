@@ -244,7 +244,7 @@ export function LeadListPage() {
                 {tab === 'gold'
                   ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 75–89) appear here. Run a scan and track them.'
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan and track them.'
                   : 'No lower-scored leads tracked yet.'}
               </p>
               {tab !== 'bronze' && (

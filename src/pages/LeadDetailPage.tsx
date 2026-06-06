@@ -543,15 +543,15 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
-          <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
+          <p className="micro-label text-[var(--yellow)]">BUYER CONTACT LOCKED</p>
+          <h2 className="headline mt-1 text-2xl">UNLOCK THE PHONE NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            Paid members see who to contact, what the job is worth, and a ready-to-send WhatsApp template — not just a score.
+            The template above is ready. Gold members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK CONTACT DETAILS — £39/MO →
+            UNLOCK THIS LEAD — £39/MO →
           </Link>
-          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back guarantee. No credit card to scan.</p>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back. Cancel anytime.</p>
         </section>
       )}
 

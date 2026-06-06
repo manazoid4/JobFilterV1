@@ -127,7 +127,7 @@ const dataSources = [
   {
     category: 'Planning',
     icon: FileText,
-    items: ['England — Planning Data API', 'London — Planning London Datahub', 'Scotland — building warrants + weekly lists'],
+    items: ['England — national planning approvals', 'London — Greater London planning data', 'Scotland — building warrants + weekly lists'],
   },
   {
     category: 'Procurement',
