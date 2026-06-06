@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 6 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **FILL MY WEEK copy** — "Doesn't use your scan allowance. Searches {X} miles — wider than regular scan." + button changed to "EXPAND SCAN — 25MI →"
+- [x] **"TRACKING IN CHASE" jargon** — FindJobsPage tracked lead button: "TRACKING IN CHASE" → "ALREADY TRACKING"
+- [x] **Lead card complianceRisk removed** — "Next action: whatsapp · low risk" → "Best approach: whatsapp" (compliance risk is internal, not tradesperson language)
+- [x] **evidenceCount copy** — "source links required before purchase/contact decisions" → "N verified signals backing this lead"
+- [x] **DashboardPage value prop alignment** — territory-locked: now mentions both timing AND detail benefits; no-territory: explains detail gate + two CTAs (UNLOCK BUYER DETAILS + LOCK YOUR PATCH)
+- [x] **FaqPage** — "pipeline is light" → "diary is quiet"
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage header mobile** — new two-button row (UNLOCK BUYER DETAILS + LOCK YOUR PATCH) on dark ink background — verify renders cleanly at 375px
+- [ ] **Free/paid story consistency audit** — PricingPage, SignupPage, HomePage: confirm "buyer details locked until paid" message present wherever free users make upgrade decision
+
 ## Today - 6 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **WhatsApp phone-aware links** — LeadDetailPage + LeadListPage: wa.me links now include buyer phone number when unlocked (wa.me/447PHONE?text=...) — one tap opens chat with buyer pre-selected + message pre-filled
