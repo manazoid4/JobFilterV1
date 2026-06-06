@@ -176,8 +176,14 @@ export function LeadDetailPage() {
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
 
   const firstTouchTemplate = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
+
+  // Format UK phone for wa.me: strip non-digits, replace leading 0 with 44
+  const waPhone = lead.phone
+    ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '')
+    : null;
+
   const quickWaUrl = firstTouchTemplate
-    ? `https://wa.me/?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
+    ? `https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
     : null;
 
   function handleSnooze() {
@@ -299,7 +305,7 @@ export function LeadDetailPage() {
                 rel="noreferrer"
                 className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
               >
-                SEND WHATSAPP NOW →
+                {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
               </a>
             )}
           </div>
@@ -410,11 +416,11 @@ export function LeadDetailPage() {
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
             <a
               className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/?text=${encodeURIComponent(filledMessage)}`}
+              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              SEND WHATSAPP
+              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
             </a>
           </div>
         )}

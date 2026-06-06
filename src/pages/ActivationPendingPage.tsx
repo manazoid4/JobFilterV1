@@ -77,7 +77,7 @@ export function ActivationPendingPage() {
           <p className="micro-label text-[var(--ink)]">PATCH CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
-            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run your first free scan while you wait.
+            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run a scan now — full access is live.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">RUN FIRST SCAN →</Link>
@@ -97,7 +97,7 @@ export function ActivationPendingPage() {
         <p className={`mt-4 max-w-2xl text-xl font-black ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
           {paid
             ? 'Payment confirmed by Stripe. Tell us your trade and area — Gold leads hit your WhatsApp within 2 hours.'
-            : 'Set your trade and patch. Then checkout — under 2 minutes. First scan is free while you wait.'}
+            : 'Set your trade and patch — then complete payment via Stripe. Takes under 2 minutes. 30-day money-back. Cancel anytime.'}
         </p>
       </section>
 

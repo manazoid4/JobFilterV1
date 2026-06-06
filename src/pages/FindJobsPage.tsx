@@ -736,7 +736,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Pro unlocks buyer name, job value band, and direct contact link — locked on every lead above.
+                    Founding 30 members see the buyer&apos;s name, job value band, and direct contact link on every lead above — not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
               )}

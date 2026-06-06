@@ -219,7 +219,7 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Structured signal. Real scoring shape. Clear recommended action. This is the format that lands in your WhatsApp — scored, filtered, and ready to act on.
+            Job type, postcode, budget band, score, and urgency — in one message. This is exactly what lands in your WhatsApp when a GOLD lead fires. No noise. No recycled Checkatrade listings. Just the job.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
@@ -280,10 +280,10 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--ink)]">TERRITORY OWNERSHIP</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
+              SECURE YOUR PATCH BEFORE ANOTHER TRADE DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
+              Territory lock gives you first look at every signal in your postcode cluster. Tradesmen who lock in now keep £39/mo for life — the rate goes up when founder slots fill.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
