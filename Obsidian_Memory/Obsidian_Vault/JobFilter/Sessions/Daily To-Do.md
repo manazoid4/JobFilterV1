@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 6 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **WhatsApp phone-aware links** — LeadDetailPage + LeadListPage: wa.me links now include buyer phone number when unlocked (wa.me/447PHONE?text=...) — one tap opens chat with buyer pre-selected + message pre-filled
+- [x] **FindJobsPage upgrade banner** — "Pro unlocks" → "Founding 30 members see..." + named Checkatrade, Bark as not-shared-with confirmation
+- [x] **HomePage sample lead copy** — "Structured signal / Real scoring shape" jargon replaced with specific job-data description; "ANOTHER FIRM" → "ANOTHER TRADE"; "Founder firms" → "Tradesmen who lock in now"
+- [x] **ActivationPendingPage** — paid done-state "free scan while you wait" → "full access is live"; pre-checkout copy fix (no misleading "wait" period before Stripe redirect)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Fill My Week CTA copy** — "FILL MY WEEK" button doesn't explain what it does vs. regular scan. Should say "EXPAND YOUR SCAN — 25mi radius, all sources, auto-ranked"
+- [ ] **Free/paid value prop alignment** — Dashboard "first-mover timing" vs FindJobsPage "detail gate" contradicts. Pick one story across all pages.
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage welcome banner mobile** — verify 3-step ol/li layout renders cleanly at 375px (structure confirmed clean, worth visual spot-check)
+
 ## Today - 6 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Score threshold consistency fix** — GOLD/SILVER/BRONZE thresholds were 90+/75-89/60-74 across TrustCenterPage, MethodologyPage, LeadListPage, SeriousBuyerScore; corrected to match engine (GOLD 80+, SILVER 50-79, BRONZE below 50) across all 4 files
