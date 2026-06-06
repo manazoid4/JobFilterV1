@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: 'What does GOLD, SILVER, BRONZE mean?',
-    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your pipeline is light.',
+    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your diary is quiet.',
   },
   {
     q: 'How fresh are the leads?',

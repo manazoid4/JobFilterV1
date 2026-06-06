@@ -84,16 +84,21 @@ export function DashboardPage() {
           </div>
           {territory ? (
             <p className="text-sm font-black text-[var(--yellow)]">
-              Gold leads shown to you first — your competition gets them 24h later.
+              Gold leads to you first — buyer name, job value, and direct WhatsApp routing included. Your competition gets them 24h later.
             </p>
           ) : (
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <div className="flex flex-col gap-2">
               <p className="text-sm font-black text-white/90">
-                No patch locked — you&apos;re racing every other trade for the same leads. Another trade could claim your area today.
+                No patch locked — leads are visible but buyer name, job value, and contact details stay hidden until you upgrade. Another trade could claim your area today.
               </p>
-              <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
-                LOCK YOUR PATCH NOW →
-              </Link>
+              <div className="flex flex-wrap gap-2">
+                <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
+                  UNLOCK BUYER DETAILS →
+                </Link>
+                <Link href="/territories" className="inline-flex items-center justify-center border-2 border-white/30 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white shrink-0 hover:bg-white/20 transition">
+                  LOCK YOUR PATCH →
+                </Link>
+              </div>
             </div>
           )}
         </div>

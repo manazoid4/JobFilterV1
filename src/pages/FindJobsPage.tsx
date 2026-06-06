@@ -762,7 +762,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
           <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
           <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. {scanMode === 'start_now' ? 'Filters for jobs likely active or imminent.' : 'Planning approvals, energy upgrades, public contracts.'} Ranked for {titleCase(trade)}, ready to chase.
+              Doesn&apos;t use your scan allowance. Searches {Math.max(radiusMiles, 25)} miles — wider than your regular scan — across {scanMode === 'start_now' ? 'all active and imminent jobs' : 'planning approvals, energy upgrades, and public contracts'}. Auto-ranked for {titleCase(trade)}.
           </p>
           </div>
           <button
@@ -771,7 +771,7 @@ export function FindJobsPage() {
             onClick={fillMyWeek}
             className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
           >
-            {fillWeekLoading ? 'SCANNING...' : 'FILL MY WEEK →'}
+            {fillWeekLoading ? 'SCANNING...' : `EXPAND SCAN — ${Math.max(radiusMiles, 25)}MI →`}
           </button>
         </div>
 
@@ -1022,14 +1022,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
             {lead.contactPath?.reason && (
               <p className="mt-2 text-xs font-black uppercase text-[var(--muted)]">
-                Next action: {lead.contactPath.recommendedChannel.replace(/_/g, ' ')} · {lead.contactPath.complianceRisk} risk
+                Best approach: {lead.contactPath.recommendedChannel.replace(/_/g, ' ')}
               </p>
             )}
           </div>
         )}
         {typeof lead.evidenceCount === 'number' && (
           <p className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted)]">
-            {lead.evidenceCount} evidence item{lead.evidenceCount === 1 ? '' : 's'} · source links required before purchase/contact decisions
+            {lead.evidenceCount} verified signal{lead.evidenceCount === 1 ? '' : 's'} backing this lead
           </p>
         )}
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -1062,7 +1062,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           <>
             {isTracked ? (
               <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
-                TRACKING IN CHASE
+                ALREADY TRACKING
               </button>
             ) : (
               <button className="jf-button w-full bg-[var(--ink)] text-white text-xs" onClick={onTrack}>
