@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 6 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Score threshold consistency fix** — GOLD/SILVER/BRONZE thresholds were 90+/75-89/60-74 across TrustCenterPage, MethodologyPage, LeadListPage, SeriousBuyerScore; corrected to match engine (GOLD 80+, SILVER 50-79, BRONZE below 50) across all 4 files
+- [x] **TrustCenterPage tier table** — 4-tier (GOLD/SILVER/BRONZE/CHECK) → 3-tier matching engine; grid 4-col → 3-col; "90% of revenue" unvalidated stat removed; Eye import cleaned up
+- [x] **BlueprintPage naming violations** — "Planning Data API" + "Planning London Datahub" → generic names
+- [x] **LeadDetailPage paywall copy** — was "see WhatsApp template" but template already visible; fixed to "unlock buyer's phone number to send it"
+- [x] **DashboardPage isEmpty trust signal** — "No credit card required — 3 free scans every week" added below CTA buttons
+- [x] **SignupPage trust signal** — "No card required to create your account — payment comes after you confirm your email" added above trust badges
+- [x] **Calendar ICS route verified** — /api/leads/calendar.ics functional, LeadDetailPage COPY CALENDAR LINK confirmed working
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **DashboardPage welcome banner mobile** — verify 3-step ol/li layout renders cleanly at 375px (structure confirmed clean, worth visual spot-check)
+
 ## Today - 5 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **DashboardPage ?welcome=1 activation banner** — 3-step guide (scan → track → WhatsApp) shown to new paid users after Stripe checkout; dismisses to localStorage; Suspense wrapper added to app/dashboard/page.tsx
