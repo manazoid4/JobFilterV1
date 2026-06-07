@@ -1,5 +1,14 @@
 # Daily To-Do
 
+## Today - 7 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **"Share Your Win" image generator built** — new `ShareWinCard.tsx` component: canvas-rendered 1080×1080 brutalist PNG (jobs won, total value won, win rate, JobFilter wordmark) with DOWNLOAD + SHARE (Web Share API) buttons; wired into ROITracker, shows when `totalWon > 0`. Closes roadmap quick-win item.
+- [x] **"Pipeline" jargon sweep (7 instances)** — FaqPage ("pipeline tracking" → "job tracking"), LeadDetailPage ("pipeline is low" → "work is quiet"), LeadListPage ("pipeline is light" → "work is quiet"), MethodologyPage + SignalsPage (micro-label "THE PIPELINE" → "HOW IT WORKS"), ProductAdvantagePage ("fills your pipeline" → "fills your week"), FindJobsPage FILL MY WEEK banner ("pipeline problem" → "leads problem")
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check ShareWinCard with live win data** — verify canvas text doesn't overlap for different digit counts (1 vs 12 jobs won); could not test live (no Supabase test data with `lead_outcomes` rows in this container)
+- [ ] **Continue jargon sweep** — search "intake"/"chase engine"/"signal stack" leakage on Trade* pages, FreeToolsPage, comparison pages
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+
 ## Today - 6 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **FILL MY WEEK copy** — "Doesn't use your scan allowance. Searches {X} miles — wider than regular scan." + button changed to "EXPAND SCAN — 25MI →"
