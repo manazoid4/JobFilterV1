@@ -230,7 +230,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xl font-black text-[var(--muted)]">
-            Every scan runs the active signal stack in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
+            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
           </p>
         </div>
       </section>

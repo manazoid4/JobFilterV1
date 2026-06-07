@@ -288,6 +288,20 @@ function buildPreviewReasons(lead: Lead): string[] {
       return [`Trade teaser: ${k}`];
     }
   }
+  const intentReason = real.find((r) => r.startsWith('High intent keywords:'));
+  if (intentReason) {
+    const m = intentReason.match(/^High intent keywords: (.+?) \(/);
+    if (m) {
+      const k = m[1].split(',')[0].trim();
+      return [`Trade teaser: ${k}`];
+    }
+  }
+  if (real.some((r) => r.startsWith('Commercial project'))) {
+    return ['Trade teaser: commercial job'];
+  }
+  if (real.some((r) => r.startsWith('Urgent timeline'))) {
+    return ['Trade teaser: urgent timeline'];
+  }
   return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
 }
 
