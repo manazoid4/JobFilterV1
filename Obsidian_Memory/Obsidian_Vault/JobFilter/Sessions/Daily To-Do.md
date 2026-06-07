@@ -1,5 +1,13 @@
 # Daily To-Do
 
+## Today - 7 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Job value tracking built** — Tier 2 roadmap item #17 ("compare estimated vs actual job values"); `WinJob.estimatedValue` captured at win time, `getValueAccuracy()` in winStore.ts compares quoted band vs landed £, DashboardPage scoreboard shows "Quoted vs landed" stat (e.g. "+12% vs quote · 4 jobs"), client-side only (localStorage), no backend changes
+- [x] **"Intake" jargon sweep (8 instances)** — internal "Intake"/"Intake Engine" naming replaced with plain trade language across BuildUkAlternativePage, CompareBuildAlertPage, CompareCheckatradePage (micro-labels "ENTER THE INTAKE" → "SCAN YOUR AREA FREE"), VantagePage (headline + body + CTA), SmartQuotePage (body), NewsPage (3× body copy)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check "Quoted vs landed" stat with live win data** — verify % delta reads sensibly for over/under estimates once test account with logged wins exists
+- [ ] **Continue jargon sweep** — "chase engine"/"signal stack"/"win store"/"chase store" internal nouns on less-trafficked Trade* and comparison pages
+
 ## Today - 7 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **"Share Your Win" image generator built** — new `ShareWinCard.tsx` component: canvas-rendered 1080×1080 brutalist PNG (jobs won, total value won, win rate, JobFilter wordmark) with DOWNLOAD + SHARE (Web Share API) buttons; wired into ROITracker, shows when `totalWon > 0`. Closes roadmap quick-win item.
