@@ -805,7 +805,7 @@ export function FindJobsPage() {
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
               <p className="mt-1 text-sm font-black text-white/75">
-                Your quiet week isn&apos;t a skills problem. It&apos;s a pipeline problem.
+                Your quiet week isn&apos;t a skills problem. It&apos;s a leads problem.
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (

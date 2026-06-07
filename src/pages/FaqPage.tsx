@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, pipeline tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
+    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',

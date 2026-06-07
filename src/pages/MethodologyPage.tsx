@@ -81,7 +81,7 @@ export function MethodologyPage() {
 
       {/* Pipeline */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">THE PIPELINE</p>
+        <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
           SIX STEPS. ZERO WASTE.
         </h2>

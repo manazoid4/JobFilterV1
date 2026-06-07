@@ -315,7 +315,7 @@ export function LeadDetailPage() {
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when pipeline is low.</p>
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
           </div>
         )}
       </section>

@@ -214,7 +214,7 @@ export function SignalsPage() {
       {/* 3. How it combines */}
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">THE PIPELINE</p>
+          <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
