@@ -1,5 +1,13 @@
 # Daily To-Do
 
+## Today - 7 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Free-tier preview teasers extended** — `buildPreviewReasons()` in `server/routes/leadsSearch.ts` now surfaces "Trade teaser: <high-intent keyword>" / "Trade teaser: commercial job" / "Trade teaser: urgent timeline" before falling back to the generic "Paid preview - unlock buyer..." line; closes the gap where many free-scan leads showed generic copy instead of a specific signal (Tier 1 "Trade-specific scoring UX" follow-up — renders via existing `parseTradeReasons()` badge path, no frontend change needed)
+- [x] **"Signal stack" jargon fixed** — SignalsPage.tsx:233 "active signal stack" → "all ten signals" (internal noun leaking into customer copy)
+- [x] **"Moat" corporate jargon fixed** — BlueprintPage.tsx:749 "Fusion is the moat" → "Stacking them isn't" (plain trade language, same meaning)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check new free-tier teaser badges** — confirm "URGENT TIMELINE" / "COMMERCIAL JOB" badges render cleanly on mobile lead cards alongside existing "Trade teaser: <keyword>" badges in a live B14 scan
+
 ## Today - 7 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Job value tracking built** — Tier 2 roadmap item #17 ("compare estimated vs actual job values"); `WinJob.estimatedValue` captured at win time, `getValueAccuracy()` in winStore.ts compares quoted band vs landed £, DashboardPage scoreboard shows "Quoted vs landed" stat (e.g. "+12% vs quote · 4 jobs"), client-side only (localStorage), no backend changes
