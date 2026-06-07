@@ -243,6 +243,7 @@ export function LeadDetailPage() {
       trade: lead!.jobType,
       location: lead!.area,
       value: parsedValue,
+      estimatedValue: lead!.budget,
       source: 'chase',
     });
     updateStoredLead(lead!.id, { status: 'won' });

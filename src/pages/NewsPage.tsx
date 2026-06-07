@@ -31,7 +31,7 @@ const ARTICLES: Article[] = [
     body: [
       'The Minimum Energy Efficiency Standard (MEES) tightening for rented homes is no longer a debate — landlords with F or G-rated stock are getting compliance letters and starting to gather quotes. The legal pressure has moved from "by 2030" planning conversation to "next budget cycle" action.',
       'For tradesmen, that means the next 9–12 months will see a steady stream of single-trade and multi-trade jobs aimed at moving a property from band F or G up to D or better. The work is rarely one trade only — boiler swaps, loft and cavity insulation, double glazing replacement, ventilation upgrades, and electrical re-wires usually appear in clusters on the same address.',
-      'The cleanest signal is a recently filed energy certificate showing band F or G on a property classed as rented. JobFilter\'s Intake Engine reads verified energy signals daily and matches them to your trade — so a heating engineer sees the boilers and a glazier sees the windows, both on the same property if applicable.',
+      'The cleanest signal is a recently filed energy certificate showing band F or G on a property classed as rented. JobFilter reads verified energy signals daily and matches them to your trade — so a heating engineer sees the boilers and a glazier sees the windows, both on the same property if applicable.',
     ],
     takeaway:
       'If your trade does any retrofit work, build a saved search for F and G rentals in your postcode area. The landlords already know they have a problem — they want a quote, not a sales pitch.',
@@ -66,7 +66,7 @@ const ARTICLES: Article[] = [
     body: [
       'The Energy Company Obligation (ECO4) and the Great British Insulation Scheme (GBIS) require the big energy suppliers to fund energy-efficiency upgrades in lower-income and lower-EPC-band homes. The pot is real and live. The bottleneck is delivery — there simply aren\'t enough PAS 2030 / MCS certified installers to spend it.',
       'For installers who hold the certifications, this is the easiest demand market in UK construction right now. Loft insulation, cavity wall insulation, air-source heat pumps, solar PV, and external wall insulation all qualify. The funding pays the customer, the customer pays you, and the paperwork is usually handled by a managing agent — not you.',
-      'If you\'re not certified yet, the route is straightforward: PAS 2030:2023 covers most insulation measures, MCS is required for renewables. Certification takes 4–8 weeks and costs around £1,500–£3,000 — recoverable inside the first job. JobFilter\'s Intake Engine flags funded scheme leads in your area with the qualifying measure already identified.',
+      'If you\'re not certified yet, the route is straightforward: PAS 2030:2023 covers most insulation measures, MCS is required for renewables. Certification takes 4–8 weeks and costs around £1,500–£3,000 — recoverable inside the first job. JobFilter flags funded scheme leads in your area with the qualifying measure already identified.',
     ],
     takeaway:
       'If you do insulation or renewables, get PAS 2030 / MCS certified now. The customer demand is funded, the supplier pressure is real, and the installer shortage is your moat for at least the next 12 months.',
@@ -311,7 +311,7 @@ export function NewsPage() {
             STOP READING ABOUT THE WORK. SEE IT IN YOUR POSTCODE.
           </h2>
           <p className="mt-4 max-w-2xl font-bold text-white/70 leading-snug">
-            The Intake Engine reads the same data this briefing is built from — and filters it to your trade, postcode, and value band. Free to scan, no card needed.
+            JobFilter reads the same data this briefing is built from — and filters it to your trade, postcode, and value band. Free to scan, no card needed.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">

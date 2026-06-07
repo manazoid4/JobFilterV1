@@ -167,7 +167,7 @@ export function SmartQuotePage() {
             <p className="micro-label text-[var(--yellow)]">WANT LEADS WORTH QUOTING ON?</p>
             <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">SCAN YOUR AREA FREE.</h2>
             <p className="mt-3 max-w-xl font-black text-white/90">
-              Smart Quote writes the proposal. Intake finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
+              Smart Quote writes the proposal. The scanner finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>

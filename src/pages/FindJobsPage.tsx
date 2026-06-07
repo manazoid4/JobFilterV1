@@ -1145,6 +1145,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
       trade: String(lead.trade ?? 'building'),
       location: lead.location ?? lead.postcodeOutward ?? '',
       value: parsedValue,
+      estimatedValue: lead.estimatedValue,
       source: 'chase',
     });
     try {

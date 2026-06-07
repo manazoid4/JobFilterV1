@@ -150,6 +150,40 @@ export function getWinBreakdown(): {
   };
 }
 
+function parseEstimatedMidpoint(text: string | undefined): number | null {
+  if (!text) return null;
+  const cleaned = text.replace(/[, ]+/g, '').toLowerCase();
+  const matches = cleaned.match(/\d+(?:\.\d+)?[km]?/g);
+  if (!matches || matches.length === 0) return null;
+  const values = matches.map((part) => {
+    const multiplier = part.endsWith('m') ? 1_000_000 : part.endsWith('k') ? 1_000 : 1;
+    const numeric = parseFloat(part.replace(/[km]$/, ''));
+    return Number.isFinite(numeric) ? numeric * multiplier : 0;
+  }).filter((value) => value > 0);
+  if (values.length === 0) return null;
+  return values.length === 1 ? values[0] : values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+export function getValueAccuracy(): { count: number; avgEstimated: number; avgActual: number; deltaPct: number } | null {
+  const { wins } = getWinData();
+  const comparable = wins
+    .map((w) => ({ actual: w.value, estimated: parseEstimatedMidpoint(w.estimatedValue) }))
+    .filter((w): w is { actual: number; estimated: number } => w.estimated !== null && w.actual > 0);
+
+  if (comparable.length === 0) return null;
+
+  const avgEstimated = comparable.reduce((sum, w) => sum + w.estimated, 0) / comparable.length;
+  const avgActual = comparable.reduce((sum, w) => sum + w.actual, 0) / comparable.length;
+  const deltaPct = avgEstimated > 0 ? Math.round(((avgActual - avgEstimated) / avgEstimated) * 100) : 0;
+
+  return {
+    count: comparable.length,
+    avgEstimated: Math.round(avgEstimated),
+    avgActual: Math.round(avgActual),
+    deltaPct,
+  };
+}
+
 export function generateReviewMessage(win: WinJob, platform: 'google' | 'checkatrade'): string {
   const tradeLabel = win.trade.charAt(0).toUpperCase() + win.trade.slice(1);
   if (platform === 'google') {

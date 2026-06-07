@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { ROITracker } from '../components/ROITracker';
-import { getMonthlyStats, getWinBreakdown, getWinData } from '../lib/winStore';
+import { getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 export function DashboardPage() {
@@ -16,6 +16,7 @@ export function DashboardPage() {
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
   const [breakdown, setBreakdown] = useState<ReturnType<typeof getWinBreakdown>>({ byTrade: [], byLocation: [], bySource: [] });
+  const [valueAccuracy, setValueAccuracy] = useState<ReturnType<typeof getValueAccuracy>>(null);
   const [territory, setTerritory] = useState<string | null>(null);
   const [scanTrade, setScanTrade] = useState<string | null>(null);
   const [scanPostcode, setScanPostcode] = useState<string | null>(null);
@@ -33,6 +34,7 @@ export function DashboardPage() {
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
     setBreakdown(getWinBreakdown());
+    setValueAccuracy(getValueAccuracy());
     setTerritory((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory'));
     setScanTrade((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade'));
     setScanPostcode((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode'));
@@ -322,6 +324,16 @@ export function DashboardPage() {
             <Row label="All time" value={`${winData.wins} wins · £${totalValueAllTime.toLocaleString()}`} />
             {winData.wins > 0 && (
               <Row label="Avg per win" value={`£${Math.round(totalValueAllTime / winData.wins).toLocaleString()}`} />
+            )}
+            {valueAccuracy && (
+              <Row
+                label="Quoted vs landed"
+                value={
+                  valueAccuracy.deltaPct === 0
+                    ? `Spot on quote · ${valueAccuracy.count} jobs`
+                    : `${valueAccuracy.deltaPct > 0 ? '+' : ''}${valueAccuracy.deltaPct}% vs quote · ${valueAccuracy.count} jobs`
+                }
+              />
             )}
             {winRate !== null && (
               <Row label="Win rate" value={`${winRate}%`} />
