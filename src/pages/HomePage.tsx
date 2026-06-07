@@ -295,6 +295,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid gap-3">
+            <p className="micro-label text-[var(--ink)]">SAMPLE PATCHES — SCORES SHOWN FOR ILLUSTRATION</p>
             {territoryCards.map(([name, status, score]) => {
               const signalLevel = Number(score) >= 90 ? 4 : Number(score) >= 85 ? 3 : Number(score) >= 80 ? 2 : 1;
               return (
