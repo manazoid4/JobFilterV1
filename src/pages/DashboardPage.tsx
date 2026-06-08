@@ -258,27 +258,6 @@ export function DashboardPage() {
         </section>
       )}
 
-      {/* Admin Guard Entry Card */}
-      <section className="jf-box bg-[var(--yellow)] p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="micro-label text-[var(--ink)]">TRADE COMMAND CENTRE</p>
-            <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)]">ADMIN GUARD</h2>
-            <p className="mt-2 font-black text-[var(--ink)]/80 text-sm max-w-sm">
-              HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Link href="/dashboard/admin-guard" className="jf-button bg-[var(--ink)] text-white text-sm">
-              OPEN ADMIN GUARD →
-            </Link>
-            <Link href="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] text-sm">
-              WHAT DOES IT TRACK? →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* ROI Tracker */}
       <ROITracker isPaid={isPaid} />
 
@@ -386,6 +365,19 @@ export function DashboardPage() {
               </Link>
             )}
           </div>
+        </section>
+
+        {/* Admin Guard Entry Card */}
+        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--yellow)', borderLeftWidth: '4px' }}>
+          <div className="flex items-center justify-between">
+            <p className="micro-label text-[var(--muted)]">TRADE COMMAND CENTRE</p>
+            <Link href="/dashboard/admin-guard" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
+          </div>
+          <p className="headline mt-3 text-2xl leading-none">ADMIN GUARD</p>
+          <p className="mt-3 font-black text-[var(--muted)] text-sm">
+            HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
+          </p>
+          <Link href="/features/admin-guard" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">What does it track? →</Link>
         </section>
       </div>
 
