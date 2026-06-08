@@ -1,5 +1,13 @@
 # Daily To-Do
 
+## Today - 8 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Wired `markLost()` into the lost-job flow — closes the Win Engine loop for real** — the "WHY YOU LOSE JOBS" section shipped earlier today read `getWinData().losses`, which is only populated by `winStore.markLost()`; that function was never called anywhere — `LeadDetailPage`'s lost-reason picker stored 4 ad-hoc free-text strings into a different pipe (`/api/leads/outcome`) that didn't even match the `LostReason` enum the dashboard section expects. **Net effect: the new section could never show real data for any tradesman.** Replaced the picker with the canonical 6-value `LostReason` enum + matching plain-language labels and call `markLost()` on confirm — verified live end-to-end with Playwright (mark lead LOST → reason → CONFIRM → localStorage populated → dashboard renders bars + tip correctly, desktop and 375px mobile)
+- [x] **"Start Signal Engine" jargon fixed** — SignalsPage.tsx:187 micro-label "START SIGNAL ENGINE" → "START SIGNAL MODE" (internal-noun "engine" leak, same class as prior signal-stack/signal-engine fixes; now matches "Start Signal mode" used in the body copy directly below)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check "WHY YOU LOSE JOBS" against a real paid test account** — the data pipe is now actually connected; first real chance to verify it populates correctly from genuine logged losses (not seeded data)
+- [ ] **Audit win-engine features for the same "wired UI, unwired data" pattern** — confirm `getValueAccuracy()` (Quoted vs landed) and `getWinBreakdown()` populate correctly from `markWon()`/`markLost()` now that the loss side is fixed
+
 ## Today - 8 June 2026 (NightlyBuildAgent)
 
 - [x] **Lost-reason analysis built (Win Engine quick win — closes the loop)** — `getLostReasonBreakdown()` existed in `winStore.ts` but was never wired to any screen; new "WHY YOU LOSE JOBS" section on DashboardPage shows a bar chart of logged loss reasons (price/timing/competition/etc) plus an actionable tip keyed to the top reason (e.g. "Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest."); verified live with seeded data + screenshots, desktop and 375px mobile, renders cleanly
