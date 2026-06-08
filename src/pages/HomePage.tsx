@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 
-import { AlertTriangle, Radio, ShieldCheck, Target, ArrowUpRight, ArrowDownRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap, Megaphone, BookOpen, Calculator } from 'lucide-react';
+import { AlertTriangle, ArrowUpRight, ArrowDownRight, Users, Clock, Lock, FileText, Megaphone, BookOpen, Calculator } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
@@ -327,27 +327,29 @@ export function HomePage() {
       {/* ── WHAT YOU GET ─────────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--bg-main)]">
         <div className="page-shell py-14">
-          <p className="micro-label text-[var(--green)]">WHAT YOU GET</p>
+          <p className="micro-label text-[var(--orange)]">WHY IT WORKS</p>
           <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
-            EVERYTHING INCLUDED. NO HIDDEN FEES.
+            FOUR THINGS THAT MATTER.
           </h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
-              { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
-              { icon: FileText, title: 'Letter drop scripts', body: 'Pre-written for your trade and area. Print and post in minutes.' },
-              { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
-              { icon: TrendingUp, title: 'Job tracking', body: 'Track every lead from first contact to won job — see who to call, when to follow up, and what you have won.' },
-              { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
-              { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
-              { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
-            ].map(({ icon: Icon, title, body }) => (
-              <div key={title} className="jf-box bg-white p-5">
-                <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
-                <p className="headline mt-3 text-lg">{title}</p>
-                <p className="mt-1 text-sm font-black text-[var(--muted)]">{body}</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {([
+              { num: '01', title: 'Your phone before anyone else', body: 'Gold-scored leads hit your WhatsApp within minutes of a planning approval, energy signal, or council tender going live. Before they reach any job board.' },
+              { num: '02', title: 'One trade. One patch. No sharing.', body: 'No shared auction. No five-trade race to the bottom. Your trade gets priority routing in your postcode cluster — not blasted to four other firms.' },
+              { num: '03', title: 'Scored before you see it', body: 'Every signal scored 0–100 for buyer readiness, timing pressure, and trade fit. Bronze noise stays out. GOLD hits your phone. You only act on what\'s worth your time.' },
+              { num: '04', title: 'One job covers it.', body: 'Average UK trade job: £800–£3,000. One qualified win at founder price pays for 3 months. 30-day money-back if you don\'t see one job worth chasing.' },
+            ] as { num: string; title: string; body: string }[]).map(({ num, title, body }) => (
+              <div key={num} className="jf-box bg-white p-6">
+                <p className="font-mono text-4xl font-black text-[var(--yellow)] leading-none">{num}</p>
+                <p className="headline mt-3 text-xl leading-tight text-[var(--ink)]">{title}</p>
+                <p className="mt-2 text-sm font-black text-[var(--muted)] leading-snug">{body}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center">
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">
+              CLAIM YOUR PATCH — £39/MO →
+            </Link>
+            <span className="text-sm font-black text-[var(--muted)]">30-day money-back · No auction · Cancel anytime</span>
           </div>
         </div>
       </section>
