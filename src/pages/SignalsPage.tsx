@@ -184,7 +184,7 @@ export function SignalsPage() {
         <div className="page-shell section-pad">
           <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
             <div>
-              <p className="micro-label text-[var(--orange)]">START SIGNAL ENGINE</p>
+              <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
               <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
               <p className="mt-4 max-w-3xl text-lg font-black leading-tight text-[var(--ink)]/80">
                 Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.

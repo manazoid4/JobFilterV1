@@ -10,8 +10,17 @@ import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate, parseEmailSubject } from '../lib/chaseTemplates';
-import { markWon } from '../lib/winStore';
-import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
+import { markLost, markWon } from '../lib/winStore';
+import type { LeadDecision, LeadDecisionStatus, LostReason } from '../lib/types';
+
+const LOST_REASON_OPTIONS: { value: LostReason; label: string }[] = [
+  { value: 'price', label: 'Got outbid on price' },
+  { value: 'competition', label: 'Customer went with someone else' },
+  { value: 'timing', label: 'Bad timing — too slow to call back' },
+  { value: 'not_interested', label: "Customer wasn't interested" },
+  { value: 'went_elsewhere', label: 'Job filled before I called' },
+  { value: 'other', label: 'Other / job did not exist' },
+];
 
 function formatSignalLabel(source: string): string {
   const s = source.toLowerCase();
@@ -110,7 +119,7 @@ export function LeadDetailPage() {
   const id  = (params?.id  as string) || '' ;
   const router = useRouter();
   const lead = getStoredLeads().find((item) => item.id === id);
-  const [lostReason, setLostReason] = useState('');
+  const [lostReason, setLostReason] = useState<LostReason | ''>('');
   const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(() => {
@@ -202,6 +211,15 @@ export function LeadDetailPage() {
     const outcome: Record<string, string> = {};
     if (status === 'lost' && lostReason) {
       outcome.lostReason = lostReason;
+      markLost({
+        leadId: lead!.id,
+        title: lead!.jobType,
+        trade: lead!.jobType,
+        location: lead!.area,
+        estimatedValue: lead!.budget ?? '',
+        reason: lostReason,
+        source: 'chase',
+      });
     }
     updateStoredLead(lead!.id, { status, ...outcome });
 
@@ -502,14 +520,14 @@ export function LeadDetailPage() {
         {showLostPicker && (
           <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why did you lose it? (optional)</p>
-            <div className="grid gap-2 sm:grid-cols-4">
-              {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+            <div className="grid gap-2 sm:grid-cols-3">
+              {LOST_REASON_OPTIONS.map(({ value, label }) => (
                 <button
-                  key={reason}
-                  onClick={() => setLostReason(reason)}
-                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                  key={value}
+                  onClick={() => setLostReason(value)}
+                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === value ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
                 >
-                  {reason}
+                  {label}
                 </button>
               ))}
             </div>
