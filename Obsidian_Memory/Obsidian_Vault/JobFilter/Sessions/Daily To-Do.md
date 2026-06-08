@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 8 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **24h Review Nudge built (Win Engine roadmap quick win)** — `generateReviewMessage()` existed but the roadmap quick win "add auto-prompt 24h after Won status" was never implemented. New nudge section on DashboardPage shows wins 24h–7d old where `reviewMessageSent` is not true: green-bordered panel with win title, pre-filled WhatsApp review request (Google link), "SEND ON WHATSAPP →" deep link, "MARK SENT" to permanently dismiss, soft "dismiss" for session. `reviewMessageSent?: boolean` added to WinJob type; `markReviewSent()` added to winStore. Closes Feature Roadmap Week 1-2 quick win.
+- [x] **"Patch Plan" jargon sweep** — 4 surfaces had "Patch Plan" / "PATCH PLAN" as internal plan naming (SampleLeadCard ×2, QuickResponseKit, CityIntelligencePage ×3). Replaced with "£39/MO" — price is always more concrete than a plan name the tradesman has never seen on /pricing.
+- [x] **"INTAKE ENGINE" → "FIND WORK"** — Footer section heading used internal product naming
+- [x] **"ENTER THE INTAKE" → "SCAN FREE — NO CARD NEEDED"** — TradePage.tsx final CTA micro-label used internal "Intake" jargon (same class as TipsPage fix done last week)
+- [x] **"moat" → "edge"** — NewsPage.tsx ECO4 article takeaway used MBA jargon in tradesman-facing copy
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check review nudge** — verify renders correctly once a paid test account has wins 24h+ old
+- [ ] **FaqPage audit** — last touched 18 May; check for source naming violations or weak CTAs
+- [ ] **DashboardPage Admin Guard card** — "TRADE COMMAND CENTRE" / "ADMIN GUARD" may need plain-English subtitle for new users
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 8 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Wired `markLost()` into the lost-job flow — closes the Win Engine loop for real** — the "WHY YOU LOSE JOBS" section shipped earlier today read `getWinData().losses`, which is only populated by `winStore.markLost()`; that function was never called anywhere — `LeadDetailPage`'s lost-reason picker stored 4 ad-hoc free-text strings into a different pipe (`/api/leads/outcome`) that didn't even match the `LostReason` enum the dashboard section expects. **Net effect: the new section could never show real data for any tradesman.** Replaced the picker with the canonical 6-value `LostReason` enum + matching plain-language labels and call `markLost()` on confirm — verified live end-to-end with Playwright (mark lead LOST → reason → CONFIRM → localStorage populated → dashboard renders bars + tip correctly, desktop and 375px mobile)
