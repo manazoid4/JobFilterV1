@@ -5,8 +5,17 @@ import { useSearchParams } from 'next/navigation';
 
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { ROITracker } from '../components/ROITracker';
-import { getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData } from '../lib/winStore';
-import type { ChaseLead } from '../lib/types';
+import { getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData } from '../lib/winStore';
+import type { ChaseLead, LostReason } from '../lib/types';
+
+const LOST_REASON_TIPS: Record<LostReason, string> = {
+  price: 'Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest.',
+  timing: 'Most lost jobs slip on timing. Send your first message within 2 hours — the Quick Quote template is built for this.',
+  competition: 'Most lost jobs go to another trade. First contact wins more jobs than lowest price — chase faster.',
+  not_interested: "Most homeowners say they're not interested. Check your first message reads as local and low-pressure, not a sales pitch.",
+  went_elsewhere: 'Most jobs go elsewhere before you reply. Faster first contact closes this gap — try the 24h follow-up template sooner.',
+  other: 'Keep logging the reason when you mark a job lost — more data here means a sharper read on where you lose work.',
+};
 
 export function DashboardPage() {
   const searchParams = useSearchParams();
@@ -16,6 +25,7 @@ export function DashboardPage() {
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
   const [totalValueAllTime, setTotalValueAllTime] = useState(0);
   const [breakdown, setBreakdown] = useState<ReturnType<typeof getWinBreakdown>>({ byTrade: [], byLocation: [], bySource: [] });
+  const [lostBreakdown, setLostBreakdown] = useState<ReturnType<typeof getLostReasonBreakdown>>([]);
   const [valueAccuracy, setValueAccuracy] = useState<ReturnType<typeof getValueAccuracy>>(null);
   const [territory, setTerritory] = useState<string | null>(null);
   const [scanTrade, setScanTrade] = useState<string | null>(null);
@@ -34,6 +44,7 @@ export function DashboardPage() {
     setWinData({ wins: wd.wins.length, losses: wd.losses.length });
     setTotalValueAllTime(wd.wins.reduce((s, w) => s + w.value, 0));
     setBreakdown(getWinBreakdown());
+    setLostBreakdown(getLostReasonBreakdown());
     setValueAccuracy(getValueAccuracy());
     setTerritory((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory'));
     setScanTrade((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade'));
@@ -390,6 +401,38 @@ export function DashboardPage() {
             <BreakdownBlock title="By location" rows={breakdown.byLocation.slice(0, 5)} />
             <BreakdownBlock title="By source" rows={breakdown.bySource.slice(0, 5)} />
           </div>
+        </section>
+      )}
+
+      {/* Lost Reason Breakdown — close the loop on why jobs slip away */}
+      {lostBreakdown.length > 0 && (
+        <section className="jf-box bg-white p-5">
+          <div className="flex items-center justify-between border-b-2 border-[var(--line)] pb-3">
+            <p className="micro-label text-[var(--muted)]">WHY YOU LOSE JOBS</p>
+            <span className="text-xs font-black text-[var(--muted)]">{winData.losses} logged</span>
+          </div>
+          <div className="mt-4 grid gap-2 max-w-md">
+            {lostBreakdown.slice(0, 6).map((r) => {
+              const max = lostBreakdown[0].count;
+              return (
+                <div key={r.reason}>
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="truncate text-sm font-black text-[var(--ink)]">{r.label}</span>
+                    <span className="text-xs font-black text-[var(--muted)]">{r.count}</span>
+                  </div>
+                  <div className="mt-1 h-2 bg-[var(--bg-main)] border border-[var(--line)]">
+                    <div
+                      className="h-full bg-[var(--orange)]"
+                      style={{ width: `${Math.max(4, (r.count / max) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="mt-4 border-t-2 border-[var(--line)] pt-3 text-sm font-black text-[var(--ink)]">
+            {LOST_REASON_TIPS[lostBreakdown[0].reason]}
+          </p>
         </section>
       )}
     </main>
