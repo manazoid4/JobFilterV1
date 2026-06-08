@@ -1,5 +1,14 @@
 # Daily To-Do
 
+## Today - 8 June 2026 (NightlyBuildAgent)
+
+- [x] **Lost-reason analysis built (Win Engine quick win — closes the loop)** — `getLostReasonBreakdown()` existed in `winStore.ts` but was never wired to any screen; new "WHY YOU LOSE JOBS" section on DashboardPage shows a bar chart of logged loss reasons (price/timing/competition/etc) plus an actionable tip keyed to the top reason (e.g. "Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest."); verified live with seeded data + screenshots, desktop and 375px mobile, renders cleanly
+- [x] **"Signal engine" jargon fixed** — ProductAdvantagePage.tsx (Vicinity note) "Powered by JobFilter's signal engine" → "Built on the same scans that power JobFilter" (internal noun leak, same class as Run 3 "signal stack" fix)
+- [x] **"Intake" jargon fixed (missed instance)** — VicinityPage.tsx:713 "Intake feeds you the next job" → "JobFilter finds the next job" (Run 2's 8-instance Intake sweep missed this one)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main
+- [ ] **Spot-check "WHY YOU LOSE JOBS" with live loss data** — verify the tip and bars read sensibly once a paid test account has 5+ real logged losses (only seeded synthetic localStorage data in this container)
+- [ ] **Continue jargon sweep** — search for "signal engine"/"chase store"/"win store" internal-noun leaks on less-trafficked product add-on / Trade* / Compare* pages (two instances found this run that prior sweeps missed — likely more)
+
 ## Today - 7 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Free-tier preview teasers extended** — `buildPreviewReasons()` in `server/routes/leadsSearch.ts` now surfaces "Trade teaser: <high-intent keyword>" / "Trade teaser: commercial job" / "Trade teaser: urgent timeline" before falling back to the generic "Paid preview - unlock buyer..." line; closes the gap where many free-scan leads showed generic copy instead of a specific signal (Tier 1 "Trade-specific scoring UX" follow-up — renders via existing `parseTradeReasons()` badge path, no frontend change needed)
