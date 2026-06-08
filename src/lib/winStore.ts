@@ -55,6 +55,14 @@ export function removeWin(winId: string) {
   saveWinData(data);
 }
 
+export function markReviewSent(winId: string) {
+  const data = getWinData();
+  data.wins = data.wins.map((w) =>
+    w.id === winId ? { ...w, reviewMessageSent: true } : w
+  );
+  saveWinData(data);
+}
+
 export function removeLost(lostId: string) {
   const data = getWinData();
   data.losses = data.losses.filter((l) => l.id !== lostId);

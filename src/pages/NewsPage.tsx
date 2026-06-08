@@ -69,7 +69,7 @@ const ARTICLES: Article[] = [
       'If you\'re not certified yet, the route is straightforward: PAS 2030:2023 covers most insulation measures, MCS is required for renewables. Certification takes 4–8 weeks and costs around £1,500–£3,000 — recoverable inside the first job. JobFilter flags funded scheme leads in your area with the qualifying measure already identified.',
     ],
     takeaway:
-      'If you do insulation or renewables, get PAS 2030 / MCS certified now. The customer demand is funded, the supplier pressure is real, and the installer shortage is your moat for at least the next 12 months.',
+      'If you do insulation or renewables, get PAS 2030 / MCS certified now. The customer demand is funded, the supplier pressure is real, and the installer shortage is your edge for at least the next 12 months.',
     forTrades: ['Insulation firms', 'Heat pump installers', 'Solar PV installers', 'Heating engineers'],
     sources: ['Ofgem ECO4 stats Q1 2026', 'BEIS Great British Insulation Scheme delivery report'],
   },

@@ -5,8 +5,8 @@ import { useSearchParams } from 'next/navigation';
 
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { ROITracker } from '../components/ROITracker';
-import { getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData } from '../lib/winStore';
-import type { ChaseLead, LostReason } from '../lib/types';
+import { generateReviewMessage, getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData, markReviewSent } from '../lib/winStore';
+import type { ChaseLead, LostReason, WinJob } from '../lib/types';
 
 const LOST_REASON_TIPS: Record<LostReason, string> = {
   price: 'Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest.',
@@ -34,6 +34,8 @@ export function DashboardPage() {
   const [trackedLeadCount, setTrackedLeadCount] = useState(0);
   const [isPaid, setIsPaid] = useState(false);
   const [welcomeDismissed, setWelcomeDismissed] = useState(false);
+  const [reviewNudges, setReviewNudges] = useState<WinJob[]>([]);
+  const [dismissedReviews, setDismissedReviews] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const cl = getChaseLeads();
@@ -57,6 +59,13 @@ export function DashboardPage() {
       .then((r) => { if (r.status === 200 || r.status === 503) setIsPaid(true); })
       .catch(() => {});
     setWelcomeDismissed((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-welcome-seen') === '1');
+    const now = Date.now();
+    const nudges = wd.wins.filter((w) => {
+      if (w.reviewMessageSent) return false;
+      const age = now - new Date(w.wonAt).getTime();
+      return age >= 24 * 60 * 60 * 1000 && age <= 7 * 24 * 60 * 60 * 1000;
+    }).slice(0, 2);
+    setReviewNudges(nudges);
   }, []);
 
   const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
@@ -260,6 +269,52 @@ export function DashboardPage() {
 
       {/* ROI Tracker */}
       <ROITracker isPaid={isPaid} />
+
+      {/* Review Nudge — wins 24h–7d old, no review sent yet */}
+      {reviewNudges.filter((w) => !dismissedReviews.has(w.id)).map((win) => {
+        const msg = generateReviewMessage(win, 'google');
+        return (
+          <section key={win.id} className="jf-box border-2 border-[var(--green)] bg-[var(--green)]/5 p-5">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="micro-label text-[var(--green)]">YOU WON — ASK FOR A REVIEW</p>
+                <h2 className="headline mt-1 text-xl leading-tight">{win.title} · {win.location}</h2>
+                <p className="mt-2 text-sm font-black text-[var(--muted)]">
+                  Job was won yesterday. Ask now — trades who ask within 48h get 3× more reviews.
+                </p>
+              </div>
+              <button
+                onClick={() => setDismissedReviews((prev) => new Set([...prev, win.id]))}
+                className="shrink-0 text-xs font-black text-[var(--muted)] underline underline-offset-2"
+              >
+                dismiss
+              </button>
+            </div>
+            <div className="mt-4 border-2 border-[var(--line)] bg-white p-3 text-xs font-bold text-[var(--ink)] select-all leading-relaxed">
+              {msg}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(msg)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="jf-button bg-[var(--green)] text-white"
+              >
+                SEND ON WHATSAPP →
+              </a>
+              <button
+                onClick={() => {
+                  markReviewSent(win.id);
+                  setDismissedReviews((prev) => new Set([...prev, win.id]));
+                }}
+                className="jf-button bg-white text-[var(--ink)]"
+              >
+                MARK SENT
+              </button>
+            </div>
+          </section>
+        );
+      })}
 
       {/* Detailed Stats */}
       <div className="grid gap-6 md:grid-cols-2">

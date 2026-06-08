@@ -169,6 +169,7 @@ export type WinJob = {
   estimatedValue?: string;
   wonAt: string;
   source: 'chase' | 'manual';
+  reviewMessageSent?: boolean;
 };
 
 export type LostJob = {

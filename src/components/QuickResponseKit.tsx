@@ -93,7 +93,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
         <div className="flex items-center gap-2 mb-2">
           <Lock className="w-3.5 h-3.5 text-[var(--muted)]" />
           <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">First Strike</p>
-          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">PATCH PLAN</span>
+          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">£39/MO</span>
         </div>
         <p className="text-xs font-bold text-[var(--muted)] mb-3">
           {contactSignal === 'none'
