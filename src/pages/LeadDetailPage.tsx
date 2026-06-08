@@ -10,8 +10,17 @@ import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate, parseEmailSubject } from '../lib/chaseTemplates';
-import { markWon } from '../lib/winStore';
-import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
+import { markLost, markWon } from '../lib/winStore';
+import type { LeadDecision, LeadDecisionStatus, LostReason } from '../lib/types';
+
+const LOST_REASON_OPTIONS: { value: LostReason; label: string }[] = [
+  { value: 'price', label: 'Got outbid on price' },
+  { value: 'competition', label: 'Customer went with someone else' },
+  { value: 'timing', label: 'Bad timing — too slow to call back' },
+  { value: 'not_interested', label: "Customer wasn't interested" },
+  { value: 'went_elsewhere', label: 'Job filled before I called' },
+  { value: 'other', label: 'Other / job did not exist' },
+];
 
 function formatSignalLabel(source: string): string {
   const s = source.toLowerCase();
@@ -110,7 +119,7 @@ export function LeadDetailPage() {
   const id  = (params?.id  as string) || '' ;
   const router = useRouter();
   const lead = getStoredLeads().find((item) => item.id === id);
-  const [lostReason, setLostReason] = useState('');
+  const [lostReason, setLostReason] = useState<LostReason | ''>('');
   const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(() => {
@@ -176,8 +185,14 @@ export function LeadDetailPage() {
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
 
   const firstTouchTemplate = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
+
+  // Format UK phone for wa.me: strip non-digits, replace leading 0 with 44
+  const waPhone = lead.phone
+    ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '')
+    : null;
+
   const quickWaUrl = firstTouchTemplate
-    ? `https://wa.me/?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
+    ? `https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
     : null;
 
   function handleSnooze() {
@@ -196,6 +211,15 @@ export function LeadDetailPage() {
     const outcome: Record<string, string> = {};
     if (status === 'lost' && lostReason) {
       outcome.lostReason = lostReason;
+      markLost({
+        leadId: lead!.id,
+        title: lead!.jobType,
+        trade: lead!.jobType,
+        location: lead!.area,
+        estimatedValue: lead!.budget ?? '',
+        reason: lostReason,
+        source: 'chase',
+      });
     }
     updateStoredLead(lead!.id, { status, ...outcome });
 
@@ -237,6 +261,7 @@ export function LeadDetailPage() {
       trade: lead!.jobType,
       location: lead!.area,
       value: parsedValue,
+      estimatedValue: lead!.budget,
       source: 'chase',
     });
     updateStoredLead(lead!.id, { status: 'won' });
@@ -299,7 +324,7 @@ export function LeadDetailPage() {
                 rel="noreferrer"
                 className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
               >
-                SEND WHATSAPP NOW →
+                {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
               </a>
             )}
           </div>
@@ -309,7 +334,7 @@ export function LeadDetailPage() {
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when pipeline is low.</p>
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
           </div>
         )}
       </section>
@@ -410,11 +435,11 @@ export function LeadDetailPage() {
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
             <a
               className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/?text=${encodeURIComponent(filledMessage)}`}
+              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              SEND WHATSAPP
+              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
             </a>
           </div>
         )}
@@ -495,14 +520,14 @@ export function LeadDetailPage() {
         {showLostPicker && (
           <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why did you lose it? (optional)</p>
-            <div className="grid gap-2 sm:grid-cols-4">
-              {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+            <div className="grid gap-2 sm:grid-cols-3">
+              {LOST_REASON_OPTIONS.map(({ value, label }) => (
                 <button
-                  key={reason}
-                  onClick={() => setLostReason(reason)}
-                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                  key={value}
+                  onClick={() => setLostReason(value)}
+                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === value ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
                 >
-                  {reason}
+                  {label}
                 </button>
               ))}
             </div>
@@ -543,15 +568,15 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
-          <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
+          <p className="micro-label text-[var(--yellow)]">BUYER CONTACT LOCKED</p>
+          <h2 className="headline mt-1 text-2xl">UNLOCK THE PHONE NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            Paid members see the recommended contact channel, compliance risk rating, and next action script for every lead — not just a score.
+            The template above is ready. Gold members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK CONTACT DETAILS — £39/MO →
+            UNLOCK THIS LEAD — £39/MO →
           </Link>
-          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back guarantee. No credit card to scan.</p>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back. Cancel anytime.</p>
         </section>
       )}
 

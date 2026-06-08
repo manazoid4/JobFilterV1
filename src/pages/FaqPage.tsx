@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     q: 'What does GOLD, SILVER, BRONZE mean?',
-    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your pipeline is light.',
+    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your diary is quiet.',
   },
   {
     q: 'How fresh are the leads?',
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, pipeline tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
+    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -33,7 +33,7 @@ const faqs = [
     a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you do not see one job worth quoting in that time, email us and we process the refund the same day. No forms, no argument.',
   },
   {
-    q: 'How does territory exclusivity work?',
+    q: 'How does the territory lock work?',
     a: 'One trade partner per postcode cluster per trade. If you lock B17 for roofing, no other roofer gets our leads in B17. You get first call on every signal.',
   },
   {
@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: 'What trades do you cover?',
-    a: 'Builders, electricians, plumbers, roofers, carpenters, painters, landscapers, HVAC, and heat pump installers.',
+    a: 'Builders, electricians, EV charger installers, plumbers, gas engineers, roofers, carpenters, decorators/painters, landscapers, HVAC engineers, and heat pump installers.',
   },
   {
     q: 'Where does your data come from?',
@@ -83,6 +83,20 @@ export function FaqPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Free Scan CTA */}
+      <section className="jf-box bg-[var(--ink)] p-8 text-white">
+        <p className="micro-label text-[var(--yellow)]">READY TO TRY IT?</p>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SEE REAL LEADS IN YOUR AREA — FREE.</h2>
+        <p className="mt-3 max-w-xl text-lg font-black text-white/80">
+          No Checkatrade membership. No Bark credits. Scan your postcode and see what&apos;s active in your trade today.
+        </p>
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PRICING →</Link>
+        </div>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
       </section>
 
       {/* Still Have Questions */}

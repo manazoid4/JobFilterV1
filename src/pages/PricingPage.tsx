@@ -6,16 +6,16 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'WhatsApp Gold leads',
-  'Buyer/contact signals',
-  'Quote floor + next action',
-  'Territory priority',
-  'Win tracking',
+  'Job alerts to your WhatsApp — within minutes of a signal match',
+  'Full buyer context + property details — no cold-calling strangers',
+  'Job value band before you quote — know if it\'s worth your time',
+  'One trade per postcode patch — no shared auction, no five-trade blast',
+  'Win tracker — see exactly what\'s converting in your patch',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
-  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
+  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
+  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race — unlike Bark credits or Checkatrade matchups.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
@@ -44,14 +44,14 @@ export function PricingPage() {
           price="£0"
           body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
+          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
           title="Founder"
           price="£39/mo"
           priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Best launch plan. Built for trades who want first look at serious work without chasing weak enquiries."
+          body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}

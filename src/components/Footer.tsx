@@ -26,7 +26,7 @@ export function Footer() {
         <div className="grid gap-6 sm:gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Intake Engine — the main product */}
           <div>
-            <p className="micro-label text-[var(--yellow)] mb-4">INTAKE ENGINE</p>
+            <p className="micro-label text-[var(--yellow)] mb-4">FIND WORK</p>
             <div className="grid gap-1.5 md:gap-2.5 text-xs md:text-sm font-black uppercase text-white/90">
               <Link href="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
               <Link href="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>

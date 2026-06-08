@@ -31,7 +31,7 @@ const sampleLead = {
     { label: 'Detached property', value: '4-bed', positive: true },
     { label: 'Affluent postcode', value: 'B17', positive: true },
     { label: 'Fresh timing', value: '12 days ago', positive: true },
-    { label: 'Proof pack', value: 'Unlocked on Patch Plan', positive: false },
+    { label: 'Proof pack', value: 'Unlocked at £39/mo', positive: false },
   ],
 };
 
@@ -108,8 +108,8 @@ export function SampleLeadCard() {
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         <div className="border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
           <p className="micro-label text-[var(--navy)]">QUOTE FLOOR</p>
-          <p className="mt-1 text-2xl font-black text-[var(--ink)]">PATCH PLAN</p>
-          <p className="mt-1 text-xs font-black text-[var(--muted)]">Quote floor unlocked on Patch Plan.</p>
+          <p className="mt-1 text-2xl font-black text-[var(--ink)]">£39/MO</p>
+          <p className="mt-1 text-xs font-black text-[var(--muted)]">Quote floor unlocked at £39/mo.</p>
         </div>
         <div className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-4">
           <p className="micro-label text-[var(--ink)]">FOLLOW-UP CADENCE</p>

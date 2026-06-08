@@ -33,7 +33,7 @@ const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.Element
   email: { label: 'Email', icon: Mail, copyLabel: 'COPY EMAIL', copiedLabel: 'COPIED — PASTE INTO EMAIL' },
 };
 
-const WA_TIMING_KEYS = ['first_touch_2h', 'follow_up_24h', 'final_nudge_48h'];
+const WA_TEMPLATE_KEYS = ['first_touch_2h', 'quick_quote_offer', 'follow_up_24h', 'availability_check', 'final_nudge_48h'];
 
 function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): string {
   if (channels.includes('whatsapp')) {
@@ -93,7 +93,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
         <div className="flex items-center gap-2 mb-2">
           <Lock className="w-3.5 h-3.5 text-[var(--muted)]" />
           <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">First Strike</p>
-          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">PATCH PLAN</span>
+          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">£39/MO</span>
         </div>
         <p className="text-xs font-bold text-[var(--muted)] mb-3">
           {contactSignal === 'none'
@@ -154,7 +154,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
           {/* WhatsApp timing sub-tabs */}
           {activeChannel === 'whatsapp' && (
             <div className="flex gap-0 border border-[var(--line)] mb-4">
-              {MESSAGE_TEMPLATES.filter((t) => WA_TIMING_KEYS.includes(t.key)).map((t) => (
+              {MESSAGE_TEMPLATES.filter((t) => WA_TEMPLATE_KEYS.includes(t.key)).map((t) => (
                 <button
                   key={t.key}
                   onClick={() => setActiveKey(t.key)}

@@ -127,7 +127,7 @@ const dataSources = [
   {
     category: 'Planning',
     icon: FileText,
-    items: ['England — Planning Data API', 'London — Planning London Datahub', 'Scotland — building warrants + weekly lists'],
+    items: ['England — national planning approvals', 'London — Greater London planning data', 'Scotland — building warrants + weekly lists'],
   },
   {
     category: 'Procurement',
@@ -746,7 +746,7 @@ export function BlueprintPage() {
         <div className="page-shell py-12">
           <p className="micro-label text-[var(--ink)]">SIGNAL FUSION</p>
           <h2 className="headline mt-3 max-w-4xl text-[clamp(32px,6vw,64px)] leading-[0.9] text-[var(--ink)]">
-            Single signals are easy. Fusion is the moat.
+            Single signals are easy to copy. Stacking them isn't.
           </h2>
           <p className="mt-4 max-w-3xl text-lg font-black leading-snug text-[var(--ink)]">
             A planning application on its own tells you almost nothing. A planning application plus low energy rating, recent sale, scaffold permit, affluent postcode, and solar orientation is a money signal competitors cannot cheaply copy.

@@ -101,7 +101,7 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
+        <p className="micro-label text-[var(--yellow)]">LEAD TRACKER</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
@@ -120,7 +120,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when your pipeline is light.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when work is quiet.
             </p>
           </div>
         </div>
@@ -242,10 +242,10 @@ export function LeadListPage() {
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
-                  : 'No lower-scored leads in your pipeline yet.'}
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan and track them.'
+                  : 'No lower-scored leads tracked yet.'}
               </p>
               {tab !== 'bronze' && (
                 <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
@@ -302,12 +302,12 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
+                    href={`https://wa.me/${lead.phone ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '') : ''}?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
                   >
-                    {getWaButtonLabel(chaseStageMap.get(lead.id))}
+                    {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
                   <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →

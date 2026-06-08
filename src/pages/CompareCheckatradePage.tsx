@@ -525,7 +525,7 @@ export function CompareCheckatradePage() {
       {/* ── FINAL CTA ────────────────────────────────────────────── */}
       <section className="bg-[var(--navy)] text-white">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">ENTER THE INTAKE</p>
+          <p className="micro-label text-[var(--yellow)]">SCAN YOUR AREA FREE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-white">
             STOP COMPETING.{' '}
             <span style={{ color: 'var(--yellow)' }}>START FILTERING.</span>

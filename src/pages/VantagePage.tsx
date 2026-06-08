@@ -264,12 +264,12 @@ export function VantagePage() {
         {/* ── Conversion CTA: Intake Engine ─────────── */}
         <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">WANT LEADS TO BID ON?</p>
-          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">TRY THE INTAKE ENGINE FREE.</h2>
+          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">SCAN YOUR AREA FREE.</h2>
           <p className="mt-3 max-w-xl font-black text-white/90">
-            Vantage writes the bid. Intake finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
+            Vantage writes the bid. The scanner finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
         </section>

@@ -166,8 +166,10 @@ export type WinJob = {
   trade: string;
   location: string;
   value: number;
+  estimatedValue?: string;
   wonAt: string;
   source: 'chase' | 'manual';
+  reviewMessageSent?: boolean;
 };
 
 export type LostJob = {

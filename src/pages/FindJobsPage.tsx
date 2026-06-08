@@ -440,8 +440,25 @@ export function FindJobsPage() {
         {!unlimitedTester && (
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
-            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">3 FREE SCANS</span>
             <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — NOT ON JOB BOARDS YET</span>
+          </div>
+        )}
+
+        {!unlimitedTester && (
+          <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
+            <span className={`h-2 w-2 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
+            <p className="text-sm font-black text-[var(--ink)]">
+              {weeklyScansRemaining > 0
+                ? weeklyScansUsed === 0
+                  ? `3 free scans this week — no credit card required`
+                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
+                : 'Free scans used this week — upgrade for unlimited.'}
+            </p>
+            {weeklyScansRemaining === 0 ? (
+              <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+            ) : weeklyScansUsed > 0 ? (
+              <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
+            ) : null}
           </div>
         )}
 
@@ -545,25 +562,8 @@ export function FindJobsPage() {
         )}
       </section>
 
-      {/* ── WIN STATS + SCAN COUNTER ────────────────────────────────── */}
+      {/* ── WIN STATS ──────────────────────────────────────────────── */}
       <WinStatsBanner postcode={postcode} />
-      {!unlimitedTester && (
-        <div className={`jf-box flex items-center gap-3 px-4 py-3 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
-          <span className={`h-2.5 w-2.5 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
-          <p className="text-sm font-black text-[var(--ink)]">
-            {weeklyScansRemaining > 0
-              ? weeklyScansUsed === 0
-                ? `Try up to 3 free scans — no credit card required`
-                : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-              : 'Free scans used this week — upgrade for unlimited.'}
-          </p>
-          {weeklyScansRemaining === 0 ? (
-            <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
-          ) : weeklyScansUsed > 0 ? (
-            <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
-          ) : null}
-        </div>
-      )}
 
       {/* ── STATS BAR ────────────────────────────────────────────────── */}
       {result && result.count > 0 && (
@@ -658,7 +658,7 @@ export function FindJobsPage() {
             />
           ) : (
             <div className="grid gap-4">
-              {/* Preview banner */}
+              {/* Access banners — dev/unlimited only (not paywall; paywall shown after leads) */}
               {DEV_MODE ? (
                 <section className="jf-box bg-[var(--green)] p-5">
                   <p className="micro-label text-white">DEV MODE — ALL FEATURES UNLOCKED</p>
@@ -675,19 +675,7 @@ export function FindJobsPage() {
                     All scored signals for your patch are visible. Gold leads include buyer detail, quote floor, and follow-up cadence.
                   </p>
                 </section>
-              ) : (
-                <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">FREE SCAN</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">SIGNALS FOUND. BUYER DETAIL IS LOCKED.</h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required · 30-day money-back</span>
-                  </div>
-                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Free scan confirms the signal is live. Pro unlocks who needs the work, what it&apos;s worth, and when to call.
-                  </p>
-                </section>
-              )}
+              ) : null}
 
               {/* COMMERCIAL FILTER TOGGLE */}
               {commercialCount > 0 && (
@@ -720,15 +708,37 @@ export function FindJobsPage() {
                 <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white mt-2">
                   <p className="micro-label text-[var(--yellow)]">PATCH PULSE</p>
                   <p className="mt-1 font-black text-white">
-                    {(result.outward || postcode).toUpperCase()} {trade}: {goldCount} Gold · {silverCount} Silver · {result.lockedCount ?? 0} locked
+                    {(result.outward || postcode).toUpperCase()} — {trade}
                   </p>
+                  <div className="mt-2 flex flex-wrap gap-3 text-xs">
+                    <span className="font-black text-[var(--yellow)]">{goldCount} GOLD <span className="font-normal text-white/70">— worth quoting now</span></span>
+                    <span className="font-black text-white">{silverCount} SILVER <span className="font-normal text-white/70">— worth watching</span></span>
+                    {(result.lockedCount ?? 0) > 0 && (
+                      <span className="font-black text-white/50">{result.lockedCount} LOCKED <span className="font-normal">— upgrade to see</span></span>
+                    )}
+                  </div>
                   {sourceMix && (
-                    <p className="mt-0.5 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
+                    <p className="mt-2 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
                   )}
                   {bestSource && (
                     <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
                   )}
                 </div>
+              )}
+
+              {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
+              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
+                <section className="jf-box bg-[var(--yellow)] p-5">
+                  <p className="micro-label text-[var(--ink)]">SEEN ENOUGH?</p>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">UNLOCK BUYER DETAIL ON EVERY LEAD.</h2>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
+                  </div>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+                    Founding 30 members see the buyer&apos;s name, job value band, and direct contact link on every lead above — not shared with Checkatrade, Bark, or any other trade.
+                  </p>
+                </section>
               )}
 
               {/* Results footer */}
@@ -752,7 +762,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
           <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
           <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
-              Broader than SCAN — searches all sources out to {Math.max(radiusMiles, 25)} miles. {scanMode === 'start_now' ? 'Filters for jobs likely active or imminent.' : 'Planning approvals, energy upgrades, public contracts.'} Ranked for {titleCase(trade)}, ready to chase.
+              Doesn&apos;t use your scan allowance. Searches {Math.max(radiusMiles, 25)} miles — wider than your regular scan — across {scanMode === 'start_now' ? 'all active and imminent jobs' : 'planning approvals, energy upgrades, and public contracts'}. Auto-ranked for {titleCase(trade)}.
           </p>
           </div>
           <button
@@ -761,7 +771,7 @@ export function FindJobsPage() {
             onClick={fillMyWeek}
             className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
           >
-            {fillWeekLoading ? 'SCANNING...' : 'FILL MY WEEK →'}
+            {fillWeekLoading ? 'SCANNING...' : `EXPAND SCAN — ${Math.max(radiusMiles, 25)}MI →`}
           </button>
         </div>
 
@@ -795,7 +805,7 @@ export function FindJobsPage() {
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
               <p className="mt-1 text-sm font-black text-white/75">
-                Your quiet week isn&apos;t a skills problem. It&apos;s a pipeline problem.
+                Your quiet week isn&apos;t a skills problem. It&apos;s a leads problem.
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
@@ -852,6 +862,11 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
       tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      continue;
+    }
+    const tradeTeaser = r.match(/^Trade teaser: (.+)/);
+    if (tradeTeaser) {
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
@@ -1007,14 +1022,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
             {lead.contactPath?.reason && (
               <p className="mt-2 text-xs font-black uppercase text-[var(--muted)]">
-                Next action: {lead.contactPath.recommendedChannel.replace(/_/g, ' ')} · {lead.contactPath.complianceRisk} risk
+                Best approach: {lead.contactPath.recommendedChannel.replace(/_/g, ' ')}
               </p>
             )}
           </div>
         )}
         {typeof lead.evidenceCount === 'number' && (
           <p className="mt-2 text-xs font-black uppercase tracking-widest text-[var(--muted)]">
-            {lead.evidenceCount} evidence item{lead.evidenceCount === 1 ? '' : 's'} · source links required before purchase/contact decisions
+            {lead.evidenceCount} verified signal{lead.evidenceCount === 1 ? '' : 's'} backing this lead
           </p>
         )}
         <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-3">
@@ -1047,7 +1062,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
           <>
             {isTracked ? (
               <button className="jf-button w-full bg-[var(--navy)] text-white opacity-70 cursor-default" disabled>
-                TRACKING IN CHASE
+                ALREADY TRACKING
               </button>
             ) : (
               <button className="jf-button w-full bg-[var(--ink)] text-white text-xs" onClick={onTrack}>
@@ -1130,6 +1145,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
       trade: String(lead.trade ?? 'building'),
       location: lead.location ?? lead.postcodeOutward ?? '',
       value: parsedValue,
+      estimatedValue: lead.estimatedValue,
       source: 'chase',
     });
     try {

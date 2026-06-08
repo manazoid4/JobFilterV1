@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 
-import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Eye, Crown } from 'lucide-react';
+import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Crown } from 'lucide-react';
 
 const verifiedSignals = [
   'Planning approvals in your postcode cluster',
@@ -56,7 +56,7 @@ const guaranteeFeatures = [
   'Unlimited WhatsApp alerts',
   'Letter drop scripts for every lead — print and post in minutes',
   'Full lead scoring + lead readiness markers',
-  'Pipeline tracking for every opportunity',
+  'Job tracking — every lead from first call to won job',
   'All free tools included',
   'Founder price locked forever while active',
   '30-day money-back guarantee',
@@ -94,12 +94,11 @@ export function TrustCenterPage() {
           Not guesswork. Verified signals. Approval timing. Sale recency. Energy demand. Contract status. All combined into one score — 0 to 100.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {[
-            { score: '90-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--green)] text-white', icon: Trophy, tag: '90% of revenue comes from GOLD' },
-            { score: '75-89', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]', icon: Medal, tag: 'Worth watching' },
-            { score: '60-74', label: 'BRONZE', action: 'Verify first', color: 'bg-[var(--orange)] text-white', icon: AlertTriangle, tag: 'Check before quoting' },
-            { score: 'Below 60', label: 'CHECK', action: 'Proceed with caution', color: 'bg-[var(--muted)] text-white', icon: Eye, tag: 'Low confidence signal' },
+            { score: '80-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--green)] text-white', icon: Trophy, tag: '80+ score — worth quoting today' },
+            { score: '50-79', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]', icon: Medal, tag: 'Worth watching' },
+            { score: 'Below 50', label: 'BRONZE', action: 'Verify before quoting', color: 'bg-[var(--orange)] text-white', icon: AlertTriangle, tag: 'Check before quoting' },
           ].map((tier) => {
             const Icon = tier.icon;
             const isGold = tier.label === 'GOLD';

@@ -71,21 +71,6 @@ export function HomePage() {
         {/* Radial gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(227,183,42,0.12)_0%,transparent_60%),radial-gradient(ellipse_at_80%_80%,rgba(197,70,42,0.08)_0%,transparent_50%)]" />
 
-        {/* Floating signal bubbles */}
-        <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
-          <div className="absolute left-[8%] top-[18%] animate-[float_6s_ease-in-out_infinite] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Planning: B12
-          </div>
-          <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Energy: Low
-          </div>
-          <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
-            Extension: Approved
-          </div>
-          <div className="absolute right-[6%] bottom-[30%] animate-[float_8s_ease-in-out_infinite_2s] rounded-full border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--orange)]">
-            Tender: Live
-          </div>
-        </div>
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
@@ -234,7 +219,7 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Structured signal. Real scoring shape. Clear recommended action. This is the format that lands in your WhatsApp — scored, filtered, and ready to act on.
+            Job type, postcode, budget band, score, and urgency — in one message. This is exactly what lands in your WhatsApp when a GOLD lead fires. No noise. No recycled Checkatrade listings. Just the job.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
@@ -295,10 +280,10 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--ink)]">TERRITORY OWNERSHIP</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
+              SECURE YOUR PATCH BEFORE ANOTHER TRADE DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
+              Territory lock gives you first look at every signal in your postcode cluster. Tradesmen who lock in now keep £39/mo for life — the rate goes up when founder slots fill.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
@@ -310,6 +295,7 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid gap-3">
+            <p className="micro-label text-[var(--ink)]">SAMPLE PATCHES — SCORES SHOWN FOR ILLUSTRATION</p>
             {territoryCards.map(([name, status, score]) => {
               const signalLevel = Number(score) >= 90 ? 4 : Number(score) >= 85 ? 3 : Number(score) >= 80 ? 2 : 1;
               return (

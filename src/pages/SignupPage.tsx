@@ -131,6 +131,7 @@ export function SignupPage() {
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
           {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
         </button>
+        <p className="text-xs font-black text-[var(--muted)]">No card required to create your account — payment comes after you confirm your email.</p>
         <div className="flex flex-wrap gap-3 border-t-2 border-[var(--line)] pt-4">
           <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">30-DAY MONEY-BACK</span>
           <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">CANCEL ANYTIME</span>

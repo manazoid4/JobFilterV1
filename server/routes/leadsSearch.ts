@@ -229,7 +229,7 @@ function toFreePreviewLead(lead: Lead) {
     revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
     tradeMatch: String(lead.trade),
     score: previewScore(score),
-    reasons: buildReasons(),
+    reasons: buildPreviewReasons(lead),
     distanceMiles: lead.distanceMiles,
     qualityLabel: undefined,
     // Locked paid fields — show upgrade teaser, not real data
@@ -270,7 +270,38 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function buildReasons(): string[] {
+function buildPreviewReasons(lead: Lead): string[] {
+  const real = lead.scoreReasons ?? [];
+  const tradeMatchReason = real.find((r) => r.startsWith('Trade match:'));
+  if (tradeMatchReason) {
+    const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
+    if (m) {
+      const keywords = m[1].split(',').map((k) => k.trim()).slice(0, 2);
+      return keywords.map((k) => `Trade teaser: ${k}`);
+    }
+  }
+  const relatedReason = real.find((r) => r.startsWith('Related:'));
+  if (relatedReason) {
+    const m = relatedReason.match(/^Related: (.+?) \(/);
+    if (m) {
+      const k = m[1].split(',')[0].trim();
+      return [`Trade teaser: ${k}`];
+    }
+  }
+  const intentReason = real.find((r) => r.startsWith('High intent keywords:'));
+  if (intentReason) {
+    const m = intentReason.match(/^High intent keywords: (.+?) \(/);
+    if (m) {
+      const k = m[1].split(',')[0].trim();
+      return [`Trade teaser: ${k}`];
+    }
+  }
+  if (real.some((r) => r.startsWith('Commercial project'))) {
+    return ['Trade teaser: commercial job'];
+  }
+  if (real.some((r) => r.startsWith('Urgent timeline'))) {
+    return ['Trade teaser: urgent timeline'];
+  }
   return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
 }
 
