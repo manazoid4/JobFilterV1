@@ -396,6 +396,7 @@ export function FindJobsPage() {
   const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
   const bestSource = getBestSource(result?.sources);
   const sourceMix = getSourceMix(result?.sources);
+  const topJobTypes = extractTopJobTypes(displayedLeads);
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
@@ -719,6 +720,9 @@ export function FindJobsPage() {
                   {bestSource && (
                     <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
                   )}
+                  {topJobTypes.length > 0 && (
+                    <p className="mt-2 text-xs font-black text-[var(--yellow)]">IN DEMAND: {topJobTypes.join(' · ')}</p>
+                  )}
                 </div>
               )}
 
@@ -886,6 +890,34 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+}
+
+function extractTopJobTypes(leads: Lead[]): string[] {
+  const counts: Record<string, number> = {};
+  for (const lead of leads) {
+    for (const r of lead.reasons ?? []) {
+      const tradeMatch = r.match(/^Trade match: (.+?) \(/);
+      if (tradeMatch) {
+        tradeMatch[1].split(',').forEach(k => {
+          const kw = k.trim().toUpperCase();
+          if (kw) counts[kw] = (counts[kw] || 0) + 1;
+        });
+        continue;
+      }
+      const teaser = r.match(/^Trade teaser: (.+)/);
+      if (teaser) {
+        const kw = teaser[1].trim().toUpperCase();
+        if (kw && kw !== 'URGENT TIMELINE' && kw !== 'COMMERCIAL JOB') {
+          counts[kw] = (counts[kw] || 0) + 1;
+        }
+      }
+    }
+  }
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .filter(([, count]) => count >= 1)
+    .map(([kw, count]) => count > 1 ? `${kw} ×${count}` : kw);
 }
 
 function getBestSource(sources?: LeadSearchResponse['sources']): string {

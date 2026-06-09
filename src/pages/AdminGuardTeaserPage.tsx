@@ -54,7 +54,7 @@ export function AdminGuardTeaserPage() {
     <main className="page-shell grid gap-0 py-0 pb-24">
       {/* Hero */}
       <section className="jf-box bg-[var(--ink)] p-8 sm:p-12 text-white mt-8">
-        <p className="micro-label text-[var(--yellow)]">TRADE COMMAND CENTRE — PAID FEATURE</p>
+        <p className="micro-label text-[var(--yellow)]">TAX &amp; ADMIN — PAID MEMBER FEATURE</p>
         <h1 className="headline mt-2 text-5xl sm:text-7xl leading-none">ADMIN GUARD</h1>
         <p className="mt-4 max-w-2xl font-black text-white/90 text-lg sm:text-xl">
           HMRC dates, trade admin checklists and reminder exports — built into your JobFilter dashboard.
@@ -148,7 +148,7 @@ export function AdminGuardTeaserPage() {
 
       {/* Coming soon modules */}
       <section className="jf-box bg-white p-6 sm:p-8">
-        <p className="micro-label text-[var(--muted)]">TRADE COMMAND CENTRE</p>
+        <p className="micro-label text-[var(--muted)]">MORE COMING FOR PAID MEMBERS</p>
         <h2 className="headline mt-1 text-3xl leading-none">MORE MODULES COMING</h2>
         <p className="mt-2 text-sm font-bold text-[var(--muted)]">
           Admin Guard is the first module. More are being built for paid members.
