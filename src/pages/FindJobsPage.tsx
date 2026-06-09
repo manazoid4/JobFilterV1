@@ -413,24 +413,6 @@ export function FindJobsPage() {
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
             No Checkatrade membership. No Bark credits. 3 free scans every week — no credit card.
           </p>
-          {/* SVG illustration: magnifying glass over UK map with pins */}
-          <div className="mt-6 hidden md:block">
-            <svg viewBox="0 0 320 180" className="w-64 h-auto opacity-30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* UK outline */}
-              <path d="M140 20 C130 25, 115 40, 110 55 C105 70, 100 80, 105 95 C108 105, 115 115, 120 130 C125 140, 130 150, 140 155 C148 158, 155 155, 160 148 C165 140, 170 130, 175 120 C180 110, 185 100, 190 90 C195 80, 200 70, 195 55 C190 40, 175 30, 160 22 C150 18, 145 18, 140 20Z" stroke="var(--yellow)" strokeWidth="1.5" opacity="0.6" />
-              {/* Pins */}
-              <circle cx="135" cy="50" r="4" fill="#E3B72A" />
-              <circle cx="155" cy="75" r="4" fill="#E3B72A" />
-              <circle cx="145" cy="110" r="4" fill="#E3B72A" />
-              <circle cx="170" cy="95" r="4" fill="#E3B72A" />
-              {/* Magnifying glass */}
-              <circle cx="200" cy="60" r="25" stroke="#E3B72A" strokeWidth="2.5" fill="none" />
-              <line x1="218" y1="78" x2="240" y2="100" stroke="#E3B72A" strokeWidth="3" strokeLinecap="round" />
-              {/* Search lines inside glass */}
-              <line x1="192" y1="52" x2="208" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
-              <line x1="208" y1="52" x2="192" y2="68" stroke="#E3B72A" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
       </section>
 
