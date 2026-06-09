@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Site-wide announcement bar ── */}
           <div className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)] shrink-0" aria-hidden="true" />
-            <span>Founder price: <span className="text-[var(--yellow)]">£39/mo locks forever</span> · 30-day money-back · No shared leads</span>
+            <span>Spot local jobs before Checkatrade lists them · <span className="text-[var(--yellow)]">Free scan, no card needed</span> · Founder £39/mo</span>
           </div>
           <TopNav />
           {children}
