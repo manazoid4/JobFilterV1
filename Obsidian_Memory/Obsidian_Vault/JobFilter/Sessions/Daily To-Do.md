@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 9 June 2026 (NightlyBuildAgent)
+
+- [x] **PATCH PULSE "IN DEMAND" summary built** — `extractTopJobTypes()` added to FindJobsPage; aggregates trade keywords from lead.reasons ("Trade match: X" for paid tier, "Trade teaser: X" for free tier); shows top 3 in PATCH PULSE bar as "IN DEMAND: EV CHARGER ×3 · REWIRE ×2" — gives tradesmen at-a-glance demand signal before scrolling leads
+- [x] **"TRADE COMMAND CENTRE" jargon sweep** — 5 instances across AdminGuardPage (×3) and AdminGuardTeaserPage (×2); replaced with "TAX & ADMIN" and "MORE COMING FOR PAID MEMBERS" — opaque internal product noun removed from all public and paid-member pages
+- [x] Build GREEN, TypeScript CLEAN, pushed to branch, PR #248 created
+- [ ] **Verify "IN DEMAND" line on real B14 electrical scan** — if free-tier reasons are mostly generic (no trade teasers), the line won't show; may need title-keyword fallback
+- [ ] **Spot-check review nudge** — verify renders correctly once a paid test account has wins 24h+ old
+- [ ] **FaqPage audit** — confirmed clean this run (no violations, CTA section present)
+- [x] **DashboardPage Admin Guard card** — "TRADE COMMAND CENTRE" fully removed; DashboardPage card already has "TAX & DEADLINES" micro-label which is consistent
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 8 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **24h Review Nudge built (Win Engine roadmap quick win)** — `generateReviewMessage()` existed but the roadmap quick win "add auto-prompt 24h after Won status" was never implemented. New nudge section on DashboardPage shows wins 24h–7d old where `reviewMessageSent` is not true: green-bordered panel with win title, pre-filled WhatsApp review request (Google link), "SEND ON WHATSAPP →" deep link, "MARK SENT" to permanently dismiss, soft "dismiss" for session. `reviewMessageSent?: boolean` added to WinJob type; `markReviewSent()` added to winStore. Closes Feature Roadmap Week 1-2 quick win.
