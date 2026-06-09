@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'WhatsApp alerts for GOLD leads, territory lock (one roofer per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
+    a: 'WhatsApp alerts for GOLD leads, territory lock (one trade per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, ADMIN GUARD for HMRC deadlines, and a 30-day money-back guarantee. Founder price locks in forever while your plan stays active.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'How does the territory lock work?',
-    a: 'One trade partner per postcode cluster per trade. If you lock B17 for roofing, no other roofer gets our leads in B17. You get first call on every signal.',
+    a: 'One trade partner per postcode cluster per trade. If you lock B17 as a plumber, no other plumber gets our leads in B17 — same for electricians, roofers, or any other trade. You get first call on every signal.',
   },
   {
     q: 'Do I need to be VAT registered?',

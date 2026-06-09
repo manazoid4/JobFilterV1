@@ -115,12 +115,13 @@ export function DashboardPage() {
               </p>
               <div className="flex flex-wrap gap-2">
                 <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
-                  UNLOCK BUYER DETAILS →
+                  UPGRADE — £39/MO →
                 </Link>
                 <Link href="/territories" className="inline-flex items-center justify-center border-2 border-white/30 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white shrink-0 hover:bg-white/20 transition">
-                  LOCK YOUR PATCH →
+                  SEE OPEN TERRITORIES →
                 </Link>
               </div>
+              <p className="text-[10px] font-black text-white/50">Upgrade unlocks buyer details and lets you lock your patch in one step.</p>
             </div>
           )}
         </div>
@@ -425,12 +426,13 @@ export function DashboardPage() {
         {/* Admin Guard Entry Card */}
         <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--yellow)', borderLeftWidth: '4px' }}>
           <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">TRADE COMMAND CENTRE</p>
+            <p className="micro-label text-[var(--muted)]">TAX & DEADLINES</p>
             <Link href="/dashboard/admin-guard" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
           </div>
           <p className="headline mt-3 text-2xl leading-none">ADMIN GUARD</p>
-          <p className="mt-3 font-black text-[var(--muted)] text-sm">
-            HMRC deadlines, monthly checklists and calendar exports. Keep the boring dates under control.
+          <p className="mt-1 text-xs font-black text-[var(--muted)]">Tax dates, Self Assessment, and trade admin — free</p>
+          <p className="mt-2 font-black text-[var(--muted)] text-sm">
+            HMRC deadlines, monthly checklists and calendar exports — so tax dates and renewal fees don&apos;t sneak up on you.
           </p>
           <Link href="/features/admin-guard" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">What does it track? →</Link>
         </section>

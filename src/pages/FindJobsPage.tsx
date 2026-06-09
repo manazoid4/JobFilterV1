@@ -455,7 +455,7 @@ export function FindJobsPage() {
                 : 'Free scans used this week — upgrade for unlimited.'}
             </p>
             {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto text-xs font-black text-[var(--navy)] underline whitespace-nowrap">UNLOCK →</Link>
+              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
             ) : weeklyScansUsed > 0 ? (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
             ) : null}
@@ -679,22 +679,36 @@ export function FindJobsPage() {
 
               {/* COMMERCIAL FILTER TOGGLE */}
               {commercialCount > 0 && (
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    type="button"
-                    onClick={() => setCommercialOnly(false)}
-                    className={`border-2 border-[var(--line)] px-3 py-1.5 text-xs font-black uppercase transition-colors ${!commercialOnly ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
-                  >
-                    ALL LEADS ({result.leads.length})
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCommercialOnly(true)}
-                    className={`border-2 border-[var(--ink)] inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase transition-colors ${commercialOnly ? 'bg-[var(--ink)] text-[var(--yellow)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
-                  >
-                    <Building2 className="w-3 h-3" />
-                    COMMERCIAL ONLY ({commercialCount})
-                  </button>
+                <div className="grid gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={() => setCommercialOnly(false)}
+                      className={`border-2 border-[var(--line)] px-3 py-1.5 text-xs font-black uppercase transition-colors ${!commercialOnly ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
+                    >
+                      ALL LEADS ({result.leads.length})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCommercialOnly(true)}
+                      className={`border-2 border-[var(--ink)] inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase transition-colors ${commercialOnly ? 'bg-[var(--ink)] text-[var(--yellow)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
+                    >
+                      <Building2 className="w-3 h-3" />
+                      COMMERCIAL ONLY ({commercialCount})
+                    </button>
+                  </div>
+                  {commercialOnly && !OPEN_ACCESS && (
+                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
+                      <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details locked</p>
+                      <p className="mt-1 text-sm font-black text-white/90">
+                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route.
+                      </p>
+                      <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
+                        UNLOCK COMMERCIAL LEADS — £39/MO →
+                      </Link>
+                      <p className="mt-1.5 text-[10px] font-black text-white/50">No credit card required to browse</p>
+                    </div>
+                  )}
                 </div>
               )}
 
