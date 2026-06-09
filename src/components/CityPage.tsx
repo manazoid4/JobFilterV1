@@ -174,7 +174,8 @@ export function CityPage({ city }: CityPageProps) {
               SEE PRICING
             </a>
           </div>
-          <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
+          <p className="mt-2 text-xs font-black text-[var(--ink)]/50 uppercase">No credit card required — 3 free scans every week</p>
+          <div className="mt-5 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO LEAD AUCTION</p>
             <p>NO PER-LEAD FEES</p>
             <p>WHATSAPP ALERTS</p>
@@ -261,7 +262,7 @@ export function CityPage({ city }: CityPageProps) {
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-7">
               <span className="headline block" style={{ fontSize: 42, color: 'var(--navy)' }}>02</span>
-              <h3 className="mt-3 text-lg font-black text-[var(--navy)]">WE SCAN THREE SOURCES</h3>
+              <h3 className="mt-3 text-lg font-black text-[var(--navy)]">TEN SIGNALS IN ONE SCAN</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">
                 Verified job signals across {city.region}, scored for urgency, value, timing, and trade fit.
               </p>
@@ -330,7 +331,7 @@ export function CityPage({ city }: CityPageProps) {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">COVERAGE</p>
           <h2 className="headline mt-3 text-4xl leading-[0.9] sm:text-5xl md:text-6xl">
-            EVERY {city.name.toUpperCase()} POSTCODE. THREE DATA SOURCES.
+            EVERY {city.name.toUpperCase()} POSTCODE. TEN VERIFIED SIGNALS.
           </h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]">
             JobFilter covers all {city.areaCodes.length} {city.name} postcode districts for verified job signals.
