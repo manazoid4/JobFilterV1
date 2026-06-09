@@ -892,8 +892,19 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
+const TITLE_KEYWORDS = [
+  'EV CHARGER', 'EV CHARGING', 'REWIRE', 'CONSUMER UNIT', 'EICR',
+  'BOILER', 'HEAT PUMP', 'BATHROOM', 'KITCHEN', 'EXTENSION',
+  'LOFT CONVERSION', 'FLAT ROOF', 'SOLAR', 'SOLAR PV',
+  'DAMP', 'PLASTERING', 'DECORATING', 'FENCING', 'CONSERVATORY',
+  'DRAINAGE', 'GUTTERING', 'FLOORING', 'TILING', 'RETROFIT',
+  'INSULATION', 'REWIRING', 'VENTILATION', 'GARAGE CONVERSION',
+  'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
+];
+
 function extractTopJobTypes(leads: Lead[]): string[] {
   const counts: Record<string, number> = {};
+
   for (const lead of leads) {
     for (const r of lead.reasons ?? []) {
       const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -910,6 +921,25 @@ function extractTopJobTypes(leads: Lead[]): string[] {
         if (kw && kw !== 'URGENT TIMELINE' && kw !== 'COMMERCIAL JOB') {
           counts[kw] = (counts[kw] || 0) + 1;
         }
+      }
+    }
+  }
+
+  // If reasons gave us keywords, use them
+  if (Object.keys(counts).length > 0) {
+    return Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .filter(([, count]) => count >= 1)
+      .map(([kw, count]) => count > 1 ? `${kw} ×${count}` : kw);
+  }
+
+  // Fallback: extract from lead titles (free-tier users with generic reasons)
+  for (const lead of leads) {
+    const title = (lead.title ?? '').toUpperCase();
+    for (const kw of TITLE_KEYWORDS) {
+      if (title.includes(kw)) {
+        counts[kw] = (counts[kw] || 0) + 1;
       }
     }
   }
