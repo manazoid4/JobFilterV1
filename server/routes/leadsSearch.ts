@@ -231,6 +231,7 @@ function toFreePreviewLead(lead: Lead) {
     score: previewScore(score),
     reasons: buildPreviewReasons(lead),
     distanceMiles: lead.distanceMiles,
+    isCommercial: lead.isCommercial ?? false,
     qualityLabel: undefined,
     // Locked paid fields — show upgrade teaser, not real data
     leadReadiness: undefined,

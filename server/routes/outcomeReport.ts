@@ -132,7 +132,7 @@ export function registerOutcomeReportRoute(app: Express) {
         ok: true,
         wonCount,
         totalValue: totalValue > 0 ? `£${totalValue.toLocaleString()}` : 'N/A',
-        monthlyCost: 29,
+        monthlyCost: 39,
         summary: wonCount > 0
           ? `${wonCount} jobs won. ~£${totalValue.toLocaleString()} total. £39 founder subscription.`
           : 'No won jobs tracked yet. Start tracking outcomes to see your ROI.',
