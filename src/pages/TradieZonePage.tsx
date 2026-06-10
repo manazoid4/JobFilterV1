@@ -2,9 +2,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-import { Zap, MapPinned, FileText, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, MessageSquare, LetterText, Eye } from 'lucide-react';
+import { Zap, MapPinned, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, LetterText } from 'lucide-react';
 import { getChaseLeads } from '../lib/chaseStore';
-import { getMonthlyStats } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 const memberTools = [
@@ -26,15 +25,12 @@ const quickActions = [
 
 export function TradieZonePage() {
   const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
-  const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [memberName, setMemberName] = useState<string>('');
   const [memberTerritory, setMemberTerritory] = useState<string>('');
 
   useEffect(() => {
     const cl = getChaseLeads();
     setChaseLeads(cl);
-    const ms = getMonthlyStats();
-    setMonthlyStats(ms);
     try {
       const stored = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-member-name');
       if (stored) setMemberName(stored);
@@ -43,55 +39,19 @@ export function TradieZonePage() {
     } catch { /* ignore */ }
   }, []);
 
-  const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
-  const wonThisMonth = monthlyStats.count;
-  const totalValue = monthlyStats.totalValue;
   const recentLeads = chaseLeads.slice(0, 5);
 
   return (
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
       {/* Welcome Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">TRADE HUB</p>
+        <p className="micro-label text-[var(--yellow)]">TOOLS</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">
-          {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'WELCOME TO YOUR ZONE.'}
+          {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'YOUR TOOLS.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Your pipeline, your patch, your leads — spotted before Checkatrade even lists them. Use the tools below to stay ahead.
+          Bid decks, social proof, material prices and quick links — everything beyond your job pipeline. For tracked leads and stats, see your Dashboard.
         </p>
-      </section>
-
-      {/* Stats Grid */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="jf-box bg-[var(--yellow)] p-5">
-          <p className="micro-label text-[var(--ink)]">ACTIVE LEADS</p>
-          <p className="headline mt-2 text-4xl">{activeChase}</p>
-          <p className="mt-1 text-sm font-black text-[var(--ink)]/70">In your pipeline</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--green)]">WON THIS MONTH</p>
-          <p className="headline mt-2 text-4xl">{wonThisMonth}</p>
-          <p className="mt-1 text-sm font-black text-[var(--muted)]">Jobs secured</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--navy)]">TOTAL VALUE</p>
-          <p className="headline mt-2 text-4xl">£{totalValue.toLocaleString()}</p>
-          <p className="mt-1 text-sm font-black text-[var(--muted)]">This month</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--orange)]">TERRITORY</p>
-          {memberTerritory ? (
-            <>
-              <p className="headline mt-2 text-4xl">LOCKED</p>
-              <p className="mt-1 text-sm font-black text-[var(--muted)]">{memberTerritory}</p>
-            </>
-          ) : (
-            <>
-              <p className="headline mt-2 text-4xl text-[var(--orange)]">NOT LOCKED</p>
-              <p className="mt-1 text-sm font-black text-[var(--orange)]">Another trade could claim your area.</p>
-            </>
-          )}
-        </div>
       </section>
 
       {/* Quick Actions */}
