@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 10 June 2026 (NightlyBuildAgent)
+
+- [x] **Companies House lead enrichment built (Tier 1 quick win — "Companies House signals" Week 1-2 roadmap item)** — `getCompanySicLabel()` exported from `companiesHouseFetcher.ts`; new `src/lib/companyDetails.ts` parses "Incorporated: ... | SIC: ..." out of CompaniesHouse lead descriptions; `Lead`/`LeadDecision` types gained `description`/`source`; `FindJobsPage.trackLead()` persists them; `LeadDetailPage` shows a new "COMPANY DETAILS" panel (industry, incorporation date, company number) for paid users on CompaniesHouse leads, "COMPANY DETAILS LOCKED — unlocked at £39/mo" for free tier
+- [x] **"Trade Command Centre" jargon — missed instance fixed** — AdminGuardTeaserPage.tsx:134 body copy → "TAX & ADMIN" (9 June sweep missed this one)
+- [x] **"Moat" → "Edge"** — BlueprintPage SIGNAL SCOREBOARD column label (jargon already fixed once in body copy on 9 June, scoreboard header was missed)
+- [x] **Duplicate UNLOCK CTA fixed (NEEDLE)** — FindJobsPage lead cards showed two "UNLOCK FULL LEAD →" buttons stacked on mobile/tablet for free-tier users; locked-fields column CTA now `hidden lg:grid` so each breakpoint shows exactly one
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`8e1103a`)
+- [ ] **Spot-check COMPANY DETAILS panel** — verify against a real B14/commercial scan in DEMO_MODE; confirm regex matches real descriptions and panel renders cleanly desktop + 375px
+- [ ] **Continue jargon sweep** — two more stray "Trade Command Centre"/"moat"/"signal engine" instances likely remain on less-trafficked Trade*/Compare* pages
+- [ ] **Spot-check review nudge** — verify renders correctly once a paid test account has wins 24h+ old
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 9 June 2026 (NightlyBuildAgent)
 
 - [x] **PATCH PULSE "IN DEMAND" summary built** — `extractTopJobTypes()` added to FindJobsPage; aggregates trade keywords from lead.reasons ("Trade match: X" for paid tier, "Trade teaser: X" for free tier); shows top 3 in PATCH PULSE bar as "IN DEMAND: EV CHARGER ×3 · REWIRE ×2" — gives tradesmen at-a-glance demand signal before scrolling leads
