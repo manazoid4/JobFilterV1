@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 10 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **npm install** — `node_modules` was missing entirely in this fresh container; installed 359 packages before build/tsc could run
+- [x] **Commercial lead project scale built (Tier 2 #12 follow-up)** — `calcProjectScale()` added to `leadEngine/normaliser.ts`: commercial leads now get `projectScale: 'small' | 'medium' | 'large'` based on value band (large ≥£100k, medium ≥£25k). FindJobsPage shows "LARGE PROJECT" badge + "likely needs multiple trades on site" line on commercial lead cards; LeadDetailPage WHY THIS LEAD section gets matching lines ("Commercial job — business buyer, not a homeowner" / "Large project — likely needs more than one trade on site"); `LeadDecision` type + `trackLead()` persist `isCommercial`/`projectScale`
+- [x] Build GREEN (106 pages), TypeScript CLEAN, regression `lead-engine-quality-regression.mjs` PASS, pushed to main (`9820013`)
+- [x] Verified live B14 electrical scan in DEMO_MODE: 5/10 leads commercial, projectScale correctly small/medium/large across value bands
+- [ ] **Visual spot-check LARGE PROJECT badge** — Playwright not installed in this container; confirm renders cleanly desktop + 375px on a real commercial lead
+- [ ] **Next run: fresh NEEDLE/UX pass or Tier 2 #15/#17** — all Tier 1 + Tier 2 #12 now built
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 10 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **COMPANY DETAILS panel spot-checked** — verified live B14 electrical scan in DEMO_MODE for both free tier (correctly shows LOCKED — `description` stripped for free preview) and paid tier (`FULL_ACCESS_TEST_MODE=true` — Industry/Incorporated/Company No parse correctly from real CompaniesHouse `description` strings, both with and without `Co. No:`)
