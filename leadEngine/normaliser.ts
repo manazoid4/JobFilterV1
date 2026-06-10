@@ -106,6 +106,12 @@ function detectCommercial(title: string, description: string, buyerName: string,
   return false;
 }
 
+function calcProjectScale(value: number): 'small' | 'medium' | 'large' {
+  if (value >= 100_000) return 'large';
+  if (value >= 25_000) return 'medium';
+  return 'small';
+}
+
 function sourceConfidence(sourceSystem: string): number {
   switch (sourceSystem) {
     case 'FTS': return 88;
@@ -173,6 +179,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
 
   const buyer = raw.rawBuyer ?? '';
   const isCommercial = detectCommercial(title, raw.rawDescription ?? '', buyer, cpvCodes);
+  const projectScale = isCommercial ? calcProjectScale(max || min || rawVal) : undefined;
 
   return {
     id: `${raw.sourceSystem.toLowerCase()}-${raw.rawId}`,
@@ -193,6 +200,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     buyerName: buyer,
     cpvCodes,
     isCommercial,
+    projectScale,
   };
 }
 

@@ -258,6 +258,8 @@ export function FindJobsPage() {
       scoreReasons: lead.reasons ?? [],
       source: lead.source,
       description: lead.description,
+      isCommercial: lead.isCommercial,
+      projectScale: lead.projectScale,
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);
@@ -1056,11 +1058,21 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
               COMMERCIAL
             </span>
           )}
+          {lead.isCommercial && lead.projectScale === 'large' && (
+            <span className="inline-flex items-center gap-1 border-2 border-[var(--ink)] bg-white px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-[var(--ink)]">
+              LARGE PROJECT
+            </span>
+          )}
           <LeadReadinessBadge level={lead.leadReadiness ?? lead.readiness ?? (lead.score >= 85 ? 'READY' : lead.score >= 60 ? 'MAYBE' : 'WASTE')} size="sm" />
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
             New business nearby — commercial fit-out likely
+          </p>
+        )}
+        {lead.isCommercial && lead.projectScale === 'large' && (
+          <p className="mt-2 text-sm font-black text-[var(--ink)]">
+            Large commercial job — likely needs multiple trades on site
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>

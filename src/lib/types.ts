@@ -34,6 +34,8 @@ export type LeadDecision = {
   scoreReasons?: string[];
   source?: string;
   description?: string;
+  isCommercial?: boolean;
+  projectScale?: 'small' | 'medium' | 'large';
 };
 
 export type Lead = {
@@ -58,6 +60,7 @@ export type Lead = {
   score: number;
   distanceMiles?: number;
   isCommercial?: boolean;
+  projectScale?: 'small' | 'medium' | 'large';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
