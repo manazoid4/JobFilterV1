@@ -663,7 +663,7 @@ function LockedState() {
             'Calendar reminder export (.ics)',
             'Lead follow-up prompts',
             'Admin readiness score',
-            'Connected to your JobFilter pipeline',
+            'Synced with your job tracker',
           ].map((item) => (
             <div key={item} className="flex items-center gap-2 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
               <span className="text-[var(--yellow)] font-black">→</span>
