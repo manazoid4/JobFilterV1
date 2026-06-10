@@ -1,5 +1,16 @@
 # Daily To-Do
 
+## Today - 10 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **COMPANY DETAILS panel spot-checked** — verified live B14 electrical scan in DEMO_MODE for both free tier (correctly shows LOCKED — `description` stripped for free preview) and paid tier (`FULL_ACCESS_TEST_MODE=true` — Industry/Incorporated/Company No parse correctly from real CompaniesHouse `description` strings, both with and without `Co. No:`)
+- [x] **Jargon sweep — AdminGuardPage.tsx:666** — "Connected to your JobFilter pipeline" → "Synced with your job tracker" (internal noun "pipeline" leak; matches the Job Tracker rename done in prior sweeps)
+- [x] **Jargon sweep audit** — searched for remaining "Trade Command Centre"/"moat"/"signal engine"/"chase store"/"win store" — all clear except internal data-table keys (already render as "Edge" to users); "pipeline"/"intake" remaining instances are generic English about the tradesman's own workload, not product naming — sweep is now largely exhausted
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`8c61c10`)
+- [ ] **Next run: Tier 2 features or fresh NEEDLE pass** — all Tier 1 Feature Roadmap items confirmed BUILT; jargon sweep largely exhausted. Consider Commercial lead detection (#12) or a new 4-agent NEEDLE/UX pass.
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 10 June 2026 (NightlyBuildAgent)
 
 - [x] **Companies House lead enrichment built (Tier 1 quick win — "Companies House signals" Week 1-2 roadmap item)** — `getCompanySicLabel()` exported from `companiesHouseFetcher.ts`; new `src/lib/companyDetails.ts` parses "Incorporated: ... | SIC: ..." out of CompaniesHouse lead descriptions; `Lead`/`LeadDecision` types gained `description`/`source`; `FindJobsPage.trackLead()` persists them; `LeadDetailPage` shows a new "COMPANY DETAILS" panel (industry, incorporation date, company number) for paid users on CompaniesHouse leads, "COMPANY DETAILS LOCKED — unlocked at £39/mo" for free tier
