@@ -30,7 +30,7 @@ export function TopNav() {
   const isLoggedIn = !!user;
   const links = isLoggedIn ? memberLinks : publicLinks;
   const mobileLinks = isLoggedIn
-    ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
+    ? [...memberLinks, { to: '/tradie-zone', label: 'Tools' }]
     : [
         ...publicLinks,
         { to: '/blueprint', label: 'How It Works' },
@@ -117,7 +117,7 @@ export function TopNav() {
           {isLoggedIn ? (
             <>
               <Link href="/tradie-zone" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
-                Member Hub
+                Tools
               </Link>
               <button onClick={() => signOut()} className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
                 Sign Out
@@ -157,7 +157,7 @@ export function TopNav() {
             {isLoggedIn ? (
               <Link href="/tradie-zone" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
                 <p className="text-[10px] font-black text-[var(--muted)]">MEMBER</p>
-                <p className="text-base font-black text-[var(--ink)]">HUB</p>
+                <p className="text-base font-black text-[var(--ink)]">TOOLS</p>
               </Link>
             ) : (
               <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
