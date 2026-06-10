@@ -256,6 +256,8 @@ export function FindJobsPage() {
       quoteFloor: lead.quoteFloor,
       evidenceBadges: lead.evidenceBadges,
       scoreReasons: lead.reasons ?? [],
+      source: lead.source,
+      description: lead.description,
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);
@@ -1136,7 +1138,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
             )}
           </>
         ) : (
-          <div className="grid gap-1">
+          <div className="hidden lg:grid gap-1">
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>

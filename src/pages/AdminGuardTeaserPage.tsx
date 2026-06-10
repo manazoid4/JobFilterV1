@@ -131,7 +131,7 @@ export function AdminGuardTeaserPage() {
           YOU BUILD. JOBFILTER FILTERS, SCORES AND REMINDS.
         </h2>
         <p className="mt-4 max-w-2xl font-black text-[var(--ink)]/80 text-base sm:text-lg">
-          Admin Guard is the first module inside the Trade Command Centre — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
+          Admin Guard is the first module inside TAX &amp; ADMIN — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
         </p>
         <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/70">
           Not another bloated trade app. Just better jobs, cleaner follow-ups and admin dates you cannot afford to miss.

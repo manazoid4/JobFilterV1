@@ -11,6 +11,7 @@ import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate, parseEmailSubject } from '../lib/chaseTemplates';
 import { markLost, markWon } from '../lib/winStore';
+import { parseCompanyDetails } from '../lib/companyDetails';
 import type { LeadDecision, LeadDecisionStatus, LostReason } from '../lib/types';
 
 const LOST_REASON_OPTIONS: { value: LostReason; label: string }[] = [
@@ -380,6 +381,28 @@ export function LeadDetailPage() {
           </div>
         </section>
       )}
+
+      {lead.source === 'CompaniesHouse' && (() => {
+        const company = parseCompanyDetails(lead.description, lead.source);
+        return company ? (
+          <section className="jf-box bg-white p-6">
+            <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS</h2>
+            <div className="mt-4 grid gap-2 text-sm font-black text-[var(--ink)]">
+              {company.industry && <p>Industry: {company.industry}</p>}
+              {company.incorporated && <p>Incorporated: {company.incorporated}</p>}
+              {company.companyNumber && <p>Company No: {company.companyNumber}</p>}
+            </div>
+            <p className="mt-3 text-xs font-black text-[var(--muted)]">New companies often need premises fit-out fast — call before they find someone else.</p>
+          </section>
+        ) : (
+          <section className="jf-box bg-[var(--paper)] p-6">
+            <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS LOCKED</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Incorporation date, company number, and industry — unlocked at £39/mo.</p>
+          </section>
+        );
+      })()}
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>

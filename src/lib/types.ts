@@ -32,6 +32,8 @@ export type LeadDecision = {
   signalClass?: string;
   fusionKey?: string;
   scoreReasons?: string[];
+  source?: string;
+  description?: string;
 };
 
 export type Lead = {
@@ -92,6 +94,7 @@ export type Lead = {
   }>;
   whyThisIsAJob?: string;
   updatedAt?: string;
+  description?: string;
 };
 
 export type SourceStats = {

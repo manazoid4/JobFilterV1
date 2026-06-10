@@ -803,7 +803,7 @@ export function BlueprintPage() {
                   <ScoreLabel label="Ease" value={row.ease} />
                   <ScoreLabel label="Lead quality" value={row.quality} />
                   <ScoreLabel label="Speed" value={row.speed} />
-                  <ScoreLabel label="Moat" value={row.moat} />
+                  <ScoreLabel label="Edge" value={row.moat} />
                 </div>
               </div>
             ))}
