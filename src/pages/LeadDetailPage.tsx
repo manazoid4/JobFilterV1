@@ -3,6 +3,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { useState } from 'react';
+import { useAuth } from '../components/AuthProvider';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { TrustBadges } from '../components/TrustBadges';
@@ -140,6 +141,9 @@ export function LeadDetailPage() {
   });
   const [showFlagPicker, setShowFlagPicker] = useState(false);
   const [flagReason, setFlagReason] = useState('');
+  const { user } = useAuth();
+  const [emailChaseState, setEmailChaseState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [emailChaseError, setEmailChaseError] = useState('');
 
   function handleFlagLead() {
     const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
@@ -199,6 +203,40 @@ export function LeadDetailPage() {
   function handleSnooze() {
     snoozeChaseLead(id);
     setSnoozed(true);
+  }
+
+  async function handleEmailChase() {
+    if (!user?.email) {
+      setEmailChaseState('error');
+      setEmailChaseError('Log in to email yourself this lead.');
+      return;
+    }
+    setEmailChaseState('sending');
+    const chaseMessage = filledMessage ?? fillTemplate(MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!, { job_type: lead!.jobType, area: lead!.area });
+    try {
+      const res = await fetch('/api/leads/email-chase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: user.email,
+          leadTitle: lead!.title,
+          area: lead!.area,
+          score: lead!.score,
+          estimatedValue: lead!.budget ?? 'POA',
+          message: chaseMessage,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setEmailChaseState('error');
+        setEmailChaseError(data.error || 'Email failed to send.');
+        return;
+      }
+      setEmailChaseState('sent');
+    } catch {
+      setEmailChaseState('error');
+      setEmailChaseError('Email failed to send.');
+    }
   }
 
   function copyOtherTemplate(key: string, body: string) {
@@ -528,7 +566,20 @@ export function LeadDetailPage() {
               {snoozed ? 'SNOOZED — BACK TOMORROW' : 'SNOOZE 24H'}
             </button>
           )}
+          <button
+            className={`jf-button ${emailChaseState === 'sent' ? 'bg-[var(--green)] text-white' : 'bg-white text-[var(--ink)]'}`}
+            onClick={handleEmailChase}
+            disabled={emailChaseState === 'sending' || emailChaseState === 'sent'}
+          >
+            {emailChaseState === 'sending' ? 'SENDING...' : emailChaseState === 'sent' ? 'SENT TO YOUR EMAIL' : 'EMAIL ME THIS LEAD'}
+          </button>
         </div>
+        {emailChaseState === 'error' && (
+          <p className="mt-2 text-xs font-black text-[var(--orange)]">{emailChaseError}</p>
+        )}
+        {emailChaseState === 'sent' && (
+          <p className="mt-2 text-xs font-black text-[var(--green)]">✓ Sent to {user?.email} — chase message and lead summary, ready to action from your inbox.</p>
+        )}
       </section>
 
       <section className="jf-box bg-white p-6">

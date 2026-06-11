@@ -38,6 +38,37 @@ export async function sendPaidConfirmationEmail(to: string, tier: string): Promi
   }
 }
 
+export async function sendLeadChaseEmail(params: {
+  to: string;
+  leadTitle: string;
+  area: string;
+  score: number;
+  estimatedValue: string;
+  message: string;
+  url?: string;
+}): Promise<{ sent: boolean; error?: string }> {
+  if (!resend) return { sent: false, error: 'Email is not configured yet.' };
+  try {
+    const safeMessage = params.message.replace(/\n/g, '<br>');
+    await resend.emails.send({
+      from: FROM,
+      to: params.to,
+      subject: `Job to chase: ${params.leadTitle} — ${params.area}`,
+      html: `<p><strong>${params.leadTitle}</strong> — ${params.area}</p>
+<p>Score: ${params.score}/100 &middot; Estimated value: ${params.estimatedValue}</p>
+<hr style="border:none;border-top:1px solid #ddd">
+<p>${safeMessage}</p>
+${params.url ? `<p><a href="${params.url}">View listing</a></p>` : ''}
+<hr style="border:none;border-top:1px solid #ddd">
+<p style="font-size:12px;color:#999">Sent from JobFilter — jobfilter.uk</p>`,
+    });
+    return { sent: true };
+  } catch (err: any) {
+    console.error('[resend] Lead chase email failed:', err?.message);
+    return { sent: false, error: 'Email failed to send.' };
+  }
+}
+
 export async function sendAdminAlert(subject: string, body: string): Promise<void> {
   if (!resend) return;
   try {
