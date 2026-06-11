@@ -114,7 +114,7 @@ export function VicinityPage() {
                   className="inline-block w-fit px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
                   style={{ background: 'var(--yellow)', color: 'var(--navy)', border: '2px solid var(--yellow)' }}
                 >
-                  Vicinity™ Proof Generator
+                  Vicinity — Proof Generator
                 </span>
                 <h1
                   className="headline mt-4"
@@ -693,7 +693,7 @@ export function VicinityPage() {
               Stop letting good work die in your camera roll.
             </h2>
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
-              Every finished job is a sales asset. Vicinity™ turns your phone photos into professional local proof that brings in the next one.
+              Every finished job is a sales asset. Vicinity turns your phone photos into professional local proof that brings in the next one.
             </p>
             <div className="mt-4 flex items-center gap-2 px-4 py-3" style={{ background: 'var(--yellow)', border: '2px solid var(--navy)' }}>
               <span className="text-[13px] font-bold uppercase tracking-wide text-[var(--navy)]">✓ Included free with JobFilter subscription</span>
