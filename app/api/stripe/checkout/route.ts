@@ -1,9 +1,28 @@
 import { getAppOrigin, getStripe, resolvePriceId, type Tier } from '../../../../src/lib/stripe';
+import { createAuthServerClient } from '../../../../src/lib/supabase/auth-server';
 
 export async function POST(request: Request) {
   const stripe = getStripe();
   if (!stripe) {
     return Response.json({ ok: false, error: 'STRIPE_SECRET_KEY is not configured' }, { status: 503 });
+  }
+
+  let userId = '';
+  let email = '';
+  try {
+    const authClient = await createAuthServerClient();
+    const { data, error } = await authClient.auth.getUser();
+    if (error || !data.user) {
+      return Response.json({ ok: false, error: 'Create and confirm your account before checkout' }, { status: 401 });
+    }
+    userId = data.user.id;
+    email = data.user.email ?? '';
+  } catch {
+    return Response.json({ ok: false, error: 'Create and confirm your account before checkout' }, { status: 401 });
+  }
+
+  if (!email) {
+    return Response.json({ ok: false, error: 'Create and confirm your account before checkout' }, { status: 401 });
   }
 
   const body = await request.json().catch(() => ({}));
@@ -17,16 +36,7 @@ export async function POST(request: Request) {
     : 'pro';
 
   const billing = body.billing === 'annual' ? 'annual' : 'monthly';
-
-  // Accept either explicit `priceId` (per task spec) or resolve from tier/billing.
-  const price = typeof body.priceId === 'string' && body.priceId ? body.priceId : resolvePriceId(tier, billing);
-
-  const userId = typeof body.userId === 'string' ? body.userId : typeof body.user_id === 'string' ? body.user_id : '';
-  const email = typeof body.email === 'string' ? body.email : '';
-
-  if (!userId || !email) {
-    return Response.json({ ok: false, error: 'Create and confirm your account before checkout' }, { status: 401 });
-  }
+  const price = resolvePriceId(tier, billing);
 
   if (!price) {
     return Response.json({ ok: false, error: `Stripe price for ${tier} is not configured` }, { status: 503 });
