@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 11 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state fixed** — started in detached HEAD at `c26fee4` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it
+- [x] **npm install** — `node_modules` empty again in fresh container; installed 359 packages
+- [x] **Tier 2 #15 re-scoped (important — stop chasing this)**: investigated "thread `rawContact.email`/`.phone` onto `Lead`" from last run's priority list. Only `directorySignalFetcher.ts` ever sets `rawContact`, and for "strong" signals it sets `phone: 'available'` — a placeholder string, not a real number. Threading this through would render a broken `wa.me/available` link (fake flow — against BUILD RULES). Real buyer contact enrichment is Tier 4 #22 "DO NOT BUILD NOW" (GDPR/ICO risk) per Feature Roadmap + CLAUDE.md DO NOT TOUCH. **This task is blocked on a real contact-data source, not a code change — remove from next-run priorities.**
+- [x] **NEEDLE/BUILDER fix — AccountPage design system violation**: subscription status badges (ACTIVE/PAST_DUE/etc) and billing-portal error text used raw Tailwind `green-600`/`orange-500`/`red-600` 1px-border colours instead of brutalist `--green`/`--orange` tokens with `border-2`. Fixed to match site-wide design system.
+- [x] Re-confirmed both `setSubmitted(true)` forms wired to real endpoints (no fake flows); FaqPage/TerritoriesPage free CTAs all carry "no card needed" copy; WinStatsBanner postcode always defaults non-empty (no bug); EMAIL ME THIS LEAD code reviewed, correctly wired
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`0cb99be`)
+- [ ] **Fresh NEEDLE pass on less-trafficked pages** — `/test` console, legacy comparison pages — AccountPage was the first design-system drift found in several runs
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~2 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 11 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **npm install** — `node_modules` empty again in this fresh container; installed 359 packages before build/tsc could run
