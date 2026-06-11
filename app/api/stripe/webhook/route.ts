@@ -57,8 +57,9 @@ export async function POST(request: Request) {
       console.log('[stripe/webhook]', event.type, 'processed for subscription:', subscription.id);
     }
   } catch (err) {
-    console.error('[stripe/webhook] handler error for', event.type, ':', err instanceof Error ? err.message : err);
-    // Still return 200 so Stripe does not retry — error is logged above
+    const error = err instanceof Error ? err.message : String(err);
+    console.error('[stripe/webhook] handler error for', event.type, ':', error);
+    return Response.json({ received: false, error }, { status: 500 });
   }
 
   return Response.json({ received: true });
