@@ -231,14 +231,14 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
                 className="jf-button flex items-center gap-1 bg-[var(--offwhite)] border-2 border-[var(--ink)] text-[var(--ink)] text-xs"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                LISTING
+                VIEW LISTING
               </a>
             )}
           </div>
 
           {copied && (
             <p className="mt-2 text-[10px] font-black text-[var(--green)] uppercase tracking-wider">
-              {tracked ? '✓ Chase stage updated' : '✓ Added to chase tracker automatically'}
+              {tracked ? '✓ Job tracker updated' : '✓ Added to your job tracker automatically'}
             </p>
           )}
 
