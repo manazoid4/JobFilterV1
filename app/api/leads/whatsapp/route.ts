@@ -13,6 +13,7 @@
 
 import { createAuthServerClient } from '../../../../src/lib/supabase/auth-server';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { checkRateLimit } from '../../../../src/lib/rateLimit';
 import { isOwnerEmail } from '../../../../server/lib/ownerAccess';
 
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
@@ -106,6 +107,9 @@ async function sendViaTwilio(to: string, body: string): Promise<{ ok: boolean; s
 }
 
 export async function POST(request: Request) {
+  const limited = checkRateLimit(request);
+  if (limited) return limited;
+
   const access = await resolveIsPaid();
   if (!access.ok) {
     return Response.json(
