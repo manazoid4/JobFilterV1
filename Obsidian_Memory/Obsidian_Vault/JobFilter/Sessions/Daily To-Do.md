@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 11 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **npm install** — `node_modules` empty again in this fresh container; installed 359 packages before build/tsc could run
+- [x] **Audit re-confirmed** — all 5 Tier 1 brief items + Auto-nudge/snooze genuinely built and wired (trade-specific scoring verified by reading `leadEngine/scorer.ts` TRADE_KEYWORDS — produces real per-trade differences)
+- [x] **Tier 2 #15 Multi-channel follow-up — first slice built**: `POST /api/leads/email-chase` (new `server/routes/leadEmailChase.ts` + `sendLeadChaseEmail()` in `server/lib/resend.ts`, registered in `server/app.ts`) + "EMAIL ME THIS LEAD" button on LeadDetailPage FOLLOW-UP REMINDER section — sends lead summary + chase message to the logged-in user's own inbox via Resend. No fake flow: returns 503 with plain error if RESEND_API_KEY unset.
+- [x] **EpcPage TRADES THAT BENEFIT mobile grid fix** — `grid-cols-2 md:grid-cols-5` → `grid-cols-1 sm:grid-cols-2 md:grid-cols-5` (removes 2/2/1 orphan card on small phones, flagged by prior NEEDLE pass)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`35443eb`)
+- [ ] **Full buyer-side multi-channel follow-up (Tier 2 #15 continued)** — needs `leadEngine/normaliser.ts` to thread `raw.rawContact.email`/`.phone` onto the normalised `Lead` (currently discarded after deriving `contactSignal`); this also unblocks "phone-aware WhatsApp links" (`lead.phone`/`waPhone` in LeadDetailPage is always null today in practice)
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — could not test without `RESEND_API_KEY` in this container; verify email renders correctly once Resend key configured
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 11 June 2026 (NightlyBuildAgent)
 
 - [x] **npm install** — `node_modules` was missing entirely in this fresh container; installed 359 packages before build/tsc could run
