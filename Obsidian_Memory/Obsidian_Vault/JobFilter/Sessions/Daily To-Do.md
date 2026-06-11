@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 11 June 2026 (NightlyBuildAgent)
+
+- [x] **npm install** — `node_modules` was missing entirely in this fresh container; installed 359 packages before build/tsc could run
+- [x] **Stale local `main` ref fixed** — local `main` was 52 commits behind `origin/main` (`f487485` not reachable from cached refs); `git fetch --prune` + `git pull origin main` resolved it, no real divergence
+- [x] **Audit: all 5 Tier 1 "unbuilt" features from this run's brief confirmed already BUILT** — scan counter (`weeklyScansRemaining`), Calendar ICS export, WinStatsBanner leaderboard, WhatsApp template additions (email_*/quick_quote_offer), trade-specific scoring (LARGE PROJECT badge) — all verified present and wired via grep
+- [x] **Phase 1 broken-form check** — both remaining `setSubmitted(true)` forms (ProductAdvantagePage ServiceForm, WeeklySignalsPage AlertSubscribeModal) wired to real `fetch()` — no fake flows
+- [x] **NEEDLE/BUILDER fix — EpcPage "GET THE TEMPLATE" CTA mismatch** — button was a bare mailto but copy promised an instant ready-to-print PDF; relabeled "EMAIL ME THE TEMPLATE →" + expectation-setting line
+- [x] **Jargon sweep — QuickResponseKit.tsx "Chase stage/tracker"** → "job tracker" (last remaining instance of this internal-noun pattern in `src/`)
+- [x] **QuickResponseKit.tsx "LISTING" → "VIEW LISTING"** for clarity
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`8aa43ea`)
+- [ ] **Tier 2 #15 Multi-channel follow-up** — email templates + Resend already exist; missing piece is wiring an actual "send chase email" action into LeadDetailPage/QuickResponseKit (currently WhatsApp deep-link + copy-to-clipboard only)
+- [ ] **EpcPage "TRADES THAT BENEFIT" mobile grid** (`grid-cols-2 md:grid-cols-5`, 5 cards) — flagged as possible 2/2/1 mobile layout issue, not changed (low confidence, needs visual check)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 10 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **npm install** — `node_modules` was missing entirely in this fresh container; installed 359 packages before build/tsc could run
