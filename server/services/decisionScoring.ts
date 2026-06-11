@@ -1,3 +1,5 @@
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
+
 export type IntakeScoreInput = {
   jobType: string;
   urgency: 'Emergency' | 'This week' | 'Later';
@@ -57,7 +59,7 @@ export function scoreIntake(input: IntakeScoreInput) {
   }
 
   const finalScore = Math.max(0, Math.min(100, score));
-  const tier = finalScore >= 80 ? 'GOLD' : finalScore >= 50 ? 'SILVER' : 'BIN';
+  const tier = finalScore >= GOLD_THRESHOLD ? 'GOLD' : finalScore >= SILVER_THRESHOLD ? 'SILVER' : 'BIN';
 
   return {
     score: finalScore,

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, FormEvent } from 'react';
 import { searchDocuments, type DocumentSearchResult, type KeywordTag } from '../lib/documentSearch';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 const POPULAR_KEYWORDS = [
   'extension',
@@ -161,7 +162,7 @@ function KeywordResultCard({ result }: { key?: string; result: DocumentSearchRes
   return (
     <article className="jf-box grid gap-4 bg-white p-4 md:grid-cols-[auto_1fr] lg:grid-cols-[auto_1fr_220px]">
       <div className={`w-14 h-14 flex items-center justify-center font-black text-lg ${
-        score >= 80 ? 'bg-[var(--green)] text-white' : score >= 55 ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--muted)] text-white'
+        score >= GOLD_THRESHOLD ? 'bg-[var(--green)] text-white' : score >= SILVER_THRESHOLD ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--muted)] text-white'
       }`}>
         {score}
       </div>

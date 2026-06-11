@@ -1,7 +1,9 @@
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
+
 export function ScoreBadge({ score, large = false }: { score: number; large?: boolean }) {
-  const tone = score >= 80
+  const tone = score >= GOLD_THRESHOLD
     ? 'bg-[#C9A227] text-[var(--ink)]'
-    : score >= 50
+    : score >= SILVER_THRESHOLD
       ? 'bg-[var(--yellow)] text-[var(--ink)]'
       : 'bg-[#D7D9D4] text-[var(--ink)]';
 

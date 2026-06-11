@@ -7,6 +7,7 @@ import { parseUkPostcode } from '../utils/postcode';
 import { persistLeads } from '../services/leadPersistence';
 import { persistSourceBenchmarkRun } from '../services/sourceBenchmark';
 import { resolveOwnerFromToken } from '../lib/ownerAccess';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -226,7 +227,7 @@ function toFreePreviewLead(lead: Lead) {
     contactSignal: 'none' as const,
     source: lead.source,
     status: lead.status,
-    revenueTier: score >= 80 ? 'gold' as const : score >= 55 ? 'worth-checking' as const : 'low-signal' as const,
+    revenueTier: score >= GOLD_THRESHOLD ? 'gold' as const : score >= SILVER_THRESHOLD ? 'worth-checking' as const : 'low-signal' as const,
     tradeMatch: String(lead.trade),
     score: previewScore(score),
     reasons: buildReasons(lead, score),
@@ -246,8 +247,8 @@ function toFreePreviewLead(lead: Lead) {
 }
 
 function previewScore(score: number) {
-  if (score >= 80) return 80;
-  if (score >= 55) return 55;
+  if (score >= GOLD_THRESHOLD) return GOLD_THRESHOLD;
+  if (score >= SILVER_THRESHOLD) return SILVER_THRESHOLD;
   return 35;
 }
 

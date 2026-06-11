@@ -1,3 +1,5 @@
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
+
 type EpcSignalCardProps = {
   address: string;
   rating: 'F' | 'G' | 'E';
@@ -19,7 +21,7 @@ const RING_COLORS: Record<string, string> = {
 };
 
 export function EpcSignalCard({ address, rating, potentialRating, trade, signal, score, urgency }: EpcSignalCardProps) {
-  const scoreColor = score >= 80 ? 'bg-[#C9A227]' : score >= 50 ? 'bg-[var(--yellow)]' : 'bg-[#D7D9D4]';
+  const scoreColor = score >= GOLD_THRESHOLD ? 'bg-[#C9A227]' : score >= SILVER_THRESHOLD ? 'bg-[var(--yellow)]' : 'bg-[#D7D9D4]';
   const urgencyLabel = urgency === 'high' ? 'GOLD' : urgency === 'medium' ? 'SILVER' : 'BIN';
   const urgencyColor = urgency === 'high' ? 'bg-[var(--yellow)] text-[var(--ink)]' : urgency === 'medium' ? 'bg-white text-[var(--ink)]' : 'bg-[#D7D9D4] text-[var(--muted)]';
 

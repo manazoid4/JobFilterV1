@@ -17,6 +17,7 @@ import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 import { saveStoredLead } from '../lib/leadStore';
 import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
@@ -387,8 +388,8 @@ export function FindJobsPage() {
     }
   }
 
-  const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
-  const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
+  const goldCount = result?.leads.filter(l => l.score >= GOLD_THRESHOLD).length ?? 0;
+  const silverCount = result?.leads.filter(l => l.score >= SILVER_THRESHOLD && l.score < GOLD_THRESHOLD).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
@@ -791,7 +792,7 @@ export function FindJobsPage() {
                 {fillWeekResult.count} JOBS FOUND NEAR YOU
               </p>
               <p className="mt-1 font-black text-white/70">
-                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
+                {fillWeekResult.leads.filter(l => l.score >= GOLD_THRESHOLD).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
               <p className="mt-1 text-sm font-black text-white/75">
                 Your quiet week isn&apos;t a skills problem. It&apos;s a pipeline problem.
@@ -916,8 +917,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
     ['Urgency', lead.urgency || 'Unknown'],
   ];
 
-  const isGold = lead.score >= 80;
-  const isSilver = lead.score >= 50 && lead.score < 80;
+  const isGold = lead.score >= GOLD_THRESHOLD;
+  const isSilver = lead.score >= SILVER_THRESHOLD && lead.score < GOLD_THRESHOLD;
   const isCompaniesHouse = lead.source === 'CompaniesHouse';
   const isNew = lead.publishedAt && isNewLead(lead.publishedAt);
 
@@ -1361,7 +1362,7 @@ function titleCase(value: string) {
 }
 
 function tierLabel(score: number) {
-  if (score >= 80) return 'GOLD';
-  if (score >= 50) return 'SILVER';
+  if (score >= GOLD_THRESHOLD) return 'GOLD';
+  if (score >= SILVER_THRESHOLD) return 'SILVER';
   return 'BRONZE';
 }

@@ -1,6 +1,7 @@
 import type { ContractsFinderNotice } from './contractsFinder';
 import { scoreNotice } from './leadScoring';
 import { outwardFromPostcode } from '../utils/postcode';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 export type NormalizedLead = {
   id: string;
@@ -43,7 +44,7 @@ export function normalizeNotice(notice: ContractsFinderNotice, trade: string, ou
     contactSignal,
     status: 'new',
     reasons,
-    revenueTier: score >= 80 ? 'gold' : score >= 55 ? 'worth-checking' : 'low-signal',
+    revenueTier: score >= GOLD_THRESHOLD ? 'gold' : score >= SILVER_THRESHOLD ? 'worth-checking' : 'low-signal',
     tradeMatch: trade,
     score,
   };

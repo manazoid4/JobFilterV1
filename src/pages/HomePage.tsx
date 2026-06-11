@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { AlertTriangle, Radio, ShieldCheck, Target, ArrowUpRight, ArrowDownRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap, Megaphone, BookOpen, Calculator } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
+import { GOLD_THRESHOLD } from '../../leadEngine/thresholds';
 
 const proofPoints = [
   'Jobs spotted before Checkatrade lists them',
@@ -29,7 +30,7 @@ const territoryCards = [
 const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];
 
 function ScoreBadge({ score, trend }: { score: number; trend: 'up' | 'down' }) {
-  const bg = score >= 90 ? 'bg-[var(--yellow)] text-[var(--ink)]' : score >= 80 ? 'bg-white text-[var(--ink)]' : 'bg-[var(--muted)]/15 text-[var(--muted)]';
+  const bg = score >= GOLD_THRESHOLD ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-[var(--muted)]/15 text-[var(--muted)]';
   const TrendIcon = trend === 'up' ? ArrowUpRight : ArrowDownRight;
   const trendColor = trend === 'up' ? 'text-[var(--yellow)]' : 'text-[var(--orange)]';
   return (

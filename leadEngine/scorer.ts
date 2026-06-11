@@ -2,6 +2,7 @@ import type { Lead, TradeKey } from './types';
 import { regionSimilarity } from './postcode';
 import { getScoreBonus } from './sourceConfig';
 import { buildContactPath, contactPathScoreAdjustment } from './contactPath';
+import { BRONZE_THRESHOLD, GOLD_THRESHOLD, SILVER_THRESHOLD } from './thresholds';
 
 const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: string[] }> = {
   plumbing: {
@@ -236,9 +237,9 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
 
   // Quality label
   let qualityLabel: Lead['qualityLabel'];
-  if (finalScore >= 90) qualityLabel = 'GOLD';
-  else if (finalScore >= 75) qualityLabel = 'SILVER';
-  else if (finalScore >= 60) qualityLabel = 'BRONZE';
+  if (finalScore >= GOLD_THRESHOLD) qualityLabel = 'GOLD';
+  else if (finalScore >= SILVER_THRESHOLD) qualityLabel = 'SILVER';
+  else if (finalScore >= BRONZE_THRESHOLD) qualityLabel = 'BRONZE';
   else if (finalScore >= 40) qualityLabel = 'CHECK';
   else qualityLabel = 'SKIP';
 

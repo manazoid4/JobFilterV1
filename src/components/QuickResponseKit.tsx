@@ -5,6 +5,7 @@ import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, External
 import { fillTemplate, MESSAGE_TEMPLATES, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 type Props = {
   leadId: string;
@@ -55,8 +56,8 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
   const [copied, setCopied] = useState(false);
   const [tracked, setTracked] = useState(isLeadTracked(leadId));
 
-  const isGold = score >= 80;
-  const isSilver = score >= 50 && score < 80;
+  const isGold = score >= GOLD_THRESHOLD;
+  const isSilver = score >= SILVER_THRESHOLD && score < GOLD_THRESHOLD;
   if (!isGold && !isSilver) return null;
 
   const template = MESSAGE_TEMPLATES.find((t) => t.key === activeKey);

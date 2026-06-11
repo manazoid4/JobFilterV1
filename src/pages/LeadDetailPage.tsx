@@ -12,6 +12,7 @@ import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { markWon } from '../lib/winStore';
 import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 function formatSignalLabel(source: string): string {
   const s = source.toLowerCase();
@@ -287,7 +288,7 @@ export function LeadDetailPage() {
           {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
           {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
         </div>
-        {lead.score >= 80 ? (
+        {lead.score >= GOLD_THRESHOLD ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
             <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
             {quickWaUrl && (
@@ -301,7 +302,7 @@ export function LeadDetailPage() {
               </a>
             )}
           </div>
-        ) : lead.score >= 50 ? (
+        ) : lead.score >= SILVER_THRESHOLD ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
             <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A 2-minute call finds out if they're ready now. Use the availability check template below — takes 30 seconds.</p>
           </div>

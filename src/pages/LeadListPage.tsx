@@ -6,6 +6,7 @@ import { getStoredLeads } from '../lib/leadStore';
 import { getWinData } from '../lib/winStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
 
@@ -48,9 +49,9 @@ export function LeadListPage() {
     );
   }, [stored, query]);
 
-  const gold   = filtered.filter((l) => l.score >= 90 && l.status !== 'ignored');
-  const silver = filtered.filter((l) => l.score >= 75 && l.score < 90 && l.status !== 'ignored');
-  const bronze = filtered.filter((l) => l.score < 75 || l.status === 'ignored');
+  const gold   = filtered.filter((l) => l.score >= GOLD_THRESHOLD && l.status !== 'ignored');
+  const silver = filtered.filter((l) => l.score >= SILVER_THRESHOLD && l.score < GOLD_THRESHOLD && l.status !== 'ignored');
+  const bronze = filtered.filter((l) => l.score < SILVER_THRESHOLD || l.status === 'ignored');
 
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;
@@ -209,9 +210,9 @@ export function LeadListPage() {
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
+                  ? `Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is ${GOLD_THRESHOLD}+.`
                   : tab === 'silver'
-                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
+                  ? `SILVER leads (score ${SILVER_THRESHOLD}-${GOLD_THRESHOLD - 1}) appear here. Run a scan to fill your pipeline.`
                   : 'No lower-scored leads in your pipeline yet.'}
               </p>
               {tab !== 'bronze' && (

@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, ReactNode, useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 
 const DEV_MODE = false;
@@ -442,8 +443,8 @@ function TyreKickerTool() {
     return Math.min(100, score);
   }, [daysToStart, hasBudget, hasPhotos, jobDistance, jobValue]);
 
-  const verdict = leadScore >= 75 ? 'PRICE IT' : leadScore >= 50 ? 'CHECK FIRST' : 'BIN IT';
-  const verdictColor = leadScore >= 75 ? 'text-[var(--green)]' : leadScore >= 50 ? 'text-[var(--navy)]' : 'text-[var(--orange)]';
+  const verdict = leadScore >= GOLD_THRESHOLD ? 'PRICE IT' : leadScore >= SILVER_THRESHOLD ? 'CHECK FIRST' : 'BIN IT';
+  const verdictColor = leadScore >= GOLD_THRESHOLD ? 'text-[var(--green)]' : leadScore >= SILVER_THRESHOLD ? 'text-[var(--navy)]' : 'text-[var(--orange)]';
 
   return (
     <section className="jf-box bg-white p-6">

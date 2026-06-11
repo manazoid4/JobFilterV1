@@ -1,4 +1,5 @@
 import { Target } from 'lucide-react';
+import { BRONZE_THRESHOLD, GOLD_THRESHOLD, SILVER_THRESHOLD } from '../../leadEngine/thresholds';
 
 interface SeriousBuyerScoreProps {
   score: number;
@@ -7,23 +8,23 @@ interface SeriousBuyerScoreProps {
 }
 
 function getScoreLabel(score: number): string {
-  if (score >= 90) return 'GOLD';
-  if (score >= 75) return 'SILVER';
-  if (score >= 60) return 'BRONZE';
+  if (score >= GOLD_THRESHOLD) return 'GOLD';
+  if (score >= SILVER_THRESHOLD) return 'SILVER';
+  if (score >= BRONZE_THRESHOLD) return 'BRONZE';
   return 'CHECK';
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 90) return 'text-[var(--green)] border-[var(--green)] bg-[var(--green)]/5';
-  if (score >= 75) return 'text-[var(--yellow)] border-[var(--yellow)] bg-[var(--yellow)]/5';
-  if (score >= 60) return 'text-[var(--orange)] border-[var(--orange)] bg-[var(--orange)]/5';
+  if (score >= GOLD_THRESHOLD) return 'text-[var(--green)] border-[var(--green)] bg-[var(--green)]/5';
+  if (score >= SILVER_THRESHOLD) return 'text-[var(--yellow)] border-[var(--yellow)] bg-[var(--yellow)]/5';
+  if (score >= BRONZE_THRESHOLD) return 'text-[var(--orange)] border-[var(--orange)] bg-[var(--orange)]/5';
   return 'text-[var(--muted)] border-[var(--muted)] bg-[var(--muted)]/5';
 }
 
 function getBarColor(score: number): string {
-  if (score >= 90) return 'bg-[var(--green)]';
-  if (score >= 75) return 'bg-[var(--yellow)]';
-  if (score >= 60) return 'bg-[var(--orange)]';
+  if (score >= GOLD_THRESHOLD) return 'bg-[var(--green)]';
+  if (score >= SILVER_THRESHOLD) return 'bg-[var(--yellow)]';
+  if (score >= BRONZE_THRESHOLD) return 'bg-[var(--orange)]';
   return 'bg-[var(--muted)]';
 }
 
