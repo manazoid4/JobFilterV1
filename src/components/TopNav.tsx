@@ -29,13 +29,14 @@ export function TopNav() {
   const { user, signOut } = useAuth();
   const isLoggedIn = !!user;
   const links = isLoggedIn ? memberLinks : publicLinks;
-  const mobileLinks = isLoggedIn
+  const mobileLinks = (isLoggedIn
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
     : [
         ...publicLinks,
         { to: '/blueprint', label: 'How It Works' },
         { to: '/construction-leads/london', label: 'Cities' },
-      ];
+      ]
+  ).filter((link) => link.to !== '/find-jobs' && link.to !== '/pricing');
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -204,13 +205,22 @@ export function TopNav() {
               SIGN OUT
             </button>
           ) : (
-            <Link
-              href="/pricing"
-              onClick={() => setMenuOpen(false)}
-              className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
-            >
-              START £39/MO — FOUNDING PRICE
-            </Link>
+            <>
+              <Link
+                href="/login"
+                onClick={() => setMenuOpen(false)}
+                className="border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center text-[var(--ink)]"
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/pricing"
+                onClick={() => setMenuOpen(false)}
+                className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
+              >
+                START £39/MO — FOUNDING PRICE
+              </Link>
+            </>
           )}
         </div>
       )}
