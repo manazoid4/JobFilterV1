@@ -57,7 +57,7 @@ export function CheckoutButton({ tier, billing, email, userId, label, className 
       >
         {loading ? 'Redirecting...' : label || 'GET STARTED'}
       </button>
-      {error && <p className="mt-2 text-sm font-bold text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm font-black text-[var(--orange)]">{error}</p>}
     </div>
   );
 }
