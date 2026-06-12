@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 12 June 2026 (NightlyBuildAgent)
+
+- [x] **npm install** — `node_modules` empty again in fresh container; installed 359 packages
+- [x] **Audit re-confirmed** — all 5 Tier 1 brief items + Tier 2 #12/#16/#17 still built and wired (scan counter, calendar ICS, WinStatsBanner, WhatsApp quick-quote/availability templates, trade-specific scoring); no regressions
+- [x] **NEEDLE/BUILDER fix — SignalsPage "URGENT TAKEOVER" badge** used raw `bg-red-700` instead of brutalist `var(--orange)` token (only outlier in the SIGNAL TYPES legend); fixed
+- [x] **CityPage "THE OLD WAY" label** — removed dead reference to undefined `--red` CSS var (was overridden by inline orange style anyway)
+- [x] Re-confirmed no fake `setSubmitted(true)` forms; jargon sweep ("moat"/"signal engine"/"Patch Plan"/"pipeline"/"EXCLUSIVE") clean across src/pages and src/components; Trade*.tsx data files confirmed using shared TradePage trust copy (no missing "No credit card" — false alarm from initial grep)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`9c41512`)
+- [ ] **Next run: broaden design-system token sweep to src/components/*.tsx** — only CityPage/TradePage/SignalsPage/AccountPage checked closely for raw-Tailwind colour/shadow/radius drift so far
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 11 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state fixed** — started in detached HEAD at `c26fee4` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it
