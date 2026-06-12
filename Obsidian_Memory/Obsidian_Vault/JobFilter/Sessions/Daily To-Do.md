@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 12 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state fixed** — detached HEAD at `2d9e43e` (== `origin/main`); `git checkout main` resolved it, no divergence
+- [x] **npm install** — `node_modules` empty again in fresh container; installed 359 packages
+- [x] **Carryover fix — `codex-output/free-scanner-redaction-regression.mjs`**: stale assertion expected the literal copy "Free scan confirms the signal is live" which was rewritten in earlier sweeps. The redaction behaviour it protects (blurred `LockedValue` placeholders + "N verified signal(s) backing this lead") is intact and correct — updated the test's required-copy check to `'verified signal'` to match current UI. Regression now PASSES.
+- [x] **NEEDLE/BUILDER fix — IntakeTestPage.tsx:125** error state used raw `bg-red-100`/`text-red-800`; replaced with brutalist `border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--ink)]`
+- [x] **Copy polish — "specific beats vague"**: FindJobsPage CompaniesHouse lead line "New business nearby" → "New business {distance label}" (reuses existing `distLabel`, e.g. "8 miles from B14"); TrustCenterPage "ownership changes nearby" → "...in your patch" (matches sibling bullet copy)
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`e938865`)
+- [ ] **Stale copy-assertion regressions (3 files)** — `package-copy-regression.mjs` ("FOUNDING 30"), `launch-polish-regression.mjs` ("What You Get" nav), `free-access-daily-tools-regression.mjs` ("FREE DAILY TOOLS") all fail on copy strings renamed in past sweeps — same fix pattern as tonight's redaction regression: confirm current copy satisfies test intent, update assertion.
+- [ ] **`intake-test-mode-regression.mjs` / `news-link-regression.mjs`** — both `ENOENT src/App.tsx`, file removed in Next.js migration; rewrite against `app/` structure or retire.
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 12 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state fixed** — local `main` ref was stale (52 commits behind `origin/main`); `git fetch` + `git checkout main && git reset --hard origin/main` resolved it
