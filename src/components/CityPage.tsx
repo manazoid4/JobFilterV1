@@ -224,7 +224,7 @@ export function CityPage({ city }: CityPageProps) {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <div className="jf-box bg-white p-6">
-              <p className="micro-label text-[var(--red)]" style={{ color: 'var(--orange)' }}>THE OLD WAY</p>
+              <p className="micro-label" style={{ color: 'var(--orange)' }}>THE OLD WAY</p>
               <ul className="mt-4 grid gap-3 font-black text-[var(--muted)]">
                 <li>✗ Checkatrade — lead goes to 5 other trades</li>
                 <li>✗ Google Ads — £5-£15 per click, no guarantee</li>

@@ -96,7 +96,7 @@ const signalTypeStyle: Record<SignalType, string> = {
   'COMPLIANCE WORK': 'bg-[var(--orange)] text-white',
   'SITE MOVEMENT': 'bg-[var(--ink)] text-white',
   'FAST TURNAROUND': 'bg-[var(--yellow)] text-[var(--ink)]',
-  'URGENT TAKEOVER': 'bg-red-700 text-white',
+  'URGENT TAKEOVER': 'bg-[var(--orange)] text-white',
   'FUNDED UPGRADE': 'bg-[var(--steel-2)] text-white',
 };
 
