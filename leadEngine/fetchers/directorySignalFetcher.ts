@@ -178,7 +178,10 @@ function toRawLead(lead: InternalLead, region: string, outward: string, idx: num
     rawLocation: lead.location,
     rawPostcode: outward,
     rawDeadline: new Date(Date.now() + deadlineDays * 86_400_000).toISOString(),
-    rawPublished: new Date(Date.now() - Math.random() * 7 * 86_400_000).toISOString(),
+    // Deterministic per-lead age (not random) so the same internal lead has a stable
+    // freshness score/badge across scans. Urgency maps to a realistic recency band:
+    // high → 0-2 days (fresh bonus), medium → 4-6 days (neutral), low → 8-10 days (slight decay).
+    rawPublished: new Date(Date.now() - ((lead.urgency === 'high' ? 0 : lead.urgency === 'medium' ? 4 : 8) + (idx % 3)) * 86_400_000).toISOString(),
     rawBuyer: lead.buyer ?? '',
     rawContact: lead.contactSignalLevel === 'strong'
       ? { name: lead.buyer || 'Named buyer', phone: 'available' }
