@@ -1067,7 +1067,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: 
         </div>
         {isCompaniesHouse && (
           <p className="mt-2 text-sm font-black text-[var(--green)]">
-            New business nearby — commercial fit-out likely
+            New business {distLabel} — commercial fit-out likely
           </p>
         )}
         {lead.isCommercial && lead.projectScale === 'large' && (

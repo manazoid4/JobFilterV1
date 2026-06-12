@@ -6,7 +6,7 @@ import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, Chec
 const verifiedSignals = [
   'Planning approvals in your postcode cluster',
   'Energy upgrade demand across your patch',
-  'Recent property ownership changes nearby',
+  'Recent property ownership changes in your patch',
   'New commercial premises activity',
   'Public sector and housing association work',
   'Active building work notifications',
