@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 12 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state fixed** — local `main` ref was stale (52 commits behind `origin/main`); `git fetch` + `git checkout main && git reset --hard origin/main` resolved it
+- [x] **npm install** — `node_modules` empty again in fresh container; installed 359 packages
+- [x] **Audit re-confirmed** — Tier 1 + Tier 2 #12/#16/#17 still built and wired; no fake `setSubmitted(true)` forms
+- [x] **Design-system token sweep on `src/components/*.tsx` completed** — all 33 components checked, remaining raw-colour/rounded hits are intentional (EPC band swatches, WhatsApp mockup, icon close buttons) — sweep now exhausted
+- [x] **Bug fix — non-deterministic freshness scoring on DirectorySignal fallback leads**: `rawPublished` was `Date.now() - Math.random() * 7 days`, recomputed every scan, so the same internal lead's score/badge could jitter ±5 points (and occasionally flip quality label) scan-to-scan. Made deterministic per lead via urgency band + index in `leadEngine/fetchers/directorySignalFetcher.ts`. Also fixes flaky `lead-engine-quality-regression.mjs` (B15/building top score sometimes <85 — now passes consistently).
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`d5b5539`)
+- [ ] **`codex-output/free-scanner-redaction-regression.mjs`** — pre-existing failure (confirmed present on `origin/main` before tonight's change too), asserts copy "Free scan confirms the signal is live" which may no longer exist in the free-scanner UI. Needs triage: update UI copy or update test.
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 12 June 2026 (NightlyBuildAgent)
 
 - [x] **npm install** — `node_modules` empty again in fresh container; installed 359 packages
