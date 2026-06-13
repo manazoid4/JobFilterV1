@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 13 June 2026 (NightlyBuildAgent — Run 4)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Audit re-confirmed** — Tier 1 Feature Roadmap items still BUILT; no fake `setSubmitted(true)` forms; no broken imports
+- [x] **Fresh NEEDLE pass on /dashboard, /account, /leads/[id]** (Run 3's #1 priority) — DashboardPage, AccountPage, LeadDetailPage, LeadListPage all clean, no fake flows/broken links
+- [x] **NEEDLE/BUILDER fix — raw `text-red-600` error text** on LoginPage, ForgotPasswordPage, ResetPasswordPage — replaced with brutalist `var(--orange)` token (same pattern as AccountPage in earlier runs)
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`a9f1980`)
+- [ ] **VicinityPage "Generate Proof" tool** — still Coming Soon/disabled; real build = wire photo upload + job summary + template selection into an actual image-generation flow, if shipping soon (effort ~8, needs image-gen API — likely a multi-run project)
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 13 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — local `main` was 52 commits behind `origin/main` (fresh container); `npm install` (358 packages); `git fetch` + fast-forward to `origin/main`; build GREEN (106 pages), TS CLEAN before changes
