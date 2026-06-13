@@ -156,6 +156,12 @@ export function TerritoriesPage() {
             <span className="text-xs font-black uppercase text-[var(--muted)]">Model preview</span>
           </div>
         </div>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs font-black uppercase text-[var(--muted)]">
+          <span><span className="text-[var(--ink)]">OPEN / FOUNDER SLOT</span> — lockable now</span>
+          <span><span className="text-[var(--ink)]">CLAIMED</span> — taken, another trade locked this patch</span>
+          <span><span className="text-[var(--ink)]">RESERVED</span> — interest registered, decision pending</span>
+          <span><span className="text-[var(--ink)]">WAITLIST</span> — join the list for the next batch</span>
+        </div>
       </section>
 
       <section className="page-shell pb-14">
