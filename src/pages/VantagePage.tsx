@@ -272,6 +272,7 @@ export function VantagePage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
+          <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
         </section>
 
         {/* ── Cross-Tool Navigation ─────────────────── */}

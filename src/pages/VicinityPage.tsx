@@ -462,7 +462,8 @@ export function VicinityPage() {
 
             {/* Generate CTA */}
             <button
-              className="mt-6 flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+              disabled
+              className="mt-6 flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
               style={{
                 background: 'var(--navy)',
                 color: 'var(--paper)',
@@ -475,8 +476,11 @@ export function VicinityPage() {
                 letterSpacing: '0.04em',
               }}
             >
-              📲 Generate Proof
+              📲 Generate Proof — Coming Soon
             </button>
+            <p className="mt-2 text-center text-[12px] font-bold uppercase tracking-wide text-[var(--muted)]">
+              Vicinity is in development. Join the waitlist below to get early access.
+            </p>
           </div>
         </section>
 
@@ -716,6 +720,7 @@ export function VicinityPage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
           </div>
+          <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
         </section>
 
         {/* ── Cross-Tool Navigation ─────────────────── */}
