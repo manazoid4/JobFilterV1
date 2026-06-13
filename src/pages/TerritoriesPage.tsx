@@ -37,6 +37,14 @@ const statusClass: Record<TerritoryStatus, string> = {
   WAITLIST: 'bg-[var(--offwhite)] text-[var(--ink)]',
 };
 
+const statusCta: Record<TerritoryStatus, { label: string; href?: string }> = {
+  OPEN: { label: 'LOCK PATCH →', href: '/pricing' },
+  'FOUNDER SLOT': { label: 'LOCK PATCH →', href: '/pricing' },
+  CLAIMED: { label: 'PATCH TAKEN' },
+  RESERVED: { label: 'DECISION PENDING' },
+  WAITLIST: { label: 'JOIN WAITLIST →', href: '/pricing' },
+};
+
 const objections = [
   {
     q: 'What if my patch has no signals?',
@@ -177,7 +185,11 @@ export function TerritoriesPage() {
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
-                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">LOCK PATCH →</Link>
+                  {statusCta[territory.status].href ? (
+                    <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href={statusCta[territory.status].href!}>{statusCta[territory.status].label}</Link>
+                  ) : (
+                    <span className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-center text-xs font-black uppercase text-[var(--muted)]">{statusCta[territory.status].label}</span>
+                  )}
                 </div>
               </article>
             ))}
