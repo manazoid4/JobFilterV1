@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 13 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (106 pages), TS CLEAN before changes
+- [x] **Phase 1 fix — VicinityPage "Generate Proof" fake flow**: button had no `onClick`, static upload zone/textarea — disabled it, relabeled "Generate Proof — Coming Soon", added pointer to waitlist form (matches page's existing "Coming soon" framing for the feature)
+- [x] **Stale regression triage (Run 3's #1 priority)** — `package-copy-regression.mjs` fixed (3 assertions updated: "Founding 30", "Cancel anytime", "WhatsApp delivery"), now PASSES. Retired 3 more (`launch-polish-regression.mjs`, `free-access-daily-tools-regression.mjs`, `intake-test-mode-regression.mjs`, `news-link-regression.mjs` — 4 files total) that asserted copy/routes from a pre-rewrite/pre-Next.js version of the site, including some that contradicted the "never name data sources publicly" rule. Moved to `codex-output/retired/` with README explaining rationale.
+- [x] **NEEDLE/BUILDER fix — TradeBuilders.tsx:9,68** — `highlightedPhrase: 'Planning Data'` + matching `metaTitle` named the internal planning-data source publicly in hero + SEO title; changed to "Planning Approvals" (matches sibling Trade* pages)
+- [x] **Copy polish — "No credit card required"** — VantagePage + VicinityPage "SCAN MY AREA FREE" CTAs were missing the trust line every other free-scan CTA has; added to both
+- [x] Build GREEN (106 pages), TypeScript CLEAN, pushed to main (`58a50e5`)
+- [ ] **`src/pages/IntakeTestPage.tsx` is orphaned dead code** — no route imports it (`/intake-test` never ported to App Router). Decide: give it a real route or delete.
+- [ ] **VicinityPage "Generate Proof" tool** — currently Coming Soon/disabled. If shipping soon, real build = wire photo upload + job summary + template selection into an actual image-generation flow.
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 12 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state fixed** — detached HEAD at `2d9e43e` (== `origin/main`); `git checkout main` resolved it, no divergence
