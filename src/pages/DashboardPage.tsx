@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
+import { useAuth } from '../components/AuthProvider';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
 import { ROITracker } from '../components/ROITracker';
 import { generateReviewMessage, getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData, markReviewSent } from '../lib/winStore';
@@ -18,8 +19,14 @@ const LOST_REASON_TIPS: Record<LostReason, string> = {
 };
 
 export function DashboardPage() {
+  const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
   const searchParams = useSearchParams();
   const isWelcome = searchParams?.get('welcome') === '1';
+
+  useEffect(() => {
+    if (!authLoading && !user) router.replace('/login');
+  }, [authLoading, user, router]);
   const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
   const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [winData, setWinData] = useState({ wins: 0, losses: 0 });
@@ -87,6 +94,8 @@ export function DashboardPage() {
     snoozeChaseLead(leadId);
     setChaseLeads(getChaseLeads());
   }
+
+  if (authLoading || !user) return <main className="page-shell py-16" />;
 
   return (
     <main className="page-shell grid gap-6 py-8 pb-24">

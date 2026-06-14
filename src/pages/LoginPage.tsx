@@ -2,10 +2,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { createBrowserSupabaseClient } from '../lib/supabase/client';
+import { useAuth } from '../components/AuthProvider';
 
 export function LoginPage() {
   const router = useRouter();
+  const { signIn } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,9 +17,10 @@ export function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const supabase = createBrowserSupabaseClient();
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) { setError(signInError.message); return; }
+      // Use the shared AuthProvider client so onAuthStateChange fires and
+      // the nav/session state updates immediately after sign in.
+      const { error: signInError } = await signIn(email, password);
+      if (signInError) { setError(signInError); return; }
       router.push('/dashboard');
     } catch (err: unknown) {
       setError(String((err as Error)?.message ?? 'Sign in failed'));
