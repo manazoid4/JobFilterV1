@@ -47,6 +47,7 @@ Supabase Dashboard → SQL Editor → run. Required for email alert API to work.
 | `TWILIO_AUTH_TOKEN` | WhatsApp delivery via Twilio |
 | `TWILIO_WHATSAPP_FROM` | e.g. `whatsapp:+14155238886` |
 | `RESEND_API_KEY` | Email alert delivery (or use SENDGRID_API_KEY) |
+| `CRON_SECRET` | (optional) Authorizes calls to `/api/alerts/send` cron |
 
 ---
 
@@ -60,6 +61,7 @@ Supabase Dashboard → SQL Editor → run. Required for email alert API to work.
 
 ## Recently Completed (no action needed)
 
+- Alert email delivery: `app/api/alerts/send/route.ts` cron (vercel.json, hourly) — scans per active `lead_alerts`, sends via `sendLeadAlertEmail` (Resend), updates `last_sent_at`
 - Owner access: `server/lib/ownerAccess.ts` server-side, Stripe-safe
 - Server-side contact gating: explicit allowlist in `toFreePreviewLead()` — phone/email/contactPath stripped
 - Free gating: contactPath/signalStack/opportunityAtoms hidden from free tier

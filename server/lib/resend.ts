@@ -69,6 +69,41 @@ ${params.url ? `<p><a href="${params.url}">View listing</a></p>` : ''}
   }
 }
 
+export async function sendLeadAlertEmail(
+  to: string,
+  opts: {
+    trade: string;
+    location: string;
+    isPaid: boolean;
+    leads: { title: string; location: string; estimatedValue: string; urgency: string; sourceUrl?: string }[];
+  }
+): Promise<void> {
+  if (!resend) return;
+  const { trade, location, leads, isPaid } = opts;
+  if (leads.length === 0) return;
+
+  const rows = leads
+    .map((l) => {
+      const link = isPaid && l.sourceUrl ? ` — <a href="${l.sourceUrl}">view</a>` : '';
+      return `<li><strong>${l.title}</strong> — ${l.location} — ${l.estimatedValue} (${l.urgency})${link}</li>`;
+    })
+    .join('');
+  const cta = isPaid
+    ? ''
+    : `<p><a href="https://jobfilter.uk/pricing">Upgrade</a> for instant/daily alerts and full lead details.</p>`;
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to,
+      subject: `JobFilter — ${leads.length} new ${trade} lead${leads.length === 1 ? '' : 's'} in ${location}`,
+      html: `<p>New leads matching your ${trade} alert for ${location}:</p><ul>${rows}</ul>${cta}<p>— The JobFilter Team</p>`,
+    });
+  } catch (err: any) {
+    console.error('[resend] Lead alert email failed:', err?.message);
+  }
+}
+
 export async function sendAdminAlert(subject: string, body: string): Promise<void> {
   if (!resend) return;
   try {
