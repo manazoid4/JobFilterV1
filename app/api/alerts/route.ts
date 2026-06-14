@@ -8,11 +8,9 @@
  *
  * GET: List the authenticated user's active alerts.
  *
- * Email delivery is NOT implemented here — this is the data model and API skeleton.
- * To enable delivery, integrate one of:
- *   RESEND_API_KEY   — https://resend.com/docs/api-reference
- *   SENDGRID_API_KEY — https://docs.sendgrid.com/api-reference
- * Hook a scheduled job to read lead_alerts (active=true) and send accordingly.
+ * Email delivery runs via the /api/alerts/send cron (see vercel.json), which
+ * reads lead_alerts (active=true), scans for matching leads, and emails via
+ * Resend (RESEND_API_KEY). Requires postcode_outward to be set on the alert.
  */
 
 import { createAuthServerClient } from '../../../src/lib/supabase/auth-server';
@@ -128,7 +126,9 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     alert: data,
-    note: 'Email delivery requires RESEND_API_KEY or SENDGRID_API_KEY to be configured on the server.',
+    note: postcode_outward
+      ? 'Alert saved. Emails are sent hourly when matching leads are found.'
+      : 'Alert saved, but no postcode was provided — alerts require postcode_outward to find matching leads.',
   });
 }
 
