@@ -362,31 +362,40 @@ export function HomePage() {
             WIN THE JOBS JOBFILTER FINDS.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            JobFilter puts serious jobs in front of you. These three services help you close them. Each one is a human-staffed team — submit a job, get a deliverable back. Not subscription bloat.
+            JobFilter puts serious jobs in front of you. These services help you close them — human-staffed teams, submit a job, get a deliverable back. Not subscription bloat. Codex is open now — Vantage and Vicinity are being built next.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">VANTAGE</p>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                  <p className="micro-label text-[var(--orange)]">VANTAGE</p>
+                </div>
+                <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Join waitlist →</span>
             </Link>
             <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">VICINITY</p>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                  <p className="micro-label text-[var(--orange)]">VICINITY</p>
+                </div>
+                <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Join waitlist →</span>
             </Link>
             <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
-              <div className="flex items-center gap-3">
-                <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
-                <p className="micro-label text-[var(--orange)]">CODEX</p>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <BookOpen size={24} strokeWidth={3} className="text-[var(--orange)]" />
+                  <p className="micro-label text-[var(--orange)]">CODEX</p>
+                </div>
+                <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
