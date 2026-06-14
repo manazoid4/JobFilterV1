@@ -50,7 +50,7 @@ export function TradieZonePage() {
           {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'YOUR TOOLS.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Bid decks, social proof, material prices and quick links — everything beyond your job pipeline. For tracked leads and stats, see your Dashboard.
+          Bid decks, social proof, material prices and quick links — tools no auction site gives you. For tracked leads and stats, see your Dashboard.
         </p>
       </section>
 
@@ -104,11 +104,11 @@ export function TradieZonePage() {
       <section>
         <div className="flex items-center justify-between">
           <p className="micro-label text-[var(--muted)]">RECENT LEADS</p>
-          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
+          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW DASHBOARD →</Link>
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
-            <p className="font-black text-[var(--muted)]">No leads yet. Scan your postcode — jobs appear in minutes, before they hit Checkatrade or Bark.</p>
+            <p className="font-black text-[var(--muted)]">No leads yet. Scan your postcode — jobs appear before they're shared on Checkatrade or Bark. First to quote wins.</p>
             <Link href="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
             <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required</p>
           </div>

@@ -99,7 +99,8 @@ export function VantagePage() {
 
             <div className="mt-6 flex flex-col gap-4 md:flex-row">
               <button
-                className="flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                disabled
+                className="flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
                 style={{
                   background: 'var(--navy)',
                   color: 'var(--paper)',
@@ -111,12 +112,12 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
-                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                ⚡ Generate Bid Deck
+                ⚡ Generate Bid Deck — Coming Soon
               </button>
               <button
-                className="flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                disabled
+                className="flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
                 style={{
                   background: 'var(--paper)',
                   color: 'var(--navy)',
@@ -128,11 +129,13 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
-                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                📷 Scan Document
+                📷 Scan Document — Coming Soon
               </button>
             </div>
+            <p className="mt-2 text-center text-[12px] font-bold uppercase tracking-wide text-[var(--muted)]">
+              Vantage is in development. Join the waitlist below to get early access.
+            </p>
           </div>
         </section>
 

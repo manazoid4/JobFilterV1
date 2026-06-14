@@ -161,7 +161,7 @@ const deliverySteps = [
   {
     icon: Radar,
     title: 'Signal detected',
-    body: 'Planning submitted, energy signal filed, permit issued. The raw event lands in the pipeline.',
+    body: 'Planning submitted, energy signal filed, permit issued. The raw event is picked up and scored.',
   },
   {
     icon: Target,
