@@ -224,7 +224,7 @@ export function HomePage() {
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
           </div>
-          <div className="mt-6 max-w-3xl grid grid-cols-3 divide-x-2 divide-[var(--line)] border-2 border-[var(--line)]">
+          <div className="mt-6 max-w-3xl grid grid-cols-1 sm:grid-cols-3 divide-y-2 sm:divide-y-0 sm:divide-x-2 divide-[var(--line)] border-2 border-[var(--line)]">
             <div className="px-5 py-4">
               <p className="headline text-3xl text-[var(--ink)]">3–5 days</p>
               <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">before the job appears anywhere else</p>
