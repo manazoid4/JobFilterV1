@@ -9,8 +9,8 @@ import type { ChaseLead } from '../lib/types';
 const memberTools = [
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]', comingSoon: true },
+  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white', comingSoon: true },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
@@ -86,13 +86,18 @@ export function TradieZonePage() {
                 href={tool.path}
                 className="jf-box group bg-white p-5 transition-all hover:border-[var(--yellow)]"
               >
-                <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
-                  <Icon size={20} strokeWidth={2.5} />
+                <div className="flex items-center justify-between gap-2">
+                  <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
+                    <Icon size={20} strokeWidth={2.5} />
+                  </div>
+                  {tool.comingSoon && (
+                    <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
+                  )}
                 </div>
                 <h3 className="headline mt-3 text-xl text-[var(--ink)]">{tool.name}</h3>
                 <p className="mt-1 text-sm font-black leading-snug text-[var(--ink)]/75">{tool.desc}</p>
                 <span className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] group-hover:underline">
-                  OPEN →
+                  {tool.comingSoon ? 'JOIN WAITLIST →' : 'OPEN →'}
                 </span>
               </Link>
             );

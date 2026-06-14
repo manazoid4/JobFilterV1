@@ -251,8 +251,8 @@ export function FreeToolsPage() {
                 ['WhatsApp lead alerts', '', '✓'],
                 ['Saved leads', '', '✓'],
                 ['Full lead details (buyer, deadline, score)', '', '✓'],
-                ['Vantage bid decks', '', '✓'],
-                ['Vicinity proof generator', '', '✓'],
+                ['Vantage bid decks', '', 'Coming soon'],
+                ['Vicinity proof generator', '', 'Coming soon'],
               ].map(([feature, free, paid], i) => (
                 <tr key={i} className="border-b border-[var(--line)]/30">
                   <td className="py-2.5 text-[var(--ink)]">{feature}</td>
