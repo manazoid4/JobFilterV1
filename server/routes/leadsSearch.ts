@@ -316,6 +316,9 @@ function sanitizeTrade(input: unknown) {
 }
 
 function sanitizeRadius(input: unknown) {
+  if (input === undefined || input === null || input === '') {
+    return 25;
+  }
   const radius = Number(input);
   if (!Number.isFinite(radius) || radius < 1 || radius > 100) {
     throw new Error('radiusMiles must be between 1 and 100');

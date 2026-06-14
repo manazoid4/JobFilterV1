@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://jobfilter.co.uk';
+const BASE_URL = 'https://jobfilter.uk';
 
 // Static pages
 const staticRoutes: { url: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number }[] = [

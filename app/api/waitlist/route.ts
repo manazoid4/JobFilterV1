@@ -1,6 +1,10 @@
 import { getSupabaseServiceClient } from '../../../src/lib/supabase/server';
+import { rateLimitNext } from '../../../server/lib/nextRateLimit';
 
 export async function POST(request: Request) {
+  const limited = rateLimitNext(request, 5);
+  if (limited) return limited;
+
   try {
     const body = await request.json().catch(() => ({}));
     const entry = {

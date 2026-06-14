@@ -14,7 +14,11 @@
       "Bash(npx tsc *)",
       "Bash(awk '{print $5, $9}')",
       "Bash(gh api *)",
-      "Bash(gh run *)"
+      "Bash(gh run *)",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\manaz\\\\Desktop\\\\JobFilter\\\\JobFilterV1\\\\Obsidian_Memory\\\\Obsidian_Vault\\\\SecureShift\\\\Product\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\manaz\\\\Desktop\\\\JobFilter\\\\JobFilterV1\\\\Obsidian_Memory\\\\Obsidian_Vault\\\\SecureShift\\\\Sessions\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\manaz\\\\Desktop\\\\JobFilter\\\\JobFilterV1\\\\Obsidian_Memory\\\\Obsidian_Vault\\\\SecureShift\\\\Agents\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\manaz\\\\Desktop\\\\JobFilter\\\\JobFilterV1\\\\Obsidian_Memory\\\\Obsidian_Vault\\\\SecureShift\\\\Research\")"
     ]
   }
 }
