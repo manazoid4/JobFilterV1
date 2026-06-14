@@ -6,17 +6,17 @@ const pricing = fs.readFileSync('src/pages/PricingPage.tsx', 'utf8');
 
 // Homepage must carry founding price-lock CTA and scan entry
 for (const text of [
-  'FOUNDING 30',
+  'Founding 30',
   '£39/MO',
-  'CANCEL ANYTIME',
+  'Cancel anytime',
 ]) {
   assert.ok(home.includes(text), `homepage missing: ${text}`);
 }
 
-// Pricing must carry Gold tier, founding lock, and guarantee copy
+// Pricing must carry WhatsApp delivery, founding lock, and guarantee copy
 for (const text of [
   '£39/mo',
-  'WhatsApp Gold leads',
+  'WhatsApp delivery',
   'founding',
   'ONE JOB WORTH PRICING OR YOUR £39 BACK',
 ]) {

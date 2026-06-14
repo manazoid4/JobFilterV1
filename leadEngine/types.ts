@@ -75,11 +75,13 @@ export interface Lead {
   publishedAt?: string;
   deadlineAt?: string;
   buyerName?: string;
+  buyerPhone?: string;
   cpvCodes?: string[];
   score?: number;
   scoreReasons?: string[];
   distanceMiles?: number;
   isCommercial?: boolean;
+  projectScale?: 'small' | 'medium' | 'large';
   fusionKey?: string;
   signalStack?: string[];
   signalClass?: 'homeowner_retrofit' | 'active_site' | 'commercial_fitout' | 'distressed_property' | 'public_contract' | 'internal_fallback';

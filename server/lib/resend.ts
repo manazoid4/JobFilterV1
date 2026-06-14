@@ -38,6 +38,72 @@ export async function sendPaidConfirmationEmail(to: string, tier: string): Promi
   }
 }
 
+export async function sendLeadChaseEmail(params: {
+  to: string;
+  leadTitle: string;
+  area: string;
+  score: number;
+  estimatedValue: string;
+  message: string;
+  url?: string;
+}): Promise<{ sent: boolean; error?: string }> {
+  if (!resend) return { sent: false, error: 'Email is not configured yet.' };
+  try {
+    const safeMessage = params.message.replace(/\n/g, '<br>');
+    await resend.emails.send({
+      from: FROM,
+      to: params.to,
+      subject: `Job to chase: ${params.leadTitle} — ${params.area}`,
+      html: `<p><strong>${params.leadTitle}</strong> — ${params.area}</p>
+<p>Score: ${params.score}/100 &middot; Estimated value: ${params.estimatedValue}</p>
+<hr style="border:none;border-top:1px solid #ddd">
+<p>${safeMessage}</p>
+${params.url ? `<p><a href="${params.url}">View listing</a></p>` : ''}
+<hr style="border:none;border-top:1px solid #ddd">
+<p style="font-size:12px;color:#999">Sent from JobFilter — jobfilter.uk</p>`,
+    });
+    return { sent: true };
+  } catch (err: any) {
+    console.error('[resend] Lead chase email failed:', err?.message);
+    return { sent: false, error: 'Email failed to send.' };
+  }
+}
+
+export async function sendLeadAlertEmail(
+  to: string,
+  opts: {
+    trade: string;
+    location: string;
+    isPaid: boolean;
+    leads: { title: string; location: string; estimatedValue: string; urgency: string; sourceUrl?: string }[];
+  }
+): Promise<void> {
+  if (!resend) return;
+  const { trade, location, leads, isPaid } = opts;
+  if (leads.length === 0) return;
+
+  const rows = leads
+    .map((l) => {
+      const link = isPaid && l.sourceUrl ? ` — <a href="${l.sourceUrl}">view</a>` : '';
+      return `<li><strong>${l.title}</strong> — ${l.location} — ${l.estimatedValue} (${l.urgency})${link}</li>`;
+    })
+    .join('');
+  const cta = isPaid
+    ? ''
+    : `<p><a href="https://jobfilter.uk/pricing">Upgrade</a> for instant/daily alerts and full lead details.</p>`;
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to,
+      subject: `JobFilter — ${leads.length} new ${trade} lead${leads.length === 1 ? '' : 's'} in ${location}`,
+      html: `<p>New leads matching your ${trade} alert for ${location}:</p><ul>${rows}</ul>${cta}<p>— The JobFilter Team</p>`,
+    });
+  } catch (err: any) {
+    console.error('[resend] Lead alert email failed:', err?.message);
+  }
+}
+
 export async function sendAdminAlert(subject: string, body: string): Promise<void> {
   if (!resend) return;
   try {

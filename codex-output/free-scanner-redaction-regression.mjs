@@ -37,7 +37,7 @@ for (const required of [
   'safePreviewValue',
   'UNLOCK FULL LEAD',
   'LockedValue',
-  'Free scan confirms the signal is live',
+  'verified signal',
 ]) {
   assert.ok(findJobsPage.includes(required), `free scanner UI missing lock copy: ${required}`);
 }

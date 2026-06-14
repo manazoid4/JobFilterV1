@@ -8,7 +8,7 @@ const COMPARISON = [
   { jobfilter: 'CIS-aware checklist', manual: 'Missed CIS deductions' },
   { jobfilter: 'Accountant handoff pack', manual: 'Chasing accountant late' },
   { jobfilter: 'Admin readiness score', manual: 'No idea where you stand' },
-  { jobfilter: 'Connected to your lead pipeline', manual: 'No link to jobs or follow-ups' },
+  { jobfilter: 'Connected to your JobFilter lead feed', manual: 'No link to jobs or follow-ups' },
   { jobfilter: 'Making Tax Digital check', manual: 'First you hear about MTD is from HMRC' },
   { jobfilter: 'Monthly trade admin checklist', manual: 'Receipts in a carrier bag' },
 ];
@@ -54,7 +54,7 @@ export function AdminGuardTeaserPage() {
     <main className="page-shell grid gap-0 py-0 pb-24">
       {/* Hero */}
       <section className="jf-box bg-[var(--ink)] p-8 sm:p-12 text-white mt-8">
-        <p className="micro-label text-[var(--yellow)]">TRADE COMMAND CENTRE — PAID FEATURE</p>
+        <p className="micro-label text-[var(--yellow)]">TAX &amp; ADMIN — PAID MEMBER FEATURE</p>
         <h1 className="headline mt-2 text-5xl sm:text-7xl leading-none">ADMIN GUARD</h1>
         <p className="mt-4 max-w-2xl font-black text-white/90 text-lg sm:text-xl">
           HMRC dates, trade admin checklists and reminder exports — built into your JobFilter dashboard.
@@ -131,7 +131,7 @@ export function AdminGuardTeaserPage() {
           YOU BUILD. JOBFILTER FILTERS, SCORES AND REMINDS.
         </h2>
         <p className="mt-4 max-w-2xl font-black text-[var(--ink)]/80 text-base sm:text-lg">
-          Admin Guard is the first module inside the Trade Command Centre — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
+          Admin Guard is the first module inside TAX &amp; ADMIN — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
         </p>
         <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/70">
           Not another bloated trade app. Just better jobs, cleaner follow-ups and admin dates you cannot afford to miss.
@@ -148,7 +148,7 @@ export function AdminGuardTeaserPage() {
 
       {/* Coming soon modules */}
       <section className="jf-box bg-white p-6 sm:p-8">
-        <p className="micro-label text-[var(--muted)]">TRADE COMMAND CENTRE</p>
+        <p className="micro-label text-[var(--muted)]">MORE COMING FOR PAID MEMBERS</p>
         <h2 className="headline mt-1 text-3xl leading-none">MORE MODULES COMING</h2>
         <p className="mt-2 text-sm font-bold text-[var(--muted)]">
           Admin Guard is the first module. More are being built for paid members.
@@ -171,7 +171,7 @@ export function AdminGuardTeaserPage() {
         <p className="micro-label text-[var(--yellow)]">SET THE REMINDERS ONCE</p>
         <h2 className="headline mt-1 text-4xl sm:text-5xl leading-none">GET BACK TO PRICING REAL JOBS.</h2>
         <p className="mt-4 max-w-lg mx-auto font-black text-white/70">
-          Admin sorted. Pipeline moving.
+          Admin sorted. Jobs moving.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">

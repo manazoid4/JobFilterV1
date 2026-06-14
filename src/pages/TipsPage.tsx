@@ -41,9 +41,10 @@ export function TipsPage() {
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
           <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
         </div>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required</p>
       </section>
 
       {/* ── Cross-Tool Navigation ─────────────────── */}

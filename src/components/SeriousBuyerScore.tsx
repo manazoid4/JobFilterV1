@@ -7,24 +7,21 @@ interface SeriousBuyerScoreProps {
 }
 
 function getScoreLabel(score: number): string {
-  if (score >= 90) return 'GOLD';
-  if (score >= 75) return 'SILVER';
-  if (score >= 60) return 'BRONZE';
-  return 'CHECK';
+  if (score >= 80) return 'GOLD';
+  if (score >= 50) return 'SILVER';
+  return 'BRONZE';
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 90) return 'text-[var(--green)] border-[var(--green)] bg-[var(--green)]/5';
-  if (score >= 75) return 'text-[var(--yellow)] border-[var(--yellow)] bg-[var(--yellow)]/5';
-  if (score >= 60) return 'text-[var(--orange)] border-[var(--orange)] bg-[var(--orange)]/5';
-  return 'text-[var(--muted)] border-[var(--muted)] bg-[var(--muted)]/5';
+  if (score >= 80) return 'text-[var(--green)] border-[var(--green)] bg-[var(--green)]/5';
+  if (score >= 50) return 'text-[var(--yellow)] border-[var(--yellow)] bg-[var(--yellow)]/5';
+  return 'text-[var(--orange)] border-[var(--orange)] bg-[var(--orange)]/5';
 }
 
 function getBarColor(score: number): string {
-  if (score >= 90) return 'bg-[var(--green)]';
-  if (score >= 75) return 'bg-[var(--yellow)]';
-  if (score >= 60) return 'bg-[var(--orange)]';
-  return 'bg-[var(--muted)]';
+  if (score >= 80) return 'bg-[var(--green)]';
+  if (score >= 50) return 'bg-[var(--yellow)]';
+  return 'bg-[var(--orange)]';
 }
 
 export function SeriousBuyerScore({ score, showBar = true, size = 'md' }: SeriousBuyerScoreProps) {

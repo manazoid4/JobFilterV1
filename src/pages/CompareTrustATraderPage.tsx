@@ -2,7 +2,8 @@
 import Link from 'next/link';
 
 const comparison = [
-  { feature: 'Lead type', trustatrader: 'Homeowners searching your review profile', jobfilter: 'Planning applications, council contracts, ownership signals & EPC data', jf: true },
+  { feature: 'Lead type', trustatrader: 'Homeowners searching your review profile', jobfilter: 'Planning approvals, council contracts, ownership signals & energy data', jf: true },
+  { feature: 'Signals per scan', trustatrader: 'None — profile-based only', jobfilter: '10 verified signals per scan', jf: true },
   { feature: 'How work finds you', trustatrader: 'Homeowners come to you — passive, review-driven', jobfilter: 'You scan proactively — find jobs before anyone else is called', jf: true },
   { feature: 'Lead exclusivity', trustatrader: 'Shared — your profile sits next to competitors', jobfilter: 'Private scan — no other trade sees your results', jf: true },
   { feature: 'Pricing model', trustatrader: 'Annual membership fee (varies by trade)', jobfilter: '£39/mo flat — no annual lock-in', jf: true },
@@ -59,6 +60,7 @@ export function CompareTrustATraderPage() {
               FULL COMPARISON
             </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 
@@ -81,7 +83,7 @@ export function CompareTrustATraderPage() {
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">JOBFILTER MODEL</p>
               <ul className="mt-3 space-y-2 font-black text-sm text-white">
-                <li>• We scan planning portals, council contracts, and land registry</li>
+                <li>• We scan planning approvals, council contracts, and ownership signals</li>
                 <li>• Your scan is private — no competing trade sees the same results</li>
                 <li>• GOLD/SILVER/SKIP scoring — spend time only on real opportunities</li>
                 <li>• Estimated value from published data — no more quoting blind</li>

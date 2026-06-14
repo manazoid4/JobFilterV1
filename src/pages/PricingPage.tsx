@@ -6,16 +6,16 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'WhatsApp Gold leads',
-  'Buyer/contact signals',
-  'Quote floor + next action',
-  'Territory priority',
-  'Win tracking',
+  'Job alerts to your WhatsApp — within minutes of a signal match',
+  'Full buyer context + property details — no cold-calling strangers',
+  'Job value band before you quote — know if it\'s worth your time',
+  'One trade per postcode patch — no shared auction, no five-trade blast',
+  'Win tracker — see exactly what\'s converting in your patch',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade and Bark sell leads to five trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
-  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race.'],
+  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
+  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race — unlike Bark credits or Checkatrade matchups.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
@@ -33,10 +33,9 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required to scan free.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -45,14 +44,14 @@ export function PricingPage() {
           price="£0"
           body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
           items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY POSTCODE</Link>}
+          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
           title="Founder"
           price="£39/mo"
           priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Best launch plan. Built for trades who want first look at serious work without chasing weak enquiries."
+          body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}
@@ -77,7 +76,7 @@ export function PricingPage() {
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
             { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
-            { signal: 'Energy: F-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
+            { signal: 'Energy: Low-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
             { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
           ].map(({ signal, detail, band, trade }) => (
             <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
@@ -107,12 +106,12 @@ export function PricingPage() {
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">LOCK THE ACCOUNT. THEN CONTROL THE JOBS.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime. No credit card to scan free.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
       </section>
     </main>
   );

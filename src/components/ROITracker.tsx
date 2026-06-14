@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Share2 } from 'lucide-react';
+
+import { ShareWinCard } from './ShareWinCard';
 
 /**
  * ROITracker — displays pipeline and win stats for paid users.
@@ -40,6 +43,7 @@ export function ROITracker({ isPaid }: Props) {
   const [stats, setStats] = useState<ROIStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showShareCard, setShowShareCard] = useState(false);
 
   useEffect(() => {
     if (!isPaid) {
@@ -121,7 +125,18 @@ export function ROITracker({ isPaid }: Props) {
 
   return (
     <div className="jf-box bg-[var(--bg-main)] p-5 border-2 border-[var(--line)]">
-      <p className="micro-label text-[var(--muted)]">ROI TRACKER</p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="micro-label text-[var(--muted)]">ROI TRACKER</p>
+        {stats.totalWon > 0 && (
+          <button
+            type="button"
+            className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs flex items-center gap-1.5 px-3 py-1.5"
+            onClick={() => setShowShareCard(true)}
+          >
+            <Share2 size={14} strokeWidth={2.5} /> SHARE YOUR WIN
+          </button>
+        )}
+      </div>
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {statItems.map(({ label, value, highlight }) => (
           <div
@@ -135,6 +150,14 @@ export function ROITracker({ isPaid }: Props) {
           </div>
         ))}
       </div>
+      {showShareCard && (
+        <ShareWinCard
+          wonCount={stats.totalWon}
+          wonValueFormatted={formatGbp(stats.totalWonValue)}
+          winRate={stats.winRate}
+          onClose={() => setShowShareCard(false)}
+        />
+      )}
     </div>
   );
 }

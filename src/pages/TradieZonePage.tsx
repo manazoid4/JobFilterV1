@@ -2,16 +2,15 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-import { Zap, MapPinned, FileText, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, MessageSquare, LetterText, Eye } from 'lucide-react';
+import { Zap, MapPinned, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, LetterText } from 'lucide-react';
 import { getChaseLeads } from '../lib/chaseStore';
-import { getMonthlyStats } from '../lib/winStore';
 import type { ChaseLead } from '../lib/types';
 
 const memberTools = [
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]', comingSoon: true },
+  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white', comingSoon: true },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
@@ -26,15 +25,12 @@ const quickActions = [
 
 export function TradieZonePage() {
   const [chaseLeads, setChaseLeads] = useState<ChaseLead[]>([]);
-  const [monthlyStats, setMonthlyStats] = useState({ count: 0, totalValue: 0 });
   const [memberName, setMemberName] = useState<string>('');
   const [memberTerritory, setMemberTerritory] = useState<string>('');
 
   useEffect(() => {
     const cl = getChaseLeads();
     setChaseLeads(cl);
-    const ms = getMonthlyStats();
-    setMonthlyStats(ms);
     try {
       const stored = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-member-name');
       if (stored) setMemberName(stored);
@@ -43,55 +39,19 @@ export function TradieZonePage() {
     } catch { /* ignore */ }
   }, []);
 
-  const activeChase = chaseLeads.filter((l) => l.stage !== 'won' && l.stage !== 'lost').length;
-  const wonThisMonth = monthlyStats.count;
-  const totalValue = monthlyStats.totalValue;
   const recentLeads = chaseLeads.slice(0, 5);
 
   return (
     <main className="page-shell grid gap-6 py-6 pb-24 md:pb-8">
       {/* Welcome Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">TRADE HUB</p>
+        <p className="micro-label text-[var(--yellow)]">TOOLS</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">
-          {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'WELCOME TO YOUR ZONE.'}
+          {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'YOUR TOOLS.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Your pipeline, your patch, your leads — spotted before Checkatrade even lists them. Use the tools below to stay ahead.
+          Bid decks, social proof, material prices and quick links — tools no auction site gives you. For tracked leads and stats, see your Dashboard.
         </p>
-      </section>
-
-      {/* Stats Grid */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="jf-box bg-[var(--yellow)] p-5">
-          <p className="micro-label text-[var(--ink)]">ACTIVE LEADS</p>
-          <p className="headline mt-2 text-4xl">{activeChase}</p>
-          <p className="mt-1 text-sm font-black text-[var(--ink)]/70">In your pipeline</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--green)]">WON THIS MONTH</p>
-          <p className="headline mt-2 text-4xl">{wonThisMonth}</p>
-          <p className="mt-1 text-sm font-black text-[var(--muted)]">Jobs secured</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--navy)]">TOTAL VALUE</p>
-          <p className="headline mt-2 text-4xl">£{totalValue.toLocaleString()}</p>
-          <p className="mt-1 text-sm font-black text-[var(--muted)]">This month</p>
-        </div>
-        <div className="jf-box bg-white p-5">
-          <p className="micro-label text-[var(--orange)]">TERRITORY</p>
-          {memberTerritory ? (
-            <>
-              <p className="headline mt-2 text-4xl">LOCKED</p>
-              <p className="mt-1 text-sm font-black text-[var(--muted)]">{memberTerritory}</p>
-            </>
-          ) : (
-            <>
-              <p className="headline mt-2 text-4xl text-[var(--orange)]">NOT LOCKED</p>
-              <p className="mt-1 text-sm font-black text-[var(--orange)]">Another trade could claim your area.</p>
-            </>
-          )}
-        </div>
       </section>
 
       {/* Quick Actions */}
@@ -126,13 +86,18 @@ export function TradieZonePage() {
                 href={tool.path}
                 className="jf-box group bg-white p-5 transition-all hover:border-[var(--yellow)]"
               >
-                <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
-                  <Icon size={20} strokeWidth={2.5} />
+                <div className="flex items-center justify-between gap-2">
+                  <div className={`inline-flex items-center justify-center h-10 w-10 border-2 border-[var(--line)] ${tool.colour}`}>
+                    <Icon size={20} strokeWidth={2.5} />
+                  </div>
+                  {tool.comingSoon && (
+                    <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
+                  )}
                 </div>
                 <h3 className="headline mt-3 text-xl text-[var(--ink)]">{tool.name}</h3>
                 <p className="mt-1 text-sm font-black leading-snug text-[var(--ink)]/75">{tool.desc}</p>
                 <span className="mt-3 inline-block text-sm font-black uppercase text-[var(--navy)] group-hover:underline">
-                  OPEN →
+                  {tool.comingSoon ? 'JOIN WAITLIST →' : 'OPEN →'}
                 </span>
               </Link>
             );
@@ -144,11 +109,11 @@ export function TradieZonePage() {
       <section>
         <div className="flex items-center justify-between">
           <p className="micro-label text-[var(--muted)]">RECENT LEADS</p>
-          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW PIPELINE →</Link>
+          <Link href="/dashboard" className="text-sm font-black text-[var(--navy)] hover:underline">VIEW DASHBOARD →</Link>
         </div>
         {recentLeads.length === 0 ? (
           <div className="mt-3 jf-box bg-[var(--bg-main)] p-6 text-center">
-            <p className="font-black text-[var(--muted)]">No leads yet. Scan your postcode — jobs appear in minutes, before they hit Checkatrade or Bark.</p>
+            <p className="font-black text-[var(--muted)]">No leads yet. Scan your postcode — jobs appear before they're shared on Checkatrade or Bark. First to quote wins.</p>
             <Link href="/find-jobs" className="jf-button mt-3 bg-[var(--yellow)] text-[var(--ink)] inline-block">SCAN MY AREA →</Link>
             <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required</p>
           </div>

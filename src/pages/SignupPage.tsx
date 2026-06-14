@@ -5,7 +5,19 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
-const TRADES = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
+const TRADES = [
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'electrical', label: 'EV charger installer' },
+  { value: 'plumbing', label: 'Plumber' },
+  { value: 'plumbing', label: 'Gas engineer' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Builder / general contractor' },
+  { value: 'carpentry', label: 'Carpenter / joiner' },
+  { value: 'painting', label: 'Decorator / painter' },
+  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'hvac', label: 'Heat pump installer' },
+  { value: 'landscaping', label: 'Landscaper / groundworks' },
+];
 
 export function SignupPage() {
   const searchParams = useSearchParams();
@@ -108,17 +120,18 @@ export function SignupPage() {
         <label className="field-label">
           Trade
           <select className="field-input" value={trade} onChange={(event) => setTrade(event.target.value)} required>
-            {TRADES.map((item) => <option key={item} value={item}>{item.toUpperCase()}</option>)}
+            {TRADES.map((item) => <option key={item.label} value={item.value}>{item.label}</option>)}
           </select>
         </label>
         <label className="field-label">
-          Postcode cluster (e.g. B14, SW1, M20)
+          Your area (e.g. B14, SW1, M20)
           <input className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
         </label>
         {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
           {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
         </button>
+        <p className="text-xs font-black text-[var(--muted)]">No card required to create your account — payment comes after you confirm your email.</p>
         <div className="flex flex-wrap gap-3 border-t-2 border-[var(--line)] pt-4">
           <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">30-DAY MONEY-BACK</span>
           <span className="border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--muted)]">CANCEL ANYTIME</span>

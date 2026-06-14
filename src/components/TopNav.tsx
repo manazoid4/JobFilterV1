@@ -7,8 +7,8 @@ import { useAuth } from './AuthProvider';
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/signals', label: 'Signals' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/signals', label: 'How It Works' },
   { to: '/for-your-trade', label: 'Trades' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
@@ -56,7 +56,7 @@ export function TopNav() {
           />
           <span className="headline text-2xl tracking-normal sm:text-3xl">JOBFILTER</span>
           <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
-            Construction Intelligence
+            UK Trade Leads
           </span>
         </Link>
 
@@ -118,7 +118,7 @@ export function TopNav() {
           {isLoggedIn ? (
             <>
               <Link href="/tradie-zone" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
-                Member Hub
+                Tools
               </Link>
               <button onClick={() => signOut()} className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
                 Sign Out
@@ -158,7 +158,7 @@ export function TopNav() {
             {isLoggedIn ? (
               <Link href="/tradie-zone" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
                 <p className="text-[10px] font-black text-[var(--muted)]">MEMBER</p>
-                <p className="text-base font-black text-[var(--ink)]">HUB</p>
+                <p className="text-base font-black text-[var(--ink)]">TOOLS</p>
               </Link>
             ) : (
               <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">

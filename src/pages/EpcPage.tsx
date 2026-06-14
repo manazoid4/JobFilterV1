@@ -42,7 +42,7 @@ export function EpcPage() {
 
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TRADES THAT BENEFIT</p>
-        <div className="mt-5 grid gap-4 grid-cols-2 md:grid-cols-5">
+        <div className="mt-5 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-5">
           {trades.map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h2 className="headline text-2xl">{title}</h2>
@@ -66,7 +66,8 @@ export function EpcPage() {
           ))}
         </div>
         <div className="mt-6">
-          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Template%20Request">GET THE TEMPLATE</a>
+          <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Template%20Request">EMAIL ME THE TEMPLATE →</a>
+          <p className="mt-2 text-sm font-black text-[var(--ink)]">We'll send the PDF to your inbox — usually within a few hours.</p>
         </div>
       </section>
 
@@ -86,7 +87,8 @@ export function EpcPage() {
           <p className="mt-4 max-w-xl text-lg font-black text-white/90">
             Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
+          <Link className="jf-button mt-6 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+          <p className="mt-2 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
         </div>
         <WaitlistForm source="epc-leads" />
       </section>

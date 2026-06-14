@@ -29,7 +29,7 @@ const steps = [
 
 export function VantagePage() {
   return (
-    <main style={{ background: 'var(--offwhite)', minHeight: '100vh' }} className="pb-24 md:pb-0">
+    <main className="bg-[var(--paper)] pb-24 md:pb-0">
       <div className="page-shell py-10">
 
         {/* ── Hero ──────────────────────────────────── */}
@@ -39,7 +39,7 @@ export function VantagePage() {
               className="inline-block w-fit px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
               style={{ background: 'var(--navy)', color: 'var(--yellow)' }}
             >
-              Vantage™ Engine
+              Vantage
             </span>
             <h1
               className="headline"
@@ -99,7 +99,8 @@ export function VantagePage() {
 
             <div className="mt-6 flex flex-col gap-4 md:flex-row">
               <button
-                className="flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                disabled
+                className="flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
                 style={{
                   background: 'var(--navy)',
                   color: 'var(--paper)',
@@ -111,12 +112,12 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
-                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                ⚡ Generate Bid Deck
+                ⚡ Generate Bid Deck — Coming Soon
               </button>
               <button
-                className="flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+                disabled
+                className="flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
                 style={{
                   background: 'var(--paper)',
                   color: 'var(--navy)',
@@ -128,11 +129,13 @@ export function VantagePage() {
                   textTransform: 'uppercase',
                   letterSpacing: '0.04em',
                 }}
-                onClick={() => document.getElementById('vantage-waitlist')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                📷 Scan Document
+                📷 Scan Document — Coming Soon
               </button>
             </div>
+            <p className="mt-2 text-center text-[12px] font-bold uppercase tracking-wide text-[var(--muted)]">
+              Vantage is in development. Join the waitlist below to get early access.
+            </p>
           </div>
         </section>
 
@@ -216,7 +219,7 @@ export function VantagePage() {
             className="headline mb-8 pl-4 text-[clamp(22px,3vw,32px)] uppercase text-[var(--navy)]"
             style={{ borderLeft: '8px solid var(--yellow)' }}
           >
-            The Vantage™ Workflow
+            How Vantage Works
           </h3>
           <div className="grid gap-8 md:grid-cols-3">
             {steps.map((s) => (
@@ -247,7 +250,7 @@ export function VantagePage() {
             }}
           >
             <h2 className="headline text-[clamp(24px,3vw,36px)] uppercase text-[var(--navy)]">
-              Stop losing £1M bids to prettier firms. That's the Vantage™ fix.
+              Stop losing £1M bids to prettier firms. That's what Vantage fixes.
             </h2>
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
               Good tradesmen lose work when buyers can't see the value. Vantage closes the presentation gap without turning you into a marketing agency.
@@ -264,14 +267,15 @@ export function VantagePage() {
         {/* ── Conversion CTA: Intake Engine ─────────── */}
         <section className="mt-10 jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">WANT LEADS TO BID ON?</p>
-          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">TRY THE INTAKE ENGINE FREE.</h2>
+          <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">SCAN YOUR AREA FREE.</h2>
           <p className="mt-3 max-w-xl font-black text-white/90">
-            Vantage writes the bid. Intake finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
+            Vantage writes the bid. The scanner finds the jobs worth bidding on. Real leads. Scored. Sent to your phone. No chasing. No competing.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">ENTER THE INTAKE →</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
           </div>
+          <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
         </section>
 
         {/* ── Cross-Tool Navigation ─────────────────── */}

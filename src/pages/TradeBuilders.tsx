@@ -6,7 +6,7 @@ const data: TradePageData = {
   trade: 'Builders',
   tradePlural: 'Builders',
   headline: 'How Builders Win Extension Jobs From',
-  highlightedPhrase: 'Planning Data',
+  highlightedPhrase: 'Planning Approvals',
   sub: 'Every approved planning application is a job waiting to be quoted. JobFilter reads planning approvals across 400+ councils and sends you extension, loft, and new-build leads the moment they\'re approved. You\'re on the driveway before the competition knows the job exists.',
   painPoints: [
     ['You hear about jobs too late', 'By the time a planning-approved extension hits MyBuilder, the homeowner has already had 3 quotes. The first builder on site wins 70% of the time.'],
@@ -65,7 +65,7 @@ Action: Open notice → jobfilter.uk/lead/ghi789`,
     'No contracts. Cancel anytime. 30-day guarantee',
   ],
   ctaPostcode: 'LS1',
-  metaTitle: 'How Builders Win Extension Jobs From Planning Data — JobFilter',
+  metaTitle: 'How Builders Win Extension Jobs From Planning Approvals — JobFilter',
   metaDescription: 'JobFilter scans 400+ council planning approvals for extension, loft, and new-build leads. Gold alerts sent to WhatsApp before jobs hit directories. Free scan for builders.',
 };
 

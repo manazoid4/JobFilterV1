@@ -122,7 +122,7 @@ export function IntakeTestPage() {
             <ResultRow label="Budget" value={selected.payload.budget} />
             <ResultRow label="Postcode" value={selected.payload.postcode} />
             {loading && <p className="rounded-sm bg-[var(--yellow)] p-3">SCORING...</p>}
-            {error && <p className="rounded-sm bg-red-100 p-3 text-red-800">{error}</p>}
+            {error && <p className="rounded-sm border-2 border-[var(--orange)] bg-[var(--orange)]/10 p-3 text-[var(--ink)]">{error}</p>}
             {lead && (
               <>
                 <ResultRow label="Tier" value={lead.tier ?? 'UNKNOWN'} />

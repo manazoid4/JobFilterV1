@@ -76,7 +76,7 @@ export function VicinityPage() {
   const [selectedPreview, setSelectedPreview] = useState<string | null>(null);
 
   return (
-    <main style={{ background: 'var(--offwhite)', minHeight: '100vh' }} className="pb-24 md:pb-0">
+    <main className="bg-[var(--paper)] pb-24 md:pb-0">
       <div className="page-shell py-10">
 
         {/* ── ENHANCED HERO ──────────────────────────── */}
@@ -114,7 +114,7 @@ export function VicinityPage() {
                   className="inline-block w-fit px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em]"
                   style={{ background: 'var(--yellow)', color: 'var(--navy)', border: '2px solid var(--yellow)' }}
                 >
-                  Vicinity™ Proof Generator
+                  Vicinity — Proof Generator
                 </span>
                 <h1
                   className="headline mt-4"
@@ -462,7 +462,8 @@ export function VicinityPage() {
 
             {/* Generate CTA */}
             <button
-              className="mt-6 flex w-full cursor-pointer items-center justify-center gap-3 px-8 py-4 transition-all active:translate-x-[2px] active:translate-y-[2px]"
+              disabled
+              className="mt-6 flex w-full cursor-not-allowed items-center justify-center gap-3 px-8 py-4 opacity-60"
               style={{
                 background: 'var(--navy)',
                 color: 'var(--paper)',
@@ -475,8 +476,11 @@ export function VicinityPage() {
                 letterSpacing: '0.04em',
               }}
             >
-              📲 Generate Proof
+              📲 Generate Proof — Coming Soon
             </button>
+            <p className="mt-2 text-center text-[12px] font-bold uppercase tracking-wide text-[var(--muted)]">
+              Vicinity is in development. Join the waitlist below to get early access.
+            </p>
           </div>
         </section>
 
@@ -693,7 +697,7 @@ export function VicinityPage() {
               Stop letting good work die in your camera roll.
             </h2>
             <p className="mt-3 text-[16px] leading-relaxed text-[var(--muted)]">
-              Every finished job is a sales asset. Vicinity™ turns your phone photos into professional local proof that brings in the next one.
+              Every finished job is a sales asset. Vicinity turns your phone photos into professional local proof that brings in the next one.
             </p>
             <div className="mt-4 flex items-center gap-2 px-4 py-3" style={{ background: 'var(--yellow)', border: '2px solid var(--navy)' }}>
               <span className="text-[13px] font-bold uppercase tracking-wide text-[var(--navy)]">✓ Included free with JobFilter subscription</span>
@@ -710,12 +714,13 @@ export function VicinityPage() {
           <p className="micro-label text-[var(--yellow)]">WANT TO TURN FINISHED JOBS INTO MORE WORK?</p>
           <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">GET WHATSAPP ALERTS FOR NEW LEADS.</h2>
           <p className="mt-3 max-w-xl font-black text-white/70">
-            Vicinity proves your work. Intake feeds you the next job. Real leads in your area, sent straight to WhatsApp. No chasing. No competing. STAY IN CONTROL.
+            Vicinity proves your work. JobFilter finds the next job. Real leads in your area, sent straight to WhatsApp. No chasing. No competing. STAY IN CONTROL.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
           </div>
+          <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
         </section>
 
         {/* ── Cross-Tool Navigation ─────────────────── */}

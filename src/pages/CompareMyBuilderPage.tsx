@@ -2,7 +2,8 @@
 import Link from 'next/link';
 
 const comparison = [
-  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning, contracts, ownership & EPC signals', jf: true },
+  { feature: 'Lead type', mybuilder: 'Homeowner quote requests', jobfilter: 'Planning, contracts, ownership & energy signals', jf: true },
+  { feature: 'Signals per scan', mybuilder: 'None — request-based only', jobfilter: '10 verified signals per scan', jf: true },
   { feature: 'Lead exclusivity', mybuilder: 'Shared — multiple trades quote', jobfilter: 'Private scan — no competitor sees your results', jf: true },
   { feature: 'Pricing model', mybuilder: 'Free listing; paid leads optional', jobfilter: '£39/mo flat — unlimited scanning', jf: true },
   { feature: 'Lead scoring', mybuilder: 'None — all leads treated equally', jobfilter: 'GOLD/SILVER/SKIP based on intent and value signals', jf: true },
@@ -59,6 +60,7 @@ export function CompareMyBuilderPage() {
               FULL COMPARISON
             </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 
@@ -81,7 +83,7 @@ export function CompareMyBuilderPage() {
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">JOBFILTER MODEL</p>
               <ul className="mt-3 space-y-2 font-black text-sm text-white">
-                <li>• We scan planning data, council tenders, EPC and land registry</li>
+                <li>• We scan planning data, council tenders, energy signals and ownership data</li>
                 <li>• Your scan is private — no other trade gets the same results</li>
                 <li>• GOLD/SILVER/SKIP scoring — call only what's worth your time</li>
                 <li>• Estimated value from published tender data, not guesswork</li>

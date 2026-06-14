@@ -382,7 +382,7 @@ export function CityIntelligencePage() {
                 </div>
                 <div className="mt-4">
                   <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center block">
-                    UNLOCK WITH PATCH PLAN — £39/MO →
+                    UNLOCK FULL BRIEFING — £39/MO →
                   </Link>
                   <p className="mt-2 text-center text-[10px] font-black text-[var(--muted)] uppercase tracking-wider">Full spotlight + action list + market note included</p>
                 </div>
@@ -406,7 +406,7 @@ export function CityIntelligencePage() {
             <h2 className="headline mt-1 text-2xl leading-none">{intel.city.toUpperCase()} THIS WEEK</h2>
             <div className="mt-4 border-2 border-[var(--line)] bg-[var(--offwhite)] px-6 py-5 flex items-center gap-3">
               <Lock className="w-5 h-5 shrink-0 text-[var(--muted)]" />
-              <p className="text-sm font-bold text-[var(--muted)]">Market intelligence available on Patch Plan. Weekly paragraph on local conditions, demand trends, and what's happening in your city.</p>
+              <p className="text-sm font-bold text-[var(--muted)]">Market intelligence available at £39/mo. Weekly paragraph on local conditions, demand trends, and what's happening in your city.</p>
             </div>
           </section>
         )}
@@ -473,7 +473,7 @@ export function CityIntelligencePage() {
             <AlertTriangle className="w-6 h-6 text-[var(--yellow)] mb-3" />
             <h2 className="headline text-3xl leading-none text-white">UNLOCK THE FULL BRIEFING.</h2>
             <p className="mt-3 text-sm font-bold text-white/70 max-w-lg">
-              Hot lead spotlight, action list, market note, and tool tip — all included with the Patch Plan. One dominant trade per postcode. £39/mo. If you don't see one job worth chasing in 30 days, we refund every penny.
+              Hot lead spotlight, action list, market note, and tool tip — all included at £39/mo. One dominant trade per postcode. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO</Link>

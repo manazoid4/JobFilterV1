@@ -7,6 +7,7 @@ type WhatsAppPayload = {
   area: string;
   budget?: string;
   phone?: string;
+  buyerPhone?: string;
   postcode?: string;
   leadId?: string;
   ghostRisk?: string;
@@ -54,10 +55,12 @@ export async function triggerGoldLeadWhatsApp(payload: WhatsAppPayload) {
 Trade: ${payload.jobType}
 Area: ${payload.area}
 Value: ${payload.budget || 'Confirm on call'}
+Buyer: ${payload.buyerPhone || 'No number provided'}
 Ghost Risk: ${payload.ghostRisk || 'READY'}
 Next: ${payload.recommendedAction || 'Review proof link and contact path before outreach'}`;
 
-  console.log('[whatsapp/gold-lead]', message);
+  const safeLog = message.replace(/(Buyer: )[^\n]+/, '$1[REDACTED]');
+  console.log('[whatsapp/gold-lead]', safeLog);
 
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;

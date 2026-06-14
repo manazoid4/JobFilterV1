@@ -416,3 +416,8 @@ export async function companiesHouseFetcher(
     },
   };
 }
+
+// Plain-English industry label for a Companies House SIC code (used for paid lead enrichment)
+export function getCompanySicLabel(sicCode: string): string | null {
+  return SIC_SIGNALS[sicCode]?.titlePrefix ?? null;
+}

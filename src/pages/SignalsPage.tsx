@@ -20,7 +20,7 @@ const signals = [
   {
     source: 'SIGNAL 3 · ENERGY',
     name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
-    description: 'F and G rated rental properties cannot be legally let without energy improvements. JobFilter identifies them before the landlord posts anywhere. First trade to call wins.',
+    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
   },
@@ -96,7 +96,7 @@ const signalTypeStyle: Record<SignalType, string> = {
   'COMPLIANCE WORK': 'bg-[var(--orange)] text-white',
   'SITE MOVEMENT': 'bg-[var(--ink)] text-white',
   'FAST TURNAROUND': 'bg-[var(--yellow)] text-[var(--ink)]',
-  'URGENT TAKEOVER': 'bg-red-700 text-white',
+  'URGENT TAKEOVER': 'bg-[var(--orange)] text-white',
   'FUNDED UPGRADE': 'bg-[var(--steel-2)] text-white',
 };
 
@@ -184,7 +184,7 @@ export function SignalsPage() {
         <div className="page-shell section-pad">
           <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
             <div>
-              <p className="micro-label text-[var(--orange)]">START SIGNAL ENGINE</p>
+              <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
               <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
               <p className="mt-4 max-w-3xl text-lg font-black leading-tight text-[var(--ink)]/80">
                 Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
@@ -214,7 +214,7 @@ export function SignalsPage() {
       {/* 3. How it combines */}
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">THE PIPELINE</p>
+          <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
@@ -230,7 +230,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xl font-black text-[var(--muted)]">
-            Every scan runs the active signal stack in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
+            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
           </p>
         </div>
       </section>
@@ -247,7 +247,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
-            CORE SIGNALS LIVE · NO SHARED LEADS · EXCLUSIVE TERRITORY PROTECTION
+            CORE SIGNALS LIVE · NO SHARED LEADS · TERRITORY LOCK ACTIVE
           </p>
         </div>
       </section>

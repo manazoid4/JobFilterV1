@@ -5,7 +5,19 @@ import { useSearchParams } from 'next/navigation';
 
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
-const TRADES = ['Electrical', 'Plumbing', 'Roofing', 'Building', 'HVAC', 'Carpentry', 'Landscaping', 'Painting', 'Heat Pumps'];
+const TRADES = [
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'electrical', label: 'EV charger installer' },
+  { value: 'plumbing', label: 'Plumber' },
+  { value: 'plumbing', label: 'Gas engineer' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Builder / general contractor' },
+  { value: 'carpentry', label: 'Carpenter / joiner' },
+  { value: 'painting', label: 'Decorator / painter' },
+  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'hvac', label: 'Heat pump installer' },
+  { value: 'landscaping', label: 'Landscaper / groundworks' },
+];
 
 export function ActivationPendingPage() {
   const searchParams = useSearchParams();
@@ -65,7 +77,7 @@ export function ActivationPendingPage() {
           <p className="micro-label text-[var(--ink)]">PATCH CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
-            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run your first free scan while you wait.
+            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run a scan now — full access is live.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">RUN FIRST SCAN →</Link>
@@ -85,7 +97,7 @@ export function ActivationPendingPage() {
         <p className={`mt-4 max-w-2xl text-xl font-black ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
           {paid
             ? 'Payment confirmed by Stripe. Tell us your trade and area — Gold leads hit your WhatsApp within 2 hours.'
-            : 'Set your trade and patch. Then checkout — under 2 minutes. First scan is free while you wait.'}
+            : 'Set your trade and patch — then complete payment via Stripe. Takes under 2 minutes. 30-day money-back. Cancel anytime.'}
         </p>
       </section>
 
@@ -108,11 +120,11 @@ export function ActivationPendingPage() {
             Your trade
             <select className="field-input" value={trade} onChange={(e) => setTrade(e.target.value)} required>
               <option value="">Select trade…</option>
-              {TRADES.map((t) => <option key={t} value={t}>{t}</option>)}
+              {TRADES.map((t) => <option key={t.label} value={t.value}>{t.label}</option>)}
             </select>
           </label>
           <label className="field-label">
-            Postcode cluster (e.g. B14, SW1, M20)
+            Your area (e.g. B14, SW1, M20)
             <input
               className="field-input"
               value={postcode}

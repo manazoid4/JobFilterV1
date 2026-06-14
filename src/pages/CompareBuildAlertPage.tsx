@@ -12,9 +12,9 @@ const comparison = [
   { feature: 'GOLD / SILVER / BIN scoring', buildalert: 'No', jobfilter: 'Yes — chase only what pays', jf: true },
   { feature: 'WhatsApp alerts', buildalert: 'No', jobfilter: 'Yes — within minutes', jf: true },
   { feature: 'Physical letter service', buildalert: 'Yes — £2 per letter', jobfilter: 'Template included — you post', jf: false },
-  { feature: 'Exclusive leads', buildalert: 'Yes — planning access', jobfilter: 'Yes — no one sees your scan', jf: true },
+  { feature: 'Private scans', buildalert: 'Planning data only', jobfilter: 'No shared auction — scored before delivery', jf: true },
   { feature: 'Delivery speed', buildalert: 'Days — mail cycle + browse', jobfilter: 'Minutes — pushed to your phone', jf: true },
-  { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '5 — planning, energy, contracts, ownership, business', jf: true },
+  { feature: 'Signals per scan', buildalert: '1 — planning only', jobfilter: '10 — planning, energy, contracts, ownership, HMO, grants +', jf: true },
   { feature: 'Pricing model', buildalert: '£2 per letter — pay per action', jobfilter: '£39/mo — unlimited everything', jf: true },
   { feature: 'Per-action cost', buildalert: 'Yes — every letter costs', jobfilter: 'No — scan as much as you want', jf: true },
   { feature: 'Subscription lock-in', buildalert: 'No — pay as you go', jobfilter: 'No — cancel anytime', jf: false },
@@ -24,16 +24,21 @@ const comparison = [
 ];
 
 const signals = [
-  ['Planning data', 'Approved applications before they hit any directory. BuildAlert does this too.'],
+  ['Planning approved', 'Approved applications before they hit any directory. BuildAlert does this too.'],
   ['Energy upgrade signals', 'Properties legally required to upgrade — retrofit work coming. BuildAlert does not cover this.'],
   ['Council contracts', 'Public tenders with buyer names and values. Not in BuildAlert.'],
   ['Ownership changes', 'New owners renovate. We catch the signal before they call anyone. BuildAlert misses this.'],
   ['New businesses', 'Newly registered businesses needing premises work. Another signal BuildAlert does not have.'],
+  ['HMO licensing', 'Landlords need compliance work before the licence clears. BuildAlert has no compliance signals.'],
+  ['Building control', 'Projects moving from planning talk into real site work. Not tracked by BuildAlert.'],
+  ['Auction property', 'New auction wins need fast refurb and repairs. BuildAlert misses this entirely.'],
+  ['Void premises', 'Empty premises and distressed sites create urgent local work. Not in BuildAlert.'],
+  ['Retrofit grants', 'Funded upgrade windows create timed demand for heating, solar and electrical work. BuildAlert has no grants signal.'],
 ];
 
 const quotes = [
   {
-    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £39 and five more signals. The maths is simple.",
+    quote: "I was spending £40 a month on BuildAlert letters. JobFilter gives me unlimited for £39 and nine more signals. The maths is simple.",
     role: "Builder, West Midlands",
   },
   {
@@ -370,13 +375,13 @@ export function CompareBuildAlertPage() {
         </div>
       </section>
 
-      {/* ── FIVE SIGNALS ─────────────────────────────── */}
+      {/* ── TEN SIGNALS ─────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
-          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">FIVE SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
+          <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
-            BuildAlert shows you planning applications. JobFilter shows you planning plus four more sources that tell you work is coming — and scores them so you know which ones to chase.
+            BuildAlert shows you planning applications. JobFilter shows you planning plus nine more verified signals — each scored so you know which ones to chase first.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (
@@ -517,7 +522,7 @@ export function CompareBuildAlertPage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">ONE JOB PAYS FOR THE MONTH. EVERYTHING AFTER IS PROFIT.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {[
-              ['Exclusive scans', 'No one else sees your results. Not shared. Not resold.'],
+              ['No shared auction', 'Scored before delivery — no five-trade blast, no race-to-the-bottom resale.'],
               ['Verified signals only', 'Planning approvals, public contracts, verified energy signals. Not forms. Not ads.'],
               ['No per-action cost', 'Scan as much as you want. One price. No credit packs. No per-letter fees.'],
               ['Built for trades', 'Made in Birmingham. For people who work with their hands.'],
@@ -536,7 +541,7 @@ export function CompareBuildAlertPage() {
       {/* ── FINAL CTA ────────────────────────────────── */}
       <section className="bg-[var(--navy)] text-white">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">ENTER THE INTAKE</p>
+          <p className="micro-label text-[var(--yellow)]">SCAN YOUR AREA FREE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-white">
             BUILDALERT SHOWS YOU{' '}
             <span style={{ color: 'var(--yellow)' }}>WHAT'S PLANNED.</span>{' '}

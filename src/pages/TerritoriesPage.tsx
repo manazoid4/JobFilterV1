@@ -37,6 +37,14 @@ const statusClass: Record<TerritoryStatus, string> = {
   WAITLIST: 'bg-[var(--offwhite)] text-[var(--ink)]',
 };
 
+const statusCta: Record<TerritoryStatus, { label: string; href?: string }> = {
+  OPEN: { label: 'LOCK PATCH →', href: '/pricing' },
+  'FOUNDER SLOT': { label: 'LOCK PATCH →', href: '/pricing' },
+  CLAIMED: { label: 'PATCH TAKEN' },
+  RESERVED: { label: 'DECISION PENDING' },
+  WAITLIST: { label: 'JOIN WAITLIST →', href: '/pricing' },
+};
+
 const objections = [
   {
     q: 'What if my patch has no signals?',
@@ -125,7 +133,7 @@ export function TerritoriesPage() {
             { icon: AlertTriangle, title: 'You miss the window', body: 'Planning approval drops Friday. By Monday, the firm that gets the signal first has already called. You hear about it in week three.' },
             { icon: Clock, title: 'You\'re driving blind', body: 'No signal system means driving past scaffolding, asking around, and hoping word of mouth covers a quiet patch.' },
             { icon: TrendingUp, title: 'The fast firm wins', body: 'A trade with a locked territory calls within 24 hours of a verified signal. Without one, you\'re always reacting, never first.' },
-            { icon: Zap, title: 'You cut price to survive', body: 'An empty pipeline forces price cuts to win work. A locked territory keeps jobs coming so you price to margin, not to panic.' },
+            { icon: Zap, title: 'You cut price to survive', body: 'No steady work forces price cuts to win jobs. A locked territory keeps leads coming so you price to margin, not to panic.' },
           ].map(({ icon: Icon, title, body }) => (
             <div key={title} className="jf-box bg-white p-5">
               <Icon size={24} strokeWidth={3} className="text-[var(--orange)]" />
@@ -148,6 +156,12 @@ export function TerritoriesPage() {
             <span className="text-xs font-black uppercase text-[var(--muted)]">Model preview</span>
           </div>
         </div>
+        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs font-black uppercase text-[var(--muted)]">
+          <span><span className="text-[var(--ink)]">OPEN / FOUNDER SLOT</span> — lockable now</span>
+          <span><span className="text-[var(--ink)]">CLAIMED</span> — taken, another trade locked this patch</span>
+          <span><span className="text-[var(--ink)]">RESERVED</span> — interest registered, decision pending</span>
+          <span><span className="text-[var(--ink)]">WAITLIST</span> — join the list for the next batch</span>
+        </div>
       </section>
 
       <section className="page-shell pb-14">
@@ -155,7 +169,7 @@ export function TerritoriesPage() {
           <div className="grid grid-cols-[1.1fr_0.8fr_0.8fr_0.6fr_0.7fr] border-b-2 border-[var(--line)] bg-[var(--ink)] p-4 text-xs font-black uppercase tracking-[0.08em] text-white max-lg:hidden">
             <span>Patch</span>
             <span>Trade</span>
-            <span>Area model</span>
+            <span>Avg job value</span>
             <span>Signals/mo</span>
             <span>Status</span>
           </div>
@@ -177,7 +191,11 @@ export function TerritoriesPage() {
                 </div>
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
-                  <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="/pricing">LOCK PATCH →</Link>
+                  {statusCta[territory.status].href ? (
+                    <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href={statusCta[territory.status].href!}>{statusCta[territory.status].label}</Link>
+                  ) : (
+                    <span className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-center text-xs font-black uppercase text-[var(--muted)]">{statusCta[territory.status].label}</span>
+                  )}
                 </div>
               </article>
             ))}
@@ -222,7 +240,7 @@ export function TerritoriesPage() {
                   'Unlimited WhatsApp alerts',
                   'Letter drop scripts for every lead — print and post in minutes',
                   'Full lead scoring + lead readiness markers',
-                  'Pipeline tracking for every opportunity',
+                  'Job tracking — every lead from first contact to won job',
                   'Founder price locked forever while active',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm font-black">

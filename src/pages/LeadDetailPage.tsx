@@ -3,15 +3,26 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { useState } from 'react';
+import { useAuth } from '../components/AuthProvider';
 import { ActionBar } from '../components/ActionBar';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { TrustBadges } from '../components/TrustBadges';
 import { LeadValueKit } from '../components/LeadValueKit';
 import { getStoredLeads, updateStoredLead } from '../lib/leadStore';
 import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
-import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
-import { markWon } from '../lib/winStore';
-import type { LeadDecision, LeadDecisionStatus } from '../lib/types';
+import { MESSAGE_TEMPLATES, fillTemplate, parseEmailSubject } from '../lib/chaseTemplates';
+import { markLost, markWon } from '../lib/winStore';
+import { parseCompanyDetails } from '../lib/companyDetails';
+import type { LeadDecision, LeadDecisionStatus, LostReason } from '../lib/types';
+
+const LOST_REASON_OPTIONS: { value: LostReason; label: string }[] = [
+  { value: 'price', label: 'Got outbid on price' },
+  { value: 'competition', label: 'Customer went with someone else' },
+  { value: 'timing', label: 'Bad timing — too slow to call back' },
+  { value: 'not_interested', label: "Customer wasn't interested" },
+  { value: 'went_elsewhere', label: 'Job filled before I called' },
+  { value: 'other', label: 'Other / job did not exist' },
+];
 
 function formatSignalLabel(source: string): string {
   const s = source.toLowerCase();
@@ -110,7 +121,7 @@ export function LeadDetailPage() {
   const id  = (params?.id  as string) || '' ;
   const router = useRouter();
   const lead = getStoredLeads().find((item) => item.id === id);
-  const [lostReason, setLostReason] = useState('');
+  const [lostReason, setLostReason] = useState<LostReason | ''>('');
   const [showLostPicker, setShowLostPicker] = useState(false);
   const [reviewLink, setReviewLink] = useState('');
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(() => {
@@ -130,6 +141,9 @@ export function LeadDetailPage() {
   });
   const [showFlagPicker, setShowFlagPicker] = useState(false);
   const [flagReason, setFlagReason] = useState('');
+  const { user } = useAuth();
+  const [emailChaseState, setEmailChaseState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [emailChaseError, setEmailChaseError] = useState('');
 
   function handleFlagLead() {
     const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
@@ -176,13 +190,53 @@ export function LeadDetailPage() {
   const filledMessage = selectedTemplate ? fillTemplate(selectedTemplate, { job_type: lead.jobType, area: lead.area }) : null;
 
   const firstTouchTemplate = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h');
+
+  // Format UK phone for wa.me: strip non-digits, replace leading 0 with 44
+  const waPhone = lead.phone
+    ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '')
+    : null;
+
   const quickWaUrl = firstTouchTemplate
-    ? `https://wa.me/?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
+    ? `https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(fillTemplate(firstTouchTemplate, { job_type: lead.jobType, area: lead.area }))}`
     : null;
 
   function handleSnooze() {
     snoozeChaseLead(id);
     setSnoozed(true);
+  }
+
+  async function handleEmailChase() {
+    if (!user?.email) {
+      setEmailChaseState('error');
+      setEmailChaseError('Log in to email yourself this lead.');
+      return;
+    }
+    setEmailChaseState('sending');
+    const chaseMessage = filledMessage ?? fillTemplate(MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!, { job_type: lead!.jobType, area: lead!.area });
+    try {
+      const res = await fetch('/api/leads/email-chase', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: user.email,
+          leadTitle: lead!.title,
+          area: lead!.area,
+          score: lead!.score,
+          estimatedValue: lead!.budget ?? 'POA',
+          message: chaseMessage,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) {
+        setEmailChaseState('error');
+        setEmailChaseError(data.error || 'Email failed to send.');
+        return;
+      }
+      setEmailChaseState('sent');
+    } catch {
+      setEmailChaseState('error');
+      setEmailChaseError('Email failed to send.');
+    }
   }
 
   function copyOtherTemplate(key: string, body: string) {
@@ -196,6 +250,15 @@ export function LeadDetailPage() {
     const outcome: Record<string, string> = {};
     if (status === 'lost' && lostReason) {
       outcome.lostReason = lostReason;
+      markLost({
+        leadId: lead!.id,
+        title: lead!.jobType,
+        trade: lead!.jobType,
+        location: lead!.area,
+        estimatedValue: lead!.budget ?? '',
+        reason: lostReason,
+        source: 'chase',
+      });
     }
     updateStoredLead(lead!.id, { status, ...outcome });
 
@@ -237,6 +300,7 @@ export function LeadDetailPage() {
       trade: lead!.jobType,
       location: lead!.area,
       value: parsedValue,
+      estimatedValue: lead!.budget,
       source: 'chase',
     });
     updateStoredLead(lead!.id, { status: 'won' });
@@ -285,7 +349,11 @@ export function LeadDetailPage() {
           {lead.flags.includes('Urgent') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">YES</span> Urgent — customer wants it done fast</p>}
           {lead.flags.includes('Photos') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Photos provided — serious enquiry</p>}
           {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
-          {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
+          {lead.flags.includes('GoodBudget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
+          {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Budget may be tight — qualify before committing a full day</p>}
+          {lead.flags.includes('Risk') && !lead.flags.includes('Clear') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Low detail — ask for a site visit before quoting</p>}
+          {lead.isCommercial && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Commercial job — business buyer, not a homeowner</p>}
+          {lead.isCommercial && lead.projectScale === 'large' && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">BIG</span> Large project — likely needs more than one trade on site</p>}
         </div>
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
@@ -297,17 +365,17 @@ export function LeadDetailPage() {
                 rel="noreferrer"
                 className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
               >
-                SEND WHATSAPP NOW →
+                {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
               </a>
             )}
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A 2-minute call finds out if they're ready now. Use the availability check template below — takes 30 seconds.</p>
+            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when pipeline is low.</p>
+            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
           </div>
         )}
       </section>
@@ -353,6 +421,28 @@ export function LeadDetailPage() {
           </div>
         </section>
       )}
+
+      {lead.source === 'CompaniesHouse' && (() => {
+        const company = parseCompanyDetails(lead.description, lead.source);
+        return company ? (
+          <section className="jf-box bg-white p-6">
+            <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS</h2>
+            <div className="mt-4 grid gap-2 text-sm font-black text-[var(--ink)]">
+              {company.industry && <p>Industry: {company.industry}</p>}
+              {company.incorporated && <p>Incorporated: {company.incorporated}</p>}
+              {company.companyNumber && <p>Company No: {company.companyNumber}</p>}
+            </div>
+            <p className="mt-3 text-xs font-black text-[var(--muted)]">New companies often need premises fit-out fast — call before they find someone else.</p>
+          </section>
+        ) : (
+          <section className="jf-box bg-[var(--paper)] p-6">
+            <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS LOCKED</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">Incorporation date, company number, and industry — unlocked at £39/mo.</p>
+          </section>
+        );
+      })()}
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>
@@ -408,11 +498,11 @@ export function LeadDetailPage() {
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
             <a
               className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/?text=${encodeURIComponent(filledMessage)}`}
+              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              SEND WHATSAPP
+              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
             </a>
           </div>
         )}
@@ -421,10 +511,13 @@ export function LeadDetailPage() {
       {otherTemplates.length > 0 && (
         <section className="jf-box bg-white p-6">
           <h2 className="headline text-2xl sm:text-3xl">OTHER APPROACHES</h2>
-          <p className="mt-2 text-sm font-black text-[var(--muted)]">Portal, door-step, or letter — copy the message and use it your way.</p>
+          <p className="mt-2 text-sm font-black text-[var(--muted)]">Email, portal, door-step, or letter — copy the message and use it your way.</p>
           <div className="mt-4 grid gap-4">
             {otherTemplates.map((t) => {
               const filled = fillTemplate(t, { job_type: lead.jobType, area: lead.area });
+              const isEmail = t.channel === 'email';
+              const emailParts = isEmail ? parseEmailSubject(filled) : null;
+              const copyText = emailParts ? `Subject: ${emailParts.subject}\n\n${emailParts.body}` : filled;
               return (
                 <div key={t.key} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -433,13 +526,19 @@ export function LeadDetailPage() {
                       <p className="mt-0.5 text-xs font-black text-[var(--muted)]">{t.timing} — {t.purpose}</p>
                     </div>
                     <button
-                      onClick={() => copyOtherTemplate(t.key, filled)}
+                      onClick={() => copyOtherTemplate(t.key, copyText)}
                       className={`shrink-0 px-3 py-1.5 text-xs font-black uppercase border-2 ${copiedOtherKey === t.key ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)] text-[var(--ink)]'}`}
                     >
                       {copiedOtherKey === t.key ? 'COPIED' : 'COPY'}
                     </button>
                   </div>
-                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filled}</p>
+                  {isEmail && emailParts?.subject && (
+                    <div className="mt-3 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
+                      <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                      <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
+                    </div>
+                  )}
+                  <p className="mt-3 text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{emailParts ? emailParts.body : filled}</p>
                 </div>
               );
             })}
@@ -467,7 +566,20 @@ export function LeadDetailPage() {
               {snoozed ? 'SNOOZED — BACK TOMORROW' : 'SNOOZE 24H'}
             </button>
           )}
+          <button
+            className={`jf-button ${emailChaseState === 'sent' ? 'bg-[var(--green)] text-white' : 'bg-white text-[var(--ink)]'}`}
+            onClick={handleEmailChase}
+            disabled={emailChaseState === 'sending' || emailChaseState === 'sent'}
+          >
+            {emailChaseState === 'sending' ? 'SENDING...' : emailChaseState === 'sent' ? 'SENT TO YOUR EMAIL' : 'EMAIL ME THIS LEAD'}
+          </button>
         </div>
+        {emailChaseState === 'error' && (
+          <p className="mt-2 text-xs font-black text-[var(--orange)]">{emailChaseError}</p>
+        )}
+        {emailChaseState === 'sent' && (
+          <p className="mt-2 text-xs font-black text-[var(--green)]">✓ Sent to {user?.email} — chase message and lead summary, ready to action from your inbox.</p>
+        )}
       </section>
 
       <section className="jf-box bg-white p-6">
@@ -484,14 +596,14 @@ export function LeadDetailPage() {
         {showLostPicker && (
           <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-xs font-black uppercase text-[var(--muted)] mb-2">Why did you lose it? (optional)</p>
-            <div className="grid gap-2 sm:grid-cols-4">
-              {['Got outbid on price', 'Customer went with someone else', "Job didn't exist", 'Other'].map((reason) => (
+            <div className="grid gap-2 sm:grid-cols-3">
+              {LOST_REASON_OPTIONS.map(({ value, label }) => (
                 <button
-                  key={reason}
-                  onClick={() => setLostReason(reason)}
-                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === reason ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
+                  key={value}
+                  onClick={() => setLostReason(value)}
+                  className={`border-2 px-2 py-1 text-xs font-black ${lostReason === value ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}
                 >
-                  {reason}
+                  {label}
                 </button>
               ))}
             </div>
@@ -532,15 +644,15 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">CONTACT DETAILS LOCKED</p>
-          <h2 className="headline mt-1 text-2xl">UPGRADE TO SEE CONTACT DETAILS.</h2>
+          <p className="micro-label text-[var(--yellow)]">BUYER CONTACT LOCKED</p>
+          <h2 className="headline mt-1 text-2xl">UNLOCK THE PHONE NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            Paid members see the recommended contact channel, compliance risk rating, and next action script for every lead — not just a score.
+            The template above is ready. Gold members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK CONTACT DETAILS — £39/MO →
+            UNLOCK THIS LEAD — £39/MO →
           </Link>
-          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back guarantee. No credit card to scan.</p>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back. Cancel anytime.</p>
         </section>
       )}
 

@@ -8,8 +8,8 @@ const STAGES: { key: ChaseStage; label: string; color: string }[] = [
   { key: 'not_contacted', label: 'NOT CONTACTED', color: 'bg-[var(--orange)] text-white' },
   { key: 'contacted', label: 'CONTACTED', color: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { key: 'following_up', label: 'FOLLOWING UP', color: 'bg-[var(--ink)] text-white' },
-  { key: 'won', label: 'WON', color: 'bg-green-600 text-white' },
-  { key: 'lost', label: 'LOST', color: 'bg-gray-400 text-[var(--ink)]' },
+  { key: 'won', label: 'WON', color: 'bg-[var(--green)] text-white' },
+  { key: 'lost', label: 'LOST', color: 'bg-[var(--muted)] text-white' },
 ];
 
 export function ChaseStatus({ leadId, currentStage, onStageChange }: { leadId: string; currentStage: ChaseStage; onStageChange?: (stage: ChaseStage) => void }) {

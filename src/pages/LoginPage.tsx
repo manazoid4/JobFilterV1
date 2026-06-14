@@ -51,7 +51,7 @@ export function LoginPage() {
               placeholder="••••••••"
             />
           </div>
-          {error && <p className="text-sm font-bold text-red-600">{error}</p>}
+          {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
           <button type="submit" disabled={loading} className="jf-button w-full">
             {loading ? 'Signing in...' : 'SIGN IN'}
           </button>

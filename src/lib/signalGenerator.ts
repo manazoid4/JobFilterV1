@@ -47,6 +47,31 @@ const TRADE_WEIGHTS: Record<string, Record<string, number>> = {
     'Carpenter': 0.12, 'HVAC': 0.08, 'Painter': 0.06,
     'Roofer': 0.04, 'Landscaper': 0.04,
   },
+  hmo: {
+    'Electrician': 0.30, 'Plumber': 0.22, 'Builder': 0.18,
+    'Carpenter': 0.12, 'Painter': 0.10, 'HVAC': 0.05,
+    'Roofer': 0.02, 'Landscaper': 0.01,
+  },
+  building_control: {
+    'Builder': 0.35, 'Roofer': 0.18, 'Electrician': 0.14,
+    'Plumber': 0.12, 'Carpenter': 0.10, 'HVAC': 0.06,
+    'Painter': 0.03, 'Landscaper': 0.02,
+  },
+  auction: {
+    'Builder': 0.28, 'Roofer': 0.18, 'Electrician': 0.15,
+    'Plumber': 0.14, 'Painter': 0.10, 'Carpenter': 0.09,
+    'HVAC': 0.04, 'Landscaper': 0.02,
+  },
+  insolvency: {
+    'Builder': 0.30, 'Electrician': 0.22, 'Plumber': 0.18,
+    'Carpenter': 0.14, 'HVAC': 0.08, 'Painter': 0.05,
+    'Roofer': 0.02, 'Landscaper': 0.01,
+  },
+  retrofit: {
+    'HVAC': 0.30, 'Electrician': 0.25, 'Roofer': 0.15,
+    'Builder': 0.12, 'Plumber': 0.08, 'Painter': 0.05,
+    'Carpenter': 0.03, 'Landscaper': 0.02,
+  },
 } as const;
 
 const GOLD_RATIOS: Record<string, number> = {
@@ -55,6 +80,11 @@ const GOLD_RATIOS: Record<string, number> = {
   contracts: 0.30,
   property: 0.03,
   businesses: 0.06,
+  hmo: 0.18,
+  building_control: 0.15,
+  auction: 0.22,
+  insolvency: 0.20,
+  retrofit: 0.16,
 } as const;
 
 const SILVER_RATIOS: Record<string, number> = {
@@ -63,6 +93,11 @@ const SILVER_RATIOS: Record<string, number> = {
   contracts: 0.38,
   property: 0.15,
   businesses: 0.23,
+  hmo: 0.40,
+  building_control: 0.32,
+  auction: 0.42,
+  insolvency: 0.35,
+  retrofit: 0.38,
 } as const;
 
 // Seasonal multiplier for planning applications (UK construction seasonality)
@@ -76,6 +111,16 @@ const SEASONAL_CONTRACTS = [1.12, 1.08, 1.05, 0.95, 0.90, 0.88, 0.92, 0.95, 1.08
 const SEASONAL_PROPERTY =  [0.92, 0.88, 1.05, 1.12, 1.15, 1.10, 1.02, 0.98, 1.12, 1.08, 0.90, 0.85];
 // Business registrations peak in January (new year resolutions)
 const SEASONAL_BUSINESSES = [1.20, 1.05, 0.98, 0.95, 0.92, 0.88, 0.85, 0.82, 0.95, 1.02, 1.08, 1.10];
+// HMO licensing — compliance deadlines push spring/autumn peaks
+const SEASONAL_HMO =       [0.90, 0.88, 1.02, 1.10, 1.12, 1.05, 0.98, 0.95, 1.08, 1.10, 0.95, 0.87];
+// Building control follows planning with slight lag
+const SEASONAL_BUILDING_CONTROL = [0.85, 0.82, 0.92, 1.05, 1.15, 1.18, 1.12, 1.08, 1.02, 0.95, 0.88, 0.82];
+// Auction peaks in March-May and September-October
+const SEASONAL_AUCTION =   [0.92, 0.95, 1.12, 1.18, 1.15, 1.02, 0.95, 0.90, 1.12, 1.10, 0.92, 0.85];
+// Insolvency peaks in Q1 (post-Christmas) and Q4
+const SEASONAL_INSOLVENCY = [1.18, 1.10, 1.02, 0.95, 0.90, 0.85, 0.82, 0.85, 0.95, 1.02, 1.08, 1.15];
+// Retrofit grants peak in autumn/winter (heating urgency + budget year-end)
+const SEASONAL_RETROFIT =  [1.10, 1.05, 0.98, 0.92, 0.88, 0.85, 0.82, 0.85, 0.98, 1.08, 1.15, 1.18];
 
 const SEASONAL_MAP: Record<string, number[]> = {
   planning: SEASONAL_PLANNING,
@@ -83,6 +128,11 @@ const SEASONAL_MAP: Record<string, number[]> = {
   contracts: SEASONAL_CONTRACTS,
   property: SEASONAL_PROPERTY,
   businesses: SEASONAL_BUSINESSES,
+  hmo: SEASONAL_HMO,
+  building_control: SEASONAL_BUILDING_CONTROL,
+  auction: SEASONAL_AUCTION,
+  insolvency: SEASONAL_INSOLVENCY,
+  retrofit: SEASONAL_RETROFIT,
 };
 
 const WEEKLY_BASELINES = {
@@ -91,6 +141,11 @@ const WEEKLY_BASELINES = {
   contracts: 2_000,
   property: 15_000,
   businesses: 8_000,
+  hmo: 800,
+  building_control: 3_000,
+  auction: 1_200,
+  insolvency: 600,
+  retrofit: 2_500,
 } as const;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -282,6 +337,11 @@ export function generateWeekData(
     { key: 'contracts', label: 'Council Contracts', baseline: WEEKLY_BASELINES.contracts },
     { key: 'property', label: 'Property Sales', baseline: WEEKLY_BASELINES.property },
     { key: 'businesses', label: 'New Businesses', baseline: WEEKLY_BASELINES.businesses },
+    { key: 'hmo', label: 'HMO Licensing', baseline: WEEKLY_BASELINES.hmo },
+    { key: 'building_control', label: 'Building Control', baseline: WEEKLY_BASELINES.building_control },
+    { key: 'auction', label: 'Auction Properties', baseline: WEEKLY_BASELINES.auction },
+    { key: 'insolvency', label: 'Insolvency & Void Works', baseline: WEEKLY_BASELINES.insolvency },
+    { key: 'retrofit', label: 'Retrofit Grants', baseline: WEEKLY_BASELINES.retrofit },
   ];
 
   const signals = signalDefs.map(def =>

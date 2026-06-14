@@ -3,11 +3,33 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
 import { getStoredLeads } from '../lib/leadStore';
+import { getChaseLeads } from '../lib/chaseStore';
 import { getWinData } from '../lib/winStore';
 import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import type { LeadDecision } from '../lib/types';
 
 const FIRST_TOUCH_TEMPLATE = MESSAGE_TEMPLATES.find((t) => t.key === 'first_touch_2h')!;
+const FOLLOW_UP_TEMPLATE   = MESSAGE_TEMPLATES.find((t) => t.key === 'follow_up_24h') ?? FIRST_TOUCH_TEMPLATE;
+
+function getWaTemplate(chaseStage: string | undefined) {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return FOLLOW_UP_TEMPLATE;
+  return FIRST_TOUCH_TEMPLATE;
+}
+
+function getWaButtonLabel(chaseStage: string | undefined): string {
+  if (chaseStage === 'following_up' || chaseStage === 'contacted') return 'SEND FOLLOW-UP';
+  return 'SEND WHATSAPP';
+}
+
+function tradeHighlights(reasons: string[] | undefined): string[] {
+  if (!reasons?.length) return [];
+  const out: string[] = [];
+  for (const r of reasons) {
+    const m = r.match(/^Trade match: (.+?) \(/);
+    if (m) m[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push(`${k} — YOUR TRADE`));
+  }
+  return out.slice(0, 2);
+}
 
 type Tab = 'gold' | 'silver' | 'bronze';
 
@@ -37,6 +59,11 @@ export function LeadListPage() {
   const [tab, setTab] = useState<Tab>('gold');
   const [query, setQuery] = useState('');
   const stored = getStoredLeads();
+  const chaseStageMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const cl of getChaseLeads()) map.set(cl.leadId, cl.stage);
+    return map;
+  }, [stored]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -48,9 +75,13 @@ export function LeadListPage() {
     );
   }, [stored, query]);
 
-  const gold   = filtered.filter((l) => l.score >= 90 && l.status !== 'ignored');
-  const silver = filtered.filter((l) => l.score >= 75 && l.score < 90 && l.status !== 'ignored');
-  const bronze = filtered.filter((l) => l.score < 75 || l.status === 'ignored');
+  const gold   = filtered.filter((l) => (l.qualityLabel === 'GOLD'   || (!l.qualityLabel && (l.tier === 'GOLD'   || (!l.tier && l.score >= 80)))) && l.status !== 'ignored');
+  const silver = filtered.filter((l) => (l.qualityLabel === 'SILVER' || (!l.qualityLabel && (l.tier === 'SILVER' || (!l.tier && l.score >= 50 && l.score < 80)))) && l.status !== 'ignored');
+  const bronze = filtered.filter((l) => {
+    const isGold = l.qualityLabel === 'GOLD'   || (!l.qualityLabel && (l.tier === 'GOLD'   || (!l.tier && l.score >= 80)));
+    const isSilv = l.qualityLabel === 'SILVER' || (!l.qualityLabel && (l.tier === 'SILVER' || (!l.tier && l.score >= 50 && l.score < 80)));
+    return (!isGold && !isSilv) || l.status === 'ignored';
+  });
 
   const wonCount       = stored.filter((l) => l.status === 'won').length;
   const lostCount      = stored.filter((l) => l.status === 'lost').length;
@@ -70,7 +101,7 @@ export function LeadListPage() {
 
       {/* ── Header ───────────────────────────────────────── */}
       <div className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">JOB PIPELINE</p>
+        <p className="micro-label text-[var(--yellow)]">LEAD TRACKER</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
@@ -89,7 +120,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
-              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when your pipeline is light.
+              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when work is quiet.
             </p>
           </div>
         </div>
@@ -118,15 +149,17 @@ export function LeadListPage() {
         </div>
       )}
 
-      {/* ── Tip banner ────────────────────────────────────── */}
-      <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
-        <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1 mt-0.5">
-          TIP
-        </span>
-        <p className="text-sm font-black text-[var(--navy)]">
-          Call GOLD leads the same day. Response rate drops 60% after 24 hours.
-        </p>
-      </div>
+      {/* ── Tip banner — only shown when there are leads to act on ─ */}
+      {stored.length > 0 && (
+        <div className="flex items-start gap-3 px-4 py-3 bg-[var(--yellow)] border-2 border-[var(--navy)]">
+          <span className="flex-shrink-0 text-[11px] font-black uppercase text-[var(--navy)] border-r-2 border-[var(--navy)] pr-3 mr-1 mt-0.5">
+            TIP
+          </span>
+          <p className="text-sm font-black text-[var(--navy)]">
+            Call GOLD leads the same day. Response rate drops significantly after 24 hours.
+          </p>
+        </div>
+      )}
 
       {/* ── Empty state — shown when no leads at all ─────────── */}
       {stored.length === 0 && (
@@ -138,7 +171,7 @@ export function LeadListPage() {
           <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN FOR JOBS NOW →
           </Link>
-          <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required</p>
+          <p className="mt-3 text-sm font-black text-[var(--ink)]/80">No credit card required — 3 free scans every week</p>
         </div>
       )}
 
@@ -209,10 +242,10 @@ export function LeadListPage() {
               </h2>
               <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
                 {tab === 'gold'
-                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 90+.'
+                  ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
                   : tab === 'silver'
-                  ? 'SILVER leads (score 75–89) appear here. Run a scan to fill your pipeline.'
-                  : 'No lower-scored leads in your pipeline yet.'}
+                  ? 'SILVER leads (score 50–79) appear here. Run a scan and track them.'
+                  : 'No lower-scored leads tracked yet.'}
               </p>
               {tab !== 'bronze' && (
                 <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--yellow)] text-[var(--ink)]">
@@ -249,7 +282,12 @@ export function LeadListPage() {
 
                 {/* Tags row */}
                 <div className="flex flex-wrap items-center gap-2 px-5 py-3 border-b-2 border-[var(--navy)]">
-                  {(lead.flags ?? []).slice(0, 4).map((flag: string) => (
+                  {tradeHighlights(lead.scoreReasons).map((badge) => (
+                    <span key={badge} className="px-2 py-1 text-xs font-black uppercase border border-[var(--ink)] bg-[var(--yellow)] text-[var(--ink)]">
+                      {badge}
+                    </span>
+                  ))}
+                  {(lead.flags ?? []).slice(0, 3).map((flag: string) => (
                     <span key={flag} className="px-2 py-1 text-xs font-black uppercase border border-[var(--navy)] bg-[var(--offwhite)] text-[var(--navy)]">
                       {flag}
                     </span>
@@ -264,12 +302,12 @@ export function LeadListPage() {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
                   <a
-                    href={`https://wa.me/?text=${encodeURIComponent(fillTemplate(FIRST_TOUCH_TEMPLATE, { job_type: lead.jobType, area: lead.area }))}`}
+                    href={`https://wa.me/${lead.phone ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '') : ''}?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
                     className="jf-button flex-1 bg-[var(--green)] text-white"
                   >
-                    SEND WHATSAPP
+                    {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
                   <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
                     VIEW FULL DETAILS →

@@ -109,12 +109,12 @@ export function AccountPage() {
             <p className="mt-1 text-sm font-black text-[var(--muted)]">
               {TIER_PRICES[tier] ?? '—'}
               {isActive && (
-                <span className="ml-2 border border-green-600 bg-green-50 px-2 py-0.5 text-xs text-green-700">
+                <span className="ml-2 border-2 border-[var(--green)] px-2 py-0.5 text-xs font-black uppercase text-[var(--green)]">
                   ACTIVE
                 </span>
               )}
               {!isActive && tier !== 'free' && (
-                <span className="ml-2 border border-orange-500 bg-orange-50 px-2 py-0.5 text-xs text-orange-700">
+                <span className="ml-2 border-2 border-[var(--orange)] px-2 py-0.5 text-xs font-black uppercase text-[var(--orange)]">
                   {sub.status.toUpperCase()}
                 </span>
               )}
@@ -135,7 +135,7 @@ export function AccountPage() {
             </a>
           )}
         </div>
-        {portalError && <p className="mt-3 text-sm font-bold text-red-600">{portalError}</p>}
+        {portalError && <p className="mt-3 text-sm font-black text-[var(--orange)]">{portalError}</p>}
 
         {!isActive && (
           <div className="mt-6 border-t-2 border-[var(--line)] pt-4">

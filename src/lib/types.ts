@@ -18,7 +18,7 @@ export type LeadDecision = {
   details?: string;
   phone?: string;
   budget?: string;
-  tier?: 'GOLD' | 'SILVER' | 'BIN';
+  tier?: 'GOLD' | 'SILVER' | 'BRONZE';
   status: LeadDecisionStatus;
   createdAt: string;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
@@ -31,6 +31,11 @@ export type LeadDecision = {
   signalStack?: string[];
   signalClass?: string;
   fusionKey?: string;
+  scoreReasons?: string[];
+  source?: string;
+  description?: string;
+  isCommercial?: boolean;
+  projectScale?: 'small' | 'medium' | 'large';
 };
 
 export type Lead = {
@@ -55,6 +60,7 @@ export type Lead = {
   score: number;
   distanceMiles?: number;
   isCommercial?: boolean;
+  projectScale?: 'small' | 'medium' | 'large';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
@@ -91,6 +97,7 @@ export type Lead = {
   }>;
   whyThisIsAJob?: string;
   updatedAt?: string;
+  description?: string;
 };
 
 export type SourceStats = {
@@ -165,8 +172,10 @@ export type WinJob = {
   trade: string;
   location: string;
   value: number;
+  estimatedValue?: string;
   wonAt: string;
   source: 'chase' | 'manual';
+  reviewMessageSent?: boolean;
 };
 
 export type LostJob = {

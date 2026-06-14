@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
 
-import { fillTemplate, MESSAGE_TEMPLATES, type TemplateChannel } from '../lib/chaseTemplates';
+import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
 
@@ -20,9 +20,9 @@ type Props = {
 };
 
 function getChannels(contactSignal?: ContactSignal): TemplateChannel[] {
-  if (contactSignal === 'strong') return ['whatsapp'];
-  if (contactSignal === 'weak') return ['whatsapp', 'portal'];
-  return ['portal', 'canvass', 'letter'];
+  if (contactSignal === 'strong') return ['whatsapp', 'email'];
+  if (contactSignal === 'weak') return ['whatsapp', 'portal', 'email'];
+  return ['portal', 'canvass', 'letter', 'email'];
 }
 
 const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.ElementType; copyLabel: string; copiedLabel: string }> = {
@@ -30,9 +30,10 @@ const CHANNEL_META: Record<TemplateChannel, { label: string; icon: React.Element
   portal: { label: 'Portal Pitch', icon: Mail, copyLabel: 'COPY FOR PORTAL', copiedLabel: 'COPIED — PASTE INTO PORTAL' },
   canvass: { label: 'Site Canvass', icon: MapPin, copyLabel: 'COPY SCRIPT', copiedLabel: 'COPIED — USE ON SITE' },
   letter: { label: 'Letter Drop', icon: Mail, copyLabel: 'COPY LETTER', copiedLabel: 'COPIED — PRINT & POST' },
+  email: { label: 'Email', icon: Mail, copyLabel: 'COPY EMAIL', copiedLabel: 'COPIED — PASTE INTO EMAIL' },
 };
 
-const WA_TIMING_KEYS = ['first_touch_2h', 'follow_up_24h', 'final_nudge_48h'];
+const WA_TEMPLATE_KEYS = ['first_touch_2h', 'quick_quote_offer', 'follow_up_24h', 'availability_check', 'final_nudge_48h'];
 
 function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): string {
   if (channels.includes('whatsapp')) {
@@ -41,6 +42,7 @@ function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): strin
     if (hrs > 20) return 'follow_up_24h';
     return 'first_touch_2h';
   }
+  if (channels.includes('email')) return 'email_first_touch';
   if (channels.includes('portal')) return 'portal_pitch';
   if (channels.includes('canvass')) return 'canvass_script';
   return 'letter_drop';
@@ -91,7 +93,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
         <div className="flex items-center gap-2 mb-2">
           <Lock className="w-3.5 h-3.5 text-[var(--muted)]" />
           <p className="text-xs font-black uppercase tracking-wider text-[var(--muted)]">First Strike</p>
-          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">PATCH PLAN</span>
+          <span className="ml-auto text-[10px] font-black uppercase bg-[var(--ink)] text-[var(--yellow)] px-2 py-0.5">£39/MO</span>
         </div>
         <p className="text-xs font-bold text-[var(--muted)] mb-3">
           {contactSignal === 'none'
@@ -152,7 +154,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
           {/* WhatsApp timing sub-tabs */}
           {activeChannel === 'whatsapp' && (
             <div className="flex gap-0 border border-[var(--line)] mb-4">
-              {MESSAGE_TEMPLATES.filter((t) => WA_TIMING_KEYS.includes(t.key)).map((t) => (
+              {MESSAGE_TEMPLATES.filter((t) => WA_TEMPLATE_KEYS.includes(t.key)).map((t) => (
                 <button
                   key={t.key}
                   onClick={() => setActiveKey(t.key)}
@@ -194,7 +196,23 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
 
           {/* Message preview */}
           <div className="border border-[var(--line)] bg-[var(--offwhite)] p-3 mb-3">
-            <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>
+            {(() => {
+              if (activeChannel === 'email') {
+                const emailParts = parseEmailSubject(filledMsg);
+                return (
+                  <>
+                    {emailParts.subject && (
+                      <div className="mb-2 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
+                        <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                        <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
+                      </div>
+                    )}
+                    <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{emailParts.body}</p>
+                  </>
+                );
+              }
+              return <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMsg}</p>;
+            })()}
           </div>
 
           <div className="flex gap-2">
@@ -213,14 +231,14 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
                 className="jf-button flex items-center gap-1 bg-[var(--offwhite)] border-2 border-[var(--ink)] text-[var(--ink)] text-xs"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                LISTING
+                VIEW LISTING
               </a>
             )}
           </div>
 
           {copied && (
             <p className="mt-2 text-[10px] font-black text-[var(--green)] uppercase tracking-wider">
-              {tracked ? '✓ Chase stage updated' : '✓ Added to chase tracker automatically'}
+              {tracked ? '✓ Job tracker updated' : '✓ Added to your job tracker automatically'}
             </p>
           )}
 
