@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 14 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms wired to real `fetch()`; audited all `Link href` against `app/` route tree, no broken links
+- [x] **NEEDLE/BUILDER fix — Vantage/Vicinity misrepresented as live (same class as PR #257 from Run 1)**: `FreeToolsPage.tsx` FREE VS PAID table showed "Vantage bid decks" / "Vicinity proof generator" with ✓ under FOUNDING 30 (implies working self-serve tool included with subscription); `TradieZonePage.tsx` YOUR TOOLS tiles said "Generate bid decks"/"Social proof from photos" with "OPEN ->". Both generators are still Coming Soon/disabled on their own pages. Changed table cells to "Coming soon"; added orange "Coming soon" badge + "JOIN WAITLIST ->" to the two TradieZonePage tiles (matches PR #257's HomePage badge style).
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`6bc387a`)
+- [ ] **VicinityPage "Generate Proof" / VantagePage "Generate Bid Deck" tools** — still Coming Soon/disabled; real build = wire upload + template selection into an actual image/PDF-gen flow (multi-run project, needs gen API)
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, carried over multiple weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 14 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
