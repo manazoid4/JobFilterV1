@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 14 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms (ProductAdvantagePage, WeeklySignalsPage) wired to real `fetch()`; no broken imports
+- [x] **NEEDLE/BUILDER fix — VantagePage fake "Generate Bid Deck" flow**: hero promised a working tender-upload tool, but upload zone was non-interactive and CTAs just scrolled to a generic founder waitlist — disabled both buttons, relabelled "— Coming Soon" + added "Vantage is in development. Join the waitlist below..." note (matches VicinityPage's 12 June fix)
+- [x] **Copy polish — "pipeline" jargon removed**: BlueprintPage.tsx:164 DELIVERY LOOP card copy ("lands in the pipeline" → "is picked up and scored"); TradieZonePage.tsx:53 ("job pipeline" → "tools no auction site gives you"), :107 ("VIEW PIPELINE" → "VIEW DASHBOARD", matches actual `/dashboard` link target), :111 (unverifiable "in minutes" claim → "before they're shared on Checkatrade or Bark. First to quote wins")
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main
+- [ ] **VicinityPage "Generate Proof" tool** — still Coming Soon/disabled; real build = wire photo upload + job summary + template selection into an actual image-generation flow, if shipping soon (effort ~8, needs image-gen API — likely a multi-run project)
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, ~3 weeks carried over)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 13 June 2026 (NightlyBuildAgent — Run 4)
 
 - [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
