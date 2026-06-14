@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 14 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — detached HEAD at `00ca6e4` (local `main` 53 commits stale, force-updated remote); `git fetch` + `git reset --hard origin/main` resolved it, `00ca6e4` already == `origin/main`; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms wired to real `fetch()`; no broken imports
+- [x] **NEEDLE/BUILDER fix — `app/robots.ts` gap from PR #261**: PR #260/#261 (pushed earlier today) added `middleware.ts` redirecting unauthenticated `/dashboard`, `/leads`, `/account`, `/tradie-zone` to `/login`, and `robots.ts` disallowed `/dashboard`+`/account` but missed `/leads`+`/tradie-zone`. Added both to disallow list. Verified `/tradie-zone` only linked for logged-in users (TopNav "Tools"), `/leads` only reached via Dashboard — middleware guard correct, no UX regression.
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`1e37315`)
+- [ ] **VicinityPage "Generate Proof" / VantagePage "Generate Bid Deck" tools** — still Coming Soon/disabled; real build = wire upload + template selection into an actual image/PDF-gen flow (multi-run project, needs gen API)
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, carried over multiple weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Tier 1/2 roadmap items exhaustively built/polished** — next genuinely-buildable medium items are Tier 2 #13 (WhatsApp Business API Phase 2, two-way messaging) or Tier 2 #18 (PlanWire), both multi-day/multi-run — scope before starting.
+
 ## Today - 14 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
