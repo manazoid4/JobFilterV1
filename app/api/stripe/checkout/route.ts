@@ -1,6 +1,10 @@
 import { getAppOrigin, getStripe, resolvePriceId, type Tier } from '../../../../src/lib/stripe';
+import { rateLimitNext } from '../../../../server/lib/nextRateLimit';
 
 export async function POST(request: Request) {
+  const limited = rateLimitNext(request, 10);
+  if (limited) return limited;
+
   const stripe = getStripe();
   if (!stripe) {
     return Response.json({ ok: false, error: 'STRIPE_SECRET_KEY is not configured' }, { status: 503 });

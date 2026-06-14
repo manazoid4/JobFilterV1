@@ -1,3 +1,20 @@
+# Vault Sync — MANDATORY
+
+## Session Start
+```
+git -C C:\Users\manaz\claude-obsidian pull fork main
+```
+Read: `C:\Users\manaz\claude-obsidian\wiki\projects\jobfilter\`
+Full agent rules: `C:\Users\manaz\claude-obsidian\.agent-context\AGENT_SYSTEM.md`
+
+## Session End
+Write session note → `C:\Users\manaz\claude-obsidian\wiki\sessions\YYYY-MM-DD-jobfilter-{agent}.md`
+```
+git -C C:\Users\manaz\claude-obsidian add -A && git -C C:\Users\manaz\claude-obsidian commit -m "session: jobfilter {date}" && git -C C:\Users\manaz\claude-obsidian push fork main
+```
+
+---
+
 # Claude Working Rules
 
 Claude and Claude-like agents should follow:
