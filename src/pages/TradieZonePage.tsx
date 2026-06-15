@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-import { Zap, MapPinned, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, LetterText } from 'lucide-react';
+import { Zap, MapPinned, Megaphone, LayoutGrid, Radio, ShieldCheck, TrendingUp, LetterText } from 'lucide-react';
 import { getChaseLeads } from '../lib/chaseStore';
 import type { ChaseLead } from '../lib/types';
 
@@ -10,7 +10,7 @@ const memberTools: { id: string; name: string; desc: string; icon: typeof Radio;
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'vicinity', name: 'Vicinity', desc: 'Targeted door-drop ads', icon: Megaphone, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
@@ -50,7 +50,7 @@ export function TradieZonePage() {
           {memberName ? `WELCOME BACK, ${memberName.toUpperCase()}.` : 'YOUR TOOLS.'}
         </h1>
         <p className="mt-3 max-w-2xl font-black text-white/90">
-          Bid decks, social proof, material prices and quick links — tools no auction site gives you. For tracked leads and stats, see your Dashboard.
+          Bid decks, door-drop ads, material prices and quick links — tools no auction site gives you. For tracked leads and stats, see your Dashboard.
         </p>
       </section>
 

@@ -479,6 +479,7 @@ export function CityIntelligencePage() {
               <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO</Link>
               <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE FIRST</Link>
             </div>
+            <p className="mt-3 text-xs font-black text-white/60">No credit card required — 3 free scans every week</p>
           </section>
         )}
       </div>
