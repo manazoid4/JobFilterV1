@@ -155,9 +155,6 @@ function deriveOutward(raw: RawLead): string {
   const postcodeMatch = location.match(/\b[A-Z]{1,2}\d[A-Z\d]?\b/);
   if (postcodeMatch) return postcodeMatch[0];
 
-  const nutsMatch = location.match(/\bUK[A-Z0-9]{1,3}\b/);
-  if (nutsMatch) return nutsMatch[0];
-
   return 'UK';
 }
 
@@ -178,7 +175,10 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const published = normaliseDate(raw.rawPublished) || new Date().toISOString();
 
   const outward = deriveOutward(raw);
-  const region = outward.startsWith('UK') ? regionFromNuts(outward) : regionFromOutward(outward);
+  const nutsMatch = String(raw.rawLocation ?? '').trim().toUpperCase().match(/\bUK[A-Z0-9]{1,3}\b/);
+  const region = outward.startsWith('UK')
+    ? (nutsMatch ? regionFromNuts(nutsMatch[0]) : '')
+    : regionFromOutward(outward);
 
   const estVal = formatValue(min, max);
   const urgency = calcUrgency(deadline, rawVal);
