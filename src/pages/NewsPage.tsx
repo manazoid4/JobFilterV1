@@ -144,7 +144,7 @@ export function NewsPage() {
 
       {/* ── LEAD ARTICLE ── */}
       <section className="page-shell pt-10">
-        <p className="micro-label text-[var(--orange)]">TODAY — {formatDate(lead.date)}</p>
+        <p className="micro-label text-[var(--orange)]">LATEST BRIEFING — {formatDate(lead.date)}</p>
         <article className="mt-3 border-2 border-[var(--ink)] bg-white">
           <header className="border-b-2 border-[var(--ink)] px-6 py-4 flex flex-wrap items-center gap-3">
             <span className={`px-3 py-1 text-xs font-black uppercase tracking-wider ${CATEGORY_COLOURS[lead.category]}`}>
