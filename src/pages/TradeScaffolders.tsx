@@ -47,7 +47,7 @@ Area: LS6 / Leeds North West
 Value: £2,400-£4,800 scaffold hire — 8 weeks
 Urgency: Planning approved 6 days ago — build starts ~6 weeks
 Why it matters: Three-storey extension — full scaffold package required
-Action: Open notice → jobfilter.uk/lead/scf612`,
+Action: Open notice → jobfilter.uk/leads/scf612`,
   comparisonOld: [
     'Rely on builder relationships built over years — miss everything outside your network',
     'Find out about jobs when it\'s Friday before a Monday start',

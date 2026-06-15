@@ -42,8 +42,8 @@ export function Footer() {
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">ADD-ON SERVICES</p>
             <div className="grid gap-1.5 md:gap-2.5 text-xs md:text-sm font-black uppercase text-white/90">
-              <Link href="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks</Link>
-              <Link href="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads</Link>
+              <Link href="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks <span className="text-white/50">(Coming soon)</span></Link>
+              <Link href="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads <span className="text-white/50">(Coming soon)</span></Link>
               <Link href="/codex" className="hover:text-[var(--yellow)]">Codex — Spec to Sales</Link>
             </div>
           </div>

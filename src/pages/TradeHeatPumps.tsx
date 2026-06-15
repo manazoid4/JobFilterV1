@@ -47,7 +47,7 @@ Area: BS4 / Bristol
 Value: £8k-£14k install (after BUS grant)
 Urgency: Low energy rating + extension approved
 Why it matters: F-rated semi, extension approved, landlord-owned
-Action: Open notice → jobfilter.uk/lead/jkl012`,
+Action: Open notice → jobfilter.uk/leads/jkl012`,
   comparisonOld: [
     'Waiting for homeowners to search "heat pump installer"',
     'Competing on Checkatrade with 5 other installers',

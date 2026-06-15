@@ -47,7 +47,7 @@ Area: EC1 / Central London
 Value: £45,000-£120,000 HVAC installation
 Urgency: Planning approved 9 days ago
 Why it matters: Office-to-residential conversion — full Part L HVAC spec required
-Action: Open notice → jobfilter.uk/lead/hvc362`,
+Action: Open notice → jobfilter.uk/leads/hvc362`,
   comparisonOld: [
     'Rely on M&E framework contractor status — miss everything outside it',
     'Find commercial tenders too late to meet pre-qualification deadlines',

@@ -47,7 +47,7 @@ Area: M14 / Manchester South
 Value: £800-£4,000 per property — 12 properties flagged
 Urgency: Energy signals identified this week
 Why it matters: Pre-1900 terrace cluster — moisture and damp flagged across 12 properties
-Action: Open notice → jobfilter.uk/lead/dmp519`,
+Action: Open notice → jobfilter.uk/leads/dmp519`,
   comparisonOld: [
     'Wait for surveyor referrals or emergency calls from homeowners in distress',
     'Pre-war property damp demand invisible — no one is cross-referencing energy signals',

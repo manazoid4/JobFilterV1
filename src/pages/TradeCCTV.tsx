@@ -47,7 +47,7 @@ Area: E1 / Whitechapel, London
 Value: £2,500-£6,000 CCTV installation
 Urgency: Licence application filed — CCTV condition on grant (30 days)
 Why it matters: New restaurant/bar — CCTV standard council condition
-Action: Open notice → jobfilter.uk/lead/cctv677`,
+Action: Open notice → jobfilter.uk/leads/cctv677`,
   comparisonOld: [
     'Wait for licence holders to search Google under compliance deadline pressure',
     'HMO licensing security requirements — you find out after the landlord panics',

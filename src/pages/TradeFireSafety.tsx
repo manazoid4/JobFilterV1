@@ -47,7 +47,7 @@ Area: N1 / Islington, London
 Value: £650-£1,200 FRA commission
 Urgency: HMO licence application filed 3 days ago
 Why it matters: 8-bed HMO — statutory FRA required before licence granted
-Action: Open notice → jobfilter.uk/lead/fsa288`,
+Action: Open notice → jobfilter.uk/leads/fsa288`,
   comparisonOld: [
     'Wait for landlords to find you on Google when they\'re already in a compliance panic',
     'HMO licensing applications filed across dozens of council portals — impossible to track',

@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useAuth } from '../components/AuthProvider';
-import { getChaseLeads, snoozeChaseLead } from '../lib/chaseStore';
+import { addNudgeEvent, getChaseLeads, snoozeChaseLead, updateChaseStage } from '../lib/chaseStore';
+import { getStoredLeads } from '../lib/leadStore';
+import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { ROITracker } from '../components/ROITracker';
 import { generateReviewMessage, getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData, markReviewSent } from '../lib/winStore';
 import type { ChaseLead, LostReason, WinJob } from '../lib/types';
@@ -92,6 +94,35 @@ export function DashboardPage() {
 
   function handleSnooze(leadId: string) {
     snoozeChaseLead(leadId);
+    setChaseLeads(getChaseLeads());
+  }
+
+  function handleSendNudge(lead: ChaseLead) {
+    const templateKey = lead.stage === 'not_contacted' && lead.nudges.length === 0
+      ? 'first_touch_2h'
+      : lead.nudges.length >= 2
+      ? 'final_nudge_48h'
+      : 'follow_up_24h';
+    const template = MESSAGE_TEMPLATES.find((t) => t.key === templateKey)!;
+    const message = fillTemplate(template, { job_type: lead.trade, area: lead.location });
+
+    const storedLead = getStoredLeads().find((l) => l.id === lead.leadId);
+    const phone = storedLead?.phone
+      ? storedLead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '')
+      : '';
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+
+    if (lead.stage === 'not_contacted') {
+      updateChaseStage(lead.leadId, 'contacted');
+    }
+    addNudgeEvent(lead.leadId, {
+      id: `nudge-${Date.now()}`,
+      stage: lead.stage,
+      templateKey: template.key,
+      message,
+      sentAt: new Date().toISOString(),
+      channel: 'whatsapp',
+    });
     setChaseLeads(getChaseLeads());
   }
 
@@ -261,6 +292,12 @@ export function DashboardPage() {
                   <p className="text-xs font-black text-[var(--muted)]">{l.location} · {l.stage.replace('_', ' ')}</p>
                 </div>
                 <div className="flex flex-shrink-0 gap-2">
+                  <button
+                    onClick={() => handleSendNudge(l)}
+                    className="jf-button bg-[var(--green)] text-white text-sm"
+                  >
+                    SEND NUDGE →
+                  </button>
                   <button
                     onClick={() => handleSnooze(l.leadId)}
                     className="jf-button bg-white text-[var(--ink)] text-sm"

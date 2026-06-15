@@ -12,6 +12,7 @@ import {
   type AccountantStatus,
   type Incomeband,
   type ReminderTiming,
+  type VatRegistered,
   getDeadlines,
   getNextDeadline,
   calculateAdminScore,
@@ -21,8 +22,10 @@ import {
   downloadIcs,
   loadProfile,
   saveProfile,
-  isPaidUser,
 } from '../lib/adminGuard';
+import { useAuth } from '../components/AuthProvider';
+import { useSubscription } from '../lib/useSubscription';
+import { isOwnerEmail } from '../lib/ownerAccess';
 
 const DEFAULT_PROFILE: AdminProfile = {
   tradeType: 'sole_trader',
@@ -31,11 +34,14 @@ const DEFAULT_PROFILE: AdminProfile = {
   accountant: 'no',
   incomeBand: 'not_sure',
   reminderTiming: '14',
+  vatRegistered: 'not_sure',
 };
 
 export function AdminGuardPage() {
-  const paid = isPaidUser();
-  const [profile, setProfile] = useState<AdminProfile>(loadProfile() ?? DEFAULT_PROFILE);
+  const { user } = useAuth();
+  const sub = useSubscription();
+  const paid = sub.active || isOwnerEmail(user?.email);
+  const [profile, setProfile] = useState<AdminProfile>({ ...DEFAULT_PROFILE, ...(loadProfile() ?? {}) });
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [adminScore, setAdminScore] = useState<AdminScore>({ score: 0, label: 'Needs attention', colour: 'var(--yellow)' });
   const [nextDeadline, setNextDeadline] = useState<Deadline | null>(null);
@@ -228,6 +234,22 @@ export function AdminGuardPage() {
             />
             <p className="mt-2 text-xs font-bold text-[var(--muted)]">
               Used only to show Making Tax Digital reminders. JobFilter does not calculate your tax.
+            </p>
+          </div>
+
+          <div>
+            <RadioGroup
+              label="VAT registered?"
+              value={profile.vatRegistered}
+              options={[
+                { value: 'yes', label: 'Yes' },
+                { value: 'no', label: 'No' },
+                { value: 'not_sure', label: 'Not sure' },
+              ]}
+              onChange={(v) => updateProfile({ vatRegistered: v as VatRegistered })}
+            />
+            <p className="mt-2 text-xs font-bold text-[var(--muted)]">
+              Used only to show VAT return deadline reminders. Your actual VAT quarters depend on your registration date.
             </p>
           </div>
 
@@ -709,11 +731,5 @@ const LOCKED_MODULES = [
     label: 'ADMIN GUARD',
     title: 'Quote Expiry Tracker',
     description: 'Know when your quotes are about to expire before leads go cold.',
-  },
-  {
-    id: 'vat',
-    label: 'ADMIN GUARD',
-    title: 'VAT Return Reminder',
-    description: 'Quarterly VAT return dates if you are VAT-registered.',
   },
 ];

@@ -47,7 +47,7 @@ Area: BS1 / Bristol City Centre
 Value: £17,000-£51,000 FTTP installation
 Urgency: Planning approved 11 days ago
 Why it matters: 85-unit new build — FTTP legally required for all units
-Action: Open notice → jobfilter.uk/lead/fib334`,
+Action: Open notice → jobfilter.uk/leads/fib334`,
   comparisonOld: [
     'Rely on developer relationships — miss everything outside your existing network',
     'OFCOM rollout data is research, not a lead — no actionable timing',

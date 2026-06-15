@@ -47,7 +47,7 @@ Area: OX4 / Oxford East
 Value: £1,500-£4,500 per unit — 45 units
 Urgency: Completion notices filed, occupancy in 3-4 weeks
 Why it matters: New build estate — decoration packages needed before handover
-Action: Open notice → jobfilter.uk/lead/dec594`,
+Action: Open notice → jobfilter.uk/leads/dec594`,
   comparisonOld: [
     'Depend on word of mouth — feast or famine with no predictability',
     'Miss extension jobs because builders use their own preferred decorator',

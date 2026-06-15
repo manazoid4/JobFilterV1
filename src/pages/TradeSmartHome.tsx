@@ -47,7 +47,7 @@ Area: KT2 / Kingston upon Thames
 Value: £8,000-£35,000 smart home spec
 Urgency: Planning approved 12 days ago — build ~8-10 weeks out
 Why it matters: £280k renovation budget — smart home spec opportunity at first fix
-Action: Open notice → jobfilter.uk/lead/smt856`,
+Action: Open notice → jobfilter.uk/leads/smt856`,
   comparisonOld: [
     'Wait for clients to find you after the build is nearly finished — too late for proper spec',
     'Premium new build estates allocated to known AV integrators — you\'re locked out',

@@ -47,7 +47,7 @@ Area: M60 / Greater Manchester
 Value: £16,000-£50,000 EV charger package
 Urgency: Planning approved 6 days ago
 Why it matters: 20-unit new build — Part S EV provision required for all units
-Action: Open notice → jobfilter.uk/lead/evc219`,
+Action: Open notice → jobfilter.uk/leads/evc219`,
   comparisonOld: [
     'Rely on OZEV grant enquiries — competing with every local installer',
     'Miss Part S new build contracts because you never see the planning',

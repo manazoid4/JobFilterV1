@@ -7,6 +7,7 @@ export type PaymentsOnAccount = 'yes' | 'no' | 'not_sure';
 export type AccountantStatus = 'yes' | 'no' | 'sometimes' | 'planning';
 export type Incomeband = 'over_50k' | 'over_30k' | 'over_20k' | 'under_20k' | 'not_sure';
 export type ReminderTiming = '7' | '14' | '30' | 'all';
+export type VatRegistered = 'yes' | 'no' | 'not_sure';
 
 export interface AdminProfile {
   tradeType: TradeType;
@@ -15,6 +16,7 @@ export interface AdminProfile {
   accountant: AccountantStatus;
   incomeBand: Incomeband;
   reminderTiming: ReminderTiming;
+  vatRegistered: VatRegistered;
   email?: string;
 }
 
@@ -130,6 +132,42 @@ const ALL_DEADLINES: Omit<Deadline, 'status' | 'daysUntil' | 'relevant'>[] = [
       'MTD for Income Tax is planned for those with qualifying income over £20,000 from 6 April 2028. Check GOV.UK for confirmation or speak to your accountant.',
     sourceLabel: 'GOV.UK — Making Tax Digital for Income Tax',
   },
+  {
+    id: 'vat_q_aug26',
+    title: 'VAT Return & Payment',
+    date: new Date(2026, 7, 7), // 7 August 2026
+    appliesTo: 'VAT-registered businesses (standard quarter ending 30 June)',
+    explanation:
+      'If your VAT quarter ends 30 June, your online VAT return and payment are due by 7 August 2026. Your own VAT quarters depend on your registration date — check your VAT online account for your actual deadlines.',
+    sourceLabel: 'GOV.UK — VAT returns',
+  },
+  {
+    id: 'vat_q_nov26',
+    title: 'VAT Return & Payment',
+    date: new Date(2026, 10, 7), // 7 November 2026
+    appliesTo: 'VAT-registered businesses (standard quarter ending 30 September)',
+    explanation:
+      'If your VAT quarter ends 30 September, your online VAT return and payment are due by 7 November 2026. Your own VAT quarters depend on your registration date — check your VAT online account for your actual deadlines.',
+    sourceLabel: 'GOV.UK — VAT returns',
+  },
+  {
+    id: 'vat_q_feb27',
+    title: 'VAT Return & Payment',
+    date: new Date(2027, 1, 7), // 7 February 2027
+    appliesTo: 'VAT-registered businesses (standard quarter ending 31 December)',
+    explanation:
+      'If your VAT quarter ends 31 December, your online VAT return and payment are due by 7 February 2027. Your own VAT quarters depend on your registration date — check your VAT online account for your actual deadlines.',
+    sourceLabel: 'GOV.UK — VAT returns',
+  },
+  {
+    id: 'vat_q_may27',
+    title: 'VAT Return & Payment',
+    date: new Date(2027, 4, 7), // 7 May 2027
+    appliesTo: 'VAT-registered businesses (standard quarter ending 31 March)',
+    explanation:
+      'If your VAT quarter ends 31 March, your online VAT return and payment are due by 7 May 2027. Your own VAT quarters depend on your registration date — check your VAT online account for your actual deadlines.',
+    sourceLabel: 'GOV.UK — VAT returns',
+  },
 ];
 
 function isRelevant(dl: Omit<Deadline, 'status' | 'daysUntil' | 'relevant'>, profile: AdminProfile): boolean {
@@ -145,6 +183,7 @@ function isRelevant(dl: Omit<Deadline, 'status' | 'daysUntil' | 'relevant'>, pro
   if (id === 'mtd_30k') return profile.incomeBand === 'over_30k' || profile.incomeBand === 'over_50k';
   if (id === 'mtd_20k') return profile.incomeBand === 'over_20k' || profile.incomeBand === 'over_30k' || profile.incomeBand === 'over_50k';
   if (id === 'paper_return') return false; // most tradespeople file online
+  if (id.startsWith('vat_q_')) return profile.vatRegistered === 'yes';
 
   return true;
 }
@@ -182,6 +221,7 @@ export function calculateAdminScore(profile: AdminProfile, deadlines: Deadline[]
   if (profile.accountant === 'no' && profile.paymentsOnAccount === 'not_sure') score -= 10;
   if (profile.paymentsOnAccount === 'not_sure') score -= 10;
   if (profile.incomeBand === 'not_sure') score -= 10;
+  if (profile.vatRegistered === 'not_sure') score -= 5;
   if (!profile.reminderTiming) score -= 10;
 
   const next = getNextDeadline(deadlines);
@@ -257,6 +297,14 @@ export function getMonthlyChecklist(profile: AdminProfile): string[] {
         ]
       : [];
 
+  const vat =
+    profile.vatRegistered === 'yes'
+      ? [
+          'Set aside VAT collected this month — keep it separate from your tax savings',
+          'Check if a VAT return is due this quarter',
+        ]
+      : [];
+
   const leads = [
     'Review your most serious leads from this month',
     'Follow up any quotes that are more than 3 days old',
@@ -264,7 +312,7 @@ export function getMonthlyChecklist(profile: AdminProfile): string[] {
     'Chase jobs with a clear budget and timeline first',
   ];
 
-  return [...base, ...cis, ...noAccountant, ...mtd, ...leads];
+  return [...base, ...cis, ...noAccountant, ...mtd, ...vat, ...leads];
 }
 
 export const ACCOUNTANT_CHECKLIST = [
@@ -370,8 +418,4 @@ export function loadProfile(): AdminProfile | null {
 
 export function saveProfile(p: AdminProfile): void {
   (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(STORAGE_KEY, JSON.stringify(p));
-}
-
-export function isPaidUser(): boolean {
-  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.isPaid') === 'true';
 }

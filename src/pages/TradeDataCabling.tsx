@@ -47,7 +47,7 @@ Area: EC2 / City of London
 Value: £18,000-£35,000 structured cabling
 Urgency: Planning approved 8 days ago
 Why it matters: 3,500 sqft office fit-out — Cat6A + fibre backbone required
-Action: Open notice → jobfilter.uk/lead/dat923`,
+Action: Open notice → jobfilter.uk/leads/dat923`,
   comparisonOld: [
     'Rely on M&E contractor relationships — miss everything outside your network',
     'Office fit-out planning approvals invisible — nobody monitors commercial planning',

@@ -47,7 +47,7 @@ Area: Leeds / West Yorkshire
 Value: £2.1m project — QS commission est. £18,000-£32,000
 Urgency: Tender published — 14 days to submission
 Why it matters: Primary school extension — LA-funded, full QS cost management required
-Action: Open notice → jobfilter.uk/lead/qs773`,
+Action: Open notice → jobfilter.uk/leads/qs773`,
   comparisonOld: [
     'Hear about tenders when they\'re already open — no time to differentiate',
     'Public sector frameworks exclude smaller practices from the start',

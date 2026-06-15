@@ -24,28 +24,15 @@ export function registerSubscriptionStatusRoute(app: Express) {
 
       let lookupUserId = userId;
 
-      // Email fallback: resolve email → user_id via auth admin API
+      // Email fallback: resolve email → user_id via the profiles table
       if (!lookupUserId && email) {
-        const { data: { users } } = await supabase.auth.admin.listUsers({ perPage: 1 });
-        // listUsers doesn't filter by email — use a direct admin lookup instead
-        const { data: adminUser, error: adminErr } = await (supabase.auth.admin as any).getUserByEmail
-          ? (supabase.auth.admin as any).getUserByEmail(email)
-          : { data: null, error: null };
-
-        if (!adminErr && adminUser?.user?.id) {
-          lookupUserId = adminUser.user.id;
-        }
-
-        // If admin lookup unavailable, fall back to profiles table if it exists
-        if (!lookupUserId) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('email', email)
-            .limit(1)
-            .single();
-          if (profile?.id) lookupUserId = profile.id;
-        }
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('email', email)
+          .limit(1)
+          .single();
+        if (profile?.id) lookupUserId = profile.id;
       }
 
       if (!lookupUserId) return res.json(FREE_RESPONSE);
