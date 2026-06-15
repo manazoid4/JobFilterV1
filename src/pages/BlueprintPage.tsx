@@ -265,20 +265,35 @@ function JourneyTimelineSvg() {
   ];
 
   return (
-    <div className="w-full overflow-x-auto">
-      <div className="min-w-[700px] flex items-start gap-0 relative py-4">
-        {/* Connecting line */}
-        <div className="absolute top-[32px] left-[40px] right-[40px] h-[3px] bg-[var(--yellow)]" />
-        {steps.map((step, i) => (
-          <div key={step.label} className="flex-1 flex flex-col items-center relative z-10">
-            <div className="w-[64px] h-[64px] rounded-full border-[3px] border-[var(--yellow)] bg-[var(--ink)] flex items-center justify-center">
+    <>
+      {/* Mobile: vertical stack */}
+      <div className="flex flex-col gap-0 relative py-4 md:hidden">
+        <div className="absolute top-[40px] bottom-[40px] left-[32px] w-[3px] bg-[var(--yellow)]" />
+        {steps.map((step) => (
+          <div key={step.label} className="flex items-center gap-4 relative z-10 py-3">
+            <div className="w-[64px] h-[64px] shrink-0 rounded-full border-[3px] border-[var(--yellow)] bg-[var(--ink)] flex items-center justify-center">
               <step.Icon className="h-7 w-7 text-[var(--yellow)]" />
             </div>
-            <p className="mt-3 micro-label text-[var(--yellow)] text-center">{step.label}</p>
+            <p className="micro-label text-[var(--yellow)]">{step.label}</p>
           </div>
         ))}
       </div>
-    </div>
+      {/* Desktop: horizontal */}
+      <div className="hidden md:block w-full">
+        <div className="flex items-start gap-0 relative py-4">
+          {/* Connecting line */}
+          <div className="absolute top-[32px] left-[40px] right-[40px] h-[3px] bg-[var(--yellow)]" />
+          {steps.map((step) => (
+            <div key={step.label} className="flex-1 flex flex-col items-center relative z-10">
+              <div className="w-[64px] h-[64px] rounded-full border-[3px] border-[var(--yellow)] bg-[var(--ink)] flex items-center justify-center">
+                <step.Icon className="h-7 w-7 text-[var(--yellow)]" />
+              </div>
+              <p className="mt-3 micro-label text-[var(--yellow)] text-center">{step.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
