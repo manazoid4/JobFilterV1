@@ -134,6 +134,11 @@ export function fillTemplate(template: MessageTemplate, vars: { job_type: string
   return template.body.replace(/\{job_type\}/g, vars.job_type).replace(/\{area\}/g, vars.area);
 }
 
+export function toSmsHref(phone: string | undefined, body: string): string {
+  const digits = (phone ?? '').replace(/\D/g, '');
+  return `sms:${digits}?body=${encodeURIComponent(body)}`;
+}
+
 export function parseEmailSubject(body: string): { subject: string; body: string } {
   const match = body.match(/^Subject:\s*(.+?)(?:\r?\n){2,}/im);
   if (match) {

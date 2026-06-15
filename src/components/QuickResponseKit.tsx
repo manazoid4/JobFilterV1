@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
 
-import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, type TemplateChannel } from '../lib/chaseTemplates';
+import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, toSmsHref, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
 
@@ -17,6 +17,7 @@ type Props = {
   estimatedValue: string;
   contactSignal?: ContactSignal;
   url?: string;
+  phone?: string;
 };
 
 function getChannels(contactSignal?: ContactSignal): TemplateChannel[] {
@@ -48,7 +49,7 @@ function getDefaultKey(channels: TemplateChannel[], publishedAt?: string): strin
   return 'letter_drop';
 }
 
-export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlocked, title, estimatedValue, contactSignal, url }: Props) {
+export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlocked, title, estimatedValue, contactSignal, url, phone }: Props) {
   const channels = getChannels(contactSignal);
   const defaultKey = getDefaultKey(channels, publishedAt);
 
@@ -223,6 +224,21 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
               {copied ? <CheckCheck className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? channelMeta.copiedLabel : channelMeta.copyLabel}
             </button>
+            {activeChannel === 'whatsapp' && (
+              <a
+                href={toSmsHref(phone, filledMsg)}
+                onClick={() => {
+                  if (!isLeadTracked(leadId)) {
+                    importLeadToChase({ id: leadId, title, trade, location: area, estimatedValue, score });
+                    setTracked(true);
+                  }
+                }}
+                className="jf-button flex items-center gap-1 bg-[var(--offwhite)] border-2 border-[var(--ink)] text-[var(--ink)] text-xs"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                OPEN SMS
+              </a>
+            )}
             {url && contactSignal !== 'strong' && (
               <a
                 href={url}
@@ -244,7 +260,9 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
 
           <p className="mt-3 text-[10px] text-[var(--muted)] font-bold">
             {activeChannel === 'whatsapp'
-              ? "★ = recommended for this lead's age · copying auto-tracks the lead"
+              ? phone
+                ? "★ = recommended for this lead's age · copying or opening SMS auto-tracks the lead"
+                : "★ = recommended for this lead's age · copying auto-tracks the lead · SMS opens with this message ready, pick the contact yourself"
               : 'Copying auto-tracks this signal · open listing to find contact details'}
           </p>
         </div>

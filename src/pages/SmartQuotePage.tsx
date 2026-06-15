@@ -129,7 +129,7 @@ export function SmartQuotePage() {
               <p className="micro-label text-[var(--navy)] mb-3">{trade} — {job}</p>
               <p className="font-semibold text-[var(--ink)] mb-2">{preview[0]}</p>
               <p className="text-[var(--muted)] mb-6">{preview[1]}</p>
-              <div className="relative rounded overflow-hidden">
+              <div className="relative overflow-hidden">
                 <div className="blur-sm select-none pointer-events-none text-sm text-[var(--muted)] space-y-2 p-4 bg-[var(--bg-main)]">
                   <p>The scope of works includes all labour, materials, and certification as detailed below. All pricing is inclusive of VAT at 20% unless otherwise stated.</p>
                   <p>SECTION 1 — SCOPE OF WORKS: All work carried out to current British Standards and relevant Building Regulations. Programme agreed prior to commencement.</p>
