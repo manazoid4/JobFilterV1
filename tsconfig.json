@@ -39,8 +39,7 @@
     "dist",
     "node_modules",
     "Obsidian_Memory",
-    "memoryraw_claude",
-    "flipsignal-ai"
+    "memoryraw_claude"
   ],
   "include": [
     "next-env.d.ts",
