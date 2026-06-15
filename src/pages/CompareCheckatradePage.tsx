@@ -26,6 +26,16 @@ const painPoints = [
   ['Contracts lock you in', '12-month memberships with no cancellation clause. You pay during quiet months whether it works or not.'],
 ];
 
+const marketPlatforms = [
+  { platform: 'Checkatrade', cost: '£80–£370/mo (renewal)', model: 'Shared — 4-8 trades per lead', weakness: 'Price doubles at renewal. 12-month lock-in. No quality filter.' },
+  { platform: 'Bark.com', cost: '£10–£50 per lead (credits)', model: 'Shared — 3-5 trades per lead', weakness: 'Credits expire in 3 months. Fake leads reported. High churn.' },
+  { platform: 'MyBuilder', cost: '£25–£65 per shortlist', model: 'Shared — homeowner picks from 6+ quotes', weakness: "You pay before you're selected. Most spend £300 before a job." },
+  { platform: 'Rated People', cost: '£2–£65 per lead + monthly', model: 'Shared — up to 3 trades per lead', weakness: 'Customer support cut back. AI chatbot replacing humans.' },
+  { platform: 'Houzz Pro', cost: 'From $399/mo (~£320/mo)', model: 'Profile listing + shared enquiries', weakness: '12-month auto-renew. US-first product. UK coverage thin.' },
+  { platform: 'TrustATrader', cost: '£70–£120/mo', model: 'Directory listing — consumer chooses', weakness: 'No proactive lead gen. You wait to be found. No scoring.' },
+  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'Territory-routed — one trade per postcode cluster, priority routing', weakness: '—' },
+];
+
 const signals = [
   ['Planning approved', 'Approved applications before they hit any directory.'],
   ['Energy signals', 'Low-rated properties legally need retrofit work.'],
@@ -268,7 +278,16 @@ export function CompareCheckatradePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">CHECKATRADE vs JOBFILTER</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THEY SELL ATTENTION. WE PROTECT IT.</h2>
-          <div className="mt-8 overflow-x-auto">
+          <div className="mt-8 grid gap-3 md:hidden">
+            {comparison.map((row) => (
+              <div key={row.feature} className="jf-box bg-white p-4">
+                <h3 className="headline text-lg text-[var(--navy)]">{row.feature}</h3>
+                <p className="mt-2 text-sm font-black text-[var(--muted)]">Checkatrade: {row.checkatrade}</p>
+                <p className="mt-1 text-sm font-black text-[var(--navy)]">JobFilter: {row.jobfilter}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 hidden overflow-x-auto md:block">
             <table className="w-full min-w-[600px] border-collapse text-sm font-black">
               <thead>
                 <tr className="bg-[var(--navy)] text-white">
@@ -445,7 +464,17 @@ export function CompareCheckatradePage() {
           <p className="micro-label text-[var(--orange)]">FULL MARKET VIEW</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THE WHOLE INDUSTRY IS BUILT ON SHARED LEADS. JOBFILTER ISN'T.</h2>
           <p className="mt-5 max-w-2xl font-black text-[var(--muted)]">Every major UK lead platform sells the same lead to multiple trades. The auction is the business model. Here's how they all stack up.</p>
-          <div className="mt-8 overflow-x-auto">
+          <div className="mt-8 grid gap-3 md:hidden">
+            {marketPlatforms.map((row) => (
+              <div key={row.platform} className={`jf-box p-4 ${row.platform === 'JobFilter' ? 'bg-[var(--yellow)]' : 'bg-[var(--bg-main)]'}`}>
+                <h3 className="headline text-lg text-[var(--navy)]">{row.platform}</h3>
+                <p className="mt-2 text-sm font-black text-[var(--muted)]">Cost: {row.cost}</p>
+                <p className="mt-1 text-sm font-black text-[var(--muted)]">Model: {row.model}</p>
+                <p className={`mt-1 text-sm font-black ${row.platform === 'JobFilter' ? 'text-[var(--navy)]' : 'text-[var(--orange)]'}`}>{row.weakness}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 hidden overflow-x-auto md:block">
             <table className="w-full min-w-[700px] border-collapse text-sm font-black">
               <thead>
                 <tr className="bg-[var(--navy)] text-white">
@@ -456,15 +485,7 @@ export function CompareCheckatradePage() {
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { platform: 'Checkatrade', cost: '£80–£370/mo (renewal)', model: 'Shared — 4-8 trades per lead', weakness: 'Price doubles at renewal. 12-month lock-in. No quality filter.' },
-                  { platform: 'Bark.com', cost: '£10–£50 per lead (credits)', model: 'Shared — 3-5 trades per lead', weakness: 'Credits expire in 3 months. Fake leads reported. High churn.' },
-                  { platform: 'MyBuilder', cost: '£25–£65 per shortlist', model: 'Shared — homeowner picks from 6+ quotes', weakness: "You pay before you're selected. Most spend £300 before a job." },
-                  { platform: 'Rated People', cost: '£2–£65 per lead + monthly', model: 'Shared — up to 3 trades per lead', weakness: 'Customer support cut back. AI chatbot replacing humans.' },
-                  { platform: 'Houzz Pro', cost: 'From $399/mo (~£320/mo)', model: 'Profile listing + shared enquiries', weakness: '12-month auto-renew. US-first product. UK coverage thin.' },
-                  { platform: 'TrustATrader', cost: '£70–£120/mo', model: 'Directory listing — consumer chooses', weakness: 'No proactive lead gen. You wait to be found. No scoring.' },
-                  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'Territory-routed — one trade per postcode cluster, priority routing', weakness: '—' },
-                ].map((row, i) => (
+                {marketPlatforms.map((row, i) => (
                   <tr key={row.platform} className={`${row.platform === 'JobFilter' ? 'bg-[var(--yellow)]' : i % 2 === 0 ? 'bg-white' : 'bg-[var(--bg-main)]'}`}>
                     <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--navy)]">{row.platform}</td>
                     <td className="border-b-2 border-[var(--line)] px-4 py-3 text-[var(--muted)]">{row.cost}</td>

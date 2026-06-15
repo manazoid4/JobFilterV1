@@ -114,7 +114,16 @@ export function BuildUkAlternativePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">2BUILDUK vs JOBFILTER</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">SAME TRADE. MORE SIGNALS. LESS MONEY.</h2>
-          <div className="mt-8 overflow-x-auto">
+          <div className="mt-8 grid gap-3 md:hidden">
+            {comparison.map((row) => (
+              <div key={row.feature} className="jf-box bg-white p-4">
+                <h3 className="headline text-lg text-[var(--navy)]">{row.feature}</h3>
+                <p className="mt-2 text-sm font-black text-[var(--muted)]">2BuildUK: {row.old}</p>
+                <p className="mt-1 text-sm font-black text-[var(--navy)]">JobFilter: {row.new}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 hidden overflow-x-auto md:block">
             <table className="w-full min-w-[600px] border-collapse text-sm font-black">
               <thead>
                 <tr className="bg-[var(--navy)] text-white">
