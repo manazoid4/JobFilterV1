@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 15 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms wired to real `fetch()`; no broken imports
+- [x] **Mid-session build break from PR #269 (FlipSignal AI scaffold)** — diagnosed root `tsconfig.json` needed `flipsignal-ai` in `exclude`; PR #270 landed the identical fix first, rebased onto it. Flag for founder: `flipsignal-ai/` is an unrelated marketplace-arbitrage scaffold now in this repo root — keep excluded from root tsconfig.
+- [x] **Feature built — Tier 2 #15 "Multi-channel follow-up" first slice (SMS fallback)**: `chaseTemplates.ts` gained `toSmsHref(phone, body)`; `QuickResponseKit.tsx` gained a `phone?: string` prop + "OPEN SMS" button next to "COPY MESSAGE" for WhatsApp-channel templates — opens device SMS composer with the filled message, auto-tracks the lead. Degrades gracefully to `sms:?body=...` (no recipient) when no phone is known, same pattern as existing `wa.me` links.
+- [x] **NEEDLE/BUILDER fix — SmartQuotePage.tsx:132**: removed stray `rounded` class on QUOTE STARTER PREVIEW blur overlay (brutalist design system uses square corners; this was the only outlier on the page)
+- [x] **Copy audit — SmartQuotePage + ProductAdvantagePage (swmp-template/wayleave-pack/dno-brief etc.)**: both already compliant with Fear→Proof→Control / named competitors / "No credit card required" / no jargon rules — no changes needed. Jargon sweep ("leverage/utilise/solution/platform") across src/pages — remaining "platform" hits are all accurate competitor descriptions, not violations.
+- [x] Build GREEN (107 pages), TypeScript CLEAN, pushed to main
+- [ ] **Tier 2 #15 continued** — if a real buyer-phone data source becomes available, thread `phone` onto `Lead` (FindJobsPage) + `QuickResponseKit` so SMS/WhatsApp links pre-fill the recipient. Until then leave as-is (avoids fake `wa.me//available`-style links — same reasoning as 11 June Run 3).
+- [ ] **VicinityPage "Generate Proof" / VantagePage "Generate Bid Deck" tools** — still Coming Soon/disabled; real build = wire upload + template selection into an actual image/PDF-gen flow (multi-run project, needs gen API)
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, carried over multiple weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 14 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — detached HEAD at `00ca6e4` (local `main` 53 commits stale, force-updated remote); `git fetch` + `git reset --hard origin/main` resolved it, `00ca6e4` already == `origin/main`; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
