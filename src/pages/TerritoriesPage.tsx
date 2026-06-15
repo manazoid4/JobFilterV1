@@ -115,7 +115,7 @@ export function TerritoriesPage() {
               Lock your trade and postcode cluster. Gold leads route to you first — no five-way blast, no auction. Miss the lock and another tradesman in your patch gets first call on every signal.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#claim">LOCK MY PATCH →</a>
+              <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#patch-check">LOCK MY PATCH →</a>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
             </div>
           </div>
