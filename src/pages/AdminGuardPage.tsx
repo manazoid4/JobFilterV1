@@ -21,8 +21,10 @@ import {
   downloadIcs,
   loadProfile,
   saveProfile,
-  isPaidUser,
 } from '../lib/adminGuard';
+import { useAuth } from '../components/AuthProvider';
+import { useSubscription } from '../lib/useSubscription';
+import { isOwnerEmail } from '../lib/ownerAccess';
 
 const DEFAULT_PROFILE: AdminProfile = {
   tradeType: 'sole_trader',
@@ -34,7 +36,9 @@ const DEFAULT_PROFILE: AdminProfile = {
 };
 
 export function AdminGuardPage() {
-  const paid = isPaidUser();
+  const { user } = useAuth();
+  const sub = useSubscription();
+  const paid = sub.active || isOwnerEmail(user?.email);
   const [profile, setProfile] = useState<AdminProfile>(loadProfile() ?? DEFAULT_PROFILE);
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [adminScore, setAdminScore] = useState<AdminScore>({ score: 0, label: 'Needs attention', colour: 'var(--yellow)' });

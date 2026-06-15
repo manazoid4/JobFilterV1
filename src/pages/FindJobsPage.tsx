@@ -186,7 +186,8 @@ export function FindJobsPage() {
   const [showDocSearch, setShowDocSearch] = useState(false);
   const { user } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
-  const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
+  const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
+  const unlimitedTester = devUnlocked || isOwner;
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
@@ -195,7 +196,7 @@ export function FindJobsPage() {
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
 
-  const weeklyLimit = unlimitedTester || isOwner ? 999 : WEEKLY_SCAN_LIMIT;
+  const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
   const commercialCount = result?.leads.filter((l) => l.isCommercial).length ?? 0;
   const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);

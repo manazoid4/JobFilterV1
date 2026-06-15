@@ -371,7 +371,3 @@ export function loadProfile(): AdminProfile | null {
 export function saveProfile(p: AdminProfile): void {
   (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(STORAGE_KEY, JSON.stringify(p));
 }
-
-export function isPaidUser(): boolean {
-  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.isPaid') === 'true';
-}

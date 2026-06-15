@@ -175,6 +175,11 @@ export async function planningDataFetcher(
 
       console.error(`[Planning] ${url} → entities=${entities.length} passed=${leads.length}`);
 
+      // If this attempt yielded entities but none survived the trade/locality
+      // filters, try the next attempt (e.g. fall back from geo to postcode
+      // text search) before giving up.
+      if (!leads.length && attemptIdx < attempts.length - 1) continue;
+
       const stats: SourceStats = {
         fetched: entities.length,
         passed:  leads.length,
