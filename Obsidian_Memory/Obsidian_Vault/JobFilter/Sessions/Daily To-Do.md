@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 15 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — local `main` was 110/52 commits diverged from `origin/main` (HEAD detached at `e318118`); `git reset --hard origin/main` resolved it; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms wired to real `fetch()`; no broken imports; reviewed PR #275 (founder's "tighten patch claim conversion flow") — new TerritoriesPage patch-check form + HomePage "Open Vantage"/"Open Vicinity" badges both genuinely wired (`/api/waitlist`)
+- [x] **NEEDLE/BUILDER fix — TerritoriesPage hero CTA ping-pong (regression from PR #275)**: hero "LOCK MY PATCH →" pointed at `#claim` (bottom CTA section), whose own button pointed back up to `#patch-check` (the form right next to the original button) — fixed hero CTA to link straight to `#patch-check`
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`5db2994`)
+- [ ] **Fresh NEEDLE pass on `/territories`** — PR #275 substantially rewrote this page; worth a full read-through now the dust has settled
+- [ ] **Tier 2 #15 continued** — if a real buyer-phone data source becomes available, thread `phone` onto `Lead` (FindJobsPage) + `QuickResponseKit`. Until then leave as-is.
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, carried over multiple weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 15 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — local `main` was 28 commits behind `origin/main` (HEAD detached at `d0e5dc2`); `git fetch` + `git checkout main && git reset --hard origin/main` resolved it; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
