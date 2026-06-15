@@ -224,6 +224,14 @@ select {
   cursor: pointer;
 }
 
+@media (max-width: 640px) {
+  .choice-button {
+    min-height: 52px;
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+}
+
 @layer components {
   :where(.choice-button) { background: var(--yellow); }
   :where(.choice-button:hover) { background: var(--yellow-2); }

@@ -47,7 +47,7 @@ Area: B6 / Birmingham North
 Value: £600-£1,800 R&D survey
 Urgency: Planning application filed 5 days ago
 Why it matters: Pre-1960 industrial building — R&D asbestos survey legally required
-Action: Open notice → jobfilter.uk/lead/asb441`,
+Action: Open notice → jobfilter.uk/leads/asb441`,
   comparisonOld: [
     'Get called in emergencies when contractors have already started work',
     'No visibility into demolition notices until you stumble across them',

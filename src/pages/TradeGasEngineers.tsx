@@ -47,7 +47,7 @@ Area: S5 / Sheffield North
 Value: £2,500-£4,500 per unit — 6 properties flagged
 Urgency: Energy signals updated in last 14 days
 Why it matters: Low-efficiency cluster, boilers 15+ years old, ECO4 eligibility likely
-Action: Open notice → jobfilter.uk/lead/gas731`,
+Action: Open notice → jobfilter.uk/leads/gas731`,
   comparisonOld: [
     'Pay for directory leads shared with every other Gas Safe engineer in your area',
     'Wait for emergency breakdowns — reactive not planned',

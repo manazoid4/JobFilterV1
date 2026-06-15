@@ -47,7 +47,7 @@ Area: B14 / Solihull
 Value: £8k-£15k plumbing package
 Urgency: Planning approved — work starts Q2
 Why it matters: Two-storey extension, no contractor named yet
-Action: Open notice → jobfilter.uk/lead/abc123`,
+Action: Open notice → jobfilter.uk/leads/abc123`,
   comparisonOld: [
     'Pay £50-£150/month just to be listed on directories',
     'Leads sold to 4-8 other plumbers — race to the bottom',

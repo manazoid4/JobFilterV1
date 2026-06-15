@@ -47,7 +47,7 @@ Area: LS6 / Leeds
 Value: £60k-£90k estimated
 Urgency: Planning approved 3 days ago
 Why it matters: Two-storey extension + loft, no contractor named
-Action: Open notice → jobfilter.uk/lead/ghi789`,
+Action: Open notice → jobfilter.uk/leads/ghi789`,
   comparisonOld: [
     'Pay £80-£150/month for builder leads on directories',
     'Leads shared with 5-8 other builders in your area',

@@ -47,7 +47,7 @@ Area: M20 / Manchester
 Value: £6k-£10k rewire
 Urgency: Planning approved — homeowner actively searching
 Why it matters: Victorian terrace, low energy rating, extension approved
-Action: Open notice → jobfilter.uk/lead/def456`,
+Action: Open notice → jobfilter.uk/leads/def456`,
   comparisonOld: [
     '£50-£150/month per category on directories',
     'Same lead sold to 5-6 other electricians',

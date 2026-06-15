@@ -47,7 +47,7 @@ Area: SW15 / Putney, London
 Value: £800-£1,800 structural engineering fee
 Urgency: Planning approved 7 days ago
 Why it matters: Dormer loft conversion — structural calcs required for ridge beam and floor
-Action: Open notice → jobfilter.uk/lead/str109`,
+Action: Open notice → jobfilter.uk/leads/str109`,
   comparisonOld: [
     'Depend on architect and builder referrals — network takes years to build',
     'Clients call you when the build has already started and they need calcs yesterday',

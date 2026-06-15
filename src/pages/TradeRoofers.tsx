@@ -47,7 +47,7 @@ Area: EC2 / East London
 Value: £10k-£18k roofing package
 Urgency: Planning approved 5 days ago
 Why it matters: Dormer loft conversion, full re-roof required
-Action: Open notice → jobfilter.uk/lead/mno345`,
+Action: Open notice → jobfilter.uk/leads/mno345`,
   comparisonOld: [
     'Pay £60-£120/month on directories for roofing leads',
     'Same lead sold to 5-6 other roofers in your area',

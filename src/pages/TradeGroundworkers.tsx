@@ -47,7 +47,7 @@ Area: B45 / Birmingham South West
 Value: £35,000-£65,000 groundworks package
 Urgency: Planning approved 4 days ago
 Why it matters: 12-unit residential brownfield — full enabling works required
-Action: Open notice → jobfilter.uk/lead/gnd847`,
+Action: Open notice → jobfilter.uk/leads/gnd847`,
   comparisonOld: [
     'Rely on developer relationships — miss everything outside your network',
     'Brownfield planning approvals buried in portals you don\'t have time to read',
