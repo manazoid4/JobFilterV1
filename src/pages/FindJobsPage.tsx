@@ -17,6 +17,8 @@ import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 import { saveStoredLead } from '../lib/leadStore';
 import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
+import { useAuth } from '../components/AuthProvider';
+import { isOwnerEmail } from '../lib/ownerAccess';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
@@ -182,6 +184,8 @@ export function FindJobsPage() {
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
+  const { user } = useAuth();
+  const isOwner = isOwnerEmail(user?.email);
   const [unlimitedTester] = useState(() => OPEN_ACCESS || hasDevUnlock());
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
@@ -191,7 +195,7 @@ export function FindJobsPage() {
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
 
-  const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
+  const weeklyLimit = unlimitedTester || isOwner ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
   const commercialCount = result?.leads.filter((l) => l.isCommercial).length ?? 0;
   const displayedLeads = commercialOnly ? (result?.leads.filter((l) => l.isCommercial) ?? []) : (result?.leads ?? []);
@@ -700,7 +704,7 @@ export function FindJobsPage() {
               )}
 
               {displayedLeads.map((lead) => (
-                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
               ))}
 
 
@@ -813,7 +817,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
             ))}
           </div>
         )}
@@ -979,11 +983,14 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
-  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock();
-  const outward = lead.postcodeOutward || 'Unknown';
+  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
+  const rawOutward = lead.postcodeOutward || 'Unknown';
+  // Some sources store NUTS region codes (e.g. "UKM") instead of postcode outward codes — not useful to show.
+  const isNutsCode = /^UK[A-Z0-9]{0,3}$/.test(rawOutward);
+  const outward = isNutsCode ? (lead.location || 'Unknown') : rawOutward;
   const dist = lead.distanceMiles;
   const distLabel = dist !== undefined && dist > 0 ? `${Math.round(dist)} miles from ${outward}` : `In ${outward}`;
   const fields = [

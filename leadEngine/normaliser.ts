@@ -140,6 +140,13 @@ function normaliseDate(value: string | undefined): string {
   return Number.isNaN(parsed.getTime()) ? '' : parsed.toISOString();
 }
 
+// Some contract feeds put raw NUTS region codes (e.g. "UKM, UKM, UKM") in the
+// location field instead of a human-readable place name.
+function isNutsCodeList(location: string): boolean {
+  const tokens = location.split(',').map((t) => t.trim()).filter(Boolean);
+  return tokens.length > 0 && tokens.every((t) => /^UK[A-Z0-9]{0,3}$/.test(t));
+}
+
 function deriveOutward(raw: RawLead): string {
   const postcodeOutward = raw.rawPostcode ? getOutward(raw.rawPostcode) : '';
   if (postcodeOutward) return postcodeOutward;
@@ -185,7 +192,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     id: `${raw.sourceSystem.toLowerCase()}-${raw.rawId}`,
     title,
     trade,
-    location: raw.rawLocation?.trim() || region || 'United Kingdom',
+    location: (raw.rawLocation?.trim() && !isNutsCodeList(raw.rawLocation.trim()) ? raw.rawLocation.trim() : '') || region || 'United Kingdom',
     postcodeOutward: outward,
     estimatedValue: estVal,
     urgency,
