@@ -101,3 +101,27 @@ Live URL: **jobfilter.uk**.
 Always report the production site as **https://jobfilter.uk**.
 
 Firebase hosting is archived under `legacy/firebase/` during the Vercel/Supabase migration. Do not delete the Firebase project/link until the Vercel production deployment has been confirmed.
+
+## VERIFIED REPO COMMANDS
+
+- Local dev: `npm run dev`
+- Production build: `npm run build`
+- Lint gate in this repo: `npm run lint` (`tsc --noEmit`, not ESLint)
+- Production start/preview: `npm run start` or `npm run preview`
+- Clean build output: `npm run clean`
+
+For lead-engine, free-gating, or postcode/filter changes, also run:
+- `npx tsx codex-output/postcode-filter-regression.mjs`
+- `node codex-output/free-scanner-redaction-regression.mjs`
+- `node codex-output/free-preview-live-contract-test.mjs`
+- `npx tsx codex-output/lead-engine-quality-regression.mjs`
+- `npx tsx codex-output/lead-engine-50-plus-quality-test-fixed.mjs`
+
+## VERIFIED WORKFLOWS
+
+- Vercel cron is configured in `vercel.json` for `GET /api/alerts/send` on `0 7 * * *`
+- `CRON_SECRET` protects `/api/alerts/send` when set; requests must send `Authorization: Bearer $CRON_SECRET`
+- GOLD lead WhatsApp delivery currently uses Meta WhatsApp Cloud API in `server/services/sms.ts` with `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, and optional `WHATSAPP_TO`
+
+TODO:
+- Founder notes mention `/api/cron/daily-scan`, but that route is not present in this repo snapshot. Verify whether it lives on another branch before adding it to agent instructions.
