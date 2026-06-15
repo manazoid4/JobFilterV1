@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 15 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — local `main` was 28 commits behind `origin/main` (HEAD detached at `d0e5dc2`); `git fetch` + `git checkout main && git reset --hard origin/main` resolved it; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — both `setSubmitted(true)` forms wired to real `fetch()`; no broken imports (scripted check)
+- [x] **NEEDLE/BUILDER fix — TradieZonePage.tsx Vicinity card mismatch**: card said "Social proof from photos" with a Camera icon linking to `/vicinity`, but `/vicinity` is a targeted door-drop ad service with no photo feature — relabelled "Targeted door-drop ads" + Megaphone icon, fixed TOOLS subtitle to match
+- [x] **Copy polish — CityIntelligencePage.tsx**: "SCAN FREE FIRST" CTA was missing the "No credit card required — 3 free scans every week" trust line present on every other free CTA; added
+- [x] Build GREEN (107 pages), TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`d96f852`)
+- [ ] **Tier 2 #15 continued** — if a real buyer-phone data source becomes available, thread `phone` onto `Lead` (FindJobsPage) + `QuickResponseKit`. Until then leave as-is.
+- [ ] **Spot-check `/test/intake` live (DEMO_MODE)** — confirm the 3 scoring scenarios return GOLD/SILVER/BIN tiers via `/api/intake/score`
+- [ ] **Spot-check EMAIL ME THIS LEAD live** — still blocked, no `RESEND_API_KEY` in this container
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel, carried over multiple weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 15 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (107 pages), TS CLEAN before changes
