@@ -6,11 +6,11 @@ import { Zap, MapPinned, Camera, LayoutGrid, Radio, ShieldCheck, TrendingUp, Let
 import { getChaseLeads } from '../lib/chaseStore';
 import type { ChaseLead } from '../lib/types';
 
-const memberTools = [
+const memberTools: { id: string; name: string; desc: string; icon: typeof Radio; path: string; colour: string; comingSoon?: boolean }[] = [
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]', comingSoon: true },
-  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white', comingSoon: true },
+  { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
+  { id: 'vicinity', name: 'Vicinity', desc: 'Social proof from photos', icon: Camera, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
