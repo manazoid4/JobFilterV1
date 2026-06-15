@@ -1,0 +1,402 @@
+// FlipSignal AI — Prisma schema
+// Postgres (Supabase or Neon). Run `npx prisma migrate dev` to apply.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------------------------
+// ENUMS
+// ---------------------------------------------------------------------------
+
+enum PlanTier {
+  FREE
+  PRO
+  ELITE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+}
+
+enum ListingStatus {
+  NEW
+  ANALYZED
+  STALE
+  REMOVED
+}
+
+enum FlipStage {
+  DISCOVERED
+  VIEWED
+  SAVED
+  CONTACTED
+  PURCHASED
+  LISTED
+  SOLD
+  ABANDONED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SourcePlatform {
+  FACEBOOK_MARKETPLACE
+  EBAY
+  GUMTREE
+  CRAIGSLIST
+}
+
+enum AlertChannel {
+  EMAIL
+  TELEGRAM
+  DISCORD
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+// ---------------------------------------------------------------------------
+// CORE USER / BILLING
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String   @id @default(cuid())
+  clerkId      String   @unique
+  email        String   @unique
+  name         String?
+  planTier     PlanTier @default(FREE)
+  telegramChatId String?
+  discordWebhookUrl String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  subscription   Subscription?
+  actionLogs     UserActionLog[]
+  portfolioItems PortfolioItem[]
+  alertRules     AlertRule[]
+  notifications  NotificationLog[]
+  dailyReports   DailyReport[]
+  messageTemplates MessageTemplate[]
+
+  @@index([email])
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  stripePriceId        String?
+  status               SubscriptionStatus @default(ACTIVE)
+  planTier             PlanTier           @default(FREE)
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  @@index([stripeCustomerId])
+}
+
+// ---------------------------------------------------------------------------
+// LISTINGS / SCRAPING
+// ---------------------------------------------------------------------------
+
+model ScraperSource {
+  id          String         @id @default(cuid())
+  platform    SourcePlatform
+  region      String
+  searchQuery String
+  category    String?
+  isActive    Boolean        @default(true)
+  lastRunAt   DateTime?
+  intervalMin Int            @default(30)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  listings Listing[]
+
+  @@index([platform, isActive])
+}
+
+model Listing {
+  id              String         @id @default(cuid())
+  sourceId        String?
+  source          ScraperSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  platform        SourcePlatform
+  externalId      String
+  url             String
+  title           String
+  description     String?
+  priceCents      Int
+  currency        String         @default("GBP")
+  location        String?
+  imageUrls       String[]
+  rawPayload      Json
+  status          ListingStatus  @default(NEW)
+  postedAt        DateTime?
+  scrapedAt       DateTime       @default(now())
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  analysis        ListingAnalysis?
+  dealScore       DealScore?
+  profitEstimate  ProfitEstimate?
+  flipOpportunity FlipOpportunity?
+  portfolioItems  PortfolioItem[]
+
+  @@unique([platform, externalId])
+  @@index([status])
+  @@index([scrapedAt])
+  @@index([priceCents])
+}
+
+// ---------------------------------------------------------------------------
+// AI ANALYSIS LAYER
+// ---------------------------------------------------------------------------
+
+model ListingAnalysis {
+  id                     String   @id @default(cuid())
+  listingId              String   @unique
+  listing                Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  category               String
+  subcategory            String?
+  brand                  String?
+  model                  String?
+  conditionScore         Int      // 0-100
+  urgencyScore           Int      // 0-100
+  sellerIntentScore      Int      // 0-100
+  undervaluationProb     Float    // 0-1
+  riskScore              Int      // 0-100
+  identifiedAttributes   Json     // structured extracted features
+  aiModel                String
+  promptVersion          String
+  rawResponse            Json
+  createdAt              DateTime @default(now())
+
+  @@index([category, subcategory])
+}
+
+model ProfitEstimate {
+  id                  String   @id @default(cuid())
+  listingId           String   @unique
+  listing             Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  expectedResaleCents Int
+  worstCaseCents      Int
+  bestCaseCents       Int
+  platformFeeCents    Int
+  transportCostCents  Int
+  refurbCostCents     Int
+  timeToSellDays      Float
+  liquidityScore      Int      // 0-100
+  roiPercent          Float
+  profitDistribution  Json     // { p10, p25, p50, p75, p90 } cents
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model DealScore {
+  id                    String   @id @default(cuid())
+  listingId             String   @unique
+  listing               Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  score                 Int      // 0-100 composite
+  arbitrageGap          Float
+  demandStrength        Int
+  resaleVelocity        Int
+  competitionDensity    Int
+  listingQuality        Int
+  sellerUrgencySignal   Int
+  categoryPerformance   Int
+  breakdown             Json
+  modelVersion          String
+  createdAt             DateTime @default(now())
+
+  @@index([score])
+}
+
+model FlipOpportunity {
+  id            String    @id @default(cuid())
+  listingId     String    @unique
+  listing       Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  rank          Int?
+  reasonTags    String[]  // e.g. ["underpriced_cluster","hidden_value"]
+  surfacedAt    DateTime  @default(now())
+  expiresAt     DateTime?
+  notified      Boolean   @default(false)
+
+  portfolioItem PortfolioItem?
+  lifecycle     FlipLifecycle[]
+
+  @@index([rank])
+  @@index([surfacedAt])
+}
+
+// ---------------------------------------------------------------------------
+// PORTFOLIO / LIFECYCLE
+// ---------------------------------------------------------------------------
+
+model PortfolioItem {
+  id                String           @id @default(cuid())
+  userId            String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId         String           @unique
+  listing           Listing          @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  flipOpportunityId String?          @unique
+  flipOpportunity   FlipOpportunity? @relation(fields: [flipOpportunityId], references: [id], onDelete: SetNull)
+  stage             FlipStage        @default(DISCOVERED)
+  purchasePriceCents Int?
+  listedPriceCents  Int?
+  soldPriceCents    Int?
+  profitRealisedCents Int?
+  notes             String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  lifecycle FlipLifecycle[]
+
+  @@index([userId, stage])
+}
+
+model FlipLifecycle {
+  id                String           @id @default(cuid())
+  portfolioItemId   String
+  portfolioItem     PortfolioItem    @relation(fields: [portfolioItemId], references: [id], onDelete: Cascade)
+  flipOpportunityId String?
+  flipOpportunity   FlipOpportunity? @relation(fields: [flipOpportunityId], references: [id], onDelete: SetNull)
+  stage             FlipStage
+  occurredAt        DateTime         @default(now())
+  metadata          Json?
+
+  @@index([portfolioItemId, occurredAt])
+}
+
+// ---------------------------------------------------------------------------
+// LEARNING LOOP / ACTION LOG
+// ---------------------------------------------------------------------------
+
+model UserActionLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String?
+  action    String   // "accepted_deal" | "rejected_deal" | "viewed" | "saved" | ...
+  context   Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, action])
+  @@index([listingId])
+}
+
+model CategoryStats {
+  id                 String   @id @default(cuid())
+  category           String
+  subcategory        String?
+  region             String
+  avgResaleCents     Int
+  avgTimeToSellDays  Float
+  avgRoiPercent      Float
+  sampleSize         Int
+  windowStart        DateTime
+  windowEnd          DateTime
+  updatedAt          DateTime @updatedAt
+
+  @@unique([category, subcategory, region, windowStart, windowEnd])
+  @@index([category, region])
+}
+
+model MarketSignal {
+  id          String   @id @default(cuid())
+  category    String
+  signalType  String   // "price_anomaly" | "demand_spike" | "hotspot" | ...
+  region      String?
+  payload     Json
+  confidence  Float
+  detectedAt  DateTime @default(now())
+
+  @@index([category, signalType])
+  @@index([detectedAt])
+}
+
+// ---------------------------------------------------------------------------
+// REPORTING / MESSAGING / ALERTS
+// ---------------------------------------------------------------------------
+
+model DailyReport {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reportDate  DateTime @db.Date
+  topFlips    Json     // FlipOpportunity[] snapshot
+  emergingCategories Json
+  priceAnomalies     Json
+  localHotspots      Json
+  riskWarnings       Json
+  obsidianPath       String?
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, reportDate])
+  @@index([reportDate])
+}
+
+model MessageTemplate {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // "opening" | "lowball" | "counter" | "closing" | "pickup"
+  category  String?
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([userId, type])
+}
+
+model AlertRule {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  filters      Json          // { category, minScore, maxPriceCents, region, ... }
+  channels     AlertChannel[]
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  notifications NotificationLog[]
+
+  @@index([userId, isActive])
+}
+
+model NotificationLog {
+  id          String             @id @default(cuid())
+  userId      String
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  alertRuleId String?
+  alertRule   AlertRule?         @relation(fields: [alertRuleId], references: [id], onDelete: SetNull)
+  channel     AlertChannel
+  status      NotificationStatus @default(PENDING)
+  payload     Json
+  error       String?
+  sentAt      DateTime?
+  createdAt   DateTime           @default(now())
+
+  @@index([userId, status])
+}
