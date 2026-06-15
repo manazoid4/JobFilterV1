@@ -80,7 +80,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
+              JobFilter scans planning approvals, energy data and council contracts to find serious construction work near you — scored by quality, filtered by patch, delivered to WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -93,12 +93,12 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
+              <Link className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" href="/territories">
+                CHECK MY PATCH
+              </Link>
               <div className="flex flex-wrap gap-4">
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
-                </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
-                  Claim Territory →
                 </Link>
               </div>
             </div>
@@ -287,7 +287,7 @@ export function HomePage() {
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
-                SEE OPEN TERRITORIES →
+                CHECK MY PATCH →
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
@@ -371,11 +371,11 @@ export function HomePage() {
                   <FileText size={24} strokeWidth={3} className="text-[var(--orange)]" />
                   <p className="micro-label text-[var(--orange)]">VANTAGE</p>
                 </div>
-                <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
+                <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Join waitlist →</span>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
             </Link>
             <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
               <div className="flex items-center justify-between gap-3">
@@ -383,11 +383,11 @@ export function HomePage() {
                   <Megaphone size={24} strokeWidth={3} className="text-[var(--orange)]" />
                   <p className="micro-label text-[var(--orange)]">VICINITY</p>
                 </div>
-                <span className="border border-[var(--orange)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--orange)]">Coming soon</span>
+                <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
               <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
-              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Join waitlist →</span>
+              <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
             </Link>
             <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
               <div className="flex items-center justify-between gap-3">
@@ -463,8 +463,8 @@ export function HomePage() {
             <p className="mt-4 text-base font-black text-[var(--muted)]">
               No shared auction. No five-trade blast. Scored leads hit your WhatsApp before the job goes public.
             </p>
-            <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CLAIM YOUR PATCH — £39/MO →
+            <Link href="/territories" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              CHECK MY PATCH →
             </Link>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
               ✓ 30-DAY MONEY-BACK GUARANTEE — No job worth chasing? Full refund.

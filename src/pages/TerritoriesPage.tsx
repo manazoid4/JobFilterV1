@@ -1,7 +1,9 @@
 "use client";
 import Link from 'next/link';
+import { FormEvent, useState } from 'react';
 
 import { Filter, LockKeyhole, Search, ShieldCheck, TrendingUp, Clock, AlertTriangle, CheckCircle, ArrowRight, Star, MapPin, Users, Zap, Mail } from 'lucide-react';
+import { joinWaitlist } from '../lib/waitlist';
 
 type TerritoryStatus = 'OPEN' | 'CLAIMED' | 'FOUNDER SLOT' | 'RESERVED' | 'WAITLIST';
 
@@ -65,6 +67,40 @@ const objections = [
 ];
 
 export function TerritoriesPage() {
+  const [trade, setTrade] = useState('Builder');
+  const [postcode, setPostcode] = useState('');
+  const [radius, setRadius] = useState('25');
+  const [contact, setContact] = useState('');
+  const [submitState, setSubmitState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [submitMessage, setSubmitMessage] = useState('');
+
+  async function submitPatchCheck(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const cleanPostcode = postcode.trim().toUpperCase();
+    if (!cleanPostcode || !contact.trim()) {
+      setSubmitState('error');
+      setSubmitMessage('Enter your postcode and WhatsApp or email so we can check the patch.');
+      return;
+    }
+
+    setSubmitState('submitting');
+    setSubmitMessage('');
+
+    try {
+      await joinWaitlist({
+        name: `Patch check ${cleanPostcode}`,
+        trade: `${trade} | ${cleanPostcode} | ${radius} miles`,
+        contact: contact.trim(),
+        source: 'territory-patch-check',
+      });
+      setSubmitState('success');
+      setSubmitMessage('Patch request saved. We will check coverage before activation and reply with the next step.');
+    } catch (error: any) {
+      setSubmitState('error');
+      setSubmitMessage(error?.message ?? 'Could not save this patch request. Try again.');
+    }
+  }
+
   return (
     <main className="bg-[var(--paper)] pb-0">
       {/* ── HERO ── */}
@@ -83,20 +119,48 @@ export function TerritoriesPage() {
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
             </div>
           </div>
-          <aside className="ops-panel bg-[var(--steel)] p-5 text-white">
-            <p className="micro-label text-[var(--yellow)]">PATCH STATUS</p>
-            <div className="mt-4 grid gap-3">
-              {territories.slice(0, 4).map((territory) => (
-                <div key={territory.id} className="grid grid-cols-[72px_1fr_auto] items-center gap-3 border-2 border-white/15 bg-black/35 p-3">
-                  <span className="font-mono text-lg font-black text-[var(--yellow)]">{territory.postcode}</span>
-                  <div>
-                    <p className="font-black uppercase text-white">{territory.trade}</p>
-                    <p className="text-xs font-black uppercase text-white/90">{territory.patch}</p>
-                  </div>
-                  <span className="font-mono text-sm font-black text-white">{territory.signalStrength}</span>
-                </div>
-              ))}
-            </div>
+          <aside className="ops-panel bg-white p-5 text-[var(--ink)]" id="patch-check">
+            <p className="micro-label text-[var(--orange)]">CHECK YOUR PATCH</p>
+            <h2 className="headline mt-2 text-3xl leading-none">Trade + postcode first. Payment after clarity.</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+              We check source coverage and trade fit before activating a lock. No fake "available" result.
+            </p>
+            <form className="mt-5 grid gap-3" onSubmit={submitPatchCheck}>
+              <label className="grid gap-1">
+                <span className="text-xs font-black uppercase text-[var(--muted)]">Trade</span>
+                <select value={trade} onChange={(event) => setTrade(event.target.value)} className="border-2 border-[var(--line)] bg-white px-3 py-3 font-black">
+                  {['Builder', 'Electrician', 'Roofer', 'Plumber', 'Gas Engineer', 'Groundworker', 'Solar Installer', 'Heat Pump Installer', 'Decorator', 'CCTV / Security'].map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
+              <div className="grid gap-3 sm:grid-cols-[1fr_120px]">
+                <label className="grid gap-1">
+                  <span className="text-xs font-black uppercase text-[var(--muted)]">Postcode</span>
+                  <input value={postcode} onChange={(event) => setPostcode(event.target.value)} placeholder="B12" className="border-2 border-[var(--line)] bg-white px-3 py-3 font-black uppercase" />
+                </label>
+                <label className="grid gap-1">
+                  <span className="text-xs font-black uppercase text-[var(--muted)]">Radius</span>
+                  <select value={radius} onChange={(event) => setRadius(event.target.value)} className="border-2 border-[var(--line)] bg-white px-3 py-3 font-black">
+                    <option value="10">10 mi</option>
+                    <option value="25">25 mi</option>
+                    <option value="50">50 mi</option>
+                  </select>
+                </label>
+              </div>
+              <label className="grid gap-1">
+                <span className="text-xs font-black uppercase text-[var(--muted)]">WhatsApp or email</span>
+                <input value={contact} onChange={(event) => setContact(event.target.value)} placeholder="+44..." className="border-2 border-[var(--line)] bg-white px-3 py-3 font-black" />
+              </label>
+              {submitMessage && (
+                <p className={`border-2 px-3 py-2 text-sm font-black ${submitState === 'success' ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]' : 'border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--orange)]'}`}>
+                  {submitMessage}
+                </p>
+              )}
+              <button type="submit" disabled={submitState === 'submitting'} className="jf-button bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+                {submitState === 'submitting' ? 'CHECKING...' : 'CHECK MY PATCH'}
+              </button>
+            </form>
           </aside>
         </div>
       </section>
@@ -192,7 +256,7 @@ export function TerritoriesPage() {
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
                   {statusCta[territory.status].href ? (
-                    <Link className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href={statusCta[territory.status].href!}>{statusCta[territory.status].label}</Link>
+                    <a className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="#patch-check">{statusCta[territory.status].label}</a>
                   ) : (
                     <span className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-center text-xs font-black uppercase text-[var(--muted)]">{statusCta[territory.status].label}</span>
                   )}
@@ -283,7 +347,7 @@ export function TerritoriesPage() {
               Founder monthly includes one territory lock, unlimited WhatsApp alerts, and letter drop scripts for every lead. Extra territory is +£19/month.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK MY PATCH →</Link>
+              <a className="jf-button bg-[var(--ink)] text-white" href="#patch-check">CHECK MY PATCH →</a>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
             </div>
           </div>

@@ -16,7 +16,7 @@ const planBullets = [
 const objections = [
   ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
   ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race — unlike Bark credits or Checkatrade matchups.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp/trade/postcode, then your patch is activated.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp, trade and postcode, then we activate the patch after a coverage check.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
 ];
 
@@ -33,7 +33,7 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/territories">CHECK MY PATCH FIRST</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
       </section>
@@ -65,6 +65,24 @@ export function PricingPage() {
         <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
           Set up your patch, run your scans, check at least 10 scored leads. If you don&apos;t see one job worth quoting in 30 days, we refund every penny. No forms — just email us.
         </p>
+      </section>
+
+      <section className="ops-panel bg-white p-7">
+        <p className="micro-label text-[var(--orange)]">HOW ACTIVATION WORKS</p>
+        <h2 className="headline mt-3 text-3xl leading-none">NO FAKE "AVAILABLE" BADGE. WE CHECK THE PATCH.</h2>
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {[
+            ['01', 'Check', 'Send trade, postcode and WhatsApp. We check source coverage and obvious conflicts.'],
+            ['02', 'Activate', 'Start founder billing only when your account and patch setup are ready.'],
+            ['03', 'Deliver', 'Gold signals route to WhatsApp with score, value band and proof context.'],
+          ].map(([step, title, body]) => (
+            <article key={step} className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
+              <p className="font-mono text-sm font-black text-[var(--orange)]">{step}</p>
+              <h3 className="headline mt-2 text-xl">{title}</h3>
+              <p className="mt-2 text-sm font-black text-[var(--muted)]">{body}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="ops-panel bg-[var(--bg-main)] p-7 border-4 border-[var(--line)]">
@@ -109,7 +127,7 @@ export function PricingPage() {
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/territories">CHECK MY PATCH FIRST</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
       </section>
