@@ -6,10 +6,12 @@ import { useAuth } from './AuthProvider';
 
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/territories', label: 'Claim Patch' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/signals', label: 'Signals' },
   { to: '/for-your-trade', label: 'Trades' },
+  { to: '/trust', label: 'Proof' },
+  { to: '/signals', label: 'Signals' },
+  { to: '/free-tools', label: 'Free Tools' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];
@@ -129,8 +131,8 @@ export function TopNav() {
               <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
                 Sign in
               </Link>
-              <Link href="/pricing" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-                START £39/MO
+              <Link href="/territories" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                CLAIM PATCH
               </Link>
             </>
           )}
@@ -161,9 +163,9 @@ export function TopNav() {
                 <p className="text-base font-black text-[var(--ink)]">TOOLS</p>
               </Link>
             ) : (
-              <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+              <Link href="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
                 <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
-                <p className="text-base font-black text-[var(--ink)]">START £39/MO</p>
+                <p className="text-base font-black text-[var(--ink)]">CLAIM PATCH</p>
               </Link>
             )}
           </div>
@@ -214,11 +216,11 @@ export function TopNav() {
                 Sign In
               </Link>
               <Link
-                href="/pricing"
+                href="/territories"
                 onClick={() => setMenuOpen(false)}
                 className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
               >
-                START £39/MO — FOUNDING PRICE
+                CLAIM PATCH — FOUNDING PRICE
               </Link>
             </>
           )}
