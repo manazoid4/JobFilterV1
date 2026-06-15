@@ -285,7 +285,9 @@ export function DashboardPage() {
             </p>
           </div>
           <div className="mt-3 grid gap-2">
-            {overdueLeads.map((l) => (
+            {overdueLeads.map((l) => {
+              const hasPhone = !!getStoredLeads().find((sl) => sl.id === l.leadId)?.phone;
+              return (
               <div key={l.leadId} className="flex items-center justify-between gap-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
                 <div className="min-w-0">
                   <p className="truncate font-black text-[var(--ink)]">{l.leadTitle}</p>
@@ -296,7 +298,7 @@ export function DashboardPage() {
                     onClick={() => handleSendNudge(l)}
                     className="jf-button bg-[var(--green)] text-white text-sm"
                   >
-                    SEND NUDGE →
+                    {hasPhone ? 'SEND NUDGE →' : 'SEND VIA WHATSAPP →'}
                   </button>
                   <button
                     onClick={() => handleSnooze(l.leadId)}
@@ -309,7 +311,8 @@ export function DashboardPage() {
                   </Link>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
