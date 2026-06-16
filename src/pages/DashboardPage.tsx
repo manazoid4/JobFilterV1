@@ -20,18 +20,37 @@ const FREQ_OPTIONS = [
 
 function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
   const [trade, setTrade] = useState(scanTrade ?? 'electrical');
-  const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
+  const [postcode, setPostcode] = useState('');
   const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [activeAlerts, setActiveAlerts] = useState<{ id: string; trade: string; postcode_outward: string; frequency: string }[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const mountedRef = React.useRef(true);
+
+  React.useEffect(() => { mountedRef.current = true; return () => { mountedRef.current = false; }; }, []);
+
+  // Sync pre-fill from parent once props resolve from localStorage
+  useEffect(() => {
+    if (scanPostcode && !postcode) setPostcode(scanPostcode.split(' ')[0]);
+  }, [scanPostcode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetch('/api/alerts', { credentials: 'include' })
+    if (scanTrade) setTrade(scanTrade);
+  }, [scanTrade]);
+
+  function loadAlerts() {
+    const controller = new AbortController();
+    fetch('/api/alerts', { credentials: 'include', signal: controller.signal })
       .then(r => r.ok ? r.json() : { alerts: [] })
-      .then(d => { setActiveAlerts(d.alerts ?? []); setLoaded(true); })
-      .catch(() => setLoaded(true));
-  }, [status]);
+      .then(d => { if (mountedRef.current) { setActiveAlerts(d.alerts ?? []); setLoaded(true); } })
+      .catch(() => { if (mountedRef.current) setLoaded(true); });
+    return controller;
+  }
+
+  useEffect(() => {
+    const ctrl = loadAlerts();
+    return () => ctrl.abort();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function create(e: React.FormEvent) {
     e.preventDefault();
@@ -45,10 +64,16 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
         body: JSON.stringify({ trade, location: postcode.trim().toUpperCase(), postcode_outward: postcode.trim().toUpperCase(), frequency }),
       });
       const data = await res.json();
-      setStatus(data.ok ? 'done' : 'error');
-      if (data.ok) setTimeout(() => setStatus('idle'), 3000);
+      if (!mountedRef.current) return;
+      if (data.ok) {
+        setStatus('done');
+        loadAlerts();
+        setTimeout(() => { if (mountedRef.current) setStatus('idle'); }, 3000);
+      } else {
+        setStatus('error');
+      }
     } catch {
-      setStatus('error');
+      if (mountedRef.current) setStatus('error');
     }
   }
 
@@ -177,7 +202,6 @@ export function DashboardPage() {
   const monthlyRoi = monthlyStats.totalValue > 0
     ? Math.round(monthlyStats.totalValue / 39)
     : null;
-  const wonChase = chaseLeads.filter((l) => l.stage === 'won').length;
   const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
   const overdueCount = overdueLeads.length;
   const notContacted = chaseLeads.filter((l) => l.stage === 'not_contacted').length;
@@ -491,7 +515,7 @@ export function DashboardPage() {
           <div className="mt-4 grid gap-3 text-sm">
             <Row label="Active" value={`${activeChase} leads`} />
             <Row label="Not contacted" value={`${notContacted} need first touch`} />
-            <Row label="Won" value={`${wonChase} closed`} />
+            <Row label="Won" value={`${chaseWons} closed`} />
             {overdueCount > 0 && <Row label="Overdue" value={`${overdueCount} need attention`} />}
           </div>
           {activeChase === 0 && (

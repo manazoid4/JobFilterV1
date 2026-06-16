@@ -219,18 +219,22 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 5. Deduplicate — exact ID match + fuzzy title+postcode match
   const seenIds = new Set<string>();
-  const seenSignatures: string[] = [];
+  const seenByPostcode = new Map<string, string[]>();
   const unique: Lead[] = [];
   for (const lead of normalised) {
     if (seenIds.has(lead.id)) continue;
 
-    // Fuzzy dedup: normalise title + outward postcode into a signature
-    const sig = `${lead.title?.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim()}|${lead.postcodeOutward?.toUpperCase() ?? ''}`;
-    const isDuplicate = seenSignatures.some(existing => signatureOverlap(existing, sig));
+    const pc = lead.postcodeOutward?.toUpperCase() ?? '';
+    const titleNorm = lead.title?.toLowerCase().replace(/[^a-z0-9]/g, ' ').replace(/\s+/g, ' ').trim() ?? '';
+    const sig = `${titleNorm}|${pc}`;
+    // Bucket by postcode — eliminates O(n²) cross-comparison across all leads
+    const bucket = seenByPostcode.get(pc) ?? [];
+    const isDuplicate = bucket.some(existing => signatureOverlap(existing, sig));
     if (isDuplicate) continue;
 
     seenIds.add(lead.id);
-    seenSignatures.push(sig);
+    bucket.push(sig);
+    seenByPostcode.set(pc, bucket);
     unique.push(lead);
   }
 

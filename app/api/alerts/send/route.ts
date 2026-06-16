@@ -19,11 +19,12 @@ const FREQUENCY_MS: Record<string, number> = {
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const auth = request.headers.get('authorization');
-    if (auth !== `Bearer ${cronSecret}`) {
-      return Response.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
-    }
+  if (!cronSecret) {
+    return Response.json({ ok: false, error: 'Cron not configured' }, { status: 503 });
+  }
+  const auth = request.headers.get('authorization');
+  if (auth !== `Bearer ${cronSecret}`) {
+    return Response.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
   }
 
   const admin = getSupabaseServiceClient();
@@ -38,7 +39,8 @@ export async function GET(request: Request) {
     .not('postcode_outward', 'is', null);
 
   if (error) {
-    return Response.json({ ok: false, error: error.message }, { status: 500 });
+    console.error('[alerts/send] DB query failed:', error.code);
+    return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
   const now = Date.now();

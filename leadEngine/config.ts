@@ -98,8 +98,8 @@ export const CONFIG: LeadEngineConfig = {
 
   topN: 25,
   freeTierLimit: 5,
-  fetchTimeoutMs: 9_000,
-  retryAttempts: 2,
+  fetchTimeoutMs: 6_000,
+  retryAttempts: 1,
   lookbackDays: 14,
 };
 
