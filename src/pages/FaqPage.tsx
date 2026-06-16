@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: 'How fresh are the leads?',
-    a: 'Most signals are detected within 24–48 hours of appearing on official registers. Planning approvals. Energy efficiency triggers. Business registrations. You get them before they appear on Checkatrade, Bark, or MyBuilder.',
+    a: 'Most signals are detected within 24–48 hours of appearing on official registers — planning approvals, energy certificates, business registrations. That puts you 3–5 days ahead of Checkatrade, Bark, or MyBuilder listing the same job. The first call wins. That gap is the product.',
   },
   {
     q: 'What do I actually get for £39/month?',
@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you do not see one job worth quoting in that time, email us and we process the refund the same day. No forms, no argument.',
+    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. Browse at least 10 scored leads in your patch. If you do not see a single job worth quoting — not one — email us and we refund the same day. No forms, no argument, no awkward calls.',
   },
   {
     q: 'How does the territory lock work?',
@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: 'What trades do you cover?',
-    a: 'Builders, electricians, EV charger installers, plumbers, gas engineers, roofers, carpenters, decorators/painters, landscapers, HVAC engineers, and heat pump installers.',
+    a: 'Builders, electricians, EV charger installers, plumbers, gas engineers, roofers, scaffolders, decorators, landscapers, HVAC engineers, heat pump installers, solar PV installers, fire safety engineers, groundworkers, and data cabling contractors.',
   },
   {
     q: 'Where does your data come from?',
