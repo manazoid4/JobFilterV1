@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 16 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (110 pages), TS CLEAN before and after changes
+- [x] **Phase 1** — both `setSubmitted(true)` forms wired to real `fetch('/api/waitlist', ...)`; no broken imports
+- [x] **Phase 2 audit** — all Tier 1 features verified built: scan counter, calendar ICS, WinStatsBanner, WhatsApp templates (quick_quote_offer + availability_check), trade-specific score reasons, job value tracking, commercial detection
+- [x] **Copy polish — PricingPage**: plan bullets rewritten with specific action language; objection answers expanded to name all 4 competitors (Checkatrade/MyBuilder/Bark/BuildAlert); hero subtitle names signal types explicitly
+- [x] **Copy polish — HomePage**: proof points gain "3–5 days before Checkatrade or Bark" specificity; ops strip updated; founding-30 strip adds urgency line
+- [x] **NEEDLE/BUILDER fix** — "Avail. Check" WhatsApp template tab → "Diary Check" (clear to a tradesman on mobile; Avail. Check was an abbreviated label that required decoding)
+- [x] Build GREEN (110 pages), TypeScript CLEAN, pushed to main (`f8973b7`)
+- [ ] **WinStatsBanner live check** — verify WinStatsBanner renders once a win + value is logged via BuyerOutcomePicker; the backend already accepts wonValue
+- [ ] **QuickResponseKit WA_TEMPLATE_KEYS audit** — confirm WA_TEMPLATE_KEYS has all 5 templates after chaseTemplates reorder (main branch moved quick_quote_offer before follow_up_24h)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 15 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — local `main` was 110/52 commits diverged from `origin/main` (HEAD detached at `e318118`); `git reset --hard origin/main` resolved it; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes
