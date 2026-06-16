@@ -7,6 +7,9 @@
 - [[AI Cost Optimization]]
 - [[Instagram Saved Posts Memory]]
 
+## Agent Skills & Coding Standards
+- [[Ponytail - Lazy Senior Dev Mode]]
+
 ## Rules
 - Use these notes for model workflow ideas only.
 - Do not mix these with [[JobFilter Map]] unless they directly improve delivery speed, cost, or testing.
