@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 16 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`, recovered from detached HEAD (fetched origin, reset to `da7dc41`); build GREEN, TS CLEAN before and after
+- [x] **ForYourTradePage trade selector expanded** — 12 → 17 trades. Added: Fire Safety, Data Cabling, CCTV/Security, Groundworks, Structural Engineer. Each with trade-specific signals, value range, and example lead.
+- [x] **CompareRatedPeoplePage copy polish** — added 'No credit card required — 3 free scans every week' trust line (was missing vs TrustATrader page); added 'Signals per scan' comparison row
+- [x] **TerritoriesPage mobile NEEDLE fix** — added AVG JOB VALUE and SIGNALS/MO labels on mobile territory cards; bare number `14` was unreadable without desktop header
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`53d5598`)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **ForYourTradePage — Quantity Surveyors** — still not in trade selector (17/18 trade pages covered)
+- [ ] **TerritoriesPage form response SLA** — success message should say "we'll reply within 24h" not just "we will check coverage and reply"
+- [ ] **WinStatsBanner real-data test** — log a win via BuyerOutcomePicker, verify WinStatsBanner renders on FindJobsPage
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 16 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — `npm install`; build GREEN (110 pages), TS CLEAN before and after changes
