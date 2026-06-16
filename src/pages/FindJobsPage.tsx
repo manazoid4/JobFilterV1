@@ -640,6 +640,7 @@ export function FindJobsPage() {
             <Stat label="Updated" value={lastUpdated || 'N/A'} />
           </div>
 
+          <SourceHealthStrip sources={result.sources} />
           {result.count === 0 ? (
             <EmptyScanReport
               trade={trade}
@@ -733,6 +734,11 @@ export function FindJobsPage() {
                     <p className="mt-2 text-xs font-black text-[var(--yellow)]">IN DEMAND: {topJobTypes.join(' · ')}</p>
                   )}
                 </div>
+              )}
+
+              {/* Alert quick-setup CTA */}
+              {displayedLeads.length > 0 && (
+                <AlertQuickSetup trade={trade} postcode={postcode} />
               )}
 
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
@@ -959,6 +965,95 @@ function extractTopJobTypes(leads: Lead[]): string[] {
     .map(([kw, count]) => count > 1 ? `${kw} ×${count}` : kw);
 }
 
+function deadlineCountdown(deadlineAt: string | undefined): { label: string; className: string } | null {
+  if (!deadlineAt) return null;
+  const days = Math.ceil((new Date(deadlineAt).getTime() - Date.now()) / 86_400_000);
+  if (days < 0 || days > 21) return null;
+  if (days === 0) return { label: 'CLOSES TODAY', className: 'bg-red-600 text-white' };
+  if (days <= 2) return { label: `CLOSES IN ${days}D`, className: 'bg-red-600 text-white' };
+  if (days <= 7) return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--orange)] text-white' };
+  return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--ink)] text-white' };
+}
+
+function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }) {
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const outward = postcode.trim().split(' ')[0].toUpperCase();
+
+  async function setup() {
+    setState('sending');
+    try {
+      const res = await fetch('/api/alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trade, location: outward, postcode_outward: outward, frequency: 'weekly' }),
+      });
+      const data = await res.json();
+      setState(data.ok ? 'done' : 'error');
+    } catch {
+      setState('error');
+    }
+  }
+
+  if (state === 'done') {
+    return (
+      <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 p-3 text-sm font-black text-[var(--green)]">
+        ✓ WEEKLY ALERT SET — we&apos;ll email when new {trade} leads appear near {outward}
+      </div>
+    );
+  }
+
+  return (
+    <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-black text-[var(--yellow)] uppercase">Don&apos;t miss next week&apos;s leads</p>
+        <p className="mt-0.5 text-sm font-black text-white">
+          Get weekly email alerts for {trade} jobs near {outward} — free, no credit card
+        </p>
+        {state === 'error' && <p className="mt-1 text-xs font-black text-red-400">Failed — sign in first or try again</p>}
+      </div>
+      <button
+        type="button"
+        disabled={state === 'sending'}
+        onClick={() => void setup()}
+        className="shrink-0 border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition disabled:opacity-50"
+      >
+        {state === 'sending' ? 'SETTING UP…' : 'GET WEEKLY ALERTS →'}
+      </button>
+    </div>
+  );
+}
+
+function SourceHealthStrip({ sources }: { sources?: LeadSearchResponse['sources'] }) {
+  if (!sources) return null;
+  const HIDE = new Set(['LandRegistry', 'CharityCommission', 'ForestryCommission']);
+  const filtered = Object.entries(sources).filter(([name]) => !HIDE.has(name));
+  if (filtered.length === 0) return null;
+  return (
+    <div className="jf-box bg-white p-3">
+      <p className="micro-label text-[var(--muted)] text-[10px] mb-2">SOURCES THIS SCAN</p>
+      <div className="flex flex-wrap gap-2">
+        {filtered.map(([name, stats]) => {
+          const live = (stats.passed ?? 0) > 0;
+          const failed = stats.failed;
+          const icon = failed ? '✗' : live ? '✓' : '—';
+          const cls = failed
+            ? 'border-red-300 bg-red-50 text-red-700'
+            : live
+              ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]'
+              : 'border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)]';
+          return (
+            <span key={name} className={`inline-flex items-center gap-1 border px-2 py-0.5 text-[10px] font-black uppercase ${cls}`}>
+              <span>{icon}</span>
+              {formatSourceLabel(name)}
+              {live && <span className="opacity-60">×{stats.passed}</span>}
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function getBestSource(sources?: LeadSearchResponse['sources']): string {
   if (!sources) return '';
   let best = '';
@@ -988,6 +1083,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
+  const [showScoreReasons, setShowScoreReasons] = useState(false);
+  const deadline = deadlineCountdown(lead.deadlineAt);
   const rawOutward = lead.postcodeOutward || 'Unknown';
   // Some sources store NUTS region codes (e.g. "UKM") instead of postcode outward codes — not useful to show.
   const isNutsCode = /^UK[A-Z0-9]{0,3}$/.test(rawOutward);
@@ -1016,6 +1113,13 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
 
   return (
     <article className="jf-box bg-white overflow-hidden">
+      {/* ── Deadline countdown bar (any lead with close date) ── */}
+      {deadline && (
+        <div className={`flex items-center gap-2 border-b-2 border-[var(--line)] px-4 py-2 ${deadline.className}`}>
+          <Clock className="w-3.5 h-3.5 shrink-0" />
+          <span className="text-xs font-black uppercase tracking-wider">{deadline.label}</span>
+        </div>
+      )}
       {/* ── First-mover urgency bar (GOLD only) ── */}
       {isGold && lead.publishedAt && (
         <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-4 py-2">
@@ -1041,6 +1145,24 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         </div>
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel}</span>
+        )}
+        {rawReasons.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowScoreReasons(v => !v)}
+            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+          >
+            {showScoreReasons ? 'HIDE' : 'WHY?'}
+          </button>
+        )}
+        {showScoreReasons && (
+          <div className="mt-2 w-24 border border-[var(--line)] bg-[var(--bg-main)] p-2">
+            <ul className="grid gap-0.5">
+              {rawReasons.slice(0, 8).map((r, i) => (
+                <li key={i} className="text-[8px] font-black text-[var(--muted)] leading-tight">{r}</li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
       <div className="min-w-0">
