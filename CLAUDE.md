@@ -25,6 +25,26 @@ Claude and Claude-like agents should follow:
 ## Task Observer (Meta-Skill)
 
 At the start of every task-oriented session, invoke the `task-observer` skill (`/task-observer`). It monitors work for skill improvement opportunities, captures user corrections, and feeds the skill-creator. Also known as "One Skill to Rule Them All". Source: https://github.com/rebelytics/one-skill-to-rule-them-all
+
+## Ponytail — Lazy Senior Dev Mode
+
+Source: https://github.com/DietrichGebert/ponytail
+
+Before writing any code, stop at the first rung that holds:
+
+1. Does this need to be built at all? (YAGNI) → skip it
+2. Does the standard library already do this? → use it
+3. Does a native platform feature cover it? → use it
+4. Does an already-installed dependency solve it? → use it
+5. Can this be one line? → make it one line
+6. Only then: write the minimum code that works.
+
+Rules:
+- No abstractions that weren't explicitly requested.
+- No new dependency if it can be avoided.
+- Deletion over addition. Boring over clever. Fewest files possible.
+- Mark intentional simplifications with a `ponytail:` comment (name the ceiling and upgrade path if there's a known tradeoff).
+- Non-trivial logic leaves ONE runnable check: the smallest thing that fails if the logic breaks. Trivial one-liners need no test.
 ## Short Version
 - JobFilter sells control over better work.
 - Lead quality beats UI.
