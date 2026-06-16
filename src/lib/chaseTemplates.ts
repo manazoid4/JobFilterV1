@@ -32,7 +32,7 @@ export const MESSAGE_TEMPLATES: (MessageTemplate & { channel?: TemplateChannel }
   },
   {
     key: 'availability_check',
-    label: 'Avail. Check',
+    label: 'Diary Check',
     stage: 'following_up',
     timing: 'Alternative follow-up — focus on your schedule',
     purpose: 'Frame it around your diary, not their delay',

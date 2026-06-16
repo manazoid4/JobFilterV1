@@ -6,18 +6,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'Job alerts to your WhatsApp — within minutes of a signal match',
-  'Full buyer context + property details — no cold-calling strangers',
+  'Gold leads to your WhatsApp — scored and delivered within minutes of detection',
+  'Buyer context before you call — job type, value band, and best contact route',
   'Job value band before you quote — know if it\'s worth your time',
   'One trade per postcode patch — no shared auction, no five-trade blast',
-  'Win tracker — see exactly what\'s converting in your patch',
+  'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning, tender, energy and business signals — then routes them to you, not a field of bidders.'],
-  ['Are leads shared?', 'Paid users get priority routing by trade and patch. No auction, no five-trade race — unlike Bark credits or Checkatrade matchups.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, enter WhatsApp, trade and postcode, then we activate the patch after a coverage check.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Paid unlocks the full buyer context, job value, and WhatsApp delivery.'],
+  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning approvals, council tenders, and energy data — then routes signals to you, not a field of bidders fighting on price.'],
+  ['Are leads shared?', 'No. Paid members get priority routing by trade and patch. No auction, no five-trade race, no Bark-style credit burn. One trade per patch gets first call.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, enter your WhatsApp number, trade, and postcode. We check source coverage for your patch, then activate. Usually same day.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
@@ -29,7 +29,7 @@ export function PricingPage() {
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
-          Real job signals — not recycled from Checkatrade or Bark. Filtered by urgency, value, and distance. Hits your WhatsApp when it&apos;s worth pricing.
+          Planning approvals, council tenders, and energy signals — not recycled from Checkatrade or Bark. Scored by value, trade fit, and distance. Hits your WhatsApp before anyone else calls.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />

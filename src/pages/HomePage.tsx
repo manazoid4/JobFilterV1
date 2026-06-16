@@ -6,10 +6,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Jobs spotted before Checkatrade lists them',
+  '3–5 days before Checkatrade or Bark sees the same job',
   'Verified signals — not recycled from job boards',
   'One trade per postcode — no five-way blast',
-  'No shared auction. Cancel anytime.',
+  'No shared auction. No credit card. Cancel anytime.',
 ];
 
 const signalRows = [
@@ -137,9 +137,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Signals from planning approvals, energy upgrades, and public tenders</span>
-          <span>Scored by value, trade fit, and urgency</span>
-          <span>WhatsApp alert — before the job goes public</span>
+          <span>Planning approvals, council tenders, and energy signals — not job boards</span>
+          <span>Scored 0–100 by job value, trade fit, and how close you are</span>
+          <span>GOLD leads to WhatsApp — 3–5 days before the job goes public</span>
         </div>
       </section>
 
@@ -150,7 +150,7 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Founding 30 — one dominant trade partner per postcode cluster
+                Founding 30 places — one trade per patch. Miss the window, pay more later.
               </p>
             </div>
             <div className="flex items-center gap-2">
