@@ -4,7 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 // Server-side guard for member-only areas. The client-side guard in
 // DashboardPage handles UX; this stops unauthenticated requests reaching
 // protected routes at all (defense in depth).
-const PROTECTED = ['/dashboard', '/leads', '/account', '/tradie-zone'];
+const PROTECTED = ['/dashboard', '/leads', '/account', '/tradie-zone', '/dev-portal', '/test'];
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next({ request });
@@ -43,5 +43,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/leads/:path*', '/account/:path*', '/tradie-zone/:path*'],
+  matcher: ['/dashboard/:path*', '/leads/:path*', '/account/:path*', '/tradie-zone/:path*', '/dev-portal/:path*', '/test/:path*'],
 };
