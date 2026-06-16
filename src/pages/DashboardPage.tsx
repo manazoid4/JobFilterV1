@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -10,6 +10,97 @@ import { MESSAGE_TEMPLATES, fillTemplate } from '../lib/chaseTemplates';
 import { ROITracker } from '../components/ROITracker';
 import { generateReviewMessage, getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData, markReviewSent } from '../lib/winStore';
 import type { ChaseLead, LostReason, WinJob } from '../lib/types';
+
+const TRADES = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'] as const;
+const FREQ_OPTIONS = [
+  { value: 'weekly', label: 'WEEKLY (FREE)' },
+  { value: 'daily', label: 'DAILY (PAID)' },
+  { value: 'instant', label: 'INSTANT (PAID)' },
+];
+
+function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
+  const [trade, setTrade] = useState(scanTrade ?? 'electrical');
+  const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
+  const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [activeAlerts, setActiveAlerts] = useState<{ id: string; trade: string; postcode_outward: string; frequency: string }[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/alerts', { credentials: 'include' })
+      .then(r => r.ok ? r.json() : { alerts: [] })
+      .then(d => { setActiveAlerts(d.alerts ?? []); setLoaded(true); })
+      .catch(() => setLoaded(true));
+  }, [status]);
+
+  async function create(e: React.FormEvent) {
+    e.preventDefault();
+    if (!postcode.trim()) return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/api/alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ trade, location: postcode.trim().toUpperCase(), postcode_outward: postcode.trim().toUpperCase(), frequency }),
+      });
+      const data = await res.json();
+      setStatus(data.ok ? 'done' : 'error');
+      if (data.ok) setTimeout(() => setStatus('idle'), 3000);
+    } catch {
+      setStatus('error');
+    }
+  }
+
+  return (
+    <section className="jf-box bg-white p-5">
+      <p className="micro-label text-[var(--muted)]">LEAD ALERTS</p>
+      <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN JOBS APPEAR</h2>
+      <p className="mt-2 text-sm font-black text-[var(--muted)]">
+        Set up an alert for your trade and postcode area. Free weekly digest — paid subscribers get daily or instant.
+      </p>
+
+      <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end">
+        <label className="field-label">
+          Trade
+          <select value={trade} onChange={e => setTrade(e.target.value)} className="field-input">
+            {TRADES.map(t => <option key={t} value={t}>{t.toUpperCase()}</option>)}
+          </select>
+        </label>
+        <label className="field-label">
+          Postcode outward
+          <input value={postcode} onChange={e => setPostcode(e.target.value.toUpperCase())} placeholder="B14" className="field-input" maxLength={6} />
+        </label>
+        <label className="field-label">
+          Frequency
+          <select value={frequency} onChange={e => setFrequency(e.target.value as typeof frequency)} className="field-input">
+            {FREQ_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </label>
+        <button disabled={status === 'sending'} className="jf-button bg-[var(--ink)] text-white self-end disabled:opacity-50">
+          {status === 'sending' ? 'SAVING…' : status === 'done' ? 'SAVED ✓' : 'SET ALERT'}
+        </button>
+      </form>
+
+      {status === 'error' && (
+        <p className="mt-2 text-xs font-black text-red-600">Failed — check you are logged in and try again</p>
+      )}
+
+      {loaded && activeAlerts.length > 0 && (
+        <div className="mt-4 border-t-2 border-[var(--line)] pt-3">
+          <p className="micro-label text-[var(--muted)] text-[10px] mb-2">ACTIVE ALERTS</p>
+          <div className="flex flex-wrap gap-2">
+            {activeAlerts.map(a => (
+              <span key={a.id} className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-2 py-1 text-xs font-black uppercase text-[var(--green)]">
+                {a.trade} · {a.postcode_outward} · {a.frequency}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
 
 const LOST_REASON_TIPS: Record<LostReason, string> = {
   price: 'Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest.',
@@ -319,6 +410,9 @@ export function DashboardPage() {
 
       {/* ROI Tracker */}
       <ROITracker isPaid={isPaid} />
+
+      {/* Lead Alerts Setup */}
+      <AlertSetupWidget scanTrade={scanTrade} scanPostcode={scanPostcode} />
 
       {/* Review Nudge — wins 24h–7d old, no review sent yet */}
       {reviewNudges.filter((w) => !dismissedReviews.has(w.id)).map((win) => {

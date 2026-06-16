@@ -29,6 +29,7 @@ import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
 import { sourceRegistryEndpoints } from './sourceRegistry';
 import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
+import { warmOutcomeLearningCache, getOutcomeAdjustment } from './outcomeLearning';
 import { extractOpportunityAtoms, whyThisIsAJob } from './opportunityAtoms';
 
 // Endpoint registry — printed in diagnostics
@@ -111,7 +112,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const cleanTrade = validateTrade(trade);
 
   // 1. Resolve postcode + warm source config cache (DB overrides, 5-min TTL)
-  const [pcInfo] = await Promise.all([lookupPostcode(postcode), warmSourceConfigCache()]);
+  const [pcInfo] = await Promise.all([lookupPostcode(postcode), warmSourceConfigCache(), warmOutcomeLearningCache()]);
   const { outward, region } = pcInfo;
 
   // 2. Run all sources concurrently — failures are caught internally
@@ -256,6 +257,12 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
     if (stack.length > 1) {
       finalScore = Math.min(100, finalScore + 5);
       scoreReasons.push('Multi-source verified');
+    }
+    // Closed feedback loop: nudge by learned win/loss outcomes (bounded ±12, no-op until enough data).
+    const learned = getOutcomeAdjustment({ source: l.source, trade: l.trade, scoreReasons });
+    if (learned.points !== 0) {
+      finalScore += learned.points;
+      scoreReasons.push(...learned.reasons);
     }
     finalScore = Math.min(Math.max(finalScore, 0), 100);
     const leadWithDistance: Lead = {
