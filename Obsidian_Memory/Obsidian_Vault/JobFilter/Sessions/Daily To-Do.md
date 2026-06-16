@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 16 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — `npm install`; build GREEN (110 pages), TS CLEAN before and after changes
+- [x] **WinStatsBanner verified** — component renders when `wonCount > 0`; correct to hide when no wins
+- [x] **WA_TEMPLATE_KEYS verified** — all 5 keys present: first_touch_2h, quick_quote_offer, follow_up_24h, availability_check, final_nudge_48h
+- [x] **ForYourTradePage trade selector expanded** — 6 → 12 trades. Added: Gas Engineer, Solar PV, EV Charger, Heat Pumps, Decorating, Scaffolding. Each with specific signals, value range, and example lead.
+- [x] **FaqPage copy** — "How fresh?" adds "3–5 days ahead of Checkatrade, Bark, or MyBuilder"; 30-day guarantee answer tightened; trades list expanded to 15
+- [x] **NEEDLE/BUILDER/CRITIC/REVENUE** — ForYourTradePage missing 9 trades was the top UX issue; fixed. Clearer in <3s (YES), increases £39/mo likelihood (YES).
+- [x] Build GREEN (110 pages), TypeScript CLEAN, pushed to main (`29c8870`)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **ForYourTradePage — add remaining trades** — Fire Safety, Data Cabling, CCTV, Groundworkers, Structural Engineers still missing
+- [ ] **TerritoriesPage mobile check** — verify "Avg job value" and "Signals/mo" appear on mobile article cards
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 16 June 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (110 pages), TS CLEAN before and after changes
