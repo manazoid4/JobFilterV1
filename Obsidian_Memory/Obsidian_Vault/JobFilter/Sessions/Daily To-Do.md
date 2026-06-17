@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 17 June 2026 (NightlyBuildAgent)
+
+- [x] **Local main ref repair** — local `main` had diverged 132 commits from `origin/main` (stale ref from container snapshot); reset to `origin/main` via `git checkout -B main origin/main`, reinstalled `node_modules`
+- [x] **Phase 1 health check** — build GREEN, TypeScript CLEAN, no broken imports (239 files scanned), no fake-submit forms (4 setSubmitted/setEmailDone sites all wired to real backend calls)
+- [x] **Tier 1 feature audit** — confirmed all 5 listed Tier 1 features already built: scan counter, ICS export, won leaderboard, WhatsApp templates (quick quote + availability check), trade-specific scoring
+- [x] **MaterialPriceEnginePage** — added missing "No credit card required" trust line to hero (only free tool page without it)
+- [x] **TradieStackPage CTA** — "ENQUIRE — EMAIL US" → "BUY TRADIESTACK — £450 →" (price-anchored, concrete action)
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (464dc38)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Free-tools pack pages need NEEDLE pass** — AcmReportPack, NascPack, OzevGrantPack, GasSafeKit, SwmpTemplate, FraTemplate, CctvCompliancePack, DnoBrief, WayleavePack have had the least polish attention of any pages on the site
+
 ## Today - 16 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`, recovered from detached HEAD (fetched origin, reset to `da7dc41`); build GREEN, TS CLEAN before and after
