@@ -362,7 +362,7 @@ export function HomePage() {
             WIN THE JOBS JOBFILTER FINDS.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            JobFilter puts serious jobs in front of you. These services help you close them — human-staffed teams, submit a job, get a deliverable back. Not subscription bloat. Codex is open now — Vantage and Vicinity are being built next.
+            JobFilter puts serious jobs in front of you. These services help you close them — human-staffed teams, submit a job, get a deliverable back. Not subscription bloat. All three are open now.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             <Link href="/vantage" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
