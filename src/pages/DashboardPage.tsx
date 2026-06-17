@@ -83,7 +83,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       </form>
 
       {status === 'error' && (
-        <p className="mt-2 text-xs font-black text-red-600">Failed — check you are logged in and try again</p>
+        <p className="mt-2 text-xs font-black text-[var(--orange)]">Failed — check you are logged in and try again</p>
       )}
 
       {loaded && activeAlerts.length > 0 && (
