@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 17 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — detached HEAD at `2489111` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()` calls, no fake flows
+- [x] **NEEDLE pass from Explore agent rejected** — flagged `TradePage.tsx:217` `rounded-lg` as a violation; investigated, it's the intentional WhatsApp mockup exception already documented 12 June Run 2 — no change made
+- [x] **Design-token drift fix** — own grep sweep found 2 files with raw Tailwind red instead of `--orange` token: `DashboardPage.tsx:86` (alert error text) and `FindJobsPage.tsx` ×3 (deadline countdown badges, alert-setup error text, source-health failure badge). Fixed all 4; preserved 2-tier urgency on deadline badges (solid orange ≤2 days, outlined orange ≤7 days) instead of collapsing both to identical solid orange.
+- [x] Ran all 16 `codex-output/*.mjs` regression scripts — pass except ones needing a live server/external API keys (known false-negative class, not a real bug)
+- [x] Build GREEN, TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`ebae1ec`)
+- [ ] **Founder decision — add-on service pricing** (carried over, see Run 2/3 changelogs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` all take a lead via a form with zero price shown anywhere. Need a decision: free perk of £39/mo (then say so) or paid add-on (then show a price/range).
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Diminishing returns on NEEDLE/design-token sweeps** — most low-hanging fruit across `src/pages`/`src/components` found and fixed over ~2 weeks of runs; next genuinely-buildable medium item is Tier 2 #13 (WhatsApp two-way messaging) or #18 (PlanWire), both multi-day — scope before starting next run.
+
 ## Today - 17 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — detached HEAD at `b4a91e8` (== `origin/main`, no real divergence); `git checkout -B main origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
