@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 17 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `b4a91e8` (== `origin/main`, no real divergence); `git checkout -B main origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
+- [x] **ForYourTradePage — Quantity Surveyors added** — closed the 16 June Run 3 gap; trade selector now covers 18/18 trade pages (was 17/18). Entry matches existing format, framed around commission value + procurement-cycle timing (mirrors `TradeQuantitySurveyors.tsx`)
+- [x] **NEEDLE pass on 9 least-polished pages** (AcmReportPack, NascPack, OzevGrantPack, GasSafeKit, SwmpTemplate, FraTemplate, CctvCompliancePack, DnoBrief, WayleavePack) — all share one component (`ProductAdvantagePage.tsx`); read it in full + every trade's content block — clean, no jargon/design/fake-flow issues
+- [x] **Ran all `codex-output/*.mjs` regression scripts via `npx tsx`** — all pass (plain `node` fails on bare `.ts` import resolution, known false-negative, not a real bug)
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`3908cae`)
+- [ ] **Founder decision — add-on service pricing** (NEW, see changelog): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` all take a lead via a form with zero price shown anywhere in the codebase. Need a decision: free perk of £39/mo (then say so) or paid add-on (then show a price/range). Do NOT add "No credit card required" copy until decided — would be a false claim.
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 17 June 2026 (NightlyBuildAgent)
 
 - [x] **Local main ref repair** — local `main` had diverged 132 commits from `origin/main` (stale ref from container snapshot); reset to `origin/main` via `git checkout -B main origin/main`, reinstalled `node_modules`
