@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 18 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — detached HEAD, local `main` stale at `609898a` vs `origin/main` at `726d2db`; `git fetch origin main` + `git checkout -B main origin/main` resolved it (clean fast-forward); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()`; no fake flows
+- [x] **Feature built — closed Run 2's #1 priority: wired `/api/leads/explain` into LeadDetailPage** — new "WHAT THIS MEANS" panel translates the raw council/planning description (previously only surfaced for CompaniesHouse leads) into plain English; £39/mo lock card on 401/403, deterministic fallback verified live via `FULL_ACCESS_TEST_MODE=true` + curl, confirmed real 401 without test mode
+- [x] Build GREEN, TypeScript CLEAN, all 17 regressions pass except known false-negative class (live-network dependent); reverted regression-script-generated report artifacts before commit; pushed to main (`15f1d3f`)
+- [ ] **Spot-check "WHAT THIS MEANS" panel on a real live scan** — only curl-verified with a synthetic description this run; check rendering on a real planning-portal lead, desktop + 375px
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
 ## Today - 18 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — detached HEAD at `dcd7647`, local `main` stale + diverged-history from `origin/main` (not just behind — `merge-base --is-ancestor` failed); `git fetch origin --prune` + `git reset --hard origin/main` resolved it (no local-only commits existed); `npm install` (359 packages); build GREEN, TS CLEAN before changes
