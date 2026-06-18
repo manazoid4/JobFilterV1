@@ -1,5 +1,5 @@
-export const GEMINI_FLASH_DOCUMENT_ATOM_INSTRUCTIONS = {
-  model: 'gemini-1.5-flash',
+export const CLAUDE_DOCUMENT_ATOM_INSTRUCTIONS = {
+  model: 'claude-sonnet-4-6',
   purpose: 'High-volume planning document classification into JobFilter opportunity atoms.',
   output: {
     type: 'json',
@@ -20,7 +20,7 @@ export const GEMINI_FLASH_DOCUMENT_ATOM_INSTRUCTIONS = {
   rules: [
     'Return JSON only.',
     'Create no atom without source evidence text.',
-    'Use gemini-1.5-pro only when the document is too complex, scanned, or internally inconsistent.',
+    'Escalate to a more capable Claude model only when the document is too complex, scanned, or internally inconsistent.',
     'Prefer trade-specific atoms over generic construction labels.',
     'Keep evidenceText under 180 characters.',
   ],

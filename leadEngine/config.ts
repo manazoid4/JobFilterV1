@@ -27,6 +27,7 @@ const CPV_ALLOW: Record<TradeKey, string[]> = {
   painting:    ['4544', '45440', '45441', '45442'],
   hvac:        ['45331', '50720', '50730', '45332', '45333'],
   landscaping: ['77300', '77310', '77311', '77312', '77313', '77314'],
+  scaffolding: ['45262', '45262100', '45262120'],
   all:         ['45', '50', '773'],
 };
 
@@ -78,6 +79,7 @@ export const CONFIG: LeadEngineConfig = {
     painting: 300,
     hvac: 1_000,
     landscaping: 500,
+    scaffolding: 500,
     all: 500,
   },
 
@@ -90,6 +92,7 @@ export const CONFIG: LeadEngineConfig = {
     painting: 2_000_000,
     hvac: 10_000_000,
     landscaping: 5_000_000,
+    scaffolding: 2_000_000,
     all: 50_000_000,
   },
 

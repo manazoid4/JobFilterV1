@@ -17,7 +17,7 @@ const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: st
   },
   roofing: {
     high: ['roof', 'roofing', 'flat roof', 'velux', 'slate', 'tile roof', 'gutter', 'fascia', 'soffit', 'cladding', 'felt roof', 'epdm', 'lead flashing', 'ridge', 're-roof'],
-    medium: ['loft', 'chimney', 'lead work', 'flashings', 'ridge tile', 'dormer', 'loft conversion', 'scaffolding'],
+    medium: ['loft', 'chimney', 'lead work', 'flashings', 'ridge tile', 'dormer', 'loft conversion'],
     low: ['rewire', 'boiler', 'plumb', 'kitchen', 'bathroom', 'landscap', 'paint', 'ev charger', 'tiling'],
   },
   building: {
@@ -45,6 +45,11 @@ const TRADE_KEYWORDS: Record<string, { high: string[]; medium: string[]; low: st
     high: ['landscape', 'grounds', 'garden', 'paving', 'decking', 'fencing', 'turf', 'retaining wall', 'patio', 'driveway', 'groundwork', 'block paving', 'resin driveway'],
     medium: ['tree', 'hedge', 'irrigation', 'shed', 'gazebo', 'pergola', 'planting', 'boundary', 'drainage', 'lawn maintenance'],
     low: ['boiler', 'rewire', 'electrical', 'roof', 'flat roof', 'plumb', 'kitchen', 'bathroom', 'solar'],
+  },
+  scaffolding: {
+    high: ['scaffolding', 'scaffold', 'scaffold tower', 'scaffold hire', 'access tower', 'temporary roof', 'birdcage scaffold', 'edge protection', 'scaffold erection', 'scaffold license'],
+    medium: ['roof', 're-roof', 'render', 'cladding', 'loft conversion', 'extension', 'painting', 'pavement license', 'guard rail'],
+    low: ['boiler', 'rewire', 'electrical', 'plumb', 'kitchen', 'bathroom', 'landscap', 'solar'],
   },
 };
 

@@ -6,9 +6,8 @@
  * Request body: { lead: LeadObject, phone_number: string }
  *
  * Env vars required for delivery:
- *   TWILIO_ACCOUNT_SID   — Twilio account SID (ACxxxxxxxx)
- *   TWILIO_AUTH_TOKEN    — Twilio auth token
- *   TWILIO_WHATSAPP_FROM — Twilio WhatsApp sender (e.g. whatsapp:+14155238886)
+ *   WHATSAPP_PHONE_NUMBER_ID — Meta WhatsApp Cloud API phone number ID
+ *   WHATSAPP_ACCESS_TOKEN    — Meta permanent access token
  */
 
 import { createAuthServerClient } from '../../../../src/lib/supabase/auth-server';
@@ -72,37 +71,42 @@ function buildWhatsAppMessage(lead: Record<string, unknown>): string {
   return lines.join('\n');
 }
 
-async function sendViaTwilio(to: string, body: string): Promise<{ ok: boolean; sid?: string; error?: string }> {
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const from = process.env.TWILIO_WHATSAPP_FROM;
+function toE164UK(phone: string) {
+  const digits = phone.replace(/[^\d+]/g, '');
+  if (digits.startsWith('+')) return digits;
+  if (digits.startsWith('0')) return `+44${digits.slice(1)}`;
+  return `+44${digits}`;
+}
 
-  if (!accountSid || !authToken || !from) {
-    return { ok: false, error: 'TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WHATSAPP_FROM not set' };
+async function sendViaMeta(to: string, body: string): Promise<{ ok: boolean; sid?: string; error?: string }> {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+
+  if (!phoneNumberId || !accessToken) {
+    return { ok: false, error: 'WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_ACCESS_TOKEN not set' };
   }
 
-  const toWhatsApp = to.startsWith('whatsapp:') ? to : `whatsapp:${to}`;
-  const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
-  const credentials = Buffer.from(`${accountSid}:${authToken}`).toString('base64');
-
-  const params = new URLSearchParams({ From: from, To: toWhatsApp, Body: body });
-
-  const res = await fetch(url, {
+  const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
     method: 'POST',
     headers: {
-      Authorization: `Basic ${credentials}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
-    body: params.toString(),
+    body: JSON.stringify({
+      messaging_product: 'whatsapp',
+      to: toE164UK(to),
+      type: 'text',
+      text: { body },
+    }),
   });
 
   if (!res.ok) {
     const text = await res.text().catch(() => '');
-    return { ok: false, error: `Twilio error ${res.status}: ${text.slice(0, 200)}` };
+    return { ok: false, error: `Meta API error ${res.status}: ${text.slice(0, 200)}` };
   }
 
   const json = await res.json().catch(() => ({}));
-  return { ok: true, sid: json.sid };
+  return { ok: true, sid: json.messages?.[0]?.id };
 }
 
 export async function POST(request: Request) {
@@ -136,24 +140,22 @@ export async function POST(request: Request) {
 
   const message = buildWhatsAppMessage(lead);
 
-  // Check Twilio config — return 503 with clear setup docs if missing
-  const hasTwilio =
-    !!process.env.TWILIO_ACCOUNT_SID &&
-    !!process.env.TWILIO_AUTH_TOKEN &&
-    !!process.env.TWILIO_WHATSAPP_FROM;
+  // Check Meta WhatsApp Cloud API config — return 503 with clear setup docs if missing
+  const hasMeta =
+    !!process.env.WHATSAPP_PHONE_NUMBER_ID &&
+    !!process.env.WHATSAPP_ACCESS_TOKEN;
 
-  if (!hasTwilio) {
+  if (!hasMeta) {
     return Response.json(
       {
         ok: false,
         error: 'WhatsApp delivery not configured on this server.',
         setup: {
           required_env_vars: {
-            TWILIO_ACCOUNT_SID: 'Your Twilio Account SID (starts with AC)',
-            TWILIO_AUTH_TOKEN: 'Your Twilio Auth Token',
-            TWILIO_WHATSAPP_FROM: 'WhatsApp sender e.g. whatsapp:+14155238886 (Twilio sandbox or approved number)',
+            WHATSAPP_PHONE_NUMBER_ID: 'Phone Number ID from Meta WhatsApp Cloud API setup',
+            WHATSAPP_ACCESS_TOKEN: 'Permanent access token from Meta system user',
           },
-          docs: 'https://www.twilio.com/docs/whatsapp/quickstart',
+          docs: 'https://developers.facebook.com/docs/whatsapp/cloud-api/get-started',
           message_preview: message,
         },
       },
@@ -161,7 +163,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await sendViaTwilio(phone_number, message);
+  const result = await sendViaMeta(phone_number, message);
   if (!result.ok) {
     return Response.json({ ok: false, error: result.error }, { status: 502 });
   }

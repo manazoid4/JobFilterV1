@@ -42,9 +42,37 @@ export async function POST(request: Request) {
     status: 'received',
   });
 
+  await sendActivationWhatsApp(patch.phone, patch.trade);
+
   return Response.json({ ok: true });
 }
 
 function clean(input: unknown, max: number) {
   return String(input ?? '').replace(/[<>]/g, '').trim().slice(0, max);
+}
+
+function toE164UK(phone: string) {
+  const digits = phone.replace(/[^\d+]/g, '');
+  if (digits.startsWith('+')) return digits;
+  if (digits.startsWith('0')) return `+44${digits.slice(1)}`;
+  return `+44${digits}`;
+}
+
+async function sendActivationWhatsApp(rawPhone: string, trade: string) {
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+  if (!phoneNumberId || !accessToken || !rawPhone) return;
+
+  const to = toE164UK(rawPhone);
+  const body = `Welcome to JobFilter. Your ${trade || 'trade'} account is activated — leads will land here on WhatsApp.`;
+
+  try {
+    await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messaging_product: 'whatsapp', to, type: 'text', text: { body } }),
+    });
+  } catch (err) {
+    console.warn('[activation] WhatsApp confirmation failed:', (err as Error).message);
+  }
 }
