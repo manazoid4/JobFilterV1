@@ -1,5 +1,17 @@
 # Daily To-Do
 
+## Today - 18 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `dcd7647`, local `main` stale + diverged-history from `origin/main` (not just behind — `merge-base --is-ancestor` failed); `git fetch origin --prune` + `git reset --hard origin/main` resolved it (no local-only commits existed); `npm install` (359 packages); build GREEN, TS CLEAN before changes
+- [x] **Found dead backend code from PR #282** — `/api/leads/draft-message` and `/api/leads/explain` (AI-powered, auth-gated, fallback-safe) had zero frontend callers since merge
+- [x] **Feature built — AI draft-message wired into LeadDetailPage** — "AI DRAFT — WRITE ME A MESSAGE" button in SEND WHATSAPP section; £39/mo lock card on 401/403; drafted text + OPEN WHATSAPP CHAT link on success; verified live via `FULL_ACCESS_TEST_MODE=true` + direct curl (real fallback draft returned, no `ANTHROPIC_API_KEY` set, confirms no fake flow); unauth request correctly 401s
+- [x] Build GREEN, TypeScript CLEAN, all regressions pass except known false-negative class (live-network dependent), pushed to main (`904e552`)
+- [ ] **Wire `/api/leads/explain`** — still dead backend code; decide if it adds value beyond the existing WHY THIS LEAD section or retire the route
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
 ## Today - 18 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — detached HEAD at `b6df9dd`, local `main` stale 52 commits behind (`609898a`); `git checkout main`, `git fetch origin main` (corrected stale cached `origin/main` ref too), `git reset --hard origin/main` resolved it; `npm install` (359 packages, `node_modules` missing entirely); build GREEN, TS CLEAN before changes
