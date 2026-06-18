@@ -58,7 +58,7 @@ export function TopNav() {
           />
           <span className="headline text-2xl tracking-normal sm:text-3xl">JOBFILTER</span>
           <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
-            UK Trade Leads
+            Construction Intelligence
           </span>
         </Link>
 
