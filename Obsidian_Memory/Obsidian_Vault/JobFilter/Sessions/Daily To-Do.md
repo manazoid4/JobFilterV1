@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 18 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — detached HEAD at `b6df9dd`, local `main` stale 52 commits behind (`609898a`); `git checkout main`, `git fetch origin main` (corrected stale cached `origin/main` ref too), `git reset --hard origin/main` resolved it; `npm install` (359 packages, `node_modules` missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()`; no broken imports; no React.lazy path risk
+- [x] **Ran all 17 `codex-output/*.mjs` regression scripts** — all pass except known false-negative class needing live server/external APIs
+- [x] **PR #281 ("open tracked leads in WhatsApp") reviewed** — confirmed sound; `buyerPhone` only real for tradesman-submitted intake leads, gracefully degrades to generic `wa.me/?text=` link for scanned leads (same pattern as prior SMS fallback), not a regression
+- [x] **Full live-CTA sweep** — every VIEW/TRACK/SEND/DOWNLOAD/OPEN/GENERATE/UNLOCK/CLAIM/BUY/UPGRADE/EXPORT/COPY/SHARE-labelled button across `src/pages` + `src/components` checked for missing onClick/href — zero genuinely broken buttons found; only "broken-looking" button (`KeywordSearch.tsx` VIEW FULL DOCUMENT/TRACK THIS LEAD) is dead code behind `SHOW_ADVANCED_TOOLS = false`, confirmed unreachable
+- [x] **Document search prototype re-confirmed correctly hidden** — mock-data scaffold, flag off, not deceiving anyone; finishing it for real needs PDF ingestion/storage/search API (multi-day)
+- [x] **LaunchWaitlistModal reviewed** — confirmed intentional "Founding 30" scarcity marketing consistent with rest of site, not a stale bug; left unchanged
+- [x] Build GREEN, TypeScript CLEAN throughout — **no code changes needed this run**, every Tier 1/2 buildable item already shipped in prior runs
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): still no price shown for `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex`
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+- [ ] Only remaining buildable medium-effort items (Tier 2 #13 WhatsApp two-way messaging, #18 PlanWire, finishing document search) all need new external infrastructure/partnerships — multi-day, not single-run
+
 ## Today - 17 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — detached HEAD at `2489111` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
