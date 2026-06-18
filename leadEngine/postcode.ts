@@ -82,11 +82,11 @@ export function assertValidPostcodeInput(postcode: string): string {
   return outward;
 }
 
+const REGION_MAP_SORTED = [...REGION_MAP].sort((a, b) => b[0].length - a[0].length);
+
 export function regionFromOutward(outward: string): string {
   const clean = outward.toUpperCase();
-  // Sort by prefix length descending so longer (more specific) prefixes match first
-  const sorted = [...REGION_MAP].sort((a, b) => b[0].length - a[0].length);
-  for (const [prefix, region] of sorted) {
+  for (const [prefix, region] of REGION_MAP_SORTED) {
     if (clean.startsWith(prefix)) return region;
   }
   return 'United Kingdom';

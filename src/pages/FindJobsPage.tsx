@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -968,7 +968,9 @@ function extractTopJobTypes(leads: Lead[]): string[] {
 
 function deadlineCountdown(deadlineAt: string | undefined): { label: string; className: string } | null {
   if (!deadlineAt) return null;
-  const days = Math.ceil((new Date(deadlineAt).getTime() - Date.now()) / 86_400_000);
+  const ms = new Date(deadlineAt).getTime();
+  if (isNaN(ms)) return null;
+  const days = Math.floor((ms - Date.now()) / 86_400_000);
   if (days < 0 || days > 21) return null;
   if (days === 0) return { label: 'CLOSES TODAY', className: 'bg-[var(--orange)] text-white' };
   if (days <= 2) return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--orange)] text-white' };
@@ -979,6 +981,8 @@ function deadlineCountdown(deadlineAt: string | undefined): { label: string; cla
 function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const outward = postcode.trim().split(' ')[0].toUpperCase();
+  const mountedRef = React.useRef(true);
+  React.useEffect(() => { mountedRef.current = true; return () => { mountedRef.current = false; }; }, []);
 
   async function setup() {
     setState('sending');
@@ -986,12 +990,13 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
       const res = await fetch('/api/alerts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ trade, location: outward, postcode_outward: outward, frequency: 'weekly' }),
       });
       const data = await res.json();
-      setState(data.ok ? 'done' : 'error');
+      if (mountedRef.current) setState(data.ok ? 'done' : 'error');
     } catch {
-      setState('error');
+      if (mountedRef.current) setState('error');
     }
   }
 

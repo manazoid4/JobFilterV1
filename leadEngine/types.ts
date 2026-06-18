@@ -1,4 +1,4 @@
-export type TradeKey = 'plumbing' | 'electrical' | 'roofing' | 'building' | 'carpentry' | 'painting' | 'hvac' | 'landscaping' | 'all';
+export type TradeKey = 'plumbing' | 'electrical' | 'roofing' | 'building' | 'carpentry' | 'painting' | 'hvac' | 'landscaping' | 'scaffolding' | 'all';
 export type Urgency = 'low' | 'medium' | 'high';
 export type ContactSignal = 'none' | 'weak' | 'strong';
 // Full status lifecycle — must match outcomeReport OUTCOME_STATUSES and LeadCard STATUS_PILLS

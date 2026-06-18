@@ -22,6 +22,7 @@ const VALID_TRADES = new Set([
   'painting', 'hvac', 'landscaping',
 ]);
 const VALID_FREQUENCIES = new Set(['instant', 'daily', 'weekly']);
+const POSTCODE_OUTWARD_RE = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/;
 const PAID_FREQUENCIES = new Set(['instant', 'daily']);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
@@ -69,7 +70,8 @@ export async function POST(request: Request) {
 
   const trade = String(body.trade ?? '').toLowerCase().trim();
   const location = String(body.location ?? '').trim().slice(0, 120);
-  const postcode_outward = String(body.postcode_outward ?? body.postcode ?? '').toUpperCase().trim().slice(0, 8) || null;
+  const postcode_raw = String(body.postcode_outward ?? body.postcode ?? '').toUpperCase().trim().replace(/\s+/g, '').slice(0, 8);
+  const postcode_outward = POSTCODE_OUTWARD_RE.test(postcode_raw) ? postcode_raw : null;
   const frequency = String(body.frequency ?? 'weekly').toLowerCase();
 
   if (!VALID_TRADES.has(trade)) {
@@ -120,7 +122,8 @@ export async function POST(request: Request) {
     .single();
 
   if (error) {
-    return Response.json({ ok: false, error: error.message }, { status: 500 });
+    console.error('[alerts POST] upsert failed:', error.code);
+    return Response.json({ ok: false, error: 'Failed to save alert' }, { status: 500 });
   }
 
   return Response.json({
@@ -151,7 +154,8 @@ export async function GET() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    return Response.json({ ok: false, error: error.message }, { status: 500 });
+    console.error('[alerts GET] query failed:', error.code);
+    return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
   return Response.json({ ok: true, alerts: data ?? [] });
