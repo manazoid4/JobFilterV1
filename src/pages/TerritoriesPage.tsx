@@ -246,8 +246,12 @@ export function TerritoriesPage() {
                   <p className="mt-1 text-sm font-black text-[var(--muted)]">{territory.claimNote}</p>
                 </div>
                 <div className="font-black">{territory.trade}</div>
-                <div className="font-mono font-black">{territory.monthlyPotential}</div>
                 <div>
+                  <p className="text-xs font-black uppercase text-[var(--muted)] lg:hidden">AVG JOB VALUE</p>
+                  <p className="font-mono font-black">{territory.monthlyPotential}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-black uppercase text-[var(--muted)] lg:hidden">SIGNALS/MO</p>
                   <p className="font-mono text-2xl font-black">{territory.liveSignals}</p>
                   <p className={`text-xs font-black uppercase ${territory.confidence === 'High' ? 'text-[var(--green)]' : 'text-[var(--orange)]'}`}>
                     {territory.confidence === 'High' ? '● Strong' : '● Growing'}

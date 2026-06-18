@@ -1,5 +1,88 @@
 # Daily To-Do
 
+## Today - 17 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — detached HEAD at `2489111` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()` calls, no fake flows
+- [x] **NEEDLE pass from Explore agent rejected** — flagged `TradePage.tsx:217` `rounded-lg` as a violation; investigated, it's the intentional WhatsApp mockup exception already documented 12 June Run 2 — no change made
+- [x] **Design-token drift fix** — own grep sweep found 2 files with raw Tailwind red instead of `--orange` token: `DashboardPage.tsx:86` (alert error text) and `FindJobsPage.tsx` ×3 (deadline countdown badges, alert-setup error text, source-health failure badge). Fixed all 4; preserved 2-tier urgency on deadline badges (solid orange ≤2 days, outlined orange ≤7 days) instead of collapsing both to identical solid orange.
+- [x] Ran all 16 `codex-output/*.mjs` regression scripts — pass except ones needing a live server/external API keys (known false-negative class, not a real bug)
+- [x] Build GREEN, TypeScript CLEAN, `package-copy-regression.mjs` PASS, pushed to main (`ebae1ec`)
+- [ ] **Founder decision — add-on service pricing** (carried over, see Run 2/3 changelogs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` all take a lead via a form with zero price shown anywhere. Need a decision: free perk of £39/mo (then say so) or paid add-on (then show a price/range).
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Diminishing returns on NEEDLE/design-token sweeps** — most low-hanging fruit across `src/pages`/`src/components` found and fixed over ~2 weeks of runs; next genuinely-buildable medium item is Tier 2 #13 (WhatsApp two-way messaging) or #18 (PlanWire), both multi-day — scope before starting next run.
+
+## Today - 17 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `b4a91e8` (== `origin/main`, no real divergence); `git checkout -B main origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes
+- [x] **ForYourTradePage — Quantity Surveyors added** — closed the 16 June Run 3 gap; trade selector now covers 18/18 trade pages (was 17/18). Entry matches existing format, framed around commission value + procurement-cycle timing (mirrors `TradeQuantitySurveyors.tsx`)
+- [x] **NEEDLE pass on 9 least-polished pages** (AcmReportPack, NascPack, OzevGrantPack, GasSafeKit, SwmpTemplate, FraTemplate, CctvCompliancePack, DnoBrief, WayleavePack) — all share one component (`ProductAdvantagePage.tsx`); read it in full + every trade's content block — clean, no jargon/design/fake-flow issues
+- [x] **Ran all `codex-output/*.mjs` regression scripts via `npx tsx`** — all pass (plain `node` fails on bare `.ts` import resolution, known false-negative, not a real bug)
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`3908cae`)
+- [ ] **Founder decision — add-on service pricing** (NEW, see changelog): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` all take a lead via a form with zero price shown anywhere in the codebase. Need a decision: free perk of £39/mo (then say so) or paid add-on (then show a price/range). Do NOT add "No credit card required" copy until decided — would be a false claim.
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 17 June 2026 (NightlyBuildAgent)
+
+- [x] **Local main ref repair** — local `main` had diverged 132 commits from `origin/main` (stale ref from container snapshot); reset to `origin/main` via `git checkout -B main origin/main`, reinstalled `node_modules`
+- [x] **Phase 1 health check** — build GREEN, TypeScript CLEAN, no broken imports (239 files scanned), no fake-submit forms (4 setSubmitted/setEmailDone sites all wired to real backend calls)
+- [x] **Tier 1 feature audit** — confirmed all 5 listed Tier 1 features already built: scan counter, ICS export, won leaderboard, WhatsApp templates (quick quote + availability check), trade-specific scoring
+- [x] **MaterialPriceEnginePage** — added missing "No credit card required" trust line to hero (only free tool page without it)
+- [x] **TradieStackPage CTA** — "ENQUIRE — EMAIL US" → "BUY TRADIESTACK — £450 →" (price-anchored, concrete action)
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (464dc38)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel — recurring across many runs)
+- [ ] TradeFlow "Send to TradeFlow" button (still blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Free-tools pack pages need NEEDLE pass** — AcmReportPack, NascPack, OzevGrantPack, GasSafeKit, SwmpTemplate, FraTemplate, CctvCompliancePack, DnoBrief, WayleavePack have had the least polish attention of any pages on the site
+
+## Today - 16 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`, recovered from detached HEAD (fetched origin, reset to `da7dc41`); build GREEN, TS CLEAN before and after
+- [x] **ForYourTradePage trade selector expanded** — 12 → 17 trades. Added: Fire Safety, Data Cabling, CCTV/Security, Groundworks, Structural Engineer. Each with trade-specific signals, value range, and example lead.
+- [x] **CompareRatedPeoplePage copy polish** — added 'No credit card required — 3 free scans every week' trust line (was missing vs TrustATrader page); added 'Signals per scan' comparison row
+- [x] **TerritoriesPage mobile NEEDLE fix** — added AVG JOB VALUE and SIGNALS/MO labels on mobile territory cards; bare number `14` was unreadable without desktop header
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`53d5598`)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **ForYourTradePage — Quantity Surveyors** — still not in trade selector (17/18 trade pages covered)
+- [ ] **TerritoriesPage form response SLA** — success message should say "we'll reply within 24h" not just "we will check coverage and reply"
+- [ ] **WinStatsBanner real-data test** — log a win via BuyerOutcomePicker, verify WinStatsBanner renders on FindJobsPage
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 16 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — `npm install`; build GREEN (110 pages), TS CLEAN before and after changes
+- [x] **WinStatsBanner verified** — component renders when `wonCount > 0`; correct to hide when no wins
+- [x] **WA_TEMPLATE_KEYS verified** — all 5 keys present: first_touch_2h, quick_quote_offer, follow_up_24h, availability_check, final_nudge_48h
+- [x] **ForYourTradePage trade selector expanded** — 6 → 12 trades. Added: Gas Engineer, Solar PV, EV Charger, Heat Pumps, Decorating, Scaffolding. Each with specific signals, value range, and example lead.
+- [x] **FaqPage copy** — "How fresh?" adds "3–5 days ahead of Checkatrade, Bark, or MyBuilder"; 30-day guarantee answer tightened; trades list expanded to 15
+- [x] **NEEDLE/BUILDER/CRITIC/REVENUE** — ForYourTradePage missing 9 trades was the top UX issue; fixed. Clearer in <3s (YES), increases £39/mo likelihood (YES).
+- [x] Build GREEN (110 pages), TypeScript CLEAN, pushed to main (`29c8870`)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] **ForYourTradePage — add remaining trades** — Fire Safety, Data Cabling, CCTV, Groundworkers, Structural Engineers still missing
+- [ ] **TerritoriesPage mobile check** — verify "Avg job value" and "Signals/mo" appear on mobile article cards
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
+## Today - 16 June 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — `npm install` (359 packages, fresh container); build GREEN (110 pages), TS CLEAN before and after changes
+- [x] **Phase 1** — both `setSubmitted(true)` forms wired to real `fetch('/api/waitlist', ...)`; no broken imports
+- [x] **Phase 2 audit** — all Tier 1 features verified built: scan counter, calendar ICS, WinStatsBanner, WhatsApp templates (quick_quote_offer + availability_check), trade-specific score reasons, job value tracking, commercial detection
+- [x] **Copy polish — PricingPage**: plan bullets rewritten with specific action language; objection answers expanded to name all 4 competitors (Checkatrade/MyBuilder/Bark/BuildAlert); hero subtitle names signal types explicitly
+- [x] **Copy polish — HomePage**: proof points gain "3–5 days before Checkatrade or Bark" specificity; ops strip updated; founding-30 strip adds urgency line
+- [x] **NEEDLE/BUILDER fix** — "Avail. Check" WhatsApp template tab → "Diary Check" (clear to a tradesman on mobile; Avail. Check was an abbreviated label that required decoding)
+- [x] Build GREEN (110 pages), TypeScript CLEAN, pushed to main (`f8973b7`)
+- [ ] **WinStatsBanner live check** — verify WinStatsBanner renders once a win + value is logged via BuyerOutcomePicker; the backend already accepts wonValue
+- [ ] **QuickResponseKit WA_TEMPLATE_KEYS audit** — confirm WA_TEMPLATE_KEYS has all 5 templates after chaseTemplates reorder (main branch moved quick_quote_offer before follow_up_24h)
+- [ ] **Stripe live test** — 4242 4242 4242 4242, confirm /dashboard?welcome=1 and profiles.plan flip (still blocked on test keys in Vercel)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+
 ## Today - 15 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — local `main` was 110/52 commits diverged from `origin/main` (HEAD detached at `e318118`); `git reset --hard origin/main` resolved it; `npm install` (359 packages); build GREEN (107 pages), TS CLEAN before changes

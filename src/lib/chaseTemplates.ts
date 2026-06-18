@@ -32,7 +32,7 @@ export const MESSAGE_TEMPLATES: (MessageTemplate & { channel?: TemplateChannel }
   },
   {
     key: 'availability_check',
-    label: 'Avail. Check',
+    label: 'Diary Check',
     stage: 'following_up',
     timing: 'Alternative follow-up — focus on your schedule',
     purpose: 'Frame it around your diary, not their delay',
@@ -134,9 +134,10 @@ export function fillTemplate(template: MessageTemplate, vars: { job_type: string
   return template.body.replace(/\{job_type\}/g, vars.job_type).replace(/\{area\}/g, vars.area);
 }
 
-export function toSmsHref(phone: string | undefined, body: string): string {
+export function toWhatsAppHref(phone: string | undefined, body: string): string {
   const digits = (phone ?? '').replace(/\D/g, '');
-  return `sms:${digits}?body=${encodeURIComponent(body)}`;
+  const recipient = digits.startsWith('0') ? `44${digits.slice(1)}` : digits;
+  return `https://wa.me/${recipient}?text=${encodeURIComponent(body)}`;
 }
 
 export function parseEmailSubject(body: string): { subject: string; body: string } {

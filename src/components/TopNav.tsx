@@ -6,12 +6,12 @@ import { useAuth } from './AuthProvider';
 
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
-  { to: '/territories', label: 'Claim Patch' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/for-your-trade', label: 'Trades' },
-  { to: '/trust', label: 'Proof' },
   { to: '/signals', label: 'Signals' },
   { to: '/free-tools', label: 'Free Tools' },
+  { to: '/territories', label: 'Claim Patch' },
+  { to: '/for-your-trade', label: 'Trades' },
+  { to: '/trust', label: 'Proof' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];

@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 const comparison = [
   { feature: 'Lead source', ratedpeople: 'Homeowner job posts', jobfilter: 'Planning data, public contracts, energy signals, ownership data', jf: true },
+  { feature: 'Signals per scan', ratedpeople: 'None — sees only what homeowners post', jobfilter: '10 verified signals per scan', jf: true },
   { feature: 'Lead exclusivity', ratedpeople: 'Up to 3 trades per job', jobfilter: 'Private — only you see your scan results', jf: true },
   { feature: 'Pricing', ratedpeople: 'Credits to apply for jobs', jobfilter: '£39/mo flat — no credits, no limits', jf: true },
   { feature: 'Lead scoring', ratedpeople: 'None — all jobs shown equally', jobfilter: 'GOLD/SILVER/SKIP intent scoring', jf: true },
@@ -60,6 +61,7 @@ export function CompareRatedPeoplePage() {
               FULL COMPARISON
             </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
         </div>
       </section>
 

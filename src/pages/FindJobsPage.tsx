@@ -252,6 +252,7 @@ export function FindJobsPage() {
       area: lead.location || lead.postcodeOutward,
       flags: [],
       details: lead.title,
+      phone: lead.buyerPhone,
       status: 'new',
       createdAt: new Date().toISOString(),
       qualityLabel: lead.qualityLabel,
@@ -971,9 +972,9 @@ function deadlineCountdown(deadlineAt: string | undefined): { label: string; cla
   if (isNaN(ms)) return null;
   const days = Math.floor((ms - Date.now()) / 86_400_000);
   if (days < 0 || days > 21) return null;
-  if (days === 0) return { label: 'CLOSES TODAY', className: 'bg-red-600 text-white' };
-  if (days <= 2) return { label: `CLOSES IN ${days}D`, className: 'bg-red-600 text-white' };
-  if (days <= 7) return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--orange)] text-white' };
+  if (days === 0) return { label: 'CLOSES TODAY', className: 'bg-[var(--orange)] text-white' };
+  if (days <= 2) return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--orange)] text-white' };
+  if (days <= 7) return { label: `CLOSES IN ${days}D`, className: 'border-2 border-[var(--orange)] text-[var(--orange)]' };
   return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--ink)] text-white' };
 }
 
@@ -1014,7 +1015,7 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
         <p className="mt-0.5 text-sm font-black text-white">
           Get weekly email alerts for {trade} jobs near {outward} — free, no credit card
         </p>
-        {state === 'error' && <p className="mt-1 text-xs font-black text-red-400">Failed — sign in first or try again</p>}
+        {state === 'error' && <p className="mt-1 text-xs font-black text-[var(--orange)]">Failed — sign in first or try again</p>}
       </div>
       <button
         type="button"
@@ -1042,7 +1043,7 @@ function SourceHealthStrip({ sources }: { sources?: LeadSearchResponse['sources'
           const failed = stats.failed;
           const icon = failed ? '✗' : live ? '✓' : '—';
           const cls = failed
-            ? 'border-red-300 bg-red-50 text-red-700'
+            ? 'border-[var(--orange)] bg-[var(--orange)]/10 text-[var(--orange)]'
             : live
               ? 'border-[var(--green)] bg-[var(--green)]/10 text-[var(--green)]'
               : 'border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)]';
@@ -1303,6 +1304,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           estimatedValue={String(lead.estimatedValue || '')}
           contactSignal={lead.contactSignal}
           url={lead.url}
+          phone={lead.buyerPhone}
         />
         {cardOpenAccess && <OutcomeActions lead={lead} />}
       </div>

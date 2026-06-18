@@ -167,6 +167,7 @@ export function MaterialPriceEnginePage() {
             <p className="mt-4 max-w-3xl text-lg font-black text-white/85">
               Reference prices from major UK suppliers — Selco, Travis Perkins, Buildbase. Use as a quoting baseline; confirm live prices with supplier before ordering.
             </p>
+            <p className="mt-2 text-xs font-black text-white/60">Free to use — no credit card required.</p>
           </div>
           <div className="border-2 border-white bg-[var(--yellow)] p-4 text-[var(--ink)] shadow-[4px_4px_0_white]">
             <p className="micro-label">PAID REASON</p>

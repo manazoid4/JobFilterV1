@@ -20,7 +20,7 @@ const FREQ_OPTIONS = [
 
 function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
   const [trade, setTrade] = useState(scanTrade ?? 'electrical');
-  const [postcode, setPostcode] = useState('');
+  const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
   const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [activeAlerts, setActiveAlerts] = useState<{ id: string; trade: string; postcode_outward: string; frequency: string }[]>([]);
@@ -108,7 +108,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       </form>
 
       {status === 'error' && (
-        <p className="mt-2 text-xs font-black text-red-600">Failed — check you are logged in and try again</p>
+        <p className="mt-2 text-xs font-black text-[var(--orange)]">Failed — check you are logged in and try again</p>
       )}
 
       {loaded && activeAlerts.length > 0 && (
