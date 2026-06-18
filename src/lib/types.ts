@@ -43,6 +43,7 @@ export type Lead = {
   title: string;
   trade: Trade | string;
   buyer?: string;
+  buyerPhone?: string;
   location: string;
   postcodeOutward: string;
   estimatedValue: string;
