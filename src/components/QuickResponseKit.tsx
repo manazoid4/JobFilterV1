@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Copy, CheckCheck, ChevronDown, ChevronUp, MessageSquare, Lock, ExternalLink, MapPin, Mail } from 'lucide-react';
 
-import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, toSmsHref, type TemplateChannel } from '../lib/chaseTemplates';
+import { fillTemplate, MESSAGE_TEMPLATES, parseEmailSubject, toWhatsAppHref, type TemplateChannel } from '../lib/chaseTemplates';
 import { importLeadToChase, isLeadTracked, updateChaseStage } from '../lib/chaseStore';
 import type { ContactSignal } from '../lib/types';
 
@@ -226,7 +226,9 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
             </button>
             {activeChannel === 'whatsapp' && (
               <a
-                href={toSmsHref(phone, filledMsg)}
+                href={toWhatsAppHref(phone, filledMsg)}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => {
                   if (!isLeadTracked(leadId)) {
                     importLeadToChase({ id: leadId, title, trade, location: area, estimatedValue, score });
@@ -236,7 +238,7 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
                 className="jf-button flex items-center gap-1 bg-[var(--offwhite)] border-2 border-[var(--ink)] text-[var(--ink)] text-xs"
               >
                 <MessageSquare className="w-3.5 h-3.5" />
-                OPEN SMS
+                OPEN WHATSAPP
               </a>
             )}
             {url && contactSignal !== 'strong' && (
@@ -261,8 +263,8 @@ export function QuickResponseKit({ leadId, trade, area, score, publishedAt, unlo
           <p className="mt-3 text-[10px] text-[var(--muted)] font-bold">
             {activeChannel === 'whatsapp'
               ? phone
-                ? "★ = recommended for this lead's age · copying or opening SMS auto-tracks the lead"
-                : "★ = recommended for this lead's age · copying auto-tracks the lead · SMS opens with this message ready, pick the contact yourself"
+                ? "★ = recommended for this lead's age · copying or opening WhatsApp auto-tracks the lead"
+                : "★ = recommended for this lead's age · copying auto-tracks the lead · WhatsApp opens with this message ready, pick the contact yourself"
               : 'Copying auto-tracks this signal · open listing to find contact details'}
           </p>
         </div>

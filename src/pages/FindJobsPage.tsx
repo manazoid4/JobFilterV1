@@ -252,6 +252,7 @@ export function FindJobsPage() {
       area: lead.location || lead.postcodeOutward,
       flags: [],
       details: lead.title,
+      phone: lead.buyerPhone,
       status: 'new',
       createdAt: new Date().toISOString(),
       qualityLabel: lead.qualityLabel,
@@ -1298,6 +1299,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           estimatedValue={String(lead.estimatedValue || '')}
           contactSignal={lead.contactSignal}
           url={lead.url}
+          phone={lead.buyerPhone}
         />
         {cardOpenAccess && <OutcomeActions lead={lead} />}
       </div>
