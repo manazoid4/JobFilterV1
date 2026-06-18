@@ -144,6 +144,8 @@ export function LeadDetailPage() {
   const { user } = useAuth();
   const [emailChaseState, setEmailChaseState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [emailChaseError, setEmailChaseError] = useState('');
+  const [aiDraft, setAiDraft] = useState<string | null>(null);
+  const [aiDraftState, setAiDraftState] = useState<'idle' | 'loading' | 'ready' | 'locked' | 'error'>('idle');
 
   function handleFlagLead() {
     const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
@@ -236,6 +238,39 @@ export function LeadDetailPage() {
     } catch {
       setEmailChaseState('error');
       setEmailChaseError('Email failed to send.');
+    }
+  }
+
+  async function handleAiDraft() {
+    setAiDraftState('loading');
+    try {
+      const res = await fetch('/api/leads/draft-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lead: {
+            title: lead!.jobType,
+            description: lead!.details ?? '',
+            trade: lead!.jobType,
+            estimatedValue: lead!.budget ?? '',
+            urgency: lead!.urgency,
+          },
+          tone: 'quote',
+        }),
+      });
+      if (res.status === 401 || res.status === 403) {
+        setAiDraftState('locked');
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.draft) {
+        setAiDraftState('error');
+        return;
+      }
+      setAiDraft(data.draft);
+      setAiDraftState('ready');
+    } catch {
+      setAiDraftState('error');
     }
   }
 
@@ -506,6 +541,38 @@ export function LeadDetailPage() {
             </a>
           </div>
         )}
+        <div className="mt-4 border-t-2 border-[var(--line)] pt-4">
+          <button
+            className="jf-button bg-white text-[var(--ink)]"
+            onClick={handleAiDraft}
+            disabled={aiDraftState === 'loading'}
+          >
+            {aiDraftState === 'loading' ? 'DRAFTING...' : 'AI DRAFT — WRITE ME A MESSAGE'}
+          </button>
+          <p className="mt-2 text-xs font-black text-[var(--muted)]">Writes a one-off message from this job's details — not a generic template.</p>
+          {aiDraftState === 'locked' && (
+            <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
+              <p className="text-sm font-black text-[var(--ink)]">AI draft messages are a £39/mo feature.</p>
+              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+            </div>
+          )}
+          {aiDraftState === 'error' && (
+            <p className="mt-2 text-xs font-black text-[var(--orange)]">Couldn't draft a message — use a template above instead.</p>
+          )}
+          {aiDraftState === 'ready' && aiDraft && (
+            <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+              <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{aiDraft}</p>
+              <a
+                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(aiDraft)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
+              </a>
+            </div>
+          )}
+        </div>
       </section>
 
       {otherTemplates.length > 0 && (
