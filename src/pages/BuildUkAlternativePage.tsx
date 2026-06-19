@@ -8,7 +8,7 @@ const comparison = [
   { feature: 'Council contracts', old: 'No', new: 'Yes — buyer named, value shown' },
   { feature: 'Ownership change signals', old: 'No', new: 'Yes — who just bought and needs work' },
   { feature: 'New business signals', old: 'No', new: 'Yes — new businesses needing premises work' },
-  { feature: 'GOLD / SILVER / BIN scoring', old: 'No', new: 'Yes — chase only what pays' },
+  { feature: 'GOLD / SILVER / BRONZE scoring', old: 'No', new: 'Yes — chase only what pays' },
   { feature: 'WhatsApp alerts', old: 'No', new: 'Yes — within minutes, not batched' },
   { feature: 'Private scans', old: 'Browse only', new: 'No shared auction — scan is yours' },
   { feature: 'Delivery', old: 'Manual browsing', new: 'Pushed to your phone' },
@@ -190,10 +190,10 @@ export function BuildUkAlternativePage() {
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
-              <p className="micro-label text-[var(--orange)]">BIN</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">SKIP IT</h3>
+              <p className="micro-label text-[var(--orange)]">BRONZE</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
               <p className="mt-3 font-black text-[var(--muted)]">
-                Low value, no urgency, or too much competition. Don't waste your fuel on this one.
+                Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>

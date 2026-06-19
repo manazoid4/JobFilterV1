@@ -252,7 +252,7 @@ export function SignalsPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity near your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BIN means skip it. You only see what\'s worth your time.'],
+              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
               ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
