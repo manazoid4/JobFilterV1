@@ -1,4 +1,4 @@
-import { getAppOrigin, getStripe, resolvePriceId, type Tier } from '../../../../src/lib/stripe';
+import { allowedPriceIds, getAppOrigin, getStripe, resolvePriceId, type Tier } from '../../../../src/lib/stripe';
 import { rateLimitNext } from '../../../../server/lib/nextRateLimit';
 
 export async function POST(request: Request) {
@@ -22,8 +22,10 @@ export async function POST(request: Request) {
 
   const billing = body.billing === 'annual' ? 'annual' : 'monthly';
 
-  // Accept either explicit `priceId` (per task spec) or resolve from tier/billing.
-  const price = typeof body.priceId === 'string' && body.priceId ? body.priceId : resolvePriceId(tier, billing);
+  // Accept either explicit `priceId` (per task spec) or resolve from tier/billing —
+  // but only if it's one of our own configured Stripe prices, never a raw client value.
+  const requestedPrice = typeof body.priceId === 'string' ? body.priceId : '';
+  const price = requestedPrice && allowedPriceIds().has(requestedPrice) ? requestedPrice : resolvePriceId(tier, billing);
 
   const userId = typeof body.userId === 'string' ? body.userId : typeof body.user_id === 'string' ? body.user_id : '';
   const email = typeof body.email === 'string' ? body.email : '';

@@ -3,6 +3,7 @@ import { useState, type MouseEvent } from 'react';
 
 import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
+import { useAuth } from './AuthProvider';
 import { ScoreBadge } from './ScoreBadge';
 import { Tag } from './Tag';
 import { LeadReadinessBadge } from './LeadReadinessBadge';
@@ -41,6 +42,7 @@ type LeadCardProps = {
 };
 
 export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta, showStatus = false, leadReadiness, buyerScore, freshness, showWhatsApp = false, leadData }: LeadCardProps) {
+  const { user } = useAuth();
   const storageKey = `lead_status_${id ?? ''}`;
   const [status, setStatus] = useState<LeadStatus | null>(() => {
     if (!id || typeof window === 'undefined') return null;
@@ -90,7 +92,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
       fetch('/api/leads/outcome', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leadId: id, status: next, title }),
+        body: JSON.stringify({ leadId: id, status: next, title, userId: user?.id }),
       }).catch(() => {
         // Swallow silently — local state is always the source of truth
       });

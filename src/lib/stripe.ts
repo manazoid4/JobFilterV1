@@ -32,6 +32,21 @@ export function resolvePriceId(tier: Tier, billing: 'monthly' | 'annual' = 'mont
   return undefined;
 }
 
+export function allowedPriceIds(): Set<string> {
+  return new Set(
+    [
+      process.env.STRIPE_PRICE_FOUNDING,
+      process.env.STRIPE_PRICE_FOUNDING_MONTHLY,
+      process.env.STRIPE_PRICE_FOUNDING_ANNUAL,
+      process.env.STRIPE_PRICE_PRO,
+      process.env.STRIPE_PRICE_PRO_MONTHLY,
+      process.env.STRIPE_PRICE_PRO_ANNUAL,
+      process.env.STRIPE_PRICE_BUSINESS,
+      process.env.STRIPE_PRICE_EPC_MONTHLY,
+    ].filter((id): id is string => Boolean(id)),
+  );
+}
+
 export function getAppOrigin(request: Request): string {
   const configured = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL;
   if (configured) return configured.replace(/\/$/, '');
