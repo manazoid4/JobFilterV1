@@ -266,6 +266,7 @@ export function FindJobsPage() {
       description: lead.description,
       isCommercial: lead.isCommercial,
       projectScale: lead.projectScale,
+      sourceUrl: lead.url || lead.sourceUrls?.[0],
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);

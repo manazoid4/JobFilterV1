@@ -85,8 +85,6 @@ export async function POST(request: Request) {
   const source = clean(lead.source, 60);
 
   // Deterministic fallback — always available, no network call.
-  // Note: caller-supplied lead objects rarely carry sourceUrl, so extractOpportunityAtoms()
-  // (which requires it) usually returns []. Fall back to the lead's own title before the generic line.
   const atoms = extractOpportunityAtoms(lead as any);
   const fallback: ExplainResult = {
     summary: whyThisIsAJob(atoms) || (title ? `${trade || 'Trade'} job: ${title}.` : `${trade || 'Trade'} opportunity from ${source || 'a verified source'}.`),

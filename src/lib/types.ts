@@ -36,6 +36,7 @@ export type LeadDecision = {
   description?: string;
   isCommercial?: boolean;
   projectScale?: 'small' | 'medium' | 'large';
+  sourceUrl?: string;
 };
 
 export type Lead = {

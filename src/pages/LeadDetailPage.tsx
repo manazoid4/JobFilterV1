@@ -289,6 +289,7 @@ export function LeadDetailPage() {
             trade: lead!.jobType,
             estimatedValue: lead!.budget ?? '',
             source: lead!.source,
+            sourceUrl: lead!.sourceUrl ?? '',
           },
         }),
       });
