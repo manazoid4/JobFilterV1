@@ -9,7 +9,7 @@ const comparison = [
   { feature: 'Council contracts', buildalert: 'No', jobfilter: 'Yes — buyer named, value shown', jf: true },
   { feature: 'Ownership change signals', buildalert: 'No', jobfilter: 'Yes — who just bought and needs work', jf: true },
   { feature: 'New business signals', buildalert: 'No', jobfilter: 'Yes — new businesses needing premises work', jf: true },
-  { feature: 'GOLD / SILVER / BIN scoring', buildalert: 'No', jobfilter: 'Yes — chase only what pays', jf: true },
+  { feature: 'GOLD / SILVER / BRONZE scoring', buildalert: 'No', jobfilter: 'Yes — chase only what pays', jf: true },
   { feature: 'WhatsApp alerts', buildalert: 'No', jobfilter: 'Yes — within minutes', jf: true },
   { feature: 'Physical letter service', buildalert: 'Yes — £2 per letter', jobfilter: 'Template included — you post', jf: false },
   { feature: 'Private scans', buildalert: 'Planning data only', jobfilter: 'No shared auction — scored before delivery', jf: true },
@@ -429,10 +429,10 @@ export function CompareBuildAlertPage() {
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
-              <p className="micro-label text-[var(--orange)]">BIN</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">SKIP IT</h3>
+              <p className="micro-label text-[var(--orange)]">BRONZE</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
               <p className="mt-3 font-black text-[var(--muted)]">
-                Low value, no urgency, or too much competition. Don't waste your fuel.
+                Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>
