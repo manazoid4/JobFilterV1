@@ -1,5 +1,16 @@
 # Daily To-Do
 
+## Today - 19 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); confirmed build GREEN + TS CLEAN after #284 (security fix) and #285 (tier naming) landed since Run 1; detached HEAD, pushed via `git push origin HEAD:main` (clean fast-forward)
+- [x] **Closed Run 1's #3 carryover priority** — threaded `sourceUrl` onto `LeadDecision` (`src/lib/types.ts`), `FindJobsPage.trackLead()` now persists it, `LeadDetailPage.handleExplain()` now sends it to `/api/leads/explain`. Removed stale comment in `app/api/leads/explain/route.ts`.
+- [x] Build GREEN, TypeScript CLEAN, 13/17 regressions pass (same known false-negative class as every prior run), pushed to main (`873bc6a`)
+- [ ] **New gap found tonight**: DEMO_MODE mock fetchers never set `lead.url`/`sourceUrls`, so tonight's sourceUrl threading has no real data to carry in demo/dev — atoms still won't populate from synthetic scans. Real fix is per-fetcher (start with `contractsFetcher.ts` — OCDS releases usually have a tender/document URL), multi-file, not a single-run fix.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
 ## Today - 19 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — detached HEAD at `c752a4a` (== `origin/main`); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
