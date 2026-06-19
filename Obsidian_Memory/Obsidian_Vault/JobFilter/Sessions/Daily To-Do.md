@@ -1,5 +1,16 @@
 # Daily To-Do
 
+## Today - 19 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — detached HEAD at `c752a4a` (== `origin/main`); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Closed Run 3's spot-check priority — found and fixed a real gap**: started Express backend + Next dev server in `DEMO_MODE=true`, ran a real B14 electrical scan, fed real leads (FTS council contract, DirectorySignal rewire job) into `/api/leads/explain`. Found `LeadDetailPage.handleExplain()` never sends `sourceUrl`, so the deterministic (no-AI) fallback's `extractOpportunityAtoms()` always returns `[]` and every real call degrades to the generic "{trade} opportunity from {source}." line regardless of lead specificity. Fixed fallback to use the lead's own title first: `"{trade} job: {title}."`. Verified live before/after on the same lead.
+- [x] Build GREEN, TypeScript CLEAN, 13/17 regressions pass (same known false-negative class as every prior run), pushed to main (`2a9978b`)
+- [ ] **`sourceUrl`/`sourceUrls` missing from `LeadDecision` entirely** (`src/lib/types.ts`) — multi-file thread (normaliser → FindJobsPage.trackLead → LeadDetailPage) needed if atoms should ever populate for real in the explain panel, not a single-run fix
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
 ## Today - 18 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — detached HEAD, local `main` stale at `609898a` vs `origin/main` at `726d2db`; `git fetch origin main` + `git checkout -B main origin/main` resolved it (clean fast-forward); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
