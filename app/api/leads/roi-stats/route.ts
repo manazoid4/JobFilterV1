@@ -12,6 +12,9 @@ import { isOwnerEmail } from '../../../../server/lib/ownerAccess';
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
 export async function GET() {
+  let userId: string | null = null;
+  let isOwner = false;
+
   if (!FULL_ACCESS_TEST_MODE) {
     try {
       const authClient = await createAuthServerClient();
@@ -19,9 +22,11 @@ export async function GET() {
       if (error || !data.user) {
         return Response.json({ ok: false, error: 'Unauthenticated' }, { status: 401 });
       }
+      userId = data.user.id;
 
       const email = data.user.email ?? '';
-      if (!isOwnerEmail(email)) {
+      isOwner = isOwnerEmail(email);
+      if (!isOwner) {
         const admin = getSupabaseServiceClient();
         if (!admin) {
           return Response.json({ ok: false, error: 'Supabase service not configured' }, { status: 503 });
@@ -48,11 +53,19 @@ export async function GET() {
     return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
   }
 
-  const { data: rows, error: dbError } = await admin
+  // Scope to the authenticated user's own outcomes — lead_outcomes has no RLS
+  // (admin client bypasses it anyway), so this filter is the only thing standing
+  // between "your ROI" and every other tenant's deal data. Owner keeps the
+  // unscoped, cross-tenant view for the admin dashboard.
+  let query = admin
     .from('lead_outcomes')
     .select('status, won_value, quote_value, contacted_at, quoted_at, won_at, created_at')
     .order('created_at', { ascending: false })
     .limit(500);
+  if (!isOwner && userId) {
+    query = query.eq('user_id', userId);
+  }
+  const { data: rows, error: dbError } = await query;
 
   if (dbError) {
     return Response.json({ ok: false, error: dbError.message }, { status: 500 });

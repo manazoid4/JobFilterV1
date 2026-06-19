@@ -146,6 +146,7 @@ export function registerOutcomeReportRoute(app: Express) {
 function buildOutcomeRow(body: any, status: OutcomeStatus, now: string) {
   return {
     lead_id: String(body.leadId),
+    user_id: typeof body.userId === 'string' && body.userId ? body.userId : null,
     delivery_event_id: body.deliveryEventId ?? null,
     title: body.title ?? 'Unknown job',
     trade: body.trade ?? null,
