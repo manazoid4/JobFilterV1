@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 19 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); detached HEAD at `e581714` was a stale local `main` ref illusion, not real divergence — `origin/main` was already at `e581714`; resolved with `git checkout -B main origin/main`. Build GREEN, TS CLEAN before changes.
+- [x] **Closed Run 2's carryover gap — found and fixed the real root cause**: `extractOpportunityAtoms()` (`leadEngine/opportunityAtoms.ts`) returned `[]` whenever `lead.sourceUrl` was empty, regardless of pattern match quality. `DirectorySignal` (the guaranteed-fallback internal dataset, used in DEMO_MODE and as real production fallback) never sets `sourceUrl` — so every DirectorySignal lead silently lost up to 14 score points, the "Why this is a job" badge, and risked `TOO_EARLY` misclassification. Removed the early-return guard (single line). Verified live: DY1/electrical DirectorySignal scan now correctly extracts a `solar_ev` atom for "EV Charger Install" where it returned `[]` before.
+- [x] Build GREEN, TypeScript CLEAN. Ran `lead-engine-quality-regression`, `planning-contact-signal-regression`, `postcode-filter-regression`, `lead-engine-source-config-regression`, `package-copy-regression` — all pass. `lead-engine-50-plus-quality-test-fixed` oneLeadRule 0/42 confirmed pre-existing via git stash compare (not a regression). Pushed to main (`fac7f2d`).
+- [x] **Checked all 5 candidate Tier 1 features from tonight's brief** (scan counter, ICS export, won leaderboard, WhatsApp templates, trade-specific scoring) — all 5 already shipped by prior runs, nothing to build.
+- [x] **NEEDLE pass run, no edits made** — top finding ("contact route" missing from delivered UI) was a false positive on verification (`lead.contactPath` already renders as "Best approach: {channel}"); other findings re-litigated already-good fear→proof→control copy. Confirms diminishing-returns pattern — declined to force unnecessary copy churn.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+- [ ] **Diminishing returns confirmed again on NEEDLE/copy sweeps** — next genuinely-buildable medium item needs new external infrastructure (WhatsApp two-way messaging, PlanWire, document search), all multi-day. Recommend next run skip NEEDLE/copy and instead grep for other `if (!sourceUrl)`/similar early-return guards elsewhere in `leadEngine/` that might have the same class of bug (silent feature degradation on a falsy-but-valid field).
+
 ## Today - 19 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); confirmed build GREEN + TS CLEAN after #284 (security fix) and #285 (tier naming) landed since Run 1; detached HEAD, pushed via `git push origin HEAD:main` (clean fast-forward)
