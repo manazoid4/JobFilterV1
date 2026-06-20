@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 20 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `c342d26` (== `origin/main`, includes founder's PR #286 merged since Run 1); `git fetch origin main` + `git checkout -B main origin/main` resolved it; `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
+- [x] **Bug found and fixed — competing hero CTAs on TerritoriesPage and NewsPage**: founder's PR #286 fixed HomePage's hero (two equal-weight `jf-button` CTAs side by side) by demoting the secondary one to a text link. Checking for the same pattern elsewhere (per last run's tip) found two more pages with it: TerritoriesPage ("LOCK MY PATCH" + full white "SCAN FREE FIRST" button) and NewsPage ("SCAN MY POSTCODE FREE" + full white "SEE LIVE SIGNALS" button). Demoted both secondary buttons to text underline links matching HomePage's treatment. Audited the other 23 files with both yellow+white `jf-button` instances — all clean (single primary hero CTA, secondary actions already correctly weighted).
+- [x] **Phase 1 re-confirmed** — 5 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` forms (added ForgotPasswordPage to the known list) wired to real backend/Supabase calls; no fake flows. 237 imports audited, no broken local imports.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent), all others pass. Reverted regression-script-generated report artifacts before commit.
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`5a5205f`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Feature Roadmap doc is stale** (`Product/Feature Roadmap - 8th May 2026.md`) — Tier 2 #17 "Job value tracking" is marked "Not built" but already live since 7-8 June. Worth a reconciliation pass.
+- [ ] **Approach worth repeating**: two real fixes in two nights (BIN tier RSS label, competing hero CTAs) both came from re-checking a just-landed PR's diff for missed surfaces, not from a generic NEEDLE/copy sweep. Recommend next run start there before defaulting to NEEDLE.
+
 ## Today - 20 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — local `main` ref stale (179 commits diverged from `origin/main` at `1db7373`); `git reset --hard origin/main` resolved it (clean working tree, no local work lost); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
