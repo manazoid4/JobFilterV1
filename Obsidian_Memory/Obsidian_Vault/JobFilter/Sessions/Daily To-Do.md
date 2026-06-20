@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 20 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — HEAD detached at `7514a9b`; local `main` ref stale (`origin/main` had force-updated since last cached fetch, no real divergence/lost work); `git update-ref refs/heads/main origin/main` + `git checkout main` resolved it; `npm install` (359 packages, missing entirely); build GREEN (118 pages), TS CLEAN before changes.
+- [x] **Reviewed founder's same-day rebrand commits** (`de5631c` → `7514a9b`, JOBFILTER name kept, tagline → "UK Construction Intelligence") — verified end state consistent across TopNav/Footer/layout.tsx, no leftover old-tagline references anywhere. No fix needed.
+- [x] **Closed long-standing carryover — Feature Roadmap doc reconciliation** (flagged 19/20 June as "worth a reconciliation pass", never done): marked Tier 2 #12 (Commercial lead detection) and #17 (Job value tracking) BUILT, #15 (Multi-channel follow-up) Partial — all three verified live in code, doc was stale for weeks.
+- [x] **Fresh NEEDLE pass on Compare* pages** (Explore agent + manual verification) — both candidate findings were false positives on closer inspection (see changelog); confirms the diminishing-returns pattern independently rather than just citing past runs.
+- [x] **Phase 1 re-confirmed** — all 5 form handlers wired to real backend calls; no broken imports.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run; no report artifacts left behind.
+- [x] Build GREEN, TypeScript CLEAN. Only vault-doc change this run (no app code touched) — pushed.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Buildable backlog appears genuinely exhausted** — independent verification tonight (not just citing past runs) found zero real single-run-sized bugs/gaps. Recommend next run skip another generic NEEDLE/copy sweep by default and instead check for: (a) any new founder commits/PRs landed since this run, (b) whether any carryover blocker (Stripe keys, SMTP creds, TradeFlow URL scheme, add-on pricing decision) has been unblocked, before falling back to a sweep.
+
 ## Today - 20 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — detached HEAD at `c342d26` (== `origin/main`, includes founder's PR #286 merged since Run 1); `git fetch origin main` + `git checkout -B main origin/main` resolved it; `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
