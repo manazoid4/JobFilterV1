@@ -56,7 +56,7 @@ export function TopNav() {
             src="/union-flag.svg"
             alt="UK Construction Intelligence logo"
           />
-          <span className="headline text-2xl tracking-normal sm:text-3xl">UKCI</span>
+          <span className="headline text-2xl tracking-normal sm:text-3xl">JOBFILTER</span>
           <span className="hidden border-l-2 border-[var(--line)] pl-2 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--muted)] 2xl:block">
             UK Construction Intelligence
           </span>
