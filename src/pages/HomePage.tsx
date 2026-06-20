@@ -93,10 +93,10 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
-              <Link className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" href="/territories">
-                CHECK MY PATCH
-              </Link>
               <div className="flex flex-wrap gap-4">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
+                  Check my patch →
+                </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
