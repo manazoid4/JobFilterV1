@@ -114,9 +114,9 @@ export function TerritoriesPage() {
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/80">
               Lock your trade and postcode cluster. Gold leads route to you first — no five-way blast, no auction. Miss the lock and another tradesman in your patch gets first call on every signal.
             </p>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
               <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="#patch-check">LOCK MY PATCH →</a>
-              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED</Link>
+              <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/find-jobs">Scan free first — no card needed →</Link>
             </div>
           </div>
           <aside className="ops-panel bg-white p-5 text-[var(--ink)]" id="patch-check">
