@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 20 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — local `main` ref stale (179 commits diverged from `origin/main` at `1db7373`); `git reset --hard origin/main` resolved it (clean working tree, no local work lost); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
+- [x] **Bug found and fixed — leftover "BIN" tier label in `/signals/weekly` RSS feed**: PR #285 (19 June) standardized GOLD/SILVER/BRONZE naming across marketing/comparison pages but missed `generateRSSFeed()`'s item description in `src/lib/signalGenerator.ts:452`, which still published "...SILVER, Z BIN..." to the externally-syndicated RSS feed. One-word fix, BIN → BRONZE.
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch('/api/waitlist', ...)` calls with proper error handling; no fake flows, no broken imports.
+- [x] **Grepped `leadEngine/` for the early-return-guard bug class from last night's `sourceUrl` fix** (Run 3, 19 June flagged this as the next thing to check) — found 5 more similar guards, all legitimate (missing API key / invalid title / no value data), none silently dropping valid data. Bug class confirmed contained to the one instance fixed last night.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent), all others pass. Reverted regression-script-generated report artifacts before commit.
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`729bdc2`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Feature Roadmap doc is stale** (`Product/Feature Roadmap - 8th May 2026.md`) — Tier 2 #17 "Job value tracking" is marked "Not built" but `getValueAccuracy()`/DashboardPage "Quoted vs landed" stat has been live since 7-8 June. Worth a pass to reconcile the doc against actual shipped state so future runs don't re-check items that are already done.
+- [ ] **Next genuinely-buildable medium item still needs new external infrastructure** (WhatsApp two-way messaging, PlanWire, document search PDF pipeline) — all multi-day, not single-run. Diminishing returns on NEEDLE/copy sweeps continues; tonight's one real fix came from re-reading a recent PR's diff for missed surfaces, not a generic sweep — worth trying that approach again before defaulting to NEEDLE.
+
 ## Today - 19 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); detached HEAD at `e581714` was a stale local `main` ref illusion, not real divergence — `origin/main` was already at `e581714`; resolved with `git checkout -B main origin/main`. Build GREEN, TS CLEAN before changes.
