@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
+import { content as addOnContent } from './ProductAdvantagePage';
 
 const planBullets = [
   'Gold leads to your WhatsApp — scored and delivered within minutes of detection',
@@ -118,6 +119,25 @@ export function PricingPage() {
               <h3 className="headline text-xl">{q}</h3>
               <p className="mt-2 font-black text-[var(--muted)]">{a}</p>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="ops-panel bg-white p-7">
+        <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — QUOTED PER JOB</p>
+        <h2 className="headline mt-3 text-3xl leading-none md:text-4xl">DONE-FOR-YOU PAPERWORK. NO FIXED SUBSCRIPTION.</h2>
+        <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+          Bid packs, compliance documents, grant paperwork, and other done-for-you trade admin — each priced per job, not bundled into a subscription. Submit your job details and the team quotes you back within 6 hours, usually faster.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {Object.entries(addOnContent).map(([slug, service]) => (
+            <Link
+              key={slug}
+              href={`/${slug}`}
+              className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-sm font-black text-[var(--ink)] hover:bg-[var(--yellow)]"
+            >
+              {service.title}
+            </Link>
           ))}
         </div>
       </section>

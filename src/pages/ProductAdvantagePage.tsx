@@ -1,7 +1,8 @@
 "use client";
 import { useState } from 'react';
+import Link from 'next/link';
 
-const content = {
+export const content = {
   // ── TIER 2: NATURAL EXTENSION ADD-ONS ──────────────────────────────────────
 
   'dno-brief': {
@@ -241,6 +242,23 @@ export function ProductAdvantagePage({ type }: { type: ProductType }) {
                   ✓ {item}
                 </div>
               ))}
+            </div>
+          </section>
+
+          <section className="jf-box bg-white p-6">
+            <p className="micro-label text-[var(--orange)]">OTHER ADD-ON SERVICES</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {Object.entries(content)
+                .filter(([slug]) => slug !== type)
+                .map(([slug, other]) => (
+                  <Link
+                    key={slug}
+                    href={`/${slug}`}
+                    className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-sm font-black text-[var(--ink)] hover:bg-[var(--yellow)]"
+                  >
+                    {other.title}
+                  </Link>
+                ))}
             </div>
           </section>
         </div>
