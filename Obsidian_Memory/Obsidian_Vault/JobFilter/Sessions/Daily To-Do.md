@@ -1,5 +1,19 @@
 # Daily To-Do
 
+## Today - 21 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD detached at `78ba81f` (== `origin/main`); one new founder merge since Run 1 today; build GREEN, TS CLEAN before changes.
+- [x] **Reviewed founder's PR #287** ("Cross-link the 14 add-on service pages and surface them on Pricing") — sound, no fabricated prices, makes real progress on the add-on-pricing carryover by making the quote model honest/visible. No fix needed.
+- [x] **Corrected a repeated prior-run mistake** — `vite.config.ts`/`index.html` were flagged across 2+ runs as "orphaned, safe to delete eventually." Verified directly: they are NOT orphaned — `server/app.ts` (standalone Express backend used for local API dev/testing, imported by both `server.ts` and `api/index.ts`) depends on them via Vite dev middleware / static fallback. Did not delete. Flagging so no future run acts on the old (wrong) assumption.
+- [x] **Phase 1 re-confirmed** — 6 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` sites (added `FindJobsPage.tsx` `OutcomeActions` to the known list) all wired to real `fetch()` calls; no fake flows; no broken imports (clean Next build).
+- [x] Ran all `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent); all others pass.
+- [x] Build GREEN, TypeScript CLEAN. No app code changes — vault-doc-only commit.
+- [ ] **Founder decision — add-on service pricing** (carried over, now partially addressed by PR #287): still no actual £ shown for the 14 add-on services; founder still needs to decide free-perk-of-£39/mo vs paid-per-job-quote (copy now correctly implies "quoted per job", but no range given yet)
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT re-flag `vite.config.ts`/`index.html` for deletion** — confirmed in use by `server/app.ts`'s local Express dev path (see tonight's correction above)
+
 ## Today - 21 June 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages, missing entirely); HEAD detached exactly at `origin/main` (`d522e4c`), no divergence; build GREEN (118 pages), TS CLEAN before changes.
