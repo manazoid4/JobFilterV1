@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 21 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages, missing entirely); HEAD detached exactly at `origin/main` (`d522e4c`), no divergence; build GREEN (118 pages), TS CLEAN before changes.
+- [x] **Founder activity check (per Run 3's recommendation)** — zero new commits/PRs since last run via `git log` + GitHub `list_commits`/`list_pull_requests`; no carryover blocker unblocked (no Stripe/Resend/SMTP env vars present in this container either, same as every prior run).
+- [x] **Phase 1 re-confirmed** — all 5 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` forms individually read and wired to real `fetch()`/Supabase calls; no fake flows. No broken imports (Next build clean across all 118 routes).
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent); all others pass.
+- [x] **New observation, not actioned** — `vite.config.ts`/`index.html` are orphaned leftovers from the pre-Next.js (PR #275) setup, unreferenced by any script; `CLAUDE.md`/task brief stack description ("Vite frontend") is stale — actual stack is Next.js per `vercel.json`. Flagged for a founder/doc cleanup pass, not urgent.
+- [x] Build GREEN, TypeScript CLEAN. No app code changes — vault-doc-only commit (6th+ consecutive run confirming backlog genuinely exhausted with no new founder activity to react to).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **NEW — cleanup, not urgent**: delete (or confirm safe to delete) orphaned `vite.config.ts`/`index.html` left over from the Next.js migration; update `CLAUDE.md` stack description from "Vite frontend" to "Next.js frontend" to match `vercel.json`'s actual `framework: nextjs`.
+- [ ] **Recommend next run repeat tonight's approach**: check founder commits/PRs + carryover-blocker status first before any generic NEEDLE/copy sweep — diminishing returns on sweeps continues unchanged.
+
 ## Today - 20 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — HEAD detached at `7514a9b`; local `main` ref stale (`origin/main` had force-updated since last cached fetch, no real divergence/lost work); `git update-ref refs/heads/main origin/main` + `git checkout main` resolved it; `npm install` (359 packages, missing entirely); build GREEN (118 pages), TS CLEAN before changes.
