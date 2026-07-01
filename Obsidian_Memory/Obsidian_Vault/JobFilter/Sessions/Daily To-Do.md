@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 1 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `347b636` (== `origin/main`); only vault auto-digests and founder docs since last app-code change (21 June, PR #287); build GREEN (113 pages), TS CLEAN before changes.
+- [x] **Founder activity check** — no app-code commits since 21 June. Docs-only activity 24 June (AI free router SaaS prompt, Fire Door App playbook, competitor playbook). No carryover blocker unblocked.
+- [x] **Phase 1 re-confirmed** — all fake-flow sites wired to real calls; no broken imports. Clean Next build.
+- [x] **Phase 2 — Tier 1 features all BUILT** — agent prompt's "unbuilt" list is stale; scan counter, calendar ICS, WinStatsBanner, WhatsApp templates (including quick_quote_offer + availability_check), and trade-specific scoring all live in code.
+- [x] **LeadListPage copy fix** — removed duplicate GOLD/SILVER/BRONZE explanation from header (same text was verbatim in the HOW IT'S SCORED box immediately below). Replaced with source differentiation copy naming Checkatrade/Bark.
+- [x] **ActivationPendingPage UX fix** — pre-filled trade/postcode/company from Supabase signup metadata so tradesmen don't re-enter the same fields they already gave on SignupPage. WhatsApp still manual (not collected at signup).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`04d17dd`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: check for any new founder commits/PRs before generic sweeps. Agent prompt's Tier 1 unbuilt list is stale — all features are built. The ActivationPendingPage pre-fill relies on Supabase user_metadata being populated correctly at signup — worth a founder smoke-test on staging to verify.
+
 ## Today - 21 June 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD detached at `78ba81f` (== `origin/main`); one new founder merge since Run 1 today; build GREEN, TS CLEAN before changes.
