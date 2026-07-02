@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 2 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `9df93b1` (== `origin/main`); build GREEN (113 pages), TS CLEAN before and after changes.
+- [x] **Founder activity check** — zero new app-code commits or open PRs. PR #290 diff re-verified as TopNav-only (1 line); 5 features in PR description were pre-existing. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — all form handlers wired to real backend calls. PostJobPage spot-checked. No fake flows. No broken imports.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (same as every recent run).
+- [x] **AlertSetupWidget — "Postcode outward" jargon fixed** → "Your area". Matches SignupPage / ActivationPendingPage label style. No tradesman knows what "outward" means.
+- [x] **AlertSetupWidget — generic error message improved** — API error now surfaced directly (e.g. "daily alerts require a paid subscription"). Free users selecting DAILY/INSTANT now get a clear upsell prompt, not a misleading login error.
+- [x] **NEEDLE sweep** — design-token (rounded, red) drift scan across all pages: zero violations found. Jargon sweep: zero violations. FaqPage, AccountPage, ActivationPendingPage, PostJobPage all confirmed clean.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`fa0d916`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: Buildable backlog is genuinely small. AlertSetupWidget was the last clear single-run fix. Next run should: (a) check for new founder commits/PRs first; (b) verify the AlertSetupWidget error message renders correctly on staging once DAILY/INSTANT is selected and submitted as a free user; (c) consider if the WHY? score-reasons panel (text-[8px] at w-24) is too small on mobile — could widen to w-36 with slightly larger font without breaking brutalist style.
+
 ## Today - 2 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD fixed from detached state (stale local origin/main); reset to origin/main post-fetch; build GREEN (113 pages), TS CLEAN before and after changes.
