@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 2 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD fixed from detached state (stale local origin/main); reset to origin/main post-fetch; build GREEN (113 pages), TS CLEAN before and after changes.
+- [x] **Founder activity check** — PR #289 (false CTAs, nav jargon, hero data) and PR #290 (launch-ready: nav tagline tweak) both landed. Both reviewed — sound, no regressions introduced.
+- [x] **Phase 1 re-confirmed** — all `setDone`/`setSubmitted` sites wired to real fetch() calls. No broken imports. Clean Next build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (same as prior runs).
+- [x] **AdminGuardTeaserPage — shadow token drift fixed** — `shadow-[3px_3px_0_var(--yellow)]` → `shadow-[4px_4px_0_var(--line)]` on feature cards. Design system standard restored.
+- [x] **AdminGuardPage — trust-breaking disclosure fixed** — "Email reminders are being connected. Download calendar reminders for now." rewritten to lead with what works: "Calendar reminders ready — see the Deadlines tab to download. Email delivery coming soon for all paid members."
+- [x] Build GREEN, TypeScript CLEAN. Rebased over PR #290. Pushed to main (`b67f21b`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: Check for new founder commits/PRs first. PR #290 description claims "5 features + security hardening" — worth verifying what actually landed vs was already in tree. Buildable backlog remains small; the two AdminGuard fixes tonight exhausted remaining design-system drift on those pages.
+
 ## Today - 2 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `b259d2c` (== `origin/main`); no new founder commits or open PRs since 1 July; build GREEN (113 pages), TS CLEAN before changes.
