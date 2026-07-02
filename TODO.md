@@ -6,6 +6,16 @@
 
 ## CRITICAL
 
+### 0. Run Supabase Migration — lead_outcomes user scoping (security fix, 2026-06-19)
+File: `supabase/migrations/20260619_lead_outcomes_user_scope.sql`
+
+Fixes a cross-tenant data leak: `/api/leads/roi-stats` (the "ROI Tracker" widget every
+paid user sees on their dashboard) had no `user_id` column to filter by, so every paid
+user was seeing the same aggregate of **all tenants'** won/lost deal values and timings,
+not their own. Run this migration, then redeploy — the code change is already live;
+without the column, `user_id` will be null on new writes (harmless, just unscoped) until
+this runs.
+
 ### 1. Run Supabase Migration
 File: `supabase/migrations/20260531_owner_access_and_status_fix.sql`
 

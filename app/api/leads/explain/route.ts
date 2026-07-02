@@ -87,7 +87,7 @@ export async function POST(request: Request) {
   // Deterministic fallback — always available, no network call.
   const atoms = extractOpportunityAtoms(lead as any);
   const fallback: ExplainResult = {
-    summary: whyThisIsAJob(atoms) || `${trade || 'Trade'} opportunity from ${source || 'a verified source'}.`,
+    summary: whyThisIsAJob(atoms) || (title ? `${trade || 'Trade'} job: ${title}.` : `${trade || 'Trade'} opportunity from ${source || 'a verified source'}.`),
     plainDescription: description || title,
   };
 

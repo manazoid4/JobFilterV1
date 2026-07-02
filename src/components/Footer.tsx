@@ -76,7 +76,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between gap-3">
-          <p className="text-sm font-black uppercase text-white/85">© 2026 JobFilter. All rights reserved.</p>
+          <p className="text-sm font-black uppercase text-white/85">© 2026 UK Construction Intelligence. All rights reserved.</p>
           <p className="text-sm font-black uppercase text-white/85">PROTECT YOUR TIME.</p>
         </div>
       </div>

@@ -1,9 +1,10 @@
 "use client";
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
+import { useAuth } from '../components/AuthProvider';
 
 const TRADES = [
   { value: 'electrical', label: 'Electrician' },
@@ -24,11 +25,21 @@ export function ActivationPendingPage() {
   const tier = searchParams?.get('tier') || 'founding';
   const billing = searchParams?.get('billing') || 'monthly';
   const paid = searchParams?.get('paid') === '1';
+  const { user } = useAuth();
   const [whatsapp, setWhatsapp] = useState('');
   const [trade, setTrade] = useState('');
   const [postcode, setPostcode] = useState('');
   const [company, setCompany] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  // Pre-fill from signup metadata so the tradesman doesn't re-enter the same data
+  useEffect(() => {
+    const meta = user?.user_metadata;
+    if (!meta) return;
+    if (!trade && meta.trade) setTrade(String(meta.trade));
+    if (!postcode && meta.postcode_outward) setPostcode(String(meta.postcode_outward));
+    if (!company && meta.company_name) setCompany(String(meta.company_name));
+  }, [user]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();

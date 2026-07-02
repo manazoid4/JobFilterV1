@@ -449,7 +449,7 @@ export function generateRSSFeed(week: WeekData): string {
   const pubDate = new Date().toUTCString();
   const items = week.signals.map(s => {
     const trend = getTrend(s.thisWeek, s.lastWeek);
-    const desc = `${s.thisWeek} ${s.label.toLowerCase()} this week. ${s.gold} GOLD, ${s.silver} SILVER, ${s.bin} BIN. Trend: ${trend.label}. Top region: ${s.topRegions[0]?.region} (${s.topRegions[0]?.count}).`;
+    const desc = `${s.thisWeek} ${s.label.toLowerCase()} this week. ${s.gold} GOLD, ${s.silver} SILVER, ${s.bin} BRONZE. Trend: ${trend.label}. Top region: ${s.topRegions[0]?.region} (${s.topRegions[0]?.count}).`;
     return `
     <item>
       <title>${s.label}: ${s.thisWeek} signals (${s.gold} GOLD)</title>

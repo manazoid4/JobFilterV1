@@ -266,6 +266,7 @@ export function FindJobsPage() {
       description: lead.description,
       isCommercial: lead.isCommercial,
       projectScale: lead.projectScale,
+      sourceUrl: lead.url || lead.sourceUrls?.[0],
     });
     const next = new Set(trackedLeads);
     next.add(lead.id);
@@ -746,7 +747,11 @@ export function FindJobsPage() {
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
                   <p className="micro-label text-[var(--ink)]">SEEN ENOUGH?</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">UNLOCK BUYER DETAIL ON EVERY LEAD.</h2>
+                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
+                    {goldCount > 0
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — BUYER NAMES LOCKED.`
+                      : 'UNLOCK BUYER DETAIL ON EVERY LEAD.'}
+                  </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
@@ -1217,7 +1222,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1290,7 +1295,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
           </div>
         )}
         <QuickResponseKit

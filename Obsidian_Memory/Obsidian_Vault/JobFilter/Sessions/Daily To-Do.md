@@ -1,5 +1,187 @@
 # Daily To-Do
 
+## Today - 2 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `b259d2c` (== `origin/main`); no new founder commits or open PRs since 1 July; build GREEN (113 pages), TS CLEAN before changes.
+- [x] **Founder activity check** — zero new app-code commits or open PRs. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — all fake-flow sites wired; no broken imports. Clean Next build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (same as every recent run — agent prompt list remains stale).
+- [x] **DashboardPage bug fixed** — paid users (isPaid === true) no longer see "X of 3 used · resets Mon" or "Scan limit reached — Upgrade for unlimited →". Both scan cap messages now gated on `!isPaid`.
+- [x] **AdminGuardTeaserPage copy** — fixed verbatim duplicate sentence across two adjacent paragraphs in "THE BIGGER PICTURE" section.
+- [x] **LeadListPage competing CTAs** — demoted "VIEW FULL DETAILS →" from `flex-1` to `shrink-0` + shortened label to "VIEW →". WhatsApp action now visually dominant.
+- [x] **PricingPage duplicate ROI stat** — removed duplicate "Average UK trade job: £800–£3,000" from "WHAT ONE MONTH LOOKS LIKE" section (hero already has it).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`7926542`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: check for new founder commits/PRs first. Buildable backlog is small — consider doing a sweep of authenticated pages (AccountPage, AdminGuardPage) for any remaining design token drift. The `isPaid` detection via `/api/leads/roi-stats` is a proxy check — worth verifying it correctly identifies Stripe-paid users in staging once Stripe keys are available.
+
+## Today - 1 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `347b636` (== `origin/main`); only vault auto-digests and founder docs since last app-code change (21 June, PR #287); build GREEN (113 pages), TS CLEAN before changes.
+- [x] **Founder activity check** — no app-code commits since 21 June. Docs-only activity 24 June (AI free router SaaS prompt, Fire Door App playbook, competitor playbook). No carryover blocker unblocked.
+- [x] **Phase 1 re-confirmed** — all fake-flow sites wired to real calls; no broken imports. Clean Next build.
+- [x] **Phase 2 — Tier 1 features all BUILT** — agent prompt's "unbuilt" list is stale; scan counter, calendar ICS, WinStatsBanner, WhatsApp templates (including quick_quote_offer + availability_check), and trade-specific scoring all live in code.
+- [x] **LeadListPage copy fix** — removed duplicate GOLD/SILVER/BRONZE explanation from header (same text was verbatim in the HOW IT'S SCORED box immediately below). Replaced with source differentiation copy naming Checkatrade/Bark.
+- [x] **ActivationPendingPage UX fix** — pre-filled trade/postcode/company from Supabase signup metadata so tradesmen don't re-enter the same fields they already gave on SignupPage. WhatsApp still manual (not collected at signup).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`04d17dd`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: check for any new founder commits/PRs before generic sweeps. Agent prompt's Tier 1 unbuilt list is stale — all features are built. The ActivationPendingPage pre-fill relies on Supabase user_metadata being populated correctly at signup — worth a founder smoke-test on staging to verify.
+
+## Today - 21 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD detached at `78ba81f` (== `origin/main`); one new founder merge since Run 1 today; build GREEN, TS CLEAN before changes.
+- [x] **Reviewed founder's PR #287** ("Cross-link the 14 add-on service pages and surface them on Pricing") — sound, no fabricated prices, makes real progress on the add-on-pricing carryover by making the quote model honest/visible. No fix needed.
+- [x] **Corrected a repeated prior-run mistake** — `vite.config.ts`/`index.html` were flagged across 2+ runs as "orphaned, safe to delete eventually." Verified directly: they are NOT orphaned — `server/app.ts` (standalone Express backend used for local API dev/testing, imported by both `server.ts` and `api/index.ts`) depends on them via Vite dev middleware / static fallback. Did not delete. Flagging so no future run acts on the old (wrong) assumption.
+- [x] **Phase 1 re-confirmed** — 6 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` sites (added `FindJobsPage.tsx` `OutcomeActions` to the known list) all wired to real `fetch()` calls; no fake flows; no broken imports (clean Next build).
+- [x] Ran all `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent); all others pass.
+- [x] Build GREEN, TypeScript CLEAN. No app code changes — vault-doc-only commit.
+- [ ] **Founder decision — add-on service pricing** (carried over, now partially addressed by PR #287): still no actual £ shown for the 14 add-on services; founder still needs to decide free-perk-of-£39/mo vs paid-per-job-quote (copy now correctly implies "quoted per job", but no range given yet)
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT re-flag `vite.config.ts`/`index.html` for deletion** — confirmed in use by `server/app.ts`'s local Express dev path (see tonight's correction above)
+
+## Today - 21 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages, missing entirely); HEAD detached exactly at `origin/main` (`d522e4c`), no divergence; build GREEN (118 pages), TS CLEAN before changes.
+- [x] **Founder activity check (per Run 3's recommendation)** — zero new commits/PRs since last run via `git log` + GitHub `list_commits`/`list_pull_requests`; no carryover blocker unblocked (no Stripe/Resend/SMTP env vars present in this container either, same as every prior run).
+- [x] **Phase 1 re-confirmed** — all 5 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` forms individually read and wired to real `fetch()`/Supabase calls; no fake flows. No broken imports (Next build clean across all 118 routes).
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent); all others pass.
+- [x] **New observation, not actioned** — `vite.config.ts`/`index.html` are orphaned leftovers from the pre-Next.js (PR #275) setup, unreferenced by any script; `CLAUDE.md`/task brief stack description ("Vite frontend") is stale — actual stack is Next.js per `vercel.json`. Flagged for a founder/doc cleanup pass, not urgent.
+- [x] Build GREEN, TypeScript CLEAN. No app code changes — vault-doc-only commit (6th+ consecutive run confirming backlog genuinely exhausted with no new founder activity to react to).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **NEW — cleanup, not urgent**: delete (or confirm safe to delete) orphaned `vite.config.ts`/`index.html` left over from the Next.js migration; update `CLAUDE.md` stack description from "Vite frontend" to "Next.js frontend" to match `vercel.json`'s actual `framework: nextjs`.
+- [ ] **Recommend next run repeat tonight's approach**: check founder commits/PRs + carryover-blocker status first before any generic NEEDLE/copy sweep — diminishing returns on sweeps continues unchanged.
+
+## Today - 20 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — HEAD detached at `7514a9b`; local `main` ref stale (`origin/main` had force-updated since last cached fetch, no real divergence/lost work); `git update-ref refs/heads/main origin/main` + `git checkout main` resolved it; `npm install` (359 packages, missing entirely); build GREEN (118 pages), TS CLEAN before changes.
+- [x] **Reviewed founder's same-day rebrand commits** (`de5631c` → `7514a9b`, JOBFILTER name kept, tagline → "UK Construction Intelligence") — verified end state consistent across TopNav/Footer/layout.tsx, no leftover old-tagline references anywhere. No fix needed.
+- [x] **Closed long-standing carryover — Feature Roadmap doc reconciliation** (flagged 19/20 June as "worth a reconciliation pass", never done): marked Tier 2 #12 (Commercial lead detection) and #17 (Job value tracking) BUILT, #15 (Multi-channel follow-up) Partial — all three verified live in code, doc was stale for weeks.
+- [x] **Fresh NEEDLE pass on Compare* pages** (Explore agent + manual verification) — both candidate findings were false positives on closer inspection (see changelog); confirms the diminishing-returns pattern independently rather than just citing past runs.
+- [x] **Phase 1 re-confirmed** — all 5 form handlers wired to real backend calls; no broken imports.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run; no report artifacts left behind.
+- [x] Build GREEN, TypeScript CLEAN. Only vault-doc change this run (no app code touched) — pushed.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Buildable backlog appears genuinely exhausted** — independent verification tonight (not just citing past runs) found zero real single-run-sized bugs/gaps. Recommend next run skip another generic NEEDLE/copy sweep by default and instead check for: (a) any new founder commits/PRs landed since this run, (b) whether any carryover blocker (Stripe keys, SMTP creds, TradeFlow URL scheme, add-on pricing decision) has been unblocked, before falling back to a sweep.
+
+## Today - 20 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `c342d26` (== `origin/main`, includes founder's PR #286 merged since Run 1); `git fetch origin main` + `git checkout -B main origin/main` resolved it; `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
+- [x] **Bug found and fixed — competing hero CTAs on TerritoriesPage and NewsPage**: founder's PR #286 fixed HomePage's hero (two equal-weight `jf-button` CTAs side by side) by demoting the secondary one to a text link. Checking for the same pattern elsewhere (per last run's tip) found two more pages with it: TerritoriesPage ("LOCK MY PATCH" + full white "SCAN FREE FIRST" button) and NewsPage ("SCAN MY POSTCODE FREE" + full white "SEE LIVE SIGNALS" button). Demoted both secondary buttons to text underline links matching HomePage's treatment. Audited the other 23 files with both yellow+white `jf-button` instances — all clean (single primary hero CTA, secondary actions already correctly weighted).
+- [x] **Phase 1 re-confirmed** — 5 `setSubmitted`/`setSent`/`setEmailDone`/`setDone` forms (added ForgotPasswordPage to the known list) wired to real backend/Supabase calls; no fake flows. 237 imports audited, no broken local imports.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent), all others pass. Reverted regression-script-generated report artifacts before commit.
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`5a5205f`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Feature Roadmap doc is stale** (`Product/Feature Roadmap - 8th May 2026.md`) — Tier 2 #17 "Job value tracking" is marked "Not built" but already live since 7-8 June. Worth a reconciliation pass.
+- [ ] **Approach worth repeating**: two real fixes in two nights (BIN tier RSS label, competing hero CTAs) both came from re-checking a just-landed PR's diff for missed surfaces, not from a generic NEEDLE/copy sweep. Recommend next run start there before defaulting to NEEDLE.
+
+## Today - 20 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — local `main` ref stale (179 commits diverged from `origin/main` at `1db7373`); `git reset --hard origin/main` resolved it (clean working tree, no local work lost); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes.
+- [x] **Bug found and fixed — leftover "BIN" tier label in `/signals/weekly` RSS feed**: PR #285 (19 June) standardized GOLD/SILVER/BRONZE naming across marketing/comparison pages but missed `generateRSSFeed()`'s item description in `src/lib/signalGenerator.ts:452`, which still published "...SILVER, Z BIN..." to the externally-syndicated RSS feed. One-word fix, BIN → BRONZE.
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch('/api/waitlist', ...)` calls with proper error handling; no fake flows, no broken imports.
+- [x] **Grepped `leadEngine/` for the early-return-guard bug class from last night's `sourceUrl` fix** (Run 3, 19 June flagged this as the next thing to check) — found 5 more similar guards, all legitimate (missing API key / invalid title / no value data), none silently dropping valid data. Bug class confirmed contained to the one instance fixed last night.
+- [x] Ran all 17 `codex-output/*.mjs` regressions — same known false-negative class as every prior run (live-server/network-dependent), all others pass. Reverted regression-script-generated report artifacts before commit.
+- [x] Build GREEN, TypeScript CLEAN, pushed to main (`729bdc2`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Feature Roadmap doc is stale** (`Product/Feature Roadmap - 8th May 2026.md`) — Tier 2 #17 "Job value tracking" is marked "Not built" but `getValueAccuracy()`/DashboardPage "Quoted vs landed" stat has been live since 7-8 June. Worth a pass to reconcile the doc against actual shipped state so future runs don't re-check items that are already done.
+- [ ] **Next genuinely-buildable medium item still needs new external infrastructure** (WhatsApp two-way messaging, PlanWire, document search PDF pipeline) — all multi-day, not single-run. Diminishing returns on NEEDLE/copy sweeps continues; tonight's one real fix came from re-reading a recent PR's diff for missed surfaces, not a generic sweep — worth trying that approach again before defaulting to NEEDLE.
+
+## Today - 19 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); detached HEAD at `e581714` was a stale local `main` ref illusion, not real divergence — `origin/main` was already at `e581714`; resolved with `git checkout -B main origin/main`. Build GREEN, TS CLEAN before changes.
+- [x] **Closed Run 2's carryover gap — found and fixed the real root cause**: `extractOpportunityAtoms()` (`leadEngine/opportunityAtoms.ts`) returned `[]` whenever `lead.sourceUrl` was empty, regardless of pattern match quality. `DirectorySignal` (the guaranteed-fallback internal dataset, used in DEMO_MODE and as real production fallback) never sets `sourceUrl` — so every DirectorySignal lead silently lost up to 14 score points, the "Why this is a job" badge, and risked `TOO_EARLY` misclassification. Removed the early-return guard (single line). Verified live: DY1/electrical DirectorySignal scan now correctly extracts a `solar_ev` atom for "EV Charger Install" where it returned `[]` before.
+- [x] Build GREEN, TypeScript CLEAN. Ran `lead-engine-quality-regression`, `planning-contact-signal-regression`, `postcode-filter-regression`, `lead-engine-source-config-regression`, `package-copy-regression` — all pass. `lead-engine-50-plus-quality-test-fixed` oneLeadRule 0/42 confirmed pre-existing via git stash compare (not a regression). Pushed to main (`fac7f2d`).
+- [x] **Checked all 5 candidate Tier 1 features from tonight's brief** (scan counter, ICS export, won leaderboard, WhatsApp templates, trade-specific scoring) — all 5 already shipped by prior runs, nothing to build.
+- [x] **NEEDLE pass run, no edits made** — top finding ("contact route" missing from delivered UI) was a false positive on verification (`lead.contactPath` already renders as "Best approach: {channel}"); other findings re-litigated already-good fear→proof→control copy. Confirms diminishing-returns pattern — declined to force unnecessary copy churn.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+- [ ] **Diminishing returns confirmed again on NEEDLE/copy sweeps** — next genuinely-buildable medium item needs new external infrastructure (WhatsApp two-way messaging, PlanWire, document search), all multi-day. Recommend next run skip NEEDLE/copy and instead grep for other `if (!sourceUrl)`/similar early-return guards elsewhere in `leadEngine/` that might have the same class of bug (silent feature degradation on a falsy-but-valid field).
+
+## Today - 19 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); confirmed build GREEN + TS CLEAN after #284 (security fix) and #285 (tier naming) landed since Run 1; detached HEAD, pushed via `git push origin HEAD:main` (clean fast-forward)
+- [x] **Closed Run 1's #3 carryover priority** — threaded `sourceUrl` onto `LeadDecision` (`src/lib/types.ts`), `FindJobsPage.trackLead()` now persists it, `LeadDetailPage.handleExplain()` now sends it to `/api/leads/explain`. Removed stale comment in `app/api/leads/explain/route.ts`.
+- [x] Build GREEN, TypeScript CLEAN, 13/17 regressions pass (same known false-negative class as every prior run), pushed to main (`873bc6a`)
+- [ ] **New gap found tonight**: DEMO_MODE mock fetchers never set `lead.url`/`sourceUrls`, so tonight's sourceUrl threading has no real data to carry in demo/dev — atoms still won't populate from synthetic scans. Real fix is per-fetcher (start with `contractsFetcher.ts` — OCDS releases usually have a tender/document URL), multi-file, not a single-run fix.
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
+## Today - 19 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — detached HEAD at `c752a4a` (== `origin/main`); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Closed Run 3's spot-check priority — found and fixed a real gap**: started Express backend + Next dev server in `DEMO_MODE=true`, ran a real B14 electrical scan, fed real leads (FTS council contract, DirectorySignal rewire job) into `/api/leads/explain`. Found `LeadDetailPage.handleExplain()` never sends `sourceUrl`, so the deterministic (no-AI) fallback's `extractOpportunityAtoms()` always returns `[]` and every real call degrades to the generic "{trade} opportunity from {source}." line regardless of lead specificity. Fixed fallback to use the lead's own title first: `"{trade} job: {title}."`. Verified live before/after on the same lead.
+- [x] Build GREEN, TypeScript CLEAN, 13/17 regressions pass (same known false-negative class as every prior run), pushed to main (`2a9978b`)
+- [ ] **`sourceUrl`/`sourceUrls` missing from `LeadDecision` entirely** (`src/lib/types.ts`) — multi-file thread (normaliser → FindJobsPage.trackLead → LeadDetailPage) needed if atoms should ever populate for real in the explain panel, not a single-run fix
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
+## Today - 18 June 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — detached HEAD, local `main` stale at `609898a` vs `origin/main` at `726d2db`; `git fetch origin main` + `git checkout -B main origin/main` resolved it (clean fast-forward); `npm install` (359 packages, missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()`; no fake flows
+- [x] **Feature built — closed Run 2's #1 priority: wired `/api/leads/explain` into LeadDetailPage** — new "WHAT THIS MEANS" panel translates the raw council/planning description (previously only surfaced for CompaniesHouse leads) into plain English; £39/mo lock card on 401/403, deterministic fallback verified live via `FULL_ACCESS_TEST_MODE=true` + curl, confirmed real 401 without test mode
+- [x] Build GREEN, TypeScript CLEAN, all 17 regressions pass except known false-negative class (live-network dependent); reverted regression-script-generated report artifacts before commit; pushed to main (`15f1d3f`)
+- [ ] **Spot-check "WHAT THIS MEANS" panel on a real live scan** — only curl-verified with a synthetic description this run; check rendering on a real planning-portal lead, desktop + 375px
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
+## Today - 18 June 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD at `dcd7647`, local `main` stale + diverged-history from `origin/main` (not just behind — `merge-base --is-ancestor` failed); `git fetch origin --prune` + `git reset --hard origin/main` resolved it (no local-only commits existed); `npm install` (359 packages); build GREEN, TS CLEAN before changes
+- [x] **Found dead backend code from PR #282** — `/api/leads/draft-message` and `/api/leads/explain` (AI-powered, auth-gated, fallback-safe) had zero frontend callers since merge
+- [x] **Feature built — AI draft-message wired into LeadDetailPage** — "AI DRAFT — WRITE ME A MESSAGE" button in SEND WHATSAPP section; £39/mo lock card on 401/403; drafted text + OPEN WHATSAPP CHAT link on success; verified live via `FULL_ACCESS_TEST_MODE=true` + direct curl (real fallback draft returned, no `ANTHROPIC_API_KEY` set, confirms no fake flow); unauth request correctly 401s
+- [x] Build GREEN, TypeScript CLEAN, all regressions pass except known false-negative class (live-network dependent), pushed to main (`904e552`)
+- [ ] **Wire `/api/leads/explain`** — still dead backend code; decide if it adds value beyond the existing WHY THIS LEAD section or retire the route
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex` still take a lead via a form with zero price shown anywhere
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+
+## Today - 18 June 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — detached HEAD at `b6df9dd`, local `main` stale 52 commits behind (`609898a`); `git checkout main`, `git fetch origin main` (corrected stale cached `origin/main` ref too), `git reset --hard origin/main` resolved it; `npm install` (359 packages, `node_modules` missing entirely); build GREEN, TS CLEAN before changes
+- [x] **Phase 1 re-confirmed** — all 4 `setSubmitted`/`setSent`/`setEmailDone` forms wired to real `fetch()`; no broken imports; no React.lazy path risk
+- [x] **Ran all 17 `codex-output/*.mjs` regression scripts** — all pass except known false-negative class needing live server/external APIs
+- [x] **PR #281 ("open tracked leads in WhatsApp") reviewed** — confirmed sound; `buyerPhone` only real for tradesman-submitted intake leads, gracefully degrades to generic `wa.me/?text=` link for scanned leads (same pattern as prior SMS fallback), not a regression
+- [x] **Full live-CTA sweep** — every VIEW/TRACK/SEND/DOWNLOAD/OPEN/GENERATE/UNLOCK/CLAIM/BUY/UPGRADE/EXPORT/COPY/SHARE-labelled button across `src/pages` + `src/components` checked for missing onClick/href — zero genuinely broken buttons found; only "broken-looking" button (`KeywordSearch.tsx` VIEW FULL DOCUMENT/TRACK THIS LEAD) is dead code behind `SHOW_ADVANCED_TOOLS = false`, confirmed unreachable
+- [x] **Document search prototype re-confirmed correctly hidden** — mock-data scaffold, flag off, not deceiving anyone; finishing it for real needs PDF ingestion/storage/search API (multi-day)
+- [x] **LaunchWaitlistModal reviewed** — confirmed intentional "Founding 30" scarcity marketing consistent with rest of site, not a stale bug; left unchanged
+- [x] Build GREEN, TypeScript CLEAN throughout — **no code changes needed this run**, every Tier 1/2 buildable item already shipped in prior runs
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): still no price shown for `dno-brief`/`ozev-grant-pack`/`gas-safe-kit`/`swmp-template`/`fra-template`/`acm-report-pack`/`nasc-pack`/`wayleave-pack`/`cctv-compliance-pack`/`calc-pack`/`vantage`/`codex`
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — blocked on SMTP creds + manual activation
+- [ ] Only remaining buildable medium-effort items (Tier 2 #13 WhatsApp two-way messaging, #18 PlanWire, finishing document search) all need new external infrastructure/partnerships — multi-day, not single-run
+
 ## Today - 17 June 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — detached HEAD at `2489111` (== `origin/main`, no real divergence); `git checkout main && git reset --hard origin/main` resolved it; `npm install`; build GREEN, TS CLEAN before changes

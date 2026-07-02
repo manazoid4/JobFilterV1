@@ -8,7 +8,7 @@ import { ToastWrapper } from '../src/components/ToastWrapper';
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
-  title: 'JobFilter | High-intent UK construction leads',
+  title: 'UK Construction Intelligence | High-intent UK construction leads',
   description: 'AI-filtered UK construction lead intelligence for trades who want better jobs with less chasing.',
 };
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Site-wide announcement bar ── */}
           <div className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)] shrink-0" aria-hidden="true" />
-            <span>Spot local jobs before Checkatrade lists them · <span className="text-[var(--yellow)]">Free scan, no card needed</span> · Founder £39/mo</span>
+            <span>Find local jobs before Checkatrade sees them · <span className="text-[var(--yellow)]">Free scan, no card needed</span> · One job covers 3 months</span>
           </div>
           <TopNav />
           {children}

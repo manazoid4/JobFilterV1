@@ -8,7 +8,7 @@ const comparison = [
   { feature: 'Per-lead cost', checkatrade: 'Yes — pay-per-lead on top of membership', jobfilter: 'No — unlimited scans, one price' },
   { feature: 'Lead quality', checkatrade: 'Name + phone number from a form', jobfilter: 'Official signals with buyer, value, urgency' },
   { feature: 'Budget visibility', checkatrade: 'None — you find out on the call', jobfilter: 'Estimated value shown before you chase' },
-  { feature: 'Urgency scoring', checkatrade: 'None — all leads look the same', jobfilter: 'GOLD / SILVER / BIN — chase what pays' },
+  { feature: 'Urgency scoring', checkatrade: 'None — all leads look the same', jobfilter: 'GOLD / SILVER / BRONZE — chase what pays' },
   { feature: 'Planning data', checkatrade: 'No', jobfilter: 'Yes — approved applications' },
   { feature: 'Energy signals', checkatrade: 'No', jobfilter: 'Yes — retrofit properties flagged' },
   { feature: 'Council contracts', checkatrade: 'No', jobfilter: 'Yes — buyer named, value shown' },
@@ -357,10 +357,10 @@ export function CompareCheckatradePage() {
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
-              <p className="micro-label text-[var(--orange)]">BIN</p>
-              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">SKIP IT</h3>
+              <p className="micro-label text-[var(--orange)]">BRONZE</p>
+              <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
               <p className="mt-3 font-black text-[var(--muted)]">
-                Low value, no urgency, or too much competition. Don't waste your fuel on this one.
+                Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>

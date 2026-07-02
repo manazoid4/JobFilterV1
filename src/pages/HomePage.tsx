@@ -13,10 +13,10 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Sample' },
-  { source: 'Energy', signal: 'Low-energy rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Sample' },
-  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Sample' },
+  { source: 'Planning', signal: 'Rear extension approved — 4-bed detached, no contractor yet', trade: 'Builder', value: '£18k–£34k', score: 94, trend: 'up' as const, location: 'B12' },
+  { source: 'Energy', signal: 'Low-rated rental block — 6 units, retrofit trigger', trade: 'Insulation', value: '£8k–£14k', score: 87, trend: 'up' as const, location: 'LS8' },
+  { source: 'Contracts', signal: 'School electrical maintenance — 12-month contract', trade: 'Electrical', value: '£22k–£38k', score: 91, trend: 'up' as const, location: 'M20' },
+  { source: 'Property', signal: 'Auction sale cleared — full refurb likely', trade: 'Groundworks', value: '£6k–£12k', score: 82, trend: 'down' as const, location: 'SE15' },
 ];
 
 const territoryCards = [
@@ -93,10 +93,10 @@ export function HomePage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
               </Link>
-              <Link className="jf-button bg-white text-[var(--ink)] text-lg px-8 py-4" href="/territories">
-                CHECK MY PATCH
-              </Link>
               <div className="flex flex-wrap gap-4">
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
+                  Check my patch →
+                </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
@@ -111,6 +111,7 @@ export function HomePage() {
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
               <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
+              <p className="text-[9px] font-black uppercase tracking-wider text-white/40">Illustrative</p>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (

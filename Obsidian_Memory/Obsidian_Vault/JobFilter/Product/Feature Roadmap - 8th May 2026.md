@@ -42,12 +42,12 @@ Higher score = build first.
 
 | # | Feature | Engine | Conv | Ret | Effort | Score | Status |
 |---|---------|--------|------|-----|--------|-------|--------|
-| 12 | Commercial lead detection | Find | 6 | 7 | 4 | **3.25** | Not built |
-| 13 | WhatsApp Business API (deeper) | Integration | 7 | 8 | 4 | **3.75** | Partial (basic alerts) |
+| 12 | Commercial lead detection | Find | 6 | 7 | 4 | **3.25** | BUILT (`calcProjectScale()` in `leadEngine/normaliser.ts`; LARGE PROJECT badge on FindJobsPage + LeadDetailPage) |
+| 13 | WhatsApp Business API (deeper) | Integration | 7 | 8 | 4 | **3.75** | Partial (basic alerts + SMS fallback + email chase; no two-way messaging) |
 | 14 | TradeFlow UK integration | Integration | 6 | 8 | 4 | **3.5** | Not built (partnership) |
-| 15 | Multi-channel follow-up | Chase | 6 | 7 | 4 | **3.25** | Not built |
+| 15 | Multi-channel follow-up | Chase | 6 | 7 | 4 | **3.25** | Partial (WhatsApp + SMS fallback + EMAIL ME THIS LEAD chase built; two-way messaging not built) |
 | 16 | Won job leaderboard | Win | 5 | 6 | 3 | **3.67** | BUILT (WinStatsBanner + outcomes.jsonl persistence) |
-| 17 | Job value tracking | Win | 6 | 7 | 4 | **3.25** | Not built |
+| 17 | Job value tracking | Win | 6 | 7 | 4 | **3.25** | BUILT (`getValueAccuracy()` in `winStore.ts`; "Quoted vs landed" stat on DashboardPage) |
 | 18 | PlanWire integration | Find | 6 | 6 | 4 | **3.0** | Not built |
 
 ### TIER 3: BUILD LATER (Score 1.0–1.4)

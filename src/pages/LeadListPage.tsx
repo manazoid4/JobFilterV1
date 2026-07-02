@@ -106,7 +106,7 @@ export function LeadListPage() {
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-black text-white/90">
-          Every lead scored before it reaches you — not recycled from Checkatrade or Bark. GOLD = call today. SILVER = watch it. BRONZE = check when your week is quiet.
+          Not recycled from Checkatrade or Bark. Every signal here comes from verified official UK sources — scored by your trade, patch, and urgency before it reaches you.
         </p>
       </div>
 
@@ -309,8 +309,8 @@ export function LeadListPage() {
                   >
                     {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
-                  <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
-                    VIEW FULL DETAILS →
+                  <Link href={`/leads/${lead.id}`} className="jf-button shrink-0 bg-[var(--navy)] text-white">
+                    VIEW →
                   </Link>
                 </div>
               </div>

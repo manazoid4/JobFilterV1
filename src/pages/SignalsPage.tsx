@@ -1,4 +1,5 @@
 "use client";
+import { useState } from 'react';
 import Link from 'next/link';
 
 
@@ -113,7 +114,24 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
 
 const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
 
+const tradeToSignalLabel: Record<string, string> = {
+  Electrician: 'Electrical',
+  Plumber: 'Plumbing',
+  Builder: 'Building',
+  Roofer: 'Roofing',
+  HVAC: 'HVAC',
+  Landscaper: 'Landscaping',
+  Carpenter: 'Carpentry',
+  Painter: 'Painting',
+};
+
 export function SignalsPage() {
+  const [trade, setTrade] = useState<string>('All Trades');
+  const visibleSignals =
+    trade === 'All Trades'
+      ? signals
+      : signals.filter((s) => (s.trades as readonly string[]).includes(tradeToSignalLabel[trade]));
+
   return (
     <main className="pb-8">
 
@@ -135,8 +153,23 @@ export function SignalsPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">THE TEN SIGNALS</p>
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">TEN ALERTS. EVERY ONE BEFORE THE JOB GOES PUBLIC.</h2>
+          <p className="mt-4 font-black text-[var(--muted)]">Pick your trade to see only the signals that apply to you.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {['All Trades', ...Object.keys(tradeToSignalLabel)].map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTrade(t)}
+                className={`border-2 border-[var(--line)] px-3 py-1.5 text-sm font-black uppercase ${
+                  trade === t ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {signals.map((s) => (
+            {visibleSignals.map((s) => (
               <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
                 <div>
                   <span className="inline-block bg-[var(--navy)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">
@@ -219,7 +252,7 @@ export function SignalsPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity near your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BIN means skip it. You only see what\'s worth your time.'],
+              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
               ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">

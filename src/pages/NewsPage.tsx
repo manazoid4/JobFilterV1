@@ -130,12 +130,12 @@ export function NewsPage() {
           <p className="mt-4 max-w-2xl font-bold text-[var(--ink)] text-base sm:text-lg leading-snug">
             Planning approvals. Energy compliance. Tender deadlines. Funded schemes. Written for builders, plumbers, electricians, roofers and fit-out firms — not for marketing teams. Free to read.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-4">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               SCAN MY POSTCODE FREE →
             </Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/signals">
-              SEE LIVE SIGNALS
+            <Link className="text-sm font-black text-[var(--ink)]/70 underline underline-offset-2 hover:text-[var(--ink)]" href="/signals">
+              See live signals →
             </Link>
           </div>
           <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>

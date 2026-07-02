@@ -144,6 +144,10 @@ export function LeadDetailPage() {
   const { user } = useAuth();
   const [emailChaseState, setEmailChaseState] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [emailChaseError, setEmailChaseError] = useState('');
+  const [aiDraft, setAiDraft] = useState<string | null>(null);
+  const [aiDraftState, setAiDraftState] = useState<'idle' | 'loading' | 'ready' | 'locked' | 'error'>('idle');
+  const [explainResult, setExplainResult] = useState<{ summary: string; plainDescription: string } | null>(null);
+  const [explainState, setExplainState] = useState<'idle' | 'loading' | 'ready' | 'locked' | 'error'>('idle');
 
   function handleFlagLead() {
     const stored = JSON.parse(localStorage.getItem('jf-flagged-leads') || '[]') as string[];
@@ -236,6 +240,72 @@ export function LeadDetailPage() {
     } catch {
       setEmailChaseState('error');
       setEmailChaseError('Email failed to send.');
+    }
+  }
+
+  async function handleAiDraft() {
+    setAiDraftState('loading');
+    try {
+      const res = await fetch('/api/leads/draft-message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lead: {
+            title: lead!.jobType,
+            description: lead!.details ?? '',
+            trade: lead!.jobType,
+            estimatedValue: lead!.budget ?? '',
+            urgency: lead!.urgency,
+          },
+          tone: 'quote',
+        }),
+      });
+      if (res.status === 401 || res.status === 403) {
+        setAiDraftState('locked');
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.draft) {
+        setAiDraftState('error');
+        return;
+      }
+      setAiDraft(data.draft);
+      setAiDraftState('ready');
+    } catch {
+      setAiDraftState('error');
+    }
+  }
+
+  async function handleExplain() {
+    setExplainState('loading');
+    try {
+      const res = await fetch('/api/leads/explain', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lead: {
+            title: lead!.jobType,
+            description: lead!.description ?? '',
+            trade: lead!.jobType,
+            estimatedValue: lead!.budget ?? '',
+            source: lead!.source,
+            sourceUrl: lead!.sourceUrl ?? '',
+          },
+        }),
+      });
+      if (res.status === 401 || res.status === 403) {
+        setExplainState('locked');
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.summary || !data.plainDescription) {
+        setExplainState('error');
+        return;
+      }
+      setExplainResult({ summary: data.summary, plainDescription: data.plainDescription });
+      setExplainState('ready');
+    } catch {
+      setExplainState('error');
     }
   }
 
@@ -472,6 +542,35 @@ export function LeadDetailPage() {
         </section>
       )}
 
+      {lead.description && (
+        <section className="jf-box bg-white p-6">
+          <h2 className="headline text-2xl sm:text-3xl">WHAT THIS MEANS</h2>
+          <p className="mt-2 text-sm font-black text-[var(--muted)]">The raw record is full of council/legal jargon — get it in plain English before you call.</p>
+          <button
+            className="jf-button mt-4 bg-white text-[var(--ink)]"
+            onClick={handleExplain}
+            disabled={explainState === 'loading'}
+          >
+            {explainState === 'loading' ? 'TRANSLATING...' : 'EXPLAIN THIS LEAD IN PLAIN ENGLISH'}
+          </button>
+          {explainState === 'locked' && (
+            <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
+              <p className="text-sm font-black text-[var(--ink)]">Plain-English lead summaries are a £39/mo feature.</p>
+              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+            </div>
+          )}
+          {explainState === 'error' && (
+            <p className="mt-2 text-xs font-black text-[var(--orange)]">Couldn't translate this one — the details above are the raw record.</p>
+          )}
+          {explainState === 'ready' && explainResult && (
+            <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+              <p className="text-sm font-black text-[var(--ink)]">{explainResult.summary}</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)] leading-relaxed">{explainResult.plainDescription}</p>
+            </div>
+          )}
+        </section>
+      )}
+
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">SEND WHATSAPP</h2>
         <p className="mt-2 text-sm font-black text-[var(--muted)]">Message ready — tap SEND WHATSAPP to go. Swap template below if needed.</p>
@@ -506,6 +605,38 @@ export function LeadDetailPage() {
             </a>
           </div>
         )}
+        <div className="mt-4 border-t-2 border-[var(--line)] pt-4">
+          <button
+            className="jf-button bg-white text-[var(--ink)]"
+            onClick={handleAiDraft}
+            disabled={aiDraftState === 'loading'}
+          >
+            {aiDraftState === 'loading' ? 'DRAFTING...' : 'AI DRAFT — WRITE ME A MESSAGE'}
+          </button>
+          <p className="mt-2 text-xs font-black text-[var(--muted)]">Writes a one-off message from this job's details — not a generic template.</p>
+          {aiDraftState === 'locked' && (
+            <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
+              <p className="text-sm font-black text-[var(--ink)]">AI draft messages are a £39/mo feature.</p>
+              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+            </div>
+          )}
+          {aiDraftState === 'error' && (
+            <p className="mt-2 text-xs font-black text-[var(--orange)]">Couldn't draft a message — use a template above instead.</p>
+          )}
+          {aiDraftState === 'ready' && aiDraft && (
+            <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+              <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{aiDraft}</p>
+              <a
+                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(aiDraft)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
+              </a>
+            </div>
+          )}
+        </div>
       </section>
 
       {otherTemplates.length > 0 && (

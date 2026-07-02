@@ -315,7 +315,7 @@ export function WeeklySignalsPage() {
             </div>
             <div>
               <p className="headline text-4xl md:text-5xl text-[var(--ink)]">{week.totalBin}</p>
-              <p className="micro-label text-[var(--ink)]/70">BIN — SKIP IT</p>
+              <p className="micro-label text-[var(--ink)]/70">BRONZE — QUIET-WEEK LIST</p>
             </div>
           </div>
         </div>
@@ -331,7 +331,7 @@ export function WeeklySignalsPage() {
                 ['Total Signals', week.totalSignals, CURRENT_WEEK.totalSignals],
                 ['GOLD', week.totalGold, CURRENT_WEEK.totalGold],
                 ['SILVER', week.totalSilver, CURRENT_WEEK.totalSilver],
-                ['BIN', week.totalBin, CURRENT_WEEK.totalBin],
+                ['BRONZE', week.totalBin, CURRENT_WEEK.totalBin],
               ].map(([label, val, nowVal]) => {
                 const v = val as number;
                 const n = nowVal as number;
@@ -397,7 +397,7 @@ export function WeeklySignalsPage() {
                   <div className="flex gap-2 flex-wrap">
                     <Badge variant="gold">{`GOLD ${s.gold}`}</Badge>
                     <Badge variant="silver">{`SILVER ${s.silver}`}</Badge>
-                    <Badge variant="bin">{`BIN ${s.bin}`}</Badge>
+                    <Badge variant="bin">{`BRONZE ${s.bin}`}</Badge>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mt-2">

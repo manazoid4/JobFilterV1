@@ -23,7 +23,6 @@ export function extractOpportunityAtoms(lead: Lead): OpportunityAtom[] {
   const text = `${lead.title ?? ''}. ${lead.description ?? ''}. ${(lead.scoreReasons ?? []).join('. ')}`;
   const evidenceText = text.replace(/\s+/g, ' ').trim().slice(0, 220);
   const sourceDocumentUrl = lead.sourceUrl ?? '';
-  if (!sourceDocumentUrl) return [];
 
   return ATOM_RULES
     .filter(rule => rule.pattern.test(text))
