@@ -85,7 +85,7 @@ export function AdminGuardTeaserPage() {
         <h2 className="headline mt-1 text-3xl sm:text-4xl leading-none">WHAT ADMIN GUARD DOES</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {FEATURES.map((f) => (
-            <div key={f.title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 shadow-[3px_3px_0_var(--yellow)]">
+            <div key={f.title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4 shadow-[4px_4px_0_var(--line)]">
               <p className="headline text-lg leading-none">{f.title}</p>
               <p className="mt-2 text-sm font-bold text-[var(--muted)]">{f.desc}</p>
             </div>

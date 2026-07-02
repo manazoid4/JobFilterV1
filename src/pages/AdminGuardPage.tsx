@@ -268,7 +268,7 @@ export function AdminGuardPage() {
 
         <div className="mt-6 border-t-2 border-[var(--line)] pt-4">
           <p className="text-xs font-bold text-[var(--muted)]">
-            Email reminders are being connected. Download calendar reminders for now.
+            Calendar reminders ready — see the Deadlines tab to download. Email delivery coming soon for all paid members.
           </p>
         </div>
       </section>
