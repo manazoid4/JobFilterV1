@@ -131,8 +131,8 @@ export function TopNav() {
               <Link href="/login" className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)] underline">
                 Sign in
               </Link>
-              <Link href="/territories" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-                CLAIM PATCH
+              <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
+                SCAN FREE
               </Link>
             </>
           )}
@@ -216,11 +216,11 @@ export function TopNav() {
                 Sign In
               </Link>
               <Link
-                href="/territories"
+                href="/find-jobs"
                 onClick={() => setMenuOpen(false)}
                 className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
               >
-                CLAIM PATCH — FOUNDING PRICE
+                SCAN FREE — NO CARD NEEDED
               </Link>
             </>
           )}
