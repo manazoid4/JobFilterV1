@@ -23,6 +23,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
   const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
   const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
   const [activeAlerts, setActiveAlerts] = useState<{ id: string; trade: string; postcode_outward: string; frequency: string }[]>([]);
   const [loaded, setLoaded] = useState(false);
   const mountedRef = React.useRef(true);
@@ -70,10 +71,11 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
         loadAlerts();
         setTimeout(() => { if (mountedRef.current) setStatus('idle'); }, 3000);
       } else {
+        if (mountedRef.current) setErrorMsg(data.error || '');
         setStatus('error');
       }
     } catch {
-      if (mountedRef.current) setStatus('error');
+      if (mountedRef.current) { setErrorMsg(''); setStatus('error'); }
     }
   }
 
@@ -93,7 +95,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
           </select>
         </label>
         <label className="field-label">
-          Postcode outward
+          Your area
           <input value={postcode} onChange={e => setPostcode(e.target.value.toUpperCase())} placeholder="B14" className="field-input" maxLength={6} />
         </label>
         <label className="field-label">
@@ -108,7 +110,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       </form>
 
       {status === 'error' && (
-        <p className="mt-2 text-xs font-black text-[var(--orange)]">Failed — check you are logged in and try again</p>
+        <p className="mt-2 text-xs font-black text-[var(--orange)]">{errorMsg || 'Failed — check you are logged in and try again'}</p>
       )}
 
       {loaded && activeAlerts.length > 0 && (
