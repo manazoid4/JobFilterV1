@@ -500,8 +500,8 @@ export function DashboardPage() {
             {scanPostcode
               ? <Row label="Postcode" value={scanPostcode} />
               : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
-            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : `${scansUsed} of 3 used · resets Mon`} />
-            {scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
+            <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : isPaid ? `${scansUsed} this week (unlimited)` : `${scansUsed} of 3 used · resets Mon`} />
+            {!isPaid && scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
             <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>

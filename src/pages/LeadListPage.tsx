@@ -309,8 +309,8 @@ export function LeadListPage() {
                   >
                     {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
-                  <Link href={`/leads/${lead.id}`} className="jf-button flex-1 bg-[var(--navy)] text-white">
-                    VIEW FULL DETAILS →
+                  <Link href={`/leads/${lead.id}`} className="jf-button shrink-0 bg-[var(--navy)] text-white">
+                    VIEW →
                   </Link>
                 </div>
               </div>

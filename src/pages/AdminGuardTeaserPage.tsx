@@ -134,7 +134,7 @@ export function AdminGuardTeaserPage() {
           Admin Guard is the first module inside TAX &amp; ADMIN — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
         </p>
         <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/70">
-          Not another bloated trade app. Just better jobs, cleaner follow-ups and admin dates you cannot afford to miss.
+          Not another bloated trade app. One system: find the work, chase it, and never miss the deadline that costs you a fine.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--ink)] text-white">

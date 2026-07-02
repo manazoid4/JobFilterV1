@@ -90,7 +90,7 @@ export function PricingPage() {
         <p className="micro-label text-[var(--orange)]">WHAT ONE MONTH LOOKS LIKE</p>
         <h2 className="headline mt-3 text-3xl leading-none">ONE JOB COVERS IT. THAT&apos;S THE MATHS.</h2>
         <p className="mt-3 font-black text-[var(--muted)] max-w-2xl">
-          Average UK trade job: £800–£3,000. One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
+          One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
