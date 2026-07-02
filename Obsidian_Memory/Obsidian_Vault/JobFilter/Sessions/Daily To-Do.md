@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 2 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `b259d2c` (== `origin/main`); no new founder commits or open PRs since 1 July; build GREEN (113 pages), TS CLEAN before changes.
+- [x] **Founder activity check** — zero new app-code commits or open PRs. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — all fake-flow sites wired; no broken imports. Clean Next build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (same as every recent run — agent prompt list remains stale).
+- [x] **DashboardPage bug fixed** — paid users (isPaid === true) no longer see "X of 3 used · resets Mon" or "Scan limit reached — Upgrade for unlimited →". Both scan cap messages now gated on `!isPaid`.
+- [x] **AdminGuardTeaserPage copy** — fixed verbatim duplicate sentence across two adjacent paragraphs in "THE BIGGER PICTURE" section.
+- [x] **LeadListPage competing CTAs** — demoted "VIEW FULL DETAILS →" from `flex-1` to `shrink-0` + shortened label to "VIEW →". WhatsApp action now visually dominant.
+- [x] **PricingPage duplicate ROI stat** — removed duplicate "Average UK trade job: £800–£3,000" from "WHAT ONE MONTH LOOKS LIKE" section (hero already has it).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`7926542`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown; founder decision on free-perk-vs-paid-addon still pending
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: check for new founder commits/PRs first. Buildable backlog is small — consider doing a sweep of authenticated pages (AccountPage, AdminGuardPage) for any remaining design token drift. The `isPaid` detection via `/api/leads/roi-stats` is a proxy check — worth verifying it correctly identifies Stripe-paid users in staging once Stripe keys are available.
+
 ## Today - 1 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `347b636` (== `origin/main`); only vault auto-digests and founder docs since last app-code change (21 June, PR #287); build GREEN (113 pages), TS CLEAN before changes.
