@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 3 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); stale local `origin/main` cached at June 28; `git fetch origin main` corrected it to July 2 head (`7407b8d`); build GREEN (113 pages), TS CLEAN before and after changes.
+- [x] **Founder activity check** — zero new commits or PRs since July 2 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — all `setDone`/`setSubmitted`/`setSent`/`setEmailDone` forms wired to real backend calls. No broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (agent prompt list remains stale).
+- [x] **AlertSetupWidget confirmed correct** — label "Your area" (not "Postcode outward"), error message surfaces API error directly (not generic fallback). Both prior-run fixes verified in code.
+- [x] **FindJobsPage WHY? panel widened** — `w-24 text-[8px]` → `w-36 text-[9px]`. Score reasons now readable on mobile (was recommended by Run 3, July 2).
+- [x] **BuildUkAlternativePage CTA color inversion fixed** — comparison section had yellow on "SEE PRICING" (secondary) and ink on "SCAN FREE" (primary). Swapped to match design rule: yellow = primary (scan free), ink = secondary (pricing).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`c2221f2`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run recommendation**: Check for new founder commits/PRs first. WHY? panel in LeadListPage:285 uses `tradeHighlights()` badges — check if those also need more width. AlertSetupWidget error message smoke test still needs live env to verify.
+
 ## Today - 2 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `9df93b1` (== `origin/main`); build GREEN (113 pages), TS CLEAN before and after changes.
