@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 3 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — detached HEAD resolved by `git checkout main && git merge --ff-only`. Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — PR #291 merged since Run 1 (10:48 UTC today): free tools CTAs fixed (QuoteFloor, ProfitCheck, TravelCost, TyreKicker all now route to /find-jobs). Verified in FreeToolsPage.tsx. No regressions. No open PRs.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **ForYourTradePage copy** — 2 "lead platform" instances replaced with named competitors: HVAC → "before Checkatrade or MyBuilder lists them"; Heat Pumps → "before Bark or Checkatrade lists them". Matches style of all other trades in the array.
+- [x] **SignupPage NEEDLE fix** — post-signup CTA "BACK TO PRICING" replaced with "BROWSE LIVE LEADS →" → `/find-jobs`. Backwards UX (user just committed, sending them to pricing = regret signal). Forward action keeps them engaged while waiting for email.
+- [x] **LeadListPage WHY? badges** (from Run 1 recommendation) — confirmed NOT a problem. Badges use `px-2 py-1 text-xs` with flex wrap, no fixed-width constraint unlike the FindJobsPage panel. Rolling recommendation resolved.
+- [x] **FILL MY WEEK position** — rolling todo "move below scan results" confirmed RESOLVED. Section is at line 779, scan results at line 626 — already in correct order.
+- [x] **DashboardPage territory duplication** — rolling todo reviewed. Both instances serve distinct purposes (empty-state CTA + quick-actions sidebar). Top section already has explanation copy. NOT a bug — marking resolved.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`d6e7746`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: ForYourTradePage lines 18 + 21 still say "any job board" without naming competitors — low priority but consistent with copy rule. Check for new founder commits first.
+
 ## Today - 3 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); stale local `origin/main` cached at June 28; `git fetch origin main` corrected it to July 2 head (`7407b8d`); build GREEN (113 pages), TS CLEAN before and after changes.
