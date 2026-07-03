@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 3 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; detached HEAD resolved by `git checkout -B main 481d7a6` after commit. Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 2 (12:48 UTC today).
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **ForYourTradePage final competitor naming** — last 2 vague references fixed: Decorating "any job board" → "Bark or MyBuilder"; Data Cabling "any trade directory" → "Checkatrade or MyBuilder". All 18 trades now name specific competitors. Closes Run 2's next-run recommendation.
+- [x] **WeeklySignalsPage off-system green CTAs fixed** — "GET WEEKLY ALERTS" + "GET WEEKLY EMAILS" both used `bg-[var(--green)]` which violates the design system (green is for data indicators, not CTAs). Changed to `bg-[var(--navy)]`. Visual hierarchy restored.
+- [x] **AccountPage upgrade CTA price-anchored** — free-tier users saw "UPGRADE PLAN →" with no price. Changed to "UPGRADE TO FOUNDER — £39/MO →" + trust copy "30-day money-back guarantee. Cancel any time." Highest-intent moment on the site now has the strongest CTA.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`481d7a6`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Solar PV on ForYourTradePage still says "any installer on MyBuilder" (only one competitor named, minor). Buildable backlog genuinely small — carryover blockers are the main unlock.
+
 ## Today - 3 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — detached HEAD resolved by `git checkout main && git merge --ff-only`. Build GREEN (113 pages), TS CLEAN.
