@@ -268,7 +268,7 @@ export function FreeToolsPage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
               <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
-            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">FOUNDER ACCESS — £39/MO</Link>
           </div>
       </section>
 
@@ -378,7 +378,7 @@ function QuoteFloorTool() {
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/smart-quote">BUILD FULL QUOTE →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/find-jobs">FIND JOBS AT THIS PRICE →</Link>
       </div>
     </section>
   );
@@ -412,7 +412,9 @@ function ProfitCheckTool() {
         <NumberField label="Margin %" value={margin} onChange={setMargin} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
+          {profit < 300 ? 'FIND STRONGER JOBS →' : 'FIND JOBS AT THIS MARGIN →'}
+        </Link>
       </div>
     </section>
   );
@@ -455,7 +457,7 @@ function TyreKickerTool() {
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FOR REAL LEADS →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">GET FOUNDING 30</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">FOUNDER — £39/MO</Link>
       </div>
     </section>
   );
@@ -483,7 +485,7 @@ function TravelCostTool() {
         <NumberField label="Diesel £/litre" value={dieselPrice} step={0.01} onChange={setDieselPrice} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">UNLOCK FULL TOOLS</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">FIND NEARBY JOBS →</Link>
       </div>
     </section>
   );
