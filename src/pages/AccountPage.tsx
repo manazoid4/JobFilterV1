@@ -130,9 +130,12 @@ export function AccountPage() {
               {portalLoading ? 'Opening...' : 'MANAGE BILLING →'}
             </button>
           ) : (
-            <a href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
-              UPGRADE PLAN →
-            </a>
+            <div>
+              <a href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+                UPGRADE TO FOUNDER — £39/MO →
+              </a>
+              <p className="mt-2 text-xs font-black text-[var(--muted)]">30-day money-back guarantee. Cancel any time.</p>
+            </div>
           )}
         </div>
         {portalError && <p className="mt-3 text-sm font-black text-[var(--orange)]">{portalError}</p>}

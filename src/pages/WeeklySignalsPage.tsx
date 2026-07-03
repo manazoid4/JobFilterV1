@@ -290,7 +290,7 @@ export function WeeklySignalsPage() {
             <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN YOUR AREA FREE →
             </Link>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--navy)] text-white">
               GET WEEKLY ALERTS →
             </button>
             <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
@@ -546,7 +546,7 @@ export function WeeklySignalsPage() {
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--green)] text-white">
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--navy)] text-white">
               GET WEEKLY EMAILS →
             </button>
             <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
