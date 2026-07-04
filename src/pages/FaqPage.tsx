@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: 'What trades do you cover?',
-    a: 'Builders, electricians, EV charger installers, plumbers, gas engineers, roofers, scaffolders, decorators, landscapers, HVAC engineers, heat pump installers, solar PV installers, fire safety engineers, groundworkers, and data cabling contractors.',
+    a: 'Builders, electricians, EV charger installers, plumbers, gas engineers, roofers, scaffolders, decorators, landscapers, HVAC engineers, heat pump installers, solar PV installers, fire safety engineers, groundworkers, data cabling contractors, structural engineers, CCTV and security installers, and quantity surveyors.',
   },
   {
     q: 'Where does your data come from?',

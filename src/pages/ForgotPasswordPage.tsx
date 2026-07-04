@@ -35,7 +35,7 @@ export function ForgotPasswordPage() {
           <p className="text-sm text-[var(--muted)]">
             If <strong>{email}</strong> has an account, we sent a password reset link. Check your inbox and spam.
           </p>
-          <Link href="/login" className="mt-6 inline-block jf-button">BACK TO SIGN IN</Link>
+          <Link href="/login" className="mt-6 inline-block jf-button bg-[var(--navy)] text-white">BACK TO SIGN IN</Link>
         </section>
       </main>
     );
@@ -58,7 +58,7 @@ export function ForgotPasswordPage() {
             />
           </div>
           {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
-          <button type="submit" disabled={loading} className="jf-button w-full">
+          <button type="submit" disabled={loading} className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
             {loading ? 'Sending...' : 'SEND RESET LINK'}
           </button>
         </form>

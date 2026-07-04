@@ -138,7 +138,7 @@ export function SmartQuotePage() {
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm">
                   <p className="badge mb-3">FOUNDER ACCESS</p>
-                  <Link href="/pricing" className="jf-button text-sm px-5 py-2">
+                  <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm px-5 py-2">
                     UNLOCK FULL STARTER — FROM £39/mo
                   </Link>
                 </div>

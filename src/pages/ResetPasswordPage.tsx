@@ -80,7 +80,7 @@ export function ResetPasswordPage() {
             />
           </div>
           {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
-          <button type="submit" disabled={loading} className="jf-button w-full">
+          <button type="submit" disabled={loading} className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
             {loading ? 'Saving...' : 'SET PASSWORD'}
           </button>
         </form>

@@ -269,9 +269,6 @@ export function TrustCenterPage() {
           </a>
         </div>
 
-        <p className="mt-6 text-sm font-black text-[var(--ink)]/70">
-          Response time: Within 4 hours, Monday to Friday.
-        </p>
       </section>
     </main>
   );
