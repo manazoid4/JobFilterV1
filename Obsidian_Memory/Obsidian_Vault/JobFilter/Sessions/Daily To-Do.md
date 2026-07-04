@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 4 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; detached HEAD resolved by `git checkout -B main 43ebe7c` after commit. Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 3 July 3 (26eed2d). All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **ForYourTradePage Solar PV** — last remaining vague competitor ref fixed: "any installer on MyBuilder" → "Bark or MyBuilder". All 18 trades now fully name two competitors. Closes Run 3 July 3 recommendation.
+- [x] **FindJobsPage SCAN NOW button** — primary form-submit was `bg-[var(--navy)]` (secondary color). Changed to `bg-[var(--yellow)]`. Biggest single-run UX fix in weeks — every new user hits this button.
+- [x] **PricingPage LOCK FOUNDER PRICE** — featured Founder plan checkout CTA was `bg-[var(--ink)]` (black). Changed to `bg-[var(--yellow)]`. The most important conversion button on the site now reads as a primary action.
+- [x] **FindJobsPage SEND TO WHATSAPP (Gold leads)** — was `bg-[var(--green)]`, violating the no-green-on-buttons rule. Changed to `bg-[var(--yellow)]` (primary action on the highest-value cards).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`43ebe7c`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. DashboardPage lines 416+471 and LeadListPage line 308 still have `bg-[var(--green)]` WhatsApp buttons — same violation class, lower-traffic authenticated pages, can fix next run.
+
 ## Today - 3 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; detached HEAD resolved by `git checkout -B main 481d7a6` after commit. Build GREEN (113 pages), TS CLEAN.
