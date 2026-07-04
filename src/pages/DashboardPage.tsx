@@ -413,7 +413,7 @@ export function DashboardPage() {
                 <div className="flex flex-shrink-0 gap-2">
                   <button
                     onClick={() => handleSendNudge(l)}
-                    className="jf-button bg-[var(--green)] text-white text-sm"
+                    className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm"
                   >
                     {hasPhone ? 'SEND NUDGE →' : 'SEND VIA WHATSAPP →'}
                   </button>
@@ -468,7 +468,7 @@ export function DashboardPage() {
                 href={`https://wa.me/?text=${encodeURIComponent(msg)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="jf-button bg-[var(--green)] text-white"
+                className="jf-button bg-[var(--yellow)] text-[var(--ink)]"
               >
                 SEND ON WHATSAPP →
               </a>

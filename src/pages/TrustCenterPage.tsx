@@ -239,11 +239,11 @@ export function TrustCenterPage() {
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-            SEE PRICING →
-          </Link>
-          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
             SCAN MY AREA FREE →
+          </Link>
+          <Link href="/pricing" className="jf-button bg-[var(--navy)] text-white">
+            SEE PRICING →
           </Link>
         </div>
         <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>

@@ -305,7 +305,7 @@ export function LeadListPage() {
                     href={`https://wa.me/${lead.phone ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '') : ''}?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="jf-button flex-1 bg-[var(--green)] text-white"
+                    className="jf-button flex-1 bg-[var(--yellow)] text-[var(--ink)]"
                   >
                     {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
                   </a>
