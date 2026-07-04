@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 4 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 2, 96644d5). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 2. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **WeeklySignalsPage bottom CTA** — "RUN MY FREE SCAN →" was `bg-[var(--ink)]` (wrong). Changed to `bg-[var(--yellow)]`. Primary scan action now consistent between hero and bottom CTA.
+- [x] **Auth pages — colorless submit buttons fixed** — LoginPage "SIGN IN", ForgotPasswordPage "SEND RESET LINK", ResetPasswordPage "SET PASSWORD" all had `jf-button w-full` with no background (transparent on white). Changed all to `bg-[var(--yellow)] text-[var(--ink)]`. ForgotPasswordPage "BACK TO SIGN IN" → `bg-[var(--navy)]` (secondary). Colorless `jf-button` class now fully closed.
+- [x] **SmartQuotePage paywall CTA** — "UNLOCK FULL STARTER — FROM £39/mo" was colorless. Changed to yellow. Commercial upgrade trigger now visible.
+- [x] **TrustCenterPage contact** — removed duplicate "Response time: Within 4 hours, Monday to Friday" (already stated in the email card).
+- [x] **FaqPage trades list** — expanded to include structural engineers, CCTV/security installers, and quantity surveyors. Now matches 18-trade ForYourTradePage coverage.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`2c02615`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. TradieZonePage "My Territory" quick-action card uses `bg-[var(--green)]` as card background (minor). Carryover blockers remain the main unlock.
+
 ## Today - 4 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (PR #292 had landed since Run 1). Build GREEN (113 pages), TS CLEAN.
