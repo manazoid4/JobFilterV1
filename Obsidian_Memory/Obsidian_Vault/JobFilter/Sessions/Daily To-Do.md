@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 4 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (PR #292 had landed since Run 1). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — PR #292 "[4-agent] fix mobile nav pricing gap + desktop claim-patch visibility + signals hero" merged between Run 1 and Run 2. TopNav + SignalsPage. Both verified sound, no regressions.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **DashboardPage green buttons fixed** — "SEND NUDGE →" (line 416) and "SEND ON WHATSAPP →" (line 471) both `bg-[var(--green)]`. Closed the Run 1 next-run recommendation. Changed to `bg-[var(--yellow)]`.
+- [x] **LeadListPage:308 green button fixed** — "OPEN WHATSAPP CHAT" `bg-[var(--green)]`. Changed to `bg-[var(--yellow)]`. Green button violation class now fully closed across the codebase.
+- [x] **TrustCenterPage CTA inversion fixed** — SEE PRICING was yellow/primary, SCAN MY AREA FREE was navy/secondary. Swapped: scan free → yellow (primary), see pricing → navy (secondary). Trust copy retained.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`d7409c2`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Green button violation class fully closed. Copy sweep due on TrustCenterPage body, WeeklySignalsPage, and FaqPage (fear→proof→control). Carryover blockers remain the main unlock.
+
 ## Today - 4 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; detached HEAD resolved by `git checkout -B main 43ebe7c` after commit. Build GREEN (113 pages), TS CLEAN.
