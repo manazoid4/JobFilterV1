@@ -528,7 +528,7 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button disabled={loading || fillWeekLoading} className="jf-button col-span-2 lg:col-span-1 self-end bg-[var(--navy)] text-white disabled:opacity-60">
+          <button disabled={loading || fillWeekLoading} className="jf-button col-span-2 lg:col-span-1 self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>
@@ -1283,7 +1283,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
               </button>
             )}
             {isGold ? (
-              <button className="jf-button w-full bg-[var(--green)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>
+              <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" onClick={onWhatsapp} disabled={whatsappSent}>
                 {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
               </button>
             ) : (

@@ -55,7 +55,7 @@ export function PricingPage() {
           body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--ink)] text-white" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
