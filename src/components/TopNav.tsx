@@ -7,9 +7,9 @@ import { useAuth } from './AuthProvider';
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/territories', label: 'Claim Patch' },
   { to: '/signals', label: 'Signals' },
   { to: '/free-tools', label: 'Free Tools' },
-  { to: '/territories', label: 'Claim Patch' },
   { to: '/for-your-trade', label: 'Trades' },
   { to: '/trust', label: 'Proof' },
   { to: '/news', label: 'News' },
@@ -38,7 +38,7 @@ export function TopNav() {
         { to: '/blueprint', label: 'How It Works' },
         { to: '/construction-leads/london', label: 'Cities' },
       ]
-  ).filter((link) => link.to !== '/find-jobs' && link.to !== '/pricing');
+  ).filter((link) => link.to !== '/find-jobs' && link.to !== '/territories');
 
   useEffect(() => {
     fetch('/api/waitlist/count')
@@ -63,7 +63,7 @@ export function TopNav() {
         </Link>
 
         <nav className="hidden min-w-0 items-center gap-0.5 lg:flex">
-          {(isLoggedIn ? memberLinks : publicLinks.slice(0, 4)).map((link) => {
+          {(isLoggedIn ? memberLinks : publicLinks.slice(0, 5)).map((link) => {
             const isActive = pathname === link.to;
             return (
               <Link
@@ -87,7 +87,7 @@ export function TopNav() {
               </button>
               {moreOpen && (
                 <div className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
-                  {publicLinks.slice(4).map((link) => {
+                  {publicLinks.slice(5).map((link) => {
                     const isActive = pathname === link.to;
                     return (
                       <Link

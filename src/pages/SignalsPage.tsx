@@ -139,11 +139,11 @@ export function SignalsPage() {
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
-          <h1 className="headline mt-5 max-w-5xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            TEN REASONS THE JOB IS YOURS BEFORE ANYONE ELSE QUOTES.
+          <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
+            JOBS BEFORE THEY GET POSTED.
           </h1>
-          <p className="mt-6 max-w-3xl text-xl font-black leading-tight text-white/80">
-            Other tradesmen wait for homeowners to post on MyBuilder. You get a WhatsApp alert when the planning application gets approved, when the council contract goes live, when a landlord has compliance pressure, when a property changes hands, or when funded work starts moving. Before the job exists anywhere else.
+          <p className="mt-6 max-w-2xl text-xl font-black leading-snug text-white/80">
+            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
           </p>
         </div>
       </section>
@@ -151,9 +151,9 @@ export function SignalsPage() {
       {/* 2. Signals grid */}
       <section className="bg-[var(--bg-main)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">THE TEN SIGNALS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">TEN ALERTS. EVERY ONE BEFORE THE JOB GOES PUBLIC.</h2>
-          <p className="mt-4 font-black text-[var(--muted)]">Pick your trade to see only the signals that apply to you.</p>
+          <p className="micro-label text-[var(--orange)]">TEN SIGNAL TYPES</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">PICK YOUR TRADE. SEE WHAT APPLIES TO YOU.</h2>
+          <p className="mt-4 font-black text-[var(--muted)]">Filter by trade below — only signals relevant to your work.</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {['All Trades', ...Object.keys(tradeToSignalLabel)].map((t) => (
               <button
