@@ -143,10 +143,10 @@ export function CompareTrustATraderPage() {
       <section className="bg-[var(--navy)]">
         <div className="page-shell section-pad text-center">
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-            Stop waiting for reviews. Start scanning for jobs.
+            TrustATrader leads come when a homeowner decides to post. Stop waiting.
           </h2>
           <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
-            Find leads no review profile can surface — scored by planning signals, contract value, and contact strength.
+            JobFilter reads planning approvals, council contracts, and energy signals — jobs moving forward before they reach any directory. £39/month flat. No waiting for your ranking to improve.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">

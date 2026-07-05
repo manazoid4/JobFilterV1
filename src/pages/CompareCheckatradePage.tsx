@@ -548,11 +548,11 @@ export function CompareCheckatradePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">SCAN YOUR AREA FREE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-white">
-            STOP COMPETING.{' '}
-            <span style={{ color: 'var(--yellow)' }}>START FILTERING.</span>
+            STOP RENTING YOUR BUSINESS{' '}
+            <span style={{ color: 'var(--yellow)' }}>FROM CHECKATRADE.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
-            Scan your area free. See what work is active near you — before it hits Checkatrade. No card needed. No signup wall. Just results.
+            JobFilter scans planning approvals, council contracts, and energy signals — 3–5 days before jobs reach any directory. £39/month flat. No renewal letter. No profile lock-in.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>

@@ -6,17 +6,25 @@ import { useSearchParams } from 'next/navigation';
 import { createBrowserSupabaseClient } from '../lib/supabase/client';
 
 const TRADES = [
-  { value: 'electrical', label: 'Electrician' },
-  { value: 'electrical', label: 'EV charger installer' },
-  { value: 'plumbing', label: 'Plumber' },
-  { value: 'plumbing', label: 'Gas engineer' },
-  { value: 'roofing', label: 'Roofer' },
   { value: 'building', label: 'Builder / general contractor' },
   { value: 'carpentry', label: 'Carpenter / joiner' },
+  { value: 'electrical', label: 'CCTV / security installer' },
+  { value: 'electrical', label: 'Data cabling engineer' },
   { value: 'painting', label: 'Decorator / painter' },
-  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'electrical', label: 'EV charger installer' },
+  { value: 'electrical', label: 'Fire safety engineer' },
+  { value: 'plumbing', label: 'Gas engineer' },
+  { value: 'landscaping', label: 'Groundworker' },
   { value: 'hvac', label: 'Heat pump installer' },
-  { value: 'landscaping', label: 'Landscaper / groundworks' },
+  { value: 'hvac', label: 'HVAC engineer' },
+  { value: 'landscaping', label: 'Landscaper' },
+  { value: 'plumbing', label: 'Plumber' },
+  { value: 'building', label: 'Quantity surveyor' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Scaffolder' },
+  { value: 'electrical', label: 'Solar PV installer' },
+  { value: 'building', label: 'Structural engineer' },
 ];
 
 export function SignupPage() {

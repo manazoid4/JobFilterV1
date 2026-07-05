@@ -554,12 +554,11 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--yellow)]">SCAN YOUR AREA FREE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-white">
-            BUILDALERT SHOWS YOU{' '}
-            <span style={{ color: 'var(--yellow)' }}>WHAT'S PLANNED.</span>{' '}
-            WE SHOW YOU WHAT'S WORTH CHASING.
+            BUILDALERT CHARGES £2 PER LETTER.{' '}
+            <span style={{ color: 'var(--yellow)' }}>STOP PAYING PER SCAN.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
-            Scan your area free. See what work is active near you — including the signals BuildAlert doesn't cover. No card needed. No signup wall. Just results.
+            JobFilter reads planning approvals, council contracts, and energy signals — all three, not just planning. Unlimited scans for £39/month flat. One job pays the month.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED</Link>
