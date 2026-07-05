@@ -10,7 +10,7 @@ const memberTools: { id: string; name: string; desc: string; icon: typeof Radio;
   { id: 'patch-watch', name: 'Patch Watch', desc: 'Watch daily local signals', icon: Radio, path: '/find-jobs', colour: 'bg-[var(--navy)] text-white' },
   { id: 'start-now', name: 'Works Starting Now', desc: 'Find leads moving from planning noise to site action', icon: ShieldCheck, path: '/find-jobs?mode=start_now', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'vantage', name: 'Vantage', desc: 'Generate bid decks', icon: LayoutGrid, path: '/vantage', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
-  { id: 'vicinity', name: 'Vicinity', desc: 'Targeted door-drop ads', icon: Megaphone, path: '/vicinity', colour: 'bg-[var(--green)] text-white' },
+  { id: 'vicinity', name: 'Vicinity', desc: 'Targeted door-drop ads', icon: Megaphone, path: '/vicinity', colour: 'bg-[var(--ink)] text-white' },
   { id: 'materials', name: 'Materials', desc: 'Compare supplier prices', icon: TrendingUp, path: '/material-price-engine', colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { id: 'letters', name: 'Letters', desc: 'Branded approach letters', icon: LetterText, path: '/dashboard', colour: 'bg-[var(--orange)] text-white' },
 ];
@@ -19,7 +19,7 @@ const quickActions = [
   { label: 'Works Starting Now', path: '/find-jobs?mode=start_now', icon: ShieldCheck, colour: 'bg-[var(--yellow)] text-[var(--ink)]' },
   { label: 'Scan My Area', path: '/find-jobs', icon: Radio, colour: 'bg-white text-[var(--ink)]' },
   { label: 'My Pipeline', path: '/dashboard', icon: TrendingUp, colour: 'bg-[var(--navy)] text-white' },
-  { label: 'My Territory', path: '/territories', icon: MapPinned, colour: 'bg-[var(--green)] text-white' },
+  { label: 'My Territory', path: '/territories', icon: MapPinned, colour: 'bg-[var(--ink)] text-white' },
   { label: 'Free Tools', path: '/free-tools', icon: Zap, colour: 'bg-[var(--orange)] text-white' },
 ];
 

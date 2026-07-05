@@ -143,7 +143,7 @@ export function AccountPage() {
         {!isActive && (
           <div className="mt-6 border-t-2 border-[var(--line)] pt-4">
             <p className="font-black text-[var(--muted)] text-sm">
-              You're on the free tier. Upgrade to unlock Gold leads, territory lock, and WhatsApp alerts.
+              Free tier: 3 scans a week. Gold lead details are locked — only paid members see the contact path and quote timing. Checkatrade charges £300+ for the same jobs.
             </p>
           </div>
         )}

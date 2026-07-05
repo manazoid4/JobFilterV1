@@ -119,7 +119,7 @@ function getSavedRadius(): number {
 }
 
 function getSavedPostcode(): string {
-  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode') || 'B14 7QH';
+  return (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode') || '';
 }
 
 function getSavedTrade(): Trade {
@@ -283,10 +283,6 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
     const effectiveTrade = overrides?.trade ?? trade;
-    const used = recordWeeklyScan();
-    setWeeklyScansUsed(used);
-    saveScanHistory(effectivePostcode, effectiveTrade);
-    setScanHistory(getScanHistory());
     try {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
@@ -304,7 +300,9 @@ export function FindJobsPage() {
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
-        saveScanHistory(postcode, overrides?.trade ?? trade);
+        const used = recordWeeklyScan();
+        setWeeklyScansUsed(used);
+        saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
       }
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
@@ -501,7 +499,7 @@ export function FindJobsPage() {
               <button
                 key={preset.trade}
                 type="button"
-                disabled={loading || fillWeekLoading}
+                disabled={loading || fillWeekLoading || !postcode.trim()}
                 onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
                 className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
                   trade === preset.trade
