@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 5 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — npm install already complete from Run 1; HEAD rebased over vault auto-digest. Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 1 today. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **WeeklySignalsPage subscription modal trade list expanded** — 8 → 20 trades (alphabetical). Added: CCTV/Security, Data Cabling, Decorating, EV Charger, Fire Safety, Gas Engineer, Groundworks, Heat Pumps, Quantity Surveyor, Scaffolding, Solar PV, Structural Engineer.
+- [x] **FindJobsPage postcode placeholder clarified** — `placeholder="B14 7QH"` → `placeholder="e.g. B14 7QH"`. Clearly an example, not a default.
+- [x] **SignupPage hero copy fixed** — removed confusing "then add your trade, area, and WhatsApp number" (those fields are already on the form). Replaced with clear sequential flow.
+- [x] **SignupPage post-signup CTA regression fixed** — "BACK TO PRICING" (→/pricing) had regressed; restored to "BROWSE LIVE LEADS →" (→/find-jobs). User just committed — forward action keeps them engaged.
+- [x] **CompareBarkPage bottom CTA rewritten** — "scanning smarter" → fear/proof/control: names Bark/MyBuilder/Checkatrade explicitly, cites 3–5 day timing advantage, anchors to £39/month flat.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`58ed975`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. SignupPage TRADES list has 11 options vs 20 trades on site (Solar PV, Fire Safety, Structural Engineer etc. missing) — multi-file change needed (lead engine score categories). CompareMyBuilder/CompareCheckatrade/CompareBuildAlert bottom CTAs may benefit from same fear→proof→control rewrite as CompareBarkPage today.
+
 ## Today - 5 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 3 Jul 4, 107561e). Build GREEN (113 pages), TS CLEAN.
