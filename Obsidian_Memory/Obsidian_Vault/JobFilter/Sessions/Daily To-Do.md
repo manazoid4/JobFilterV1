@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 5 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 2, `a50e042`). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 2. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **All 5 compare page bottom CTAs rewritten** — fear→proof→control applied to CompareMyBuilder, CompareCheckatrade, CompareBuildAlert, CompareRatedPeople, CompareTrustATrader. Each headline now names the specific competitor pain (credits/auction, profile lock-in, per-letter fees, race-to-bottom, passive inbound). Each sub-copy names signal types, cites 3–5 day timing advantage, anchors to £39/mo flat.
+- [x] **SignupPage TRADES list expanded 11 → 19** — Added CCTV/security installer, Data cabling, Fire safety engineer, Groundworker, Quantity surveyor, Scaffolder, Solar PV installer, Structural engineer. All mapped to existing engine score categories. Sorted alphabetically.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`7a0322e`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. ActivationPendingPage and AlertSetupWidget trade selects may still have the old 11-trade limitation — check and expand if so. Carryover blockers remain the main unlock.
+
 ## Today - 5 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — npm install already complete from Run 1; HEAD rebased over vault auto-digest. Build GREEN (113 pages), TS CLEAN.
