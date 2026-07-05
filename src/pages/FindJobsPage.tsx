@@ -518,7 +518,7 @@ export function FindJobsPage() {
         <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
-            <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="B14 7QH" />
+            <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="e.g. B14 7QH" />
           </label>
           <label className="field-label">
             Radius

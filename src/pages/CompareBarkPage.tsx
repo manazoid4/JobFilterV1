@@ -143,10 +143,10 @@ export function CompareBarkPage() {
       <section className="bg-[var(--navy)]">
         <div className="page-shell section-pad text-center">
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-            Stop paying per lead. Start scanning smarter.
+            Stop buying the same lead five other trades already got.
           </h2>
           <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
-            See real UK construction leads scored by intent — not shared form-fillers competing with four other trades.
+            JobFilter reads planning approvals, council contracts, and energy signals — 3–5 days before Bark, MyBuilder, or Checkatrade list the same job. £39/month flat. No credits. No auctions.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">

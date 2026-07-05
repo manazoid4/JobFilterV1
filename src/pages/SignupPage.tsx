@@ -96,7 +96,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-black text-white/80">
-          {planLabel}. Confirm your email — then add your trade, area, and WhatsApp number. Gold leads start hitting your phone within minutes.
+          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
         </p>
       </section>
 

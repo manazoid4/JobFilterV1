@@ -225,13 +225,25 @@ function AlertSubscribeModal({ week, onClose }: { week: WeekData; onClose: () =>
               >
                 <option value="">All trades</option>
                 <option value="Builder">Builder</option>
+                <option value="Carpenter">Carpenter</option>
+                <option value="CCTV / Security">CCTV / Security</option>
+                <option value="Data Cabling">Data Cabling</option>
+                <option value="Decorating">Decorating</option>
                 <option value="Electrician">Electrician</option>
-                <option value="Plumber">Plumber</option>
-                <option value="Roofer">Roofer</option>
+                <option value="EV Charger">EV Charger</option>
+                <option value="Fire Safety">Fire Safety</option>
+                <option value="Gas Engineer">Gas Engineer</option>
+                <option value="Groundworks">Groundworks</option>
+                <option value="Heat Pumps">Heat Pumps</option>
                 <option value="HVAC">HVAC</option>
                 <option value="Landscaper">Landscaper</option>
-                <option value="Carpenter">Carpenter</option>
                 <option value="Painter">Painter</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Quantity Surveyor">Quantity Surveyor</option>
+                <option value="Roofer">Roofer</option>
+                <option value="Scaffolding">Scaffolding</option>
+                <option value="Solar PV">Solar PV</option>
+                <option value="Structural Engineer">Structural Engineer</option>
               </select>
             </div>
             {error && <p className="text-sm font-black text-[var(--orange)]">{error}</p>}
