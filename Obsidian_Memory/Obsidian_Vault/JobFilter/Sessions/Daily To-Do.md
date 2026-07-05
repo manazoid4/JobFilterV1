@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 5 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 3 Jul 4, 107561e). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Run 3 July 4. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **FindJobsPage scan counter bug fixed** — `recordWeeklyScan()` was called before API fetch; network errors burned a free scan. Moved to success branch only.
+- [x] **FindJobsPage B14 default removed** — hardcoded Birmingham default replaced with `''`; trade preset buttons disabled until postcode entered.
+- [x] **TradieZonePage green nav cards fixed** — Vicinity icon and My Territory quick-action card changed from `bg-[var(--green)]` to `bg-[var(--ink)]`. Won-stage badge unchanged (correct data indicator).
+- [x] **WeeklySignalsPage section 7 CTA contrast fixed** — "RUN MY FREE SCAN →" on yellow background changed from yellow (invisible fill) to ink (high contrast). Previous run introduced the error.
+- [x] **PricingPage hero secondary CTA** — "CHECK MY PATCH FIRST" (→/territories) → "SCAN FREE FIRST →" (→/find-jobs). Hesitant visitors now have an immediately visible no-card entry path.
+- [x] **AccountPage free tier copy** — made specific: names what's locked, anchors against Checkatrade pricing.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`231231a`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. WeeklySignalsPage subscription modal trade list only has 8 trades (site covers 18) — easy expansion. FindJobsPage postcode placeholder still says `B14 7QH` (visual hint only, not the default value — minor).
+
 ## Today - 4 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 2, 96644d5). Build GREEN (113 pages), TS CLEAN.
