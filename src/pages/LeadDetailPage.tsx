@@ -783,7 +783,7 @@ export function LeadDetailPage() {
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             UNLOCK THIS LEAD — £39/MO →
           </Link>
-          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back. Cancel anytime.</p>
+          <p className="mt-2 text-[10px] font-black text-white/50">30-day money-back · one job covers 3 months · cancel anytime</p>
         </section>
       )}
 
