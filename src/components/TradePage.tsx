@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Lock } from 'lucide-react';
 
 
 export interface TradeAddon {
@@ -164,13 +165,24 @@ export function TradePage({ data }: { data: TradePageData }) {
             <h3 className="mt-3 text-xl font-black leading-tight">{data.tradeLeadExample.title}</h3>
             <div className="mt-4 grid gap-3 text-sm">
               {data.tradeLeadExample.rows.map(([label, value]) => (
-                <div key={label} className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
+                <div key={label} className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2">
                   <span className="font-black text-[var(--muted)]">{label}</span>
                   <span className="text-right font-black">{value}</span>
                 </div>
               ))}
+              <div className="flex items-start justify-between gap-4 pb-2">
+                <span className="font-black text-[var(--muted)]">Buyer</span>
+                <div className="flex items-center gap-1 bg-[var(--ink)] px-2 py-0.5">
+                  <Lock size={11} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
+                  <span className="font-black text-[10px] text-[var(--yellow)]">LOCKED</span>
+                </div>
+              </div>
             </div>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <p className="mt-2 text-[10px] font-black text-[var(--muted)]">
+              Buyer name + contact unlocked for paid subscribers ·{' '}
+              <Link href="/pricing" className="text-[var(--navy)] underline underline-offset-1">see pricing →</Link>
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
               {data.tradeLeadExample.tags.map((tag) => (
                 <span key={tag} className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.06em]" style={{ background: 'var(--offwhite)', color: 'var(--navy)', border: '1px solid var(--rule)', borderRadius: 3 }}>
                   {tag}
