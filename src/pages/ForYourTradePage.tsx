@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
+import { Lock } from 'lucide-react';
 
 import { WaitlistForm } from '../components/WaitlistForm';
 
@@ -76,7 +77,18 @@ export function ForYourTradePage() {
             <LeadRow label="Value" value={selected.example.value} />
             <LeadRow label="Urgency" value={selected.example.urgency} />
             <LeadRow label="Source" value={selected.example.source} />
+            <div className="flex items-start justify-between gap-4 border-b-2 border-[var(--line)] pb-2 last:border-b-0">
+              <span className="font-black text-[var(--muted)]">Buyer</span>
+              <div className="flex items-center gap-1 bg-[var(--ink)] px-2 py-0.5">
+                <Lock size={11} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
+                <span className="font-black text-[10px] text-[var(--yellow)]">LOCKED</span>
+              </div>
+            </div>
           </div>
+          <p className="mt-3 text-[10px] font-black text-[var(--muted)]">
+            Buyer name + contact unlocked for paid subscribers ·{' '}
+            <Link href="/pricing" className="text-[var(--navy)] underline underline-offset-1">see pricing →</Link>
+          </p>
         </article>
       </section>
 
