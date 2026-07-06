@@ -1,9 +1,9 @@
 "use client";
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, Lock } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -195,6 +195,8 @@ export function FindJobsPage() {
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
   const [fillWeekPhase, setFillWeekPhase] = useState('');
   const [commercialOnly, setCommercialOnly] = useState(false);
+  const [postcodeRequired, setPostcodeRequired] = useState(false);
+  const postcodeRef = useRef<HTMLInputElement>(null);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -493,14 +495,24 @@ export function FindJobsPage() {
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">ONE TAP — INSTANT SCAN — NO SIGNUP</p>
+          <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — POSTCODE REQUIRED BELOW</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
                 key={preset.trade}
                 type="button"
-                disabled={loading || fillWeekLoading || !postcode.trim()}
-                onClick={() => { setTrade(preset.trade); void submit(undefined, { trade: preset.trade }); }}
+                disabled={loading || fillWeekLoading}
+                onClick={() => {
+                  if (!postcode.trim()) {
+                    setPostcodeRequired(true);
+                    postcodeRef.current?.focus();
+                    postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                  }
+                  setPostcodeRequired(false);
+                  setTrade(preset.trade);
+                  void submit(undefined, { trade: preset.trade });
+                }}
                 className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
                   trade === preset.trade
                     ? 'bg-[var(--yellow)] text-[var(--ink)]'
@@ -512,13 +524,18 @@ export function FindJobsPage() {
               </button>
             ))}
           </div>
+          {postcodeRequired && (
+            <p className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
+              ↓ Enter your postcode first — then tap your trade to scan
+            </p>
+          )}
         </div>
 
         {/* Form — postcode + radius */}
         <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
-            <input value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} className="field-input" placeholder="e.g. B14 7QH" />
+            <input ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" />
           </label>
           <label className="field-label">
             Radius
@@ -1535,23 +1552,27 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-const LOCKED_PLACEHOLDERS: Record<string, string> = {
-  'Buyer': 'J████ Ltd',
-  'Deadline': '██ / ██ / 20██',
-  'Source URL': '████ — unlock to verify',
-};
-
 function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
   if (!value) {
-    const placeholder = devUnlocked
-      ? label === 'Source URL'
-        ? 'No source URL returned in preview payload'
-        : `${label} not returned in preview payload`
-      : LOCKED_PLACEHOLDERS[label] ?? '████████';
+    if (devUnlocked) {
+      const placeholder = label === 'Source URL' ? 'No source URL returned in preview payload' : `${label} not returned in preview payload`;
+      return (
+        <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
+          <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
+          <p className="mt-1 font-black text-[var(--ink)] text-sm">{placeholder}</p>
+        </div>
+      );
+    }
     return (
-      <div className={`border-2 p-3 ${devUnlocked ? 'border-[var(--line)] bg-[var(--bg-main)]' : 'border-[var(--orange)]/40 bg-[var(--orange)]/5'}`}>
-        <p className="micro-label text-[10px] text-[var(--muted)]">{label}</p>
-        <p className={`mt-1 font-black text-[var(--ink)] text-sm ${devUnlocked ? '' : 'select-none blur-[3px]'}`}>{placeholder}</p>
+      <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3">
+        <p className="micro-label text-[10px] text-[var(--yellow)]">{label} — LOCKED</p>
+        <div className="mt-2 flex items-center gap-2">
+          <Lock size={14} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
+          <p className="text-sm font-black text-white">Real data — upgrade to see who to contact</p>
+        </div>
+        <Link href="/pricing" className="mt-2 inline-block border border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)] hover:opacity-90">
+          UNLOCK — £39/MO →
+        </Link>
       </div>
     );
   }
