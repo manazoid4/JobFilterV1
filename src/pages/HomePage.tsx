@@ -74,10 +74,11 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
+            <p className="micro-label text-[var(--yellow)]">QUIT CHASING GHOST JOBS</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
-              QUIT WORKING{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
+              UK CONSTRUCTION LEADS.{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>SCORED.</span>
+              {' '}YOURS BEFORE CHECKATRADE.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               JobFilter scans planning approvals, energy data and council contracts to find serious construction work near you — scored by quality, filtered by patch, delivered to WhatsApp.
