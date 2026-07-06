@@ -243,10 +243,11 @@ export function TrustCenterPage() {
             SCAN MY AREA FREE →
           </Link>
           <Link href="/pricing" className="jf-button bg-[var(--navy)] text-white">
-            SEE PRICING →
+            LOCK YOUR PATCH — £39/MO
           </Link>
         </div>
-        <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
+        <p className="mt-3 text-sm font-black text-[var(--ink)]/70">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
+        <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — one job worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
       {/* 7. Contact */}
