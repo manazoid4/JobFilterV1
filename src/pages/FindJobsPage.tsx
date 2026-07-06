@@ -495,7 +495,7 @@ export function FindJobsPage() {
 
         {/* Trade presets — one tap to scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP YOUR TRADE — POSTCODE REQUIRED BELOW</p>
+          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'TAP YOUR TRADE TO SCAN' : 'ENTER POSTCODE BELOW — THEN TAP YOUR TRADE'}</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -1283,7 +1283,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         <BuyerActionPack lead={lead} unlocked={cardOpenAccess} />
       </div>
       <div className="grid gap-3 md:self-start">
-        <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} />
+        <LockedValue label="Buyer" value={lead.buyer} devUnlocked={cardOpenAccess} showCta valueBand={lead.estimatedValue} />
         <LockedValue label="Deadline" value={lead.deadlineAt ? new Date(lead.deadlineAt).toLocaleDateString('en-GB') : undefined} devUnlocked={cardOpenAccess} />
         <LockedValue label="Source URL" value={lead.url || undefined} isLink href={lead.url} devUnlocked={cardOpenAccess} />
         {cardOpenAccess ? (
@@ -1552,7 +1552,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
   );
 }
 
-function LockedValue({ label, value, isLink, href, devUnlocked = false }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean }) {
+function LockedValue({ label, value, isLink, href, devUnlocked = false, showCta = false, valueBand }: { label: string; value: string | undefined; isLink?: boolean; href?: string; devUnlocked?: boolean; showCta?: boolean; valueBand?: string }) {
   if (!value) {
     if (devUnlocked) {
       const placeholder = label === 'Source URL' ? 'No source URL returned in preview payload' : `${label} not returned in preview payload`;
@@ -1565,14 +1565,20 @@ function LockedValue({ label, value, isLink, href, devUnlocked = false }: { labe
     }
     return (
       <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3">
-        <p className="micro-label text-[10px] text-[var(--yellow)]">{label} — LOCKED</p>
-        <div className="mt-2 flex items-center gap-2">
-          <Lock size={14} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
-          <p className="text-sm font-black text-white">Real data — upgrade to see who to contact</p>
+        <div className="flex items-center gap-2">
+          <Lock size={12} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
+          <p className="micro-label text-[10px] text-[var(--yellow)]">{label} — LOCKED</p>
         </div>
-        <Link href="/pricing" className="mt-2 inline-block border border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)] hover:opacity-90">
-          UNLOCK — £39/MO →
-        </Link>
+        {showCta && (
+          <>
+            <p className="mt-2 text-sm font-black text-white">
+              {valueBand ? `This job: ${valueBand} — see buyer details to quote direct.` : 'Buyer name + contact — upgrade to call direct.'}
+            </p>
+            <Link href="/pricing" className="mt-2 inline-block border border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 text-xs font-black text-[var(--ink)] hover:opacity-90">
+              SEE BUYER DETAILS — £39/MO →
+            </Link>
+          </>
+        )}
       </div>
     );
   }
