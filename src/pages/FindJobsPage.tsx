@@ -400,6 +400,7 @@ export function FindJobsPage() {
   }
 
   const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
+  const firstGoldIdx = (!unlimitedTester && !DEV_MODE) ? displayedLeads.findIndex(l => l.score >= 80) : -1;
   const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
@@ -722,8 +723,22 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {displayedLeads.map((lead) => (
-                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              {displayedLeads.map((lead, idx) => (
+                <React.Fragment key={lead.id}>
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  {idx === firstGoldIdx && (
+                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — LOCKED</p>
+                      <p className="mt-2 font-black text-white">
+                        {lead.estimatedValue ? `This job: ${lead.estimatedValue}. ` : ''}See buyer name and contact to call before anyone else does.
+                      </p>
+                      <div className="mt-3 flex flex-wrap items-center gap-3">
+                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
+                        <span className="text-xs font-black text-white/50">30-day money-back · one job covers 3 months</span>
+                      </div>
+                    </div>
+                  )}
+                </React.Fragment>
               ))}
 
 
