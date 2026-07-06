@@ -334,6 +334,7 @@ export function SignalsPage() {
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
             3 free scans every week — no credit card required. Founder access: £39/month. Checkatrade charges £180/month for shared leads. This is unshared and filtered.
           </p>
+          <p className="mt-2 text-[10px] font-black text-[var(--ink)]/60 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
         </div>
       </section>
 
