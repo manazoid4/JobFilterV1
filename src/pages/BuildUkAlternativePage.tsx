@@ -310,7 +310,7 @@ export function BuildUkAlternativePage() {
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.
           </p>
-          <p className="mt-1 text-[10px] font-black text-[var(--yellow)]/60 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
+          <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
       </section>
     </main>

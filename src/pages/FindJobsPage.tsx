@@ -718,7 +718,7 @@ export function FindJobsPage() {
                         SEE WHO TO CALL — £39/MO →
                       </Link>
                       <p className="mt-1.5 text-[10px] font-black text-white/50">No credit card required to browse</p>
-                      <p className="mt-0.5 text-[10px] font-black text-[var(--yellow)]/70">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
+                      <p className="mt-0.5 text-xs font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
                     </div>
                   )}
                 </div>
@@ -1259,7 +1259,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1332,7 +1332,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-[10px] font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
           </div>
         )}
         <QuickResponseKit

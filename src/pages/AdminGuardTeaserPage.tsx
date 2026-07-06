@@ -178,7 +178,7 @@ export function AdminGuardTeaserPage() {
             START WITH ADMIN GUARD →
           </Link>
         </div>
-        <p className="mt-2 text-[10px] font-black text-[var(--yellow)]/60 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
+        <p className="mt-3 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         <p className="mt-4 text-xs font-bold text-white/75">
           This is a reminder and organisation tool only. Not tax or legal advice. Always check GOV.UK or speak to an accountant.
         </p>

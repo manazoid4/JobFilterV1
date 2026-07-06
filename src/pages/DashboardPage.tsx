@@ -11,7 +11,16 @@ import { ROITracker } from '../components/ROITracker';
 import { generateReviewMessage, getLostReasonBreakdown, getMonthlyStats, getValueAccuracy, getWinBreakdown, getWinData, markReviewSent } from '../lib/winStore';
 import type { ChaseLead, LostReason, WinJob } from '../lib/types';
 
-const TRADES = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'] as const;
+const TRADES = [
+  { value: 'electrical', label: 'Electrician' },
+  { value: 'plumbing', label: 'Plumber / Gas' },
+  { value: 'roofing', label: 'Roofer' },
+  { value: 'building', label: 'Builder / General' },
+  { value: 'carpentry', label: 'Carpenter / Joiner' },
+  { value: 'painting', label: 'Decorator / Painter' },
+  { value: 'hvac', label: 'Heating Engineer' },
+  { value: 'landscaping', label: 'Landscaper' },
+];
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY (FREE)' },
   { value: 'daily', label: 'DAILY (PAID)' },
@@ -91,7 +100,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
         <label className="field-label">
           Trade
           <select value={trade} onChange={e => setTrade(e.target.value)} className="field-input">
-            {TRADES.map(t => <option key={t} value={t}>{t.toUpperCase()}</option>)}
+            {TRADES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
           </select>
         </label>
         <label className="field-label">

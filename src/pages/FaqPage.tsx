@@ -97,7 +97,7 @@ export function FaqPage() {
           <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PRICING →</Link>
         </div>
         <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
-        <p className="mt-1 text-[10px] font-black text-[var(--yellow)]/60 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
+        <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
       {/* Still Have Questions */}
