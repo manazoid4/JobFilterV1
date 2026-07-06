@@ -512,6 +512,7 @@ function TimeWasterTool() {
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">STOP THE BLEED — FROM £39/MO →</Link>
       </div>
+      <p className="mt-2 text-[10px] font-black text-[var(--muted)] uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
     </section>
   );
 }
