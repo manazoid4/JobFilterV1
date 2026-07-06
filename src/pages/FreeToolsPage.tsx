@@ -268,7 +268,7 @@ export function FreeToolsPage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
               <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
-            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">FOUNDER ACCESS — £39/MO</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO</Link>
           </div>
       </section>
 
