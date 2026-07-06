@@ -558,15 +558,15 @@ export function WeeklySignalsPage() {
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">
+              LOCK YOUR PATCH — £39/MO
+            </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--navy)] text-white">
               GET WEEKLY EMAILS →
             </button>
-            <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
-              SHARE THIS FEED →
-            </button>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week — no credit card required. Upgrade for unlimited access: £39/month.
+            3 free scans every week — no credit card required. One job worth chasing covers 12+ months at £39.
           </p>
           <p className="mt-3 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">
