@@ -172,7 +172,7 @@ export function TerritoriesPage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                <span className="underline">Patch lock model: one trade per postcode cluster</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} example slots shown
+                <span className="underline">Patch lock: one trade per postcode cluster</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} patches currently open
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -212,12 +212,8 @@ export function TerritoriesPage() {
       <section className="page-shell py-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="micro-label text-[var(--muted)]">SAMPLE REGISTER</p>
+            <p className="micro-label text-[var(--muted)]">TERRITORY REGISTER</p>
             <h2 className="headline mt-2 text-3xl">AVAILABLE PATCHES</h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 animate-pulse rounded-full bg-[var(--green)]" />
-            <span className="text-xs font-black uppercase text-[var(--muted)]">Model preview</span>
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs font-black uppercase text-[var(--muted)]">
