@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 6 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; stale `origin/main` (cached at June 28); `git fetch origin` corrected it to 1013953 (PR #329, Jul 6). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — PR #329 "Agents/jobfilter launch ready" landed since Run 2. No-op tree (identical to PR #328). No new commits after #329. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **WHY? panel labels fixed** (FindJobsPage) — WHY? toggle (added in PR #329) was rendering raw engine strings. Swapped for `parsedReasons`: "EV CHARGER — YOUR TRADE", "JUST POSTED" etc. Trade matches highlight in ink.
+- [x] **Active alerts chip labels fixed** (DashboardPage) — chips showed "electrical · B14 · weekly". Now show "Electrician · B14 · Weekly" via TRADES lookup. Closes the known carryover from Run 2.
+- [x] **TipsPage bottom CTA** — "SEE PRICING" → "LOCK YOUR PATCH — £39/MO →" + ROI anchor. Matches pattern from FAQ/TrustCenter/WeeklySignals/Blueprint/News.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`cedd665`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Guarantee sweep COMPLETE — do not re-check. Active alerts chip fix is in — no longer a carryover. Buildable backlog genuinely small; carryover blockers (Stripe, TradeFlow, add-on pricing) remain the main unlock. Consider reviewing `AlertQuickSetup` trade display (shows "electrical" in success text) as a minor follow-up.
+
 ## Today - 6 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD rebased over origin/main (PR #326, Jul 6 founder sprint). Build GREEN (113 pages), TS CLEAN.
