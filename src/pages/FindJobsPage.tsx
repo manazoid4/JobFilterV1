@@ -712,10 +712,10 @@ export function FindJobsPage() {
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details locked</p>
                       <p className="mt-1 text-sm font-black text-white/90">
-                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route.
+                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route. One job from this list covers 3+ months at £39.
                       </p>
                       <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
-                        UNLOCK COMMERCIAL LEADS — £39/MO →
+                        SEE WHO TO CALL — £39/MO →
                       </Link>
                       <p className="mt-1.5 text-[10px] font-black text-white/50">No credit card required to browse</p>
                       <p className="mt-0.5 text-[10px] font-black text-[var(--yellow)]/70">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
