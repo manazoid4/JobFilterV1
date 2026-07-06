@@ -174,6 +174,7 @@ export function SmartQuotePage() {
               <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
             </div>
             <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
+            <p className="mt-1 text-xs font-black text-[var(--yellow)]/70">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
           </div>
         </div>
       </section>
