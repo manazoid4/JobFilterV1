@@ -294,7 +294,7 @@ export function NewsPage() {
           </div>
           <div className="mt-6">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">
-              UNLOCK FULL CITY INTEL — £39/MO
+              GET FULL CITY INTEL — £39/MO
             </Link>
           </div>
         </div>
@@ -318,9 +318,11 @@ export function NewsPage() {
               SCAN MY POSTCODE FREE →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
-              SEE PAID PLANS
+              LOCK YOUR PATCH — £39/MO
             </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-white/70">One job worth chasing covers 12+ months at £39.</p>
+          <p className="mt-1 text-sm font-black text-[var(--yellow)]/80 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny.</p>
         </div>
       </section>
     </main>
