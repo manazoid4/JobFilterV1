@@ -327,6 +327,7 @@ export function MaterialPriceEnginePage() {
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
                     <p className="text-xs font-black uppercase text-[var(--ink)] text-center">Full breakdown + export</p>
                     <Link href="/pricing" className="jf-button mt-2 bg-[var(--navy)] text-white text-xs">UPGRADE — £39/MO</Link>
+                    <p className="mt-1.5 text-[10px] font-black text-[var(--ink)]/60 text-center uppercase">30-day money-back guarantee</p>
                   </div>
                 </div>
                 <button className="jf-button bg-white text-[var(--ink)]" type="button" onClick={() => setSaved([])}>Clear list</button>
