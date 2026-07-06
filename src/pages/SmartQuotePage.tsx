@@ -137,10 +137,15 @@ export function SmartQuotePage() {
                   <p>SECTION 3 — TERMS AND PAYMENT: [Stage payment schedule, retention, and variation clause]</p>
                 </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 backdrop-blur-sm">
-                  <p className="badge mb-3">FOUNDER ACCESS</p>
+                  <p className="mb-2 text-center text-sm font-black text-[var(--ink)]">
+                    Scope of works · Pricing schedule · T&amp;Cs — all 3 sections
+                  </p>
                   <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm px-5 py-2">
-                    UNLOCK FULL STARTER — FROM £39/mo
+                    GET THE FULL QUOTE — £39/mo
                   </Link>
+                  <p className="mt-2 text-center text-xs font-black text-[var(--muted)]">
+                    One job won with this covers 4+ months. 30-day money-back guarantee.
+                  </p>
                 </div>
               </div>
             </div>
