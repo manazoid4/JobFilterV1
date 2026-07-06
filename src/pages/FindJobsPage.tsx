@@ -761,18 +761,18 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">SEEN ENOUGH?</p>
+                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYERS LOCKED.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — BUYER NAMES LOCKED.`
-                      : 'UNLOCK BUYER DETAIL ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
+                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FOR £39/MO →</Link>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Founding 30 members see the buyer&apos;s name, job value band, and direct contact link on every lead above — not shared with Checkatrade, Bark, or any other trade.
+                    Founding members see the buyer&apos;s name, job value band, and direct contact link on every lead — not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
               )}
@@ -879,10 +879,16 @@ export function FindJobsPage() {
             Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <button onClick={() => void submit()} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+            <button onClick={() => {
+              if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+              void submit();
+            }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN MY AREA →
             </button>
-            <button onClick={() => { setTrade('building'); void submit(undefined, { trade: 'building' }); }} className="jf-button bg-white text-[var(--ink)]">
+            <button onClick={() => {
+              if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+              setTrade('building'); void submit(undefined, { trade: 'building' });
+            }} className="jf-button bg-white text-[var(--ink)]">
               SCAN BUILDING WORK
             </button>
           </div>
