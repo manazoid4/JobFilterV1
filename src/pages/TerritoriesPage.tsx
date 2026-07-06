@@ -94,7 +94,7 @@ export function TerritoriesPage() {
         source: 'territory-patch-check',
       });
       setSubmitState('success');
-      setSubmitMessage('Patch request saved. We will check coverage before activation and reply with the next step.');
+      setSubmitMessage('Patch request saved. We\'ll check coverage and reply within 24 hours with the next step.');
     } catch (error: any) {
       setSubmitState('error');
       setSubmitMessage(error?.message ?? 'Could not save this patch request. Try again.');

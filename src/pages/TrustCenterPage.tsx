@@ -96,7 +96,7 @@ export function TrustCenterPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {[
-            { score: '80-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--green)] text-white', icon: Trophy, tag: '80+ score — worth quoting today' },
+            { score: '80-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--ink)] text-[var(--yellow)]', icon: Trophy, tag: '80+ score — worth quoting today' },
             { score: '50-79', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]', icon: Medal, tag: 'Worth watching' },
             { score: 'Below 50', label: 'BRONZE', action: 'Verify before quoting', color: 'bg-[var(--orange)] text-white', icon: AlertTriangle, tag: 'Check before quoting' },
           ].map((tier) => {

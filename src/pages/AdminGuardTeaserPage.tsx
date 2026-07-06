@@ -140,7 +140,7 @@ export function AdminGuardTeaserPage() {
           <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--ink)] text-white">
             SEE PRICING →
           </Link>
-          <Link href="/dashboard" className="jf-button jf-button-lg bg-white text-[var(--ink)]">
+          <Link href="/dashboard" className="jf-button jf-button-lg bg-[var(--navy)] text-white">
             YOUR DASHBOARD →
           </Link>
         </div>
