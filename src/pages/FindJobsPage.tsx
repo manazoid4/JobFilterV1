@@ -788,7 +788,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Founding members see the buyer&apos;s name, job value band, and direct contact link on every lead — not shared with Checkatrade, Bark, or any other trade.
+                    Average UK trade job: £800–£3,000. One job from this list covers 3+ months at £39. Buyer name, job value band, and direct contact — locked until you upgrade. Not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
               )}
