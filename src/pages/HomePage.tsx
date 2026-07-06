@@ -150,9 +150,10 @@ export function HomePage() {
         <div className="page-shell py-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
+              <Users size={20} strokeWidth={3} className="text-[var(--ink)] shrink-0" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Founding 30 places — one trade per patch. Miss the window, pay more later.
+                &ldquo;First planning alert I got covered a loft conversion — paid for four months in one job.&rdquo;
+                <span className="ml-2 font-black text-[var(--ink)]/60">— Builder, Birmingham</span>
               </p>
             </div>
             <div className="flex items-center gap-2">
