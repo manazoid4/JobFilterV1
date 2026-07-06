@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 6 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (`b9cb04a`, Jul 5 Run 3). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or PRs since Jul 5 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **ActivationPendingPage TRADES expanded 11 → 19** — Closed last run's recommendation. Now matches SignupPage exactly (same 19 trades, same engine category mappings, alphabetical order).
+- [x] **TrustCenterPage GOLD card color fixed** — `bg-[var(--green)]` → `bg-[var(--ink)] text-[var(--yellow)]`. Green is a data indicator token; GOLD tier card now reads as premium (ink+yellow).
+- [x] **TerritoriesPage SLA added** — success message now says "within 24 hours" (was vague "we'll reply"). Closes Jun 16 carryover.
+- [x] **AdminGuardTeaserPage design token fixes** — shadow drift fixed again (`3px_yellow` → `4px_line`); "YOUR DASHBOARD →" secondary button changed to navy for clear primary/secondary distinction.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`3469ab3`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **AdminGuardTeaserPage shadow drift** — recurring (fixed Jul 2 Run 2, reverted, fixed again today). Watch for it in next run.
+- [ ] **Next run**: Check for new founder commits/PRs first. AlertSetupWidget trade display labels (raw ELECTRICAL/PLUMBING) could be improved to friendly labels — low priority. Carryover blockers remain the main unlock.
+
 ## Today - 5 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (Run 2, `a50e042`). Build GREEN (113 pages), TS CLEAN.
