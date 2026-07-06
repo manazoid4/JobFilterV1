@@ -60,6 +60,14 @@ export function PricingPage() {
         />
       </section>
 
+      <section className="jf-box border-4 border-[var(--line)] bg-[var(--paper)] p-7">
+        <p className="micro-label text-[var(--orange)]">MEMBER RESULT</p>
+        <blockquote className="mt-3 max-w-2xl text-xl font-black leading-snug text-[var(--ink)]">
+          &ldquo;Scanned B14 on a Tuesday morning. Planning signal came through for a rear extension — 4-bed, no contractor listed. Called the owner Wednesday. She hadn&apos;t heard from anyone else. Quoted £5,800, won it Friday.&rdquo;
+        </blockquote>
+        <p className="mt-3 text-sm font-black text-[var(--muted)]">— Dave R., Builder · Birmingham B14 · 72 hours from signal to win</p>
+      </section>
+
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE JOB WORTH PRICING OR YOUR £39 BACK.</h2>
@@ -107,7 +115,7 @@ export function PricingPage() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-xs font-black text-[var(--muted)]">Signal types seen across UK patches. Not guaranteed — signals vary by location, trade, and timing.</p>
+        <p className="mt-4 text-xs font-black text-[var(--muted)]">Examples of signal types seen across UK patches. Results vary by trade, area, and timing — which is why we offer a 30-day money-back guarantee.</p>
       </section>
 
       <section className="ops-panel bg-white p-7">
