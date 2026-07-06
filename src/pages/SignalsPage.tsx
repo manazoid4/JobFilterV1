@@ -203,7 +203,7 @@ export function SignalsPage() {
       <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
           <p className="text-base font-black text-[var(--ink)]">
-            All 10 signals included. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
+            All 10 signals included. One job worth chasing pays for 6 months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
             <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">Scan Free →</Link>
