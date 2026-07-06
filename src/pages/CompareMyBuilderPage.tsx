@@ -156,6 +156,7 @@ export function CompareMyBuilderPage() {
               VIEW PRICING
             </Link>
           </div>
+          <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
       </section>
     </main>
