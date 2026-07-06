@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 6 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD rebased over origin/main (PR #326, Jul 6 founder sprint). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — 13 PRs/commits merged today (#314–#326) before this run. All reviewed: sound, no regressions. Carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **Guarantee legibility sweep COMPLETE** — all 14 instances of `text-[10px] text-[var(--ink)]/60` guarantee text fixed across 11 files. PR #324 fixed SignalsPage; this run fixed the remaining 13 instances. Full-section guarantees → `text-sm / 80%`; compact paywall cards → `text-xs / 80%`. "No quibbles." appended to full versions.
+- [x] **AlertSetupWidget friendly trade labels** — TRADES array changed from raw engine categories (ELECTRICAL, PLUMBING, HVAC) to `{value, label}` pairs. Dropdown now shows: Electrician, Plumber / Gas, Roofer, Builder / General, Carpenter / Joiner, Decorator / Painter, Heating Engineer, Landscaper. API value unchanged.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`62380e3`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first (founder very active today). AlertSetupWidget ACTIVE ALERTS chips still show raw API trade value (e.g. "electrical · B14 · weekly") — minor, backend change needed. Guarantee sweep is COMPLETE — do not re-check. Carryover blockers remain the main unlock.
+
 ## Today - 6 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main (`b9cb04a`, Jul 5 Run 3). Build GREEN (113 pages), TS CLEAN.
