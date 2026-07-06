@@ -964,11 +964,16 @@ export function BlueprintPage() {
           <p className="mt-4 text-lg font-black text-[var(--ink)]">
             Free postcode scan. No credit card. See real leads before Checkatrade or Bark list them.
           </p>
-          <div className="mt-6">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link className="jf-button jf-button-lg bg-[var(--ink)] text-[var(--yellow)]" href="/find-jobs">
               SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
             </Link>
+            <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">
+              LOCK YOUR PATCH — £39/MO →
+            </Link>
           </div>
+          <p className="mt-3 text-sm font-black text-[var(--ink)]/70">One job worth chasing covers 12+ months at £39. Most members see their first GOLD lead within a week.</p>
+          <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny.</p>
         </div>
       </section>
     </main>
