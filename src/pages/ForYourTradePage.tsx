@@ -120,6 +120,7 @@ export function ForYourTradePage() {
           <Link className="jf-button mt-3 bg-white text-[var(--ink)]" href="/pricing">
             SEE PRICING — FROM £39/MO
           </Link>
+          <p className="mt-1 text-[10px] font-black text-[var(--ink)]/60 uppercase">30-day money-back guarantee</p>
         </div>
         <WaitlistForm source="for-your-trade" />
       </section>
