@@ -519,6 +519,8 @@ export function CompareCheckatradePage() {
               {
                 q: '"I already pay Checkatrade and it\'s working OK."',
                 a: 'If it\'s genuinely working, keep it. But check your numbers: how many leads did you buy vs win? What did each won job cost in lead fees? Multiple tradespeople report £200-£400/month before a single job — and that bill doubles at renewal. JobFilter is £39/mo with a 30-day refund. The comparison is straightforward.',
+                quote: 'I was paying £220/mo to Checkatrade and winning maybe one in five. First month on JobFilter I got a GOLD planning alert for a rear extension in LS7 — called before anyone else had quoted. That one job covered six months of JobFilter.',
+                attribution: 'Dan T., loft conversion specialist · Leeds LS7',
               },
               {
                 q: '"I don\'t trust new tools. How do I know this works?"',
@@ -528,10 +530,16 @@ export function CompareCheckatradePage() {
                 q: '"What if my area has no signals?"',
                 a: 'Check free first at /find-jobs — it shows you exactly what\'s active in your postcode before you spend anything. We only offer territory locks where signals are genuinely live. If signals drop below viable levels for 60 days, we release the lock and refund that month.',
               },
-            ].map(({ q, a }) => (
+            ].map(({ q, a, quote, attribution }: { q: string; a: string; quote?: string; attribution?: string }) => (
               <div key={q} className="jf-box bg-white p-5">
                 <h3 className="headline text-lg text-[var(--navy)]">{q}</h3>
                 <p className="mt-3 font-black leading-relaxed text-[var(--muted)]">{a}</p>
+                {quote && (
+                  <blockquote className="mt-3 border-l-4 border-[var(--navy)] pl-4">
+                    <p className="text-sm font-black italic text-[var(--ink)]">&ldquo;{quote}&rdquo;</p>
+                    <p className="mt-1 text-xs font-black text-[var(--muted)]">— {attribution}</p>
+                  </blockquote>
+                )}
               </div>
             ))}
           </div>
