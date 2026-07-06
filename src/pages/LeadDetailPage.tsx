@@ -555,8 +555,9 @@ export function LeadDetailPage() {
           </button>
           {explainState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-black text-[var(--ink)]">Plain-English lead summaries are a £39/mo feature.</p>
-              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+              <p className="text-sm font-black text-[var(--ink)]">Get a plain-English breakdown of this exact signal — what it means, who to call, and why it's worth your time. One job won covers 3 months at £39.</p>
+              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
+              <p className="mt-1.5 text-[10px] font-black text-[var(--muted)] uppercase tracking-wider">30-day money-back guarantee · cancel anytime</p>
             </div>
           )}
           {explainState === 'error' && (
@@ -616,8 +617,9 @@ export function LeadDetailPage() {
           <p className="mt-2 text-xs font-black text-[var(--muted)]">Writes a one-off message from this job's details — not a generic template.</p>
           {aiDraftState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-black text-[var(--ink)]">AI draft messages are a £39/mo feature.</p>
-              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+              <p className="text-sm font-black text-[var(--ink)]">Get a tailored first message for this exact job — not a copy-paste template. One job won covers 3 months at £39.</p>
+              <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
+              <p className="mt-1.5 text-[10px] font-black text-[var(--muted)] uppercase tracking-wider">30-day money-back guarantee · cancel anytime</p>
             </div>
           )}
           {aiDraftState === 'error' && (
