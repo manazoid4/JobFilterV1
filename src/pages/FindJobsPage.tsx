@@ -1206,8 +1206,8 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {showScoreReasons && (
           <div className="mt-2 w-36 border border-[var(--line)] bg-[var(--bg-main)] p-2">
             <ul className="grid gap-0.5">
-              {rawReasons.slice(0, 8).map((r, i) => (
-                <li key={i} className="text-[9px] font-black text-[var(--muted)] leading-tight">{r}</li>
+              {parsedReasons.map((r, i) => (
+                <li key={i} className={`text-[9px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
               ))}
             </ul>
           </div>

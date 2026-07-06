@@ -128,7 +128,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
           <div className="flex flex-wrap gap-2">
             {activeAlerts.map(a => (
               <span key={a.id} className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-2 py-1 text-xs font-black uppercase text-[var(--green)]">
-                {a.trade} · {a.postcode_outward} · {a.frequency}
+                {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.frequency.charAt(0).toUpperCase() + a.frequency.slice(1)}
               </span>
             ))}
           </div>

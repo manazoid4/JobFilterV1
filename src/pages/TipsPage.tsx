@@ -40,11 +40,12 @@ export function TipsPage() {
         <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock buyer details and WhatsApp alerts.
         </p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <p className="mt-4 text-sm font-black text-white/80">One job worth chasing covers 12+ months at £39. Average UK trade job: £800–£3,000.</p>
+        <div className="mt-4 flex flex-wrap gap-3">
           <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
+          <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
         </div>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required</p>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required for the free scan.</p>
         <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
