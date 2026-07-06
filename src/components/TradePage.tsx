@@ -361,6 +361,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
+          <p className="mt-2 text-sm font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
       </section>
     </main>
