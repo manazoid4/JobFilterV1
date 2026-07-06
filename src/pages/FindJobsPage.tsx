@@ -718,6 +718,7 @@ export function FindJobsPage() {
                         UNLOCK COMMERCIAL LEADS — £39/MO →
                       </Link>
                       <p className="mt-1.5 text-[10px] font-black text-white/50">No credit card required to browse</p>
+                      <p className="mt-0.5 text-[10px] font-black text-[var(--yellow)]/70">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
                     </div>
                   )}
                 </div>
