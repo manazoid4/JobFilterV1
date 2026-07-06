@@ -568,6 +568,7 @@ export function WeeklySignalsPage() {
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
             3 free scans every week — no credit card required. Upgrade for unlimited access: £39/month.
           </p>
+          <p className="mt-1 text-[10px] font-black text-[var(--ink)]/60 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny</p>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/40">
             Signal counts are estimates based on verified UK data. Live scans show real leads in your area.
           </p>
