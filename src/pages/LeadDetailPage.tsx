@@ -532,7 +532,7 @@ export function LeadDetailPage() {
         >
           ESTIMATE MATERIALS FOR THIS JOB →
         </Link>
-        <p className="mt-2 text-[10px] font-black text-[var(--muted)] uppercase">Benchmark estimates — verify with supplier before purchase</p>
+        <p className="mt-2 text-xs font-black text-[var(--muted)] uppercase">Benchmark estimates — verify with supplier before purchase</p>
       </section>
 
       {lead.details && (

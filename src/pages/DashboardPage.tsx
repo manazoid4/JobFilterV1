@@ -287,7 +287,7 @@ export function DashboardPage() {
                   SEE OPEN TERRITORIES →
                 </Link>
               </div>
-              <p className="text-[10px] font-black text-white/50">Upgrade unlocks buyer details and lets you lock your patch in one step.</p>
+              <p className="text-xs font-black text-white/60">Upgrade unlocks buyer details and lets you lock your patch in one step.</p>
             </div>
           )}
         </div>

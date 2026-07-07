@@ -133,7 +133,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
               type="button"
               onClick={handleSendWhatsApp}
               disabled={whatsappSending || whatsappDone}
-              className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1.5 text-[10px] font-black uppercase text-[var(--green)] min-h-[44px] hover:bg-[var(--green)]/20 disabled:opacity-50"
+              className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1.5 text-xs font-black uppercase text-[var(--green)] min-h-[44px] hover:bg-[var(--green)]/20 disabled:opacity-50"
             >
               {whatsappDone ? 'SENT ✓' : whatsappSending ? 'SENDING…' : 'SEND TO WHATSAPP'}
             </button>
@@ -145,7 +145,7 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
               <button
                 key={value}
                 onClick={(e) => handleStatusClick(e, value)}
-                className={`min-h-[44px] border-2 px-2 py-1 text-[10px] font-black uppercase tracking-wide ${
+                className={`min-h-[44px] border-2 px-2 py-1 text-xs font-black uppercase tracking-wide ${
                   status === value
                     ? 'bg-[var(--yellow)] border-[var(--ink)] text-[var(--ink)]'
                 : 'bg-[var(--paper)] border-[var(--line)] text-[var(--ink)]'

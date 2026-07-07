@@ -37,7 +37,7 @@ export function LeadValueKit({ lead, unlocked = true, title = 'BUYER ACTION PACK
         <div className="border-2 border-[var(--line)] bg-white p-3">
           <div className="flex items-center gap-2">
             <Calculator className="h-4 w-4 text-[var(--orange)]" strokeWidth={3} />
-            <p className="text-[10px] font-black uppercase text-[var(--muted)]">Quote floor</p>
+            <p className="text-xs font-black uppercase text-[var(--muted)]">Quote floor</p>
           </div>
           <p className="mt-1 text-lg font-black text-[var(--ink)]">{quoteFloor}</p>
           <p className="mt-1 text-xs font-black text-[var(--muted)]">{kit.quoteFloorNote}</p>
@@ -45,7 +45,7 @@ export function LeadValueKit({ lead, unlocked = true, title = 'BUYER ACTION PACK
         <div className="border-2 border-[var(--line)] bg-white p-3">
           <div className="flex items-center gap-2">
             <CalendarClock className="h-4 w-4 text-[var(--orange)]" strokeWidth={3} />
-            <p className="text-[10px] font-black uppercase text-[var(--muted)]">Next action</p>
+            <p className="text-xs font-black uppercase text-[var(--muted)]">Next action</p>
           </div>
           <p className="mt-1 text-lg font-black text-[var(--ink)]">{nextAction}</p>
           <p className="mt-1 text-xs font-black text-[var(--muted)]">Use the call, quote, and chase sequence together.</p>
@@ -54,11 +54,11 @@ export function LeadValueKit({ lead, unlocked = true, title = 'BUYER ACTION PACK
       <div className="mt-3 border-2 border-[var(--line)] bg-white p-3">
         <div className="flex items-center gap-2">
           <Radar className="h-4 w-4 text-[var(--navy)]" strokeWidth={3} />
-          <p className="text-[10px] font-black uppercase text-[var(--muted)]">Follow-up cadence</p>
+          <p className="text-xs font-black uppercase text-[var(--muted)]">Follow-up cadence</p>
         </div>
         <div className="mt-2 flex flex-wrap gap-2">
           {cadence.map((step) => (
-            <span key={step} className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-1 text-[10px] font-black uppercase text-[var(--ink)]">
+            <span key={step} className="border-2 border-[var(--navy)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
               {step}
             </span>
           ))}

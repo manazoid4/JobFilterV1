@@ -88,7 +88,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <div className="flex flex-col gap-1">
               <Link className="jf-button bg-[var(--ink)] text-white" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
-              <span className="text-[10px] font-black uppercase tracking-wider text-[var(--ink)]/50">No credit card required</span>
+              <span className="text-xs font-black uppercase tracking-wider text-[var(--ink)]/60">No credit card required</span>
             </div>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#how-it-works">SEE HOW IT WORKS</Link>
           </div>
@@ -178,7 +178,7 @@ export function TradePage({ data }: { data: TradePageData }) {
                 </div>
               </div>
             </div>
-            <p className="mt-2 text-[10px] font-black text-[var(--muted)]">
+            <p className="mt-2 text-xs font-black text-[var(--muted)]">
               Buyer name + contact unlocked for paid subscribers ·{' '}
               <Link href="/pricing" className="text-[var(--navy)] underline underline-offset-1">see pricing →</Link>
             </p>

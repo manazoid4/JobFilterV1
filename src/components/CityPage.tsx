@@ -174,7 +174,7 @@ export function CityPage({ city }: CityPageProps) {
               LOCK YOUR PATCH — £39/MO →
             </a>
           </div>
-          <p className="mt-2 text-xs font-black text-[var(--ink)]/50 uppercase">No credit card required — 3 free scans every week</p>
+          <p className="mt-2 text-xs font-black text-[var(--ink)]/60 uppercase">No credit card required — 3 free scans every week</p>
           <div className="mt-5 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
             <p>NO LEAD AUCTION</p>
             <p>NO PER-LEAD FEES</p>
