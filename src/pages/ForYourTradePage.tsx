@@ -116,9 +116,9 @@ export function ForYourTradePage() {
           <Link className="jf-button mt-5 bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW
           </Link>
-          <p className="mt-1.5 text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</p>
+          <p className="mt-1.5 text-xs font-black text-[var(--ink)]/60 uppercase">No credit card required</p>
           <Link className="jf-button mt-3 bg-white text-[var(--ink)]" href="/pricing">
-            SEE PRICING — FROM £39/MO
+            LOCK YOUR PATCH — £39/MO →
           </Link>
           <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — No quibbles.</p>
         </div>

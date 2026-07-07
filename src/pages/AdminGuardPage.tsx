@@ -634,7 +634,7 @@ function LockedState() {
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] jf-button-lg">
-            SEE PRICING →
+            LOCK YOUR PATCH — £39/MO →
           </Link>
           <Link href="/features/admin-guard" className="jf-button bg-white/10 text-white border-white/20 shadow-none">
             PREVIEW FEATURE

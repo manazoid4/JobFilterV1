@@ -138,7 +138,7 @@ export function AdminGuardTeaserPage() {
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--ink)] text-white">
-            SEE PRICING →
+            LOCK YOUR PATCH — £39/MO →
           </Link>
           <Link href="/dashboard" className="jf-button jf-button-lg bg-[var(--navy)] text-white">
             YOUR DASHBOARD →

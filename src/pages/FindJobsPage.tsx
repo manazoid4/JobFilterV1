@@ -1020,9 +1020,21 @@ function deadlineCountdown(deadlineAt: string | undefined): { label: string; cla
   return { label: `CLOSES IN ${days}D`, className: 'bg-[var(--ink)] text-white' };
 }
 
+const TRADE_FRIENDLY: Record<string, string> = {
+  electrical: 'Electrician',
+  plumbing: 'Plumber / Gas',
+  roofing: 'Roofer',
+  building: 'Builder / General',
+  carpentry: 'Carpenter / Joiner',
+  painting: 'Decorator / Painter',
+  hvac: 'Heating Engineer',
+  landscaping: 'Landscaper',
+};
+
 function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const outward = postcode.trim().split(' ')[0].toUpperCase();
+  const tradeLabel = TRADE_FRIENDLY[trade] ?? trade;
   const mountedRef = React.useRef(true);
   React.useEffect(() => { mountedRef.current = true; return () => { mountedRef.current = false; }; }, []);
 
@@ -1045,7 +1057,7 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
   if (state === 'done') {
     return (
       <div className="border-2 border-[var(--green)] bg-[var(--green)]/10 p-3 text-sm font-black text-[var(--green)]">
-        ✓ WEEKLY ALERT SET — we&apos;ll email when new {trade} leads appear near {outward}
+        ✓ WEEKLY ALERT SET — we&apos;ll email when new {tradeLabel} leads appear near {outward}
       </div>
     );
   }
@@ -1055,7 +1067,7 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
       <div className="flex-1 min-w-0">
         <p className="text-xs font-black text-[var(--yellow)] uppercase">Don&apos;t miss next week&apos;s leads</p>
         <p className="mt-0.5 text-sm font-black text-white">
-          Get weekly email alerts for {trade} jobs near {outward} — free, no credit card
+          Get weekly email alerts for {tradeLabel} jobs near {outward} — free, no credit card
         </p>
         {state === 'error' && <p className="mt-1 text-xs font-black text-[var(--orange)]">Failed — sign in first or try again</p>}
       </div>

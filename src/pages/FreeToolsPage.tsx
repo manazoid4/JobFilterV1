@@ -92,7 +92,7 @@ export function FreeToolsPage() {
             <Link className="jf-button bg-[var(--navy)] text-white whitespace-nowrap" href="/find-jobs">
               SCAN MY AREA →
             </Link>
-            <span className="text-[10px] font-black text-[var(--ink)]/50 uppercase">No credit card required</span>
+            <span className="text-xs font-black text-[var(--ink)]/60 uppercase">No credit card required</span>
           </div>
         </div>
       </section>
@@ -266,7 +266,7 @@ export function FreeToolsPage() {
           <div className="mt-5 flex flex-wrap gap-3 items-center">
             <div className="flex flex-col items-start gap-0.5">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
-              <span className="text-[10px] font-black text-[var(--muted)] uppercase">No credit card required</span>
+              <span className="text-xs font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
             <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO</Link>
           </div>

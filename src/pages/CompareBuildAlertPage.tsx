@@ -380,8 +380,8 @@ export function CompareBuildAlertPage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>
       </section>
