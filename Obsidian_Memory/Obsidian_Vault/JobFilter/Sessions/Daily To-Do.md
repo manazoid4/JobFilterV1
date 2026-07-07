@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 7 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `7802c5f` (vault auto-digest Jul 7 10:37 UTC). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Run 1. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **"SEE PRICING" fully swept** — zero instances remain in the codebase. Footer (every page), CityPage template (20+ city pages), TradePage template (15+ trade pages), SmartQuotePage, BuildUkAlternativePage (2 instances). All → "LOCK YOUR PATCH — £39/MO →" or trade-specific equivalent.
+- [x] **KeywordSearch green button fixed** — "TRACK THIS LEAD" was `bg-[var(--green)]` (design violation). Changed to `bg-[var(--yellow)] text-[var(--ink)]`.
+- [x] **DashboardPage empty-state CTA hierarchy fixed** — "RUN YOUR FIRST SCAN" was ink (wrong); "LOCK YOUR PATCH" was yellow (wrong). Swapped: scan → yellow (primary), lock patch → navy (secondary). "SEE PRICING" → "SEE PLANS →".
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`cdb51db`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. "SEE PRICING" is COMPLETELY SWEPT — do not re-check. Consider authenticated page copy sweep (LeadDetailPage, AccountPage) for any drift.
+
 ## Today - 7 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `origin/main` at `9ea0b17` (Jul 6 Run 3). Build GREEN (113 pages), TS CLEAN.
