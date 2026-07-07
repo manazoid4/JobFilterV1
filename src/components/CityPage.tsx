@@ -171,7 +171,7 @@ export function CityPage({ city }: CityPageProps) {
               {city.ctaText.toUpperCase()}
             </button>
             <a href="/pricing" className="jf-button bg-white text-[var(--ink)]">
-              SEE PRICING
+              LOCK YOUR PATCH — £39/MO →
             </a>
           </div>
           <p className="mt-2 text-xs font-black text-[var(--ink)]/50 uppercase">No credit card required — 3 free scans every week</p>
@@ -399,7 +399,7 @@ export function CityPage({ city }: CityPageProps) {
               {city.ctaText.toUpperCase()}
             </button>
             <a href="/pricing" className="jf-button bg-white/10 text-white">
-              SEE PRICING
+              LOCK YOUR PATCH — £39/MO →
             </a>
           </div>
           <div className="mt-6 grid gap-2 text-sm font-black text-white/85 sm:grid-cols-3">

@@ -213,7 +213,7 @@ function KeywordResultCard({ result }: { key?: string; result: DocumentSearchRes
           VIEW FULL DOCUMENT
         </button>
 
-        <button className="jf-button w-full bg-[var(--green)] text-white text-xs">
+        <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-xs">
           TRACK THIS LEAD
         </button>
       </div>

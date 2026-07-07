@@ -145,7 +145,7 @@ export function BuildUkAlternativePage() {
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">SEE PRICING</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>
       </section>
@@ -260,7 +260,7 @@ export function BuildUkAlternativePage() {
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
-              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">SEE PRICING</Link>
+              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">JOIN STANDARD — £79/MO →</Link>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">

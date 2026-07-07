@@ -176,7 +176,7 @@ export function SmartQuotePage() {
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
-              <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">SEE PRICING</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
             <p className="mt-3 text-xs font-black text-white/60">No credit card required.</p>
             <p className="mt-1 text-xs font-black text-[var(--yellow)]/70">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>

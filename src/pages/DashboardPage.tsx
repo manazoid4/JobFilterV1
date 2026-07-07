@@ -346,11 +346,11 @@ export function DashboardPage() {
             Find a job before Checkatrade lists it. One £2,000 win and £39/mo pays for itself 50 times over — no shared auction, no credit burn.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">RUN YOUR FIRST SCAN →</Link>
             {!territory && (
-              <Link href="/territories" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">LOCK YOUR PATCH →</Link>
+              <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">LOCK YOUR PATCH →</Link>
             )}
-            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PRICING</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PLANS →</Link>
           </div>
           <p className="mt-3 text-xs font-black text-[var(--ink)]/50">No credit card required — 3 free scans every week</p>
         </div>

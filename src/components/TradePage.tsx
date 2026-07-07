@@ -316,7 +316,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
               <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
-              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">SEE PRICING</Link>
+              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">30-DAY MONEY-BACK GUARANTEE. NO QUIBBLES. NO HOOPS.</p>
