@@ -1,5 +1,26 @@
 # Daily To-Do
 
+## Today - 7 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `origin/main` at `9ea0b17` (Jul 6 Run 3). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Jul 6 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **AlertQuickSetup raw trade label fixed** (FindJobsPage) — success text and body showed raw engine value "electrical". Added `TRADE_FRIENDLY` map; now shows "Electrician", "Plumber / Gas", etc. Closes Jul 6 Run 3 carryover.
+- [x] **AdminGuardPage paywall CTA** — primary yellow `SEE PRICING →` → `LOCK YOUR PATCH — £39/MO →`. High-intent authenticated page now has deliverable CTA.
+- [x] **AdminGuardTeaserPage closing CTA** — `SEE PRICING →` → `LOCK YOUR PATCH — £39/MO →`. Matches all other landing pages.
+- [x] **CompareBuildAlertPage CTA inversion fixed** — free scan was ink (secondary), pricing was yellow (primary). Swapped + `SEE PRICING` → `LOCK YOUR PATCH — £39/MO →`.
+- [x] **CompareCheckatradePage CTA inversion fixed** — same inversion in comparison table section. Swapped + label updated.
+- [x] **ForYourTradePage** — `text-[10px]/50` on "No credit card required" → `text-xs/60`; `SEE PRICING — FROM £39/MO` → `LOCK YOUR PATCH — £39/MO →`.
+- [x] **FreeToolsPage** — two `text-[10px]` "No credit card required" instances → `text-xs`. Both below the free scan CTA.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`156d0f0`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Remaining `SEE PRICING` (SmartQuotePage secondary, BuildUkAlternativePage STANDARD tier card) are low priority. CTA inversions now fully swept across compare pages. Carryover blockers remain the main unlock.
+
 ## Today - 6 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; stale `origin/main` (cached at June 28); `git fetch origin` corrected it to 1013953 (PR #329, Jul 6). Build GREEN (113 pages), TS CLEAN.
