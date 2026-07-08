@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 8 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `23b99ac` (PR #330 founder trust fixes, Jul 8). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — PR #330 merged today: announcement bar → clickable Link to /find-jobs; SignalsPage "CORE SIGNALS LIVE" removed; TerritoriesPage "AVAILABLE PATCHES" → "EXAMPLE PATCHES". All reviewed, sound, no regressions.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **PricingPage bottom CTA dead-end fixed** — "CHECK MY PATCH FIRST" → /territories replaced with "SCAN FREE FIRST →" → /find-jobs. /territories has no checkout flow — sending buyer-ready visitors there breaks purchase momentum. Now matches the hero pattern. Highest-impact fix of this run.
+- [x] **SignalsPage pricing bridge capitalization** — "Scan Free →" → "SCAN FREE →"; "See Pricing" → "SEE PRICING →". Every other button on the site is ALL CAPS; mixed case made these look deprioritized.
+- [x] **TopNav logo shadow drift fixed** — `shadow-[3px_3px_0_var(--line)]` → `shadow-[4px_4px_0_var(--line)]`. Design rule is 4px. Visible on every page above the fold. Last remaining shadow-[3px] instance; now fully cleared.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`e65defe`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. shadow-[3px] FULLY SWEPT — do not re-check. text-[10px] remaining instances are intentional compact badges — do not re-sweep. Buildable backlog is small; carryover blockers (Stripe, TradeFlow, add-on pricing) remain the main unlock.
+
 ## Today - 8 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `39f39a1` (vault Jul 7 Run 3). Build GREEN (113 pages), TS CLEAN.
