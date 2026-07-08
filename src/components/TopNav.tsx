@@ -52,7 +52,7 @@ export function TopNav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2" onClick={() => setMenuOpen(false)}>
           <img
-            className="h-8 w-8 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[3px_3px_0_var(--line)] sm:h-9 sm:w-9"
+            className="h-8 w-8 border-2 border-[var(--line)] bg-[var(--ink)] shadow-[4px_4px_0_var(--line)] sm:h-9 sm:w-9"
             src="/union-flag.svg"
             alt="UK Construction Intelligence logo"
           />

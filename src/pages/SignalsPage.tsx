@@ -206,8 +206,8 @@ export function SignalsPage() {
             All 10 signals included. One job worth chasing pays for 6 months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
-            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">Scan Free →</Link>
-            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" href="/pricing">See Pricing</Link>
+            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">SCAN FREE →</Link>
+            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" href="/pricing">SEE PRICING →</Link>
           </div>
         </div>
       </section>
