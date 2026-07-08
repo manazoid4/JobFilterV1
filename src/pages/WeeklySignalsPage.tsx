@@ -148,7 +148,7 @@ function AlertSubscribeModal({ week, onClose }: { week: WeekData; onClose: () =>
 
   const planning = week.signals.find(s => s.key === 'planning');
   const previewText = planning
-    ? `This week: ${planning.thisWeek} planning applications across the UK. ${week.totalGold} GOLD leads. See what matches your trade.`
+    ? `This week: ${planning.thisWeek} planning applications across the UK. ${week.totalGold} GOLD leads scored and ready. Don't be last to find out.`
     : '';
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -558,10 +558,10 @@ export function WeeklySignalsPage() {
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               RUN MY FREE SCAN →
             </Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">
               LOCK YOUR PATCH — £39/MO
             </Link>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--navy)] text-white">
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-white text-[var(--ink)]">
               GET WEEKLY EMAILS →
             </button>
           </div>
