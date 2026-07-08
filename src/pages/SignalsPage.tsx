@@ -279,8 +279,8 @@ export function SignalsPage() {
               </span>
             ))}
           </div>
-          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/90">
-            CORE SIGNALS LIVE · NO SHARED LEADS · TERRITORY LOCK ACTIVE
+          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
+            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
           </p>
         </div>
       </section>
