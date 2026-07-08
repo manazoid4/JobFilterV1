@@ -213,7 +213,8 @@ export function TerritoriesPage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="micro-label text-[var(--muted)]">TERRITORY REGISTER</p>
-            <h2 className="headline mt-2 text-3xl">AVAILABLE PATCHES</h2>
+            <h2 className="headline mt-2 text-3xl">EXAMPLE PATCHES</h2>
+            <p className="mt-1 text-sm font-black text-[var(--muted)]">Sample entries only — use the form above to check any UK postcode.</p>
           </div>
         </div>
         <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs font-black uppercase text-[var(--muted)]">

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import '../src/index.css';
 import { AuthProvider } from '../src/components/AuthProvider';
 import { TopNav } from '../src/components/TopNav';
@@ -18,10 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-[var(--bg-main)] text-[var(--ink)]">
         <AuthProvider>
           {/* ── Site-wide announcement bar ── */}
-          <div className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white">
-            <span className="h-2 w-2 rounded-full bg-[var(--yellow)] shrink-0" aria-hidden="true" />
-            <span>Find local jobs before Checkatrade sees them · <span className="text-[var(--yellow)]">Free scan, no card needed</span> · One job covers 3 months</span>
-          </div>
+          <Link href="/find-jobs" className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors group">
+            <span className="h-2 w-2 rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
+            <span>Find local jobs before Checkatrade sees them · <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">Free scan, no card needed</span> · One job covers 3 months</span>
+          </Link>
           <TopNav />
           {children}
           <Footer />
