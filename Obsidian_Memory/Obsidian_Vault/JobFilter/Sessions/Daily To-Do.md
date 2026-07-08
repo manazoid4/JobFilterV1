@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 8 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `39f39a1` (vault Jul 7 Run 3). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Jul 7 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **WeeklySignalsPage yellow-on-yellow button fixed** — Section 7 (yellow bg) had "LOCK YOUR PATCH — £39/MO" with `bg-[var(--yellow)]` = invisible. Changed to navy. "GET WEEKLY EMAILS" changed from navy to white to distinguish. 3-way hierarchy: ink > navy > white. All visible on yellow.
+- [x] **WeeklySignalsPage subscribe modal copy** — previewText "See what matches your trade." → "Don't be last to find out." Adds fear/urgency. Closes Jul 7 Run 3 next-run recommendation.
+- [x] **TradePage pricing CTA jargon fixed** (all 21 trade pages) — "GET FOUNDING 30" → "LOCK YOUR PATCH — £39/MO →". Standard tier card CTA was "LOCK YOUR PATCH — £39/MO →" on a £79/mo card (price contradiction) → "SEE ALL PLANS →".
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`f7f3b4e`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. text-[10px] remaining instances are intentional compact badges — do not re-sweep. Buildable backlog is small; carryover blockers (Stripe, TradeFlow, add-on pricing) remain the main unlock.
+
 ## Today - 7 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `56fe6fe` (vault Run 2 update, Jul 7). Build GREEN (113 pages), TS CLEAN.
