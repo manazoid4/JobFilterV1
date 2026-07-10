@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 10 July 2026 (NightlyBuildAgent — Run 4)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main at `9ab79e7` (vault Run 3 update). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Run 3. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (WhatsApp templates: all 5 including quick_quote_offer + availability_check confirmed in QuickResponseKit.tsx).
+- [x] **NEEDLE sweep** — top finding: LeadDetailPage confirmed/snoozed button states using green (design violation). DashboardPage SEE PLANS price anchor dismissed (paragraph above already has £39/mo context). Fix executed and verified.
+- [x] **LeadDetailPage green buttons fixed** — snoozed state + email-sent state `bg-[var(--green)]` → `bg-[var(--navy)]`. Green is reserved for data indicators only.
+- [x] **LeadDetailPage ADD TO CALENDAR →** — primary yellow CTA was missing → arrow.
+- [x] **HomePage hero "near you" fixed** — "serious construction work near you" → "in your postcode". Specificity rule applied to highest-traffic page.
+- [x] **ForYourTradePage legibility + arrow** — buyer-locked caption `text-[10px]` → `text-xs`; scan CTA `SCAN {trade} JOBS NOW` → `SCAN {trade} JOBS NOW →`.
+- [x] **TrustCenterPage LOCK YOUR PATCH →** — secondary CTA was missing arrow.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`71b152c`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. `text-[10px]` in FindJobsPage (29 instances) — many intentional status chips; next run should spot-check for any user-visible non-badge instances. Carryover blockers remain the main unlock.
+
 ## Today - 10 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main at `610092b` (founder PR #331 — hero price anchor + Signals nav demotion). Build GREEN (113 pages), TS CLEAN.
