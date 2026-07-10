@@ -214,7 +214,7 @@ export function MethodologyPage() {
           Free scan. No credit card required. See real scored leads in your area — before Checkatrade or Bark list them.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link href="/find-jobs" className="jf-button bg-[var(--navy)] text-white">
+          <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">
             SCAN MY AREA FREE →
           </Link>
           <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">

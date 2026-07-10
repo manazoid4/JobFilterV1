@@ -545,7 +545,7 @@ export function CompareCheckatradePage() {
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — SEE WHAT'S IN YOUR PATCH</Link>
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required to scan. 30-day money-back if you pay and it doesn't deliver.</p>
         </div>
@@ -563,8 +563,8 @@ export function CompareCheckatradePage() {
             JobFilter scans planning approvals, council contracts, and energy signals — 3–5 days before jobs reach any directory. £39/month flat. No renewal letter. No profile lock-in.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

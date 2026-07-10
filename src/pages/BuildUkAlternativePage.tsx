@@ -304,8 +304,8 @@ export function BuildUkAlternativePage() {
             Scan your area free. See what work is active near you. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.

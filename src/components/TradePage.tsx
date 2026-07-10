@@ -358,7 +358,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FOUNDING 30 — £39/mo</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>
           <p className="mt-2 text-sm font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>

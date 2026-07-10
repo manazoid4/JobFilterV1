@@ -318,7 +318,7 @@ export function NewsPage() {
               SCAN MY POSTCODE FREE →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
-              LOCK YOUR PATCH — £39/MO
+              LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
           <p className="mt-3 text-sm font-black text-white/70">One job worth chasing covers 12+ months at £39.</p>
