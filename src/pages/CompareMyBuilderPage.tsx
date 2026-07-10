@@ -153,7 +153,7 @@ export function CompareMyBuilderPage() {
               START FREE — NO CARD
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
-              VIEW PRICING
+              LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>

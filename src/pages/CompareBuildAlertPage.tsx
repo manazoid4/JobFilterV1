@@ -166,7 +166,7 @@ export function CompareBuildAlertPage() {
           <p className="micro-label text-[var(--orange)]">DO THE MATHS</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">HOW MANY JOBS DO YOU CHASE PER MONTH?</h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
-            Move the slider. See what it actually costs to find work with each platform.
+            Move the slider. See what it actually costs to find work with each service.
           </p>
 
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
