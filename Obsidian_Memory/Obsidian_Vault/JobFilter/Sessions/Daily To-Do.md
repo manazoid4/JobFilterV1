@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 10 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `274cb4f` (vault auto-digest Jul 9 10:47 UTC). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Jul 9. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **FOUNDING 30 CTA sweep** — 5 bottom CTA buttons across TradePage.tsx (all 15+ trade pages), BuildUkAlternativePage, CompareCheckatradePage (2 instances), and CompareBuildAlertPage still said "GET FOUNDING 30 — £39/mo". Changed all to "LOCK YOUR PATCH — £39/MO →". These were leftover from earlier CTA sweeps that caught most pages but missed these.
+- [x] **Missing → arrow sweep** — BuildUkAlternativePage "SCAN MY AREA FREE" and CompareCheckatradePage "SCAN MY AREA FREE" both missing the → arrow. NewsPage "LOCK YOUR PATCH — £39/MO" missing arrow. All fixed.
+- [x] **MethodologyPage yellow-bg CTA fixed** — "SCAN MY AREA FREE →" on yellow section background was `bg-[var(--navy)]` instead of `bg-[var(--ink)]`. Ink is the established primary button color on yellow backgrounds (consistent with WeeklySignalsPage Jul 5 fix and Jul 8 Run 1 pattern).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`9624bd5`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. FOUNDING 30 in tier-card labels (within pricing sections on BuildUkAlternativePage and compare pages) is the plan name — intentionally left. Remaining text references to "Founding 30" in mid-sentence copy (FreeToolsPage, TradePage copy blocks) are contextually fine. Buildable backlog genuinely small; carryover blockers (Stripe, TradeFlow, add-on pricing) remain the main unlock.
+
 ## Today - 8 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `23b99ac` (PR #330 founder trust fixes, Jul 8). Build GREEN (113 pages), TS CLEAN.
