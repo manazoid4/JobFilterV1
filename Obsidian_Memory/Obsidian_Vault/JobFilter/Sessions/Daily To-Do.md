@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 10 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main at `610092b` (founder PR #331 — hero price anchor + Signals nav demotion). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — one new commit since Run 2: `610092b` hero price lock-line now says "£39/mo founder price"; Signals moved lower in nav. Both reviewed — sound. No open PRs.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **Nav redundancy resolved** (founder hint from commit message "NEXT: Claim Patch vs Pricing redundancy"): "Claim Patch" moved from primary nav slot 3 → More dropdown. "Proof" moved from More → primary slot 5. Primary nav: Find Jobs | Pricing | Free Tools | Trades | Proof. One clear purchase-funnel CTA (Pricing), no competing Claim Patch.
+- [x] **Mobile shortcut updated**: 2-col grid "CLAIM PATCH → /territories" changed to "LOCK PATCH → /pricing". Mobile users now route directly to checkout, not a check/wait form. Label updated to "£39/MO" for price anchor.
+- [x] **FindJobsPage hero copy**: "See what's live near you right now." → "See what's live in your patch — 3–5 days before job boards." Adds timing advantage claim. Specific beats vague.
+- [x] **FindJobsPage trust message**: Commercial signals paywall "No credit card required to browse" text-[10px]/50% → text-xs/70%. Readable on dark background.
+- [x] **TradePage.tsx (15+ trade pages)**: "active near you — before it hits the directories" → "live in your postcode — before Checkatrade or Bark lists it." Named competitors, postcode specificity.
+- [x] **BuildUkAlternativePage.tsx**: Same "near you" → "in your postcode + competitor names" fix.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`8297007`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Nav redundancy is RESOLVED — do not re-check. Remaining "near you" instances (TradeGroundworkers, TradeQuantitySurveyors, TradeEVCharger, TradeSmartHome, TradeFireSafety — all in narrative "step" descriptions, not CTAs) are acceptable context and low priority. Buildable backlog genuinely small; carryover blockers remain the main unlock.
+
 ## Today - 10 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — npm install already done from Run 1; HEAD at `b767cad` (vault Jul 10 Run 1). Build GREEN (113 pages), TS CLEAN.
