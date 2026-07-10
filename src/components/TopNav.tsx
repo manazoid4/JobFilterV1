@@ -7,11 +7,11 @@ import { useAuth } from './AuthProvider';
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/territories', label: 'Claim Patch' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/for-your-trade', label: 'Trades' },
-  { to: '/signals', label: 'Signals' },
   { to: '/trust', label: 'Proof' },
+  { to: '/territories', label: 'Claim Patch' },
+  { to: '/signals', label: 'Signals' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];
@@ -163,9 +163,9 @@ export function TopNav() {
                 <p className="text-base font-black text-[var(--ink)]">TOOLS</p>
               </Link>
             ) : (
-              <Link href="/territories" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
-                <p className="text-[10px] font-black text-[var(--muted)]">PAID</p>
-                <p className="text-base font-black text-[var(--ink)]">CLAIM PATCH</p>
+              <Link href="/pricing" onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
+                <p className="text-[10px] font-black text-[var(--muted)]">£39/MO</p>
+                <p className="text-base font-black text-[var(--ink)]">LOCK PATCH</p>
               </Link>
             )}
           </div>

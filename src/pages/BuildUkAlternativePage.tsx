@@ -301,7 +301,7 @@ export function BuildUkAlternativePage() {
             <span style={{ color: 'var(--yellow)' }}>YOUR LEADS AREN'T.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
-            Scan your area free. See what work is active near you. No card needed. No signup wall. Just results.
+            Scan your area free. See what work is live in your postcode — before Checkatrade or Bark lists it. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>

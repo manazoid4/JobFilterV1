@@ -421,7 +421,7 @@ export function FindJobsPage() {
             FIND JOBS<br />WORTH PRICING
           </h1>
           <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
-            Pick your trade. Enter your postcode. See what's live near you right now.
+            Pick your trade. Enter your postcode. See what's live in your patch — 3–5 days before job boards.
           </p>
           <p className="mt-2 text-sm font-black text-[var(--yellow)]">
             No Checkatrade membership. No Bark credits. 3 free scans every week — no credit card.
@@ -717,7 +717,7 @@ export function FindJobsPage() {
                       <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
                         SEE WHO TO CALL — £39/MO →
                       </Link>
-                      <p className="mt-1.5 text-[10px] font-black text-white/50">No credit card required to browse</p>
+                      <p className="mt-1.5 text-xs font-black text-white/70">No credit card required to browse</p>
                       <p className="mt-0.5 text-xs font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
                     </div>
                   )}
