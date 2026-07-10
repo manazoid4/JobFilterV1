@@ -1,5 +1,21 @@
 # Daily To-Do
 
+## Today - 10 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — npm install already done from Run 1; HEAD at `b767cad` (vault Jul 10 Run 1). Build GREEN (113 pages), TS CLEAN.
+- [x] **Founder activity check** — zero new commits or open PRs since Run 1. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **"VIEW PRICING" sweep COMPLETE** — 4 compare pages (CompareBarkPage, CompareMyBuilderPage, CompareRatedPeoplePage, CompareTrustATraderPage) had secondary bottom CTA saying "VIEW PRICING" → changed all to "LOCK YOUR PATCH — £39/MO →". Matches the standard. CompareCheckatrade was already correct (fixed in earlier run). "VIEW PRICING" now fully swept across all pages.
+- [x] **"each platform" removed** — CompareBuildAlertPage cost calculator intro said "each platform" → "each service". Removes design-rule-violating "platform" word.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`a839916`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — confirmed in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. "VIEW PRICING" is COMPLETELY SWEPT — do not re-check. Compare page primary CTAs ("START FREE — NO CARD") still differ slightly from the rest of the site ("SCAN MY AREA FREE →") — low priority, both convey the same intent. Buildable backlog genuinely small; carryover blockers remain the main unlock.
+
 ## Today - 10 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `274cb4f` (vault auto-digest Jul 9 10:47 UTC). Build GREEN (113 pages), TS CLEAN.
