@@ -105,7 +105,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-black text-white/60">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Founder price locks forever while your plan stays active. 30-day money-back guarantee.
+              £39/mo founder price — locks in while your plan stays active. 30-day money-back guarantee.
             </p>
           </div>
 
