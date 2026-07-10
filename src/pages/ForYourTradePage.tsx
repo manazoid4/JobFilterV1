@@ -85,7 +85,7 @@ export function ForYourTradePage() {
               </div>
             </div>
           </div>
-          <p className="mt-3 text-[10px] font-black text-[var(--muted)]">
+          <p className="mt-3 text-xs font-black text-[var(--muted)]">
             Buyer name + contact unlocked for paid subscribers ·{' '}
             <Link href="/pricing" className="text-[var(--navy)] underline underline-offset-1">see pricing →</Link>
           </p>
@@ -114,7 +114,7 @@ export function ForYourTradePage() {
           <h2 className="headline mt-3 text-5xl leading-none">NO SHARED LEADS. NO FIVE-TRADE BLAST.</h2>
           <p className="mt-3 font-black text-[var(--ink)]/70">Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. One {selected.label.toLowerCase()} per patch. That&apos;s you.</p>
           <Link className="jf-button mt-5 bg-[var(--ink)] text-white" href="/find-jobs">
-            SCAN {selected.label.toUpperCase()} JOBS NOW
+            SCAN {selected.label.toUpperCase()} JOBS NOW →
           </Link>
           <p className="mt-1.5 text-xs font-black text-[var(--ink)]/60 uppercase">No credit card required</p>
           <Link className="jf-button mt-3 bg-white text-[var(--ink)]" href="/pricing">

@@ -81,7 +81,7 @@ export function HomePage() {
               {' '}YOURS BEFORE CHECKATRADE.
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans planning approvals, energy data and council contracts to find serious construction work near you — scored by quality, filtered by patch, delivered to WhatsApp.
+              JobFilter scans planning approvals, energy data and council contracts to find serious construction work in your postcode — scored by quality, filtered by patch, delivered to WhatsApp.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (

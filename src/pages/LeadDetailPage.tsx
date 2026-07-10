@@ -687,12 +687,12 @@ export function LeadDetailPage() {
             className="jf-button bg-[var(--yellow)] text-[var(--ink)]"
             onClick={() => downloadIcs(lead)}
           >
-            ADD TO CALENDAR
+            ADD TO CALENDAR →
           </button>
           <CalendarCopyLink lead={lead} />
           {chaseLead && chaseLead.stage !== 'won' && chaseLead.stage !== 'lost' && (
             <button
-              className={`jf-button ${snoozed ? 'bg-[var(--green)] text-white' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
+              className={`jf-button ${snoozed ? 'bg-[var(--navy)] text-white' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
               onClick={handleSnooze}
               disabled={snoozed}
             >
@@ -700,7 +700,7 @@ export function LeadDetailPage() {
             </button>
           )}
           <button
-            className={`jf-button ${emailChaseState === 'sent' ? 'bg-[var(--green)] text-white' : 'bg-white text-[var(--ink)]'}`}
+            className={`jf-button ${emailChaseState === 'sent' ? 'bg-[var(--navy)] text-white' : 'bg-white text-[var(--ink)]'}`}
             onClick={handleEmailChase}
             disabled={emailChaseState === 'sending' || emailChaseState === 'sent'}
           >
