@@ -90,7 +90,7 @@ export function CompareCheckatradePage() {
             Checkatrade is the biggest name in trade lead gen. And the most complained about. Shared leads, price wars, monthly fees just to be listed. JobFilter does the opposite — territory-routed signals, no shared auctions, one flat price.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">SEE THE DIFFERENCE</Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--ink)]">No credit card required. £39/mo after free scan. No contract. 30-day money-back.</p>
@@ -308,7 +308,7 @@ export function CompareCheckatradePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
             <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>
@@ -544,7 +544,7 @@ export function CompareCheckatradePage() {
             ))}
           </div>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — SEE WHAT'S IN YOUR PATCH</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — SEE WHAT'S IN YOUR PATCH →</Link>
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required to scan. 30-day money-back if you pay and it doesn't deliver.</p>

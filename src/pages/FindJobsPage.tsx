@@ -851,7 +851,7 @@ export function FindJobsPage() {
           <div className="mt-5 grid gap-4">
             <div className="bg-[var(--ink)] text-white p-5">
               <p className="text-3xl font-black text-[var(--yellow)]">
-                {fillWeekResult.count} JOBS FOUND NEAR YOU
+                {fillWeekResult.count} JOBS FOUND IN {(result?.outward || postcode).toUpperCase()}
               </p>
               <p className="mt-1 font-black text-white/70">
                 {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles

@@ -54,7 +54,7 @@ export function CompareTrustATraderPage() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
-              TRY JOBFILTER FREE — SEE LEADS TRUSTATRADER MISSES
+              TRY JOBFILTER FREE — SEE LEADS TRUSTATRADER MISSES →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
               FULL COMPARISON
@@ -150,7 +150,7 @@ export function CompareTrustATraderPage() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              START FREE — NO CARD
+              START FREE — NO CARD →
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
               LOCK YOUR PATCH — £39/MO →

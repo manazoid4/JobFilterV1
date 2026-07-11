@@ -55,7 +55,7 @@ export function CompareBarkPage() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
-              TRY JOBFILTER FREE — NO CARD NEEDED
+              TRY JOBFILTER FREE — NO CARD NEEDED →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
               SEE THE FULL COMPARISON
@@ -150,7 +150,7 @@ export function CompareBarkPage() {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-              START FREE — NO CARD
+              START FREE — NO CARD →
             </Link>
             <Link className="jf-button bg-white/10 text-white" href="/pricing">
               LOCK YOUR PATCH — £39/MO →

@@ -33,10 +33,11 @@ export function PricingPage() {
           Planning approvals, council tenders, and energy signals — not recycled from Checkatrade or Bark. Scored by value, trade fit, and distance. Hits your WhatsApp before anyone else calls.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--yellow)] text-[var(--ink)]" />
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 3 months at founder price.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required to scan — 3 free scans every week.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -55,7 +56,7 @@ export function PricingPage() {
           body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
@@ -154,10 +155,11 @@ export function PricingPage() {
         <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO" className="bg-[var(--ink)] text-white" />
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required to scan — 3 free scans every week.</p>
       </section>
     </main>
   );
