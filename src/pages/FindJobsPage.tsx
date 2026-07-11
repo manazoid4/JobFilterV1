@@ -431,7 +431,7 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <h2 className="headline text-3xl leading-none sm:text-4xl">TAP YOUR TRADE TO SCAN NOW</h2>
+        <h2 className="headline text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
         {!unlimitedTester && (
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
@@ -494,45 +494,7 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Trade presets — one tap to scan */}
-        <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'TAP YOUR TRADE TO SCAN' : 'ENTER POSTCODE BELOW — THEN TAP YOUR TRADE'}</p>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-            {TRADE_PRESETS.map((preset) => (
-              <button
-                key={preset.trade}
-                type="button"
-                disabled={loading || fillWeekLoading}
-                onClick={() => {
-                  if (!postcode.trim()) {
-                    setPostcodeRequired(true);
-                    postcodeRef.current?.focus();
-                    postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    return;
-                  }
-                  setPostcodeRequired(false);
-                  setTrade(preset.trade);
-                  void submit(undefined, { trade: preset.trade });
-                }}
-                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
-                  trade === preset.trade
-                    ? 'bg-[var(--yellow)] text-[var(--ink)]'
-                    : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
-                }`}
-              >
-                {preset.icon}
-                {preset.label}
-              </button>
-            ))}
-          </div>
-          {postcodeRequired && (
-            <p className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
-              ↓ Enter your postcode first — then tap your trade to scan
-            </p>
-          )}
-        </div>
-
-        {/* Form — postcode + radius */}
+        {/* Form — postcode + radius FIRST so the input is immediately visible */}
         <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label className="field-label">
             Postcode
@@ -570,6 +532,44 @@ export function FindJobsPage() {
             ))}
           </div>
         )}
+
+        {/* Trade presets — tap to scan by trade once postcode is entered */}
+        <div className="mt-4">
+          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'TAP YOUR TRADE TO SCAN' : 'ENTER YOUR POSTCODE ABOVE — THEN TAP YOUR TRADE'}</p>
+          <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            {TRADE_PRESETS.map((preset) => (
+              <button
+                key={preset.trade}
+                type="button"
+                disabled={loading || fillWeekLoading}
+                onClick={() => {
+                  if (!postcode.trim()) {
+                    setPostcodeRequired(true);
+                    postcodeRef.current?.focus();
+                    postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                  }
+                  setPostcodeRequired(false);
+                  setTrade(preset.trade);
+                  void submit(undefined, { trade: preset.trade });
+                }}
+                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
+                  trade === preset.trade
+                    ? 'bg-[var(--yellow)] text-[var(--ink)]'
+                    : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
+                }`}
+              >
+                {preset.icon}
+                {preset.label}
+              </button>
+            ))}
+          </div>
+          {postcodeRequired && (
+            <p className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
+              ↑ Enter your postcode above — then tap your trade to scan
+            </p>
+          )}
+        </div>
       </section>
 
       {/* ── WIN STATS ──────────────────────────────────────────────── */}
