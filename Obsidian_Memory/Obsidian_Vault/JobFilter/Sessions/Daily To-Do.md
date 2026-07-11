@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 11 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced. Build GREEN (93 pages — Next.js app). TS CLEAN.
+- [x] **Founder activity check** — one auto-digest commit (f3735fe) since Run 4. No new founder commits or open PRs. Carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT** (scan counter with UI at FindJobsPage:443–457, WinStatsBanner wired at line 576, Calendar ICS, WhatsApp templates, trade scoring).
+- [x] **`text-[10px]` spot-check** — all 22 instances in FindJobsPage are intentional status badges/micro-labels. None need changing.
+- [x] **NEEDLE sweep** — top finding: SignalsPage hero had ZERO CTAs. Tradesman lands on the page, reads the hook, but has to scroll past 10 signal cards before reaching any action path. Highest-traffic dead end.
+- [x] **SignalsPage hero CTA added** — SCAN FREE (yellow/primary) + LOCK YOUR PATCH (white/secondary) + trust line. Matches all design rules.
+- [x] **SignalsPage 4× specificity sweep** — "near you" / "near your postcode" → "in your postcode" / "in your area" / "in your patch" across Signal 2, Signal 5, Step 1, bottom CTA headline.
+- [x] **FreeToolsPage TravelCostTool CTA** — "FIND NEARBY JOBS →" → "FIND JOBS IN YOUR PATCH →". Specificity rule applied.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`95ea3ef`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Compare page FAQ answers still have "near you" in contextual mid-sentence descriptions — low priority (not CTAs). Carryover blockers remain the main unlock. Build is Next.js — `npm install` is mandatory on fresh containers.
+
 ## Today - 10 July 2026 (NightlyBuildAgent — Run 4)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to origin/main at `9ab79e7` (vault Run 3 update). Build GREEN (113 pages), TS CLEAN.
