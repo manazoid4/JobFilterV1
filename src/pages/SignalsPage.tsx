@@ -14,7 +14,7 @@ const signals = [
   {
     source: 'SIGNAL 2 · CONTRACTS',
     name: 'COUNCIL WORK. NO BIDDING WAR.',
-    description: 'Council and government contracts for your trade, near you, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
+    description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
     signalType: 'LIVE TENDER',
   },
@@ -35,7 +35,7 @@ const signals = [
   {
     source: 'SIGNAL 5 · NEW BUSINESS',
     name: 'NEW COMPANY. NEEDS A FIT-OUT.',
-    description: 'New company registered near you in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
+    description: 'New company registered in your postcode in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'NEW BUSINESS',
   },
@@ -145,6 +145,11 @@ export function SignalsPage() {
           <p className="mt-6 max-w-2xl text-xl font-black leading-snug text-white/80">
             Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
           </p>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
+          </div>
+          <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. Founder price £39/mo. One job covers 6 months.</p>
         </div>
       </section>
 
@@ -251,7 +256,7 @@ export function SignalsPage() {
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity near your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
+              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
               ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
               ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
             ].map(([step, title, body]) => (
@@ -321,7 +326,7 @@ export function SignalsPage() {
         <div className="page-shell section-pad text-center">
           <p className="micro-label text-[var(--ink)]">READY TO SCAN</p>
           <h2 className="headline mt-4 text-[clamp(2.25rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
-            SEE WHAT'S LIVE NEAR YOU RIGHT NOW.
+            SEE WHAT'S LIVE IN YOUR PATCH RIGHT NOW.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
             Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.

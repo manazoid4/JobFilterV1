@@ -485,7 +485,7 @@ function TravelCostTool() {
         <NumberField label="Diesel £/litre" value={dieselPrice} step={0.01} onChange={setDieselPrice} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">FIND NEARBY JOBS →</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">FIND JOBS IN YOUR PATCH →</Link>
       </div>
     </section>
   );
