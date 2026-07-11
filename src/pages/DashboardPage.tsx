@@ -372,7 +372,7 @@ export function DashboardPage() {
                 {scansUsed > 0 ? scansUsed : '—'}
               </p>
               <p className="mt-1 text-sm font-black text-[var(--ink)]">
-                {scanTrade && scanPostcode ? `${scanTrade} · ${scanPostcode}` : 'scans this week'}
+                {scanTrade && scanPostcode ? `${TRADES.find(t => t.value === scanTrade)?.label ?? scanTrade} · ${scanPostcode}` : 'scans this week'}
               </p>
               <Link href="/find-jobs" className="mt-2 block text-xs font-black text-[var(--ink)] underline underline-offset-2">
                 SCAN AGAIN →

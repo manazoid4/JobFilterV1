@@ -367,7 +367,7 @@ export function FindJobsPage() {
     await new Promise(r => setTimeout(r, 800));
     setFillWeekPhase('Matching leads to your trade — scoring every signal...');
     await new Promise(r => setTimeout(r, 600));
-    setFillWeekPhase('Ranking the best jobs near you...');
+    setFillWeekPhase('Ranking the best jobs in your postcode...');
     await new Promise(r => setTimeout(r, 400));
     try {
       const endpoint = '/api/leads/search';

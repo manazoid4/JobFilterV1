@@ -524,7 +524,7 @@ export function CompareCheckatradePage() {
               },
               {
                 q: '"I don\'t trust new tools. How do I know this works?"',
-                a: 'We only list postcodes with verified live signals. You can scan free before paying a penny — no card needed. Try it, see what\'s active near you. If you subscribe and don\'t see one job worth chasing in 30 days, we refund. No hoops. Checkatrade doesn\'t offer that.',
+                a: 'We only list postcodes with verified live signals. You can scan free before paying a penny — no card needed. Try it, see what\'s active in your area. If you subscribe and don\'t see one job worth chasing in 30 days, we refund. No hoops. Checkatrade doesn\'t offer that.',
               },
               {
                 q: '"What if my area has no signals?"',
