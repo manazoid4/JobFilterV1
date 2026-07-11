@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 11 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `0e7e4b9` (PR #332, founder). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — PR #332 merged since Run 1: "postcode input before trade buttons (4-agent UX fix)". Reviewed — sound, no regressions.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **NEEDLE sweep** — top finding: DashboardPage LAST SCAN stat shows raw engine value "electrical · B14" instead of friendly "Electrician · B14". Every active user (post-login) affected. Uses existing `TRADES` array in scope.
+- [x] **DashboardPage LAST SCAN label fixed** — `${scanTrade}` → `${TRADES.find(t => t.value === scanTrade)?.label ?? scanTrade}`. Zero new code — reuses TRADES already in file.
+- [x] **FindJobsPage Fill My Week** — "Ranking the best jobs near you..." → "Ranking the best jobs in your postcode..." (last "near you" in the user flow).
+- [x] **CompareCheckatradePage FAQ** — "see what's active near you" → "see what's active in your area". Last "near you" on a compare page.
+- [x] **TradeHVAC** — "M&E tender platform" → "M&E tender site". Removes design-rule-banned word "platform".
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`16a8475`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Remaining "near you" in trade narrative sentences (TradeGroundworkers, TradeEVCharger, TradeSmartHome, TradeFireSafety) — all contextual scenario descriptions, not CTAs. Acceptable as-is. Carryover blockers remain the main unlock.
+
 ## Today - 11 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced. Build GREEN (93 pages — Next.js app). TS CLEAN.
