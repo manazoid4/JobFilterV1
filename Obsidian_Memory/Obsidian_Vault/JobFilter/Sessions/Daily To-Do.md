@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 11 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `9b1a14b` (vault Run 2). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 2. PR #332 still last founder commit.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **NEEDLE sweep** — top finding: PricingPage CTA hierarchy inversion: paid CTAs missing →, free CTAs had →. Conversion page made free path look more actionable than paid path.
+- [x] **PricingPage paid CTAs** — `START £39/MO` and `LOCK FOUNDER PRICE` (×2) all missing → added.
+- [x] **PricingPage free CTAs** — "No credit card required — 3 free scans every week." added under hero and bottom free CTAs.
+- [x] **FindJobsPage Fill My Week** — heading `JOBS FOUND NEAR YOU` → `JOBS FOUND IN {postcode}` — banned phrase in heading.
+- [x] **Compare pages arrow sweep** — Bark, MyBuilder, RatedPeople, TrustATrader: hero + bottom yellow CTAs all missing → added (8 fixes). CompareCheckatrade: 3 remaining CTAs missing → added.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`70dbb3d`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. CompareBuildAlertPage hero CTA (line 151) still missing →. CompareCheckatradePage "GET FOUNDING 30" (line 424) is weak copy. Carryover blockers remain the main unlock.
+
 ## Today - 11 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `0e7e4b9` (PR #332, founder). Build GREEN, TS CLEAN.
