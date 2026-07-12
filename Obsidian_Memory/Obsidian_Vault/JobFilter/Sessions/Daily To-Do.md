@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 12 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `0eaa9ca` (vault auto-digest Jul 12 09:26 UTC). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 11 Run 3. Last founder commit: PR #332 (Jul 11). All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **NEEDLE sweep** — top finding: HomePage hero primary CTA `SCAN FREE — NO CARD NEEDED` missing → (above the fold on highest-traffic page). Secondary CTA in territory section also missing →.
+- [x] **HomePage hero + territory CTAs** — `SCAN FREE — NO CARD NEEDED` → `SCAN FREE — NO CARD NEEDED →` (×2).
+- [x] **CompareBuildAlertPage hero CTA** — `TRY JOBFILTER FREE — SEE WHAT BUILDALERT DOESN'T SHOW YOU` → added → (carryover from Jul 11 Run 3, now closed).
+- [x] **CompareCheckatradePage pricing CTA** — `GET FOUNDING 30` → `LOCK YOUR PATCH — £39/MO →` (last remaining "GET FOUNDING 30" in codebase, now fully swept).
+- [x] **CompareCheckatradePage copy** — "Every major UK lead platform sells..." → "...lead service sells..." (banned word "platform" in user-facing copy).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`7b960ad`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. Sweep lower-traffic pages not yet swept (TradieZonePage, TradieStackPage, WayleavePackPage) for CTA arrows. "GET FOUNDING 30" is FULLY SWEPT — do not re-check. Carryover blockers remain the main unlock.
+
 ## Today - 11 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `9b1a14b` (vault Run 2). Build GREEN, TS CLEAN.
