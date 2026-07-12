@@ -9,9 +9,9 @@ const publicLinks = [
   { to: '/pricing', label: 'Pricing' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/for-your-trade', label: 'Trades' },
-  { to: '/trust', label: 'Proof' },
-  { to: '/territories', label: 'Claim Patch' },
   { to: '/signals', label: 'Signals' },
+  { to: '/territories', label: 'Claim Patch' },
+  { to: '/trust', label: 'Proof' },
   { to: '/news', label: 'News' },
   { to: '/faq', label: 'FAQ' },
 ];

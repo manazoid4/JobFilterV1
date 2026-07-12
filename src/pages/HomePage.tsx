@@ -83,13 +83,6 @@ export function HomePage() {
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
               JobFilter scans planning approvals, energy data and council contracts to find serious construction work in your postcode — scored by quality, filtered by patch, delivered to WhatsApp.
             </p>
-            <div className="mt-6 grid gap-2 sm:grid-cols-2">
-              {proofPoints.map((point) => (
-                <div key={point} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black text-white transition-colors hover:border-[var(--yellow)] hover:bg-[var(--yellow)]/15 hover:text-[var(--yellow)]">
-                  {point}
-                </div>
-              ))}
-            </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED →
@@ -107,6 +100,13 @@ export function HomePage() {
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
               £39/mo founder price — locks in while your plan stays active. 30-day money-back guarantee.
             </p>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              {proofPoints.map((point) => (
+                <div key={point} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black text-white transition-colors hover:border-[var(--yellow)] hover:bg-[var(--yellow)]/15 hover:text-[var(--yellow)]">
+                  {point}
+                </div>
+              ))}
+            </div>
           </div>
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
