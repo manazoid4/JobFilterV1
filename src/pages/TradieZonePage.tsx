@@ -160,8 +160,8 @@ export function TradieZonePage() {
             )}
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY' : 'CLAIM YOUR PATCH'}</Link>
-            <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA</Link>
+            <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">{memberTerritory ? 'MANAGE TERRITORY →' : 'CLAIM YOUR PATCH →'}</Link>
+            <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN AREA →</Link>
           </div>
         </div>
       </section>

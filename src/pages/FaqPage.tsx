@@ -94,7 +94,7 @@ export function FaqPage() {
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
-          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO</Link>
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
         </div>
         <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
         <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>

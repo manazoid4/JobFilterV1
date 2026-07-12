@@ -637,7 +637,7 @@ function LockedState() {
             LOCK YOUR PATCH — £39/MO →
           </Link>
           <Link href="/features/admin-guard" className="jf-button bg-white/10 text-white border-white/20 shadow-none">
-            PREVIEW FEATURE
+            PREVIEW FEATURE →
           </Link>
         </div>
       </section>

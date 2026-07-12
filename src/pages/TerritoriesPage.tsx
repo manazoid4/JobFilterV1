@@ -349,7 +349,7 @@ export function TerritoriesPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a className="jf-button bg-[var(--ink)] text-white" href="#patch-check">CHECK MY PATCH →</a>
-              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED</Link>
+              <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
             </div>
           </div>
           <div className="jf-box bg-white p-6">
