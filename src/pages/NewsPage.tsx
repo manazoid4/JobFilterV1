@@ -294,7 +294,7 @@ export function NewsPage() {
           </div>
           <div className="mt-6">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">
-              GET FULL CITY INTEL — £39/MO
+              LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
         </div>

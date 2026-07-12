@@ -32,7 +32,7 @@ export function TradieStackPage() {
           Website, public intake, CRM, WhatsApp follow-up, reviews, quotes and neighbour campaigns. Built to catch homeowners, route jobs, and keep customers coming back.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a className="jf-button bg-[var(--ink)] text-white" href="#buy">Buy TradieStack — £450 once</a>
+          <a className="jf-button bg-[var(--ink)] text-white" href="#buy">Buy TradieStack — £450 once →</a>
           <Link className="jf-button bg-white text-[var(--ink)]" href="/post-job">See Public Intake</Link>
         </div>
       </section>

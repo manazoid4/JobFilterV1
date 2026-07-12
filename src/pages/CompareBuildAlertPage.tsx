@@ -380,7 +380,7 @@ export function CompareBuildAlertPage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED →</Link>
             <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>
@@ -512,7 +512,7 @@ export function CompareBuildAlertPage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
@@ -561,7 +561,7 @@ export function CompareBuildAlertPage() {
             JobFilter reads planning approvals, council contracts, and energy signals — all three, not just planning. Unlimited scans for £39/month flat. One job pays the month.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">

@@ -69,7 +69,7 @@ export function BuildUkAlternativePage() {
             And we do more. Five signals. Scored leads. WhatsApp alerts. All for less than you were paying.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">SEE THE DIFFERENCE</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
@@ -144,7 +144,7 @@ export function BuildUkAlternativePage() {
             </table>
           </div>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED →</Link>
             <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>
@@ -254,7 +254,7 @@ export function BuildUkAlternativePage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
