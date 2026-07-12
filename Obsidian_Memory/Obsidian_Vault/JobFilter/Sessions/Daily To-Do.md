@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 12 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `ea27554` (Jul 12 Run 1 + vault). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 12 Run 1. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **BuildUkAlternativePage arrow sweep** — hero ink CTA + comparison yellow CTA both missing →; `GET FOUNDING 30` tier card → `LOCK YOUR PATCH — £39/MO →`.
+- [x] **CompareBuildAlertPage arrow sweep** — comparison yellow CTA + bottom yellow CTA both missing →; `GET FOUNDING 30` tier card → `LOCK YOUR PATCH — £39/MO →`.
+- [x] **TradieStackPage hero CTA** — `Buy TradieStack — £450 once` → added `→`.
+- [x] **NewsPage secondary paid CTA** — `GET FULL CITY INTEL — £39/MO` → `LOCK YOUR PATCH — £39/MO →` (non-standard copy + missing arrow).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`f8e98d4`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. "GET FOUNDING 30" FULLY SWEPT as a CTA button. Remaining sweep targets: TradieZonePage territory section CTAs (CLAIM YOUR PATCH + MANAGE TERRITORY — both missing →), AccountPage/AdminGuardPage drift check. Carryover blockers remain the main unlock.
+
 ## Today - 12 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `0eaa9ca` (vault auto-digest Jul 12 09:26 UTC). Build GREEN, TS CLEAN.
