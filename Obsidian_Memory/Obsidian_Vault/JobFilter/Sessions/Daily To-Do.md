@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 12 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `19a9dc2` (Run 2 vault update). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 12 Run 2. All carryover blockers unchanged.
+- [x] **Phase 1 re-confirmed** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2 — all Tier 1 features confirmed BUILT**.
+- [x] **TradieZonePage territory CTAs** — `CLAIM YOUR PATCH` + `MANAGE TERRITORY` both missing →; `SCAN AREA` missing →. All three fixed (line 163-164).
+- [x] **AdminGuardPage PREVIEW FEATURE** — secondary CTA missing → on upsell section (line 640). Fixed.
+- [x] **FaqPage LOCK YOUR PATCH — £39/MO** — secondary pricing CTA missing → (line 97). Fixed.
+- [x] **TerritoriesPage SCAN FREE — NO CARD NEEDED** — secondary CTA missing → on final CTA section (line 352). Fixed.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`6974b92`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Check for new founder commits/PRs first. CTA arrow sweep appears largely exhausted — next run should do a comprehensive grep for remaining inline `jf-button` labels without `→` across all pages/. Consider copy review of SmartQuotePage and WayleavePackPage. Carryover blockers remain the main unlock.
+
 ## Today - 12 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `ea27554` (Jul 12 Run 1 + vault). Build GREEN, TS CLEAN.
