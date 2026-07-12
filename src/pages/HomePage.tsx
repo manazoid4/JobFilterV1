@@ -92,7 +92,7 @@ export function HomePage() {
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
-                SCAN FREE — NO CARD NEEDED
+                SCAN FREE — NO CARD NEEDED →
               </Link>
               <div className="flex flex-wrap gap-4">
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
@@ -293,7 +293,7 @@ export function HomePage() {
                 CHECK MY PATCH →
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
-                SCAN FREE — NO CARD NEEDED
+                SCAN FREE — NO CARD NEEDED →
               </Link>
             </div>
           </div>

@@ -421,7 +421,7 @@ export function CompareCheckatradePage() {
                 <li>Buyer names & deadlines</li>
                 <li>Price locked while active</li>
               </ul>
-              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">GET FOUNDING 30</Link>
+              <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
@@ -463,7 +463,7 @@ export function CompareCheckatradePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">FULL MARKET VIEW</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THE WHOLE INDUSTRY IS BUILT ON SHARED LEADS. JOBFILTER ISN'T.</h2>
-          <p className="mt-5 max-w-2xl font-black text-[var(--muted)]">Every major UK lead platform sells the same lead to multiple trades. The auction is the business model. Here's how they all stack up.</p>
+          <p className="mt-5 max-w-2xl font-black text-[var(--muted)]">Every major UK lead service sells the same lead to multiple trades. The auction is the business model. Here's how they all stack up.</p>
           <div className="mt-8 grid gap-3 md:hidden">
             {marketPlatforms.map((row) => (
               <div key={row.platform} className={`jf-box p-4 ${row.platform === 'JobFilter' ? 'bg-[var(--yellow)]' : 'bg-[var(--bg-main)]'}`}>
