@@ -1,5 +1,28 @@
 # Daily To-Do
 
+## Today - 13 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `c848dc1` (founder PR #334 — Nav + FindJobs hero delay removal). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — PR #334 merged (Jul 13 11:46 UTC): Claim Patch now in primary nav slot 5 (swapped with Signals). FindJobsPage hero section removed, scanner is now the first element. Reviewed — sound, no regressions. `--orange` token confirmed defined in index.css.
+- [x] **Phase 1** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT.
+- [x] **Footer `SCAN MY AREA FREE`** — missing → on primary CTA shown on every page. Fixed → `SCAN MY AREA FREE →`.
+- [x] **TradePage hero CTA** — `SCAN {TRADE} JOBS FREE` missing → on hero ink button (15+ trade pages). **FIXED.**
+- [x] **TradePage bottom CTA** — `SCAN {TRADE} JOBS FREE` missing → on bottom yellow button (same template). **FIXED.**
+- [x] **CityPage scan buttons** — all 3 render locations of `city.ctaText.toUpperCase()` missing →. Fixed (6 city pages).
+- [x] **FreeToolsPage** — `SEE FOUNDING 30` → `LOCK YOUR PATCH — £39/MO →`; `LOCK MY PATCH — £39/MO` → added →. Navy-on-dark audit confirmed clean — no navy buttons inside navy sections.
+- [x] **MethodologyPage** — `READ OUR PROMISE` → `READ OUR PROMISE →`.
+- [x] **ROITracker** — `UPGRADE TO UNLOCK` → `UPGRADE TO UNLOCK — £39/MO →` (adds price anchor for paid upsell).
+- [x] **MaterialEstimator** — `UNLOCK FULL ENGINE` → `UNLOCK FULL ENGINE — £39/MO →`.
+- [x] **WinSummary** — `VIEW PIPELINE` → `VIEW PIPELINE →`.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`8d948ef`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Add-on service pricing copy (14 services, no £ shown) — still blocked on founder decision. CTA sweep near-complete. AdminGuardPage nav CTA (line 109, `bg-white/10`) is intentional ghost button on dark section — confirmed fine. WaitlistForm submit button is not navigation — no → needed. Carryover blockers remain the main unlock.
+
 ## Today - 12 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `19a9dc2` (Run 2 vault update). Build GREEN, TS CLEAN.
