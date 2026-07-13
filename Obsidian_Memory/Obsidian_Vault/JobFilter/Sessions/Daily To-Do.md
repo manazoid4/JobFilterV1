@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 13 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `9109b4a` (audit doc). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 2. All carryover blockers unchanged.
+- [x] **Phase 1** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT.
+- [x] **CityIntelligencePage paywall CTAs** — `UNLOCK — £39/MO` + `SCAN FREE FIRST` both missing →. Both fixed at the upgrade decision moment. **FIXED (NEEDLE).**
+- [x] **BlueprintPage hero secondary CTA** — `LOCK YOUR PATCH →` missing price anchor. Fixed to `LOCK YOUR PATCH — £39/MO →` (bottom section already had it, hero was inconsistent).
+- [x] **SmartQuotePage paywall CTA** — `GET THE FULL QUOTE — £39/mo` → `GET THE FULL QUOTE — £39/MO →` (arrow + case).
+- [x] **SmartQuotePage free tools link** — `OPEN QUOTE FLOOR TOOL` → `OPEN QUOTE FLOOR TOOL →`.
+- [x] **"platform" word sweep** — TipsPage, TradeBuilders, TradeSmartHome (×2): all "platform" references in user-facing copy → "site" or "sites". Design rule: no "platform".
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`2d79a63`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: Add-on service pricing copy (14 services, no £) — blocked on founder. "near you" in TradeGroundworkers/TradeFireSafety/TradeEVCharger/TradeQuantitySurveyors (narrative context, low priority). CTA sweep largely exhausted.
+
 ## Today - 13 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `c848dc1` (founder PR #334 — Nav + FindJobs hero delay removal). Build GREEN, TS CLEAN.
