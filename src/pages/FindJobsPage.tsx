@@ -413,25 +413,10 @@ export function FindJobsPage() {
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
 
-      {/* ── HERO SECTION ──────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-2 border-[var(--line)] bg-[var(--ink)] p-7 md:p-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h40v40H0z\' fill=\'none\'/%3E%3Cpath d=\'M0 40L40 0\' stroke=\'%23E3B72A\' stroke-width=\'0.5\' opacity=\'0.15\'/%3E%3C/svg%3E")' }}>
-        <div className="relative z-10">
-          <p className="micro-label text-[var(--yellow)]">LIVE LEAD SCANNER</p>
-          <h1 className="headline mt-3 text-5xl leading-[0.9] sm:text-6xl md:text-8xl text-white">
-            FIND JOBS<br />WORTH PRICING
-          </h1>
-          <p className="mt-4 max-w-2xl text-lg font-black text-white/70">
-            Pick your trade. Enter your postcode. See what's live in your patch — 3–5 days before job boards.
-          </p>
-          <p className="mt-2 text-sm font-black text-[var(--yellow)]">
-            No Checkatrade membership. No Bark credits. 3 free scans every week — no credit card.
-          </p>
-        </div>
-      </section>
-
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <h2 className="headline text-3xl leading-none sm:text-4xl">SCAN YOUR AREA</h2>
+        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
         {!unlimitedTester && (
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
