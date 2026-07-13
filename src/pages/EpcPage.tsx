@@ -77,7 +77,7 @@ export function EpcPage() {
         <p className="mt-5 max-w-3xl text-xl font-black text-[var(--muted)]">
           Run targeted ads to every F/G rated property owner in your postcode. Vicinity handles the design and placement - you take the calls.
         </p>
-        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/vicinity">OPEN VICINITY</Link>
+        <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/vicinity">OPEN VICINITY →</Link>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1fr_420px] lg:items-center">

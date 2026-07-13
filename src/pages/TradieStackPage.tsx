@@ -33,7 +33,7 @@ export function TradieStackPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a className="jf-button bg-[var(--ink)] text-white" href="#buy">Buy TradieStack — £450 once →</a>
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/post-job">See Public Intake</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/post-job">SEE THE INTAKE FORM →</Link>
         </div>
       </section>
 
@@ -79,7 +79,7 @@ export function TradieStackPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=TradieStack%20Purchase">BUY TRADIESTACK — £450 →</a>
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">Add JobFilter Monthly</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">ADD JOBFILTER MONTHLY →</Link>
         </div>
       </section>
     </main>

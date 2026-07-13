@@ -326,7 +326,7 @@ export function MaterialPriceEnginePage() {
                   </div>
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80">
                     <p className="text-xs font-black uppercase text-[var(--ink)] text-center">Full breakdown + export</p>
-                    <Link href="/pricing" className="jf-button mt-2 bg-[var(--navy)] text-white text-xs">UPGRADE — £39/MO</Link>
+                    <Link href="/pricing" className="jf-button mt-2 bg-[var(--navy)] text-white text-xs">UNLOCK BREAKDOWN — £39/MO →</Link>
                     <p className="mt-1.5 text-xs font-black text-[var(--ink)]/80 text-center uppercase">30-day money-back guarantee</p>
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export function MaterialPriceEnginePage() {
             </div>
           </section>
 
-          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">Use this every month</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">CHECK PRICES EVERY JOB — £39/MO →</Link>
         </aside>
       </section>
     </main>

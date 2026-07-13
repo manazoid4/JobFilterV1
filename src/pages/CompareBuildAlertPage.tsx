@@ -403,7 +403,7 @@ export function CompareBuildAlertPage() {
             ))}
           </div>
           <div className="mt-6">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL</Link>
+            <Link className="jf-button bg-[var(--ink)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL →</Link>
           </div>
         </div>
       </section>

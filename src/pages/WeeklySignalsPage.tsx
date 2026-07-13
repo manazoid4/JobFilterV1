@@ -302,7 +302,7 @@ export function WeeklySignalsPage() {
             <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN YOUR AREA FREE →
             </Link>
-            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-[var(--navy)] text-white">
+            <button onClick={() => setShowSubscribe(true)} className="jf-button bg-white/10 text-white border-white/20 shadow-none hover:bg-white/20">
               GET WEEKLY ALERTS →
             </button>
             <button onClick={() => setShowShare(true)} className="jf-button bg-white text-[var(--ink)]">
