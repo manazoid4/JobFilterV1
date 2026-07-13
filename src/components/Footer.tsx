@@ -14,7 +14,7 @@ export function Footer() {
             <p className="headline mt-2 text-3xl sm:text-4xl">START FILTERING TODAY. FREE SCAN. NO SIGNUP.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
             <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </div>

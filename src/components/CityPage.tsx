@@ -168,7 +168,7 @@ export function CityPage({ city }: CityPageProps) {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <button onClick={handleScan} className="jf-button bg-[var(--ink)] text-white">
-              {city.ctaText.toUpperCase()}
+              {city.ctaText.toUpperCase()} →
             </button>
             <a href="/pricing" className="jf-button bg-white text-[var(--ink)]">
               LOCK YOUR PATCH — £39/MO →
@@ -321,7 +321,7 @@ export function CityPage({ city }: CityPageProps) {
             These are real signal types. Free scan shows they exist. £39/month unlocks the full detail — buyer, proof link, contact signal.
           </p>
           <button onClick={handleScan} className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]">
-            {city.ctaText.toUpperCase()}
+            {city.ctaText.toUpperCase()} →
           </button>
         </div>
       </section>
@@ -396,7 +396,7 @@ export function CityPage({ city }: CityPageProps) {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <button onClick={handleScan} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              {city.ctaText.toUpperCase()}
+              {city.ctaText.toUpperCase()} →
             </button>
             <a href="/pricing" className="jf-button bg-white/10 text-white">
               LOCK YOUR PATCH — £39/MO →

@@ -87,7 +87,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <div className="flex flex-col gap-1">
-              <Link className="jf-button bg-[var(--ink)] text-white" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+              <Link className="jf-button bg-[var(--ink)] text-white" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE →</Link>
               <span className="text-xs font-black uppercase tracking-wider text-[var(--ink)]/60">No credit card required</span>
             </div>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#how-it-works">SEE HOW IT WORKS</Link>
@@ -357,7 +357,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             Scan your area free. See what {data.trade} work is live in your postcode — before Checkatrade or Bark lists it. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`/find-jobs?trade=${data.slug}`}>SCAN {data.trade.toUpperCase()} JOBS FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.</p>

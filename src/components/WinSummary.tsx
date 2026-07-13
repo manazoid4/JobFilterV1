@@ -19,7 +19,7 @@ export function WinSummary() {
       <p className="mt-2 text-xl font-black">
         You've closed {stats.count} job{stats.count !== 1 ? 's' : ''} worth ~£{stats.totalValue.toLocaleString()} this month via JobFilter.
       </p>
-      <Link className="jf-button mt-4 inline-block bg-[var(--ink)] text-white" href="/dashboard">VIEW PIPELINE</Link>
+      <Link className="jf-button mt-4 inline-block bg-[var(--ink)] text-white" href="/dashboard">VIEW PIPELINE →</Link>
     </section>
   );
 }

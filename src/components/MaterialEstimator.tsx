@@ -265,7 +265,7 @@ export function MaterialEstimator({ defaultTrade, defaultJob, compact = false }:
               COMPARE LIVE PRICES →
             </Link>
             <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
-              UNLOCK FULL ENGINE
+              UNLOCK FULL ENGINE — £39/MO →
             </Link>
           </div>
         </div>

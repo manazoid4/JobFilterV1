@@ -218,7 +218,7 @@ export function MethodologyPage() {
             SCAN MY AREA FREE →
           </Link>
           <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">
-            READ OUR PROMISE
+            READ OUR PROMISE →
           </Link>
         </div>
         <p className="mt-3 text-sm font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>

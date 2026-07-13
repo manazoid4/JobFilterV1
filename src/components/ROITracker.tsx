@@ -70,7 +70,7 @@ export function ROITracker({ isPaid }: Props) {
           See total contacted, quoted, won values, win rate, and lead-to-quote speed.
         </p>
         <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm">
-          UPGRADE TO UNLOCK
+          UPGRADE TO UNLOCK — £39/MO →
         </Link>
       </div>
     );

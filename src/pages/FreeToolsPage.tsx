@@ -184,7 +184,7 @@ export function FreeToolsPage() {
           </ol>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA →</Link>
-            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">SEE FOUNDING 30</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
         </section>
       )}
@@ -268,7 +268,7 @@ export function FreeToolsPage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
               <span className="text-xs font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
-            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO →</Link>
           </div>
       </section>
 
