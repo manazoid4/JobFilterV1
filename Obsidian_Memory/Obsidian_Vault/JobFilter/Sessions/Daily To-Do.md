@@ -16,7 +16,25 @@
 - [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
 - [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
 - [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
-- [ ] **Next run**: Check for new founder commits/PRs first. CTA arrow sweep appears largely exhausted — next run should do a comprehensive grep for remaining inline `jf-button` labels without `→` across all pages/. Consider copy review of SmartQuotePage and WayleavePackPage. Carryover blockers remain the main unlock.
+- [x] **Next run (Jul 12 Run 3)**: CTA sweep largely exhausted — comprehensive grep completed in Jul 13 run. SmartQuotePage confirmed clean. WayleavePackPage is a ProductAdvantagePage template (data-driven, no direct CTA issues).
+
+## Today - 13 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `c4fe619` (Jul 12 Run 3). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs. All carryover blockers unchanged.
+- [x] **Phase 1** — no fake flows, no broken imports. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT.
+- [x] **WeeklySignalsPage "GET WEEKLY ALERTS" invisible button** — `bg-[var(--navy)]` button inside navy section (--navy=#080808). Ghost button pattern applied: `bg-white/10 border-white/20 shadow-none`. **FIXED.**
+- [x] **MaterialPriceEnginePage copy** — "Use this every month" → "CHECK PRICES EVERY JOB — £39/MO →"; "UPGRADE — £39/MO" → "UNLOCK BREAKDOWN — £39/MO →". **FIXED.**
+- [x] **TradieStackPage CTAs** — "See Public Intake" → "SEE THE INTAKE FORM →"; "Add JobFilter Monthly" → "ADD JOBFILTER MONTHLY →". **FIXED.**
+- [x] **EpcPage** — "OPEN VICINITY" → "OPEN VICINITY →". **FIXED.**
+- [x] **CompareBuildAlertPage** — "SEE THE SIGNALS IN DETAIL" → "SEE THE SIGNALS IN DETAIL →". **FIXED.**
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`8001019`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Add-on service pricing copy (14 services, no £ shown). Check FreeToolsPage for navy-on-dark invisible button risk. Remaining CTA sweep — grep jf-button for non-arrow labels excluding functional buttons.
 
 ## Today - 12 July 2026 (NightlyBuildAgent — Run 2)
 
