@@ -476,8 +476,8 @@ export function CityIntelligencePage() {
               Hot lead spotlight, action list, market note, and tool tip — all included at £39/mo. One dominant trade per postcode. If you don't see one job worth chasing in 30 days, we refund every penny.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO</Link>
-              <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE FIRST</Link>
+              <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK — £39/MO →</Link>
+              <Link href="/find-jobs" className="jf-button bg-white text-[var(--ink)]">SCAN FREE FIRST →</Link>
             </div>
             <p className="mt-3 text-xs font-black text-white/60">No credit card required — 3 free scans every week</p>
           </section>

@@ -12,7 +12,7 @@ const data: TradePageData = {
     ['You hear about jobs too late', 'By the time a planning-approved extension hits MyBuilder, the homeowner has already had 3 quotes. The first builder on site wins 70% of the time.'],
     ['Quiet weeks kill your cashflow', 'You finish a big job and your diary is empty. You\'re not short of skill — you\'re short of pipeline. Planning data shows work coming 2-3 months out.'],
     ['Directories don\'t show project scope', 'A "builder needed" listing tells you nothing. Is it a £5k patch job or a £80k extension? JobFilter shows estimated value before you pick up the phone.'],
-    ['You\'re competing with cowboys', 'Shared lead platforms let anyone with a van and a ladder quote. No vetting, no quality bar. You lose jobs to people who can\'t do the work properly.'],
+    ['You\'re competing with cowboys', 'Shared lead sites let anyone with a van and a ladder quote. No vetting, no quality bar. You lose jobs to people who can\'t do the work properly.'],
   ],
   stats: [
     ['~3,500', 'Extensions approved per week across the UK'],

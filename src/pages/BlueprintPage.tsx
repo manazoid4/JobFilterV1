@@ -691,7 +691,7 @@ export function BlueprintPage() {
                 SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
               </Link>
               <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" href="/pricing">
-                LOCK YOUR PATCH →
+                LOCK YOUR PATCH — £39/MO →
               </Link>
             </div>
             <p className="mt-3 text-sm font-black text-white/50">No credit card required — 3 free scans every week</p>

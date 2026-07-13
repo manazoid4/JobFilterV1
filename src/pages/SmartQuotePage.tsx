@@ -141,7 +141,7 @@ export function SmartQuotePage() {
                     Scope of works · Pricing schedule · T&amp;Cs — all 3 sections
                   </p>
                   <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm px-5 py-2">
-                    GET THE FULL QUOTE — £39/mo
+                    GET THE FULL QUOTE — £39/MO →
                   </Link>
                   <p className="mt-2 text-center text-xs font-black text-[var(--muted)]">
                     One job won with this covers 4+ months. 30-day money-back guarantee.
@@ -160,7 +160,7 @@ export function SmartQuotePage() {
             href="/free-tools"
             className="jf-button text-sm px-5 py-2 !bg-transparent border-2 border-[var(--ink)] !text-[var(--ink)] hover:!bg-[var(--ink)] hover:!text-white transition-colors"
           >
-            OPEN QUOTE FLOOR TOOL
+            OPEN QUOTE FLOOR TOOL →
           </Link>
         </div>
       </section>
