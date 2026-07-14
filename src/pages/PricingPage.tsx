@@ -29,7 +29,7 @@ export function PricingPage() {
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
-        <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+        <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           Planning approvals, council tenders, and energy signals — not recycled from Checkatrade or Bark. Scored by value, trade fit, and distance. Hits your WhatsApp before anyone else calls.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">

@@ -163,7 +163,7 @@ export function CityPage({ city }: CityPageProps) {
           >
             {city.heroH1}
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
             {city.heroSub}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -219,7 +219,7 @@ export function CityPage({ city }: CityPageProps) {
           <h2 className="headline mt-3 max-w-3xl text-4xl leading-[0.9] sm:text-5xl md:text-6xl">
             {city.localAngle}
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             {city.localAngleBody}
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -391,7 +391,7 @@ export function CityPage({ city }: CityPageProps) {
           <h2 className="headline mt-3 max-w-3xl text-4xl leading-[0.9] sm:text-5xl md:text-6xl text-white">
             SEE WHAT IS LIVE IN {city.name.toUpperCase()} RIGHT NOW.
           </h2>
-          <p className="mt-4 max-w-xl text-xl font-black text-white/90">
+          <p className="mt-4 max-w-xl text-xl font-bold text-white/85">
             Free scan shows the signals. £39/month unlocks full detail, WhatsApp alerts, and unlimited scans. 30-day money-back guarantee.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">

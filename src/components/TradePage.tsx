@@ -82,7 +82,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               </span>
             ))}
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
             {data.sub}
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -215,7 +215,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div>
             <p className="micro-label text-[var(--yellow)]">WHATSAPP BODYGUARD</p>
             <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl text-[var(--yellow)]">GOLD LEADS HIT YOUR PHONE. NOT YOUR INBOX. NOT A DASHBOARD.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
               When a job scores Gold for your trade, it fires to WhatsApp within minutes. You're on the tools — you don't need another app to check.
             </p>
             <div className="mt-6 grid gap-3 text-sm font-black text-white/90 sm:grid-cols-3">
@@ -353,7 +353,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             STOP WAITING.{' '}
             <span style={{ color: 'var(--yellow)' }}>START FILTERING.</span>
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             Scan your area free. See what {data.trade} work is live in your postcode — before Checkatrade or Bark lists it. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

@@ -142,7 +142,7 @@ export function SignalsPage() {
           <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
             JOBS BEFORE THEY GET POSTED.
           </h1>
-          <p className="mt-6 max-w-2xl text-xl font-black leading-snug text-white/80">
+          <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
             Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
