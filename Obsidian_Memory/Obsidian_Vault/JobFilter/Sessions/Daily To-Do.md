@@ -1,5 +1,18 @@
 # Daily To-Do
 
+## Today - 14 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — context resumed from Run 2; HEAD at `53af760` (Run 2 commit). Build GREEN, TS CLEAN.
+- [x] **CompareBuildAlertPage font-black sweep** (NEEDLE page — 14 description paragraph changes): hero, cost calculator, HONEST TAKE cards, FIRST MOVER ADVANTAGE, TEN SIGNALS grid, GOLD/SILVER/BRONZE cards, WHAT TRADES SAY, WHATSAPP, PRICING, FREE/FOUNDING/STANDARD cards, WHAT YOU GET features, final CTA. `text-white/80` → `text-white/85` on relevant paragraphs.
+- [x] **ForYourTradePage font-black sweep** (4 changes): hero description, signals article body, WHY cards body, SCAN YOUR PATCH paragraph.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`83862bb`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: font-black sweep on remaining lower-traffic pages (AdminGuardPage, AdminGuardTeaserPage, TrustCenterPage, IntakeTestPage). After that sweep is complete, buildable backlog for copy polish is genuinely exhausted — carryover blockers are the main unlock.
+
 ## Today - 14 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `c8e912f` (founder PR #335 — HomePage hero clarity). Build GREEN, TS CLEAN.
