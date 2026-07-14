@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 14 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `304e2cd` (founder vault-only commits). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — two vault-only commits (RoleSignal note removal + portfolio note). No app-code changes. No open PRs. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT from prior runs.
+- [x] **"near you" fully swept** — 4 remaining instances in TradeFireSafety/Groundworkers/EVCharger/SmartHome howItWorks step 03 descriptions → "in your area" / "in your patch". **FIXED.**
+- [x] **"platform" fully swept** — 6 remaining instances in user-facing copy across 5 files: TradeRoofers, CompareCheckatradePage (×3), CompareTrustATraderPage (×2), CityPage. All → "directory/directories/site/service". **FIXED.**
+- [x] **WeeklySignalsPage bottom CTA** — `LOCK YOUR PATCH — £39/MO` was the only button without → in a 3-button row (other two had arrows). **FIXED (NEEDLE).**
+- [x] **PricingPage free plan card** — `SCAN FREE — NO CARD NEEDED` was missing →; all other plan CTAs had it. **FIXED (NEEDLE).**
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`6a4fd0c`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: `near you` is FULLY SWEPT — do not re-check. `platform` in user-facing copy is FULLY SWEPT — remaining instances are JS variable names only. Buildable backlog is small; carryover blockers remain the main unlock.
+
 ## Today - 13 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `9109b4a` (audit doc). Build GREEN, TS CLEAN.
