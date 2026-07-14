@@ -1,5 +1,20 @@
 # Daily To-Do
 
+## Today - 14 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD synced to `c8e912f` (founder PR #335 — HomePage hero clarity). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — PR #335 merged (Jul 14 11:48 UTC): HomePage hero proof-points → bullet strip, `font-black` → `font-bold` on body descriptions. Reviewed — sound, no regressions. No open PRs.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT from prior runs.
+- [x] **NEEDLE sweep** — found `font-black` on description paragraphs in TradePage (15+ pages), CityPage (20+ pages), PricingPage, SignalsPage. Same pattern founder just fixed on HomePage. **FIXED in 4 files (35+ pages affected).**
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`0a24b29`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: `near you` is FULLY SWEPT — do not re-check. `platform` in user-facing copy is FULLY SWEPT — JS variable names only. `font-black` on description paragraphs: TradePage/CityPage/PricingPage/SignalsPage now fixed; remaining individual pages (BuildUkAlternativePage, EpcPage, CompareBarkPage, CompareCheckatradePage) have same pattern — sweep 2-3 in next run if no new founder commits.
+
 ## Today - 14 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD synced to `304e2cd` (founder vault-only commits). Build GREEN, TS CLEAN.
