@@ -80,29 +80,25 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>SCORED.</span>
               {' '}YOURS BEFORE CHECKATRADE.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
+            <p className="mt-5 max-w-2xl text-xl font-bold leading-snug text-white/85 md:text-2xl">
               JobFilter scans planning approvals, energy data and council contracts to find serious construction work in your postcode — scored by quality, filtered by patch, delivered to WhatsApp.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED →
               </Link>
-              <div className="flex flex-wrap gap-4">
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
-                  Check my patch →
-                </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
-                  How it works →
-                </Link>
-              </div>
+              <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
+                How it works →
+              </Link>
             </div>
-            <p className="mt-3 text-sm font-black text-white/60">
+            <p className="mt-3 text-sm font-bold text-white/55">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              £39/mo founder price — locks in while your plan stays active. 30-day money-back guarantee.
+              £39/mo founder price · locks in while your plan stays active · 30-day money-back guarantee
             </p>
-            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+            <div className="mt-5 flex flex-col gap-1.5">
               {proofPoints.map((point) => (
-                <div key={point} className="border-2 border-white/25 bg-white/8 px-3 py-2 text-sm font-black text-white transition-colors hover:border-[var(--yellow)] hover:bg-[var(--yellow)]/15 hover:text-[var(--yellow)]">
+                <div key={point} className="flex items-center gap-2 text-sm font-bold text-white/70">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--yellow)] shrink-0" />
                   {point}
                 </div>
               ))}
@@ -112,7 +108,7 @@ export function HomePage() {
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
               <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
-              <p className="text-[9px] font-black uppercase tracking-wider text-white/40">Illustrative</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-white/55">Sample data</p>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (
@@ -285,7 +281,7 @@ export function HomePage() {
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
               SECURE YOUR PATCH BEFORE ANOTHER TRADE DOES.
             </h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
+            <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]/70">
               Territory lock gives you first look at every signal in your postcode cluster. Tradesmen who lock in now keep £39/mo for life — the rate goes up when founder slots fill.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
@@ -377,7 +373,7 @@ export function HomePage() {
                 <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Tender → bid deck in 6h</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)]">PQQs, ITTs and big-quote paperwork turned into a deck that makes you look like the £5M firm. Forward-looking.</p>
               <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vantage →</span>
             </Link>
             <Link href="/vicinity" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
@@ -389,7 +385,7 @@ export function HomePage() {
                 <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Job photos → local ads</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)]">Finished jobs turned into WhatsApp posts, leaflets, and door-drops aimed only at houses with live signals.</p>
               <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Vicinity →</span>
             </Link>
             <Link href="/codex" className="jf-box bg-[var(--bg-main)] p-6 block hover:bg-white transition-colors">
@@ -401,7 +397,7 @@ export function HomePage() {
                 <span className="border border-[var(--green)] px-1.5 py-0.5 text-[10px] font-black uppercase text-[var(--green)]">Open now</span>
               </div>
               <h3 className="headline mt-3 text-2xl">Manuals → sales sheets</h3>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)]">Send dense product specs or schematics. Get back a plain-English one-pager a homeowner or procurement team will actually read.</p>
               <span className="mt-4 inline-block text-sm font-black uppercase text-[var(--ink)]">Open Codex →</span>
             </Link>
           </div>
@@ -463,7 +459,7 @@ export function HomePage() {
                 <h3 className="headline text-3xl">Claim early. Keep the rate.</h3>
               </div>
             </div>
-            <p className="mt-4 text-base font-black text-[var(--muted)]">
+            <p className="mt-4 text-base font-bold text-[var(--muted)]">
               No shared auction. No five-trade blast. Scored leads hit your WhatsApp before the job goes public.
             </p>
             <Link href="/territories" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
