@@ -48,7 +48,7 @@ export function PostJobPage() {
         <section className="ops-panel bg-[var(--yellow)] p-8">
           <p className="micro-label text-[var(--ink)]">JOB RECEIVED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">WE WILL MATCH THIS TO A VERIFIED LOCAL FIRM.</h1>
-          <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
             No lead auction. No spam. We check the job, route it by trade and patch, and only send it where it makes sense.
           </p>
           <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/">Back to JobFilter</Link>
@@ -66,7 +66,7 @@ export function PostJobPage() {
             <h1 className="headline mt-4 text-[clamp(44px,8vw,96px)] leading-[0.88]">
               NEED A SERIOUS TRADE? SKIP THE QUOTE LOTTERY.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+            <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
               Tell us the job once. No Checkatrade auction. No five tradesmen phoning at once. JobFilter checks local fit and routes your job to one serious firm — not a queue of bidders.
             </p>
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -82,7 +82,7 @@ export function PostJobPage() {
           </div>
           <div className="ops-panel bg-white p-5 text-[var(--ink)]">
             <p className="micro-label text-[var(--orange)]">WHAT HAPPENS NEXT</p>
-            <div className="mt-4 grid gap-3 font-black text-[var(--muted)]">
+            <div className="mt-4 grid gap-3 font-bold text-[var(--muted)]">
               <p>We review the job and score urgency, trade fit, location, and detail quality.</p>
               <p>Clear jobs get routed to local firms who can actually price the work.</p>
               <p>The system is designed to reduce spam, weak quotes, and wasted visits.</p>
@@ -112,7 +112,7 @@ export function PostJobPage() {
             <article key={title} className="ops-panel bg-white p-5">
               <ClipboardCheck className="text-[var(--orange)]" size={24} strokeWidth={3} />
               <h2 className="headline text-3xl">{title}</h2>
-              <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
             </article>
           ))}
         </aside>

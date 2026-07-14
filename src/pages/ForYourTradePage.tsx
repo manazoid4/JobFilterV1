@@ -38,7 +38,7 @@ export function ForYourTradePage() {
         <h1 className="headline mt-4 max-w-5xl text-5xl leading-none md:text-7xl">
           JOBS FOR YOUR TRADE. BEFORE ANYONE ELSE SEES THEM.
         </h1>
-        <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+        <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
           Pick your trade. See what gets flagged — before Checkatrade, Bark, or MyBuilder list the same job.
         </p>
       </section>
@@ -62,7 +62,7 @@ export function ForYourTradePage() {
         <article className="jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">{selected.label} SIGNALS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">WHAT GETS FLAGGED.</h2>
-          <p className="mt-4 text-xl font-black text-white/80">{selected.signals}</p>
+          <p className="mt-4 text-xl font-bold text-white/85">{selected.signals}</p>
           <div className="mt-6 border-4 border-[var(--yellow)] p-4">
             <p className="micro-label text-[var(--yellow)]">VALUE RANGE</p>
             <p className="headline mt-2 text-4xl text-white">{selected.value}</p>
@@ -102,7 +102,7 @@ export function ForYourTradePage() {
           ].map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h3 className="headline text-2xl">{title}</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
             </article>
           ))}
         </div>
@@ -112,7 +112,7 @@ export function ForYourTradePage() {
         <div className="jf-box bg-[var(--yellow)] p-6">
           <p className="micro-label text-[var(--ink)]">SCAN YOUR PATCH</p>
           <h2 className="headline mt-3 text-5xl leading-none">NO SHARED LEADS. NO FIVE-TRADE BLAST.</h2>
-          <p className="mt-3 font-black text-[var(--ink)]/70">Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. One {selected.label.toLowerCase()} per patch. That&apos;s you.</p>
+          <p className="mt-3 font-bold text-[var(--ink)]/70">Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. One {selected.label.toLowerCase()} per patch. That&apos;s you.</p>
           <Link className="jf-button mt-5 bg-[var(--ink)] text-white" href="/find-jobs">
             SCAN {selected.label.toUpperCase()} JOBS NOW →
           </Link>

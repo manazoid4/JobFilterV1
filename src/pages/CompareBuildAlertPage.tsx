@@ -111,7 +111,7 @@ export function CompareBuildAlertPage() {
               jobs.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
             BuildAlert mails you planning applications. JobFilter scans five data sources, scores them, and fires Gold leads to your WhatsApp before the letter even lands.
           </p>
 
@@ -165,7 +165,7 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">DO THE MATHS</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">HOW MANY JOBS DO YOU CHASE PER MONTH?</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--muted)]">
             Move the slider. See what it actually costs to find work with each service.
           </p>
 
@@ -256,7 +256,7 @@ export function CompareBuildAlertPage() {
                 <li>Physical letter is a clever direct mail play</li>
                 <li>No lock-in — pay only when you want a letter</li>
               </ul>
-              <p className="mt-4 font-black text-[var(--muted)] leading-relaxed">
+              <p className="mt-4 font-bold text-[var(--muted)] leading-relaxed">
                 If you only want planning applications mailed to you, BuildAlert does that fine. The letter model is clever for direct mail.
               </p>
             </div>
@@ -271,7 +271,7 @@ export function CompareBuildAlertPage() {
                 <li>No property sales or business registration data</li>
                 <li>£2/letter adds up fast if you're scanning multiple areas</li>
               </ul>
-              <p className="mt-4 font-black text-[var(--ink)] leading-relaxed">
+              <p className="mt-4 font-bold text-[var(--ink)] leading-relaxed">
                 Speed beats copy. The builder who turns up first gets the job — not the one with the nicest letter.
               </p>
             </div>
@@ -286,7 +286,7 @@ export function CompareBuildAlertPage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
             THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. The first. BuildAlert mails you a letter. By the time it arrives, someone with WhatsApp already won the job.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -391,14 +391,14 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             BuildAlert shows you planning applications. JobFilter shows you planning plus nine more verified signals — each scored so you know which ones to chase first.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (
               <div key={title} className="jf-box bg-white p-5">
                 <h3 className="headline text-2xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>
@@ -417,26 +417,26 @@ export function CompareBuildAlertPage() {
             <div className="jf-box bg-[var(--yellow)] p-6">
               <p className="micro-label text-[var(--ink)]">GOLD</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH CHASING</h3>
-              <p className="mt-3 font-black text-[var(--ink)]">
+              <p className="mt-3 font-bold text-[var(--ink)]">
                 High value, real urgency, official source confirmed. Drop everything for this one.
               </p>
             </div>
             <div className="jf-box bg-white p-6">
               <p className="micro-label text-[var(--muted)]">SILVER</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH WATCHING</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Good signal but timing is unclear. Keep it on your radar.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
               <p className="micro-label text-[var(--orange)]">BRONZE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>
-          <p className="mt-6 font-black text-[var(--muted)]">
+          <p className="mt-6 font-bold text-[var(--muted)]">
             BuildAlert mails you every planning application in your area and lets you figure out which matter. We score them so you know in seconds.
           </p>
         </div>
@@ -447,7 +447,7 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">WHAT TRADES SAY</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">TRADES WHO'VE SEEN BOTH SIDES.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--muted)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--muted)]">
             We didn't pay for these. They're what trades tell us when they compare the two.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -468,7 +468,7 @@ export function CompareBuildAlertPage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
             LETTERS TAKE DAYS. WHATSAPP TAKES SECONDS.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             BuildAlert sends physical letters. By the time yours arrives, the job might already be gone. JobFilter scores the lead and fires it to your WhatsApp within minutes of detection.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -479,7 +479,7 @@ export function CompareBuildAlertPage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-white/10 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-2 font-black text-white/90">{body}</p>
+                <p className="mt-2 font-bold text-white/90">{body}</p>
               </div>
             ))}
           </div>
@@ -491,20 +491,20 @@ export function CompareBuildAlertPage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo UNLIMITED. VS £2 PER LETTER.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £39/month for unlimited scans across all five signals. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">FREE</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
               <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
-              <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
+              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
@@ -516,7 +516,7 @@ export function CompareBuildAlertPage() {
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
             </div>
           </div>
@@ -542,7 +542,7 @@ export function CompareBuildAlertPage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>
@@ -557,7 +557,7 @@ export function CompareBuildAlertPage() {
             BUILDALERT CHARGES £2 PER LETTER.{' '}
             <span style={{ color: 'var(--yellow)' }}>STOP PAYING PER SCAN.</span>
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/90">
             JobFilter reads planning approvals, council contracts, and energy signals — all three, not just planning. Unlimited scans for £39/month flat. One job pays the month.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

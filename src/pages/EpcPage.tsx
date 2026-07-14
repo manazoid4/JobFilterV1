@@ -25,7 +25,7 @@ export function EpcPage() {
         <h1 className="headline mt-4 max-w-5xl text-5xl leading-none text-[var(--yellow)] md:text-7xl">
           ENERGY UPGRADES — FLAGGED BEFORE ANYONE KNOCKS.
         </h1>
-        <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+        <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           Properties rated F and G cannot be legally rented without retrofit work. Landlords must fix them — or stop renting. JobFilter identifies these addresses and alerts you before they post anywhere. No Checkatrade. No five-trade blast. Just you and the job.
         </p>
       </section>
@@ -35,7 +35,7 @@ export function EpcPage() {
           <article key={grade} className="jf-box bg-white p-5">
             <p className="micro-label text-[var(--orange)]">{grade}</p>
             <h2 className="headline mt-3 text-4xl">{title}</h2>
-            <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
+            <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
           </article>
         ))}
       </section>
@@ -46,7 +46,7 @@ export function EpcPage() {
           {trades.map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h2 className="headline text-2xl">{title}</h2>
-              <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
             </article>
           ))}
         </div>
@@ -55,7 +55,7 @@ export function EpcPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <p className="micro-label text-[var(--ink)]">LETTER TEMPLATE</p>
         <h2 className="headline mt-3 text-5xl leading-none">PRINT &amp; POST TEMPLATE.</h2>
-        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
+        <p className="mt-5 max-w-3xl text-xl font-bold text-[var(--ink)]">
           Most trades only send WhatsApp. A physical letter to an F/G rated landlord stands out — and costs 85p. Use our ready-to-print template: fill in your details, print it, post it. You control the timing.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-4">
@@ -74,7 +74,7 @@ export function EpcPage() {
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">TARGETED ADS</p>
         <h2 className="headline mt-3 text-5xl leading-none">VICINITY: HYPER-LOCAL RETROFIT ADS.</h2>
-        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--muted)]">
+        <p className="mt-5 max-w-3xl text-xl font-bold text-[var(--muted)]">
           Run targeted ads to every F/G rated property owner in your postcode. Vicinity handles the design and placement - you take the calls.
         </p>
         <Link className="jf-button mt-6 bg-[var(--yellow)] text-[var(--ink)]" href="/vicinity">OPEN VICINITY →</Link>
@@ -84,7 +84,7 @@ export function EpcPage() {
         <div className="jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">GET RETROFIT ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
-          <p className="mt-4 max-w-xl text-lg font-black text-white/90">
+          <p className="mt-4 max-w-xl text-lg font-bold text-white/90">
             Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
           </p>
           <Link className="jf-button mt-6 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>

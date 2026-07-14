@@ -86,7 +86,7 @@ export function CompareCheckatradePage() {
               leads to your competition.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
             Checkatrade is the biggest name in trade lead gen. And the most complained about. Shared leads, price wars, monthly fees just to be listed. JobFilter does the opposite — territory-routed signals, no shared auctions, one flat price.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -112,11 +112,11 @@ export function CompareCheckatradePage() {
             {painPoints.map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--orange)]">{title.toUpperCase()}</h3>
-                <p className="mt-3 font-black text-[var(--muted)] leading-relaxed">{body}</p>
+                <p className="mt-3 font-bold text-[var(--muted)] leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
-          <p className="mt-8 max-w-2xl text-lg font-black text-[var(--muted)]">
+          <p className="mt-8 max-w-2xl text-lg font-bold text-[var(--muted)]">
             This isn't opinion. It's what trades say on Reddit, forums, and review sites. The system is broken. JobFilter was built to fix it.
           </p>
         </div>
@@ -129,7 +129,7 @@ export function CompareCheckatradePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">
             EVERY LEAD YOU BUY GOES TO 4 OTHER BLOKES.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             You pay £15 for a lead. So do four other trades. One of you wins. The other four just funded their own competition. That's not lead generation. That's a tax on hope.
           </p>
           <div className="mt-8 jf-box bg-white p-6">
@@ -188,7 +188,7 @@ export function CompareCheckatradePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
             THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. Not the best reviewed. The first. JobFilter tells you where to turn up before anyone else knows the job exists.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -319,14 +319,14 @@ export function CompareCheckatradePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Checkatrade waits for homeowners to fill out a form. JobFilter reads ten verified signals that tell you work is coming — before the homeowner even thinks about posting a job.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (
               <div key={title} className="jf-box bg-white p-5">
                 <h3 className="headline text-2xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>
@@ -345,26 +345,26 @@ export function CompareCheckatradePage() {
             <div className="jf-box bg-[var(--yellow)] p-6">
               <p className="micro-label text-[var(--ink)]">GOLD</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH CHASING</h3>
-              <p className="mt-3 font-black text-[var(--ink)]">
+              <p className="mt-3 font-bold text-[var(--ink)]">
                 High value, real urgency, official source confirmed. This is the job you drop everything for.
               </p>
             </div>
             <div className="jf-box bg-white p-6">
               <p className="micro-label text-[var(--muted)]">SILVER</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH WATCHING</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Good signal but timing is unclear. Keep it on your radar. Might be your next job.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
               <p className="micro-label text-[var(--orange)]">BRONZE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>
-          <p className="mt-6 font-black text-[var(--muted)]">
+          <p className="mt-6 font-bold text-[var(--muted)]">
             Checkatrade sends every lead and hopes you sort the good from the bad. We do the sorting so you stay on the tools.
           </p>
         </div>
@@ -377,7 +377,7 @@ export function CompareCheckatradePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
             NO MORE WAITING FOR LEADS. THEY COME TO YOU.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             Checkatrade makes you log in, browse, and bid. JobFilter scores the signal and fires Gold leads to your WhatsApp within minutes. Before the homeowner even posts the job publicly.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -388,7 +388,7 @@ export function CompareCheckatradePage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-white/10 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-2 font-black text-white/90">{body}</p>
+                <p className="mt-2 font-bold text-white/90">{body}</p>
               </div>
             ))}
           </div>
@@ -400,20 +400,20 @@ export function CompareCheckatradePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. VS £50-£90/MO + PER-LEAD FEES.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Checkatrade charges £50-£90/month per category, then charges per-lead on top. Trades report £200+/month before any work arrives. JobFilter is £39/month flat. Unlimited scans. No per-lead fees. No category restrictions.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">FREE</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
               <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
-              <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
+              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
@@ -425,7 +425,7 @@ export function CompareCheckatradePage() {
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
             </div>
           </div>
@@ -451,7 +451,7 @@ export function CompareCheckatradePage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>

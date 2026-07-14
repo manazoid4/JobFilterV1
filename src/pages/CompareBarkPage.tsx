@@ -50,7 +50,7 @@ export function CompareBarkPage() {
               nobody else sees.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
             Bark charges you credits for shared leads from form-fillers. JobFilter scans planning data, council contracts, and ownership signals — and delivers scored, private intelligence direct to your phone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -145,7 +145,7 @@ export function CompareBarkPage() {
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
             Stop buying the same lead five other trades already got.
           </h2>
-          <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
+          <p className="mt-4 font-bold text-white/80 text-lg max-w-xl mx-auto">
             JobFilter reads planning approvals, council contracts, and energy signals — 3–5 days before Bark, MyBuilder, or Checkatrade list the same job. £39/month flat. No credits. No auctions.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">

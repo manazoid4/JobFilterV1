@@ -65,7 +65,7 @@ export function BuildUkAlternativePage() {
               JobFilter is up.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-2xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-2xl font-bold leading-snug text-[var(--ink)]">
             And we do more. Five signals. Scored leads. WhatsApp alerts. All for less than you were paying.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -89,19 +89,19 @@ export function BuildUkAlternativePage() {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="jf-box bg-[var(--bg-main)] p-6">
               <h3 className="headline text-xl text-[var(--muted)]">THE SITUATION</h3>
-              <p className="mt-3 font-black text-[var(--muted)] leading-relaxed">
+              <p className="mt-3 font-bold text-[var(--muted)] leading-relaxed">
                 2builduk.com returns a 404 error. The site is gone. If you were paying £30+/month for planning leads access, you're now getting nothing.
               </p>
-              <p className="mt-3 font-black text-[var(--muted)] leading-relaxed">
+              <p className="mt-3 font-bold text-[var(--muted)] leading-relaxed">
                 Planning applications don't stop just because a website went down. Work is still being approved. Contracts are still being awarded. You just can't see them anymore.
               </p>
             </div>
             <div className="jf-box bg-[var(--yellow)] p-6">
               <h3 className="headline text-xl text-[var(--ink)]">THE FIX</h3>
-              <p className="mt-3 font-black text-[var(--ink)] leading-relaxed">
+              <p className="mt-3 font-bold text-[var(--ink)] leading-relaxed">
                 JobFilter scans the same planning data 2BuildUK showed — plus energy upgrade demand, public contracts, ownership changes, and new business signals. Then we score every lead so you only chase the ones worth your time.
               </p>
-              <p className="mt-3 font-black text-[var(--ink)] leading-relaxed">
+              <p className="mt-3 font-bold text-[var(--ink)] leading-relaxed">
                 Gold leads hit your WhatsApp within minutes. No manual browsing. No downloading spreadsheets. Just jobs that pay, delivered to where you already work.
               </p>
             </div>
@@ -155,14 +155,14 @@ export function BuildUkAlternativePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">INTELLIGENCE ENGINE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">TEN SIGNALS. ONE SCAN. BEFORE ANYONE ELSE KNOWS.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             2BuildUK gave you planning data. JobFilter gives you that plus nine more verified signals that tell you work is coming — before it reaches any directory.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {signals.map(([title, body]) => (
               <div key={title} className="jf-box bg-white p-5">
                 <h3 className="headline text-2xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>
@@ -178,26 +178,26 @@ export function BuildUkAlternativePage() {
             <div className="jf-box bg-[var(--yellow)] p-6">
               <p className="micro-label text-[var(--ink)]">GOLD</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH CHASING</h3>
-              <p className="mt-3 font-black text-[var(--ink)]">
+              <p className="mt-3 font-bold text-[var(--ink)]">
                 High value, real urgency, official source confirmed. This is the job you drop everything for.
               </p>
             </div>
             <div className="jf-box bg-white p-6">
               <p className="micro-label text-[var(--muted)]">SILVER</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">WORTH WATCHING</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Good signal but timing is unclear. Keep it on your radar. Might be your next job.
               </p>
             </div>
             <div className="jf-box bg-[var(--bg-main)] p-6">
               <p className="micro-label text-[var(--orange)]">BRONZE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--navy)]">QUIET-WEEK LIST</h3>
-              <p className="mt-3 font-black text-[var(--muted)]">
+              <p className="mt-3 font-bold text-[var(--muted)]">
                 Real signal, not urgent. Low value or too much competition right now — revisit when your diary is quiet.
               </p>
             </div>
           </div>
-          <p className="mt-6 font-black text-[var(--muted)]">
+          <p className="mt-6 font-bold text-[var(--muted)]">
             2BuildUK showed you every planning application and let you figure out which mattered. We score them so you know in seconds.
           </p>
         </div>
@@ -210,7 +210,7 @@ export function BuildUkAlternativePage() {
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl text-[var(--yellow)]">
             NO MORE BROWSING. LEADS COME TO YOU.
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/80">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
             2BuildUK made you log in, search, browse, and download. JobFilter scores the lead and fires it to your WhatsApp before you even open your laptop.
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -221,7 +221,7 @@ export function BuildUkAlternativePage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-white/10 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-2 font-black text-white/90">{body}</p>
+                <p className="mt-2 font-bold text-white/90">{body}</p>
               </div>
             ))}
           </div>
@@ -233,20 +233,20 @@ export function BuildUkAlternativePage() {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo FOREVER. WAS £30+/MO FOR LESS.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Founding 30 is locked at £39/month. No price rises while active. No per-lead fees. No contracts. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">FREE</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">See the signals. Know what's out there. No card needed.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
               <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
-              <p className="mt-2 font-black text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
+              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
@@ -258,7 +258,7 @@ export function BuildUkAlternativePage() {
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
               <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">JOIN STANDARD — £79/MO →</Link>
             </div>
@@ -285,7 +285,7 @@ export function BuildUkAlternativePage() {
             ].map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               </div>
             ))}
           </div>
@@ -300,7 +300,7 @@ export function BuildUkAlternativePage() {
             2BUILDUK IS GONE.{' '}
             <span style={{ color: 'var(--yellow)' }}>YOUR LEADS AREN'T.</span>
           </h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-white/90">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-white/90">
             Scan your area free. See what work is live in your postcode — before Checkatrade or Bark lists it. No card needed. No signup wall. Just results.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

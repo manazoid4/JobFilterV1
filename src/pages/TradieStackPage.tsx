@@ -28,7 +28,7 @@ export function TradieStackPage() {
         <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">
           OWN THE SYSTEM THAT TURNS LOCAL ATTENTION INTO BOOKED WORK.
         </h1>
-        <p className="mt-5 max-w-3xl text-xl font-black text-[var(--ink)]">
+        <p className="mt-5 max-w-3xl text-xl font-bold text-[var(--ink)]">
           Website, public intake, CRM, WhatsApp follow-up, reviews, quotes and neighbour campaigns. Built to catch homeowners, route jobs, and keep customers coming back.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -40,7 +40,7 @@ export function TradieStackPage() {
       <section className="ops-panel bg-white p-6">
         <p className="micro-label text-[var(--orange)]">WHY IT MATTERS</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">JOBFILTER FINDS DEMAND. TRADIESTACK CAPTURES IT.</h2>
-        <p className="mt-4 max-w-3xl text-lg font-black text-[var(--muted)]">
+        <p className="mt-4 max-w-3xl text-lg font-bold text-[var(--muted)]">
           Tradesmen need more than a website. They need a simple capture system: someone sees a sticker, leaflet, letter, neighbour job, or Google result, then submits a proper job request into your pipeline.
         </p>
       </section>
@@ -51,7 +51,7 @@ export function TradieStackPage() {
           {features.map(([title, body]) => (
             <article key={title} className="border-2 border-white/20 bg-white/8 p-5">
               <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
-              <p className="mt-2 font-black text-white/72">{body}</p>
+              <p className="mt-2 font-bold text-white/80">{body}</p>
             </article>
           ))}
         </div>
@@ -64,7 +64,7 @@ export function TradieStackPage() {
           {revenueHooks.map(([title, body, price]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
               <h3 className="headline text-2xl">{title}</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
               <p className="mt-4 border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 text-center font-black">{price}</p>
             </article>
           ))}
@@ -74,7 +74,7 @@ export function TradieStackPage() {
       <section className="ops-panel bg-[var(--yellow)] p-8" id="buy">
         <p className="micro-label text-[var(--ink)]">ONE PAYMENT</p>
         <h2 className="headline mt-3 text-6xl leading-none">£450 ONCE</h2>
-        <p className="mt-3 max-w-2xl text-xl font-black text-[var(--ink)]">
+        <p className="mt-3 max-w-2xl text-xl font-bold text-[var(--ink)]">
           No agency retainer. No monthly website tax. Own the capture system, then plug in JobFilter monthly when you want intelligence and routed leads.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
