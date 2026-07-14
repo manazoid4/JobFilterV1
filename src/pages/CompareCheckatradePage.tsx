@@ -478,7 +478,7 @@ export function CompareCheckatradePage() {
             <table className="w-full min-w-[700px] border-collapse text-sm font-black">
               <thead>
                 <tr className="bg-[var(--navy)] text-white">
-                  <th className="px-4 py-3 text-left">Platform</th>
+                  <th className="px-4 py-3 text-left">Service</th>
                   <th className="px-4 py-3 text-left">Monthly cost</th>
                   <th className="px-4 py-3 text-left">Lead model</th>
                   <th className="px-4 py-3 text-left">Biggest weakness</th>
@@ -497,7 +497,7 @@ export function CompareCheckatradePage() {
             </table>
           </div>
           <p className="mt-6 font-black text-[var(--muted)]">
-            Pricing based on published rates and tradesperson-reported renewal figures (May 2026). Shared lead counts from platform documentation and user complaints.
+            Pricing based on published rates and tradesperson-reported renewal figures (May 2026). Shared lead counts from service documentation and user complaints.
           </p>
         </div>
       </section>
@@ -514,7 +514,7 @@ export function CompareCheckatradePage() {
             {[
               {
                 q: '"Checkatrade has the reviews and the brand trust."',
-                a: 'True — for homeowners. But you\'re not a homeowner. You\'re a trade paying to access those homeowners. The brand trust Checkatrade built is theirs. Your reviews on their platform are theirs. If you cancel, you lose your profile. JobFilter finds jobs before they go to any directory — brand trust is irrelevant at that point.',
+                a: 'True — for homeowners. But you\'re not a homeowner. You\'re a trade paying to access those homeowners. The brand trust Checkatrade built is theirs. Your reviews on their site are theirs. If you cancel, you lose your profile. JobFilter finds jobs before they go to any directory — brand trust is irrelevant at that point.',
               },
               {
                 q: '"I already pay Checkatrade and it\'s working OK."',

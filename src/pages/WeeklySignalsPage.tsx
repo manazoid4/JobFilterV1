@@ -559,7 +559,7 @@ export function WeeklySignalsPage() {
               RUN MY FREE SCAN →
             </Link>
             <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">
-              LOCK YOUR PATCH — £39/MO
+              LOCK YOUR PATCH — £39/MO →
             </Link>
             <button onClick={() => setShowSubscribe(true)} className="jf-button bg-white text-[var(--ink)]">
               GET WEEKLY EMAILS →

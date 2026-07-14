@@ -21,11 +21,11 @@ const quotes = [
     role: "Roofer, Leeds",
   },
   {
-    quote: "My review platform membership renewed automatically and the leads dried up. JobFilter is £39/month, cancel any time. The leads are proactive, not passive.",
+    quote: "My review directory membership renewed automatically and the leads dried up. JobFilter is £39/month, cancel any time. The leads are proactive, not passive.",
     role: "Electrician, Bristol",
   },
   {
-    quote: "Review platforms rank me against 40 other local trades. JobFilter results are private — no one sees what I see. That's the difference.",
+    quote: "Review directories rank me against 40 other local trades. JobFilter results are private — no one sees what I see. That's the difference.",
     role: "Plumber, Manchester",
   },
 ];

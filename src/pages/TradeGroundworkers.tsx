@@ -28,7 +28,7 @@ const data: TradePageData = {
   howItWorks: [
     ['01', 'Enter your postcode', 'Tell us where you operate. We scan planning approvals, brownfield site data, and drainage applications within your working radius.'],
     ['02', 'Groundwork signals get scored', 'Residential new build approvals, brownfield conversions, drainage scheme applications — each scored by estimated contract value and how early in the process the project is.'],
-    ['03', 'Gold leads fire to WhatsApp', 'A 12-unit brownfield approval near you is a groundworks package worth £35k-£65k. You get the alert the day planning is granted — before the developer calls their usual firm.'],
+    ['03', 'Gold leads fire to WhatsApp', 'A 12-unit brownfield approval in your area is a groundworks package worth £35k-£65k. You get the alert the day planning is granted — before the developer calls their usual firm.'],
   ],
   tradeLeadExample: {
     title: '12-unit residential brownfield approval — groundworks required',

@@ -12,7 +12,7 @@ const data: TradePageData = {
     ['Storm damage work is reactive', 'You wait for the phone to ring after a storm. The roofer who gets there first gets the job. But you can\'t be everywhere at once.'],
     ['New roof enquiries go to directories', 'Homeowners post "need new roof" on Checkatrade and get 6 quotes. The cheapest wins. You\'re a proper roofer — you can\'t compete with a bloke with a ladder and some felt.'],
     ['Planning-approved work is invisible to most roofers', 'An extension gets approved. The homeowner needs a roof on it in 3-6 months. But no roofer knows about it because planning data isn\'t on any job board.'],
-    ['Flat roof and Velux jobs are hard to find', 'Dormer conversions, flat roof replacements, Velux installs — these show up in planning applications but never make it to lead platforms.'],
+    ['Flat roof and Velux jobs are hard to find', 'Dormer conversions, flat roof replacements, Velux installs — these show up in planning applications but never make it to lead directories.'],
   ],
   stats: [
     ['3,500+', 'Planning apps/week include roofing work'],

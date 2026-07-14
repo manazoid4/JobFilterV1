@@ -123,7 +123,7 @@ export const CITIES: CityData[] = [
     heroSub: 'Glasgow has heavy retrofit and building demand. Scottish rules are tightening. The work is coming. JobFilter watches verified job signals across the G postcodes — and sends GOLD leads to your phone. No lead auction. No per-lead fees.',
     statsNote: 'Scotland has different rules, different paperwork, and different timelines. JobFilter turns that noise into scored signals for Glasgow and the Central Belt.',
     localAngle: 'Scotland plays by different rules. JobFilter knows them.',
-    localAngleBody: 'Scottish construction demand has its own rules and timelines. Most lead platforms ignore Scotland entirely. JobFilter doesn\'t. We watch every G postcode for verified job signals — scored and delivered to WhatsApp. The retrofit wave is coming to Glasgow. Be ready for it.',
+    localAngleBody: 'Scottish construction demand has its own rules and timelines. Most lead directories ignore Scotland entirely. JobFilter doesn\'t. We watch every G postcode for verified job signals — scored and delivered to WhatsApp. The retrofit wave is coming to Glasgow. Be ready for it.',
     ctaText: 'Scan Glasgow now — free',
   },
 ];

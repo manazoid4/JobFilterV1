@@ -28,7 +28,7 @@ const data: TradePageData = {
   howItWorks: [
     ['01', 'Enter your postcode', 'Tell us where you practise. We scan HMO licensing registers, change-of-use planning applications, and Building Safety Act compliance triggers within your working radius.'],
     ['02', 'Fire safety signals get scored', 'HMO applications, care home planning, change-of-use notices — each scored by estimated FRA value, property size, and how urgently the compliance work is required.'],
-    ['03', 'Gold leads fire to WhatsApp', 'An HMO licence application for an 8-bed property near you is a guaranteed FRA commission worth £650-£1,200. You get the alert the day the application is filed.'],
+    ['03', 'Gold leads fire to WhatsApp', 'An HMO licence application for an 8-bed property in your area is a guaranteed FRA commission worth £650-£1,200. You get the alert the day the application is filed.'],
   ],
   tradeLeadExample: {
     title: '8-bed HMO licence application — FRA legally required',

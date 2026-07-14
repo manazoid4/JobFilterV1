@@ -28,7 +28,7 @@ const data: TradePageData = {
   howItWorks: [
     ['01', 'Enter your postcode', 'Tell us where you operate. We scan high-value planning approvals, premium new build estates, and property transaction signals within your working radius.'],
     ['02', 'Smart home signals get scored', 'Large extensions in premium postcodes, whole-house renovation planning, high-value transactions — each scored by estimated renovation budget and smart home specification probability.'],
-    ['03', 'Gold leads fire to WhatsApp', 'A large double extension approved in a £600k+ postcode area near you is a renovation with a £280k budget. You get the alert before the client has had a single conversation about smart home.'],
+    ['03', 'Gold leads fire to WhatsApp', 'A large double extension approved in a £600k+ postcode area in your patch is a renovation with a £280k budget. You get the alert before the client has had a single conversation about smart home.'],
   ],
   tradeLeadExample: {
     title: 'Large double extension approved — £280k renovation budget',

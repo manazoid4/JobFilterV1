@@ -28,7 +28,7 @@ const data: TradePageData = {
   howItWorks: [
     ['01', 'Enter your postcode', 'Tell us where you operate. We scan planning approvals, new build notices, and commercial applications within your working radius for EV charger installation opportunities.'],
     ['02', 'EV signals get scored', 'New build estate approvals with Part S obligations, commercial car park planning, property transactions — each scored by contract value and how close to tender stage they are.'],
-    ['03', 'Gold leads fire to WhatsApp', 'A 20-unit new build approved near you means 20 guaranteed EV charger installs under Part S. You get the alert before the main contractor names their preferred installer.'],
+    ['03', 'Gold leads fire to WhatsApp', 'A 20-unit new build approved in your area means 20 guaranteed EV charger installs under Part S. You get the alert before the main contractor names their preferred installer.'],
   ],
   tradeLeadExample: {
     title: '20-unit new build — Part S EV charger provision required',
