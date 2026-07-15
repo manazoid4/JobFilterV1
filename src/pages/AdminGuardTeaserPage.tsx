@@ -56,7 +56,7 @@ export function AdminGuardTeaserPage() {
       <section className="jf-box bg-[var(--ink)] p-8 sm:p-12 text-white mt-8">
         <p className="micro-label text-[var(--yellow)]">TAX &amp; ADMIN — PAID MEMBER FEATURE</p>
         <h1 className="headline mt-2 text-5xl sm:text-7xl leading-none">ADMIN GUARD</h1>
-        <p className="mt-4 max-w-2xl font-black text-white/90 text-lg sm:text-xl">
+        <p className="mt-4 max-w-2xl font-bold text-white/90 text-lg sm:text-xl">
           HMRC dates, trade admin checklists and reminder exports — built into your JobFilter dashboard.
         </p>
         <p className="mt-2 text-sm font-bold text-white/75">
@@ -66,7 +66,7 @@ export function AdminGuardTeaserPage() {
           <Link href="/pricing" className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]">
             GET ADMIN GUARD →
           </Link>
-          <Link href="/dashboard/admin-guard" className="jf-button jf-button-lg bg-white/10 text-white border-white/20 shadow-none">
+          <Link href="/dashboard/admin-guard" className="jf-button jf-button-lg bg-white text-[var(--ink)]">
             OPEN DASHBOARD →
           </Link>
         </div>

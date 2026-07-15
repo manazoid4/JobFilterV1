@@ -29,7 +29,7 @@ export function TipsPage() {
         {tips.map(([title, body]) => (
           <article key={title} className="jf-box bg-white p-5">
             <h2 className="headline text-2xl sm:text-3xl">{title}</h2>
-            <p className="mt-2 text-lg font-black text-[var(--muted)]">{body}</p>
+            <p className="mt-2 text-lg font-bold text-[var(--muted)]">{body}</p>
           </article>
         ))}
       </section>
@@ -37,7 +37,7 @@ export function TipsPage() {
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">THE FILTER</p>
         <h2 className="headline mt-3 text-4xl leading-none text-[var(--yellow)] md:text-5xl">CONTROL THE JOBS. NO CHASING. NO COMPETING.</h2>
-        <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-white/85">
           Official UK signals scored before they reach your phone. Gold jobs to WhatsApp. Weak noise blocked. Free to scan — £39/month to unlock buyer details and WhatsApp alerts.
         </p>
         <p className="mt-4 text-sm font-black text-white/80">One job worth chasing covers 12+ months at £39. Average UK trade job: £800–£3,000.</p>

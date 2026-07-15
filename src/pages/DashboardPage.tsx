@@ -92,7 +92,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
     <section className="jf-box bg-white p-5">
       <p className="micro-label text-[var(--muted)]">LEAD ALERTS</p>
       <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN JOBS APPEAR</h2>
-      <p className="mt-2 text-sm font-black text-[var(--muted)]">
+      <p className="mt-2 text-sm font-bold text-[var(--muted)]">
         Set up an alert for your trade and postcode area. Free weekly digest — paid subscribers get daily or instant.
       </p>
 
@@ -260,7 +260,7 @@ export function DashboardPage() {
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">JOB TRACKER</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
-        <p className="mt-3 max-w-2xl font-black text-white/90">
+        <p className="mt-3 max-w-2xl font-bold text-white/90">
           Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
@@ -271,12 +271,12 @@ export function DashboardPage() {
             </span>
           </div>
           {territory ? (
-            <p className="text-sm font-black text-[var(--yellow)]">
+            <p className="text-sm font-bold text-[var(--yellow)]">
               Gold leads to you first — buyer name, job value, and direct WhatsApp routing included. Your competition gets them 24h later.
             </p>
           ) : (
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-black text-white/90">
+              <p className="text-sm font-bold text-white/90">
                 No patch locked — leads are visible but buyer name, job value, and contact details stay hidden until you upgrade. Another trade could claim your area today.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -342,7 +342,7 @@ export function DashboardPage() {
         <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">
           <p className="micro-label text-[var(--orange)]">NO JOBS TRACKED YET</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
-          <p className="mt-3 max-w-lg mx-auto font-black text-[var(--ink)]/80 text-sm">
+          <p className="mt-3 max-w-lg mx-auto font-bold text-[var(--ink)]/80 text-sm">
             Find a job before Checkatrade lists it. One £2,000 win and £39/mo pays for itself 50 times over — no shared auction, no credit burn.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
@@ -360,13 +360,13 @@ export function DashboardPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <div className="grid gap-4 md:grid-cols-3">
           {isEmpty ? (
-            <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-[var(--yellow)] p-5 hover:opacity-90 transition shadow-[4px_4px_0_var(--ink)]">
+            <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)] transition shadow-[4px_4px_0_var(--ink)]">
               <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
               <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-              <p className="mt-1 text-sm font-black text-[var(--ink)]">Before Checkatrade lists them</p>
+              <p className="mt-1 text-sm font-bold text-[var(--ink)]">Before Checkatrade lists them</p>
             </Link>
           ) : (
-            <div className="border-2 border-[var(--ink)] bg-[var(--yellow)] p-5">
+            <div className="border-2 border-[var(--ink)] bg-white p-5">
               <p className="micro-label text-[var(--ink)]">LAST SCAN</p>
               <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">
                 {scansUsed > 0 ? scansUsed : '—'}
@@ -458,7 +458,7 @@ export function DashboardPage() {
               <div>
                 <p className="micro-label text-[var(--green)]">YOU WON — ASK FOR A REVIEW</p>
                 <h2 className="headline mt-1 text-xl leading-tight">{win.title} · {win.location}</h2>
-                <p className="mt-2 text-sm font-black text-[var(--muted)]">
+                <p className="mt-2 text-sm font-bold text-[var(--muted)]">
                   Job was won yesterday. Ask now — trades who ask within 48h get 3× more reviews.
                 </p>
               </div>

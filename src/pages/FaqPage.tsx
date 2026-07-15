@@ -63,7 +63,7 @@ export function FaqPage() {
         <h1 className="headline mt-3 text-4xl leading-none sm:text-6xl">
           QUESTIONS? STRAIGHT ANSWERS.
         </h1>
-        <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
+        <p className="mt-6 max-w-2xl text-lg font-bold text-white/85">
           If you&apos;ve used Checkatrade, Bark, or MyBuilder and got burned — you probably have questions. Here are the straight answers.
         </p>
       </section>
@@ -89,7 +89,7 @@ export function FaqPage() {
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">READY TO TRY IT?</p>
         <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SEE REAL LEADS IN YOUR AREA — FREE.</h2>
-        <p className="mt-3 max-w-xl text-lg font-black text-white/80">
+        <p className="mt-3 max-w-xl text-lg font-bold text-white/85">
           No Checkatrade membership. No Bark credits. Scan your postcode and see what&apos;s active in your trade today.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
@@ -103,7 +103,7 @@ export function FaqPage() {
       {/* Still Have Questions */}
       <section className="jf-box bg-[var(--yellow)] p-8">
         <h2 className="headline text-3xl">STILL HAVE QUESTIONS?</h2>
-        <p className="mt-3 max-w-xl text-lg font-black text-[var(--ink)]/75">
+        <p className="mt-3 max-w-xl text-lg font-bold text-[var(--ink)]/80">
           Email us directly. Real person. No chatbot. We reply same day.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">

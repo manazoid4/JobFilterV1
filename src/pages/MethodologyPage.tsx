@@ -74,7 +74,7 @@ export function MethodologyPage() {
         <h1 className="headline mt-3 text-4xl leading-none sm:text-6xl">
           HOW WE TURN OFFICIAL DATA INTO SCORED LEADS.
         </h1>
-        <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
+        <p className="mt-6 max-w-2xl text-lg font-bold text-white/85">
           No guesswork. No scraped job boards. Every lead comes from a verified official register, scored for intent, and in your hands before Checkatrade or MyBuilder even know the job exists.
         </p>
       </section>
@@ -99,7 +99,7 @@ export function MethodologyPage() {
                     <span className="micro-label text-[var(--yellow)]">{step.num}</span>
                     <span className="headline text-xl">{step.label}</span>
                   </div>
-                  <p className="mt-2 font-black text-[var(--ink)]">{step.body}</p>
+                  <p className="mt-2 font-bold text-[var(--ink)]">{step.body}</p>
                   <p className="mt-2 text-sm font-bold text-[var(--muted)]">{step.detail}</p>
                 </div>
                 {i < pipelineSteps.length - 1 && (
@@ -117,7 +117,7 @@ export function MethodologyPage() {
         <h2 className="headline mt-3 text-4xl leading-none">
           WHAT MAKES A LEAD WORTH CHASING?
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/80">
           Every signal gets a score from 0 to 100. GOLD (80+) — call today. SILVER (50–79) — worth a check. BRONZE (below 50) — quiet week only.
         </p>
 
@@ -210,7 +210,7 @@ export function MethodologyPage() {
         <h2 className="headline text-3xl sm:text-5xl">
           SEE IT IN ACTION.
         </h2>
-        <p className="mt-4 max-w-xl mx-auto text-lg font-black text-[var(--ink)]/75">
+        <p className="mt-4 max-w-xl mx-auto text-lg font-bold text-[var(--ink)]/80">
           Free scan. No credit card required. See real scored leads in your area — before Checkatrade or Bark list them.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
