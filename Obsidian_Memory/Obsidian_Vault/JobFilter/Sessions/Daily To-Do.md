@@ -1,5 +1,31 @@
 # Daily To-Do
 
+## Today - 15 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `494e1fc` (founder PR #336, Jul 15). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — PR #336 merged since Run 1: (1) Fill My Week demoted to secondary so upgrade CTA owns conversion moment. (2) Trade selector added directly to scan form — no more silent default-electrical misfires. Both changes reviewed, sound, no regressions.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT.
+- [x] **NEEDLE sweep — LeadDetailPage authenticated page audit** — 10 body paragraphs using `font-black` on multi-sentence copy (every lead click-through affected):
+  - GOLD/SILVER/BRONZE action paragraphs → `font-bold`
+  - Recommended action body → `font-bold`
+  - "Source data can lag or change" verify panel → `font-bold`
+  - Lead value kit description → `font-bold`
+  - Material price intro paragraph → `font-bold`
+  - "The raw record is full of council/legal jargon" → `font-bold`
+  - Plain-English explanation locked/ready body → `font-bold` (×2)
+  - WhatsApp section intro → `font-bold`
+  - "Subject" micro-label: `text-[10px]` → `text-xs`
+- [x] **font-bold sweep — TerritoriesPage (8 changes)**: hero body paragraph, patch check form description, WHY TERRITORIES competitor comparison paragraph, card body descriptions (×4 via `{body}` map), territory `{territory.claimNote}`, ROI section paragraph, Q&A `{a}` answers, final CTA paragraph.
+- [x] **font-bold sweep — SignupPage (2 changes)**: confirmation-sent paragraph, signup form hero paragraph.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`930642d`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: font-bold sweep now covers all major authenticated + unauthenticated pages. Remaining `font-black` in src/pages/ are intentional labels/badges — sweep is complete. Next sweep target: check component files (src/components/) for any body paragraphs using `font-black`. Carryover blockers remain the main unlock.
+
 ## Today - 15 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `f7b7c09` (Run 3, Jul 14). Build GREEN, TS CLEAN.
