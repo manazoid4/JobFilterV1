@@ -479,11 +479,19 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Form — postcode + radius FIRST so the input is immediately visible */}
-        <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
+        {/* Form — postcode + trade + radius so users always see their trade before scanning */}
+        <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
           <label className="field-label">
             Postcode
             <input ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" />
+          </label>
+          <label className="field-label">
+            Trade
+            <select value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
+              {TRADE_PRESETS.map((p) => (
+                <option key={p.trade} value={p.trade}>{p.label}</option>
+              ))}
+            </select>
           </label>
           <label className="field-label">
             Radius
@@ -491,7 +499,7 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button disabled={loading || fillWeekLoading} className="jf-button col-span-2 lg:col-span-1 self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+          <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW'}
           </button>
@@ -520,7 +528,7 @@ export function FindJobsPage() {
 
         {/* Trade presets — tap to scan by trade once postcode is entered */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'TAP YOUR TRADE TO SCAN' : 'ENTER YOUR POSTCODE ABOVE — THEN TAP YOUR TRADE'}</p>
+          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -793,7 +801,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-white border-2 border-[var(--line)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
@@ -806,7 +814,7 @@ export function FindJobsPage() {
             type="button"
             disabled={fillWeekLoading || loading}
             onClick={fillMyWeek}
-            className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
+            className="jf-button bg-[var(--ink)] text-white disabled:opacity-60 shrink-0"
           >
             {fillWeekLoading ? 'SCANNING...' : `EXPAND SCAN — ${Math.max(radiusMiles, 25)}MI →`}
           </button>
