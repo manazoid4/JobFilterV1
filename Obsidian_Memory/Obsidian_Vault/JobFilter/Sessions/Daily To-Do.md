@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 15 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `63c0ff7` (Run 2, Jul 15). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 2. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT.
+- [x] **NEEDLE sweep — components font-bold sweep (5 changes, 4 files)**: completed the font-bold sweep across all `src/components/`. Identified 5 body paragraphs using `font-black`:
+  - `ErrorBoundary.tsx`: error page body paragraph → `font-bold`
+  - `Footer.tsx`: brand body paragraph (shown on every page) → `font-bold`
+  - `LeadValueKit.tsx` (×2): paywall description sentence + instruction sentence → `font-bold`
+  - `FeedbackPrompt.tsx`: two-sentence body paragraph → `font-bold`
+- [x] **Component font-black audit complete**: All remaining `font-black` in components confirmed correct (badges, labels, status chips, data indicators, form values, nav links, one-line data displays).
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`fe05999`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: font-bold sweep is NOW COMPLETE across both pages AND components. No further sweep needed. Remaining `font-black` instances anywhere in the codebase are intentional. Carryover blockers (Stripe, TradeFlow, add-on pricing) remain the main unlock. Consider: (1) Fresh NEEDLE sweep looking for non-font UX issues — mobile layout, confusing sections, duplicate UI. (2) Copy polish on pages not recently updated (AccountPage, WaitlistPage). (3) Check for any founder commits/PRs first.
+
 ## Today - 15 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `494e1fc` (founder PR #336, Jul 15). Build GREEN, TS CLEAN.
