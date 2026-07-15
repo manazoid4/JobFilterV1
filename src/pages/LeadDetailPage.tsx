@@ -427,7 +427,7 @@ export function LeadDetailPage() {
         </div>
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
+            <p className="text-sm font-bold text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
             {quickWaUrl && (
               <a
                 href={quickWaUrl}
@@ -441,11 +441,11 @@ export function LeadDetailPage() {
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-black text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
+            <p className="text-sm font-bold text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-black text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
+            <p className="text-sm font-bold text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
           </div>
         )}
       </section>
@@ -478,13 +478,13 @@ export function LeadDetailPage() {
             ) : null}
             {lead.recommendedAction && (
               <div className="border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/20 px-4 py-3">
-                <p className="text-sm font-black text-[var(--ink)]">{lead.recommendedAction}</p>
+                <p className="text-sm font-bold text-[var(--ink)]">{lead.recommendedAction}</p>
               </div>
             )}
             {lead.evidenceBadges?.length ? <TrustBadges badges={lead.evidenceBadges} /> : null}
             <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-3">
               <p className="text-xs font-black uppercase tracking-widest text-[var(--ink)]">VERIFY BEFORE CONTACT</p>
-              <p className="mt-1 text-sm font-black text-[var(--ink)]/75">
+              <p className="mt-1 text-sm font-bold text-[var(--ink)]/75">
                 Source data can lag or change. Confirm the linked evidence before quoting, visiting, or making contact.
               </p>
             </div>
@@ -516,14 +516,14 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">LEAD VALUE KIT</h2>
-        <p className="mt-2 text-sm font-black text-[var(--muted)]">The paid part is not just the lead. It is the quote floor and the chase plan around it.</p>
+        <p className="mt-2 text-sm font-bold text-[var(--muted)]">The paid part is not just the lead. It is the quote floor and the chase plan around it.</p>
         <LeadValueKit lead={lead} unlocked title="LEAD VALUE KIT" />
       </section>
 
       <section className="jf-box bg-[var(--paper)] p-5">
         <p className="micro-label text-[var(--orange)]">MATERIAL COSTS</p>
         <h2 className="headline mt-1 text-2xl">KNOW YOUR FLOOR BEFORE YOU QUOTE.</h2>
-        <p className="mt-2 text-sm font-black text-[var(--muted)]">
+        <p className="mt-2 text-sm font-bold text-[var(--muted)]">
           Material price jumps quietly kill your margin. Check traceable UK supplier prices for {lead.jobType} before you commit to a number.
         </p>
         <Link
@@ -545,7 +545,7 @@ export function LeadDetailPage() {
       {lead.description && (
         <section className="jf-box bg-white p-6">
           <h2 className="headline text-2xl sm:text-3xl">WHAT THIS MEANS</h2>
-          <p className="mt-2 text-sm font-black text-[var(--muted)]">The raw record is full of council/legal jargon — get it in plain English before you call.</p>
+          <p className="mt-2 text-sm font-bold text-[var(--muted)]">The raw record is full of council/legal jargon — get it in plain English before you call.</p>
           <button
             className="jf-button mt-4 bg-white text-[var(--ink)]"
             onClick={handleExplain}
@@ -555,7 +555,7 @@ export function LeadDetailPage() {
           </button>
           {explainState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-black text-[var(--ink)]">Get a plain-English breakdown of this exact signal — what it means, who to call, and why it's worth your time. One job won covers 3 months at £39.</p>
+              <p className="text-sm font-bold text-[var(--ink)]">Get a plain-English breakdown of this exact signal — what it means, who to call, and why it's worth your time. One job won covers 3 months at £39.</p>
               <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
               <p className="mt-2 text-xs font-black text-[var(--muted)] uppercase tracking-wider">30-DAY MONEY-BACK GUARANTEE · Cancel anytime.</p>
             </div>
@@ -565,7 +565,7 @@ export function LeadDetailPage() {
           )}
           {explainState === 'ready' && explainResult && (
             <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
-              <p className="text-sm font-black text-[var(--ink)]">{explainResult.summary}</p>
+              <p className="text-sm font-bold text-[var(--ink)]">{explainResult.summary}</p>
               <p className="mt-2 text-sm font-bold text-[var(--muted)] leading-relaxed">{explainResult.plainDescription}</p>
             </div>
           )}
@@ -574,7 +574,7 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">SEND WHATSAPP</h2>
-        <p className="mt-2 text-sm font-black text-[var(--muted)]">Message ready — tap SEND WHATSAPP to go. Swap template below if needed.</p>
+        <p className="mt-2 text-sm font-bold text-[var(--muted)]">Message ready — tap SEND WHATSAPP to go. Swap template below if needed.</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {waTemplates.map((t) => (
             <button
@@ -667,7 +667,7 @@ export function LeadDetailPage() {
                   </div>
                   {isEmail && emailParts?.subject && (
                     <div className="mt-3 border-l-4 border-[var(--navy)] bg-white px-3 py-2">
-                      <p className="text-[10px] font-black uppercase text-[var(--muted)]">Subject</p>
+                      <p className="text-xs font-black uppercase text-[var(--muted)]">Subject</p>
                       <p className="text-sm font-bold text-[var(--ink)]">{emailParts.subject}</p>
                     </div>
                   )}

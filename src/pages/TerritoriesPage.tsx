@@ -111,7 +111,7 @@ export function TerritoriesPage() {
             <h1 className="headline mt-4 text-[clamp(44px,8vw,98px)] leading-[0.88]">
               ONE TRADE. ONE POSTCODE CLUSTER. FIRST CALL ON GOLD LEADS.
             </h1>
-            <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/80">
+            <p className="mt-5 max-w-2xl text-xl font-bold leading-tight text-white/80">
               Lock your trade and postcode cluster. Gold leads route to you first — no five-way blast, no auction. Miss the lock and another tradesman in your patch gets first call on every signal.
             </p>
             <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
@@ -122,7 +122,7 @@ export function TerritoriesPage() {
           <aside className="ops-panel bg-white p-5 text-[var(--ink)]" id="patch-check">
             <p className="micro-label text-[var(--orange)]">CHECK YOUR PATCH</p>
             <h2 className="headline mt-2 text-3xl leading-none">Trade + postcode first. Payment after clarity.</h2>
-            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+            <p className="mt-2 text-sm font-bold text-[var(--muted)]">
               We check source coverage and trade fit before activating a lock. No fake "available" result.
             </p>
             <form className="mt-5 grid gap-3" onSubmit={submitPatchCheck}>
@@ -189,7 +189,7 @@ export function TerritoriesPage() {
         <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
           WITHOUT A LOCK, YOU&apos;RE LAST TO EVERY JOB.
         </h2>
-        <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+        <p className="mt-3 max-w-2xl font-bold text-[var(--muted)]">
           Checkatrade blasts the same lead to 5 trades. Bark sells you a name then lets you fight for it. MyBuilder runs the auction in public. JobFilter doesn&apos;t work like that — but only if you lock before someone else does.
         </p>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -202,7 +202,7 @@ export function TerritoriesPage() {
             <div key={title} className="jf-box bg-white p-5">
               <Icon size={24} strokeWidth={3} className="text-[var(--orange)]" />
               <p className="headline mt-3 text-xl">{title}</p>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)]">{body}</p>
             </div>
           ))}
         </div>
@@ -240,7 +240,7 @@ export function TerritoriesPage() {
                 <div>
                   <p className="micro-label text-[var(--muted)]">{territory.postcode}</p>
                   <h2 className="headline mt-1 text-3xl">{territory.patch}</h2>
-                  <p className="mt-1 text-sm font-black text-[var(--muted)]">{territory.claimNote}</p>
+                  <p className="mt-1 text-sm font-bold text-[var(--muted)]">{territory.claimNote}</p>
                 </div>
                 <div className="font-black">{territory.trade}</div>
                 <div>
@@ -277,7 +277,7 @@ export function TerritoriesPage() {
               <h2 className="headline mt-3 text-4xl leading-none sm:text-5xl">
                 ONE SMALL JOB COVERS YOUR YEAR.
               </h2>
-              <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+              <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
                 At £39 per month, one £2,000 job covers 51 months of JobFilter. That is the benchmark: one small won job should make the subscription obvious.
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -332,7 +332,7 @@ export function TerritoriesPage() {
           {objections.map(({ q, a }) => (
             <div key={q} className="jf-box bg-white p-6">
               <p className="headline text-lg">{q}</p>
-              <p className="mt-2 text-sm font-black text-[var(--muted)]">{a}</p>
+              <p className="mt-2 text-sm font-bold text-[var(--muted)]">{a}</p>
             </div>
           ))}
         </div>
@@ -344,7 +344,7 @@ export function TerritoriesPage() {
           <div>
             <p className="micro-label text-[var(--ink)]">TERRITORIES</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">CLAIM FIRST LOOK IN YOUR WORKING AREA.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+            <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
               Founder monthly includes one territory lock, unlimited WhatsApp alerts, and letter drop scripts for every lead. Extra territory is +£19/month.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
