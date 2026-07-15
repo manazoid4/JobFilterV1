@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 15 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `f7b7c09` (Run 3, Jul 14). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 14 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. font-black sweep from Run 3 carryover confirmed COMPLETE in app/ directory; MethodologyPage, FaqPage, TipsPage, DashboardPage, AdminGuardTeaserPage swept this run.
+- [x] **NEEDLE sweep** — 3 issues found:
+  - **DashboardPage yellow-on-yellow cards FIXED** — empty-state SCAN card + LAST SCAN card both `bg-yellow` inside `bg-yellow` section → `bg-white` with hover-yellow. First scan CTA for new users is now clearly visible. Highest-impact fix.
+  - **AdminGuardTeaserPage ghost button FIXED** — "OPEN DASHBOARD →" `bg-white/10` on dark bg → `bg-white text-[var(--ink)]`. Full contrast restored.
+  - **font-bold sweep on DashboardPage** — 6 multi-sentence description paragraphs fixed.
+- [x] **font-bold sweep (5 pages)** — MethodologyPage (4), FaqPage (3), TipsPage (2), DashboardPage (6), AdminGuardTeaserPage (1): all description paragraphs font-black → font-bold.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`3e8f2c5`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Do NOT delete `vite.config.ts`/`index.html`** — still in use by `server/app.ts`'s local Express dev path
+- [ ] **Next run**: font-bold sweep is effectively exhausted on main user-facing pages. Carryover blockers are the main unlock. Remaining src/pages with font-black are intentional (labels, badges, link text). Consider: (1) Look for any new founder commits/PRs first. (2) NEEDLE sweep on authenticated pages (LeadDetailPage, AccountPage) — last full audit was several runs ago. (3) Consider copy polish on TerritoriesPage or SignupPage if no new founder commits.
+
 ## Today - 14 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — context resumed from Run 2; HEAD at `53af760` (Run 2 commit). Build GREEN, TS CLEAN.
