@@ -793,7 +793,7 @@ export function FindJobsPage() {
       )}
 
       {/* ── FILL MY WEEK ───────────────────────────────────────────── */}
-      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-[var(--yellow)] p-6">
+      {SHOW_FILL_MY_WEEK && hasScanned && <section className="jf-box bg-white border-2 border-[var(--line)] p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
@@ -806,7 +806,7 @@ export function FindJobsPage() {
             type="button"
             disabled={fillWeekLoading || loading}
             onClick={fillMyWeek}
-            className="jf-button bg-[var(--ink)] text-white text-lg px-8 py-4 disabled:opacity-60 shrink-0"
+            className="jf-button bg-[var(--ink)] text-white disabled:opacity-60 shrink-0"
           >
             {fillWeekLoading ? 'SCANNING...' : `EXPAND SCAN — ${Math.max(radiusMiles, 25)}MI →`}
           </button>
