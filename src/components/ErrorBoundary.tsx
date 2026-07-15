@@ -40,7 +40,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
           <h1 className="headline mt-4 text-4xl leading-none text-[var(--navy)]">
             THE SITE HIT A SNAG.
           </h1>
-          <p className="mt-4 text-lg font-black text-[var(--muted)]">
+          <p className="mt-4 text-lg font-bold text-[var(--muted)]">
             Not your fault. Ours. The page crashed but the rest of the site is fine.
           </p>
 

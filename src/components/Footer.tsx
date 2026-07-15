@@ -61,7 +61,7 @@ export function Footer() {
           {/* Trust */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">BUILT IN BIRMINGHAM</p>
-            <p className="text-sm font-black text-white/90 leading-relaxed">
+            <p className="text-sm font-bold text-white/90 leading-relaxed">
               Not a London startup guessing. Built by people who know how trades work.
             </p>
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">

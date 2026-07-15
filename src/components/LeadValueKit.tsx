@@ -22,7 +22,7 @@ export function LeadValueKit({ lead, unlocked = true, title = 'BUYER ACTION PACK
     return (
       <div className="mt-4 border-2 border-[var(--orange)]/40 bg-[var(--orange)]/5 p-3">
         <p className="micro-label text-[10px] text-[var(--orange)]">{title}</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]">Unlock the quote floor, follow-up cadence, and next action beside each lead.</p>
+        <p className="mt-1 text-sm font-bold text-[var(--ink)]">Unlock the quote floor, follow-up cadence, and next action beside each lead.</p>
       </div>
     );
   }
@@ -48,7 +48,7 @@ export function LeadValueKit({ lead, unlocked = true, title = 'BUYER ACTION PACK
             <p className="text-xs font-black uppercase text-[var(--muted)]">Next action</p>
           </div>
           <p className="mt-1 text-lg font-black text-[var(--ink)]">{nextAction}</p>
-          <p className="mt-1 text-xs font-black text-[var(--muted)]">Use the call, quote, and chase sequence together.</p>
+          <p className="mt-1 text-xs font-bold text-[var(--muted)]">Use the call, quote, and chase sequence together.</p>
         </div>
       </div>
       <div className="mt-3 border-2 border-[var(--line)] bg-white p-3">

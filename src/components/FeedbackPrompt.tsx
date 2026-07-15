@@ -14,7 +14,7 @@ export function FeedbackPrompt({ compact = false }: { compact?: boolean }) {
           <h2 className={`headline mt-2 leading-none ${compact ? 'text-2xl' : 'text-3xl md:text-4xl'}`}>
             WE WANT YOUR FEEDBACK.
           </h2>
-          <p className="mt-2 max-w-3xl text-base font-black leading-snug text-[var(--muted)] md:text-lg">
+          <p className="mt-2 max-w-3xl text-base font-bold leading-snug text-[var(--muted)] md:text-lg">
             We are not some techy company guessing from a desk. Tell us what wastes your time, what jobs you want more of, and what we can build to solve your problems.
           </p>
         </div>
