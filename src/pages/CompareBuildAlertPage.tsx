@@ -140,7 +140,7 @@ export function CompareBuildAlertPage() {
                   <p className="mt-1 font-black text-white/90 text-sm">Within minutes. Scored. Buyer named. Value shown. One tap to act.</p>
                 </div>
               </div>
-              <div className="mt-4 jf-box bg-white/10 p-3">
+              <div className="mt-4 jf-box bg-white/10 border-white/20 p-3">
                 <p className="font-black text-[var(--yellow)] text-sm">£39/month × unlimited jobs = <span className="text-[var(--green)]">£39</span></p>
                 <p className="font-black text-white/85 text-xs mt-1">One price. Every signal. No per-action cost. Ever.</p>
               </div>
@@ -290,7 +290,7 @@ export function CompareBuildAlertPage() {
             Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. The first. BuildAlert mails you a letter. By the time it arrives, someone with WhatsApp already won the job.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="jf-box bg-white/10 p-6">
+            <div className="jf-box bg-white/10 border-white/20 p-6">
               <p className="text-xs font-black uppercase text-[var(--green)]">WITH JOBFILTER — MINUTES</p>
               <div className="mt-4 grid gap-3 font-black text-white/85">
                 <div className="flex items-start gap-3">
@@ -311,7 +311,7 @@ export function CompareBuildAlertPage() {
                 </div>
               </div>
             </div>
-            <div className="jf-box bg-white/10 p-6">
+            <div className="jf-box bg-white/10 border-white/20 p-6">
               <p className="text-xs font-black uppercase text-[var(--orange)]">WITH BUILDALERT — DAYS</p>
               <div className="mt-4 grid gap-3 font-black text-white/85">
                 <div className="flex items-start gap-3">
@@ -477,7 +477,7 @@ export function CompareBuildAlertPage() {
               ['Within minutes', 'Gold leads fire instantly. Not batched. Not delayed.'],
               ['One-tap action', 'Lead arrives. Tap. You\'re on it. No dashboards to hunt through.'],
             ].map(([title, body]) => (
-              <div key={title} className="jf-box bg-white/10 p-5">
+              <div key={title} className="jf-box bg-white/10 border-white/20 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
                 <p className="mt-2 font-bold text-white/90">{body}</p>
               </div>

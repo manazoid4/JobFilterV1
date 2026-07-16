@@ -106,7 +106,7 @@ export function AdminGuardPage() {
               No NI number. No UTR. No tax bill details. Just reminders and organisation.
             </p>
           </div>
-          <Link href="/dashboard" className="jf-button bg-white/10 text-white text-sm border-white/20 shadow-none hover:bg-white/20">
+          <Link href="/dashboard" className="jf-button bg-white text-[var(--ink)] text-sm shadow-none">
             ← DASHBOARD
           </Link>
         </div>
@@ -636,7 +636,7 @@ function LockedState() {
           <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] jf-button-lg">
             LOCK YOUR PATCH — £39/MO →
           </Link>
-          <Link href="/features/admin-guard" className="jf-button bg-white/10 text-white border-white/20 shadow-none">
+          <Link href="/features/admin-guard" className="jf-button bg-white text-[var(--ink)] shadow-none">
             PREVIEW FEATURE →
           </Link>
         </div>

@@ -192,7 +192,7 @@ export function CompareCheckatradePage() {
             Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. Not the best reviewed. The first. JobFilter tells you where to turn up before anyone else knows the job exists.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="jf-box bg-white/10 p-6">
+            <div className="jf-box bg-white/10 border-white/20 p-6">
               <p className="text-xs font-black uppercase text-[var(--green)]">WITH JOBFILTER</p>
               <div className="mt-4 grid gap-3 font-black text-white/85">
                 <div className="flex items-start gap-3">
@@ -213,7 +213,7 @@ export function CompareCheckatradePage() {
                 </div>
               </div>
             </div>
-            <div className="jf-box bg-white/10 p-6">
+            <div className="jf-box bg-white/10 border-white/20 p-6">
               <p className="text-xs font-black uppercase text-[var(--orange)]">ON CHECKATRADE</p>
               <div className="mt-4 grid gap-3 font-black text-white/85">
                 <div className="flex items-start gap-3">
@@ -386,7 +386,7 @@ export function CompareCheckatradePage() {
               ['Within minutes', 'Gold leads fire instantly. Not batched. Not delayed.'],
               ['Before the competition', 'Official signals fire before the job hits any directory.'],
             ].map(([title, body]) => (
-              <div key={title} className="jf-box bg-white/10 p-5">
+              <div key={title} className="jf-box bg-white/10 border-white/20 p-5">
                 <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
                 <p className="mt-2 font-bold text-white/90">{body}</p>
               </div>
