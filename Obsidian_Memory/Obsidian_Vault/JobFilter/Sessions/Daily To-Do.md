@@ -1,5 +1,27 @@
 # Daily To-Do
 
+## Today - 16 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `d35d66e` (NightlyBuildAgent Run 1, Jul 16 compare page sweep). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 16 Run 1. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Both setSubmitted flows verified wired to /api/waitlist (one optimistic by design). Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **NEEDLE sweep** — ran dedicated sweep agent across AdminGuardPage, AccountPage, TradieStackPage, WaitlistPage. Found 3 confirmed UX issues:
+  1. AdminGuardPage line 109: `← DASHBOARD` nav button `bg-white/10` on ink bg — near-invisible back-nav for paid members (HIGH)
+  2. AdminGuardPage line 639: `PREVIEW FEATURE →` secondary CTA `bg-white/10` on ink bg — invisible preview path for free tier users (HIGH)
+  3. CompareCheckatradePage + CompareBuildAlertPage: 7 content boxes `bg-white/10` with invisible navy border on navy bg (MED)
+- [x] **BUILDER fix** — all 3 issues resolved (3 files: AdminGuardPage, CompareCheckatradePage, CompareBuildAlertPage)
+  - AdminGuardPage: `bg-white/10` → `bg-white text-[var(--ink)]` (2 ghost buttons → solid white)
+  - Compare pages: added `border-white/20` to 7 content boxes (invisible navy border → visible white border)
+- [x] **CRITIC:** YES — solid white on ink is immediately readable; white borders on navy cards give clear card boundaries
+- [x] **REVENUE:** YES — PREVIEW FEATURE visible → free users can understand paid features before upgrading
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`e20ebde`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Sweep remaining compare pages (Bark, MyBuilder, RatedPeople, TrustATrader) for `bg-white/10` content boxes — apply same `border-white/20` fix. Consider AccountPage free-tier copy polish (fear→proof→control on upgrade CTA). Do NOT re-check AdminGuardPage ghost buttons — FIXED. Carryover blockers remain the main unlock.
+
 ## Today - 16 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `e12ae18` (vault Jul 15 Run 3). Build GREEN, TS CLEAN.
