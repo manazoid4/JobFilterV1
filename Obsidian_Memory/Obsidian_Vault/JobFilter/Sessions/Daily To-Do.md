@@ -1,5 +1,29 @@
 # Daily To-Do
 
+## Today - 16 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `3780e17` (NightlyBuildAgent Run 2, Jul 16). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 16 Run 2. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **NEEDLE sweep** — ran dedicated sweep across AdminGuardPage, AccountPage, IntakeTestPage. Found 3 confirmed issues:
+  1. AdminGuardPage line 599: `COPY LIST` copied-state `bg-[var(--green)]` — green is data-only, used as button state (HIGH)
+  2. AccountPage line 182: `SIGN OUT` button missing `→` (MEDIUM)
+  3. AdminGuardPage + AccountPage + IntakeTestPage: 5 body paragraphs using `font-black` (MEDIUM)
+- [x] **BUILDER fix** — all issues resolved (5 files)
+  - AdminGuardPage: copied-state green → ink (1 fix) + 3× font-black → font-bold on body paragraphs
+  - AccountPage: SIGN OUT → + free-tier paragraph font-black → font-bold
+  - IntakeTestPage: hero intro paragraph font-black → font-bold
+- [x] **Copy Polish — CompareRatedPeoplePage + CompareTrustATraderPage** — both had hero description + testimonial quotes + bottom body paragraph using font-black; also FULL COMPARISON button missing →. Fixed all (8 changes across 2 files).
+- [x] **CRITIC:** YES — ink on button state is immediately clear; body paragraphs readable at font-bold; all arrows consistent
+- [x] **REVENUE:** YES — green-on-button fix removes a design trust issue on a paid-user feature page; compare pages are high-intent inbound traffic
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`f2d3f99`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: font-black sweep is now exhausted on compare pages (all 5 swept). Check founder commits/PRs first. Consider NEEDLE sweep on EpcPage or BuildUkAlternativePage for any remaining body-paragraph font-black instances. WinStatsBanner green panel is intentional data indicator — do NOT change. Carryover blockers remain the main unlock.
+
 ## Today - 16 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `d35d66e` (NightlyBuildAgent Run 1, Jul 16 compare page sweep). Build GREEN, TS CLEAN.
