@@ -113,7 +113,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
             {FREQ_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </label>
-        <button disabled={status === 'sending'} className="jf-button bg-[var(--ink)] text-white self-end disabled:opacity-50">
+        <button disabled={status === 'sending'} className="jf-button bg-[var(--yellow)] text-[var(--ink)] self-end disabled:opacity-50">
           {status === 'sending' ? 'SAVING…' : status === 'done' ? 'SAVED ✓' : 'SET ALERT'}
         </button>
       </form>

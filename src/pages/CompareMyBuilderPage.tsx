@@ -53,7 +53,7 @@ export function CompareMyBuilderPage() {
             MyBuilder sends every quote request to a queue of competing tradesmen. JobFilter scans planning data, councils, and ownership signals — and the results are private to you alone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/find-jobs">
               TRY JOBFILTER FREE — SEE LEADS MYBUILDER MISSES →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
@@ -152,7 +152,7 @@ export function CompareMyBuilderPage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
               START FREE — NO CARD →
             </Link>
-            <Link className="jf-button bg-white/10 text-white" href="/pricing">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
