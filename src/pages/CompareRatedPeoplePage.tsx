@@ -54,7 +54,7 @@ export function CompareRatedPeoplePage() {
             Rated People connects homeowner requests to multiple competing trades. JobFilter scans planning data, council contracts, and energy signals — and your results are private to you alone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/find-jobs">
               TRY JOBFILTER FREE — NO CARD NEEDED →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
@@ -153,7 +153,7 @@ export function CompareRatedPeoplePage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
               START FREE — NO CARD →
             </Link>
-            <Link className="jf-button bg-white/10 text-white" href="/pricing">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
