@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 16 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `e12ae18` (vault Jul 15 Run 3). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 15 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **NEEDLE sweep** — ran dedicated sweep agent across compare pages and DashboardPage. Found 3 confirmed UX issues:
+  1. Compare page hero CTAs on yellow bg using `bg-[var(--ink)]` (should be `bg-[var(--navy)]`)
+  2. Compare page bottom upgrade CTAs using `bg-white/10` (ghost/invisible on navy bg)
+  3. AlertSetupWidget SET ALERT using `bg-[var(--ink)]` (should be yellow — retention-critical action)
+- [x] **BUILDER fix** — all 3 issues resolved (5 files: CompareBarkPage, CompareCheckatradePage, CompareMyBuilderPage, DashboardPage, FreeToolsPage)
+- [x] **CRITIC:** YES — changes are clearer in <3 seconds (navy on yellow, solid white on navy, yellow alert button all read immediately)
+- [x] **REVENUE:** YES — compare pages are highest-intent inbound traffic; visible upgrade CTAs directly improve conversion
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`90ffcaf`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Sweep RatedPeople and TrustATrader compare pages for same hero-CTA colour violation (likely same issue). Check CompareBuildAlertPage hero and bottom CTAs. Consider body `bg-white/10` boxes inside CompareCheckatradePage (lines 195, 216, 389) — ghost issue inside body, not just buttons.
+
 ## Today - 15 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `63c0ff7` (Run 2, Jul 15). Build GREEN, TS CLEAN.
