@@ -148,7 +148,7 @@ export function CompareBuildAlertPage() {
           </div>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">TRY JOBFILTER FREE — SEE WHAT BUILDALERT DOESN'T SHOW YOU →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/find-jobs">TRY JOBFILTER FREE — SEE WHAT BUILDALERT DOESN'T SHOW YOU →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#calculator">SEE THE COST COMPARISON</Link>
           </div>
           <div className="mt-7 grid gap-2 text-sm font-black text-[var(--ink)] sm:grid-cols-2">
@@ -403,7 +403,7 @@ export function CompareBuildAlertPage() {
             ))}
           </div>
           <div className="mt-6">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/signals">SEE THE SIGNALS IN DETAIL →</Link>
           </div>
         </div>
       </section>

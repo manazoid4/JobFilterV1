@@ -53,7 +53,7 @@ export function CompareTrustATraderPage() {
             TrustATrader is a review profile directory — homeowners find you based on your rating. JobFilter is proactive lead intelligence — you find jobs from planning data, council contracts, and ownership signals before any review profile is relevant.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/find-jobs">
               TRY JOBFILTER FREE — SEE LEADS TRUSTATRADER MISSES →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
@@ -152,7 +152,7 @@ export function CompareTrustATraderPage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
               START FREE — NO CARD →
             </Link>
-            <Link className="jf-button bg-white/10 text-white" href="/pricing">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
