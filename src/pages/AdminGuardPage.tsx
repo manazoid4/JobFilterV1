@@ -99,7 +99,7 @@ export function AdminGuardPage() {
               </span>
             </div>
             <h1 className="headline mt-2 text-4xl leading-none sm:text-6xl">ADMIN GUARD</h1>
-            <p className="mt-3 max-w-2xl font-black text-white/80">
+            <p className="mt-3 max-w-2xl font-bold text-white/80">
               HMRC dates, trade admin checklists and reminder exports — built into your dashboard.
             </p>
             <p className="mt-1 text-xs font-bold text-white/75">
@@ -306,7 +306,7 @@ export function AdminGuardPage() {
       <section className="jf-box bg-[var(--steel)] p-6 text-white">
         <p className="micro-label text-[var(--yellow)]">MAKING TAX DIGITAL</p>
         <h2 className="headline mt-1 text-2xl leading-none">MTD CHECK</h2>
-        <p className="mt-3 font-black text-white/90 max-w-2xl">{mtdMessage}</p>
+        <p className="mt-3 font-bold text-white/90 max-w-2xl">{mtdMessage}</p>
         <p className="mt-3 text-xs font-bold text-white/75">
           Dates based on GOV.UK guidance. Always verify before filing or paying.
         </p>
@@ -324,7 +324,7 @@ export function AdminGuardPage() {
       <section className="jf-box bg-[var(--yellow)] p-6">
         <p className="micro-label text-[var(--ink)]">CALENDAR EXPORT</p>
         <h2 className="headline mt-1 text-2xl leading-none text-[var(--ink)]">DOWNLOAD YOUR REMINDER DATES</h2>
-        <p className="mt-3 font-black text-[var(--ink)] max-w-2xl">
+        <p className="mt-3 font-bold text-[var(--ink)] max-w-2xl">
           Download an .ics calendar file with your relevant HMRC deadlines. Opens in Google Calendar, Apple Calendar, Outlook — anything that reads .ics.
         </p>
         <p className="mt-1 text-xs font-bold text-[var(--ink)]/70">
@@ -596,7 +596,7 @@ function AccountantTab({ onCopy, copied }: { onCopy: () => void; copied: boolean
         </div>
         <button
           onClick={onCopy}
-          className={`jf-button text-sm ${copied ? 'bg-[var(--green)] text-white' : 'bg-[var(--yellow)] text-[var(--ink)]'}`}
+          className={`jf-button text-sm ${copied ? 'bg-[var(--ink)] text-white' : 'bg-[var(--yellow)] text-[var(--ink)]'}`}
         >
           {copied ? 'COPIED ✓' : 'COPY LIST →'}
         </button>

@@ -50,7 +50,7 @@ export function CompareRatedPeoplePage() {
               what nobody is looking at.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-tight text-[var(--ink)]">
             Rated People connects homeowner requests to multiple competing trades. JobFilter scans planning data, council contracts, and energy signals — and your results are private to you alone.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -58,7 +58,7 @@ export function CompareRatedPeoplePage() {
               TRY JOBFILTER FREE — NO CARD NEEDED →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
-              FULL COMPARISON
+              FULL COMPARISON →
             </Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
@@ -133,7 +133,7 @@ export function CompareRatedPeoplePage() {
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {quotes.map((q) => (
               <div key={q.role} className="jf-box bg-white p-5">
-                <p className="font-black text-[var(--ink)] leading-snug">"{q.quote}"</p>
+                <p className="font-bold text-[var(--ink)] leading-snug">"{q.quote}"</p>
                 <p className="mt-3 micro-label text-[var(--muted)]">{q.role}</p>
               </div>
             ))}
@@ -146,7 +146,7 @@ export function CompareRatedPeoplePage() {
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
             Rated People hands the same job to five trades. Stop quoting against yourself.
           </h2>
-          <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
+          <p className="mt-4 font-bold text-white/80 text-lg max-w-xl mx-auto">
             JobFilter reads planning approvals, council contracts, and energy signals — 3–5 days before Rated People or MyBuilder list the same job. £39/month flat. No credits. No race to the bottom.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">

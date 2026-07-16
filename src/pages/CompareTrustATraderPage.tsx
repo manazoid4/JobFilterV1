@@ -49,7 +49,7 @@ export function CompareTrustATraderPage() {
               signals.
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-xl font-black leading-tight text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold leading-tight text-[var(--ink)]">
             TrustATrader is a review profile directory — homeowners find you based on your rating. JobFilter is proactive lead intelligence — you find jobs from planning data, council contracts, and ownership signals before any review profile is relevant.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -57,7 +57,7 @@ export function CompareTrustATraderPage() {
               TRY JOBFILTER FREE — SEE LEADS TRUSTATRADER MISSES →
             </Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="#comparison">
-              FULL COMPARISON
+              FULL COMPARISON →
             </Link>
           </div>
           <p className="mt-3 text-sm font-black text-[var(--muted)]">No credit card required — 3 free scans every week</p>
@@ -132,7 +132,7 @@ export function CompareTrustATraderPage() {
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {quotes.map((q) => (
               <div key={q.role} className="jf-box bg-white p-5">
-                <p className="font-black text-[var(--ink)] leading-snug">"{q.quote}"</p>
+                <p className="font-bold text-[var(--ink)] leading-snug">"{q.quote}"</p>
                 <p className="mt-3 micro-label text-[var(--muted)]">{q.role}</p>
               </div>
             ))}
@@ -145,7 +145,7 @@ export function CompareTrustATraderPage() {
           <h2 className="headline text-white" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
             TrustATrader leads come when a homeowner decides to post. Stop waiting.
           </h2>
-          <p className="mt-4 font-black text-white/80 text-lg max-w-xl mx-auto">
+          <p className="mt-4 font-bold text-white/80 text-lg max-w-xl mx-auto">
             JobFilter reads planning approvals, council contracts, and energy signals — jobs moving forward before they reach any directory. £39/month flat. No waiting for your ranking to improve.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row justify-center">

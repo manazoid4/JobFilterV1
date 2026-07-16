@@ -93,7 +93,7 @@ export function IntakeTestPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">INTAKE ENGINE — LIVE SCORING</p>
         <h1 className="headline mt-4 text-5xl leading-none md:text-7xl">SCORE ANY JOB. INSTANTLY.</h1>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Select a job type and see how the engine scores it. Live scoring. Real criteria.
         </p>
       </section>

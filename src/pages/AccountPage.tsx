@@ -142,8 +142,8 @@ export function AccountPage() {
 
         {!isActive && (
           <div className="mt-6 border-t-2 border-[var(--line)] pt-4">
-            <p className="font-black text-[var(--muted)] text-sm">
-              Free tier: 3 scans a week. Gold lead details are locked — only paid members see the contact path and quote timing. Checkatrade charges £300+ for the same jobs.
+            <p className="font-bold text-[var(--muted)] text-sm">
+              Free tier: 3 scans a week. Gold lead details are locked — only paid members see the contact path and quote timing. Checkatrade charges £300+ for the same reach.
             </p>
           </div>
         )}
@@ -179,7 +179,7 @@ export function AccountPage() {
           onClick={signOut}
           className="border-2 border-[var(--line)] px-4 py-2 text-sm font-black uppercase hover:bg-[var(--yellow)]"
         >
-          SIGN OUT
+          SIGN OUT →
         </button>
       </section>
     </main>
