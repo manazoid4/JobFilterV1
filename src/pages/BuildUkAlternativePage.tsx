@@ -215,7 +215,7 @@ export function BuildUkAlternativePage() {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['98% open rate', 'Not email. Not an app. WhatsApp — where you already work.'],
+              ['Gets read, not ignored', 'Not email. Not an app. WhatsApp — where you already work.'],
               ['Within minutes', 'Gold leads fire instantly. Not batched. Not delayed.'],
               ['One-tap action', 'Lead arrives. Tap. You\'re on it. No dashboards to hunt through.'],
             ].map(([title, body]) => (

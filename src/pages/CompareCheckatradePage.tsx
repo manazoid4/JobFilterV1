@@ -382,7 +382,7 @@ export function CompareCheckatradePage() {
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['98% open rate', 'Not email. Not an app. WhatsApp — where you already work.'],
+              ['Gets read, not ignored', 'Not email. Not an app. WhatsApp — where you already work.'],
               ['Within minutes', 'Gold leads fire instantly. Not batched. Not delayed.'],
               ['Before the competition', 'Official signals fire before the job hits any directory.'],
             ].map(([title, body]) => (
@@ -398,7 +398,7 @@ export function CompareCheckatradePage() {
       {/* ── PRICING ────────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--ink)]">FOUNDER RATE</p>
+          <p className="micro-label text-[var(--ink)]">CURRENT RATE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. VS £50-£90/MO + PER-LEAD FEES.</h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Checkatrade charges £50-£90/month per category, then charges per-lead on top. Trades report £200+/month before any work arrives. JobFilter is £39/month flat. Unlimited scans. No per-lead fees. No category restrictions.
@@ -410,9 +410,9 @@ export function CompareCheckatradePage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
-              <p className="micro-label text-[var(--yellow)]">FOUNDER RATE</p>
+              <p className="micro-label text-[var(--yellow)]">CURRENT RATE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-2 font-bold text-white/80">Founder rate locks at £39/mo for as long as you stay subscribed. Standard rate is £79/mo — no backdating once this offer ends.</p>
+              <p className="mt-2 font-bold text-white/80">Price is locked at £39/mo for as long as you stay active. Standard rate is £79/mo — price will not be backdated.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
@@ -519,7 +519,7 @@ export function CompareCheckatradePage() {
                 q: '"I already pay Checkatrade and it\'s working OK."',
                 a: 'If it\'s genuinely working, keep it. But check your numbers: how many leads did you buy vs win? What did each won job cost in lead fees? Multiple tradespeople report £200-£400/month before a single job — and that bill doubles at renewal. JobFilter is £39/mo with a 30-day refund. The comparison is straightforward.',
                 quote: 'I was paying £220/mo to Checkatrade and winning maybe one in five. First month on JobFilter I got a GOLD planning alert for a rear extension in LS7 — called before anyone else had quoted. That one job covered six months of JobFilter.',
-                attribution: 'Dan T., loft conversion specialist · Leeds LS7',
+                attribution: 'Loft conversion specialist, West Yorkshire',
               },
               {
                 q: '"I don\'t trust new tools. How do I know this works?"',
