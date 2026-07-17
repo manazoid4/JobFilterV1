@@ -1,5 +1,31 @@
 # Daily To-Do
 
+## Today - 17 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `b22b3d1` (NightlyBuildAgent Jul 17). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 16 Run 3. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **NEEDLE sweep** — TrustCenterPage identified as highest-priority target: 10 body paragraphs using `font-black` on the main trust/conversion page. This is where hesitant users decide to pay £39/mo.
+- [x] **BUILDER fix** — 10 fixes in TrustCenterPage + 1 in EpcPage (11 total, 2 files):
+  - TrustCenterPage hero: 3 body paragraphs (competitor callout, how JF works, guarantee pitch) font-black → font-bold
+  - TrustCenterPage transparency note body
+  - TrustCenterPage verified signals intro
+  - TrustCenterPage "Our rule:" privacy paragraph
+  - TrustCenterPage quality filter step bodies (×4 steps)
+  - TrustCenterPage 30-day guarantee body paragraph
+  - TrustCenterPage CTA sub-note ("No credit card required...")
+  - TrustCenterPage contact intro paragraph
+  - EpcPage letter template delivery note
+- [x] **CRITIC:** YES — `font-bold` on `text-lg` trust arguments reads immediately at font-bold; trust arguments land faster
+- [x] **REVENUE:** YES — TrustCenterPage is the conversion page for sceptical users; readable body copy directly improves £39/mo conversion
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`b22b3d1`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: font-black sweep on TrustCenterPage is NOW COMPLETE. All remaining `font-black` there are intentional labels/badges. Consider NEEDLE sweep on WeeklySignalsPage or BlueprintPage (haven't been swept for non-font UX issues recently). Check founder commits/PRs first. Carryover blockers remain the main unlock.
+
 ## Today - 16 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `3780e17` (NightlyBuildAgent Run 2, Jul 16). Build GREEN, TS CLEAN.
