@@ -35,7 +35,7 @@ const pipelineSteps = [
     num: '02',
     label: 'NORMALISE',
     icon: Database,
-    body: 'Join every signal to a persistent property key — postcode, UPRN, and company number. No orphan records. No guesswork.',
+    body: 'Match every signal to a specific address. No duplicates, no guesswork — one clean record per property.',
   },
   {
     num: '03',
@@ -53,7 +53,7 @@ const pipelineSteps = [
     num: '05',
     label: 'STORE',
     icon: HardHat,
-    body: 'Build a persistent property graph. Every scan improves coverage, confidence, and scoring accuracy. The system gets sharper the longer it runs.',
+    body: 'Every signal we collect improves the next one. The longer we run, the sharper the scoring gets.',
   },
   {
     num: '06',
@@ -638,7 +638,7 @@ function WhatsAppMockup() {
           <div className="bg-[var(--yellow)] rounded-sm px-3 py-2 max-w-[85%] ml-auto shadow-[2px_2px_0_var(--ink)]">
             <p className="micro-label text-[var(--ink)] text-[9px]">GOLD LEAD</p>
             <p className="text-[var(--ink)] text-xs font-bold leading-snug mt-0.5">
-              Planning approved for 2-storey extension in M20. Estimated value: 45k. Builder fit.
+              Planning submitted — 2-storey extension, M20. Still pending. No contractor listed. Builder fit. Est. value: £38k–£55k.
             </p>
             <p className="text-[var(--ink)]/90 text-[9px] mt-1 text-right">14:32</p>
           </div>

@@ -313,7 +313,7 @@ function ServiceForm({ trade }: { trade: string }) {
       <form className="jf-box bg-white p-6 grid gap-4" onSubmit={handleSubmit}>
         <p className="micro-label text-[var(--orange)]">SUBMIT TO TEAM</p>
         <input name="name" className="field-input" placeholder="Your name" required />
-        <input name="company" className="field-input" placeholder="Company / organisation" defaultValue={trade} required />
+        <input name="company" className="field-input" placeholder="Your company name" required />
         <input name="contact" className="field-input" placeholder="Email or phone" required />
         <textarea name="details" className="field-input min-h-[100px]" placeholder="Job details — what do you need help with?" />
         <fieldset className="grid gap-2">
