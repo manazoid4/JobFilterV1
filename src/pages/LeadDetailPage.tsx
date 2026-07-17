@@ -555,7 +555,7 @@ export function LeadDetailPage() {
           </button>
           {explainState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-bold text-[var(--ink)]">Get a plain-English breakdown of this exact signal — what it means, who to call, and why it's worth your time. One job won covers 3 months at £39.</p>
+              <p className="text-sm font-bold text-[var(--ink)]">Get a plain-English breakdown of this exact signal — what it means, who to call, and why it's worth your time. One job won covers 12+ months at £39.</p>
               <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
               <p className="mt-2 text-xs font-black text-[var(--muted)] uppercase tracking-wider">30-DAY MONEY-BACK GUARANTEE · Cancel anytime.</p>
             </div>
@@ -617,7 +617,7 @@ export function LeadDetailPage() {
           <p className="mt-2 text-xs font-black text-[var(--muted)]">Writes a one-off message from this job's details — not a generic template.</p>
           {aiDraftState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-black text-[var(--ink)]">Get a tailored first message for this exact job — not a copy-paste template. One job won covers 3 months at £39.</p>
+              <p className="text-sm font-black text-[var(--ink)]">Get a tailored first message for this exact job — not a copy-paste template. One job won covers 12+ months at £39.</p>
               <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
               <p className="mt-2 text-xs font-black text-[var(--muted)] uppercase tracking-wider">30-DAY MONEY-BACK GUARANTEE · Cancel anytime.</p>
             </div>
@@ -785,7 +785,7 @@ export function LeadDetailPage() {
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             UNLOCK THIS LEAD — £39/MO →
           </Link>
-          <p className="mt-2 text-xs font-black text-white/75">30-day money-back · one job covers 3 months · cancel anytime</p>
+          <p className="mt-2 text-xs font-black text-white/75">30-day money-back · one job covers 12+ months · cancel anytime</p>
         </section>
       )}
 

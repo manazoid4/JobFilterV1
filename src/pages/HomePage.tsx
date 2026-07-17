@@ -335,7 +335,7 @@ export function HomePage() {
               { num: '01', title: 'Your phone before anyone else', body: 'Gold-scored leads hit your WhatsApp within minutes of a planning approval, energy signal, or council tender going live. Before they reach any job board.' },
               { num: '02', title: 'One trade. One patch. No sharing.', body: 'No shared auction. No five-trade race to the bottom. Your trade gets priority routing in your postcode cluster — not blasted to four other firms.' },
               { num: '03', title: 'Scored before you see it', body: 'Every signal scored 0–100 for buyer readiness, timing pressure, and trade fit. Bronze noise stays out. GOLD hits your phone. You only act on what\'s worth your time.' },
-              { num: '04', title: 'One job covers it.', body: 'Average UK trade job: £800–£3,000. One qualified win at founder price pays for 3 months. 30-day money-back if you don\'t see one job worth chasing.' },
+              { num: '04', title: 'One job covers it.', body: 'Average UK trade job: £800–£3,000. One qualified win at founder price pays for 12+ months. 30-day money-back if you don\'t see one job worth chasing.' },
             ] as { num: string; title: string; body: string }[]).map(({ num, title, body }) => (
               <div key={num} className="jf-box bg-white p-6">
                 <p className="font-mono text-4xl font-black text-[var(--yellow)] leading-none">{num}</p>

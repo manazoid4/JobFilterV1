@@ -705,7 +705,7 @@ export function FindJobsPage() {
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details locked</p>
                       <p className="mt-1 text-sm font-black text-white/90">
-                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route. One job from this list covers 3+ months at £39.
+                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route. One job from this list covers 12+ months at £39.
                       </p>
                       <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
                         SEE WHO TO CALL — £39/MO →
@@ -728,7 +728,7 @@ export function FindJobsPage() {
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">30-day money-back · one job covers 3 months</span>
+                        <span className="text-xs font-black text-white/50">30-day money-back · one job covers 12+ months</span>
                       </div>
                     </div>
                   )}
@@ -781,7 +781,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Average UK trade job: £800–£3,000. One job from this list covers 3+ months at £39. Buyer name, job value band, and direct contact — locked until you upgrade. Not shared with Checkatrade, Bark, or any other trade.
+                    Average UK trade job: £800–£3,000. One job from this list covers 12+ months at £39. Buyer name, job value band, and direct contact — locked until you upgrade. Not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
               )}
