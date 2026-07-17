@@ -108,8 +108,8 @@ export function SampleLeadCard() {
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         <div className="border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
           <p className="micro-label text-[var(--navy)]">QUOTE FLOOR</p>
-          <p className="mt-1 text-2xl font-black text-[var(--ink)]">£39/MO</p>
-          <p className="mt-1 text-xs font-black text-[var(--muted)]">Quote floor unlocked at £39/mo.</p>
+          <p className="mt-1 text-2xl font-black text-[var(--ink)]">£{(sampleLead.budgetMin / 1000).toFixed(0)}k–£{(sampleLead.budgetMax / 1000).toFixed(0)}k</p>
+          <p className="mt-1 text-xs font-black text-[var(--muted)]">Estimate based on signal data — full breakdown in Full Access.</p>
         </div>
         <div className="border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 p-4">
           <p className="micro-label text-[var(--ink)]">FOLLOW-UP CADENCE</p>
