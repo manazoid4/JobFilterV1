@@ -725,7 +725,7 @@ export function FindJobsPage() {
                   <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — FOUNDING 30</p>
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
                       <p className="mt-2 font-black text-white">
                         {lead.estimatedValue ? `This job: ${lead.estimatedValue}. ` : ''}See buyer name and contact to call before anyone else does.
                       </p>

@@ -508,7 +508,7 @@ export function LeadDetailPage() {
         ) : (
           <section className="jf-box bg-[var(--paper)] p-6">
             <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
-            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS — FOUNDING 30</h2>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS — FULL ACCESS ONLY</h2>
             <p className="mt-2 text-sm font-black text-[var(--muted)]">Incorporation date, company number, and industry — unlocked at £39/mo.</p>
           </section>
         );
@@ -777,7 +777,7 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">FULL ACCESS — FOUNDING 30</p>
+          <p className="micro-label text-[var(--yellow)]">GET THE BUYER'S CONTACT</p>
           <h2 className="headline mt-1 text-2xl">GET THE BUYER'S NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
             The template above is ready. Members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
