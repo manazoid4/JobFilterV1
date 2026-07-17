@@ -18,7 +18,7 @@ const comparison = [
   { feature: 'Pricing model', buildalert: '£2 per letter — pay per action', jobfilter: '£39/mo — unlimited everything', jf: true },
   { feature: 'Per-action cost', buildalert: 'Yes — every letter costs', jobfilter: 'No — scan as much as you want', jf: true },
   { feature: 'Subscription lock-in', buildalert: 'No — pay as you go', jobfilter: 'No — cancel anytime', jf: false },
-  { feature: 'Council coverage', buildalert: '400+ planning authorities', jobfilter: 'All UK councils — all 5 signals', jf: true },
+  { feature: 'Council coverage', buildalert: '400+ planning authorities', jobfilter: 'All UK councils — all 10 signals', jf: true },
   { feature: 'Data freshness', buildalert: 'Mail cycle delay', jobfilter: 'Real-time scanning', jf: true },
   { feature: 'Free tier', buildalert: 'No', jobfilter: 'Yes — preview leads, no card', jf: true },
 ];
@@ -112,7 +112,7 @@ export function CompareBuildAlertPage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-xl font-bold leading-snug text-[var(--ink)]">
-            BuildAlert mails you planning applications. JobFilter scans five data sources, scores them, and fires Gold leads to your WhatsApp before the letter even lands.
+            BuildAlert mails you planning applications. JobFilter scans ten data sources, scores them, and fires Gold leads to your WhatsApp before the letter even lands.
           </p>
 
           {/* Visual comparison: Letter vs WhatsApp */}

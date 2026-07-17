@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'WhatsApp alerts for GOLD leads, territory lock (one trade per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Founder rate stays at £39/mo — standard rate is £79/mo.',
+    a: 'WhatsApp alerts for GOLD leads, territory lock (one trade per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Price is locked at £39/mo for as long as you stay active — it does not rise.',
   },
   {
     q: 'Can I cancel anytime?',

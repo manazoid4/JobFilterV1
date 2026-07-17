@@ -33,7 +33,7 @@ const marketPlatforms = [
   { platform: 'Rated People', cost: '£2–£65 per lead + monthly', model: 'Shared — up to 3 trades per lead', weakness: 'Customer support cut back. AI chatbot replacing humans.' },
   { platform: 'Houzz Pro', cost: 'From $399/mo (~£320/mo)', model: 'Profile listing + shared enquiries', weakness: '12-month auto-renew. US-first product. UK coverage thin.' },
   { platform: 'TrustATrader', cost: '£70–£120/mo', model: 'Directory listing — consumer chooses', weakness: 'No proactive lead gen. You wait to be found. No scoring.' },
-  { platform: 'JobFilter', cost: '£39/mo (founder price, locked)', model: 'Territory-routed — one trade per postcode cluster, priority routing', weakness: '—' },
+  { platform: 'JobFilter', cost: '£39/mo (locked for life)', model: 'Territory-routed — one trade per postcode cluster, priority routing', weakness: '—' },
 ];
 
 const signals = [
