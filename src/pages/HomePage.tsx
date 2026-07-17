@@ -431,7 +431,7 @@ export function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--orange)]" />
-              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
+              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">£39/mo · 30-day money-back guarantee</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE TRADE.<br />ONE PATCH.<br />NO SHARING.
@@ -454,8 +454,8 @@ export function HomePage() {
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
               <AlertTriangle size={28} strokeWidth={3} />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER ACCESS</p>
-                <h3 className="headline text-3xl">Claim early. Keep the rate.</h3>
+                <p className="micro-label text-[var(--orange)]">LOCK YOUR PATCH</p>
+                <h3 className="headline text-3xl">One trade per postcode. First call on every signal.</h3>
               </div>
             </div>
             <p className="mt-4 text-base font-bold text-[var(--muted)]">

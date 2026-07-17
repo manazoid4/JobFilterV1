@@ -257,7 +257,7 @@ export function TerritoriesPage() {
                 <div className="grid gap-3">
                   <span className={`w-fit border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase ${statusClass[territory.status]}`}>{territory.status}</span>
                   {statusCta[territory.status].href ? (
-                    <a className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href="#patch-check">{statusCta[territory.status].label}</a>
+                    <a className="jf-button bg-[var(--yellow)] px-3 py-2 text-xs text-[var(--ink)]" href={statusCta[territory.status].href ?? '#patch-check'}>{statusCta[territory.status].label}</a>
                   ) : (
                     <span className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-center text-xs font-black uppercase text-[var(--muted)]">{statusCta[territory.status].label}</span>
                   )}
