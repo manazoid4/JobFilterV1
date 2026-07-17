@@ -154,7 +154,7 @@ export function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">£39/mo locks forever while active</p>
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo founder rate · standard rate rises to £79/mo</p>
             </div>
           </div>
         </div>

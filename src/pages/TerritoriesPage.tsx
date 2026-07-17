@@ -62,7 +62,7 @@ const objections = [
   },
   {
     q: 'Do I need to sign a contract?',
-    a: 'No contract. Cancel anytime. But founder price locks only stay active while your plan does. Cancel and rejoin later, you pay the new rate.',
+    a: 'No contract. Cancel anytime. Founder rate is £39/mo — if you cancel and rejoin, you pay the standard rate (£79/mo).',
   },
 ];
 
@@ -177,7 +177,7 @@ export function TerritoriesPage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">£39/mo — locked forever while active. Founder price ends when slots fill.</p>
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo founder rate · standard rate £79/mo · price rises when founder slots fill</p>
             </div>
           </div>
         </div>
