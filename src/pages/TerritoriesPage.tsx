@@ -94,7 +94,7 @@ export function TerritoriesPage() {
         source: 'territory-patch-check',
       });
       setSubmitState('success');
-      setSubmitMessage('Patch request saved. We\'ll check coverage and reply within 24 hours with the next step.');
+      setSubmitMessage('On it. If your patch is open we\'ll WhatsApp or email you within the hour — usually faster.');
     } catch (error: any) {
       setSubmitState('error');
       setSubmitMessage(error?.message ?? 'Could not save this patch request. Try again.');
@@ -278,7 +278,7 @@ export function TerritoriesPage() {
                 ONE SMALL JOB COVERS YOUR YEAR.
               </h2>
               <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
-                At £39 per month, one £2,000 job covers 51 months of JobFilter. That is the benchmark: one small won job should make the subscription obvious.
+                At £39 per month, one average trade job — £500 bathroom fix, £800 rewire, £1,200 extension groundwork — covers a full year. That is the benchmark.
               </p>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 <div className="jf-box bg-white p-5 text-center">
@@ -291,8 +291,8 @@ export function TerritoriesPage() {
                 </div>
                 <div className="jf-box bg-white p-5 text-center">
                   <p className="micro-label text-[var(--muted)]">Close 1 job =</p>
-                  <p className="headline mt-1 text-4xl text-[var(--orange)]">51 months</p>
-                  <p className="text-xs font-black text-[var(--muted)]">of membership paid</p>
+                  <p className="headline mt-1 text-4xl text-[var(--orange)]">12+ months</p>
+                  <p className="text-xs font-black text-[var(--muted)]">covered by one average job</p>
                 </div>
               </div>
             </div>
