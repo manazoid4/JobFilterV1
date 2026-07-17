@@ -267,7 +267,7 @@ export function DashboardPage() {
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              YOUR PATCH: {territory ?? 'NOT LOCKED'}
+              YOUR PATCH: {territory ?? 'NOT SET'}
             </span>
           </div>
           {territory ? (

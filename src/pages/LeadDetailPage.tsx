@@ -508,7 +508,7 @@ export function LeadDetailPage() {
         ) : (
           <section className="jf-box bg-[var(--paper)] p-6">
             <p className="micro-label text-[var(--green)]">BUSINESS SIGNAL</p>
-            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS LOCKED</h2>
+            <h2 className="headline text-2xl sm:text-3xl">COMPANY DETAILS — FOUNDING 30</h2>
             <p className="mt-2 text-sm font-black text-[var(--muted)]">Incorporation date, company number, and industry — unlocked at £39/mo.</p>
           </section>
         );
@@ -777,13 +777,13 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">BUYER CONTACT LOCKED</p>
-          <h2 className="headline mt-1 text-2xl">UNLOCK THE PHONE NUMBER.</h2>
+          <p className="micro-label text-[var(--yellow)]">FULL ACCESS — FOUNDING 30</p>
+          <h2 className="headline mt-1 text-2xl">GET THE BUYER'S NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
             The template above is ready. Gold members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
-            UNLOCK THIS LEAD — £39/MO →
+            GET FULL ACCESS — £39/MO →
           </Link>
           <p className="mt-2 text-xs font-black text-white/75">30-day money-back · one job covers 12+ months · cancel anytime</p>
         </section>
@@ -830,7 +830,7 @@ export function LeadDetailPage() {
         {lead.phone ? (
           <a className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href={`tel:${lead.phone}`}>CALL</a>
         ) : (
-          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK CONTACT →</Link>
+          <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">GET BUYER NUMBER →</Link>
         )}
         <button className="jf-button bg-[var(--bg-main)] text-[var(--ink)]" onClick={() => setStatus('ignored')}>IGNORE</button>
         <button className="jf-button bg-[var(--navy)] text-white" onClick={() => setStatus('saved')}>SAVE</button>
