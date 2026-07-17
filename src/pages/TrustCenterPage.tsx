@@ -52,14 +52,14 @@ const privacyPoints = [
 ];
 
 const guaranteeFeatures = [
-  'One territory lock per founding member',
+  'One exclusive territory lock — your patch, nobody else in it',
   'Unlimited lead alerts within locked territory',
   'Unlimited WhatsApp alerts',
   'Letter drop scripts for every lead — print and post in minutes',
   'Full lead scoring + lead readiness markers',
   'Job tracking — every lead from first call to won job',
   'All free tools included',
-  'Founder rate £39/mo — standard rate £79/mo, yours as long as you stay subscribed',
+  'Locked at £39/mo for life — price never rises as long as you stay active',
   '30-day money-back guarantee',
 ];
 
@@ -163,7 +163,7 @@ export function TrustCenterPage() {
       <section className="jf-box bg-white p-8">
         <p className="micro-label text-[var(--orange)]">QUALITY FILTER PHILOSOPHY</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          DEAD LEADS COST TRADESMEN £2,000-5,000 A YEAR.
+          EVERY WASTED SITE VISIT COSTS FUEL, TIME, AND A JOB YOU DIDN'T GET TO QUOTE.
         </h2>
         <p className="mt-4 max-w-2xl copy">
           Wasted fuel. Wasted time. Wasted hope. We built JobFilter to stop that.
