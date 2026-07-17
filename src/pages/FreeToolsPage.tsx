@@ -469,7 +469,7 @@ function TyreKickerTool() {
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FOR REAL LEADS →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">FOUNDER — £39/MO</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO →</Link>
       </div>
     </section>
   );
