@@ -780,7 +780,7 @@ export function LeadDetailPage() {
           <p className="micro-label text-[var(--yellow)]">FULL ACCESS — FOUNDING 30</p>
           <h2 className="headline mt-1 text-2xl">GET THE BUYER'S NUMBER.</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            The template above is ready. Gold members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
+            The template above is ready. Members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             GET FULL ACCESS — £39/MO →

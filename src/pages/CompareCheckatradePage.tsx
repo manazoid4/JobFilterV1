@@ -189,7 +189,7 @@ export function CompareCheckatradePage() {
             THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-            Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. Not the best reviewed. The first. JobFilter tells you where to turn up before anyone else knows the job exists.
+            The trade who calls first wins the job more often than not — not the cheapest, not the best reviewed. The first. JobFilter tells you where to turn up before anyone else knows the job exists.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="jf-box bg-white/10 border-white/20 p-6">
@@ -410,16 +410,15 @@ export function CompareCheckatradePage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
-              <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
+              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder rate: £39/mo · standard rate £79/mo)</p>
-              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Founder rate: £39/mo. Standard rate £79/mo.</p>
+              <p className="mt-2 font-bold text-white/80">First 30 trades lock this price permanently. Standard price is £79/mo once slots are gone.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
                 <li>Buyer names & deadlines</li>
-                <li>Founder rate: £39/mo</li>
+                <li>Price locked for life at £39/mo</li>
               </ul>
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>

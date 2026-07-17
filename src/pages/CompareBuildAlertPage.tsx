@@ -223,7 +223,7 @@ export function CompareBuildAlertPage() {
                 <p className="micro-label text-[var(--yellow)]">JOBFILTER COST</p>
                 <p className="mt-2 headline text-5xl text-[var(--yellow)]">£{jobFilterCost}<span className="text-2xl text-[var(--yellow)]/60">/mo</span></p>
                 <p className="mt-1 font-black text-white/90 text-sm">
-                  Unlimited scans. All 5 signals. WhatsApp alerts.
+                  Unlimited scans. All 10 signals. WhatsApp alerts.
                 </p>
                 {jobsPerMonth > breakEven && (
                   <p className="mt-2 font-black text-[var(--green)] text-sm">
@@ -232,7 +232,7 @@ export function CompareBuildAlertPage() {
                 )}
                 {jobsPerMonth <= breakEven && (
                   <p className="mt-2 font-black text-white/85 text-sm">
-                    Slightly more at this volume — but you get 5 signals, scoring, and WhatsApp.
+                    Slightly more at this volume — but you get 10 signals, scoring, and WhatsApp.
                   </p>
                 )}
               </div>
@@ -287,7 +287,7 @@ export function CompareBuildAlertPage() {
             THE BUILDER WHO TURNS UP FIRST GETS THE JOB.
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-            Industry data shows 70% of jobs go to the first person to quote. Not the cheapest. The first. BuildAlert mails you a letter. By the time it arrives, someone with WhatsApp already won the job.
+            The trade who calls first wins the job more often than not — not the cheapest, not the best reviewed. The first. BuildAlert mails you a letter. By the time it arrives, someone with WhatsApp already won the job.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             <div className="jf-box bg-white/10 border-white/20 p-6">
@@ -492,7 +492,7 @@ export function CompareBuildAlertPage() {
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo UNLIMITED. VS £2 PER LETTER.</h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £39/month for unlimited scans across all five signals. One job covers it.
+            BuildAlert charges £2 per letter. Scan 20 areas? That's £40. JobFilter is £39/month for unlimited scans across all ten signals. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
@@ -501,16 +501,15 @@ export function CompareBuildAlertPage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
-              <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
+              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder rate: £39/mo · standard rate £79/mo)</p>
-              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Founder rate: £39/mo. Standard rate £79/mo.</p>
+              <p className="mt-2 font-bold text-white/80">First 30 trades lock this price permanently. Standard price is £79/mo once slots are gone.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
                 <li>Buyer names & deadlines</li>
-                <li>Founder rate: £39/mo</li>
+                <li>Price locked for life at £39/mo</li>
               </ul>
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
@@ -558,7 +557,7 @@ export function CompareBuildAlertPage() {
             <span style={{ color: 'var(--yellow)' }}>STOP PAYING PER SCAN.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-white/90">
-            JobFilter reads planning approvals, council contracts, and energy signals — all three, not just planning. Unlimited scans for £39/month flat. One job pays the month.
+            JobFilter reads ten verified signals — planning, contracts, energy, property sales, HMO, grants and more — not just planning. Unlimited scans for £39/month flat. One job pays the month.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE — NO CARD NEEDED →</Link>
