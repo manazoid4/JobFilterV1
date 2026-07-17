@@ -15,7 +15,7 @@ export function LaunchWaitlistModal() {
   useEffect(() => {
     if (pathname !== '/') return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
-    const timer = window.setTimeout(() => setOpen(true), 18000);
+    const timer = window.setTimeout(() => setOpen(true), 8000);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
