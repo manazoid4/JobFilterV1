@@ -143,7 +143,7 @@ export function AccountPage() {
         {!isActive && (
           <div className="mt-6 border-t-2 border-[var(--line)] pt-4">
             <p className="font-bold text-[var(--muted)] text-sm">
-              Free tier: 3 scans a week. Gold lead details are locked — only paid members see the contact path and quote timing. Checkatrade charges £300+ for the same reach.
+              You're on free. 3 scans a week, no contact details. The homeowner name, phone, and quote window are locked behind paid access. Checkatrade takes £300+ for that same visibility. You get it for £39/mo.
             </p>
           </div>
         )}

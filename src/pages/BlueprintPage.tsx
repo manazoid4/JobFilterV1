@@ -2,7 +2,6 @@
 import Link from 'next/link';
 
 import {
-  ArrowRight,
   Database,
   Home,
   MapPinned,
@@ -688,7 +687,7 @@ export function BlueprintPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
-                SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
+                SCAN MY AREA FREE →
               </Link>
               <Link className="jf-button jf-button-lg bg-white text-[var(--ink)]" href="/pricing">
                 LOCK YOUR PATCH — £39/MO →
@@ -966,9 +965,9 @@ export function BlueprintPage() {
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <Link className="jf-button jf-button-lg bg-[var(--ink)] text-[var(--yellow)]" href="/find-jobs">
-              SCAN MY AREA FREE → <ArrowRight className="ml-1 inline h-5 w-5" />
+              SCAN MY AREA FREE →
             </Link>
-            <Link className="jf-button jf-button-lg bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">
+            <Link className="jf-button jf-button-lg bg-[var(--navy)] text-white" href="/pricing">
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
