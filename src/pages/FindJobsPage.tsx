@@ -420,8 +420,9 @@ export function FindJobsPage() {
         {!unlimitedTester && (
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
-            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — NOT ON JOB BOARDS YET</span>
+            <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — SCORES FREE · BUYER DETAILS NEED UPGRADE</span>
           </div>
+          <p className="mt-2 text-xs font-black text-[var(--muted)]">Free scan shows lead titles, signal source, and score. Buyer name, job value band, and direct contact route unlock with membership.</p>
         )}
 
         {!unlimitedTester && (

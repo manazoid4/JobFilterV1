@@ -44,7 +44,7 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="See real scored leads in your area before you pay. 3 free scans — no card, no catch."
+          body="Scan your patch before you commit. Lead titles, source, and score are free — buyer name and contact route unlock with membership. No card needed. Resets every week."
           items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
