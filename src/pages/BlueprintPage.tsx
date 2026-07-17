@@ -751,7 +751,7 @@ export function BlueprintPage() {
             <ReactiveProactiveSvg />
           </div>
           <p className="mt-6 text-sm font-black text-[var(--muted)]">
-            The 29.7 billion UK rental maintenance market operates on reactive workflows. JobFilter shifts the paradigm: detect the need before the tenant complains, quote before the competition knows the job exists.
+            The £29.7 billion UK rental maintenance market operates on reactive workflows. JobFilter shifts the paradigm: detect the need before the tenant complains, quote before the competition knows the job exists.
           </p>
         </div>
       </section>
@@ -972,7 +972,7 @@ export function BlueprintPage() {
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
-          <p className="mt-3 text-sm font-black text-[var(--ink)]/70">One job worth chasing covers 12+ months at £39. Most members see their first GOLD lead within a week.</p>
+          <p className="mt-3 text-sm font-black text-[var(--ink)]/70">One job worth chasing covers 12+ months at £39. Every scan runs all 10 sources in real time — your first results appear in under 10 seconds. No credit card required.</p>
           <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-day money-back guarantee — one job worth chasing or we refund every penny.</p>
         </div>
       </section>
