@@ -38,6 +38,7 @@ export function PricingPage() {
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 12+ months at £39.</p>
         <p className="mt-1 text-sm font-black text-white/60">No credit card required to scan — 3 free scans every week.</p>
+        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">30-day money-back guarantee — one job worth chasing or we refund every penny.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -181,7 +182,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDING PRICE' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDER PRICE' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
