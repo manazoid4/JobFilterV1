@@ -1,5 +1,32 @@
 # Daily To-Do
 
+## Today - 17 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `c589329` (Jul 17 Run 1). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 17 Run 1. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **NEEDLE sweep** — WeeklySignalsPage + BlueprintPage. 3 issues found:
+  1. BlueprintPage: LOCK YOUR PATCH CTA invisible (yellow button on yellow section — zero contrast) [CRITICAL]
+  2. BlueprintPage: double arrows on SCAN MY AREA FREE (text `→` + `<ArrowRight />` icon = `→ →`)
+  3. WeeklySignalsPage: GET WEEKLY ALERTS ghost button (`bg-white/10` on navy = near-invisible)
+- [x] **BUILDER fix** — all 3 resolved across 2 files:
+  - BlueprintPage final CTA: paid CTA `bg-yellow → bg-navy text-white` (now visible on yellow section)
+  - BlueprintPage hero + final CTA: removed redundant `<ArrowRight />` icons
+  - BlueprintPage: removed `ArrowRight` from lucide-react import (now unused)
+  - WeeklySignalsPage: `bg-white/10 text-white border-white/20` → `bg-white text-[var(--ink)]`
+- [x] **Copy Polish**:
+  - AccountPage free-tier paragraph: fear→proof→control applied (homeowner name/phone/quote window, £39/mo)
+  - LoginPage h1: "Sign in" → "SIGN IN" (all-caps design system)
+- [x] **CRITIC:** YES — paid CTA visible in <3s on yellow; ghost button now solid and clickable; no double arrows
+- [x] **REVENUE:** YES — BlueprintPage paid CTA was invisible to users who scrolled to page bottom; fix directly unblocks conversion
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`81924f0`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. WeeklySignalsPage bottom CTA hierarchy (free CTA ink=primary, paid CTA navy=secondary on yellow) — potentially swap to put paid CTA more prominently. Consider sweep on ForgotPasswordPage / ActivationPendingPage. Carryover blockers remain the main unlock.
+
 ## Today - 17 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD synced to `b22b3d1` (NightlyBuildAgent Jul 17). Build GREEN, TS CLEAN.
