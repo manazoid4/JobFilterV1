@@ -306,7 +306,7 @@ export function TerritoriesPage() {
                   'Letter drop scripts for every lead — print and post in minutes',
                   'Full lead scoring + lead readiness markers',
                   'Job tracking — every lead from first contact to won job',
-                  'Founder price locked forever while active',
+                  'Founder rate: £39/mo — standard rate £79/mo',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm font-black">
                     <CheckCircle size={16} strokeWidth={3} className="mt-0.5 shrink-0 text-[var(--green)]" />
@@ -358,7 +358,7 @@ export function TerritoriesPage() {
                 { icon: LockKeyhole, text: 'Trade + postcode priority' },
                 { icon: ShieldCheck, text: 'Verification proof on every lead' },
                 { icon: Mail, text: 'Letter drop scripts — print and post in minutes' },
-                { icon: Star, text: 'Founder price locked forever' },
+                { icon: Star, text: 'Founder rate: £39/mo' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-3 last:border-0 last:pb-0">
                   <Icon size={22} strokeWidth={3} />
