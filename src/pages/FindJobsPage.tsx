@@ -725,7 +725,7 @@ export function FindJobsPage() {
                   <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — LOCKED</p>
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — FOUNDING 30</p>
                       <p className="mt-2 font-black text-white">
                         {lead.estimatedValue ? `This job: ${lead.estimatedValue}. ` : ''}See buyer name and contact to call before anyone else does.
                       </p>
@@ -750,7 +750,7 @@ export function FindJobsPage() {
                     <span className="font-black text-[var(--yellow)]">{goldCount} GOLD <span className="font-normal text-white/70">— worth quoting now</span></span>
                     <span className="font-black text-white">{silverCount} SILVER <span className="font-normal text-white/70">— worth watching</span></span>
                     {(result.lockedCount ?? 0) > 0 && (
-                      <span className="font-black text-white/50">{result.lockedCount} LOCKED <span className="font-normal">— upgrade to see</span></span>
+                      <span className="font-black text-white/50">{result.lockedCount} MORE LEADS <span className="font-normal">— full access at £39/mo</span></span>
                     )}
                   </div>
                   {sourceMix && (
@@ -773,7 +773,7 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYERS LOCKED.</p>
+                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`

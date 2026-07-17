@@ -452,8 +452,20 @@ function TyreKickerTool() {
         <NumberField label="Job value £" value={jobValue} onChange={setJobValue} />
         <NumberField label="Miles away" value={jobDistance} onChange={setJobDistance} />
         <NumberField label="Days until start" value={daysToStart} onChange={setDaysToStart} />
-        <NumberField label="Budget confirmed (0/1)" value={hasBudget} max={1} onChange={setHasBudget} />
-        <NumberField label="Photos sent (0/1)" value={hasPhotos} max={1} onChange={setHasPhotos} />
+        <div>
+          <p className="field-label mb-1">Budget confirmed?</p>
+          <div className="flex gap-2">
+            <button type="button" onClick={() => setHasBudget(1)} className={`flex-1 border-2 py-2 text-sm font-black uppercase ${hasBudget === 1 ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}>YES</button>
+            <button type="button" onClick={() => setHasBudget(0)} className={`flex-1 border-2 py-2 text-sm font-black uppercase ${hasBudget === 0 ? 'bg-[var(--orange)]/20 border-[var(--orange)]' : 'bg-white border-[var(--line)]'}`}>NO</button>
+          </div>
+        </div>
+        <div>
+          <p className="field-label mb-1">Photos sent?</p>
+          <div className="flex gap-2">
+            <button type="button" onClick={() => setHasPhotos(1)} className={`flex-1 border-2 py-2 text-sm font-black uppercase ${hasPhotos === 1 ? 'bg-[var(--yellow)] border-[var(--ink)]' : 'bg-white border-[var(--line)]'}`}>YES</button>
+            <button type="button" onClick={() => setHasPhotos(0)} className={`flex-1 border-2 py-2 text-sm font-black uppercase ${hasPhotos === 0 ? 'bg-[var(--orange)]/20 border-[var(--orange)]' : 'bg-white border-[var(--line)]'}`}>NO</button>
+          </div>
+        </div>
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FOR REAL LEADS →</Link>
