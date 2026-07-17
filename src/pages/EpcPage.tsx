@@ -66,8 +66,8 @@ export function EpcPage() {
           ))}
         </div>
         <div className="mt-6">
-          <a className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</a>
-          <p className="mt-2 text-sm font-bold text-[var(--ink)]">See retrofit leads in your patch — letter scripts included with membership.</p>
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/pricing">GET MEMBERSHIP + LETTER TEMPLATE — £39/MO →</Link>
+          <p className="mt-2 text-sm font-bold text-[var(--ink)]">Or <a className="underline" href="/find-jobs">scan your area free</a> to see retrofit leads first.</p>
         </div>
       </section>
 
@@ -85,7 +85,7 @@ export function EpcPage() {
           <p className="micro-label text-[var(--yellow)]">GET RETROFIT ALERTS</p>
           <h2 className="headline mt-3 text-5xl leading-none text-[var(--yellow)]">FIND THE RETROFIT WORK FIRST.</h2>
           <p className="mt-4 max-w-xl text-lg font-bold text-white/90">
-            Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — founding members get first access.
+            Join the retrofit lead list. Gold retrofit signals go straight to WhatsApp — included with £39/mo membership.
           </p>
           <Link className="jf-button mt-6 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
           <p className="mt-2 text-sm font-black text-white/60">No credit card required — 3 free scans every week</p>
