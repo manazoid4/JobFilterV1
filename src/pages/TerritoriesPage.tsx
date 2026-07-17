@@ -172,7 +172,7 @@ export function TerritoriesPage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                <span className="underline">Patch lock: one trade per postcode cluster</span> — {territories.filter(t => t.status === 'OPEN' || t.status === 'FOUNDER SLOT').length} patches listed as open
+                <span className="underline">Patch lock: one trade per postcode cluster</span> — use the form below to check whether your trade and area are still open
               </p>
             </div>
             <div className="flex items-center gap-2">
