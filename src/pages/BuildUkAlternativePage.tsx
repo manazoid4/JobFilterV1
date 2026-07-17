@@ -12,7 +12,7 @@ const comparison = [
   { feature: 'WhatsApp alerts', old: 'No', new: 'Yes — within minutes, not batched' },
   { feature: 'Private scans', old: 'Browse only', new: 'No shared auction — scan is yours' },
   { feature: 'Delivery', old: 'Manual browsing', new: 'Pushed to your phone' },
-  { feature: 'Price', old: '£30+/mo — for less', new: '£39/mo founding — forever' },
+  { feature: 'Price per GOLD lead delivered', old: 'Unknown — manual browse, no scoring', new: '£39/mo — scored, filtered, sent to your WhatsApp' },
 ];
 
 const signals = [
