@@ -93,7 +93,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-bold text-white/55">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              £39/mo founder price · no contract · cancel anytime · 30-day money-back
+              £39/mo · no contract · cancel anytime · 30-day money-back
             </p>
             <div className="mt-5 flex flex-col gap-1.5">
               {proofPoints.map((point) => (
@@ -154,7 +154,7 @@ export function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">£39/mo founder rate · standard rate rises to £79/mo</p>
+              <p className="text-sm font-black text-[var(--ink)]">£39/mo now · standard rate £79/mo</p>
             </div>
           </div>
         </div>
@@ -281,7 +281,7 @@ export function HomePage() {
               SECURE YOUR PATCH BEFORE ANOTHER TRADE DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]/70">
-              Territory lock gives you first look at every signal in your postcode cluster. Tradesmen who lock in now keep £39/mo for life — the rate goes up when founder slots fill.
+              Territory lock gives you first look at every signal in your postcode cluster. Tradesmen who lock in now keep £39/mo for life — the rate goes up when early slots fill.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
