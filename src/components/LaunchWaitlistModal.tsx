@@ -36,7 +36,7 @@ export function LaunchWaitlistModal() {
         <div className="jf-box bg-[var(--paper)] p-6 text-[var(--ink)] shadow-[8px_8px_0_var(--yellow)]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="micro-label text-[var(--orange)]">EARLY ACCESS</p>
+              <p className="micro-label text-[var(--orange)]">LIMITED SPOTS</p>
               <h2 className="headline mt-2 text-4xl leading-none">FOUNDER PRICE: £39/MO.</h2>
               <p className="mt-3 font-black text-[var(--muted)]">Lock your territory. Scored leads sent to your WhatsApp. Priority routing by postcode. No lead auction. No dead leads.</p>
             </div>
