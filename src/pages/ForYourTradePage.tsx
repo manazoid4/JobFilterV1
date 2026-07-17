@@ -81,7 +81,7 @@ export function ForYourTradePage() {
               <span className="font-black text-[var(--muted)]">Buyer</span>
               <div className="flex items-center gap-1 bg-[var(--ink)] px-2 py-0.5">
                 <Lock size={11} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
-                <span className="font-black text-[10px] text-[var(--yellow)]">LOCKED</span>
+                <span className="font-black text-[10px] text-[var(--yellow)]">FULL ACCESS</span>
               </div>
             </div>
           </div>

@@ -13,6 +13,7 @@ const verifiedSignals = [
   'Rental market upgrade signals',
   'Property change-of-use activity',
   'Government retrofit and grant-funded work',
+  'Insolvency and void premises — urgent make-safe and refit work',
 ];
 
 const qualityFilterSteps = [
@@ -136,7 +137,7 @@ export function TrustCenterPage() {
       <section className="jf-box bg-[var(--yellow)] p-8">
         <p className="micro-label text-[var(--ink)]">VERIFIED SIGNALS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          NINE TYPES OF SIGNAL. ALL VERIFIED. ALL BEFORE IT REACHES YOUR PHONE.
+          TEN TYPES OF SIGNAL. ALL VERIFIED. ALL BEFORE IT REACHES YOUR PHONE.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
           No scraped directories. No user-submitted enquiries. Every signal comes from verified official UK sources.

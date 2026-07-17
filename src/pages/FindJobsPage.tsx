@@ -706,7 +706,7 @@ export function FindJobsPage() {
                   </div>
                   {commercialOnly && !OPEN_ACCESS && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
-                      <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details locked</p>
+                      <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details in Full Access</p>
                       <p className="mt-1 text-sm font-black text-white/90">
                         These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route. One job from this list covers 12+ months at £39.
                       </p>
@@ -784,7 +784,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
-                    Average UK trade job: £800–£3,000. One job from this list covers 12+ months at £39. Buyer name, job value band, and direct contact — locked until you upgrade. Not shared with Checkatrade, Bark, or any other trade.
+                    Average UK trade job: £800–£3,000. One job from this list covers 12+ months at £39. Buyer name, job value band, and direct contact available with Full Access from £39/mo. Not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
               )}
@@ -1597,7 +1597,7 @@ function LockedValue({ label, value, isLink, href, devUnlocked = false, showCta 
       <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3">
         <div className="flex items-center gap-2">
           <Lock size={12} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
-          <p className="micro-label text-[10px] text-[var(--yellow)]">{label} — LOCKED</p>
+          <p className="micro-label text-[10px] text-[var(--yellow)]">{label} — FULL ACCESS</p>
         </div>
         {showCta && (
           <>
