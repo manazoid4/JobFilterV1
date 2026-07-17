@@ -62,7 +62,7 @@ const objections = [
   },
   {
     q: 'Do I need to sign a contract?',
-    a: 'No contract. Cancel anytime. Founder rate is £39/mo — if you cancel and rejoin, you pay the standard rate (£79/mo).',
+    a: 'No contract. Cancel anytime. Note: the founder rate (£39/mo) is locked while your membership stays active — if you cancel and rejoin later, the standard rate (£79/mo) applies.',
   },
 ];
 
