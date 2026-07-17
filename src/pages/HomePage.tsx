@@ -163,7 +163,7 @@ export function HomePage() {
       {/* ── TRUSTED BY ────────────────────────────────── */}
       <section className="border-b-2 border-[var(--line)] bg-white">
         <div className="page-shell py-8 text-center">
-          <p className="micro-label text-[var(--muted)]">COVERING POSTCODES ACROSS THE UK</p>
+          <p className="micro-label text-[var(--muted)]">SCANNING LIVE IN</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             {trustedCities.map((city) => (
               <span key={city} className="border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-mono text-sm font-black uppercase text-[var(--ink)] shadow-[2px_2px_0_var(--yellow)]">
@@ -171,7 +171,6 @@ export function HomePage() {
               </span>
             ))}
           </div>
-          <p className="mt-4 text-sm font-bold text-[var(--muted)]">And 200+ postcodes across the UK</p>
         </div>
       </section>
 

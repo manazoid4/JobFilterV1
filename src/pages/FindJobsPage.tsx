@@ -1562,7 +1562,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Pro users get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Members get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
           GET WHATSAPP ALERTS — FROM £39/MO
         </Link>
@@ -1575,9 +1575,9 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
           INCLUDE REGIONAL JOBS
         </button>
       </div>
-      <p className="mt-5 font-black text-[var(--muted)]">
-        Next best move: watch this trade automatically, widen the radius, or scan adjacent {adjacentTrade} work.
-      </p>
+      <Link className="jf-button mt-4 bg-[var(--ink)] text-white text-sm" href={`/find-jobs?trade=${encodeURIComponent(adjacentTrade)}`}>
+        SCAN {adjacentTrade.toUpperCase()} JOBS IN THIS AREA →
+      </Link>
     </section>
   );
 }
