@@ -149,7 +149,7 @@ export function HomePage() {
               <Users size={20} strokeWidth={3} className="text-[var(--ink)] shrink-0" />
               <p className="text-sm font-black text-[var(--ink)]">
                 &ldquo;First planning alert was a loft conversion in B12 — one job paid 5 months of subscription.&rdquo;
-                <span className="ml-2 font-black text-[var(--ink)]/60">— Builder, Birmingham B12</span>
+                <span className="ml-2 font-black text-[var(--ink)]/60">— Paul, Builder, Birmingham B12</span>
               </p>
             </div>
             <div className="flex items-center gap-2">
