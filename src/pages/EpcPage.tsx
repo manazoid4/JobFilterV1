@@ -6,7 +6,7 @@ import { WaitlistForm } from '../components/WaitlistForm';
 const ratings = [
   ['A-C', 'Fine', 'Usually compliant. Lower urgency.'],
   ['D-E', 'Borderline', 'Improvement likely, but not always forced yet.'],
-  ['F-G', 'Illegal to rent', 'Must retrofit. Guaranteed work trigger.'],
+  ['F-G', 'Illegal to rent without exemption', 'Landlord must retrofit or lose the tenancy. High-probability work trigger.'],
 ];
 
 const trades = [
