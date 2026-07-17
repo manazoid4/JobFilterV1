@@ -100,7 +100,7 @@ export const CITIES: CityData[] = [
     planningAppsPerWeek: 220,
     epcFGProperties: 31000,
     councilContractsActive: 78,
-    areaCodes: ['LS1', 'LS2', 'LS3', 'LS4', 'LS5', 'LS6', 'LS7', 'LS8', 'LS9', 'LS10', 'LS11', 'LS12', 'LS13', 'LS14', 'LS15', 'LS16', 'LS17', 'LS18', 'LS19', 'LS20', 'LS21', 'LS22', 'LS23', 'LS24', 'LS25', 'LS26', 'LS27', 'LS28', 'LS29', 'LS31', 'LS32', 'LS33', 'LS34', 'LS35', 'LS36', 'LS37', 'LS38', 'LS39', 'LS40', 'LS41', 'LS42', 'LS43', 'LS44', 'LS45', 'LS46', 'LS47', 'LS48', 'LS49', 'LS50', 'LS51', 'LS52', 'LS53', 'LS54', 'LS55', 'LS56', 'LS57', 'LS58', 'LS59', 'LS60', 'LS61', 'LS62', 'LS63', 'LS64', 'LS65', 'LS66', 'LS67', 'LS68', 'LS69', 'LS70', 'LS71', 'LS72', 'LS73', 'LS74', 'LS75', 'LS76', 'LS77', 'LS78', 'LS79', 'LS80', 'LS81', 'LS82', 'LS83', 'LS84', 'LS85', 'LS86', 'LS87', 'LS88'],
+    areaCodes: ['LS1', 'LS2', 'LS3', 'LS4', 'LS5', 'LS6', 'LS7', 'LS8', 'LS9', 'LS10', 'LS11', 'LS12', 'LS13', 'LS14', 'LS15', 'LS16', 'LS17', 'LS18', 'LS19', 'LS20', 'LS21', 'LS22', 'LS23', 'LS24', 'LS25', 'LS26', 'LS27', 'LS28', 'LS29'],
     tradeDensity: 'Major northern trade hub — 8,000+ registered builders across West Yorkshire',
     heroH1: 'Construction leads in Leeds — scored signals for local trades.',
     heroSub: 'Leeds is the construction hub of Yorkshire. JobFilter watches every LS postcode for verified job signals — and scores them before they reach you. No lead auction. No per-lead fees.',
@@ -334,7 +334,7 @@ export function CityPage({ city }: CityPageProps) {
             EVERY {city.name.toUpperCase()} POSTCODE. TEN VERIFIED SIGNALS.
           </h2>
           <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]">
-            JobFilter covers all {city.areaCodes.length} {city.name} postcode districts for verified job signals.
+            JobFilter covers the {city.name} city region and surrounding area — scanning every verified signal across the {city.areaCodes[0]?.replace(/\d+$/, '')} district.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
             {city.areaCodes.slice(0, 20).map((code) => (
