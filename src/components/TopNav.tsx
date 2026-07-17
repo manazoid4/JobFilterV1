@@ -34,8 +34,10 @@ export function TopNav() {
   const mobileLinks = isLoggedIn
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
     : [
-        { to: '/free-tools', label: 'Free Tools' },
+        { to: '/find-jobs', label: 'Find Jobs' },
+        { to: '/pricing', label: 'Pricing' },
         { to: '/signals', label: 'Signals' },
+        { to: '/for-your-trade', label: 'Trades' },
         { to: '/trust', label: 'Proof' },
         { to: '/faq', label: 'FAQ' },
       ];
