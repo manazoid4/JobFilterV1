@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ArrowRight, MapPin, Clock, TrendingUp, ShieldCheck, AlertTriangle, CheckCircle } from 'lucide-react';
 
 const sampleLead = {
@@ -159,11 +160,11 @@ export function SampleLeadCard() {
 
       {/* CTA */}
       <div className="mt-6 flex flex-wrap gap-3">
-        <span className="jf-button bg-[var(--navy)] text-white cursor-default">
-          THIS IS WHAT YOU GET
-        </span>
+        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+          UNLOCK REAL LEADS — £39/MO →
+        </Link>
         <span className="text-sm font-black text-[var(--muted)] self-center">
-          £39/month. One territory. All the leads.
+          30-day money-back · no contract
         </span>
       </div>
     </div>

@@ -196,7 +196,7 @@ export function TerritoriesPage() {
           {[
             { icon: AlertTriangle, title: 'You miss the window', body: 'Planning approval drops Friday. By Monday, the firm that gets the signal first has already called. You hear about it in week three.' },
             { icon: Clock, title: 'You\'re driving blind', body: 'No signal system means driving past scaffolding, asking around, and hoping word of mouth covers a quiet patch.' },
-            { icon: TrendingUp, title: 'The fast firm wins', body: 'A trade with a locked territory calls within 24 hours of a verified signal. Without one, you\'re always reacting, never first.' },
+            { icon: TrendingUp, title: 'The fast firm wins', body: 'A trade with a locked territory calls within the hour of a verified signal. Without one, you\'re always reacting, never first.' },
             { icon: Zap, title: 'You cut price to survive', body: 'No steady work forces price cuts to win jobs. A locked territory keeps leads coming so you price to margin, not to panic.' },
           ].map(({ icon: Icon, title, body }) => (
             <div key={title} className="jf-box bg-white p-5">
