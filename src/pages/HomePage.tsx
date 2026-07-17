@@ -97,8 +97,8 @@ export function HomePage() {
             </p>
             <div className="mt-5 flex flex-col gap-1.5">
               {proofPoints.map((point) => (
-                <div key={point} className="flex items-center gap-2 text-sm font-bold text-white/70">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[var(--yellow)] shrink-0" />
+                <div key={point} className="flex items-center gap-2 text-sm font-bold text-white/90">
+                  <span className="h-2 w-2 rounded-full bg-[var(--yellow)] shrink-0" />
                   {point}
                 </div>
               ))}
