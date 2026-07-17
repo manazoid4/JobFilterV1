@@ -14,7 +14,7 @@ const comparison = [
   { feature: 'Council contracts', checkatrade: 'No', jobfilter: 'Yes — buyer named, value shown' },
   { feature: 'WhatsApp alerts', checkatrade: 'No', jobfilter: 'Yes — within minutes, not batched' },
   { feature: 'Contract lock-in', checkatrade: '12-month auto-renew — 14 day cancel window', jobfilter: 'No contracts. Cancel anytime.' },
-  { feature: 'Price stability', checkatrade: 'Renewals reported doubling year-on-year', jobfilter: 'Founder price locked forever while active' },
+  { feature: 'Price stability', checkatrade: 'Renewals reported doubling year-on-year', jobfilter: 'Founder rate: £39/mo — standard rate £79/mo' },
   { feature: 'Money-back guarantee', checkatrade: 'No', jobfilter: '30 days. No quibbles.' },
 ];
 
@@ -412,14 +412,14 @@ export function CompareCheckatradePage() {
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
               <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder price, locked while active)</p>
-              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Price locked while your plan stays active.</p>
+              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder rate: £39/mo · standard rate £79/mo)</p>
+              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Founder rate: £39/mo. Standard rate £79/mo.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
                 <li>Buyer names & deadlines</li>
-                <li>Price locked while active</li>
+                <li>Founder rate: £39/mo</li>
               </ul>
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>

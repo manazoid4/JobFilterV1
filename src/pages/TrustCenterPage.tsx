@@ -58,7 +58,7 @@ const guaranteeFeatures = [
   'Full lead scoring + lead readiness markers',
   'Job tracking — every lead from first call to won job',
   'All free tools included',
-  'Founder price locked forever while active',
+  'Founder rate £39/mo — standard rate £79/mo, yours as long as you stay subscribed',
   '30-day money-back guarantee',
 ];
 
