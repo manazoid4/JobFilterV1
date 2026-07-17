@@ -66,7 +66,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
 
   return (
     <form onSubmit={submit} className={`jf-box grid gap-4 border-4 border-[var(--line)] bg-[var(--yellow)] text-[var(--ink)] shadow-[6px_6px_0_var(--line)] ${compact ? 'p-5' : 'p-6'}`}>
-      <p className="micro-label text-[var(--ink)]">EARLY ACCESS</p>
+      <p className="micro-label text-[var(--ink)]">GET STARTED</p>
       <h3 className="headline text-3xl leading-none">Founder pricing — claim before the window closes.</h3>
       {remaining !== null && remaining <= 30 && (
         <p className="border-2 border-[var(--line)] bg-white px-3 py-2 text-sm font-black text-[var(--ink)]">{remaining} founder slots left at £39/month</p>
@@ -92,7 +92,7 @@ export function WaitlistForm({ source = 'site', compact = false, onDone }: { sou
         </p>
       )}
       <button className="jf-button bg-[var(--navy)] text-white" disabled={status === 'loading'}>
-        {status === 'loading' ? 'JOINING' : 'GET EARLY ACCESS'}
+        {status === 'loading' ? 'JOINING' : 'CLAIM FOUNDER PRICE →'}
       </button>
     </form>
   );
