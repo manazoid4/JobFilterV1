@@ -11,7 +11,7 @@ const sampleLead = {
   source: 'Internal structured signal set',
   sourceConfidence: 'High',
   contactSignal: 'Strong timing signal',
-  status: 'Preview locked',
+  status: 'Gold · Active',
   propertyType: '4-bed detached',
   score: 94,
   scoreLabel: 'GOLD',
@@ -31,7 +31,7 @@ const sampleLead = {
     { label: 'Detached property', value: '4-bed', positive: true },
     { label: 'Affluent postcode', value: 'B17', positive: true },
     { label: 'Fresh timing', value: '12 days ago', positive: true },
-    { label: 'Proof pack', value: 'Unlocked at £39/mo', positive: false },
+    { label: 'Contact route', value: 'Shown to members', positive: true },
   ],
 };
 
@@ -42,7 +42,7 @@ export function SampleLeadCard() {
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <span className="inline-flex items-center gap-1.5 border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--green)]">
           <ShieldCheck size={14} strokeWidth={3} />
-          Structured example
+          Real signal format
         </span>
         <span className="inline-flex items-center gap-1.5 border-2 border-[var(--yellow)] bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
           <Clock size={14} strokeWidth={3} />
