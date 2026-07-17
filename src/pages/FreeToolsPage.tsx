@@ -163,7 +163,7 @@ export function FreeToolsPage() {
                   UNLOCK 3 MORE SCANS
                 </button>
                 <p className="text-center text-xs font-black text-[var(--muted)]">
-                  Or go <Link className="text-[var(--navy)] underline font-black" href="/pricing">straight to Founding 30</Link> for unlimited.
+                  Or go <Link className="text-[var(--navy)] underline font-black" href="/pricing">straight to paid access — £39/mo, cancel anytime</Link>.
                 </p>
               </form>
             </div>
@@ -236,7 +236,7 @@ export function FreeToolsPage() {
               <tr className="border-b-2 border-[var(--navy)]">
                 <th className="pb-3 text-left text-[var(--muted)]"></th>
                 <th className="pb-3 text-left text-[var(--green)]">FREE</th>
-                <th className="pb-3 text-left text-[var(--navy)]">FOUNDING 30</th>
+                <th className="pb-3 text-left text-[var(--navy)]">PAID — £39/MO</th>
               </tr>
             </thead>
             <tbody>
@@ -535,7 +535,7 @@ function SmartQuoteTeaser() {
     <section className="jf-box bg-white p-6">
       <p className="micro-label text-[var(--orange)]">SMART QUOTE STARTER</p>
       <p className="headline mt-2 text-2xl">6 TRADES. 30+ JOB TYPES. FREE.</p>
-      <p className="mt-2 font-black text-[var(--muted)]">Professional quote opening paragraphs — ready to paste. Full version behind Founding 30.</p>
+      <p className="mt-2 font-black text-[var(--muted)]">Professional quote opening paragraphs — ready to paste. Full version included with paid access — £39/mo, no contract.</p>
       <Link className="jf-button mt-4 bg-[var(--yellow)] text-[var(--ink)]" href="/smart-quote">OPEN SMART QUOTE →</Link>
     </section>
   );
