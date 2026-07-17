@@ -31,14 +31,14 @@ export function TopNav() {
   const { user, signOut } = useAuth();
   const isLoggedIn = !!user;
   const links = isLoggedIn ? memberLinks : publicLinks;
-  const mobileLinks = (isLoggedIn
+  const mobileLinks = isLoggedIn
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
     : [
-        ...publicLinks,
-        { to: '/blueprint', label: 'How It Works' },
-        { to: '/construction-leads/london', label: 'Cities' },
-      ]
-  ).filter((link) => link.to !== '/find-jobs' && link.to !== '/territories');
+        { to: '/free-tools', label: 'Free Tools' },
+        { to: '/signals', label: 'Signals' },
+        { to: '/trust', label: 'Proof' },
+        { to: '/faq', label: 'FAQ' },
+      ];
 
   useEffect(() => {
     fetch('/api/waitlist/count')
