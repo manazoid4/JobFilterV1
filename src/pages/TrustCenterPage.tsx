@@ -191,7 +191,7 @@ export function TrustCenterPage() {
 
         <div className="mt-6 p-6 border-2 border-[var(--orange)] bg-[var(--orange)]/5">
           <p className="headline text-2xl text-[var(--orange)]">
-            "Half your site visits are to people who will never buy. We surface the warning signs before you waste fuel."
+            Half of all cold-call leads go to buyers who will never commit. Our scoring flags the warning signs before you burn fuel on a wasted visit.
           </p>
         </div>
       </section>
