@@ -66,7 +66,7 @@ export function BuildUkAlternativePage() {
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-2xl font-bold leading-snug text-[var(--ink)]">
-            And we do more. Five signals. Scored leads. WhatsApp alerts. All for less than you were paying.
+            And we do more. Ten signals. Scored leads. WhatsApp alerts. All for less than you were paying.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN YOUR AREA FREE — NO CARD NEEDED →</Link>
@@ -259,7 +259,6 @@ export function BuildUkAlternativePage() {
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
               <p className="mt-2 font-bold text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
-              <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">JOIN STANDARD — £79/MO →</Link>
             </div>
           </div>
           <p className="mt-6 font-black text-[var(--ink)]/90">
