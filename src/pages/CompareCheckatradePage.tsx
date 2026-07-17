@@ -236,7 +236,7 @@ export function CompareCheckatradePage() {
             </div>
           </div>
           <p className="mt-6 text-sm font-black text-white/85">
-            70% of jobs go to the first quote. JobFilter gets you there first. Checkatrade puts you in a queue.
+            The first trade to quote wins more often than not — not the cheapest, not the best reviewed. Ask any tradesman who's been doing this more than five years. JobFilter gets you there first. Checkatrade puts you in a queue.
           </p>
         </div>
       </section>
@@ -398,7 +398,7 @@ export function CompareCheckatradePage() {
       {/* ── PRICING ────────────────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
+          <p className="micro-label text-[var(--ink)]">FOUNDER RATE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. VS £50-£90/MO + PER-LEAD FEES.</h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Checkatrade charges £50-£90/month per category, then charges per-lead on top. Trades report £200+/month before any work arrives. JobFilter is £39/month flat. Unlimited scans. No per-lead fees. No category restrictions.
@@ -410,9 +410,9 @@ export function CompareCheckatradePage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
-              <p className="micro-label text-[var(--yellow)]">EARLY ACCESS</p>
+              <p className="micro-label text-[var(--yellow)]">FOUNDER RATE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-2 font-bold text-white/80">First 30 trades lock this price permanently. Standard price is £79/mo once slots are gone.</p>
+              <p className="mt-2 font-bold text-white/80">Founder rate locks at £39/mo for as long as you stay subscribed. Standard rate is £79/mo — no backdating once this offer ends.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>

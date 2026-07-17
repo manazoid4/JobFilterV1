@@ -231,10 +231,10 @@ export function BuildUkAlternativePage() {
       {/* ── PRICING ──────────────────────────────────── */}
       <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
+          <p className="micro-label text-[var(--ink)]">FOUNDER RATE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo FOREVER. WAS £30+/MO FOR LESS.</h2>
           <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            Founding 30 is locked at £39/month. No price rises while active. No per-lead fees. No contracts. One job covers it.
+            Founder rate locks at £39/mo for as long as you stay subscribed. No price rises while active. No per-lead fees. No contracts. One job covers it.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="jf-box bg-white p-6">
@@ -243,16 +243,15 @@ export function BuildUkAlternativePage() {
               <p className="mt-3 text-sm font-black text-[var(--muted)]">Preview leads only</p>
             </div>
             <div className="jf-box bg-[var(--navy)] p-6 text-white">
-              <p className="micro-label text-[var(--yellow)]">FOUNDING 30</p>
+              <p className="micro-label text-[var(--yellow)]">FOUNDER RATE</p>
               <h3 className="headline mt-2 text-3xl text-[var(--yellow)]">£39/mo</h3>
-              <p className="mt-1 text-sm font-black text-[var(--yellow)]/70">(founder rate: £39/mo · standard rate £79/mo)</p>
-              <p className="mt-2 font-bold text-white/80">Full access. WhatsApp alerts. Source links. Founder rate: £39/mo. Standard rate £79/mo.</p>
+              <p className="mt-2 font-bold text-white/80">Founder rate locks at £39/mo for as long as you stay subscribed. Standard rate is £79/mo — no backdating once this offer ends.</p>
               <ul className="mt-4 grid gap-2 text-sm font-black text-white/90">
                 <li>Full lead details unlocked</li>
                 <li>WhatsApp gold alerts</li>
                 <li>Official source proof links</li>
                 <li>Buyer names & deadlines</li>
-                <li>Founder rate: £39/mo</li>
+                <li>Price locked for life at £39/mo</li>
               </ul>
               <Link className="jf-button mt-5 bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
             </div>
