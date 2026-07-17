@@ -67,7 +67,7 @@ export function EpcPage() {
         </div>
         <div className="mt-6">
           <a className="jf-button bg-[var(--ink)] text-white" href="mailto:contact@jobfilter.uk?subject=Letter%20Template%20Request">EMAIL ME THE TEMPLATE →</a>
-          <p className="mt-2 text-sm font-black text-[var(--ink)]">We'll send the PDF to your inbox — usually within a few hours.</p>
+          <p className="mt-2 text-sm font-bold text-[var(--ink)]">We'll send the PDF to your inbox — usually within a few hours.</p>
         </div>
       </section>
 

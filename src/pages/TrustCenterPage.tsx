@@ -73,13 +73,13 @@ export function TrustCenterPage() {
           WE DON'T TAKE COMMISSION.<br />
           WE DON'T LOCK YOU IN.
         </h1>
-        <p className="mt-6 max-w-2xl text-lg font-black text-white/80">
+        <p className="mt-6 max-w-2xl text-lg font-bold text-white/80">
           Checkatrade blasts the same lead to 5 trades. Bark sells you a name then makes you fight for it. MyBuilder runs the auction in public. JobFilter does none of that.
         </p>
-        <p className="mt-4 max-w-2xl text-lg font-black text-white/80">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-white/80">
           We scan verified signals. Score every opportunity. Send the good ones to your WhatsApp — controlled by trade, patch, and timing. No shared auction. No five-trade blast.
         </p>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--yellow)]">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--yellow)]">
           Use JobFilter for 30 days. Set up your territory. View your leads. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
         </p>
       </section>
@@ -126,7 +126,7 @@ export function TrustCenterPage() {
 
         <div className="mt-6 jf-box bg-[var(--bg-main)] p-6">
           <p className="micro-label text-[var(--muted)]">TRANSPARENCY NOTE</p>
-          <p className="mt-2 font-black text-[var(--muted)]">
+          <p className="mt-2 font-bold text-[var(--muted)]">
             We show you the evidence behind every score — approval timing, sale recency, energy demand level, contract status. You see what we see. You decide if it's worth your time.
           </p>
         </div>
@@ -138,7 +138,7 @@ export function TrustCenterPage() {
         <h2 className="headline mt-3 text-4xl leading-none">
           NINE TYPES OF SIGNAL. ALL VERIFIED. ALL BEFORE IT REACHES YOUR PHONE.
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
           No scraped directories. No user-submitted enquiries. Every signal comes from verified official UK sources.
         </p>
 
@@ -152,7 +152,7 @@ export function TrustCenterPage() {
         </div>
 
         <div className="mt-6 p-4 border-2 border-[var(--ink)] bg-white">
-          <p className="text-sm font-black text-[var(--ink)]">
+          <p className="text-sm font-bold text-[var(--ink)]">
             <strong>Our rule:</strong> We do not scrape private homeowner data. We do not sell your information. We do not share which signals we monitor — that is how the filter stays private.
           </p>
         </div>
@@ -182,7 +182,7 @@ export function TrustCenterPage() {
                     <p className="headline text-lg">{step.title}</p>
                   </div>
                 </div>
-                <p className="mt-3 text-sm font-black text-[var(--muted)]">{step.body}</p>
+                <p className="mt-3 text-sm font-bold text-[var(--muted)]">{step.body}</p>
               </div>
             );
           })}
@@ -225,7 +225,7 @@ export function TrustCenterPage() {
         <h2 className="headline mt-3 text-4xl leading-none text-[var(--green)]">
           30-DAY MONEY-BACK GUARANTEE.
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops. We just ask that you actually use the system — this filter exists to stop tyre-kickers, not tradesmen.
         </p>
 
@@ -246,7 +246,7 @@ export function TrustCenterPage() {
             LOCK YOUR PATCH — £39/MO →
           </Link>
         </div>
-        <p className="mt-3 text-sm font-black text-[var(--ink)]/70">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
+        <p className="mt-3 text-sm font-bold text-[var(--ink)]/70">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
         <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — one job worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
@@ -256,7 +256,7 @@ export function TrustCenterPage() {
         <h2 className="headline mt-3 text-4xl leading-none">
           QUESTIONS? CONCERNS? TALK TO US DIRECTLY.
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-black text-[var(--ink)]/75">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
           No chatbots. No ticket systems. Direct contact with the team.
         </p>
 
