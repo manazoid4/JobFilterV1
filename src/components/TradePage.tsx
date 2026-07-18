@@ -110,7 +110,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             {data.painPoints.map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-xl text-[var(--orange)]">{title.toUpperCase()}</h3>
-                <p className="mt-3 font-black text-[var(--muted)] leading-relaxed">{body}</p>
+                <p className="mt-3 font-bold text-[var(--muted)] leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -143,7 +143,7 @@ export function TradePage({ data }: { data: TradePageData }) {
               <div key={step} className="jf-box bg-[var(--bg-main)] p-6">
                 <span className="headline block text-5xl text-[var(--navy)]">{step}</span>
                 <h3 className="mt-3 headline text-xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-2 font-black text-[var(--muted)] leading-relaxed">{body}</p>
+                <p className="mt-2 font-bold text-[var(--muted)] leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -156,7 +156,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div>
             <p className="micro-label text-[var(--ink)]">WHAT A {data.trade.toUpperCase()} LEAD LOOKS LIKE</p>
             <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">THIS IS WHAT HITS YOUR SCREEN BEFORE ANYONE ELSE SEES IT.</h2>
-            <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+            <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
               Not a form submission. Not a shared lead. An official signal — scored, filtered, and sent to you because it matches your trade.
             </p>
           </div>
@@ -202,7 +202,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             {data.signals.map(([title, body]) => (
               <div key={title} className="jf-box bg-[var(--bg-main)] p-5">
                 <h3 className="headline text-2xl text-[var(--navy)]">{title}</h3>
-                <p className="mt-3 font-black text-[var(--muted)] leading-relaxed">{body}</p>
+                <p className="mt-3 font-bold text-[var(--muted)] leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
@@ -270,7 +270,7 @@ export function TradePage({ data }: { data: TradePageData }) {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">BUILT FOR EVERY TRADE</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl">NOT JUST {data.tradePlural.toUpperCase()}. EVERY TRADE.</h2>
-          <p className="mt-4 max-w-2xl text-lg font-black text-[var(--muted)]">
+          <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
             JobFilter scans planning approvals, energy signals, and public contracts — then filters by your trade. Whatever you do, there's work waiting.
           </p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

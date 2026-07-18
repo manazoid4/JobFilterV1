@@ -398,7 +398,7 @@ export function CityPage({ city }: CityPageProps) {
             <button onClick={handleScan} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               {city.ctaText.toUpperCase()} →
             </button>
-            <a href="/pricing" className="jf-button bg-white/10 text-white">
+            <a href="/pricing" className="jf-button bg-white text-[var(--ink)]">
               LOCK YOUR PATCH — £39/MO →
             </a>
           </div>

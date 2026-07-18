@@ -35,7 +35,7 @@ export function LegalPage({ type }: { type: keyof typeof copy }) {
           {page.sections.map((section) => (
             <section key={section.heading} className="border-t-2 border-[var(--line)] pt-4">
               <h2 className="headline text-2xl">{section.heading}</h2>
-              <p className="mt-2 text-lg font-black text-[var(--muted)]">{section.body}</p>
+              <p className="mt-2 text-lg font-bold text-[var(--muted)]">{section.body}</p>
             </section>
           ))}
         </div>

@@ -61,7 +61,7 @@ export function DevPortalPage() {
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">DEV PORTAL</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">FULL ACCESS TEST MODE.</h1>
-        <p className="mt-4 max-w-3xl text-xl font-black text-white/90">
+        <p className="mt-4 max-w-3xl text-xl font-bold text-white/90">
           Use this page while building. Enable the local unlimited tester to remove frontend scan limits and open paid actions without changing production entitlement logic.
         </p>
         <div className="mt-5 inline-flex border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1 font-mono text-xs font-black uppercase text-[var(--ink)]">
@@ -79,7 +79,7 @@ export function DevPortalPage() {
             <div className="border-2 border-[var(--ink)] bg-[var(--yellow)] p-4">
               <p className="micro-label text-[var(--ink)]">UNLIMITED TESTER</p>
               <h3 className="headline mt-2 text-3xl">{unlocked ? 'UNLOCKED' : 'LOCKED'}</h3>
-              <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+              <p className="mt-2 text-sm font-bold text-[var(--ink)]/75">
                 This sets a local browser tester flag and resets weekly scan counts. Remove this page before launch.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -124,7 +124,7 @@ export function DevPortalPage() {
             <article key={title} className="ops-panel bg-white p-5">
               <RealIcon size={26} strokeWidth={3} className="text-[var(--orange)]" />
               <h2 className="headline mt-3 text-3xl">{title}</h2>
-              <p className="mt-2 font-black text-[var(--muted)]">{body}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{body}</p>
             </article>
           );
         })}
