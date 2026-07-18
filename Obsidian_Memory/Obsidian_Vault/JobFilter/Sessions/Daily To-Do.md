@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 18 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `a761e88` (vault Run 2). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 2. Agent-only commits today. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — LegalPage**: `text-lg font-black` → `font-bold` on all 7 section body paragraphs (Privacy Policy + Terms of Use). Legal trust text reads faster at bold weight.
+- [x] **Phase 3 — IntakePage**: 2× `font-black` → `font-bold` on helper description text (hero intro + step 4 instruction). Homeowner first impression via MyLink.
+- [x] **Phase 3 — DevPortalPage**: 3× `font-black` → `font-bold` on hero paragraph, access state description, check card bodies.
+- [x] **NEEDLE — CityPage ghost button**: `LOCK YOUR PATCH — £39/MO →` secondary CTA was `bg-white/10` (ghost/near-invisible) on navy background across all 6 city pages → `bg-white text-[var(--ink)]`. City SEO pages are high-intent inbound; paid CTA now fully visible at the conversion moment.
+- [x] **Bonus NEEDLE — TradePage.tsx**: 5 multi-sentence body paragraphs using `font-black` with `leading-relaxed` missed by Jul 14 Run 2 sweep → `font-bold`. Pain points, HOW IT WORKS, lead preview intro, signals, other trades intro. Affects all 21 trade pages.
+- [x] **CRITIC:** YES — solid white on navy reads in <3 seconds; font-bold body text scannable immediately
+- [x] **REVENUE:** YES — city SEO pages are high-intent inbound; visible paid CTA directly improves conversion. Trade pages cover first impression for every trade-specific search.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`44d93d7`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. TradePage.tsx: remaining `font-black` on list items, pricing copy, guarantee line, taglines — audit each (many are intentional labels). NotFoundPage: `text-[var(--green)]` used for HOME/FIND JOBS nav chip labels — design rule says green = data-only; consider `text-[var(--orange)]` (low-traffic page, low priority). Carryover blockers remain the main unlock.
+
 ## Today - 18 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `5a8bd14` (vault auto-digest Jul 18). Build GREEN, TS CLEAN.
