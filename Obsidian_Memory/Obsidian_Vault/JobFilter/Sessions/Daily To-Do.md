@@ -1,5 +1,23 @@
 # Daily To-Do
 
+## Today - 18 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `8509849` (Jul 17 Run 2). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 17 Run 2. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — ForgotPasswordPage**: RESET PASSWORD + CHECK YOUR EMAIL (all-caps), SEND RESET LINK → + BACK TO SIGN IN → (missing arrows).
+- [x] **Phase 3 — ActivationPendingPage**: 3× font-black → font-bold on body paragraphs; submit button → arrows; free-path body copy → fear→proof→control (30-day money-back framed as job-value guarantee).
+- [x] **NEEDLE — WeeklySignalsPage bottom CTA**: paid CTA (LOCK YOUR PATCH) promoted to ink/primary; free scan demoted to navy/secondary on yellow section. Users scrolled to bottom are conversion-ready.
+- [x] **CRITIC:** YES — paid CTA visible as highest-contrast option in <3 seconds
+- [x] **REVENUE:** YES — bottom-of-page users have seen signal data; paid CTA now leads at that decision moment
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`4e27448`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Consider sweep on ResetPasswordPage (post-email reset form — likely same heading/arrow issues as ForgotPasswordPage). WeeklySignalsPage hero deliberately kept free-first as entry point; don't add paid CTA there. Carryover blockers remain the main unlock.
+
 ## Today - 17 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `c589329` (Jul 17 Run 1). Build GREEN, TS CLEAN.
