@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 18 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `5a8bd14` (vault auto-digest Jul 18). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 18 Run 1. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — ResetPasswordPage**: h1 "Set new password" → "SET NEW PASSWORD"; "SET PASSWORD" → "SET PASSWORD →"; loading state → "SAVING..."
+- [x] **Phase 3 — MyLinkPage**: 4× body paragraph font-black → font-bold; "SHARE WHATSAPP" → "SHARE ON WHATSAPP →"; "OPEN CUSTOMER LINK" → "OPEN CUSTOMER LINK →"
+- [x] **Phase 3 — PostJobPage**: success state "Back to JobFilter" → "BACK TO JOBFILTER →"
+- [x] **NEEDLE — LeadListPage**: 4× multi-sentence font-black → font-bold (header paragraph, HOW IT'S SCORED explanation, empty state body, empty-tab body). Every active subscriber sees this page daily.
+- [x] **CRITIC:** YES — font-bold on multi-sentence copy reads in <3 seconds
+- [x] **REVENUE:** YES — daily-use authenticated page; clearer body copy = perceived quality = lower churn
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`37cf260`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. WeeklySignalsPage hero: deliberately free-first — confirmed, do not change. Consider grep sweep for remaining `font-black` on multi-sentence paragraph text (LeadListPage + MyLinkPage found missed instances despite Jul 15 "complete" declaration). Carryover blockers remain the main unlock.
+
 ## Today - 18 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `8509849` (Jul 17 Run 2). Build GREEN, TS CLEAN.
