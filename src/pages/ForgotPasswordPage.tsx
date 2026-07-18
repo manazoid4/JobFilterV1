@@ -31,11 +31,11 @@ export function ForgotPasswordPage() {
     return (
       <main className="page-shell py-16">
         <section className="jf-box max-w-md mx-auto bg-white p-8 text-center">
-          <h1 className="headline text-2xl mb-3">Check your email</h1>
+          <h1 className="headline text-2xl mb-3">CHECK YOUR EMAIL</h1>
           <p className="text-sm text-[var(--muted)]">
             If <strong>{email}</strong> has an account, we sent a password reset link. Check your inbox and spam.
           </p>
-          <Link href="/login" className="mt-6 inline-block jf-button bg-[var(--navy)] text-white">BACK TO SIGN IN</Link>
+          <Link href="/login" className="mt-6 inline-block jf-button bg-[var(--navy)] text-white">BACK TO SIGN IN →</Link>
         </section>
       </main>
     );
@@ -45,7 +45,7 @@ export function ForgotPasswordPage() {
     <main className="page-shell py-16">
       <section className="jf-box max-w-md mx-auto bg-white p-8">
         <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
-        <h1 className="headline text-3xl mt-2 mb-2">Reset password</h1>
+        <h1 className="headline text-3xl mt-2 mb-2">RESET PASSWORD</h1>
         <p className="text-sm text-[var(--muted)] mb-6">Enter your email and we'll send a reset link.</p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
@@ -59,7 +59,7 @@ export function ForgotPasswordPage() {
           </div>
           {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
           <button type="submit" disabled={loading} className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-            {loading ? 'Sending...' : 'SEND RESET LINK'}
+            {loading ? 'Sending...' : 'SEND RESET LINK →'}
           </button>
         </form>
         <p className="mt-4 text-sm text-center">

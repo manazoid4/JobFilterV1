@@ -95,7 +95,7 @@ export function ActivationPendingPage() {
         <section className="ops-panel bg-[var(--yellow)] p-8">
           <p className="micro-label text-[var(--ink)]">PATCH CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
-          <p className="mt-4 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run a scan now — full access is live.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -113,10 +113,10 @@ export function ActivationPendingPage() {
         <h1 className={`headline mt-3 text-5xl leading-none md:text-7xl ${paid ? 'text-[var(--ink)]' : 'text-white'}`}>
           {paid ? 'SET YOUR PATCH. LIVE IN 2 HOURS.' : 'ONE STEP FROM YOUR FIRST LEAD.'}
         </h1>
-        <p className={`mt-4 max-w-2xl text-xl font-black ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
+        <p className={`mt-4 max-w-2xl text-xl font-bold ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
           {paid
             ? 'Payment confirmed by Stripe. Tell us your trade and area — Gold leads hit your WhatsApp within 2 hours.'
-            : 'Set your trade and patch — then complete payment via Stripe. Takes under 2 minutes. 30-day money-back. Cancel anytime.'}
+            : 'Tell us your trade and patch. Gold leads go straight to your WhatsApp. 30-day money-back — if you don\'t find a job worth chasing, we refund every penny.'}
         </p>
       </section>
 
@@ -165,9 +165,9 @@ export function ActivationPendingPage() {
             <p className="font-black text-[var(--orange)]">Something went wrong — email us at support@jobfilter.uk and we'll get you sorted.</p>
           )}
           <button type="submit" disabled={status === 'loading'} className="jf-button bg-[var(--ink)] text-white">
-            {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP' : 'SAVE PATCH AND CHECKOUT'}
+            {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP →' : 'SAVE PATCH AND CHECKOUT →'}
           </button>
-          <p className="text-sm font-black text-[var(--muted)]">{paid ? 'We\'ll have your patch active within 2 hours.' : 'After checkout, your patch goes live within 2 hours.'} Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
+          <p className="text-sm font-bold text-[var(--muted)]">{paid ? 'We\'ll have your patch active within 2 hours.' : 'After checkout, your patch goes live within 2 hours.'} Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
         </form>
       </section>
     </main>
