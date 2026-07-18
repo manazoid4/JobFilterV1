@@ -51,7 +51,7 @@ export function PostJobPage() {
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
             No lead auction. No spam. We check the job, route it by trade and patch, and only send it where it makes sense.
           </p>
-          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/">Back to JobFilter</Link>
+          <Link className="jf-button mt-6 bg-[var(--ink)] text-white" href="/">BACK TO JOBFILTER →</Link>
         </section>
       </main>
     );

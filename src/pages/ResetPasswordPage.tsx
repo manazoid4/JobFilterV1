@@ -59,7 +59,7 @@ export function ResetPasswordPage() {
     <main className="page-shell py-16">
       <section className="jf-box max-w-md mx-auto bg-white p-8">
         <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
-        <h1 className="headline text-3xl mt-2 mb-6">Set new password</h1>
+        <h1 className="headline text-3xl mt-2 mb-6">SET NEW PASSWORD</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
             <label className="block text-sm font-black uppercase mb-1">New password</label>
@@ -81,7 +81,7 @@ export function ResetPasswordPage() {
           </div>
           {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
           <button type="submit" disabled={loading} className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-            {loading ? 'Saving...' : 'SET PASSWORD'}
+            {loading ? 'SAVING...' : 'SET PASSWORD →'}
           </button>
         </form>
       </section>

@@ -105,7 +105,7 @@ export function LeadListPage() {
         <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl md:text-7xl text-[var(--yellow)]">
           YOUR LEADS
         </h1>
-        <p className="mt-3 max-w-xl text-lg font-black text-white/90">
+        <p className="mt-3 max-w-xl text-lg font-bold text-white/90">
           Not recycled from Checkatrade or Bark. Every signal here comes from verified official UK sources — scored by your trade, patch, and urgency before it reaches you.
         </p>
       </div>
@@ -119,7 +119,7 @@ export function LeadListPage() {
           </div>
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
-            <p className="mt-1 text-[14px] font-black leading-snug text-white/85">
+            <p className="mt-1 text-[14px] font-bold leading-snug text-white/85">
               Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when work is quiet.
             </p>
           </div>
@@ -165,7 +165,7 @@ export function LeadListPage() {
       {stored.length === 0 && (
         <div className="jf-box bg-[var(--yellow)] p-8 text-center">
           <h2 className="headline text-3xl uppercase text-[var(--ink)]">YOUR LIST IS EMPTY.</h2>
-          <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--ink)]/80">
+          <p className="mt-3 max-w-sm mx-auto text-[15px] font-bold text-[var(--ink)]/80">
             Scan your postcode → find jobs scored for your trade → tap TRACK THIS LEAD on any result. It lands here so you can chase it.
           </p>
           <Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">
@@ -240,7 +240,7 @@ export function LeadListPage() {
               <h2 className="headline text-2xl uppercase text-[var(--navy)]">
                 {tab === 'gold' ? 'NO GOLD LEADS YET' : tab === 'silver' ? 'NO SILVER LEADS YET' : 'NO BRONZE LEADS YET'}
               </h2>
-              <p className="mt-3 max-w-sm mx-auto text-[15px] font-black text-[var(--muted)]">
+              <p className="mt-3 max-w-sm mx-auto text-[15px] font-bold text-[var(--muted)]">
                 {tab === 'gold'
                   ? 'Scan your postcode to find jobs worth calling today. GOLD leads appear here when the score is 80+.'
                   : tab === 'silver'

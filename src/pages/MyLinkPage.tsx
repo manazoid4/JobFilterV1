@@ -40,7 +40,7 @@ export function MyLinkPage() {
             {copied ? 'COPIED' : 'COPY'}
           </button>
           <a className="jf-button bg-[var(--navy)] text-white" href={`https://wa.me/?text=${encodeURIComponent(link)}`} target="_blank" rel="noreferrer">
-            SHARE WHATSAPP
+            SHARE ON WHATSAPP →
           </a>
         </div>
       </section>
@@ -50,24 +50,24 @@ export function MyLinkPage() {
         <div className="mt-4 grid gap-4">
           <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-black uppercase text-[var(--ink)]">WhatsApp</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">Send it to anyone who asks for a quote. They fill in 3 questions — you get a scored lead so you know if it&apos;s worth your time before you drive out.</p>
+            <p className="mt-1 text-sm font-bold text-[var(--muted)]">Send it to anyone who asks for a quote. They fill in 3 questions — you get a scored lead so you know if it&apos;s worth your time before you drive out.</p>
           </div>
           <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-black uppercase text-[var(--ink)]">Instagram bio &amp; social</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">Put it in your bio so enquiries arrive pre-scored — no chaotic DM threads, no time-wasters.</p>
+            <p className="mt-1 text-sm font-bold text-[var(--muted)]">Put it in your bio so enquiries arrive pre-scored — no chaotic DM threads, no time-wasters.</p>
           </div>
           <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-black uppercase text-[var(--ink)]">On the phone</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">&ldquo;Send me your job details on that link and I&apos;ll know if it&apos;s worth a visit before I drive out.&rdquo;</p>
+            <p className="mt-1 text-sm font-bold text-[var(--muted)]">&ldquo;Send me your job details on that link and I&apos;ll know if it&apos;s worth a visit before I drive out.&rdquo;</p>
           </div>
           <div className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-black uppercase text-[var(--ink)]">Leaflets &amp; van sticker</p>
-            <p className="mt-1 text-sm font-black text-[var(--muted)]">Print it as a QR code. Anyone who scans it lands on your intake page — not a generic job board that forwards the same job to five other trades.</p>
+            <p className="mt-1 text-sm font-bold text-[var(--muted)]">Print it as a QR code. Anyone who scans it lands on your intake page — not a generic job board that forwards the same job to five other trades.</p>
           </div>
         </div>
       </section>
 
-      <Link className="jf-button bg-[var(--navy)] text-white" href={path}>OPEN CUSTOMER LINK</Link>
+      <Link className="jf-button bg-[var(--navy)] text-white" href={path}>OPEN CUSTOMER LINK →</Link>
     </main>
   );
 }
