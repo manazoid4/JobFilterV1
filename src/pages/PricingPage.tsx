@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { content as addOnContent } from './ProductAdvantagePage';
@@ -22,10 +22,25 @@ const objections = [
 ];
 
 export function PricingPage() {
+  const [foundingSlots, setFoundingSlots] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('/api/waitlist/count')
+      .then(r => r.json())
+      .then(data => setFoundingSlots(data.remaining ?? null))
+      .catch(() => {});
+  }, []);
+
   return (
     <main className="page-shell grid gap-6 py-8 pb-16 text-[var(--ink)]">
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FOUNDER PRICING</p>
+        {foundingSlots !== null && foundingSlots <= 30 && (
+          <div className="mt-3 flex w-fit items-center gap-2 border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-3 py-1.5">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--yellow)]" />
+            <span className="font-mono text-sm font-black text-[var(--yellow)]">{foundingSlots} founder slots left at £39/mo</span>
+          </div>
+        )}
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
