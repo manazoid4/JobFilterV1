@@ -1,5 +1,26 @@
 # Daily To-Do
 
+## Today - 19 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install`; HEAD at `beb80a5` (Run 1). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 1. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. PostJobPage confirmed wired to /api/waitlist (not a fake flow).
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. Verified: scan counter (FindJobsPage:431–445), Calendar ICS, WinStatsBanner, WhatsApp quick_quote + availability_check templates, trade-specific scoring. No new feature needed.
+- [x] **Phase 3 — FreeToolsPage.tsx hero (line 73)**: `font-black` → `font-bold` on 3-sentence paragraph on dark navy background
+- [x] **Phase 3 — FindJobsPage.tsx (3 fixes)**:
+  - Line 729: buyer-reveal interstitial `font-black` → `font-bold` ("This job: £X. See buyer name...")
+  - Line 786: upgrade nudge paragraph `font-black` → `font-bold` (4-sentence ROI argument, conversion moment)
+  - Line 812: Fill My Week description `font-black` → `font-bold` (3 sentences below button)
+- [x] **NEEDLE**: upgrade nudge paragraph at FindJobsPage:786 — heavy `font-black text-sm` at the free→paid conversion moment made copy hard to scan. Primary fix.
+- [x] **CRITIC:** YES — `font-bold text-sm` on the upgrade nudge reads clearly in <3 seconds; copy legibility improved at decision point
+- [x] **REVENUE:** YES — the 4-sentence ROI paragraph ("One job covers 12+ months") is the written argument for upgrading. Readable copy at that moment increases conversion directly.
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`7be47f1`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Final grep sweep for any remaining `font-black` on paragraphs >40 chars. Check TrustCenterPage `bg-white/15 border-white/40` tier badge (line 115) — may need to be solid. Check NewsPage italic takeaway text — intentional pull-quote style, leave unless visually weak. Carryover blockers remain the main unlock.
+
 ## Today - 19 July 2026 (NightlyBuildAgent)
 
 - [x] **Container state** — fresh container, `npm install` (node_modules absent); HEAD at `1d65cb0` (vault Run 3). Build GREEN after install, TS CLEAN.
