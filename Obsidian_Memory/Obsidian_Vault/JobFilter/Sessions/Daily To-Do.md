@@ -1,5 +1,24 @@
 # Daily To-Do
 
+## Today - 19 July 2026 (NightlyBuildAgent)
+
+- [x] **Container state** — fresh container, `npm install` (node_modules absent); HEAD at `1d65cb0` (vault Run 3). Build GREEN after install, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Run 3. Agent-only commits today. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — TradePage.tsx pricing section**: 3× `font-black` → `font-bold` on pricing description, standard plan body, add-ons intro. Affects all 21 trade pages.
+- [x] **Phase 3 — PricingPage.tsx**: 5× `font-black` → `font-bold` on guarantee description, what-one-month-looks-like intro, FAQ answer paragraphs (×4), add-on services description, PlanCard body text.
+- [x] **Phase 3 — NotFoundPage.tsx**: 6× `text-[var(--green)]` → `text-[var(--orange)]` on nav chip micro-labels (HOME/FIND JOBS/PRICING/PIPELINE/SIGNALS/FREE TOOLS). Design rule: green = data-only.
+- [x] **NEEDLE — DashboardPage ghost button**: `SEE OPEN TERRITORIES →` CTA was `bg-white/10 border-white/30` (ghost/near-invisible) on ink background — shown to every free-tier user who hasn't locked a patch → `jf-button bg-white text-[var(--ink)]`. Critical conversion moment.
+- [x] **CRITIC:** YES — solid white button on ink reads in <3 seconds; font-bold body text scannable across all pages
+- [x] **REVENUE:** YES — DashboardPage fix directly unblocks conversion path for free-tier users; PricingPage body text clearer = lower friction at purchase
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`5c931f4`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel (carried over many weeks)
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Audit remaining `font-black` multi-sentence paragraphs in AccountSettingsPage, VerifyPage, AdminPage. Check for more ghost buttons on authenticated pages (LeadDetailPage, AccountPage). Carryover blockers remain the main unlock.
+
 ## Today - 18 July 2026 (NightlyBuildAgent — Run 3)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `a761e88` (vault Run 2). Build GREEN, TS CLEAN.
