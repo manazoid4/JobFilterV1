@@ -289,7 +289,7 @@ export function TradePage({ data }: { data: TradePageData }) {
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--ink)]">FOUNDING 30</p>
           <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-6xl md:text-7xl">£39/mo ALL-IN. ONE {data.trade.toUpperCase()} JOB COVERS IT.</h2>
-          <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Free shows you the signals. Founding 30 unlocks full details, WhatsApp alerts, source proof, and buyer names. 30-day money-back. No quibbles.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -314,7 +314,7 @@ export function TradePage({ data }: { data: TradePageData }) {
             </div>
             <div className="jf-box bg-white p-6">
               <h3 className="headline text-xl text-[var(--navy)]">STANDARD — £79/mo</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">Full access at standard price. Available after founder slots are gone.</p>
               <p className="mt-3 text-sm font-black text-[var(--muted)]">No lock-in. Cancel anytime.</p>
               <Link className="jf-button mt-5 bg-[var(--ink)] text-white block text-center" href="/pricing">SEE ALL PLANS →</Link>
             </div>
@@ -329,7 +329,7 @@ export function TradePage({ data }: { data: TradePageData }) {
           <div className="page-shell section-pad">
             <p className="micro-label text-[var(--orange)]">ADD-ON TOOLS FOR {data.tradePlural.toUpperCase()}</p>
             <h2 className="headline mt-3 max-w-4xl text-4xl leading-[0.9] sm:text-5xl">WIN THE JOBS. HANDLE THE PAPERWORK.</h2>
-            <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+            <p className="mt-3 max-w-2xl font-bold text-[var(--muted)]">
               Optional services built specifically for {data.trade.toLowerCase()}. Submit a job, get a deliverable back. No subscription — book as needed.
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

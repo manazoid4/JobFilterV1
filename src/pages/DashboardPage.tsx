@@ -283,7 +283,7 @@ export function DashboardPage() {
                 <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
                   UPGRADE — £39/MO →
                 </Link>
-                <Link href="/territories" className="inline-flex items-center justify-center border-2 border-white/30 bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-wide text-white shrink-0 hover:bg-white/20 transition">
+                <Link href="/territories" className="jf-button bg-white text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
                   SEE OPEN TERRITORIES →
                 </Link>
               </div>

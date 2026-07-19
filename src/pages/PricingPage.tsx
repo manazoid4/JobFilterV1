@@ -73,7 +73,7 @@ export function PricingPage() {
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE JOB WORTH PRICING OR YOUR £39 BACK.</h2>
-        <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
+        <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Set up your patch, run your scans, check at least 10 scored leads. If you don&apos;t see one job worth quoting in 30 days, we refund every penny. No forms — just email us.
         </p>
       </section>
@@ -99,7 +99,7 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--bg-main)] p-7 border-4 border-[var(--line)]">
         <p className="micro-label text-[var(--orange)]">WHAT ONE MONTH LOOKS LIKE</p>
         <h2 className="headline mt-3 text-3xl leading-none">ONE JOB COVERS IT. THAT&apos;S THE MATHS.</h2>
-        <p className="mt-3 font-black text-[var(--muted)] max-w-2xl">
+        <p className="mt-3 font-bold text-[var(--muted)] max-w-2xl">
           One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
@@ -127,7 +127,7 @@ export function PricingPage() {
           {objections.map(([q, a]) => (
             <article key={q} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
               <h3 className="headline text-xl">{q}</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">{a}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{a}</p>
             </article>
           ))}
         </div>
@@ -136,7 +136,7 @@ export function PricingPage() {
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — QUOTED PER JOB</p>
         <h2 className="headline mt-3 text-3xl leading-none md:text-4xl">DONE-FOR-YOU PAPERWORK. NO FIXED SUBSCRIPTION.</h2>
-        <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
+        <p className="mt-3 max-w-2xl font-bold text-[var(--muted)]">
           Bid packs, compliance documents, grant paperwork, and other done-for-you trade admin — each priced per job, not bundled into a subscription. Submit your job details and the team quotes you back within 6 hours, usually faster.
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
@@ -185,7 +185,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
       <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDER PRICE' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
-      <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
+      <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
       <ul className="mt-5 grid gap-2">
         {items.map((item) => (
           <li key={item} className="flex gap-2 font-black text-[var(--ink)]">
