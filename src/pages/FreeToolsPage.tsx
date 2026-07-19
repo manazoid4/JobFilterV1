@@ -70,7 +70,7 @@ export function FreeToolsPage() {
       <section className="jf-box bg-[var(--navy)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
-        <p className="mt-4 max-w-2xl text-lg font-black text-white/90">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-white/90">
           Price cleaner. Spot time-wasters. Protect your week. Checkatrade, Bark, and MyBuilder charge for these — we give them away. Leads are the paid part.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">

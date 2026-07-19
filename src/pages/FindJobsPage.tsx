@@ -726,7 +726,7 @@ export function FindJobsPage() {
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
-                      <p className="mt-2 font-black text-white">
+                      <p className="mt-2 font-bold text-white">
                         {lead.estimatedValue ? `This job: ${lead.estimatedValue}. ` : ''}See buyer name and contact to call before anyone else does.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -783,7 +783,7 @@ export function FindJobsPage() {
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
                     <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
                   </div>
-                  <p className="mt-2 text-sm font-black text-[var(--ink)]/60">
+                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
                     Average UK trade job: £800–£3,000. One job from this list covers 12+ months at £39. Buyer name, job value band, and direct contact available with Full Access from £39/mo. Not shared with Checkatrade, Bark, or any other trade.
                   </p>
                 </section>
@@ -809,7 +809,7 @@ export function FindJobsPage() {
           <div>
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
           <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
-          <p className="mt-2 max-w-xl font-black text-[var(--ink)]/70">
+          <p className="mt-2 max-w-xl font-bold text-[var(--ink)]/70">
               Doesn&apos;t use your scan allowance. Searches {Math.max(radiusMiles, 25)} miles — wider than your regular scan — across {scanMode === 'start_now' ? 'all active and imminent jobs' : 'planning approvals, energy upgrades, and public contracts'}. Auto-ranked for {titleCase(trade)}.
           </p>
           </div>
