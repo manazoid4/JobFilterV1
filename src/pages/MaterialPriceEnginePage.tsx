@@ -164,7 +164,7 @@ export function MaterialPriceEnginePage() {
             <h1 className="headline max-w-4xl text-5xl leading-none text-white md:text-7xl">
               STOP OVERPAYING BEFORE YOU QUOTE.
             </h1>
-            <p className="mt-4 max-w-3xl text-lg font-black text-white/85">
+            <p className="mt-4 max-w-3xl text-lg font-bold text-white/85">
               Reference prices from major UK suppliers — Selco, Travis Perkins, Buildbase. Use as a quoting baseline; confirm live prices with supplier before ordering.
             </p>
             <p className="mt-2 text-xs font-black text-white/60">Free to use — no credit card required.</p>
@@ -192,7 +192,7 @@ export function MaterialPriceEnginePage() {
             <input className="field-input" type="number" min={1} value={qty} onChange={(event) => setQty(Math.max(1, Number(event.target.value) || 1))} />
           </label>
           <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" type="submit">
-            <Search className="mr-2 h-4 w-4" /> Compare
+            <Search className="mr-2 h-4 w-4" /> COMPARE →
           </button>
         </form>
       </section>
@@ -290,7 +290,7 @@ export function MaterialPriceEnginePage() {
                     Source <ExternalLink className="ml-2 h-4 w-4" />
                   </a>
                   <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" type="button" onClick={() => saveLine(item)}>
-                    Save to list
+                    SAVE TO LIST
                   </button>
                 </div>
               </article>
@@ -330,7 +330,7 @@ export function MaterialPriceEnginePage() {
                     <p className="mt-1.5 text-xs font-black text-[var(--ink)]/80 text-center uppercase">30-day money-back guarantee</p>
                   </div>
                 </div>
-                <button className="jf-button bg-white text-[var(--ink)]" type="button" onClick={() => setSaved([])}>Clear list</button>
+                <button className="jf-button bg-white text-[var(--ink)]" type="button" onClick={() => setSaved([])}>CLEAR LIST</button>
               </div>
             )}
           </section>

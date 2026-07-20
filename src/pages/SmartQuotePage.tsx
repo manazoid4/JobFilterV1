@@ -71,7 +71,7 @@ export function SmartQuotePage() {
         <div className="page-shell">
           <p className="micro-label text-[var(--yellow)]">FREE TOOL — NO SIGNUP NEEDED</p>
           <h1 className="headline mt-4 text-5xl md:text-6xl text-white">QUOTE FASTER. WIN MORE.</h1>
-          <p className="mt-5 max-w-xl text-lg font-black text-white/80">
+          <p className="mt-5 max-w-xl text-lg font-bold text-white/80">
             Bark and Checkatrade make you compete on price. Walk in with a proper written proposal and you compete on quality. Pick your trade and job type — get a professional quote opener in 30 seconds. No blank page. No guesswork.
           </p>
         </div>
@@ -171,7 +171,7 @@ export function SmartQuotePage() {
           <div className="jf-box bg-[var(--navy)] p-6 text-white">
             <p className="micro-label text-[var(--yellow)]">WANT LEADS WORTH QUOTING ON?</p>
             <h2 className="headline mt-2 text-3xl leading-none text-[var(--yellow)]">SCAN YOUR AREA FREE.</h2>
-            <p className="mt-3 max-w-xl font-black text-white/90">
+            <p className="mt-3 max-w-xl font-bold text-white/90">
               Smart Quote writes the proposal. The scanner finds the jobs worth proposing on. REAL LEADS. Scored by budget, urgency, and distance. Sent to your WhatsApp. No chasing. No competing.
             </p>
             <div className="mt-4 flex flex-wrap gap-3">
