@@ -10,10 +10,7 @@
     "preview": "next start",
     "clean": "rm -rf .next dist",
     "lint": "tsc --noEmit",
-    "releases:check": "node scripts/validate-releases.mjs",
-    "instagram:install": "python -m pip install -r tools/instagram-memory/requirements.txt",
-    "instagram:download": "python tools/instagram-memory/download_saved.py",
-    "instagram:memory": "python tools/instagram-memory/build_memory.py --write-obsidian"
+    "releases:check": "node scripts/validate-releases.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

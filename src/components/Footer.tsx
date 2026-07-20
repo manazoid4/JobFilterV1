@@ -23,7 +23,7 @@ export function Footer() {
           <FeedbackPrompt compact />
         </div>
 
-        <div className="grid gap-6 sm:gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {/* Intake Engine — the main product */}
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">FIND WORK</p>
@@ -35,16 +35,6 @@ export function Footer() {
               <Link href="/for-your-trade" className="hover:text-[var(--yellow)]">By Trade</Link>
               <Link href="/blueprint" className="hover:text-[var(--yellow)]">How It Works</Link>
               <Link href="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
-            </div>
-          </div>
-
-          {/* Add-on services */}
-          <div>
-            <p className="micro-label text-[var(--yellow)] mb-4">ADD-ON SERVICES</p>
-            <div className="grid gap-1.5 md:gap-2.5 text-xs md:text-sm font-black uppercase text-white/90">
-              <Link href="/vantage" className="hover:text-[var(--yellow)]">Vantage — Bid Decks</Link>
-              <Link href="/vicinity" className="hover:text-[var(--yellow)]">Vicinity — Local Ads</Link>
-              <Link href="/codex" className="hover:text-[var(--yellow)]">Codex — Spec to Sales</Link>
             </div>
           </div>
 
@@ -67,8 +57,8 @@ export function Footer() {
             </p>
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
               <p>Local knowledge baked into every signal score.</p>
-              <p>WhatsApp-first because that's where you actually work.</p>
-              <p>Founder price: £39/month — standard rate is £79/mo.</p>
+              <p>Delivery setup is checked before paid activation.</p>
+              <p>Pilot price: £39/month after coverage review.</p>
             </div>
             <div className="mt-4 border-2 border-[var(--green)]/40 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)]">
               30-DAY MONEY-BACK GUARANTEE
