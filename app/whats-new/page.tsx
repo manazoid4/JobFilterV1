@@ -45,7 +45,7 @@ export default function WhatsNewPage() {
           <p className="micro-label text-[var(--ink)]">PRODUCT UPDATES</p>
           <h1 className="headline mt-3 max-w-4xl text-5xl leading-none sm:text-7xl">WHAT&apos;S NEW.</h1>
           <p className="mt-4 max-w-2xl text-lg font-bold leading-snug text-[var(--ink)] sm:text-xl">
-            Real improvements. No waffle. Every update below is live and backed by shipped work.
+            Real improvements. No waffle. Every update below is live, with what changed and who it helps.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a className="jf-button bg-[var(--ink)] text-white" href={`#${latestRelease.id}`}>
