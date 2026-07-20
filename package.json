@@ -6,10 +6,11 @@
   "scripts": {
     "start": "next start",
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run releases:check && next build",
     "preview": "next start",
     "clean": "rm -rf .next dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "releases:check": "node scripts/validate-releases.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

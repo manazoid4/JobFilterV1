@@ -1,9 +1,11 @@
 import type { MetadataRoute } from 'next';
 
+import { latestRelease } from '../src/lib/releases';
+
 const BASE_URL = 'https://jobfilter.uk';
 
 // Static pages
-const staticRoutes: { url: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number }[] = [
+const staticRoutes: { url: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number; lastModified?: string }[] = [
   { url: '/', changeFrequency: 'weekly', priority: 1.0 },
   { url: '/find-jobs', changeFrequency: 'weekly', priority: 0.9 },
   { url: '/pricing', changeFrequency: 'monthly', priority: 0.9 },
@@ -12,6 +14,7 @@ const staticRoutes: { url: string; changeFrequency: MetadataRoute.Sitemap[number
   { url: '/free-tools', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/for-your-trade', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/news', changeFrequency: 'weekly', priority: 0.6 },
+  { url: '/whats-new', changeFrequency: 'weekly', priority: 0.6, lastModified: latestRelease.publishedAt },
   { url: '/faq', changeFrequency: 'monthly', priority: 0.6 },
   { url: '/methodology', changeFrequency: 'monthly', priority: 0.5 },
   { url: '/trust', changeFrequency: 'monthly', priority: 0.5 },
@@ -71,9 +74,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   return [
-    ...staticRoutes.map(({ url, changeFrequency, priority }) => ({
+    ...staticRoutes.map(({ url, changeFrequency, priority, lastModified }) => ({
       url: `${BASE_URL}${url}`,
-      lastModified: now,
+      lastModified: lastModified ? new Date(`${lastModified}T00:00:00Z`) : now,
       changeFrequency,
       priority,
     })),

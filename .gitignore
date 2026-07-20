@@ -6,6 +6,8 @@ tsconfig.tsbuildinfo
 coverage/
 tests/.artifacts/
 data/
+!src/data/
+!src/data/releases.json
 .DS_Store
 *.log
 *.zip
