@@ -213,9 +213,8 @@ async function upsertSubscriptionFromCreated(subscription: Stripe.Subscription) 
   const plan = subscription.items.data[0]?.price?.nickname
     ?? subscription.items.data[0]?.price?.id
     ?? 'pro';
-  const rawPeriodEnd = (subscription as unknown as { current_period_end?: number }).current_period_end;
-  const periodEnd = rawPeriodEnd
-    ? new Date(rawPeriodEnd * 1000).toISOString()
+  const periodEnd = (subscription as any).current_period_end
+    ? new Date((subscription as any).current_period_end * 1000).toISOString()
     : null;
 
   // Find user by stripe customer id
@@ -263,19 +262,16 @@ async function upsertSubscriptionFromCreated(subscription: Stripe.Subscription) 
 
 // ─── invoice.payment_succeeded ────────────────────────────────────────────────
 
-type LegacyInvoice = Stripe.Invoice & { subscription?: string | { id: string } };
-
 async function handleInvoicePaymentSucceeded(
   supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>,
-  invoice: Stripe.Invoice,
+  invoice: any,
 ) {
   const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
   if (!stripeCustomerId) return;
 
-  const inv = invoice as LegacyInvoice;
   // Update subscription to active if not already
-  if (inv.subscription) {
-    const subscriptionId = typeof inv.subscription === 'string' ? inv.subscription : inv.subscription?.id;
+  if (invoice.subscription) {
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
     if (subscriptionId) {
       const { error } = await supabase.from('subscriptions').update({
         status: 'active',
@@ -315,14 +311,13 @@ async function handleInvoicePaymentSucceeded(
 
 async function handleInvoicePaymentFailed(
   supabase: NonNullable<ReturnType<typeof getSupabaseServiceClient>>,
-  invoice: Stripe.Invoice,
+  invoice: any,
 ) {
   const stripeCustomerId = typeof invoice.customer === 'string' ? invoice.customer : invoice.customer?.id;
   if (!stripeCustomerId) return;
 
-  const inv = invoice as LegacyInvoice;
-  if (inv.subscription) {
-    const subscriptionId = typeof inv.subscription === 'string' ? inv.subscription : inv.subscription?.id;
+  if (invoice.subscription) {
+    const subscriptionId = typeof invoice.subscription === 'string' ? invoice.subscription : invoice.subscription?.id;
     if (subscriptionId) {
       // Mark subscription as past_due
       const { error } = await supabase.from('subscriptions').update({

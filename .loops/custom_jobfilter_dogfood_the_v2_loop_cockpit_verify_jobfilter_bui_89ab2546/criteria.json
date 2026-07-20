@@ -1,0 +1,7 @@
+[
+  {
+    "id": "c1",
+    "desc": "Dogfood the v2 loop cockpit: verify JobFilter build stays green",
+    "passes": false
+  }
+]
