@@ -4,11 +4,11 @@ import assert from 'node:assert/strict';
 const home = fs.readFileSync('src/pages/HomePage.tsx', 'utf8');
 const pricing = fs.readFileSync('src/pages/PricingPage.tsx', 'utf8');
 
-// Homepage must carry founding price-lock CTA and scan entry
+// Homepage must carry founding scarcity, price-lock, and scan entry.
 for (const text of [
   'Founding 30',
-  '£39/MO',
-  'Cancel anytime',
+  '£39/mo locks forever while active',
+  'CLAIM YOUR PATCH — £39/MO',
 ]) {
   assert.ok(home.includes(text), `homepage missing: ${text}`);
 }
