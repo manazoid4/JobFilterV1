@@ -6,7 +6,7 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Planning approvals, contracts, energy signals — not recycled enquiries',
+  'Planning applications, contracts, energy signals — not recycled enquiries',
   'Scored 0–100 by trade fit, location, freshness, and value',
   'No shared auction — one trade per patch, not five bidding on the same job',
   'Empty result is honest — we never invent jobs to fill your screen',
@@ -152,7 +152,7 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Planning permissions, public contracts, energy upgrades — live UK data</span>
+          <span>Planning applications, public contracts, energy upgrades — live UK data</span>
           <span>Scored by evidence, trade fit, location, and timing</span>
           <span>No match found? We show nothing — not recycled tyre-kickers from Bark</span>
         </div>

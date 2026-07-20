@@ -7,17 +7,17 @@ import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
   'Gold-ranked opportunities — strongest verified evidence first',
-  'Buyer name and contact before you call — no shared auction, no five-trade blast',
+  'Buyer details and best contact route before you call — no shared auction, no five-trade blast',
   'Job value band before you quote — know if it\'s worth your time',
-  'Your patch, your jobs — one dominant trade per postcode cluster, checked before activation',
+  'Patch-first activation — we check signal coverage and trade conflicts before you pay',
   'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
 const objections = [
   ['Is this another job board?', 'No. JobFilter scans official UK planning approvals, contracts, and energy data for your trade and patch. You do not buy credits to bid against a queue of trades the way Checkatrade and Bark do.'],
-  ['Are leads shared?', 'No. Checkatrade, MyBuilder, and Bark sell the same enquiry to five trades. JobFilter does not. Your patch is yours — one dominant trade per area, checked before activation.'],
+  ['Are leads shared?', 'No. Checkatrade, MyBuilder, and Bark sell the same enquiry to five trades. JobFilter does not — we check signal coverage and trade conflicts before activating your patch.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter your trade and postcode. We check your area has live signal coverage — then your patch activates. Takes minutes, not days.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You see real scored leads in your area. Upgrade unlocks buyer name, direct contact, job value band, and WhatsApp delivery.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You see real scored leads in your area. Upgrade unlocks buyer details, best contact route, job value band, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
