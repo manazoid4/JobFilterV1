@@ -1,5 +1,22 @@
 # Daily To-Do
 
+## Today - 20 July 2026 (NightlyBuildAgent — Run 3)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `46a4f85` (vault Jul 20 Run 2). Build GREEN, TS CLEAN.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. WhatsApp templates verified: `quick_quote_offer` and `availability_check` both in `chaseTemplates.ts`.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature this run.
+- [x] **Phase 3 — SignalsPage.tsx**: 6× `font-black` → `font-bold` on multi-sentence body paragraphs (signal card descriptions, Works Starting Now body, Paid Mode box body, How It Works step descriptions, summary paragraph, bottom CTA body)
+- [x] **Phase 3 — SignalsPage.tsx**: HVAC → HEATING in `tradeToSignalLabel` and `tradeSignals` array — consistent with FindJobsPage TRADE_PRESETS change (UK tradesmen say "Heating", not "HVAC")
+- [x] **NEEDLE — FindJobsPage scan counter copy (0 scans state)**: "Free scans used — upgrade to unlock buyer details and WhatsApp alerts." → "Buyer details locked. Scanning is always free — upgrade to see who to call." — old copy implied scans were blocked (they aren't — only buyer details are gated); new copy is accurate and keeps tradesman on the page.
+- [x] **CRITIC:** YES — "Buyer details locked. Scanning is always free" reads in <3s; removes false perception that the tool is blocked
+- [x] **REVENUE:** YES — tradesmen stay on page and keep scanning instead of bouncing; upgrade CTA is benefit-led
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`c6b6bc8`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: TrustCenterPage line 210 `font-black text-white/90` — check if single-sentence label (likely OK). PricingPage copy polish: fear→proof→control, competitor naming, "No credit card required" on CTAs. NEEDLE: lead card locked-detail UX — is the unlock CTA on GOLD lead cards prominent enough for free users?
+
 ## Today - 20 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `74fa748` (vault Jul 20 Run 1). Build initially failed (`next: not found` — no node_modules); fixed with `npm install`. Build GREEN, TS CLEAN.
