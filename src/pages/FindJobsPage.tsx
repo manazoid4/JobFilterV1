@@ -504,7 +504,7 @@ export function FindJobsPage() {
           </label>
           <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search className="w-4 h-4 mr-2 inline-block" />
-            {loading ? 'SCANNING...' : 'SCAN NOW'}
+            {loading ? 'SCANNING...' : 'SCAN NOW →'}
           </button>
         </form>
 

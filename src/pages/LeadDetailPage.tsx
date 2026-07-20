@@ -617,7 +617,7 @@ export function LeadDetailPage() {
           <p className="mt-2 text-xs font-black text-[var(--muted)]">Writes a one-off message from this job's details — not a generic template.</p>
           {aiDraftState === 'locked' && (
             <div className="mt-3 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-              <p className="text-sm font-black text-[var(--ink)]">Get a tailored first message for this exact job — not a copy-paste template. One job won covers 12+ months at £39.</p>
+              <p className="text-sm font-bold text-[var(--ink)]">Get a tailored first message for this exact job — not a copy-paste template. One job won covers 12+ months at £39.</p>
               <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">GET FULL ACCESS — £39/MO →</Link>
               <p className="mt-2 text-xs font-black text-[var(--muted)] uppercase tracking-wider">30-DAY MONEY-BACK GUARANTEE · Cancel anytime.</p>
             </div>
@@ -681,7 +681,7 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">FOLLOW-UP REMINDER</h2>
-        <p className="mt-2 font-black text-[var(--muted)] text-sm">Block time to chase this job. Adds a 9am reminder for tomorrow — works with Google Calendar, Apple Calendar, and Outlook.</p>
+        <p className="mt-2 font-bold text-[var(--muted)] text-sm">Block time to chase this job. Adds a 9am reminder for tomorrow — works with Google Calendar, Apple Calendar, and Outlook.</p>
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             className="jf-button bg-[var(--yellow)] text-[var(--ink)]"
@@ -718,7 +718,7 @@ export function LeadDetailPage() {
       <section className="jf-box bg-white p-6">
         <p className="micro-label text-[var(--orange)]">OUTCOME</p>
         <h2 className="headline mt-2 text-2xl sm:text-3xl">DID YOU WIN IT?</h2>
-        <p className="mt-2 font-black text-[var(--muted)]">
+        <p className="mt-2 font-bold text-[var(--muted)]">
           Status: {outcomeLabel(lead.status)} — mark the result so your wins build up over time.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">

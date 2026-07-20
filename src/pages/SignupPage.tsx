@@ -89,7 +89,7 @@ export function SignupPage() {
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
             We sent the confirmation link to {email}. Click it to confirm your account and activate your patch.
           </p>
-          <p className="mt-3 max-w-2xl text-sm font-black text-[var(--ink)]/70">
+          <p className="mt-3 max-w-2xl text-sm font-bold text-[var(--ink)]/70">
             Check your spam folder if you don&apos;t see it within 2 minutes.
           </p>
           <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BROWSE LIVE LEADS →</Link>

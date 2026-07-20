@@ -147,9 +147,9 @@ export function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)] shrink-0" />
-              <p className="text-sm font-black text-[var(--ink)]">
+              <p className="text-sm font-bold text-[var(--ink)]">
                 &ldquo;First planning alert was a loft conversion in B12 — one job paid 5 months of subscription.&rdquo;
-                <span className="ml-2 font-black text-[var(--ink)]/60">— Paul, Builder, Birmingham B12</span>
+                <span className="ml-2 font-bold text-[var(--ink)]/60">— Paul, Builder, Birmingham B12</span>
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -339,7 +339,7 @@ export function HomePage() {
               <div key={num} className="jf-box bg-white p-6">
                 <p className="font-mono text-4xl font-black text-[var(--yellow)] leading-none">{num}</p>
                 <p className="headline mt-3 text-xl leading-tight text-[var(--ink)]">{title}</p>
-                <p className="mt-2 text-sm font-black text-[var(--muted)] leading-snug">{body}</p>
+                <p className="mt-2 text-sm font-bold text-[var(--muted)] leading-snug">{body}</p>
               </div>
             ))}
           </div>
