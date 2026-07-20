@@ -1,5 +1,25 @@
 # Daily To-Do
 
+## Today - 20 July 2026 (NightlyBuildAgent — Run 2)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `74fa748` (vault Jul 20 Run 1). Build initially failed (`next: not found` — no node_modules); fixed with `npm install`. Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 20 Run 1. Agent-only commits. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean after npm install.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — SmartQuotePage.tsx**: 2× `font-black` → `font-bold` on multi-sentence paragraphs (hero on navy, CTA section on navy)
+- [x] **Phase 3 — MaterialPriceEnginePage.tsx**: 1× `font-black` → `font-bold` (hero paragraph on ink bg); "Compare" → `COMPARE →` (CTA uppercase + arrow); "Save to list" → `SAVE TO LIST`; "Clear list" → `CLEAR LIST`
+- [x] **Phase 3 — SignupPage.tsx**: `'CREATE ACCOUNT'` → `'CREATE ACCOUNT →'` — only primary CTA on the site without `→`
+- [x] **NEEDLE — MaterialPriceEnginePage primary "Compare" button**: was lowercase with no `→`, inconsistent with every other primary CTA site-wide. The Material Price Engine is a free-tool discovery path; clearer action = more searches = more exposure to upgrade nudge.
+- [x] **NEEDLE — SignupPage "CREATE ACCOUNT →"**: most-intent moment on the site; added arrow for consistency.
+- [x] **CRITIC:** YES — uppercase buttons with arrows read in <3 seconds; consistent with site vocabulary
+- [x] **REVENUE:** YES — Material Price Engine discovery path + account creation gateway; both fixes reduce micro-friction at decision points
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`acd9096`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: font-black final sweep. Copy polish on EpcPage + SignalsPage. NEEDLE check on 0-scan-remaining state in FindJobsPage.
+
 ## Today - 20 July 2026 (NightlyBuildAgent — Run 1)
 
 - [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `d3ed27e` (Jul 19 Run 2). Build GREEN, TS CLEAN.
