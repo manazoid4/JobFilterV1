@@ -7,17 +7,17 @@ import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
   'Gold-ranked opportunities — strongest verified evidence first',
-  'Buyer context before you call — job type, value band, and best contact route',
+  'Buyer name and contact before you call — no shared auction, no five-trade blast',
   'Job value band before you quote — know if it\'s worth your time',
-  'Patch-first filtering — paid activation follows a coverage check',
+  'Your patch, your jobs — one dominant trade per postcode cluster, checked before activation',
   'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
-  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Is this another job board?', 'No. JobFilter scans official UK planning approvals, contracts, and energy data for your trade and patch. You do not buy credits to bid against a queue of trades the way Checkatrade and Bark do.'],
+  ['Are leads shared?', 'No. Checkatrade, MyBuilder, and Bark sell the same enquiry to five trades. JobFilter does not. Your patch is yours — one dominant trade per area, checked before activation.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, enter your trade and postcode. We check your area has live signal coverage — then your patch activates. Takes minutes, not days.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You see real scored leads in your area. Upgrade unlocks buyer name, direct contact, job value band, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {

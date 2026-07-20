@@ -6,10 +6,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official opportunity data ranked by evidence',
-  'Internal samples blocked from live scans',
-  'Paid details stay locked in the free preview',
-  'No verified match means an honest empty result',
+  'Planning approvals, contracts, energy signals — not recycled enquiries',
+  'Scored 0–100 by trade fit, location, freshness, and value',
+  'No shared auction — one trade per patch, not five bidding on the same job',
+  'Empty result is honest — we never invent jobs to fill your screen',
 ];
 
 const signalRows = [
@@ -152,9 +152,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
+          <span>Planning permissions, public contracts, energy upgrades — live UK data</span>
           <span>Scored by evidence, trade fit, location, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>No match found? We show nothing — not recycled tyre-kickers from Bark</span>
         </div>
       </section>
 
@@ -282,7 +282,7 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
               <div>
                 <p className="headline text-xl text-[var(--ink)]">You choose what is worth chasing</p>
-                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Use the evidence, date, value confidence, and recommended action. A scan is intelligence, not a promise that a buyer will award the job.</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Check the score, value band, and source. Gold leads include buyer name and direct contact — unlocked at £39/mo. Free to scan, pay only when you want to call.</p>
               </div>
             </div>
           </div>
