@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import { registerIntakeScoreRoute } from './routes/intakeScore';
 import { registerLeadSearchRoute } from './routes/leadsSearch';
 import { registerWaitlistRoute } from './routes/waitlist';
@@ -68,21 +67,5 @@ export async function createApp() {
     });
   });
 
-  if (process.env.VERCEL === '1') {
-    // Vercel serves static files itself — no static middleware needed here
-  } else if (process.env.NODE_ENV !== 'production') {
-    const vite = await createServerVite();
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (_req, res) => res.sendFile(path.join(distPath, 'index.html')));
-  }
-
   return app;
-}
-
-async function createServerVite() {
-  const { createServer: createViteServer } = await import('vite');
-  return createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
 }

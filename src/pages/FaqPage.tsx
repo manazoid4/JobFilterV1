@@ -6,23 +6,23 @@ import { Mail } from 'lucide-react';
 const faqs = [
   {
     q: 'What makes JobFilter different from Checkatrade or MyBuilder?',
-    a: 'We do not sell shared leads. We scan verified official signals — planning approvals, energy efficiency data, and property information — and score every signal for intent. One trade partner per postcode. No bidding wars. No dead leads.',
+    a: 'JobFilter is not a shared-enquiry auction. It filters official opportunity data by evidence, trade, location, and timing. Coverage varies by patch, and an honest empty result is better than an invented job.',
   },
   {
     q: 'How does the lead scoring work?',
-    a: 'Every signal scores 0–100 based on verified data: planning approval status, urgency, distance from your patch, estimated job value, and how closely it matches your trade. Leads land as GOLD (chase now), SILVER (worth watching), or BRONZE (add to quiet-week list). You see the evidence behind every score — not just a number.',
+    a: 'Every signal scores 0–100 using source evidence, trade fit, location, freshness, value confidence, and contactability. GOLD means strongest evidence, not a guaranteed sale. You see why it scored — not just a number.',
   },
   {
     q: 'What does GOLD, SILVER, BRONZE mean?',
-    a: 'GOLD means first-mover window is open — most trades won\'t see this for 24–48 hours. Send a WhatsApp today. SILVER means the signal is verified but timing isn\'t confirmed. A two-minute call finds out if they\'re ready now. BRONZE means real signal, not urgent — revisit when your diary is quiet.',
+    a: 'GOLD means the available evidence is strongest and the opportunity is worth checking first. SILVER is worth reviewing but has weaker timing or completeness. BRONZE is lower confidence. The tier is a ranking, not a promise that the buyer is ready.',
   },
   {
     q: 'How fresh are the leads?',
-    a: 'Most signals are detected within 24–48 hours of appearing on official registers — planning approvals, energy certificates, business registrations. That puts you 3–5 days ahead of Checkatrade, Bark, or MyBuilder listing the same job. The first call wins. That gap is the product.',
+    a: 'Freshness depends on when each official source publishes and when the scan runs. JobFilter shows the available date and ranks fresher evidence higher. We do not promise a fixed lead over competitors.',
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'WhatsApp alerts for GOLD leads, territory lock (one trade per patch — no shared auction), full buyer context, quote floor estimate, six pre-written WhatsApp templates, job tracking, and a 30-day money-back guarantee. Price is locked at £39/mo for as long as you stay active — it does not rise.',
+    a: 'Full opportunity context, value guidance, response templates, job tracking, and delivery features after your account and patch pass activation checks. Priority routing is being piloted; it is not sold as guaranteed exclusivity.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'How does the territory lock work?',
-    a: 'One trade partner per postcode cluster per trade. If you lock B17 as a plumber, no other plumber gets our leads in B17 — same for electricians, roofers, or any other trade. You get first call on every signal.',
+    a: 'Patch priority is being piloted by trade and postcode cluster. We check source coverage and obvious conflicts before activation. Do not treat an unconfirmed patch as exclusive.',
   },
   {
     q: 'Do I need to be VAT registered?',
@@ -46,7 +46,7 @@ const faqs = [
   },
   {
     q: 'Where does your data come from?',
-    a: 'Verified official UK sources — planning approvals, energy signals, property ownership data, business registrations, and public contracts. All published under open government licences. We clean, score, and route the signals. You get ranked leads, not raw data.',
+    a: 'Official UK public-opportunity sources that are enabled and healthy for the scan. Coverage differs by area and some planned sources require provider access. Internal sample records are never allowed into production results.',
   },
   {
     q: 'Is my data safe?',

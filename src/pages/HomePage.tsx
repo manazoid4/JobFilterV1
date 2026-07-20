@@ -89,13 +89,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION LEADS — SCORED BEFORE THEY GO PUBLIC</p>
+            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION OPPORTUNITIES — FILTERED AND SCORED</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               QUIT WORKING{' '}
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter reads planning approvals, energy signals and council contracts before they hit any directory — kills tyre-kickers, scores what is left, sends only serious jobs to your WhatsApp.
+              JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth checking for your trade and patch. No invented jobs. No recycled lead auction.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -152,9 +152,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Signals from planning approvals, energy upgrades, and public tenders</span>
-          <span>Scored by value, trade fit, and urgency</span>
-          <span>WhatsApp alert — before the job goes public</span>
+          <span>Live coverage starts with official public opportunities</span>
+          <span>Scored by evidence, trade fit, location, and timing</span>
+          <span>Empty scan means no verified match — never a made-up job</span>
         </div>
       </section>
 
@@ -234,23 +234,23 @@ export function HomePage() {
             SEE THE PRODUCT BEFORE YOU PAY.
           </h2>
           <p className="mt-4 max-w-2xl copy">
-            Structured signal. Real scoring shape. Clear recommended action. This is the format that lands in your WhatsApp — scored, filtered, and ready to act on.
+            This is a clearly labelled sample of the scoring format. Live scans can return fewer details or no match when the source evidence is not strong enough.
           </p>
           <div className="mt-8 max-w-3xl">
             <SampleLeadCard />
           </div>
           <div className="mt-6 max-w-3xl grid grid-cols-3 divide-x-2 divide-[var(--line)] border-2 border-[var(--line)]">
             <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">3–5 days</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">before the job appears anywhere else</p>
+              <p className="headline text-3xl text-[var(--ink)]">Freshness shown</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">check the published date before you chase</p>
             </div>
             <div className="px-5 py-4">
               <p className="headline text-3xl text-[var(--ink)]">GOLD only</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">budget-confirmed leads to your WhatsApp</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">strongest evidence ranked first</p>
             </div>
             <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">1 trade</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">per territory — no shared lists</p>
+              <p className="headline text-3xl text-[var(--ink)]">No auction</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">no credits burned against five bidders</p>
             </div>
           </div>
         </div>
@@ -268,21 +268,21 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
               <div>
                 <p className="headline text-xl text-[var(--ink)]">Enter your postcode and trade</p>
-                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter scans planning approvals, energy signals, council tenders, and new business registrations within your territory.</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter checks the official sources currently available for your area and trade. Coverage varies by patch.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--yellow)] pt-1">02</span>
               <div>
                 <p className="headline text-xl text-white">Every signal is scored before you see it</p>
-                <p className="mt-1 text-sm font-bold text-white/60">Signals are scored 0–100 for budget confidence, buyer readiness, and timing pressure. 80+ scores GOLD and hit your WhatsApp. Low-value noise stays out.</p>
+                <p className="mt-1 text-sm font-bold text-white/60">Signals are scored 0–100 using source evidence, trade fit, location, freshness, and value confidence. Weak or internal sample data cannot enter live results.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-white px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
               <div>
-                <p className="headline text-xl text-[var(--ink)]">You call before anyone else does</p>
-                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Most leads on job boards are already four quotes deep. JobFilter finds the work before it gets posted anywhere.</p>
+                <p className="headline text-xl text-[var(--ink)]">You choose what is worth chasing</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Use the evidence, date, value confidence, and recommended action. A scan is intelligence, not a promise that a buyer will award the job.</p>
               </div>
             </div>
           </div>
@@ -298,7 +298,7 @@ export function HomePage() {
               SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Territory lock gives one trade first look in one postcode cluster. Founder firms keep the cheaper price while their plan stays active.
+              Priority routing by trade and postcode is being piloted. We check coverage and conflicts before activating a paid patch.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
@@ -347,12 +347,12 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'One territory lock', body: 'Your trade + postcode cluster. No one else gets priority.' },
-              { icon: Target, title: 'Unlimited WhatsApp alerts', body: 'Gold and Silver leads hit your phone within minutes.' },
+              { icon: ShieldCheck, title: 'Patch-first filtering', body: 'Your trade and postcode shape every scan. Paid patch activation follows a coverage check.' },
+              { icon: Target, title: 'Alert-ready ranking', body: 'The strongest verified opportunities are ranked first. WhatsApp delivery activates only when your account is configured.' },
               { icon: FileText, title: 'Letter drop scripts', body: 'Pre-written for your trade and area. Print and post in minutes.' },
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
-              { icon: Radio, title: 'Patch Watch', body: 'Planning, energy, tender, and business signals watched for your trade and postcode cluster. Patch Pulse shows the live mix.' },
+              { icon: Radio, title: 'Source health', body: 'Live source results stay separate from sample data, with empty and partial coverage reported honestly.' },
               { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
               { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
             ].map(({ icon: Icon, title, body }) => (
@@ -439,14 +439,14 @@ export function HomePage() {
               <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
-              ONE TRADE.<br />ONE PATCH.<br />NO SHARING.
+              ONE PATCH.<br />CLEAR EVIDENCE.<br />NO AUCTION.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a directory. Not an auction. Gold leads scored by trade, patch, and timing — sent to you, not four other trades bidding on the same job.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a job board. Not a credit auction. Opportunities are filtered by trade, patch, timing, and evidence before you decide what to chase.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
-                ['No shared auction', 'No five-trade blast. No race-to-the-bottom resale. If a lead looks crowded, it gets marked down or blocked.'],
-                ['No timewasters', 'Every signal is scored for buyer intent, timing pressure, and budget. WASTE-rated leads never reach you.'],
-                ['WhatsApp first', 'The job hits your phone. Dashboard second. One dominant trade partner per area.'],
+                ['No credit auction', 'You do not pay credits to compete for a copied enquiry.'],
+                ['No fake results', 'Internal samples are blocked from live scans. Weak evidence can produce an honest empty result.'],
+                ['Control first', 'Review the score and evidence before spending time on an opportunity.'],
               ].map(([title, body]) => (
                 <div key={title} className="border-2 border-white/20 bg-white/8 p-4 transition-colors hover:border-[var(--yellow)]/40 hover:bg-white/12">
                   <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
@@ -464,7 +464,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No shared auction. No five-trade blast. Scored leads hit your WhatsApp before the job goes public.
+              No credit auction. No fabricated live jobs. Patch activation follows a real coverage check.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               CLAIM YOUR PATCH — £39/MO →
