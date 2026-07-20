@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { DevPortalPage } from '../../src/pages/DevPortalPage';
 
 export default function Page(props: any) {
   if (process.env.NODE_ENV !== 'development') {
-    redirect('/');
+    notFound();
   }
   return <DevPortalPage {...props} />;
 }

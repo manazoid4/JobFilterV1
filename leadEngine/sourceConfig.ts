@@ -82,6 +82,15 @@ function staticEntry(key: string): SourceConfigEntry | undefined {
 }
 
 export function isSourceEnabled(key: string): boolean {
+  // Internal sample records are never eligible for a production scan, even if
+  // an environment variable or database override is set incorrectly.
+  if (
+    key === 'DirectorySignal' &&
+    (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production')
+  ) {
+    return false;
+  }
+
   const override = _overrideCache?.[key];
   if (override !== undefined) return override.enabled;
   const entry = staticEntry(key);

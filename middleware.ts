@@ -8,6 +8,12 @@ const PROTECTED = ['/dashboard', '/leads', '/account', '/tradie-zone', '/dev-por
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next({ request });
+  const { pathname } = request.nextUrl;
+  const isInternalRoute = pathname === '/dev-portal' || pathname.startsWith('/dev-portal/') || pathname === '/test' || pathname.startsWith('/test/');
+
+  if (process.env.NODE_ENV === 'production' && isInternalRoute) {
+    return new NextResponse('Not Found', { status: 404 });
+  }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
@@ -30,7 +36,6 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { pathname } = request.nextUrl;
   const isProtected = PROTECTED.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
   if (!user && isProtected) {

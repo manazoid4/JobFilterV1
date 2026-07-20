@@ -2,6 +2,11 @@ import type { Express, Request, Response } from 'express';
 
 export function registerStatusRoute(app: Express) {
   app.get('/api/status', (_req: Request, res: Response) => {
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') {
+      res.status(404).json({ ok: false, error: 'Not found' });
+      return;
+    }
+
     const env = process.env;
     const has = (k: string) => Boolean(env[k] && String(env[k]).trim() !== '');
 
