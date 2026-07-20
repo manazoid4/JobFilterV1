@@ -47,6 +47,13 @@ body {
   scroll-padding-top: 72px;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+}
+
 #root {
   width: 100%;
   max-width: 100%;

@@ -6,10 +6,11 @@
   "scripts": {
     "start": "next start",
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run releases:check && next build",
     "preview": "next start",
     "clean": "rm -rf .next dist",
     "lint": "tsc --noEmit",
+    "releases:check": "node scripts/validate-releases.mjs",
     "instagram:install": "python -m pip install -r tools/instagram-memory/requirements.txt",
     "instagram:download": "python tools/instagram-memory/download_saved.py",
     "instagram:memory": "python tools/instagram-memory/build_memory.py --write-obsidian"
