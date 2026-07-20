@@ -3,12 +3,8 @@ build/
 dist/
 .next/
 tsconfig.tsbuildinfo
-.firebase/
-legacy/firebase/functions/lib/**/*.js
-!legacy/firebase/functions/lib/stripe.js
-functions/lib/
-functions/node_modules/
 coverage/
+tests/.artifacts/
 data/
 .DS_Store
 *.log
@@ -26,11 +22,5 @@ firebase-applet-config.json
 *Secret*.md
 FinalDesignJobFilter/
 stitch-extract/
-Obsidian_Memory/Obsidian_Vault/Untitled.*
-Obsidian_Memory/Obsidian_Vault/*.base
-Obsidian_Memory/Obsidian_Vault/*.canvas
-Obsidian_Memory/Obsidian_Vault/[0-9][0-9][0-9][0-9]-*.md
-Obsidian_Memory/Obsidian_Vault/.obsidian/
 .codegraph/
 .vercel
-.claude/worktrees/

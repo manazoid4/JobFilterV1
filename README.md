@@ -4,12 +4,52 @@ REAL LEADS. NO CHASING. NO COMPETING. STAY IN CONTROL.
 
 JobFilter is an intake system for UK tradesmen. The current production path uses live Contracts Finder public procurement notices for `/find-jobs`.
 
+[Live product](https://jobfilter.uk) · [Test scenarios](docs/TEST_SCENARIOS.md)
+
+![JobFilter desktop homepage](docs/screenshots/home-desktop.png)
+
 ## Current status
 
 - Live scans may return no result when no verified opportunity matches the trade and patch.
 - Internal sample records are blocked from production, even if a runtime toggle is set incorrectly.
 - Planning, energy, company, paid checkout, and WhatsApp coverage depend on provider credentials and activation checks; they are not treated as live merely because code exists.
 - `/test`, `/test/intake`, `/dev-portal`, and `/api/status` are development-only surfaces and return 404 in production.
+
+## What this repository demonstrates
+
+- A Next.js production application with public opportunity ingestion, normalisation, deduplication, scoring, and free/paid response shaping.
+- Server-side redaction that keeps buyer, deadline, exact value, action route, and exact scoring depth out of free responses.
+- Source health and partial-failure handling: one failed provider does not invent a fallback job or crash the scan.
+- Supabase account/data plumbing, Stripe checkout/webhook routes, and Meta WhatsApp delivery code with explicit configuration failures.
+- Release gates for dependency security, type safety, lead-quality rules, postcode handling, free-tier privacy, production-only route protection, and a full production build.
+
+## Architecture
+
+```text
+Official sources
+  -> fetchers
+  -> normalise
+  -> deduplicate
+  -> score and rank
+  -> redact by access tier
+  -> dashboard / delivery
+```
+
+Key areas:
+
+- `leadEngine/` — source registry, fetchers, postcode logic, normalisation, scoring, quality audit, and scan orchestration.
+- `server/routes/` — Express-compatible APIs mounted through the Next.js catch-all API route.
+- `app/api/` — native Next.js handlers for account, alerts, payments, waitlist, and delivery workflows.
+- `src/pages/` and `src/components/` — product UI, scanner, account surfaces, trust pages, and trade landing pages.
+- `supabase/migrations/` — versioned database changes and row-level access policies.
+- `tests/regression/` — runnable product, privacy, quality, and runtime checks.
+
+## Known limitations
+
+- A live-source audit across 42 valid trade/postcode scans currently produces no sellable result; source coverage must be proven before broad launch claims.
+- EPC, Companies House, Stripe pricing, and WhatsApp delivery require provider credentials and live environment verification.
+- Priority territory routing is a pilot rule, not guaranteed exclusivity.
+- The current route surface is larger than the intended flagship journey and still needs product simplification.
 
 ## Environment Variables
 
@@ -57,9 +97,9 @@ http://localhost:3000/find-jobs
 npm run lint
 npm audit
 npx tsx tests/regression/production-source-safety-regression.mjs
-npx tsx codex-output/postcode-filter-regression.mjs
-node codex-output/free-scanner-redaction-regression.mjs
-npx tsx codex-output/lead-engine-quality-regression.mjs
+npx tsx tests/regression/postcode-filter-regression.mjs
+node tests/regression/free-scanner-redaction-regression.mjs
+npx tsx tests/regression/lead-engine-quality-regression.mjs
 npm run build
 node tests/regression/production-runtime-regression.mjs
 ```

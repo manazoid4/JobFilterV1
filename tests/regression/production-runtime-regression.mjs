@@ -39,7 +39,7 @@ try {
 
   const liveContract = spawnSync(
     process.execPath,
-    ['codex-output/free-preview-live-contract-test.mjs'],
+    ['tests/regression/free-preview-live-contract-regression.mjs'],
     { stdio: 'inherit' },
   );
   assert.equal(liveContract.status, 0, 'free preview live contract regression failed');

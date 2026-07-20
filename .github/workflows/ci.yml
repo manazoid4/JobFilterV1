@@ -33,13 +33,13 @@ jobs:
         run: npx tsx tests/regression/production-source-safety-regression.mjs
 
       - name: Postcode regression
-        run: npx tsx codex-output/postcode-filter-regression.mjs
+        run: npx tsx tests/regression/postcode-filter-regression.mjs
 
       - name: Free scanner redaction regression
-        run: node codex-output/free-scanner-redaction-regression.mjs
+        run: node tests/regression/free-scanner-redaction-regression.mjs
 
       - name: Lead quality regression
-        run: npx tsx codex-output/lead-engine-quality-regression.mjs
+        run: npx tsx tests/regression/lead-engine-quality-regression.mjs
 
       - name: Production build
         run: npm run build

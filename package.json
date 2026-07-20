@@ -9,10 +9,7 @@
     "build": "next build",
     "preview": "next start",
     "clean": "rm -rf .next dist",
-    "lint": "tsc --noEmit",
-    "instagram:install": "python -m pip install -r tools/instagram-memory/requirements.txt",
-    "instagram:download": "python tools/instagram-memory/download_saved.py",
-    "instagram:memory": "python tools/instagram-memory/build_memory.py --write-obsidian"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

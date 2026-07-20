@@ -1,9 +1,0 @@
-.obsidian/workspace.json
-.obsidian/graph.json
-.obsidian/plugins/
-*.tmp
-.DS_Store
-Thumbs.db
-*.env
-node_modules/
-.trash/
