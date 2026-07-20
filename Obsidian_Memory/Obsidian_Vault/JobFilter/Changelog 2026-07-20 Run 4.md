@@ -56,4 +56,33 @@ Previous nightly agent runs (Runs 1–3) have already implemented all listed Tie
 
 ## PR
 - Branch: nightly-copy-polish-2026-07-20
-- PR: #376 — CI in_progress (Vercel building)
+- PR: #376 — https://github.com/manazoid4/JobFilterV1/pull/376
+
+## Phase 5 — Codex P1 Review Response (Run 4 continuation)
+
+Codex (chatgpt-codex-connector[bot]) left three P1 comments after PR opened.
+All confirmed by reading backend source. Fixed in commit a98c42d.
+
+### Finding 1 — "Planning approvals" label inaccurate (HomePage.tsx:9)
+- `planningDataFetcher` never checks a decision/status field — returns ALL applications
+- Every result is branded `Planning Approval:` even if refused or pending
+- Fix: proofPoints[0] → "Planning applications, contracts, energy signals — not recycled enquiries"
+- Fix: OPS strip → "Planning applications, public contracts, energy upgrades — live UK data"
+
+### Finding 2 — "Buyer name and direct contact" overpromises (PricingPage.tsx:10,20)
+- `buildContactPath` restricts planning/EPC to postal outreach or planning-agent contact
+- `buyer_phone` in `allowedChannels` only appears in the `isTender` branch
+- Fix: planBullets[1] → "Buyer details and best contact route before you call — no shared auction, no five-trade blast"
+- Fix: FAQ "Can I scan?" → "Upgrade unlocks buyer details, best contact route, job value band, and WhatsApp delivery."
+
+### Finding 3 — Territory exclusivity guarantee not enforced (PricingPage.tsx:18)
+- Checkout route never reads `territory_metrics.lock_status`
+- Webhook handler (`upsertSubscriptionFromCheckout`) never checks territory conflicts
+- Two traders with same trade+postcode can both pay and activate
+- Fix: planBullets[3] → "Patch-first activation — we check signal coverage and trade conflicts before you pay"
+- Fix: FAQ "Are leads shared?" → removed "Your patch is yours — one dominant trade per area"; now "we check signal coverage and trade conflicts before activating your patch"
+
+## CI Status
+- Vercel: READY (all 4 commits deployed — preview live)
+- Meticulous: ✅ 0 visual differences across 169 screens
+- TypeScript: PASS (no errors after accuracy fixes)

@@ -10,6 +10,8 @@
 - [x] NEEDLE: hero proof points fixed — clearer in <3 seconds
 - [x] PR #376 opened, Vercel preview deployed and READY
 - [x] PR subscribed for CI monitoring
+- [x] Codex P1 review: 3 accuracy fixes — "Planning approvals"→"applications", "direct contact"→"best contact route", territory guarantee hedged (commit a98c42d)
+- [x] Meticulous: 0 visual diffs across 169 screens — clean pass
 
 ### Pending / Next Run Priorities
 
