@@ -106,7 +106,7 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
   { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
   { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
   { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
-  { trade: 'HVAC',        active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
+  { trade: 'HEATING',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
   { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
   { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
   { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
@@ -119,7 +119,7 @@ const tradeToSignalLabel: Record<string, string> = {
   Plumber: 'Plumbing',
   Builder: 'Building',
   Roofer: 'Roofing',
-  HVAC: 'HVAC',
+  HEATING: 'HVAC',
   Landscaper: 'Landscaping',
   Carpenter: 'Carpentry',
   Painter: 'Painting',
@@ -182,7 +182,7 @@ export function SignalsPage() {
                   </span>
                 </div>
                 <h3 className="headline text-4xl leading-none">{s.name}</h3>
-                <p className="font-black text-[var(--muted)] leading-snug">{s.description}</p>
+                <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {s.trades.map((t) => (
                     <span
@@ -224,7 +224,7 @@ export function SignalsPage() {
             <div>
               <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
               <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
-              <p className="mt-4 max-w-3xl text-lg font-black leading-tight text-[var(--ink)]/80">
+              <p className="mt-4 max-w-3xl text-lg font-bold leading-tight text-[var(--ink)]/80">
                 Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
@@ -238,7 +238,7 @@ export function SignalsPage() {
             <div className="jf-box bg-[var(--ink)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">PAID MODE</p>
               <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
-              <p className="mt-3 text-sm font-black text-white/85">
+              <p className="mt-3 text-sm font-bold text-white/85">
                 Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
               </p>
               <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
@@ -263,11 +263,11 @@ export function SignalsPage() {
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
                 <h3 className="headline mt-3 text-3xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-3 font-black text-white/90">{body}</p>
+                <p className="mt-3 font-bold text-white/90">{body}</p>
               </div>
             ))}
           </div>
-          <p className="mt-6 max-w-3xl text-xl font-black text-[var(--muted)]">
+          <p className="mt-6 max-w-3xl text-xl font-bold text-[var(--muted)]">
             Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
           </p>
         </div>
@@ -328,7 +328,7 @@ export function SignalsPage() {
           <h2 className="headline mt-4 text-[clamp(2.25rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
             SEE WHAT'S LIVE IN YOUR PATCH RIGHT NOW.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-black text-[var(--ink)]">
+          <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
             Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
           </p>
           <div className="mt-8">
