@@ -1,0 +1,115 @@
+[
+  {
+    "id": "faster-clearer-first-scans",
+    "publishedAt": "2026-07-15",
+    "status": "live",
+    "title": "FASTER, CLEARER FIRST SCANS",
+    "summary": "Postcode, trade and radius now sit together at the top of Find Jobs. Choose all three and get straight to scanning your area.",
+    "availability": "Live on Find Jobs",
+    "audiences": ["Anyone scanning for work"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "The scanner is now the first thing you see.",
+          "A visible trade picker stops the wrong trade being scanned by mistake.",
+          "The postcode appears before the trade shortcuts, so the required first step is clear."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["0e7e4b9", "c848dc1", "494e1fc"],
+      "pullRequests": [332, 334, 336]
+    }
+  },
+  {
+    "id": "scanner-one-tap-away",
+    "publishedAt": "2026-07-08",
+    "status": "live",
+    "title": "THE SCAN IS ALWAYS ONE TAP AWAY",
+    "summary": "The top notice now takes you straight to Find Jobs, and patch examples are labelled clearly so you know where to check your own area.",
+    "availability": "Live across the public site",
+    "audiences": ["Anyone looking for local work"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "Open the live scanner from the notice on any page.",
+          "Example patches no longer look like the full coverage list."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["23b99ac"],
+      "pullRequests": [330]
+    }
+  },
+  {
+    "id": "clearer-membership-unlocks",
+    "publishedAt": "2026-07-06",
+    "status": "live",
+    "title": "SEE WHAT MEMBERSHIP UNLOCKS",
+    "summary": "Lead previews now make it clear which buyer details membership unlocks, with a direct route to pricing when the job fits.",
+    "availability": "Live on lead previews and trade pages",
+    "audiences": ["Free scanners", "Trades comparing membership"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "Buyer-detail previews are now clear across trade pages.",
+          "A direct unlock route replaces blurred placeholder copy.",
+          "The membership choice appears after you have seen useful lead context."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["74aa5fa", "46aba1d", "1781ac1", "a45c22d"],
+      "pullRequests": [293, 297, 298, 299]
+    }
+  },
+  {
+    "id": "guarantee-beside-the-decision",
+    "publishedAt": "2026-07-06",
+    "status": "live",
+    "title": "THE GUARANTEE IS HARD TO MISS",
+    "summary": "The 30-day money-back guarantee now appears beside the places where you decide to join, instead of being buried elsewhere.",
+    "availability": "Live across pricing decisions",
+    "audiences": ["Trades considering membership"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "The guarantee is shown across trade pages.",
+          "It now sits beside signal and weekly-alert offers.",
+          "It is also visible across free tools, comparisons and help pages."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["35e4f94", "5ba5e30", "b0e97ad", "b3f2266", "64fd739", "be37179"],
+      "pullRequests": [301, 304, 305, 307, 308, 309]
+    }
+  },
+  {
+    "id": "lead-alerts-in-plain-english",
+    "publishedAt": "2026-07-02",
+    "status": "live",
+    "title": "LEAD ALERTS, IN PLAIN ENGLISH",
+    "summary": "Alert setup now asks for your area and gives the real next step when a chosen alert speed is not included in your plan.",
+    "availability": "Live in alert setup",
+    "audiences": ["Anyone setting up alerts"],
+    "sections": [
+      {
+        "label": "FIXED",
+        "items": [
+          "Removed postcode jargon from alert setup.",
+          "Replaced a misleading login error with the actual next step."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["fa0d916"],
+      "pullRequests": []
+    }
+  }
+]

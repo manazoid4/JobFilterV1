@@ -13,6 +13,7 @@ const publicLinks = [
   { to: '/for-your-trade', label: 'Trades' },
   { to: '/trust', label: 'Proof' },
   { to: '/news', label: 'News' },
+  { to: '/whats-new', label: "What's New" },
   { to: '/faq', label: 'FAQ' },
 ];
 
@@ -21,6 +22,7 @@ const memberLinks = [
   { to: '/leads', label: 'My Leads' },
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/free-tools', label: 'Free Tools' },
+  { to: '/whats-new', label: "What's New" },
 ];
 
 export function TopNav() {
@@ -31,6 +33,7 @@ export function TopNav() {
   const { user, signOut } = useAuth();
   const isLoggedIn = !!user;
   const links = isLoggedIn ? memberLinks : publicLinks;
+  const moreActive = !isLoggedIn && publicLinks.slice(5).some((link) => pathname === link.to);
   const mobileLinks = isLoggedIn
     ? [...memberLinks, { to: '/tradie-zone', label: 'Member Hub' }]
     : [
@@ -39,6 +42,7 @@ export function TopNav() {
         { to: '/signals', label: 'Signals' },
         { to: '/for-your-trade', label: 'Trades' },
         { to: '/trust', label: 'Proof' },
+        { to: '/whats-new', label: "What's New" },
         { to: '/faq', label: 'FAQ' },
       ];
 
@@ -71,6 +75,7 @@ export function TopNav() {
               <Link
                 key={link.to}
                 href={link.to}
+                aria-current={isActive ? 'page' : undefined}
                 className={`nav-link relative ${isActive ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
               >
                 {link.label}
@@ -83,18 +88,23 @@ export function TopNav() {
                 type="button"
                 onClick={() => setMoreOpen(!moreOpen)}
                 onBlur={() => setTimeout(() => setMoreOpen(false), 150)}
-                className={`nav-link flex items-center gap-1 ${moreOpen ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
+                aria-expanded={moreOpen}
+                aria-controls="public-more-menu"
+                aria-haspopup="true"
+                aria-label={moreActive ? 'More pages, current page is in this menu' : 'More pages'}
+                className={`nav-link flex items-center gap-1 ${moreOpen || moreActive ? 'bg-[var(--yellow)] font-bold' : 'text-[var(--ink)] hover:bg-[var(--yellow)]'}`}
               >
                 More ▾
               </button>
               {moreOpen && (
-                <div className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
+                <div id="public-more-menu" className="absolute left-0 top-full z-50 min-w-[140px] border-2 border-[var(--line)] bg-[var(--paper)] shadow-[4px_4px_0_var(--line)]">
                   {publicLinks.slice(5).map((link) => {
                     const isActive = pathname === link.to;
                     return (
                       <Link
                         key={link.to}
                         href={link.to}
+                        aria-current={isActive ? 'page' : undefined}
                         onClick={() => setMoreOpen(false)}
                         className={`block px-4 py-2 text-sm font-black uppercase hover:bg-[var(--yellow)] ${isActive ? 'bg-[var(--yellow)]' : ''}`}
                       >
@@ -191,6 +201,7 @@ export function TopNav() {
               <Link
                 key={link.to}
                 href={link.to}
+                aria-current={isActive ? 'page' : undefined}
                 onClick={() => setMenuOpen(false)}
                 className={`border-b border-[var(--line)] px-4 py-3 text-sm font-black uppercase min-h-[44px] flex items-center ${
                   isActive ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'text-[var(--ink)]'
