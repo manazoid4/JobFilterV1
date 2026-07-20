@@ -105,7 +105,7 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
   { label: 'LANDSCAPING', trade: 'landscaping', icon: <TreePine className="w-4 h-4" /> },
   { label: 'CARPENTRY', trade: 'carpentry', icon: <Hammer className="w-4 h-4" /> },
   { label: 'PAINTING', trade: 'painting', icon: <Paintbrush className="w-4 h-4" /> },
-  { label: 'HVAC', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
+  { label: 'HEATING', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
 ];
 
 
@@ -417,15 +417,6 @@ export function FindJobsPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
-        {!unlimitedTester && (
-          <>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <span className="bg-[var(--yellow)] border-2 border-[var(--ink)] px-3 py-1 text-xs font-black uppercase">NO CREDIT CARD</span>
-              <span className="bg-white border-2 border-[var(--line)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">REAL LEADS — SCORES FREE · BUYER DETAILS NEED UPGRADE</span>
-            </div>
-            <p className="mt-2 text-xs font-black text-[var(--muted)]">Free scan shows lead titles, signal source, and score. Buyer name, job value band, and direct contact route unlock with membership.</p>
-          </>
-        )}
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
