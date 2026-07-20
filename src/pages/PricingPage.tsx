@@ -9,7 +9,7 @@ const planBullets = [
   'Gold-ranked opportunities — strongest verified evidence first',
   'Buyer details and best contact route before you call — no shared auction, no five-trade blast',
   'Job value band before you quote — know if it\'s worth your time',
-  'Patch-first activation — we check signal coverage and trade conflicts before you pay',
+  'Patch-first activation — coverage and conflict checks run before your patch goes live',
   'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
