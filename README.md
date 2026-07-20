@@ -4,6 +4,13 @@ REAL LEADS. NO CHASING. NO COMPETING. STAY IN CONTROL.
 
 JobFilter is an intake system for UK tradesmen. The current production path uses live Contracts Finder public procurement notices for `/find-jobs`.
 
+## Current status
+
+- Live scans may return no result when no verified opportunity matches the trade and patch.
+- Internal sample records are blocked from production, even if a runtime toggle is set incorrectly.
+- Planning, energy, company, paid checkout, and WhatsApp coverage depend on provider credentials and activation checks; they are not treated as live merely because code exists.
+- `/test`, `/test/intake`, `/dev-portal`, and `/api/status` are development-only surfaces and return 404 in production.
+
 ## Environment Variables
 
 No API key is required for the live Contracts Finder search.
@@ -48,7 +55,13 @@ http://localhost:3000/find-jobs
 
 ```bash
 npm run lint
+npm audit
+npx tsx tests/regression/production-source-safety-regression.mjs
+npx tsx codex-output/postcode-filter-regression.mjs
+node codex-output/free-scanner-redaction-regression.mjs
+npx tsx codex-output/lead-engine-quality-regression.mjs
 npm run build
+node tests/regression/production-runtime-regression.mjs
 ```
 
 ## API

@@ -7,17 +7,17 @@ import { CheckoutButton } from '../components/CheckoutButton';
 import { content as addOnContent } from './ProductAdvantagePage';
 
 const planBullets = [
-  'Gold leads to your WhatsApp — scored and delivered within minutes of detection',
+  'Gold-ranked opportunities — strongest verified evidence first',
   'Buyer context before you call — job type, value band, and best contact route',
   'Job value band before you quote — know if it\'s worth your time',
-  'One trade per postcode patch — no shared auction, no five-trade blast',
+  'Patch-first filtering — paid activation follows a coverage check',
   'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning approvals, council tenders, and energy data — then routes signals to you, not a field of bidders fighting on price.'],
-  ['Are leads shared?', 'No. Paid members get priority routing by trade and patch. No auction, no five-trade race, no Bark-style credit burn. One trade per patch gets first call.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, enter your WhatsApp number, trade, and postcode. We check source coverage for your patch, then activate. Usually same day.'],
+  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
+  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
 ];
 
@@ -45,7 +45,7 @@ export function PricingPage() {
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Planning approvals, council tenders, and energy signals — not recycled from Checkatrade or Bark. Scored by value, trade fit, and distance. Hits your WhatsApp before anyone else calls.
+          Official UK opportunities filtered by evidence, trade fit, location, freshness, and value confidence. Coverage varies by trade and patch, so we check it before paid activation.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -69,20 +69,12 @@ export function PricingPage() {
           title="Founder"
           price="£39/mo"
           priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
+          body="Verified opportunities — not invented fallback jobs. Full context and delivery features activate only after account, patch, and provider checks pass."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
-      </section>
-
-      <section className="jf-box border-4 border-[var(--line)] bg-[var(--paper)] p-7">
-        <p className="micro-label text-[var(--orange)]">MEMBER RESULT</p>
-        <blockquote className="mt-3 max-w-2xl text-xl font-black leading-snug text-[var(--ink)]">
-          &ldquo;Scanned B14 on a Tuesday morning. Planning signal came through for a rear extension — 4-bed, no contractor listed. Called the owner Wednesday. She hadn&apos;t heard from anyone else. Quoted £5,800, won it Friday.&rdquo;
-        </blockquote>
-        <p className="mt-3 text-sm font-black text-[var(--muted)]">— Dave, Builder, Birmingham B14</p>
       </section>
 
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
