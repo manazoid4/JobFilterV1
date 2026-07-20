@@ -1,5 +1,30 @@
 # Daily To-Do
 
+## Today - 20 July 2026 (NightlyBuildAgent — Run 1)
+
+- [x] **Container state** — fresh container, `npm install` (359 packages); HEAD at `d3ed27e` (Jul 19 Run 2). Build GREEN, TS CLEAN.
+- [x] **Founder activity check** — no new commits or open PRs since Jul 19 Run 2. Agent-only commits today. All carryover blockers unchanged.
+- [x] **Phase 1** — no broken builds, no broken imports, no fake flows. Clean build.
+- [x] **Phase 2** — all Tier 1 features confirmed BUILT. No new feature needed this run.
+- [x] **Phase 3 — font-bold sweep (7 files, 13 fixes)**:
+  - AdminGuardPage.tsx:625 — hero body on ink bg
+  - AdminGuardTeaserPage.tsx:133,136 — 2 body paragraphs on yellow section
+  - CompareBarkPage.tsx:75,85 — comparison bullet lists (Bark + JF sides)
+  - CompareBarkPage.tsx:135 — testimonial quote text
+  - CompareBarkPage.tsx:159 — guarantee sentence
+  - SignupPage.tsx:92 — spam folder tip
+  - LeadDetailPage.tsx:620,684,721 — AI draft nudge, calendar description, outcome note
+  - HomePage.tsx:150,152,342 — testimonial quote + attribution, 4-step body descriptions
+- [x] **NEEDLE — FindJobsPage SCAN NOW missing → arrow**: Primary yellow "SCAN NOW" button (most-pressed on the site) was the only scan CTA without a → arrow. Fixed to "SCAN NOW →". Consistent with every other CTA site-wide.
+- [x] **CRITIC:** YES — "SCAN NOW →" reads in <3s; matches site arrow vocabulary
+- [x] **REVENUE:** YES — most-pressed button on site; consistent arrow pattern reduces micro-friction at primary action moment
+- [x] Build GREEN, TypeScript CLEAN. Pushed to main (`27d341f`).
+- [ ] **Founder decision — add-on service pricing** (carried over many runs): 14 add-on services still have no £ shown
+- [ ] **Stripe live test** — still blocked on test keys in Vercel
+- [ ] TradeFlow "Send to TradeFlow" button (blocked on URL scheme from founder)
+- [ ] n8n workflow 16 (LLM Brief Builder) — still blocked on SMTP creds + manual activation
+- [ ] **Next run**: Check founder commits/PRs first. Run full `grep -rn "font-black" src/pages/` sweep to confirm no remaining multi-sentence body paragraphs. Check AccountPage free-tier copy (fear→proof→control). Check VerifyPage for any issues. Carryover blockers remain the main unlock.
+
 ## Today - 19 July 2026 (NightlyBuildAgent — Run 2)
 
 - [x] **Container state** — fresh container, `npm install`; HEAD at `beb80a5` (Run 1). Build GREEN, TS CLEAN.
