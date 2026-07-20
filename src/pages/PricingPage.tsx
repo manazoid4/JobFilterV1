@@ -14,7 +14,7 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter scans official UK planning approvals, contracts, and energy data for your trade and patch. You do not buy credits to bid against a queue of trades the way Checkatrade and Bark do.'],
+  ['Is this another job board?', 'No. JobFilter scans official UK planning applications, contracts, and energy data for your trade and patch. You do not buy credits to bid against a queue of trades the way Checkatrade and Bark do.'],
   ['Are leads shared?', 'No. Checkatrade, MyBuilder, and Bark sell the same enquiry to five trades. JobFilter does not — we check signal coverage and trade conflicts before activating your patch.'],
   ['What happens after I pay?', 'Create your account, confirm your email, enter your trade and postcode. We check your area has live signal coverage — then your patch activates. Takes minutes, not days.'],
   ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You see real scored leads in your area. Upgrade unlocks buyer details, best contact route, job value band, and WhatsApp delivery.'],

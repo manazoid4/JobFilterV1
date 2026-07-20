@@ -8,7 +8,7 @@ import { SampleLeadCard } from '../components/SampleLeadCard';
 const proofPoints = [
   'Planning applications, contracts, energy signals — not recycled enquiries',
   'Scored 0–100 by trade fit, location, freshness, and value',
-  'No shared auction — one trade per patch, not five bidding on the same job',
+  'No shared auction — your leads are not blasted to five competing trades',
   'Empty result is honest — we never invent jobs to fill your screen',
 ];
 
@@ -282,7 +282,7 @@ export function HomePage() {
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
               <div>
                 <p className="headline text-xl text-[var(--ink)]">You choose what is worth chasing</p>
-                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Check the score, value band, and source. Gold leads include buyer name and direct contact — unlocked at £39/mo. Free to scan, pay only when you want to call.</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Check the score, value band, and source. Gold leads include buyer details and best contact route — unlocked at £39/mo. Free to scan, pay only when you want to call.</p>
               </div>
             </div>
           </div>
