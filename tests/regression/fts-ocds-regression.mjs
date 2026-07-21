@@ -48,7 +48,7 @@ const fixedNow = new Date('2026-07-21T12:00:00Z');
   assert.equal(result.leads[0].rawDeadline, '2026-08-14T12:00:00Z');
   assert.equal(result.leads[0].rawStage, 'tender');
   assert.equal(result.leads[0].sourceUrl, 'https://www.find-tender.service.gov.uk/Notice/068859-2026');
-  assert.equal(result.stats.fetched, 5);
+  assert.equal(result.stats.fetched, 7);
   assert.equal(result.stats.failed, false);
 
   const normalised = normaliseAll(result.leads, 'electrical');
@@ -64,6 +64,14 @@ for (const [trade, expectedTitle] of [
 ]) {
   const result = await fetchFindATender(trade, { fetchImpl: fixtureFetch([]), useCache: false, now: fixedNow, maxPages: 2 });
   assert.ok(result.leads.some(lead => lead.rawTitle === expectedTitle), `${trade} CPV fixture maps through FTS`);
+}
+
+{
+  const result = await fetchFindATender('building', { fetchImpl: fixtureFetch([]), useCache: false, now: fixedNow, maxPages: 2 });
+  const titles = result.leads.map(lead => lead.rawTitle);
+  assert.ok(titles.includes('Community hall building refurbishment'), 'text fallback admits a legitimate no-CPV building notice');
+  assert.ok(!titles.includes('Care Board clinical maintenance services'), 'authoritative medical CPV blocks misleading building/maintenance text');
+  assert.ok(result.leads.every(lead => lead.rawCpvCodes?.length === 0 || lead.rawCpvCodes.some(code => code.startsWith('45'))), 'every classified building result has a construction-works CPV');
 }
 
 {

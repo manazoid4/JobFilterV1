@@ -29,7 +29,7 @@ const CPV_TRADE_PREFIXES: Record<string, string[]> = {
   plumbing: ['45330', '45331', '45332', '45333', '50720', '50730'],
   electrical: ['45310', '45311', '45312', '45315', '45316', '50710', '50711'],
   roofing: ['45260', '45261', '45262', '45263'],
-  building: ['45000', '45100', '45200', '45210', '45211', '45220', '45400', '45410', '45450'],
+  building: ['45'],
   carpentry: ['45420', '45421', '45422', '45423'],
   painting: ['45440', '45441', '45442'],
   hvac: ['45331', '45332', '50720', '50730'],
@@ -60,7 +60,11 @@ function uniqueStrings(values: unknown[]): string[] {
 function matchesTrade(title: string, description: string, cpvCodes: string[], trade: string): boolean {
   if (trade === 'all') return true;
   const prefixes = CPV_TRADE_PREFIXES[trade] ?? [];
-  if (prefixes.some(prefix => cpvCodes.some(code => code.startsWith(prefix)))) return true;
+  // CPV is the authoritative classification. Text is only a fallback for
+  // notices where the buyer supplied no CPV at tender, item, or lot level.
+  if (cpvCodes.length > 0) {
+    return prefixes.some(prefix => cpvCodes.some(code => code.startsWith(prefix)));
+  }
   return Boolean(TRADE_KEYWORDS[trade]?.test(`${title} ${description}`));
 }
 

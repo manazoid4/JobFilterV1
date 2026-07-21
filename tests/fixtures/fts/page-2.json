@@ -25,6 +25,21 @@
       "tag": ["tender"],
       "buyer": { "id": "GB-LA-101", "name": "Northshire Council" },
       "tender": { "title": "Electrical maintenance and testing framework", "description": "Duplicate release update that must not create a second opportunity.", "status": "active", "classification": { "scheme": "CPV", "id": "45310000" }, "tenderPeriod": { "endDate": "2026-08-14T12:00:00Z" } }
+    },
+    {
+      "ocid": "ocds-h6vhtk-068863",
+      "id": "068863-2026",
+      "date": "2026-07-21T10:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-PC-505", "name": "Example Parish Council" },
+      "tender": {
+        "title": "Community hall building refurbishment",
+        "description": "Repair and refurbishment of the hall fabric, doors and internal finishes.",
+        "status": "active",
+        "value": { "amount": 95000, "currency": "GBP" },
+        "tenderPeriod": { "endDate": "2026-09-01T12:00:00Z" },
+        "items": [{ "id": "1", "deliveryAddresses": [{ "locality": "York", "postalCode": "YO1 7AA" }] }]
+      }
     }
   ],
   "links": {}

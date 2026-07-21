@@ -42,7 +42,21 @@
       },
       "links": [{ "rel": "canonical", "href": "https://www.find-tender.service.gov.uk/Notice/068860-2026" }]
     },
-    { "ocid": "ocds-h6vhtk-malformed", "id": "malformed-2026", "date": "2026-07-20T11:00:00Z", "tag": ["tender"], "buyer": { "name": "Missing Tender Council" } }
+    { "ocid": "ocds-h6vhtk-malformed", "id": "malformed-2026", "date": "2026-07-20T11:00:00Z", "tag": ["tender"], "buyer": { "name": "Missing Tender Council" } },
+    {
+      "ocid": "ocds-h6vhtk-068862",
+      "id": "068862-2026",
+      "date": "2026-07-20T11:15:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-NHS-404", "name": "Example Integrated Care Board" },
+      "tender": {
+        "title": "Care Board clinical maintenance services",
+        "description": "Maintenance of gynaecology and community clinical pathways.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "85121210", "description": "Gynaecologic or obstetric services" },
+        "tenderPeriod": { "endDate": "2026-08-29T12:00:00Z" }
+      }
+    }
   ],
   "links": { "next": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages?updatedFrom=2026-06-21T00%3A00%3A00&updatedTo=2026-07-21T12%3A00%3A00&stages=tender&limit=100&cursor=page-2" }
 }
