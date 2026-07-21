@@ -14,7 +14,7 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Isn\'t this just another Checkatrade or Bark?', 'No. Checkatrade and Bark sell the same enquiry to 5 trades — you pay credits to compete in an auction you often lose. JobFilter reads verified UK sources: planning signals, energy data, council tenders. You see the opportunity first — no auction, no credit burn, not sold as a shared auction bid.'],
+  ['Isn\'t this just another Checkatrade or Bark?', 'No. Checkatrade charges a monthly membership plus per-lead fees — the same enquiry goes to 4–8 trades. Bark sells credits: spend them to unlock contact details that 3–5 other trades can also buy. JobFilter reads verified UK sources: planning signals, energy data, council tenders. No auction, no credits, not sold as a shared bid.'],
   ['Are leads shared with other tradespeople?', 'Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. Priority routing is a pilot and is only confirmed after a coverage and conflict check per patch.'],
   ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
   ['Can I scan before paying?', 'Yes — 3 free scans, no credit card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
