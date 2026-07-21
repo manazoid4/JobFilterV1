@@ -9,7 +9,7 @@ const proofPoints = [
   'No fake jobs — only verified UK signals',
   'Not Bark, not Checkatrade — no shared auction',
   '3 free scans every week — no credit card required',
-  'Empty result means no match — never a made-up lead',
+  'No results means no match in available sources — never a made-up lead',
 ];
 
 const signalRows = [
