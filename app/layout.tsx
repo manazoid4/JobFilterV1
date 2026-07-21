@@ -10,7 +10,7 @@ import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'UK Construction Intelligence | High-intent UK construction leads',
-  description: 'AI-filtered UK construction lead intelligence for trades who want better jobs with less chasing.',
+  description: 'JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth chasing for your trade and patch. No shared leads. No credit auction.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

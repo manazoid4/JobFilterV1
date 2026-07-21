@@ -7,14 +7,14 @@ import { useAuth } from './AuthProvider';
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/pricing', label: 'Pricing' },
+  { to: '/trust', label: 'Proof' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/signals', label: 'Signals' },
   { to: '/territories', label: 'Claim Patch' },
   { to: '/for-your-trade', label: 'Trades' },
-  { to: '/trust', label: 'Proof' },
+  { to: '/faq', label: 'FAQ' },
   { to: '/news', label: 'News' },
   { to: '/whats-new', label: "What's New" },
-  { to: '/faq', label: 'FAQ' },
 ];
 
 const memberLinks = [
@@ -39,10 +39,10 @@ export function TopNav() {
     : [
         { to: '/find-jobs', label: 'Find Jobs' },
         { to: '/pricing', label: 'Pricing' },
-        { to: '/signals', label: 'Signals' },
-        { to: '/for-your-trade', label: 'Trades' },
         { to: '/trust', label: 'Proof' },
-        { to: '/whats-new', label: "What's New" },
+        { to: '/free-tools', label: 'Free Tools' },
+        { to: '/signals', label: 'Signals' },
+        { to: '/territories', label: 'Claim Patch' },
         { to: '/faq', label: 'FAQ' },
       ];
 
