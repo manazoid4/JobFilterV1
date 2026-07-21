@@ -877,7 +877,7 @@ export function FindJobsPage() {
             </svg>
           </div>
           <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR PATCH HAS JOBS WORTH PRICING RIGHT NOW.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SCAN YOUR PATCH. SEE WHAT'S WORTH PRICING.</h2>
           <p className="mt-3 font-black text-white/70">
             Planning approvals, energy signals, and council tenders — ranked for your trade. Takes 10 seconds. No credit card required.
           </p>
