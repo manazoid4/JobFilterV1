@@ -6,7 +6,7 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Planning approvals, energy alerts, and council tenders — ranked for your trade',
+  'Planning signals, energy alerts, and council tenders — ranked for your trade',
   'Not Checkatrade. Not MyBuilder. Not Bark. No shared lead auctions.',
   'Free to scan 3 times a week — no credit card required',
   'Empty result means nothing was strong enough — no fallback list of old jobs',

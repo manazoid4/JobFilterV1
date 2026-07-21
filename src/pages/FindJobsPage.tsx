@@ -879,7 +879,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SCAN YOUR PATCH. SEE WHAT'S WORTH PRICING.</h2>
           <p className="mt-3 font-black text-white/70">
-            Planning approvals, energy signals, and council tenders — ranked for your trade. Takes 10 seconds. No credit card required.
+            Planning signals, energy alerts, and council tenders — ranked for your trade. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
