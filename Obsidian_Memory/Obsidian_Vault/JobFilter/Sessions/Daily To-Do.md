@@ -13,6 +13,7 @@ _Last updated: 2026-07-21 by NightlyBuildAgent (P2 fixes applied, commit 019ff44
 - [x] Founder plan CTA trust signal — 30-day money-back added directly below buy button
 - [x] Codex P1 — softened plan bullet + restored pilot qualifier (PricingPage)
 - [x] Codex P2 — neutral rewire label + teaser branch label lookup (FindJobsPage)
+- [x] Codex P3 — neutral action-scope labels (solar, ev charger, etc.) + qualify empty-scan copy (HomePage)
 
 ---
 

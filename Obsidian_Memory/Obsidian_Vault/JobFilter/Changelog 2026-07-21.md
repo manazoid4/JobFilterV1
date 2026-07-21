@@ -94,6 +94,23 @@ All Tier 1 features are now complete.
 
 ---
 
+## PHASE 6 — Codex P3 Fixes (commit 1aa86ee)
+
+**Files:** `src/pages/FindJobsPage.tsx`, `src/pages/HomePage.tsx`
+
+### P3 Finding 1 — Neutral action-scope labels (FindJobsPage line 912)
+Neutralized all INSTALL/UPGRADE/FIT labels where the scorer keyword does not separately evidence scope:
+- electrical: EV CHARGER WORK, CONSUMER UNIT WORK, FUSE BOARD WORK, FIRE ALARM WORK, RCD WORK, SOLAR PV WORK, SOLAR WORK, SMART HOME WORK, CCTV WORK
+- plumbing: BATHROOM WORK, WET ROOM WORK, SHOWER WORK
+- hvac: HEAT PUMP WORK, ASHP WORK, GSHP WORK
+- Labels where the action word appears in the keyword itself (electrical installation, gas installation, kitchen fitting, door hanging) are unchanged.
+
+### P3 Finding 2 — Qualify empty-scan proof point (HomePage line 12)
+- `'Empty result means no match — never a made-up lead'` → `'No results means no match in available sources — never a made-up lead'`
+- Reason: when providers fail, zero results do not mean "no matching opportunity exists" — qualified to cover source-failure scenarios.
+
+---
+
 ## Still Unresolved (from NEEDLE)
 
 - Issue 2: Trade preset tap produces silent failure on mobile — postcode-required error appears below fold. Needs: move error above preset grid. Medium priority.
