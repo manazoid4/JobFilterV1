@@ -41,6 +41,9 @@ jobs:
       - name: Lead quality regression
         run: npx tsx tests/regression/lead-engine-quality-regression.mjs
 
+      - name: Find a Tender OCDS regression
+        run: npm run test:fts
+
       - name: Production build
         run: npm run build
         env:

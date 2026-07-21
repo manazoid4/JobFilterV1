@@ -1,4 +1,4 @@
-export type SourceReadiness = 'live' | 'key-required' | 'partner-required' | 'council-specific' | 'research';
+export type SourceReadiness = 'live' | 'legacy' | 'experimental' | 'key-required' | 'partner-required' | 'council-specific' | 'research';
 
 export interface DataSourceDefinition {
   key: string;
@@ -14,11 +14,11 @@ export const DATA_SOURCE_REGISTRY: DataSourceDefinition[] = [
   {
     key: 'PlanningData',
     label: 'Planning Data API',
-    readiness: 'live',
+    readiness: 'experimental',
     signalClass: 'planning',
     endpoint: 'https://www.planning.data.gov.uk/entity.json',
-    advantage: 'Official England planning/housing datasets, including planning applications, brownfield land, listed buildings, conservation areas, Article 4, and constraints.',
-    legalMode: 'Official API. Prefer dataset and coordinate/postcode filters.',
+    advantage: 'Experimental England planning-data adapter; coverage and current planning-application semantics are not proven for the live customer journey.',
+    legalMode: 'Official API. Disabled by default until coverage and mapping are validated.',
   },
   {
     key: 'PlanAPI',
@@ -59,11 +59,11 @@ export const DATA_SOURCE_REGISTRY: DataSourceDefinition[] = [
   {
     key: 'ContractsFinder',
     label: 'Contracts Finder',
-    readiness: 'live',
+    readiness: 'legacy',
     signalClass: 'procurement',
     endpoint: 'https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search',
-    advantage: 'England public-sector tenders before smaller competitors check portals.',
-    legalMode: 'Official public procurement API.',
+    advantage: 'Pre-February-2025 notice history and transition backfill only; excluded from the current-notice scan.',
+    legalMode: 'Official legacy public procurement API. Do not use as the primary current feed.',
   },
   {
     key: 'FTS',
@@ -71,22 +71,22 @@ export const DATA_SOURCE_REGISTRY: DataSourceDefinition[] = [
     readiness: 'live',
     signalClass: 'procurement',
     endpoint: 'https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
-    advantage: 'Higher-value UK public procurement opportunities with OCDS releases.',
+    advantage: 'Primary current UK public procurement feed, filtered by trade, location evidence, buyer, stage, and deadline.',
     legalMode: 'Official public procurement API.',
   },
   {
     key: 'PublicContractsScotland',
     label: 'Public Contracts Scotland',
-    readiness: 'live',
+    readiness: 'experimental',
     signalClass: 'procurement',
     endpoint: 'https://api.publiccontractsscotland.gov.uk/v1/Notices',
-    advantage: 'Scottish tenders competitors miss if they only monitor England/Wales portals.',
-    legalMode: 'Official OCDS API.',
+    advantage: 'Experimental Scottish procurement adapter; not part of the primary current-notice journey.',
+    legalMode: 'Official OCDS API. Disabled until live coverage and mapping are verified.',
   },
   {
     key: 'Sell2Wales',
     label: 'Sell2Wales',
-    readiness: 'research',
+    readiness: 'experimental',
     signalClass: 'procurement',
     endpoint: 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases',
     advantage: 'Welsh public-sector works and maintenance tenders.',

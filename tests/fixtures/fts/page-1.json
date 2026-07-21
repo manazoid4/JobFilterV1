@@ -1,0 +1,48 @@
+{
+  "releases": [
+    {
+      "ocid": "ocds-h6vhtk-068859",
+      "id": "068859-2026",
+      "date": "2026-07-20T09:15:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-LA-101", "name": "Northshire Council" },
+      "parties": [{
+        "id": "GB-LA-101",
+        "name": "Northshire Council Procurement",
+        "roles": ["buyer"],
+        "address": { "streetAddress": "Civic House", "locality": "Leeds", "region": "UKD", "postalCode": "LS1 2AB", "countryName": "United Kingdom" },
+        "contactPoint": { "name": "Estates Procurement", "email": "estates@example.gov.uk", "telephone": "+44 113 000 0000" }
+      }],
+      "tender": {
+        "title": "Electrical maintenance and testing framework",
+        "description": "Inspection, testing, rewiring and responsive electrical maintenance across council buildings.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "45310000", "description": "Electrical installation work" },
+        "value": { "amount": 450000, "currency": "GBP" },
+        "tenderPeriod": { "endDate": "2026-08-14T12:00:00Z" },
+        "items": [{ "id": "1", "deliveryAddresses": [{ "locality": "Leeds", "region": "UKE42", "postalCode": "LS10 1AA", "countryName": "United Kingdom" }] }]
+      },
+      "links": [{ "rel": "canonical", "href": "https://www.find-tender.service.gov.uk/Notice/068859-2026" }]
+    },
+    {
+      "ocid": "ocds-h6vhtk-068860",
+      "id": "068860-2026",
+      "date": "2026-07-20T10:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-NHS-202", "name": "Westborough NHS Trust" },
+      "parties": [{ "id": "GB-NHS-202", "name": "Westborough NHS Trust", "roles": ["buyer"], "address": { "locality": "Birmingham", "postalCode": "B4 6AA" } }],
+      "tender": {
+        "title": "Building refurbishment works",
+        "description": "Phased refurbishment and minor construction works across an occupied healthcare estate.",
+        "status": "active",
+        "minValue": { "amount": 120000, "currency": "GBP" },
+        "maxValue": { "amount": 300000, "currency": "GBP" },
+        "tenderPeriod": { "endDate": "2026-08-20T12:00:00Z" },
+        "items": [{ "id": "1", "classification": { "scheme": "CPV", "id": "45453100" }, "deliveryLocation": { "description": "Birmingham hospital estate" } }]
+      },
+      "links": [{ "rel": "canonical", "href": "https://www.find-tender.service.gov.uk/Notice/068860-2026" }]
+    },
+    { "ocid": "ocds-h6vhtk-malformed", "id": "malformed-2026", "date": "2026-07-20T11:00:00Z", "tag": ["tender"], "buyer": { "name": "Missing Tender Council" } }
+  ],
+  "links": { "next": "https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages?updatedFrom=2026-06-21T00%3A00%3A00&updatedTo=2026-07-21T12%3A00%3A00&stages=tender&limit=100&cursor=page-2" }
+}

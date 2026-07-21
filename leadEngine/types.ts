@@ -74,6 +74,7 @@ export interface Lead {
   description?: string;
   publishedAt?: string;
   deadlineAt?: string;
+  procurementStage?: string;
   buyerName?: string;
   buyerPhone?: string;
   cpvCodes?: string[];
@@ -151,6 +152,7 @@ export interface RawLead {
   rawPostcode?: string;
   rawDeadline?: string;
   rawPublished?: string;
+  rawStage?: string;
   rawBuyer?: string;
   rawCpvCodes?: string[];
   rawContact?: { name?: string; phone?: string; email?: string };

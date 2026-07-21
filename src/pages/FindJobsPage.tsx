@@ -23,7 +23,7 @@ import { isOwnerEmail } from '../lib/ownerAccess';
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
 const SHOW_ADVANCED_TOOLS = false;
-const SHOW_FILL_MY_WEEK = true;
+const SHOW_FILL_MY_WEEK = false;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
@@ -426,7 +426,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer details locked. Scanning is always free — upgrade to see who to call.'}
+                : 'Buyer and submission context locked. Scanning remains free.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -448,7 +448,7 @@ export function FindJobsPage() {
           >
             <span className="block text-sm">All signals</span>
             <span className={`block text-xs ${scanMode === 'all' ? 'text-white/80' : 'text-[var(--muted)]'}`}>
-              Broad scan across planning, contracts, energy and property signals.
+              Experimental multi-source mode; hidden until each adapter is verified.
             </span>
           </button>
           <button
@@ -462,14 +462,14 @@ export function FindJobsPage() {
           >
             <span className="block text-sm">Works Starting Now</span>
             <span className={`block text-xs ${scanMode === 'start_now' ? 'text-[var(--ink)]/75' : 'text-[var(--muted)]'}`}>
-              Jobs starting this week or next — approved, active, or urgent.
+              Experimental timing mode; a tender deadline does not prove a start date.
             </span>
           </button>
         </div>}
 
         {scanMode === 'start_now' && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--yellow)] p-3 text-sm font-black text-[var(--ink)]">
-            Works Starting Now shows jobs with the strongest timing signals — planning approvals, building-control movement, energy upgrades, and business activity. Check the source link before contacting anyone.
+            Experimental timing view. It remains hidden because published procurement dates do not prove when work will start.
           </div>
         )}
 
@@ -566,12 +566,12 @@ export function FindJobsPage() {
       {result && result.count > 0 && (
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
-            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{scanMode === 'start_now' ? startReadyCount : planningCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">{scanMode === 'start_now' ? 'READY NOW' : 'PLANNING'}</p>
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{result.count}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">MATCHES</p>
           </div>
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
-            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">ENERGY</p>
+            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{goldCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">GOLD</p>
           </div>
           <div className="p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
@@ -699,13 +699,13 @@ export function FindJobsPage() {
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details in Full Access</p>
                       <p className="mt-1 text-sm font-black text-white/90">
-                        These {commercialCount} commercial job{commercialCount === 1 ? '' : 's'} in your area have real buyers. Upgrade to see who to call, what the job is worth, and the direct WhatsApp route. One job from this list covers 12+ months at £39.
+                        These {commercialCount} public opportunit{commercialCount === 1 ? 'y has' : 'ies have'} buyer evidence. Full access shows the buyer, published value where available, deadline and official response route. Other suppliers may pursue the same notice.
                       </p>
                       <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
-                        SEE WHO TO CALL — £39/MO →
+                        SEE BUYER & SUBMISSION CONTEXT →
                       </Link>
                       <p className="mt-1.5 text-xs font-black text-white/70">No credit card required to browse</p>
-                      <p className="mt-0.5 text-xs font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny.</p>
+                      <p className="mt-0.5 text-xs font-black text-[var(--yellow)]/80">PUBLIC NOTICE — ACCESS IS NOT EXCLUSIVE</p>
                     </div>
                   )}
                 </div>
@@ -718,11 +718,11 @@ export function FindJobsPage() {
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `This job: ${lead.estimatedValue}. ` : ''}See buyer name and contact to call before anyone else does.
+                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">30-day money-back · one job covers 12+ months</span>
+                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
                       </div>
                     </div>
                   )}
@@ -772,10 +772,10 @@ export function FindJobsPage() {
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">30-day money-back · No auction · Cancel anytime</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Average UK trade job: £800–£3,000. One job from this list covers 12+ months at £39. Buyer name, job value band, and direct contact available with Full Access from £39/mo. Not shared with Checkatrade, Bark, or any other trade.
+                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
                   </p>
                 </section>
               )}
@@ -801,7 +801,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--ink)]">QUIET WEEK? FIX IT.</p>
           <h2 className="headline mt-2 text-2xl leading-none sm:text-4xl text-[var(--ink)]">FILL MY WEEK</h2>
           <p className="mt-2 max-w-xl font-bold text-[var(--ink)]/70">
-              Doesn&apos;t use your scan allowance. Searches {Math.max(radiusMiles, 25)} miles — wider than your regular scan — across {scanMode === 'start_now' ? 'all active and imminent jobs' : 'planning approvals, energy upgrades, and public contracts'}. Auto-ranked for {titleCase(trade)}.
+              Experimental wider search. It remains hidden until its current-source behaviour and customer value are verified.
           </p>
           </div>
           <button
@@ -877,7 +877,7 @@ export function FindJobsPage() {
             </svg>
           </div>
           <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
           <p className="mt-3 font-black text-white/70">
             Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
           </p>
@@ -1258,7 +1258,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-xs font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">Public tender · access is not exclusive</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1331,7 +1331,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
               UNLOCK FULL LEAD →
             </Link>
-            <p className="text-center text-xs font-black text-[var(--muted)]">£39/mo · 30-day money-back guarantee</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">Public tender · access is not exclusive</p>
           </div>
         )}
         <QuickResponseKit
@@ -1553,9 +1553,9 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Members get WhatsApp alerts the moment a matching signal appears in their patch — no need to re-scan manually.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          GET WHATSAPP ALERTS — FROM £39/MO
+          CHECK ALERT CONFIGURATION & PRICING
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">

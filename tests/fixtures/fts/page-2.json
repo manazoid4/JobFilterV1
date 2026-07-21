@@ -1,0 +1,31 @@
+{
+  "releases": [
+    {
+      "ocid": "ocds-h6vhtk-068861",
+      "id": "068861-2026",
+      "date": "2026-07-21T08:30:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-HA-303", "name": "South Coast Housing Association" },
+      "parties": [{ "id": "GB-HA-303", "name": "South Coast Housing Association", "roles": ["buyer"], "address": { "locality": "Portsmouth", "region": "UKJ31", "postalCode": "PO1 1AA" }, "contactPoint": { "email": "procurement@example.org" } }],
+      "tender": {
+        "title": "Responsive roofing repairs",
+        "description": "Pitched and flat roof repairs, guttering and emergency make-safe works.",
+        "status": "active",
+        "value": { "amount": 220000, "currency": "GBP" },
+        "tenderPeriod": { "endDate": "2026-08-28T17:00:00Z" },
+        "lots": [{ "id": "1", "classification": { "scheme": "CPV", "id": "45261920" } }],
+        "items": [{ "id": "1", "deliveryAddresses": [{ "locality": "Portsmouth", "postalCode": "PO3 5AA" }] }]
+      },
+      "links": [{ "rel": "canonical", "href": "https://www.find-tender.service.gov.uk/Notice/068861-2026" }]
+    },
+    {
+      "ocid": "ocds-h6vhtk-068859",
+      "id": "068859-2026-update",
+      "date": "2026-07-21T09:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "GB-LA-101", "name": "Northshire Council" },
+      "tender": { "title": "Electrical maintenance and testing framework", "description": "Duplicate release update that must not create a second opportunity.", "status": "active", "classification": { "scheme": "CPV", "id": "45310000" }, "tenderPeriod": { "endDate": "2026-08-14T12:00:00Z" } }
+    }
+  ],
+  "links": {}
+}

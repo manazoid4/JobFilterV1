@@ -1,8 +1,8 @@
 # JobFilter
 
-REAL LEADS. NO CHASING. NO COMPETING. STAY IN CONTROL.
+CURRENT PUBLIC OPPORTUNITIES. CLEAR FIT. CLEAR NEXT ACTION.
 
-JobFilter is an intake system for UK tradesmen. The current production path uses live Contracts Finder public procurement notices for `/find-jobs`.
+JobFilter is a qualification layer for small UK construction and maintenance firms. The current `/find-jobs` procurement path uses Find a Tender OCDS releases and ranks public notices by trade, location evidence, stage, deadline, and buyer context. It does not sell exclusive access or promise an award.
 
 [Live product](https://jobfilter.uk) · [Test scenarios](docs/TEST_SCENARIOS.md)
 
@@ -14,6 +14,15 @@ JobFilter is an intake system for UK tradesmen. The current production path uses
 - Internal sample records are blocked from production, even if a runtime toggle is set incorrectly.
 - Planning, energy, company, paid checkout, and WhatsApp coverage depend on provider credentials and activation checks; they are not treated as live merely because code exists.
 - `/test`, `/test/intake`, `/dev-portal`, and `/api/status` are development-only surfaces and return 404 in production.
+
+### Source readiness
+
+| Readiness | Sources | Customer use |
+| --- | --- | --- |
+| Live/current | Find a Tender (FTS) OCDS release packages | Primary current-notice scan |
+| Legacy/backfill | Contracts Finder | Pre-February-2025 history/transition only; excluded from current scans |
+| Experimental | Planning Data, Public Contracts Scotland, Sell2Wales and other unproven adapters | Disabled by default and absent from primary promises |
+| Credential-required | EPC, Companies House, Stripe and WhatsApp | Only available after credentials, configuration and live verification |
 
 ## What this repository demonstrates
 
@@ -46,14 +55,14 @@ Key areas:
 
 ## Known limitations
 
-- A live-source audit across 42 valid trade/postcode scans currently produces no sellable result; source coverage must be proven before broad launch claims.
+- Source volume and trade/location fit vary with what buyers publish; an empty scan is a valid outcome.
 - EPC, Companies House, Stripe pricing, and WhatsApp delivery require provider credentials and live environment verification.
-- Priority territory routing is a pilot rule, not guaranteed exclusivity.
+- Public tenders may be pursued by other suppliers; territory routing must never be presented as exclusive notice access.
 - The current route surface is larger than the intended flagship journey and still needs product simplification.
 
 ## Environment Variables
 
-No API key is required for the live Contracts Finder search.
+No API key is required for the live Find a Tender search.
 
 Optional:
 
@@ -127,7 +136,7 @@ Response shape:
 ```json
 {
   "ok": true,
-  "source": "contracts_finder",
+  "source": "lead_engine",
   "count": 0,
   "region": "West Midlands",
   "outward": "B14",
@@ -189,11 +198,11 @@ Expected pattern:
 ```json
 {
   "ok": true,
-  "source": "contracts_finder",
+  "source": "lead_engine",
   "count": 1,
   "region": "West Midlands",
   "outward": "B14",
-  "leads": [{ "source": "Contracts Finder" }],
+  "leads": [{ "source": "FTS" }],
   "errors": []
 }
 ```
@@ -211,7 +220,7 @@ Expected pattern:
 ```json
 {
   "ok": true,
-  "source": "contracts_finder",
+  "source": "lead_engine",
   "count": 0,
   "region": "Northern Ireland",
   "outward": "BT1",
@@ -233,7 +242,7 @@ Expected pattern:
 ```json
 {
   "ok": false,
-  "source": "contracts_finder",
+  "source": "lead_engine",
   "count": 0,
   "region": "",
   "outward": "",
@@ -279,6 +288,7 @@ curl -s -X POST http://localhost:3000/api/intake/score \
 
 ```bash
 npm run lint
+npm run test:fts
 npm run build
 ```
 
@@ -293,6 +303,6 @@ Vercel requirements:
 ## Known Limitations
 
 - Radius is currently an intake preference, not a true geospatial distance filter.
-- Contracts Finder notices do not always include exact delivery postcodes or values.
-- Only Contracts Finder is live right now.
-- Next source to add: Planning Data from `planning.data.gov.uk`.
+- Find a Tender notices do not always include exact delivery postcodes, values, contact details, or eligibility evidence.
+- Contracts Finder is retained only for documented legacy/backfill use and is not queried by the current scanner.
+- Planning, EPC and other adapters stay outside the primary promise until live coverage and mappings are proven.

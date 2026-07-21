@@ -13,20 +13,20 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Sample' },
-  { source: 'Energy', signal: 'Low-energy rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Sample' },
-  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Sample' },
+  { source: 'FTS sample', signal: 'Electrical maintenance tender', trade: 'Electrical', value: 'Published value', score: 94, trend: 'up' as const, location: 'Leeds' },
+  { source: 'FTS sample', signal: 'Responsive roofing repairs', trade: 'Roofing', value: 'Published value', score: 87, trend: 'up' as const, location: 'Portsmouth' },
+  { source: 'FTS sample', signal: 'Building refurbishment works', trade: 'Building', value: 'Value range', score: 91, trend: 'up' as const, location: 'Birmingham' },
+  { source: 'FTS sample', signal: 'Heating maintenance framework', trade: 'HVAC', value: 'Check notice', score: 82, trend: 'down' as const, location: 'UK' },
 ];
 
 const territoryCards = [
-  ['B12 Roofing', 'FOUNDER RATE', '91'],
-  ['Birmingham Extensions', 'FOUNDER RATE', '88'],
-  ['Coventry Solar', 'FOUNDER RATE', '84'],
-  ['Manchester Bathrooms', 'FOUNDER RATE', '82'],
+  ['Trade and CPV fit', 'QUALIFICATION CHECK', '01'],
+  ['Delivery location', 'QUALIFICATION CHECK', '02'],
+  ['Deadline and stage', 'QUALIFICATION CHECK', '03'],
+  ['Bid or subcontract route', 'NEXT ACTION', '04'],
 ] as const;
 
-const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];
+const trustedCities = ['Find a Tender', 'Official buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Official source link'];
 
 function ScoreBadge({ score, trend }: { score: number; trend: 'up' | 'down' }) {
   const bg = score >= 90 ? 'bg-[var(--yellow)] text-[var(--ink)]' : score >= 80 ? 'bg-white text-[var(--ink)]' : 'bg-[var(--muted)]/15 text-[var(--muted)]';
@@ -74,13 +74,13 @@ export function HomePage() {
         {/* Floating signal bubbles */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
           <div className="absolute left-[8%] top-[18%] animate-[float_6s_ease-in-out_infinite] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Planning: B12
+            Source: FTS
           </div>
           <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Energy: Low
+            CPV: Matched
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
-            Extension: Approved
+            Deadline: Published
           </div>
           <div className="absolute right-[6%] bottom-[30%] animate-[float_8s_ease-in-out_infinite_2s] rounded-full border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--orange)]">
             Tender: Live
@@ -95,7 +95,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth checking for your trade and patch. No invented jobs. No recycled lead auction.
+              JobFilter scans current Find a Tender notices, removes weak matches, and ranks what is worth checking for your trade and patch. Every result remains a public opportunity that other suppliers may pursue.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -113,19 +113,19 @@ export function HomePage() {
                   How it works →
                 </Link>
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
-                  Claim Territory →
+                  Coverage & pricing →
                 </Link>
               </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Founder price locks forever while your plan stays active. 30-day money-back guarantee.
+              Scan the current feed before deciding whether the coverage fits your firm.
             </p>
           </div>
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
-              <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
+              <p className="micro-label text-[var(--yellow)]">ILLUSTRATIVE PUBLIC-TENDER FORMATS</p>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (
@@ -165,12 +165,12 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Founding 30 — one dominant trade partner per postcode cluster
+                Built for small construction and maintenance firms that can bid or subcontract
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">£39/mo locks forever while active</p>
+              <p className="text-sm font-black text-[var(--ink)]">Coverage checked before paid activation</p>
             </div>
           </div>
         </div>
@@ -179,7 +179,7 @@ export function HomePage() {
       {/* ── TRUSTED BY ────────────────────────────────── */}
       <section className="border-b-2 border-[var(--line)] bg-white">
         <div className="page-shell py-8 text-center">
-          <p className="micro-label text-[var(--muted)]">COVERING POSTCODES ACROSS THE UK</p>
+          <p className="micro-label text-[var(--muted)]">WHAT A CURRENT RESULT CAN PROVE</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             {trustedCities.map((city) => (
               <span key={city} className="border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-mono text-sm font-black uppercase text-[var(--ink)] shadow-[2px_2px_0_var(--yellow)]">
@@ -187,7 +187,7 @@ export function HomePage() {
               </span>
             ))}
           </div>
-          <p className="mt-4 text-sm font-bold text-[var(--muted)]">And 200+ postcodes across the UK</p>
+          <p className="mt-4 text-sm font-bold text-[var(--muted)]">UK-wide coverage depends on what buyers publish in the current Find a Tender feed.</p>
         </div>
       </section>
 
@@ -199,7 +199,7 @@ export function HomePage() {
               <p className="micro-label text-[var(--orange)]">FREE FOR EVERYONE — NO SIGNUP</p>
               <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">USEFUL BEFORE YOU PAY.</h2>
               <p className="mt-3 max-w-2xl text-base font-bold text-[var(--muted)]">
-                Quote-floor calculator. Tyre-kicker scorer. Profit check. Travel-cost and time-waster maths. Checkatrade and Bark charge for these. We give them away — leads are the paid part.
+                Quote-floor calculator, opportunity scorer, profit check, travel-cost and time-waster maths. Use them before deciding whether an opportunity deserves bid time.
               </p>
             </div>
             <Link className="jf-button bg-[var(--ink)] text-white shrink-0" href="/free-tools">
@@ -249,8 +249,8 @@ export function HomePage() {
               <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">strongest evidence ranked first</p>
             </div>
             <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">No auction</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">no credits burned against five bidders</p>
+              <p className="headline text-3xl text-[var(--ink)]">Public tender</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">other suppliers may bid; the source link stays visible</p>
             </div>
           </div>
         </div>
@@ -293,16 +293,16 @@ export function HomePage() {
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_460px] lg:items-center">
           <div>
-            <p className="micro-label text-[var(--ink)]">TERRITORY OWNERSHIP</p>
+            <p className="micro-label text-[var(--ink)]">OPPORTUNITY QUALIFICATION</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
+              SPEND BID TIME ON THE RIGHT OPPORTUNITIES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Priority routing by trade and postcode is being piloted. We check coverage and conflicts before activating a paid patch.
+              JobFilter checks trade, delivery location, deadline, stage, buyer evidence and the likely route to market. It does not promise an award or exclusive access.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
-                SEE OPEN TERRITORIES →
+                CHECK COVERAGE →
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
@@ -353,8 +353,8 @@ export function HomePage() {
               { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
               { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
               { icon: Radio, title: 'Source health', body: 'Live source results stay separate from sample data, with empty and partial coverage reported honestly.' },
-              { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
-              { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
+              { icon: Clock, title: 'Deadline context', body: 'Published deadlines and stages make the available response time visible.' },
+              { icon: CheckCircle, title: 'Next-action context', body: 'Review whether to bid, watch, decline, or approach a principal contractor.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
                 <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
@@ -375,9 +375,9 @@ export function HomePage() {
               <p className="text-sm font-black uppercase text-[var(--ink)]">Built in Birmingham — not a London startup guessing how trades work</p>
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-black uppercase text-[var(--muted)]">
-              <span>✓ WhatsApp-first</span>
-              <span>✓ No shared leads</span>
-              <span>✓ 30-day money-back</span>
+              <span>✓ Buyer and deadline context</span>
+              <span>✓ Official source links</span>
+              <span>✓ Coverage checked first</span>
             </div>
           </div>
         </div>
@@ -394,10 +394,10 @@ export function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--orange)]" />
-              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
+              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Coverage-first activation</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
-              ONE PATCH.<br />CLEAR EVIDENCE.<br />NO AUCTION.
+              ONE PATCH.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
             </h2>
             <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a job board. Not a credit auction. Opportunities are filtered by trade, patch, timing, and evidence before you decide what to chase.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
@@ -425,10 +425,10 @@ export function HomePage() {
               No credit auction. No fabricated live jobs. Patch activation follows a real coverage check.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CLAIM YOUR PATCH — £39/MO →
+              CHECK COVERAGE & PRICING →
             </Link>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
-              ✓ 30-DAY MONEY-BACK GUARANTEE — No job worth chasing? Full refund.
+              ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE
             </div>
             <p className="mt-3 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
               Not ready yet? Drop your email below.

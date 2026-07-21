@@ -11,7 +11,7 @@ export interface SourceConfigEntry {
   label: string;
   endpoint: string;
   signalClass: string;
-  readiness: 'live' | 'key-required' | 'partner-required' | 'research';
+  readiness: 'live' | 'legacy' | 'experimental' | 'key-required' | 'partner-required' | 'research';
   scoreBonus: number;
   defaultEnabled: boolean;
   apiKeyEnv?: string;
@@ -23,12 +23,12 @@ export interface SourceConfigEntry {
 // Runtime overrides are stored in the `source_config` Supabase table.
 // Adding a new source = add one entry here + write a fetcher + register it in scan.ts.
 export const SOURCE_REGISTRY: SourceConfigEntry[] = [
-  { key: 'ContractsFinder',         label: 'Contracts Finder',          endpoint: 'https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search', signalClass: 'procurement', readiness: 'live',             scoreBonus: 7,  defaultEnabled: true,  envToggle: 'SOURCE_CF' },
+  { key: 'ContractsFinder',         label: 'Contracts Finder',          endpoint: 'https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search', signalClass: 'procurement', readiness: 'legacy',           scoreBonus: 0,  defaultEnabled: false },
   { key: 'FTS',                     label: 'Find a Tender Service',     endpoint: 'https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',        signalClass: 'procurement', readiness: 'live',             scoreBonus: 7,  defaultEnabled: true,  envToggle: 'SOURCE_FTS' },
-  { key: 'PlanningData',            label: 'Planning Data API',         endpoint: 'https://www.planning.data.gov.uk/entity.json',                             signalClass: 'planning',    readiness: 'live',             scoreBonus: 7,  defaultEnabled: true,  envToggle: 'SOURCE_PLANNING_DATA' },
+  { key: 'PlanningData',            label: 'Planning Data API',         endpoint: 'https://www.planning.data.gov.uk/entity.json',                             signalClass: 'planning',    readiness: 'experimental',     scoreBonus: 7,  defaultEnabled: false, envToggle: 'SOURCE_PLANNING_DATA' },
   { key: 'CompaniesHouse',          label: 'Companies House',           endpoint: 'https://api.company-information.service.gov.uk',                           signalClass: 'business',    readiness: 'key-required',     scoreBonus: 3,  defaultEnabled: false, apiKeyEnv: 'COMPANIES_HOUSE_API_KEY', enabledInDemoMode: true },
-  { key: 'PublicContractsScotland', label: 'Public Contracts Scotland', endpoint: 'https://api.publiccontractsscotland.gov.uk/v1/Notices',                   signalClass: 'procurement', readiness: 'live',             scoreBonus: 7,  defaultEnabled: true,  envToggle: 'SOURCE_PCS' },
-  { key: 'Sell2Wales',              label: 'Sell2Wales',                endpoint: 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases',            signalClass: 'procurement', readiness: 'live',             scoreBonus: 7,  defaultEnabled: false, envToggle: 'SOURCE_S2W' },
+  { key: 'PublicContractsScotland', label: 'Public Contracts Scotland', endpoint: 'https://api.publiccontractsscotland.gov.uk/v1/Notices',                   signalClass: 'procurement', readiness: 'experimental',     scoreBonus: 7,  defaultEnabled: false, envToggle: 'SOURCE_PCS' },
+  { key: 'Sell2Wales',              label: 'Sell2Wales',                endpoint: 'https://www.sell2wales.gov.wales/search/api/OCDS/v1/Releases',            signalClass: 'procurement', readiness: 'experimental',     scoreBonus: 7,  defaultEnabled: false, envToggle: 'SOURCE_S2W' },
   { key: 'EPC',                     label: 'EPC Domestic Certificates', endpoint: 'https://epc.opendatacommunities.org/api/v1/domestic/search',              signalClass: 'retrofit',    readiness: 'key-required',     scoreBonus: 6,  defaultEnabled: true,  apiKeyEnv: 'EPC_API_KEY', envToggle: 'SOURCE_EPC' },
   { key: 'LandRegistry',            label: 'HM Land Registry',          endpoint: 'https://publishing.service.gov.uk/price-paid-data',                       signalClass: 'property',    readiness: 'live',             scoreBonus: 4,  defaultEnabled: false, enabledInDemoMode: true },
   { key: 'CharityCommission',       label: 'Charity Commission',        endpoint: 'https://register-of-charities.charitycommission.gov.uk',                  signalClass: 'business',    readiness: 'live',             scoreBonus: 3,  defaultEnabled: false, enabledInDemoMode: true },

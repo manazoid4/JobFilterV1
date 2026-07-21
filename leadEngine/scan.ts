@@ -3,7 +3,7 @@
  *
  * Pipeline:
  *  1. Resolve postcode → outward, region, lat/lon
- *  2. Run all sources in parallel (ContractsFinder, FTS, PlanningData, DirectorySignal)
+ *  2. Run enabled sources in parallel (FTS is the primary current procurement feed)
  *  3. Normalise raw leads
  *  4. Deduplicate by id
  *  5. Score and rank
@@ -36,7 +36,7 @@ import { extractOpportunityAtoms, whyThisIsAJob } from './opportunityAtoms';
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
   ...sourceRegistryEndpoints(),
   ContractsFinder: [
-    'GET  https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search',
+    'LEGACY/BACKFILL ONLY — excluded from the current-notice scan',
   ],
   FTS: [
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
@@ -117,9 +117,9 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 2. Run all sources concurrently — failures are caught internally
   const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult, ccResult, fcResult] = await Promise.allSettled([
-    isSourceEnabled('ContractsFinder') || isSourceEnabled('FTS')
+    isSourceEnabled('FTS')
       ? contractsFetcher(cleanTrade)
-      : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
+      : Promise.resolve(disabledSources(['FTS'])),
     isSourceEnabled('PlanningData')
       ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
       : Promise.resolve(disabledSources(['PlanningData'])),
@@ -165,7 +165,6 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   if (cfResult.status === 'fulfilled') {
     Object.assign(mergedStats, cfResult.value.stats);
   } else {
-    mergedStats['ContractsFinder'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'ContractsFinder settled as rejected' };
     mergedStats['FTS'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'FTS settled as rejected' };
   }
 

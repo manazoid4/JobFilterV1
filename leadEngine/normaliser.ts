@@ -204,6 +204,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     description: raw.rawDescription?.substring(0, 300) ?? '',
     publishedAt: published,
     deadlineAt: deadline,
+    procurementStage: raw.rawStage,
     buyerName: buyer,
     cpvCodes,
     isCommercial,
