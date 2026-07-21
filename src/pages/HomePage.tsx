@@ -6,10 +6,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official opportunity data ranked by evidence',
-  'Internal samples blocked from live scans',
-  'Paid details stay locked in the free preview',
-  'No verified match means an honest empty result',
+  'Planning approvals, energy alerts, and council tenders — ranked for your trade',
+  'Not Checkatrade. Not MyBuilder. Not Bark. No shared lead auctions.',
+  'Free to scan 3 times a week — no credit card required',
+  'Empty result means nothing was strong enough — no fallback list of old jobs',
 ];
 
 const signalRows = [
@@ -152,9 +152,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
-          <span>Scored by evidence, trade fit, location, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Verified planning, energy, and contract signals — not Checkatrade recycled enquiries</span>
+          <span>Scored by evidence, trade fit, location, and timing — strongest leads first</span>
+          <span>Empty scan = no strong match found — no filler jobs, no made-up results</span>
         </div>
       </section>
 

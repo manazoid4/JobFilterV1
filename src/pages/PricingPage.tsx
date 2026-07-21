@@ -6,18 +6,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'Gold-ranked opportunities — strongest verified evidence first',
+  'Planning signals, energy data, and council tenders — not recycled Checkatrade or Bark enquiries',
   'Buyer context before you call — job type, value band, and best contact route',
   'Job value band before you quote — know if it\'s worth your time',
-  'Patch-first filtering — paid activation follows a coverage check',
+  'No shared auction — Gold leads controlled by trade, patch, and timing. No five-trade blast.',
   'Win tracker — log wins, track ROI, see what\'s converting in your area',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
-  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
+  ['Isn\'t this just another Checkatrade or Bark?', 'No. Checkatrade and Bark sell the same enquiry to 5 trades — you pay credits to compete in an auction you often lose. JobFilter reads verified UK sources: planning approvals, energy signals, council tenders. You see the opportunity first, no auction, no credit burn, not shared with MyBuilder or anyone else.'],
+  ['Are leads shared with other tradespeople?', 'Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. Priority routing is a pilot and is only confirmed after a coverage and conflict check per patch.'],
   ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans, no credit card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
