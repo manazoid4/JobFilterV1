@@ -904,7 +904,7 @@ export function FindJobsPage() {
 const TRADE_KEYWORD_LABELS: Record<string, Record<string, string>> = {
   electrical: {
     'ev charger': 'EV CHARGER INSTALL', 'electric vehicle': 'EV CHARGER INSTALL',
-    'rewire': 'FULL REWIRE', 'rewiring': 'FULL REWIRE',
+    'rewire': 'REWIRING WORK', 'rewiring': 'REWIRING WORK',
     'consumer unit': 'CONSUMER UNIT UPGRADE', 'fuse board': 'FUSE BOARD UPGRADE',
     'eicr': 'EICR CERT', 'pat test': 'PAT TESTING',
     'fire alarm': 'FIRE ALARM INSTALL', 'rcd': 'RCD UPGRADE',
@@ -1005,7 +1005,9 @@ function parseTradeReasons(raw: string[], trade?: string): Array<{ label: string
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      const kLower = tradeTeaser[1].toLowerCase().trim();
+      const label = tradeLabels[kLower] ?? tradeTeaser[1].toUpperCase();
+      out.push({ label, highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
