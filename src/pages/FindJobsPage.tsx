@@ -404,7 +404,10 @@ export function FindJobsPage() {
   const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
-  const contractCount = result?.leads.filter(l => l.source?.toLowerCase().includes('contract') || l.source?.toLowerCase().includes('companies')).length ?? 0;
+  const contractCount = result?.leads.filter(l => {
+    const source = l.source?.toLowerCase() ?? '';
+    return source.includes('contract') || source.includes('companies') || source === 'fts' || source === 'pcs' || source.includes('sell2wales');
+  }).length ?? 0;
   const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
   const bestSource = getBestSource(result?.sources);
   const sourceMix = getSourceMix(result?.sources);

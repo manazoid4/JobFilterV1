@@ -104,6 +104,15 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
     const started = Date.now();
+    const requestAbort = new AbortController();
+    const abortOnDisconnect = () => {
+      if (!res.writableEnded && !requestAbort.signal.aborted) {
+        requestAbort.abort(new Error('client disconnected'));
+      }
+    };
+    req.once('aborted', abortOnDisconnect);
+    res.once('close', abortOnDisconnect);
+
     try {
       const postcode = parseUkPostcode(req.body?.postcode);
       const trade = sanitizeTrade(req.body?.trade);
@@ -111,7 +120,7 @@ export function registerLeadSearchRoute(app: Express) {
 
       const queryStartedAt = new Date(started).toISOString();
       const [result, accessCtx] = await Promise.all([
-        scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles }),
+        scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles, signal: requestAbort.signal }),
         resolveAccessContext(req),
       ]);
       const queryFinishedAt = new Date().toISOString();
@@ -169,6 +178,9 @@ export function registerLeadSearchRoute(app: Express) {
         leads: [],
         errors: [message === 'This operation was aborted' ? 'lead engine request timed out' : message],
       });
+    } finally {
+      req.off('aborted', abortOnDisconnect);
+      res.off('close', abortOnDisconnect);
     }
   });
 }

@@ -35,6 +35,9 @@ jobs:
       - name: Postcode regression
         run: npx tsx tests/regression/postcode-filter-regression.mjs
 
+      - name: Source readiness regression
+        run: node tests/regression/lead-engine-source-config-regression.mjs
+
       - name: Free scanner redaction regression
         run: node tests/regression/free-scanner-redaction-regression.mjs
 

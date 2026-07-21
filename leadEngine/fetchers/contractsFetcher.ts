@@ -73,13 +73,33 @@ function combineSignal(signal?: AbortSignal): AbortSignal {
   return signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal;
 }
 
+function waitForRetry(milliseconds: number, signal?: AbortSignal): Promise<void> {
+  if (milliseconds <= 0) return Promise.resolve();
+  if (signal?.aborted) return Promise.reject(signal.reason ?? new Error('request aborted'));
+
+  return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout>;
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal?.reason ?? new Error('request aborted'));
+    };
+    timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    }, milliseconds);
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
 async function fetchWithTimeout(
   url: string,
   fetchImpl: FetchLike,
   signal?: AbortSignal,
 ): Promise<Response> {
   let lastError: unknown;
-  const attempts = Math.max(1, CONFIG.retryAttempts);
+  // CONFIG describes retries after the initial request.
+  const attempts = Math.max(1, CONFIG.retryAttempts + 1);
+  const retryableStatuses = new Set([429, 502, 503, 504]);
 
   for (let attempt = 0; attempt < attempts; attempt++) {
     try {
@@ -93,9 +113,9 @@ async function fetchWithTimeout(
         signal: requestSignal,
       });
 
-      if (response.status !== 429 || attempt === attempts - 1) return response;
+      if (!retryableStatuses.has(response.status) || attempt === attempts - 1) return response;
       const retryAfterSeconds = Math.min(5, Math.max(0, Number(response.headers.get('Retry-After') ?? 1)));
-      await new Promise(resolve => setTimeout(resolve, retryAfterSeconds * 1000));
+      await waitForRetry(retryAfterSeconds * 1000, signal);
     } catch (error) {
       lastError = error;
       if (signal?.aborted || attempt === attempts - 1) throw error;
@@ -111,10 +131,16 @@ async function fetchJsonPackage(
   signal: AbortSignal | undefined,
   useCache: boolean,
 ): Promise<any> {
+  signal?.throwIfAborted();
+  const now = Date.now();
+  for (const [key, entry] of packageCache) {
+    if (entry.expiresAt <= now) packageCache.delete(key);
+  }
+
   if (useCache) {
     const cached = packageCache.get(url);
     if (cached && cached.expiresAt > Date.now()) return cached.payload;
-    const existing = packageInflight.get(url);
+    const existing = signal ? undefined : packageInflight.get(url);
     if (existing) return existing;
   }
 
@@ -129,11 +155,11 @@ async function fetchJsonPackage(
     return payload;
   })();
 
-  if (useCache) packageInflight.set(url, request);
+  if (useCache && !signal) packageInflight.set(url, request);
   try {
     return await request;
   } finally {
-    if (useCache) packageInflight.delete(url);
+    if (useCache && !signal) packageInflight.delete(url);
   }
 }
 
@@ -150,10 +176,34 @@ function officialNextUrl(value: unknown): string | undefined {
 }
 
 function classificationIds(container: any): unknown[] {
-  return [
-    container?.classification?.id,
-    ...asArray(container?.additionalClassifications).map((classification: any) => classification?.id),
-  ];
+  return [container?.classification, ...asArray(container?.additionalClassifications)]
+    .filter((classification: any) => String(classification?.scheme ?? '').toUpperCase() === 'CPV')
+    .map((classification: any) => classification?.id);
+}
+
+function releaseTimestamp(release: any): number {
+  const timestamp = Date.parse(String(release?.date ?? ''));
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
+
+function mergeReleaseAmendment(older: any, newer: any): any {
+  const olderTender = older?.tender ?? {};
+  const newerTender = newer?.tender ?? {};
+  return {
+    ...older,
+    ...newer,
+    buyer: newer?.buyer ?? older?.buyer,
+    parties: newer?.parties ?? older?.parties,
+    links: newer?.links ?? older?.links,
+    tender: {
+      ...olderTender,
+      ...newerTender,
+      tenderPeriod: {
+        ...(olderTender?.tenderPeriod ?? {}),
+        ...(newerTender?.tenderPeriod ?? {}),
+      },
+    },
+  };
 }
 
 function locationLabel(address: any): string {
@@ -168,7 +218,7 @@ function locationLabel(address: any): string {
 }
 
 /** Map one realistic FTS OCDS release into the shared raw-lead contract. */
-export function mapFindATenderRelease(release: any, trade: string): RawLead | null {
+export function mapFindATenderRelease(release: any, trade: string, now = new Date()): RawLead | null {
   if (!release || typeof release !== 'object' || !release.tender || typeof release.tender !== 'object') return null;
 
   const tender = release.tender;
@@ -178,6 +228,13 @@ export function mapFindATenderRelease(release: any, trade: string): RawLead | nu
   const title = String(tender.title ?? '').trim();
   const description = String(tender.description ?? '').trim();
   if (title.length < 4) return null;
+
+  const deadline = String(tender?.tenderPeriod?.endDate ?? '').trim();
+  const deadlineTimestamp = Date.parse(deadline);
+  if (Number.isFinite(deadlineTimestamp)) {
+    const deadlineDays = (deadlineTimestamp - now.getTime()) / 86_400_000;
+    if (deadlineDays < CONFIG.minDeadlineDaysFromNow || deadlineDays > CONFIG.maxDeadlineDaysFromNow) return null;
+  }
 
   const items = asArray<any>(tender.items);
   const lots = asArray<any>(tender.lots);
@@ -208,7 +265,7 @@ export function mapFindATenderRelease(release: any, trade: string): RawLead | nu
     ...asArray<any>(tender.deliveryLocation),
   ];
   const locations = [...deliveryAddresses, ...tenderLocations];
-  const location = uniqueStrings(locations.map(locationLabel)).join('; ') || locationLabel(buyerAddress);
+  const location = uniqueStrings(locations.map(locationLabel)).join('; ') || 'United Kingdom';
   const deliveryPostcode = locations.map(address => String(address?.postalCode ?? '').trim()).find(Boolean);
 
   const amount = Number(tender?.value?.amount);
@@ -228,8 +285,10 @@ export function mapFindATenderRelease(release: any, trade: string): RawLead | nu
     rawValueMin: Number.isFinite(minAmount) && minAmount > 0 ? minAmount : undefined,
     rawValueMax: Number.isFinite(maxAmount) && maxAmount > 0 ? maxAmount : undefined,
     rawLocation: location,
-    rawPostcode: deliveryPostcode || String(buyerAddress?.postalCode ?? '').trim(),
-    rawDeadline: String(tender?.tenderPeriod?.endDate ?? '').trim(),
+    // Buyer headquarters are not proof of where work will be delivered.
+    // Keep radius filtering tied to an explicit delivery postcode only.
+    rawPostcode: deliveryPostcode || '',
+    rawDeadline: deadline,
     rawPublished: String(release.date ?? '').trim(),
     rawBuyer: String(buyerParty?.name ?? buyerReference?.name ?? tender?.procuringEntity?.name ?? '').trim(),
     rawCpvCodes: cpvCodes,
@@ -253,15 +312,17 @@ export async function fetchFindATender(
   const maxPages = Math.min(FTS_MAX_PAGES, Math.max(1, options.maxPages ?? FTS_MAX_PAGES));
   const fetchImpl = options.fetchImpl ?? globalThis.fetch;
   const useCache = options.useCache ?? options.fetchImpl == null;
-  const since = new Date(now.getTime() - CONFIG.lookbackDays * 86_400_000).toISOString().substring(0, 19);
+  const cacheWindowNow = new Date(Math.floor(now.getTime() / PACKAGE_CACHE_TTL_MS) * PACKAGE_CACHE_TTL_MS);
+  const since = new Date(cacheWindowNow.getTime() - CONFIG.lookbackDays * 86_400_000).toISOString().substring(0, 19);
   const params = new URLSearchParams({ updatedFrom: since, stages: 'tender', limit: '100' });
 
   let nextUrl: string | undefined = `${FTS_BASE}?${params}`;
   const visitedUrls = new Set<string>();
-  const seenReleaseIds = new Set<string>();
+  const latestReleaseByOcid = new Map<string, any>();
   const leads: RawLead[] = [];
   let fetched = 0;
   let dropped = 0;
+  let fetchError: string | undefined;
 
   try {
     for (let page = 0; page < maxPages && nextUrl; page++) {
@@ -274,32 +335,46 @@ export async function fetchFindATender(
 
       for (const release of releases) {
         const releaseId = String(release?.ocid ?? release?.id ?? '').trim();
-        if (!releaseId || seenReleaseIds.has(releaseId)) {
+        if (!releaseId) {
           dropped++;
           continue;
         }
-        seenReleaseIds.add(releaseId);
-        const mapped = mapFindATenderRelease(release, trade);
-        if (mapped) leads.push(mapped);
-        else dropped++;
+        const existing = latestReleaseByOcid.get(releaseId);
+        if (!existing) {
+          latestReleaseByOcid.set(releaseId, release);
+          continue;
+        }
+
+        dropped++;
+        const [older, newer] = releaseTimestamp(release) >= releaseTimestamp(existing)
+          ? [existing, release]
+          : [release, existing];
+        latestReleaseByOcid.set(releaseId, mergeReleaseAmendment(older, newer));
       }
 
       nextUrl = officialNextUrl(pkg?.links?.next);
     }
 
-    return { leads, stats: { fetched, passed: leads.length, dropped, failed: false } };
   } catch (error: any) {
-    return {
-      leads,
-      stats: {
-        fetched,
-        passed: leads.length,
-        dropped,
-        failed: true,
-        error: String(error?.message ?? error),
-      },
-    };
+    fetchError = String(error?.message ?? error);
   }
+
+  for (const release of latestReleaseByOcid.values()) {
+    const mapped = mapFindATenderRelease(release, trade, now);
+    if (mapped) leads.push(mapped);
+    else dropped++;
+  }
+
+  return {
+    leads,
+    stats: {
+      fetched,
+      passed: leads.length,
+      dropped,
+      failed: Boolean(fetchError),
+      error: fetchError,
+    },
+  };
 }
 
 export async function contractsFetcher(

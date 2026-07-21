@@ -302,7 +302,7 @@ Vercel requirements:
 
 ## Known Limitations
 
-- Radius is currently an intake preference, not a true geospatial distance filter.
 - Find a Tender notices do not always include exact delivery postcodes, values, contact details, or eligibility evidence.
+- Radius filtering uses delivery-postcode centroids and fails closed when a notice does not provide enough delivery evidence.
 - Contracts Finder is retained only for documented legacy/backfill use and is not queried by the current scanner.
 - Planning, EPC and other adapters stay outside the primary promise until live coverage and mappings are proven.

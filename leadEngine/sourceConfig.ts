@@ -91,17 +91,19 @@ export function isSourceEnabled(key: string): boolean {
     return false;
   }
 
-  const override = _overrideCache?.[key];
-  if (override !== undefined) return override.enabled;
   const entry = staticEntry(key);
   if (!entry) return false;
+  const hasRequiredKey = (!entry.apiKeyEnv || Boolean(process.env[entry.apiKeyEnv]))
+    && (key !== 'EPC' || Boolean(process.env.EPC_EMAIL));
+  const override = _overrideCache?.[key];
+  if (override !== undefined) return override.enabled && hasRequiredKey;
   if (entry.enabledInDemoMode && process.env.DEMO_MODE === 'true') return true;
   if (entry.envToggle) {
     const val = process.env[entry.envToggle];
     if (val === 'false') return false;
-    if (val === 'true') return true;
+    if (val === 'true') return hasRequiredKey;
   }
-  if (entry.apiKeyEnv && process.env[entry.apiKeyEnv]) return true;
+  if (entry.apiKeyEnv) return hasRequiredKey;
   return entry.defaultEnabled;
 }
 
