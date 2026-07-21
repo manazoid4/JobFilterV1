@@ -1,16 +1,18 @@
 # JobFilter Daily To-Do
 
-_Last updated: 2026-07-21 by NightlyBuildAgent_
+_Last updated: 2026-07-21 by NightlyBuildAgent (P2 fixes applied, commit 019ff44)_
 
 ---
 
-## COMPLETED THIS RUN (2026-07-21)
+## COMPLETED THIS RUN (2026-07-21) — including P2 Codex fixes
 
 - [x] Trade-specific scoring UX — `TRADE_KEYWORD_LABELS` map, 80+ entries, 8 trades wired through `LeadResultCard`
 - [x] PricingPage copy — hero headline, plan bullets, competitor callout in Q&A, trust signal below CTA
 - [x] HomePage copy — proof points rewritten, competitor named, "no credit card required" added
 - [x] Inline paywall trust text — changed from invisible `text-white/50` to yellow full-opacity
 - [x] Founder plan CTA trust signal — 30-day money-back added directly below buy button
+- [x] Codex P1 — softened plan bullet + restored pilot qualifier (PricingPage)
+- [x] Codex P2 — neutral rewire label + teaser branch label lookup (FindJobsPage)
 
 ---
 

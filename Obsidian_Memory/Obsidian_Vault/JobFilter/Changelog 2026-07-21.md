@@ -79,6 +79,21 @@ All Tier 1 features are now complete.
 
 ---
 
+## PHASE 5 — Codex P2 Fixes (commit 019ff44)
+
+**File:** `src/pages/FindJobsPage.tsx`
+
+### P2 Finding 1 — Neutral rewire label (line 907)
+- `'rewire': 'FULL REWIRE'` → `'rewire': 'REWIRING WORK'`
+- `'rewiring': 'FULL REWIRE'` → `'rewiring': 'REWIRING WORK'`
+- Reason: scorer matches `rewire` as a substring; scope (full/partial/remedial) is not evidenced — "FULL REWIRE" fabricated scope for inputs like a partial kitchen rewire.
+
+### P2 Finding 2 — Trade teaser branch label lookup (line ~1006)
+- `tradeTeaser` branch now applies `tradeLabels[kLower]` lookup before falling back to `.toUpperCase()`
+- Free-tier users previously received raw uppercased keywords; now receive the same trade-specific labels as paid users where a match exists.
+
+---
+
 ## Still Unresolved (from NEEDLE)
 
 - Issue 2: Trade preset tap produces silent failure on mobile — postcode-required error appears below fold. Needs: move error above preset grid. Medium priority.
