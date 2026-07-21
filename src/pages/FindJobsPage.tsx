@@ -713,7 +713,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -722,7 +722,7 @@ export function FindJobsPage() {
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">30-day money-back · one job covers 12+ months</span>
+                        <span className="text-xs font-black text-[var(--yellow)]">30-day money-back — one job worth chasing or we refund every penny</span>
                       </div>
                     </div>
                   )}
@@ -848,7 +848,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
             ))}
           </div>
         )}
@@ -901,12 +901,106 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORD_LABELS: Record<string, Record<string, string>> = {
+  electrical: {
+    'ev charger': 'EV CHARGER INSTALL', 'electric vehicle': 'EV CHARGER INSTALL',
+    'rewire': 'FULL REWIRE', 'rewiring': 'FULL REWIRE',
+    'consumer unit': 'CONSUMER UNIT UPGRADE', 'fuse board': 'FUSE BOARD UPGRADE',
+    'eicr': 'EICR CERT', 'pat test': 'PAT TESTING',
+    'fire alarm': 'FIRE ALARM INSTALL', 'rcd': 'RCD UPGRADE',
+    'solar pv': 'SOLAR PV INSTALL', 'battery storage': 'BATTERY STORAGE',
+    'solar': 'SOLAR INSTALL', 'lighting': 'LIGHTING WORK',
+    'smart home': 'SMART HOME INSTALL', 'cctv': 'CCTV INSTALL',
+    'security system': 'SECURITY SYSTEM', 'data cabling': 'DATA CABLING',
+    'electrical installation': 'ELECTRICAL INSTALL', 'wiring': 'WIRING JOB',
+    'switchgear': 'SWITCHGEAR', 'electrical': 'ELECTRICAL WORK',
+  },
+  plumbing: {
+    'boiler': 'BOILER JOB', 'combi': 'COMBI BOILER',
+    'bathroom': 'BATHROOM FIT', 'wet room': 'WET ROOM INSTALL',
+    'heating': 'HEATING SYSTEM', 'central heating': 'CENTRAL HEATING',
+    'hot water': 'HOT WATER SYSTEM', 'unvented': 'UNVENTED CYLINDER',
+    'heat exchanger': 'HEAT EXCHANGER', 'pipework': 'PIPEWORK',
+    'radiator': 'RADIATOR WORK', 'gas safe': 'GAS SAFE JOB',
+    'gas engineer': 'GAS ENGINEER', 'gas installation': 'GAS INSTALL',
+    'pressurised': 'PRESSURISED SYSTEM', 'shower': 'SHOWER INSTALL',
+    'drain': 'DRAINAGE', 'sanitary': 'SANITARY WORK',
+    'immersion': 'IMMERSION HEATER', 'cylinder': 'HOT WATER CYLINDER',
+  },
+  roofing: {
+    'roof': 'ROOFING WORK', 'roofing': 'ROOFING JOB',
+    're-roof': 'FULL RE-ROOF', 'flat roof': 'FLAT ROOF',
+    'velux': 'VELUX WINDOW', 'slate': 'SLATE ROOF',
+    'tile roof': 'TILE ROOF', 'gutter': 'GUTTERING',
+    'fascia': 'FASCIA BOARD', 'soffit': 'SOFFIT REPAIR',
+    'cladding': 'CLADDING', 'felt roof': 'FELT ROOF',
+    'epdm': 'EPDM ROOF', 'lead flashing': 'LEAD FLASHING',
+    'ridge': 'RIDGE TILE', 'chimney': 'CHIMNEY WORK',
+    'dormer': 'DORMER', 'loft': 'LOFT ROOF',
+  },
+  building: {
+    'extension': 'EXTENSION', 'new build': 'NEW BUILD',
+    'loft conversion': 'LOFT CONVERSION', 'garage': 'GARAGE JOB',
+    'structural': 'STRUCTURAL WORK', 'building work': 'BUILDING WORK',
+    'construction': 'CONSTRUCTION', 'refurbishment': 'REFURB',
+    'renovation': 'RENOVATION', 'groundwork': 'GROUNDWORK',
+    'foundation': 'FOUNDATIONS', 'underpinning': 'UNDERPINNING',
+    'block work': 'BLOCK WORK', 'brickwork': 'BRICKWORK',
+    'basement': 'BASEMENT CONVERSION', 'knock through': 'KNOCK THROUGH',
+    'steel beam': 'STEEL BEAM', 'garage conversion': 'GARAGE CONVERSION',
+  },
+  hvac: {
+    'heat pump': 'HEAT PUMP INSTALL', 'air source': 'AIR SOURCE HP',
+    'ashp': 'ASHP INSTALL', 'gshp': 'GSHP INSTALL',
+    'ground source': 'GROUND SOURCE HP', 'air conditioning': 'AIR CON',
+    'ventilation': 'VENTILATION', 'hvac': 'HVAC SYSTEM',
+    'ductwork': 'DUCTWORK', 'mvhr': 'MVHR SYSTEM',
+    'extractor': 'EXTRACT FAN', 'underfloor heating': 'UFH SYSTEM',
+    'refrigeration': 'REFRIGERATION', 'vrf': 'VRF SYSTEM',
+    'mechanical': 'MECH SERVICES',
+  },
+  carpentry: {
+    'staircase': 'STAIRCASE', 'bespoke': 'BESPOKE JOINERY',
+    'fitted wardrob': 'FITTED WARDROBES', 'kitchen fitting': 'KITCHEN FIT',
+    'door hanging': 'DOOR HANGING', 'skirting': 'SKIRTING BOARDS',
+    'wood floor': 'WOOD FLOOR', 'hardwood floor': 'HARDWOOD FLOOR',
+    'engineered floor': 'ENGINEERED FLOOR', 'decking': 'DECKING',
+    'fencing': 'FENCING', 'shelving': 'SHELVING',
+    'carpentry': 'CARPENTRY JOB', 'joinery': 'JOINERY',
+    'timber frame': 'TIMBER FRAME', 'architrave': 'ARCHITRAVE',
+  },
+  painting: {
+    'paint': 'PAINTING JOB', 'decorat': 'DECORATING',
+    'plaster': 'PLASTERING', 'render': 'RENDERING',
+    'wallpaper': 'WALLPAPERING', 'exterior paint': 'EXTERIOR PAINT',
+    'tiling': 'TILING JOB', 'tile': 'TILING',
+    'skimming': 'SKIM COAT', 'skim coat': 'SKIM COAT',
+    'coving': 'COVING', 'floor tile': 'FLOOR TILING',
+    'wall tile': 'WALL TILING', 'emulsion': 'EMULSION PAINT',
+  },
+  landscaping: {
+    'landscape': 'LANDSCAPING', 'grounds': 'GROUNDS WORK',
+    'garden': 'GARDEN JOB', 'paving': 'PAVING',
+    'decking': 'DECKING', 'fencing': 'FENCING',
+    'turf': 'TURF LAYING', 'retaining wall': 'RETAINING WALL',
+    'patio': 'PATIO', 'driveway': 'DRIVEWAY',
+    'block paving': 'BLOCK PAVING', 'resin driveway': 'RESIN DRIVEWAY',
+    'tree': 'TREE WORK', 'hedge': 'HEDGE TRIM',
+    'drainage': 'DRAINAGE', 'irrigation': 'IRRIGATION',
+  },
+};
+
+function parseTradeReasons(raw: string[], trade?: string): Array<{ label: string; highlight: boolean }> {
+  const tradeLabels = trade ? (TRADE_KEYWORD_LABELS[trade] ?? {}) : {};
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim()).slice(0, 3).forEach(k => {
+        const kLower = k.toLowerCase();
+        const label = tradeLabels[kLower] ?? k.toUpperCase();
+        out.push({ label: `${label} — YOUR TRADE`, highlight: true });
+      });
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -1126,9 +1220,10 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, trade: userTrade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; trade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const activeTrade = userTrade ?? String(lead.trade ?? lead.tradeMatch ?? '');
+  const parsedReasons = parseTradeReasons(rawReasons, activeTrade);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);

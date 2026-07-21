@@ -6,18 +6,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'Gold-ranked opportunities — strongest verified evidence first',
+  'Real jobs worth pricing — no tyre-kickers, no recycled enquiries',
   'Buyer context before you call — job type, value band, and best contact route',
-  'Job value band before you quote — know if it\'s worth your time',
-  'Patch-first filtering — paid activation follows a coverage check',
-  'Win tracker — log wins, track ROI, see what\'s converting in your area',
+  'Know if it\'s worth your time before you drive there — job value band included',
+  'Your patch, your leads — no shared auction, no five-trade blast',
+  'Win tracker — log jobs won, see your ROI, track what\'s converting near you',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
-  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Is this another job board?', 'No. JobFilter filters official verified signals for your trade and patch. You do not buy credits or bid against a queue of trades — no Bark-style auction, no Checkatrade race to the bottom.'],
+  ['Are leads shared with other trades?', 'No. JobFilter is not a shared-enquiry auction. Not shared with Checkatrade, Bark, MyBuilder, or any other lead platform. Priority routing is controlled by patch — one dominant trade per postcode cluster.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation. No hidden setup fees.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, direct contact route, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
@@ -41,10 +41,10 @@ export function PricingPage() {
           </div>
         )}
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
+          STOP QUOTING FOR TYRE-KICKERS. REAL JOBS IN YOUR PATCH — £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Official UK opportunities filtered by evidence, trade fit, location, freshness, and value confidence. Coverage varies by trade and patch, so we check it before paid activation.
+          Verified UK opportunity signals filtered by trade, patch, freshness, and value. Not Bark. Not Checkatrade. Not a shared auction. One patch, one trade — yours. Coverage checked before paid activation.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -71,7 +71,10 @@ export function PricingPage() {
           body="Verified opportunities — not invented fallback jobs. Full context and delivery features activate only after account, patch, and provider checks pass."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<>
+            <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />
+            <p className="mt-2 text-xs font-black text-[var(--green)]">30-day money-back — one job worth chasing or we refund every penny. No credit card required to scan first.</p>
+          </>}
           order="order-first lg:order-none"
         />
       </section>
