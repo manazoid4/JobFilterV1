@@ -426,7 +426,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer details locked. Scanning is always free — upgrade to see who to call.'}
+                : 'Buyer details locked on the free plan — upgrade to see who to call.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -782,9 +782,9 @@ export function FindJobsPage() {
 
               {/* Results footer */}
               {displayedLeads.length > 0 && (
-                <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
-                  <p className="text-sm font-black text-[var(--muted)]">
-                    Showing {displayedLeads.length} lead{displayedLeads.length > 1 ? 's' : ''}{commercialOnly ? ' — COMMERCIAL ONLY' : ''} in your area. Results update daily.
+                <div className="jf-box bg-[var(--bg-main)] p-4 text-center">
+                  <p className="text-xs font-black text-[var(--muted)] uppercase tracking-wider">
+                    {displayedLeads.length} lead{displayedLeads.length > 1 ? 's' : ''}{commercialOnly ? ' — COMMERCIAL ONLY' : ''} near {(result?.outward || postcode.trim().split(' ')[0]).toUpperCase()} · updated today · <Link href="/pricing" className="text-[var(--ink)] underline underline-offset-2 hover:text-[var(--orange)]">buyer details at £39/mo →</Link>
                   </p>
                 </div>
               )}
@@ -810,7 +810,7 @@ export function FindJobsPage() {
             onClick={fillMyWeek}
             className="jf-button bg-[var(--ink)] text-white disabled:opacity-60 shrink-0"
           >
-            {fillWeekLoading ? 'SCANNING...' : `EXPAND SCAN — ${Math.max(radiusMiles, 25)}MI →`}
+            {fillWeekLoading ? 'SCANNING...' : `FIND MORE JOBS — ${Math.max(radiusMiles, 25)}MI →`}
           </button>
         </div>
 
@@ -877,9 +877,9 @@ export function FindJobsPage() {
             </svg>
           </div>
           <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR AREA HAS LIVE SIGNALS RIGHT NOW.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SCAN YOUR PATCH. SEE WHAT'S WORTH PRICING.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Planning approvals, energy signals, and council tenders — ranked for your trade. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
