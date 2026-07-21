@@ -6,7 +6,7 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'Real jobs worth pricing — no tyre-kickers, no recycled enquiries',
+  'Verified signals scored for your trade — no invented leads, no recycled enquiries',
   'Buyer context before you call — job type, value band, and best contact route',
   'Know if it\'s worth your time before you drive there — job value band included',
   'Your patch, your leads — no shared auction, no five-trade blast',
@@ -15,7 +15,7 @@ const planBullets = [
 
 const objections = [
   ['Is this another job board?', 'No. JobFilter filters official verified signals for your trade and patch. You do not buy credits or bid against a queue of trades — no Bark-style auction, no Checkatrade race to the bottom.'],
-  ['Are leads shared with other trades?', 'No. JobFilter is not a shared-enquiry auction. Not shared with Checkatrade, Bark, MyBuilder, or any other lead platform. Priority routing is controlled by patch — one dominant trade per postcode cluster.'],
+  ['Are leads shared with other trades?', 'No. JobFilter is not a shared-enquiry auction — not Checkatrade, not Bark, not MyBuilder. Priority routing is a pilot feature, confirmed only after a patch coverage and conflict check. We tell you if your patch isn\'t ready before activation.'],
   ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation. No hidden setup fees.'],
   ['Can I scan before paying?', 'Yes — 3 free scans every week, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, direct contact route, and WhatsApp delivery.'],
 ];
