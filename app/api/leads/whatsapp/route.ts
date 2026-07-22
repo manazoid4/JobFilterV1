@@ -3,7 +3,8 @@
  * Send a lead summary to the specified WhatsApp number.
  * Requires: paid subscription or owner access.
  *
- * Request body: { lead: LeadObject, phone_number: string }
+ * Request body: { lead: LeadObject }. The recipient is always the authenticated
+ * user's verified profile number; arbitrary client-supplied recipients are ignored.
  *
  * Env vars required for delivery:
  *   WHATSAPP_PHONE_NUMBER_ID — Meta WhatsApp Cloud API phone number ID
@@ -16,8 +17,10 @@ import { isOwnerEmail } from '../../../../server/lib/ownerAccess';
 
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
-async function resolveIsPaid(): Promise<{ ok: boolean; userId: string | null; error?: string }> {
-  if (FULL_ACCESS_TEST_MODE) return { ok: true, userId: 'test' };
+type Access = { ok: boolean; userId: string | null; phone?: string; whatsappConsented?: boolean; error?: string };
+
+async function resolveIsPaid(): Promise<Access> {
+  if (FULL_ACCESS_TEST_MODE) return { ok: true, userId: 'test', phone: process.env.WHATSAPP_TO, whatsappConsented: true };
 
   try {
     const authClient = await createAuthServerClient();
@@ -25,20 +28,18 @@ async function resolveIsPaid(): Promise<{ ok: boolean; userId: string | null; er
     if (error || !data.user) return { ok: false, userId: null, error: 'Unauthenticated' };
 
     const email = data.user.email ?? '';
-    if (isOwnerEmail(email)) return { ok: true, userId: data.user.id };
-
     const admin = getSupabaseServiceClient();
     if (!admin) return { ok: false, userId: null, error: 'Supabase service not configured' };
 
-    const { data: sub } = await admin
-      .from('subscriptions')
-      .select('active, status')
-      .eq('user_id', data.user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+    const [{ data: sub }, { data: profile }] = await Promise.all([
+      admin.from('subscriptions').select('active, status').eq('user_id', data.user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
+      admin.from('profiles').select('phone, whatsapp_opt_in_at, whatsapp_opt_out_at').eq('id', data.user.id).maybeSingle(),
+    ]);
+    const optedInAt = profile?.whatsapp_opt_in_at ? Date.parse(profile.whatsapp_opt_in_at) : 0;
+    const optedOutAt = profile?.whatsapp_opt_out_at ? Date.parse(profile.whatsapp_opt_out_at) : 0;
+    const access = { phone: profile?.phone ?? '', whatsappConsented: optedInAt > 0 && optedInAt > optedOutAt };
 
-    if (sub?.active || sub?.status === 'active') return { ok: true, userId: data.user.id };
+    if (isOwnerEmail(email) || sub?.active || sub?.status === 'active') return { ok: true, userId: data.user.id, ...access };
     return { ok: false, userId: data.user.id, error: 'Paid subscription required' };
   } catch {
     return { ok: false, userId: null, error: 'Auth check failed' };
@@ -78,12 +79,14 @@ function toE164UK(phone: string) {
   return `+44${digits}`;
 }
 
-async function sendViaMeta(to: string, body: string): Promise<{ ok: boolean; sid?: string; error?: string }> {
+async function sendViaMeta(to: string, lead: Record<string, unknown>): Promise<{ ok: boolean; sid?: string; error?: string }> {
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+  const templateName = process.env.WHATSAPP_TEMPLATE_NAME;
+  const languageCode = process.env.WHATSAPP_TEMPLATE_LANGUAGE_CODE || 'en_GB';
 
-  if (!phoneNumberId || !accessToken) {
-    return { ok: false, error: 'WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_ACCESS_TOKEN not set' };
+  if (!phoneNumberId || !accessToken || !templateName) {
+    return { ok: false, error: 'Meta WhatsApp credentials and approved template are not configured' };
   }
 
   const res = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
@@ -95,8 +98,20 @@ async function sendViaMeta(to: string, body: string): Promise<{ ok: boolean; sid
     body: JSON.stringify({
       messaging_product: 'whatsapp',
       to: toE164UK(to),
-      type: 'text',
-      text: { body },
+      type: 'template',
+      template: {
+        name: templateName,
+        language: { code: languageCode },
+        components: [{
+          type: 'body',
+          parameters: [
+            { type: 'text', text: String(lead.decision ?? lead.qualityLabel ?? 'WATCH').slice(0, 30) },
+            { type: 'text', text: String(lead.title ?? 'New opportunity').slice(0, 200) },
+            { type: 'text', text: String(lead.location ?? lead.postcodeOutward ?? 'Your area').slice(0, 100) },
+            { type: 'text', text: String(lead.estimatedValue ?? 'Value to verify').slice(0, 60) },
+          ],
+        }],
+      },
     }),
   });
 
@@ -125,25 +140,24 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const phone_number = String(body.phone_number ?? '').trim();
-  if (!phone_number || !/^\+?[0-9\s\-().]{7,20}$/.test(phone_number)) {
-    return Response.json(
-      { ok: false, error: 'phone_number must be a valid international number (e.g. +447700900000)' },
-      { status: 422 }
-    );
-  }
-
   const lead = body.lead as Record<string, unknown> | undefined;
   if (!lead || typeof lead !== 'object') {
     return Response.json({ ok: false, error: 'lead object required in request body' }, { status: 422 });
   }
 
   const message = buildWhatsAppMessage(lead);
+  if (!access.phone || !/^\+?[0-9\s\-().]{7,20}$/.test(access.phone)) {
+    return Response.json({ ok: false, error: 'Add a valid WhatsApp number to your account first' }, { status: 409 });
+  }
+  if (!access.whatsappConsented) {
+    return Response.json({ ok: false, error: 'Explicit WhatsApp opt-in is required' }, { status: 409 });
+  }
 
   // Check Meta WhatsApp Cloud API config — return 503 with clear setup docs if missing
   const hasMeta =
     !!process.env.WHATSAPP_PHONE_NUMBER_ID &&
-    !!process.env.WHATSAPP_ACCESS_TOKEN;
+    !!process.env.WHATSAPP_ACCESS_TOKEN &&
+    !!process.env.WHATSAPP_TEMPLATE_NAME;
 
   if (!hasMeta) {
     return Response.json(
@@ -154,6 +168,7 @@ export async function POST(request: Request) {
           required_env_vars: {
             WHATSAPP_PHONE_NUMBER_ID: 'Phone Number ID from Meta WhatsApp Cloud API setup',
             WHATSAPP_ACCESS_TOKEN: 'Permanent access token from Meta system user',
+            WHATSAPP_TEMPLATE_NAME: 'Approved Meta template with four body parameters',
           },
           docs: 'https://developers.facebook.com/docs/whatsapp/cloud-api/get-started',
           message_preview: message,
@@ -163,7 +178,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await sendViaMeta(phone_number, message);
+  const result = await sendViaMeta(access.phone, lead);
   if (!result.ok) {
     return Response.json({ ok: false, error: result.error }, { status: 502 });
   }

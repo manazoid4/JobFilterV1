@@ -34,6 +34,7 @@ export function ActivationPendingPage() {
   const paid = searchParams?.get('paid') === '1';
   const { user } = useAuth();
   const [whatsapp, setWhatsapp] = useState('');
+  const [whatsappOptIn, setWhatsappOptIn] = useState(false);
   const [trade, setTrade] = useState('');
   const [postcode, setPostcode] = useState('');
   const [company, setCompany] = useState('');
@@ -55,10 +56,19 @@ export function ActivationPendingPage() {
       const response = await fetch('/api/account/activation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ whatsapp, trade, postcode, company }),
+        body: JSON.stringify({ whatsapp: whatsappOptIn ? whatsapp : '', trade, postcode, company }),
       });
       const payload = await response.json() as { ok: boolean; error?: string };
       if (!response.ok || !payload.ok) throw new Error(payload.error ?? 'Activation failed.');
+
+      if (whatsappOptIn) {
+        const preference = await fetch('/api/account/notifications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ whatsappEnabled: true, phone: whatsapp }),
+        });
+        if (!preference.ok) throw new Error('Could not save WhatsApp consent.');
+      }
 
       if (paid) {
         setStatus('done');
@@ -86,10 +96,10 @@ export function ActivationPendingPage() {
     return (
       <main className="page-shell py-10">
         <section className="ops-panel bg-[var(--yellow)] p-8">
-          <p className="micro-label text-[var(--ink)]">PATCH CONFIRMED</p>
+          <p className="micro-label text-[var(--ink)]">PROFILE CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            Patch confirmed. Gold leads will hit your WhatsApp within 2 hours. Run a scan now — full access is live.
+            Your qualification profile is ready. Run a scan now; optional alerts follow the cadence and channels you explicitly enable.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">RUN FIRST SCAN →</Link>
@@ -104,12 +114,12 @@ export function ActivationPendingPage() {
       <section className={`ops-panel p-8 ${paid ? 'bg-[var(--yellow)]' : 'bg-[var(--ink)]'}`}>
         <p className={`micro-label ${paid ? 'text-[var(--ink)]' : 'text-[var(--yellow)]'}`}>{paid ? 'PAYMENT CONFIRMED' : 'ACCOUNT CONFIRMED'}</p>
         <h1 className={`headline mt-3 text-5xl leading-none md:text-7xl ${paid ? 'text-[var(--ink)]' : 'text-white'}`}>
-          {paid ? 'SET YOUR PATCH. LIVE IN 2 HOURS.' : 'ONE STEP FROM YOUR FIRST LEAD.'}
+          {paid ? 'SET YOUR QUALIFICATION PROFILE.' : 'ONE STEP FROM YOUR FIRST SCAN.'}
         </h1>
         <p className={`mt-4 max-w-2xl text-xl font-bold ${paid ? 'text-[var(--ink)]' : 'text-white/80'}`}>
           {paid
-            ? 'Payment confirmed by Stripe. Tell us your trade and area — Gold leads hit your WhatsApp within 2 hours.'
-            : 'Tell us your trade and patch. Gold leads go straight to your WhatsApp. 30-day money-back — if you don\'t find a job worth chasing, we refund every penny.'}
+            ? 'Payment confirmed by Stripe. Tell us your trade and area so JobFilter can qualify relevant public-work opportunities.'
+            : 'Tell us your trade, company and working area so JobFilter can qualify relevant public-work opportunities before checkout.'}
         </p>
       </section>
 
@@ -118,15 +128,20 @@ export function ActivationPendingPage() {
         <h2 className="headline mt-2 text-3xl leading-none">{paid ? '4 details — then you\'re live.' : 'Set up below. Pay in under 2 minutes.'}</h2>
         <form onSubmit={submit} className="mt-6 grid gap-4">
           <label className="field-label">
-            WhatsApp number (required — this is where Gold leads are sent)
+            WhatsApp number (optional)
             <input
               className="field-input"
               type="tel"
               value={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
               placeholder="+44 7700 900000"
-              required
+              required={whatsappOptIn}
+              disabled={!whatsappOptIn}
             />
+          </label>
+          <label className="flex items-start gap-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3 text-sm font-bold text-[var(--ink)]">
+            <input type="checkbox" checked={whatsappOptIn} onChange={(e) => setWhatsappOptIn(e.target.checked)} className="mt-1 h-4 w-4" />
+            <span>I explicitly opt in to proactive JobFilter WhatsApp alerts sent through approved Meta templates. I can opt out at any time.</span>
           </label>
           <label className="field-label">
             Your trade
@@ -160,7 +175,7 @@ export function ActivationPendingPage() {
           <button type="submit" disabled={status === 'loading'} className="jf-button bg-[var(--ink)] text-white">
             {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP →' : 'SAVE PATCH AND CHECKOUT →'}
           </button>
-          <p className="text-sm font-bold text-[var(--muted)]">{paid ? 'We\'ll have your patch active within 2 hours.' : 'After checkout, your patch goes live within 2 hours.'} Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
+          <p className="text-sm font-bold text-[var(--muted)]">Your profile is used to qualify opportunities; it does not guarantee volume or contract awards. Questions? <a href="mailto:support@jobfilter.uk" className="underline">support@jobfilter.uk</a></p>
         </form>
       </section>
     </main>
