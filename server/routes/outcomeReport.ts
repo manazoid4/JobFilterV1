@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
+import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -18,6 +19,10 @@ type OutcomeStatus = 'delivered' | 'opened' | 'saved' | 'contacted' | 'answered'
 export function registerOutcomeReportRoute(app: Express) {
   app.post('/api/leads/outcome', async (req: Request, res: Response) => {
     try {
+      const access = await resolveRequestAccess(req);
+      if (!access) {
+        return res.status(401).json({ ok: false, error: 'Authentication required.' });
+      }
       if (!supabase) {
         return res.status(503).json({ ok: false, error: 'Supabase is not configured; outcome storage is disabled.' });
       }
@@ -28,8 +33,11 @@ export function registerOutcomeReportRoute(app: Express) {
         return res.status(422).json({ ok: false, error: 'leadId and valid status required.' });
       }
 
+      const ownershipError = await verifyLeadMutationAccess(String(leadId), access);
+      if (ownershipError) return res.status(ownershipError.status).json({ ok: false, error: ownershipError.error });
+
       const now = new Date().toISOString();
-      const row = buildOutcomeRow(req.body, cleanStatus, now);
+      const row = buildOutcomeRow(req.body, cleanStatus, now, access.userId);
       const { error } = await supabase
         .from('lead_outcomes')
         .upsert(row, { onConflict: 'lead_id' });
@@ -38,10 +46,12 @@ export function registerOutcomeReportRoute(app: Express) {
         return res.status(500).json({ ok: false, error: error.message });
       }
 
-      await supabase
-        .from('leads')
-        .update({ status: cleanStatus, updated_at: now })
-        .eq('id', leadId);
+      if (access.isOwner || (await leadIsOwnedBy(String(leadId), access.userId))) {
+        await supabase
+          .from('leads')
+          .update({ status: cleanStatus, updated_at: now })
+          .eq('id', leadId);
+      }
 
       return res.json({ ok: true, status: cleanStatus });
     } catch (error: any) {
@@ -96,14 +106,23 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.post('/api/leads/flag', async (req: Request, res: Response) => {
     try {
+      const access = await resolveRequestAccess(req);
+      if (!access) {
+        return res.status(401).json({ ok: false, error: 'Authentication required.' });
+      }
       const { leadId, reason } = req.body || {};
       if (!leadId) return res.status(422).json({ ok: false, error: 'leadId required.' });
 
       if (supabase) {
+        const ownershipError = await verifyLeadMutationAccess(String(leadId), access);
+        if (ownershipError) return res.status(ownershipError.status).json({ ok: false, error: ownershipError.error });
         const now = new Date().toISOString();
-        await supabase
+        const { error } = await supabase
           .from('lead_outcomes')
-          .upsert({ lead_id: String(leadId), status: 'flagged', lost_reason: reason ?? null, updated_at: now }, { onConflict: 'lead_id' });
+          .upsert({ lead_id: String(leadId), user_id: access.userId, status: 'flagged', lost_reason: reason ?? null, updated_at: now }, { onConflict: 'lead_id' });
+        if (error) return res.status(500).json({ ok: false, error: 'Flag could not be saved.' });
+      } else {
+        return res.status(503).json({ ok: false, error: 'Supabase is not configured; flag storage is disabled.' });
       }
 
       return res.json({ ok: true });
@@ -143,10 +162,10 @@ export function registerOutcomeReportRoute(app: Express) {
   });
 }
 
-function buildOutcomeRow(body: any, status: OutcomeStatus, now: string) {
+function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: string) {
   return {
     lead_id: String(body.leadId),
-    user_id: typeof body.userId === 'string' && body.userId ? body.userId : null,
+    user_id: userId,
     delivery_event_id: body.deliveryEventId ?? null,
     title: body.title ?? 'Unknown job',
     trade: body.trade ?? null,
@@ -167,6 +186,28 @@ function buildOutcomeRow(body: any, status: OutcomeStatus, now: string) {
     contact_path_used: body.contactPathUsed ?? null,
     updated_at: now,
   };
+}
+
+async function verifyLeadMutationAccess(leadId: string, access: RequestAccess) {
+  if (!supabase) return { status: 503, error: 'Supabase is not configured.' };
+
+  const [{ data: lead, error: leadError }, { data: outcome, error: outcomeError }] = await Promise.all([
+    supabase.from('leads').select('user_id').eq('id', leadId).maybeSingle(),
+    supabase.from('lead_outcomes').select('user_id').eq('lead_id', leadId).maybeSingle(),
+  ]);
+
+  if (leadError || outcomeError) return { status: 500, error: 'Lead ownership could not be verified.' };
+  if (!lead) return { status: 404, error: 'Lead not found.' };
+  if (access.isOwner) return null;
+  if (lead.user_id && lead.user_id !== access.userId) return { status: 403, error: 'Forbidden.' };
+  if (outcome?.user_id && outcome.user_id !== access.userId) return { status: 403, error: 'Forbidden.' };
+  return null;
+}
+
+async function leadIsOwnedBy(leadId: string, userId: string) {
+  if (!supabase) return false;
+  const { data } = await supabase.from('leads').select('user_id').eq('id', leadId).maybeSingle();
+  return data?.user_id === userId;
 }
 
 async function readOutcomeRows() {

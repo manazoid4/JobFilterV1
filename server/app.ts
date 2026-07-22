@@ -54,6 +54,10 @@ export async function createApp() {
     res.json({ ok: true, service: 'jobfilter', ts: new Date().toISOString() });
   });
 
+  app.use((_req, res) => {
+    res.status(404).json({ ok: false, error: 'Not found' });
+  });
+
   app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('[server]', err?.message ?? err);
     res.status(500).json({
