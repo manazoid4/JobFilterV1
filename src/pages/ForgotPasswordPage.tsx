@@ -30,7 +30,7 @@ export function ForgotPasswordPage() {
   if (done) {
     return (
       <main className="page-shell py-16">
-        <section className="jf-box max-w-md mx-auto bg-white p-8 text-center">
+        <section role="status" aria-live="polite" className="jf-box max-w-md mx-auto bg-white p-8 text-center">
           <h1 className="headline text-2xl mb-3">CHECK YOUR EMAIL</h1>
           <p className="text-sm text-[var(--muted)]">
             If <strong>{email}</strong> has an account, we sent a password reset link. Check your inbox and spam.
@@ -44,20 +44,21 @@ export function ForgotPasswordPage() {
   return (
     <main className="page-shell py-16">
       <section className="jf-box max-w-md mx-auto bg-white p-8">
-        <p className="micro-label text-[var(--yellow)]">JOBFILTER</p>
+        <p className="micro-label text-[var(--orange)]">JOBFILTER</p>
         <h1 className="headline text-3xl mt-2 mb-2">RESET PASSWORD</h1>
         <p className="text-sm text-[var(--muted)] mb-6">Enter your email and we'll send a reset link.</p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" aria-busy={loading}>
           <div>
-            <label className="block text-sm font-black uppercase mb-1">Email</label>
+            <label htmlFor="recovery-email" className="block text-sm font-black uppercase mb-1">Email</label>
             <input
+              id="recovery-email" name="email" autoComplete="email"
               type="email" required value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-2 font-mono text-sm focus:border-[var(--ink)] focus:outline-none"
               placeholder="you@example.com"
             />
           </div>
-          {error && <p className="text-sm font-bold text-[var(--orange)]">{error}</p>}
+          {error && <p id="recovery-error" role="alert" aria-live="assertive" className="text-sm font-bold text-[var(--orange)]">{error}</p>}
           <button type="submit" disabled={loading} className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
             {loading ? 'Sending...' : 'SEND RESET LINK →'}
           </button>

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "T001",
+    "objective": "Audit, test, and commit the currently unstaged FTS benchmark and narrative changes.",
+    "reason": "The repository currently has unstaged files and UI updates that align the product narrative with #380 and #382. We must verify these changes do not break the build and commit them before proceeding to deeper ingestion work.",
+    "priority": 1,
+    "assigned_agent": "OpenCode",
+    "dependencies": [],
+    "relevant_files": [
+      "app/layout.tsx",
+      "src/components/TopNav.tsx",
+      "src/pages/HomePage.tsx",
+      "src/pages/PricingPage.tsx",
+      "scripts/fts-benchmark.ts",
+      "tests/regression/fts-benchmark-gate-regression.mjs",
+      "tests/regression/primary-product-narrative-regression.mjs"
+    ],
+    "research_required": false,
+    "acceptance_criteria": [
+      "All untracked and unstaged files are committed securely without regressions.",
+      "The term 'exclusive leads' is removed from the primary UI.",
+      "npm run lint and npm audit pass.",
+      "Regression tests pass."
+    ],
+    "validation_commands": [
+      "npm run lint",
+      "npm run build",
+      "node tests/regression/primary-product-narrative-regression.mjs"
+    ],
+    "status": "planned",
+    "attempts": 0,
+    "evidence_produced": "",
+    "fallback_agent": "Hermes",
+    "next_action": "Run OpenCode to review the diff, run the regression tests, and commit the files if safe."
+  },
+  {
+    "id": "T002",
+    "objective": "Harden Find a Tender ingestion and remove Contracts Finder from live path (#380)",
+    "reason": "FTS must be the sole source of current notices. We need to ensure pagination, timeout handling, and deduplication work against FTS.",
+    "priority": 2,
+    "assigned_agent": "Claude CLI",
+    "dependencies": ["T001"],
+    "relevant_files": [
+      "leadEngine/fetchers/contractsFetcher.ts",
+      "tests/regression/fts-ocds-regression.mjs"
+    ],
+    "research_required": true,
+    "acceptance_criteria": [
+      "Contracts Finder is explicitly excluded from the live fetch path.",
+      "FTS cursor pagination is bounded and abortable.",
+      "FTS deduplication functions correctly."
+    ],
+    "validation_commands": [
+      "npx tsx tests/regression/fts-ocds-regression.mjs"
+    ],
+    "status": "planned",
+    "attempts": 0,
+    "evidence_produced": "",
+    "fallback_agent": "OpenCode",
+    "next_action": "Assign Claude to review leadEngine/fetchers and plan the FTS hardening architecture."
+  }
+]

@@ -95,7 +95,7 @@ export function ActivationPendingPage() {
   if (status === 'done') {
     return (
       <main className="page-shell py-10">
-        <section className="ops-panel bg-[var(--yellow)] p-8">
+        <section role="status" aria-live="polite" className="ops-panel bg-[var(--yellow)] p-8">
           <p className="micro-label text-[var(--ink)]">PROFILE CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
@@ -126,10 +126,14 @@ export function ActivationPendingPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">CONFIRM YOUR SETUP</p>
         <h2 className="headline mt-2 text-3xl leading-none">{paid ? '4 details — then you\'re live.' : 'Set up below. Pay in under 2 minutes.'}</h2>
-        <form onSubmit={submit} className="mt-6 grid gap-4">
-          <label className="field-label">
+        <form onSubmit={submit} className="mt-6 grid gap-4" aria-busy={status === 'loading'}>
+          <label htmlFor="activation-whatsapp" className="field-label">
             WhatsApp number (optional)
             <input
+              id="activation-whatsapp"
+              name="tel"
+              autoComplete="tel"
+              inputMode="tel"
               className="field-input"
               type="tel"
               value={whatsapp}
@@ -139,20 +143,23 @@ export function ActivationPendingPage() {
               disabled={!whatsappOptIn}
             />
           </label>
-          <label className="flex items-start gap-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3 text-sm font-bold text-[var(--ink)]">
-            <input type="checkbox" checked={whatsappOptIn} onChange={(e) => setWhatsappOptIn(e.target.checked)} className="mt-1 h-4 w-4" />
-            <span>I explicitly opt in to proactive JobFilter WhatsApp alerts sent through approved Meta templates. I can opt out at any time.</span>
+          <label htmlFor="activation-whatsapp-opt-in" className="flex items-start gap-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-3 text-sm font-bold text-[var(--ink)]">
+            <input id="activation-whatsapp-opt-in" name="whatsapp-opt-in" type="checkbox" checked={whatsappOptIn} onChange={(e) => setWhatsappOptIn(e.target.checked)} className="mt-1 h-4 w-4" />
+            <span id="activation-whatsapp-consent">I explicitly opt in to proactive JobFilter WhatsApp alerts sent through approved Meta templates. I can opt out at any time.</span>
           </label>
-          <label className="field-label">
+          <label htmlFor="activation-trade" className="field-label">
             Your trade
-            <select className="field-input" value={trade} onChange={(e) => setTrade(e.target.value)} required>
+            <select id="activation-trade" name="trade" className="field-input" value={trade} onChange={(e) => setTrade(e.target.value)} required>
               <option value="">Select trade…</option>
               {TRADES.map((t) => <option key={t.label} value={t.value}>{t.label}</option>)}
             </select>
           </label>
-          <label className="field-label">
+          <label htmlFor="activation-postcode" className="field-label">
             Your area (e.g. B14, SW1, M20)
             <input
+              id="activation-postcode"
+              name="postal-code"
+              autoComplete="postal-code"
               className="field-input"
               value={postcode}
               onChange={(e) => setPostcode(e.target.value.toUpperCase())}
@@ -160,9 +167,12 @@ export function ActivationPendingPage() {
               required
             />
           </label>
-          <label className="field-label">
+          <label htmlFor="activation-company" className="field-label">
             Company name
             <input
+              id="activation-company"
+              name="organization"
+              autoComplete="organization"
               className="field-input"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
@@ -170,7 +180,7 @@ export function ActivationPendingPage() {
             />
           </label>
           {status === 'error' && (
-            <p className="font-black text-[var(--orange)]">Something went wrong — email us at support@jobfilter.uk and we'll get you sorted.</p>
+            <p id="activation-error" role="alert" aria-live="assertive" className="font-black text-[var(--orange)]">Something went wrong — email us at support@jobfilter.uk and we'll get you sorted.</p>
           )}
           <button type="submit" disabled={status === 'loading'} className="jf-button bg-[var(--ink)] text-white">
             {status === 'loading' ? 'SENDING...' : paid ? 'CONFIRM MY SETUP →' : 'SAVE PATCH AND CHECKOUT →'}

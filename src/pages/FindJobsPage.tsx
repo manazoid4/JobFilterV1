@@ -197,6 +197,7 @@ export function FindJobsPage() {
   const [commercialOnly, setCommercialOnly] = useState(false);
   const [postcodeRequired, setPostcodeRequired] = useState(false);
   const postcodeRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -232,6 +233,10 @@ export function FindJobsPage() {
   useEffect(() => {
     setWeeklyScansUsed(getWeeklyScansUsed());
   }, []);
+
+  useEffect(() => {
+    if (!loading && result) resultsRef.current?.focus();
+  }, [loading, result]);
 
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
@@ -480,27 +485,27 @@ export function FindJobsPage() {
         )}
 
         {/* Form — postcode + trade + radius so users always see their trade before scanning */}
-        <form onSubmit={submit} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
-          <label className="field-label">
+        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
+          <label htmlFor="scan-postcode" className="field-label">
             Postcode
-            <input ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" />
+            <input id="scan-postcode" name="postal-code" autoComplete="postal-code" ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} aria-invalid={postcodeRequired} aria-describedby={postcodeRequired ? 'scan-postcode-error' : undefined} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" required />
           </label>
-          <label className="field-label">
+          <label htmlFor="scan-trade" className="field-label">
             Trade
-            <select value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
+            <select id="scan-trade" name="trade" value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
               {TRADE_PRESETS.map((p) => (
                 <option key={p.trade} value={p.trade}>{p.label}</option>
               ))}
             </select>
           </label>
-          <label className="field-label">
+          <label htmlFor="scan-radius" className="field-label">
             Radius
-            <select value={radiusMiles} onChange={(event) => setRadiusMiles(Number(event.target.value))} className="field-input">
+            <select id="scan-radius" name="radius" value={radiusMiles} onChange={(event) => setRadiusMiles(Number(event.target.value))} className="field-input">
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
-            <Search className="w-4 h-4 mr-2 inline-block" />
+          <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+            <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW →'}
           </button>
         </form>
@@ -534,6 +539,7 @@ export function FindJobsPage() {
               <button
                 key={preset.trade}
                 type="button"
+                aria-pressed={trade === preset.trade}
                 disabled={loading || fillWeekLoading}
                 onClick={() => {
                   if (!postcode.trim()) {
@@ -558,7 +564,7 @@ export function FindJobsPage() {
             ))}
           </div>
           {postcodeRequired && (
-            <p className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
+            <p id="scan-postcode-error" role="alert" aria-live="assertive" className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
               ↑ Enter your postcode above — then tap your trade to scan
             </p>
           )}
@@ -626,7 +632,7 @@ export function FindJobsPage() {
 
       {/* ── LOADING ─────────────────────────────────────────────────── */}
       {loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-5 text-white">
+        <section role="status" aria-live="polite" aria-atomic="true" className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
           <p className="mt-2 text-xl font-black">Checking verified signals. Running the Money Filter.</p>
         </section>
@@ -634,9 +640,9 @@ export function FindJobsPage() {
 
       {/* ── RESULTS ─────────────────────────────────────────────────── */}
       {result && !fillWeekResult && (
-        <section className="grid gap-5">
+        <section ref={resultsRef} tabIndex={-1} aria-label="Scan results" aria-live="polite" className="grid gap-5 rounded-sm">
           {errorText && (
-            <div className="jf-box bg-[var(--orange)] p-5 text-white">
+            <div role="alert" aria-live="assertive" className="jf-box bg-[var(--orange)] p-5 text-white">
               <p className="font-black">Scan failed.</p>
               <p className="mt-1 font-semibold">{errorText}</p>
               <button onClick={() => void submit()} className="jf-button mt-4 bg-white text-[var(--ink)]">RETRY</button>
@@ -687,6 +693,7 @@ export function FindJobsPage() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <button
                       type="button"
+                      aria-pressed={!commercialOnly}
                       onClick={() => setCommercialOnly(false)}
                       className={`border-2 border-[var(--line)] px-3 py-1.5 text-xs font-black uppercase transition-colors ${!commercialOnly ? 'bg-[var(--ink)] text-white' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
                     >
@@ -694,6 +701,7 @@ export function FindJobsPage() {
                     </button>
                     <button
                       type="button"
+                      aria-pressed={commercialOnly}
                       onClick={() => setCommercialOnly(true)}
                       className={`border-2 border-[var(--ink)] inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black uppercase transition-colors ${commercialOnly ? 'bg-[var(--ink)] text-[var(--yellow)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'}`}
                     >

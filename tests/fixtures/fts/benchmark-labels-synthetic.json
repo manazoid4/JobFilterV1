@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "fts-human-labels-v1",
+  "provenance": {
+    "reviewer": "synthetic-test-fixture",
+    "labelledAt": "2026-07-21T12:00:00Z",
+    "source": "fixture-only; not customer research",
+    "synthetic": true
+  },
+  "labels": [
+    { "ocid": "ocds-test-local-postcode", "relevant": true, "reason": "Synthetic arithmetic fixture only" },
+    { "ocid": "ocds-test-local-nuts", "relevant": true, "reason": "Synthetic arithmetic fixture only" },
+    { "ocid": "ocds-test-buyer-only", "relevant": false, "reason": "No delivery-locality evidence" }
+  ]
+}

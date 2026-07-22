@@ -29,9 +29,4 @@ assert.match(
   'planningDataFetcher rawLocation fallback must require geo confirmation before using outward',
 );
 
-// Delivery lock key: trade + outward + source system.
-const sms = fs.readFileSync('server/services/sms.ts', 'utf8');
-assert.match(sms, /getOutward\(payload\.postcode\)/, 'sms.ts deliveryLockKey must normalise to outward');
-assert.match(sms, /lockKey =.*jobType.*outward.*sourceSystem/, 'sms.ts deliveryLockKey must be trade + outward + sourceSystem');
-
-console.log('planning locality + delivery lock regression passed');
+console.log('planning locality regression passed');

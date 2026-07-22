@@ -22,9 +22,9 @@ const TRADES = [
   { value: 'landscaping', label: 'Landscaper' },
 ];
 const FREQ_OPTIONS = [
-  { value: 'weekly', label: 'WEEKLY (FREE)' },
-  { value: 'daily', label: 'DAILY (PAID)' },
-  { value: 'instant', label: 'HOURLY CHECK (PAID)' },
+  { value: 'weekly', label: 'WEEKLY' },
+  { value: 'daily', label: 'DAILY' },
+  { value: 'instant', label: 'HOURLY SOURCE CHECK' },
 ];
 
 type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };
@@ -121,10 +121,10 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
 
   return (
     <section className="jf-box bg-white p-5">
-      <p className="micro-label text-[var(--muted)]">LEAD ALERTS</p>
-      <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN JOBS APPEAR</h2>
+      <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
+      <h2 className="headline mt-1 text-2xl leading-none">WATCH FOR MATCHING PUBLIC OPPORTUNITIES</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Set up an alert for your trade, postcode and travel radius. Free weekly digest; paid subscribers can choose daily or an hourly source check.
+        Save a trade, outward postcode, radius and preferred check frequency. Alerts report matching public notices when configured; availability and delivery depend on the current source and account setup.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
@@ -187,12 +187,12 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
 }
 
 const LOST_REASON_TIPS: Record<LostReason, string> = {
-  price: 'Most lost jobs go on price. Lead with a fast, no-obligation quote — speed often beats being cheapest.',
-  timing: 'Most lost jobs slip on timing. Send your first message within 2 hours — the Quick Quote template is built for this.',
-  competition: 'Most lost jobs go to another trade. First contact wins more jobs than lowest price — chase faster.',
-  not_interested: "Most homeowners say they're not interested. Check your first message reads as local and low-pressure, not a sales pitch.",
-  went_elsewhere: 'Most jobs go elsewhere before you reply. Faster first contact closes this gap — try the 24h follow-up template sooner.',
-  other: 'Keep logging the reason when you mark a job lost — more data here means a sharper read on where you lose work.',
+  price: 'Review the award criteria and the pricing evidence you had before deciding whether a similar opportunity deserves another bid.',
+  timing: 'Record whether the deadline or delivery capacity made this opportunity unsuitable so future qualification can flag the same constraint.',
+  competition: 'Use published award information and incumbent history, where available, to sharpen the next decision.',
+  not_interested: 'Record why the opportunity stopped fitting your firm so similar notices can be qualified more accurately.',
+  went_elsewhere: 'Review the award notice or buyer feedback when available, then record what changed the outcome.',
+  other: 'Keep logging the reason behind each outcome — more decision evidence makes the next review more useful.',
 };
 
 export function DashboardPage() {
@@ -211,7 +211,6 @@ export function DashboardPage() {
   const [breakdown, setBreakdown] = useState<ReturnType<typeof getWinBreakdown>>({ byTrade: [], byLocation: [], bySource: [] });
   const [lostBreakdown, setLostBreakdown] = useState<ReturnType<typeof getLostReasonBreakdown>>([]);
   const [valueAccuracy, setValueAccuracy] = useState<ReturnType<typeof getValueAccuracy>>(null);
-  const [territory, setTerritory] = useState<string | null>(null);
   const [scanTrade, setScanTrade] = useState<string | null>(null);
   const [scanPostcode, setScanPostcode] = useState<string | null>(null);
   const [scansUsed, setScansUsed] = useState(0);
@@ -232,7 +231,6 @@ export function DashboardPage() {
     setBreakdown(getWinBreakdown());
     setLostBreakdown(getLostReasonBreakdown());
     setValueAccuracy(getValueAccuracy());
-    setTerritory((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.territory'));
     setScanTrade((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.trade'));
     setScanPostcode((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.postcode'));
     setScansUsed(Number((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jf-weekly-scans-used')) || 0);
@@ -257,9 +255,6 @@ export function DashboardPage() {
   const chaseLosts = chaseLeads.filter((l) => l.stage === 'lost').length;
   const winRate = chaseWons + chaseLosts > 0
     ? Math.round((chaseWons / (chaseWons + chaseLosts)) * 100)
-    : null;
-  const monthlyRoi = monthlyStats.totalValue > 0
-    ? Math.round(monthlyStats.totalValue / 39)
     : null;
   const overdueLeads = chaseLeads.filter((l) => l.nextNudgeAt && new Date(l.nextNudgeAt).getTime() < Date.now() && l.stage !== 'won' && l.stage !== 'lost');
   const overdueCount = overdueLeads.length;
@@ -306,38 +301,21 @@ export function DashboardPage() {
     <main className="page-shell grid gap-6 py-8 pb-24">
       {/* Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">JOB TRACKER</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR JOBS. TRACKED.</h1>
+        <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS DECISION TRACKER</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR OPPORTUNITIES. YOUR DECISIONS.</h1>
         <p className="mt-3 max-w-2xl font-bold text-white/90">
-          Find jobs before Checkatrade lists them. Chase in one tap. Log every win. No auction, no five-way blast — your work, under your control.
+          Review current public Find a Tender notices against your firm. Track BID, WATCH, SUBCONTRACT or SKIP decisions, the evidence behind them, and eventual outcomes.
         </p>
-        <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
-            <span className={`h-2 w-2 rounded-full shrink-0 ${territory ? 'bg-[var(--green)]' : 'bg-[var(--orange)]'}`} />
+            <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--green)]" />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              YOUR PATCH: {territory ?? 'NOT SET'}
+              FIND A TENDER: FREE + PUBLIC
             </span>
           </div>
-          {territory ? (
-            <p className="text-sm font-bold text-[var(--yellow)]">
-              Gold leads to you first — buyer name, job value, and direct WhatsApp routing included. Your competition gets them 24h later.
-            </p>
-          ) : (
-            <div className="flex flex-col gap-2">
-              <p className="text-sm font-bold text-white/90">
-                No patch locked — leads are visible but buyer name, job value, and contact details stay hidden until you upgrade. Another trade could claim your area today.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
-                  UPGRADE — £39/MO →
-                </Link>
-                <Link href="/territories" className="jf-button bg-white text-[var(--ink)] text-xs py-1.5 px-3 shrink-0">
-                  SEE OPEN TERRITORIES →
-                </Link>
-              </div>
-              <p className="text-xs font-black text-white/60">Upgrade unlocks buyer details and lets you lock your patch in one step.</p>
-            </div>
-          )}
+          <p className="text-sm font-bold text-[var(--yellow)]">
+            JobFilter adds firm-aware qualification and workflow. It does not provide exclusive or early access to public notices.
+          </p>
         </div>
       </section>
 
@@ -363,23 +341,23 @@ export function DashboardPage() {
             <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
               <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">01</span>
               <div className="min-w-0">
-                <p className="font-black text-[var(--ink)] text-sm">SCAN YOUR AREA</p>
-                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Enter your postcode and trade — takes 30 seconds. Gold leads come back first.</p>
+                <p className="font-black text-[var(--ink)] text-sm">CHECK CURRENT COVERAGE</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Enter your service and area to review current Find a Tender notices. Sparse or empty results are valid.</p>
                 <Link href="/find-jobs" className="mt-2 inline-block jf-button bg-[var(--ink)] text-white text-xs py-1 px-2">SCAN NOW →</Link>
               </div>
             </li>
             <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
               <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">02</span>
               <div className="min-w-0">
-                <p className="font-black text-[var(--ink)] text-sm">TRACK YOUR FIRST GOLD LEAD</p>
-                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Tap TRACK THIS LEAD on any Gold result. It drops into your list here so you know who to contact first.</p>
+                <p className="font-black text-[var(--ink)] text-sm">TRACK A DECISION</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Record BID, WATCH, SUBCONTRACT or SKIP with the fit evidence and requirement gaps.</p>
               </div>
             </li>
             <li className="flex items-start gap-3 border-2 border-[var(--ink)] bg-white p-3">
               <span className="shrink-0 font-mono text-xs font-black bg-[var(--ink)] text-white px-1.5 py-0.5">03</span>
               <div className="min-w-0">
-                <p className="font-black text-[var(--ink)] text-sm">SEND THE WHATSAPP TEMPLATE</p>
-                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">One pre-written message. One tap. You&apos;re first in before the job goes to Bark or Checkatrade.</p>
+                <p className="font-black text-[var(--ink)] text-sm">VERIFY THE OFFICIAL ROUTE</p>
+                <p className="text-xs font-black text-[var(--ink)]/60 mt-0.5">Open the public notice and confirm requirements, deadline and response route before acting.</p>
               </div>
             </li>
           </ol>
@@ -388,19 +366,17 @@ export function DashboardPage() {
 
       {isEmpty && (
         <div className="jf-box border-2 border-[var(--orange)] bg-[var(--orange)]/5 p-8 text-center">
-          <p className="micro-label text-[var(--orange)]">NO JOBS TRACKED YET</p>
-          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">YOUR FIRST SCAN IS FREE.</h2>
+          <p className="micro-label text-[var(--orange)]">NO OPPORTUNITIES TRACKED YET</p>
+          <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">CHECK THE CURRENT PUBLIC FEED.</h2>
           <p className="mt-3 max-w-lg mx-auto font-bold text-[var(--ink)]/80 text-sm">
-            Find a job before Checkatrade lists it. One £2,000 win and £39/mo pays for itself 50 times over — no shared auction, no credit burn.
+            Find a Tender is free and public. JobFilter helps you qualify what fits; it does not promise opportunity volume, awards or early access.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">RUN YOUR FIRST SCAN →</Link>
-            {!territory && (
-              <Link href="/territories" className="jf-button bg-[var(--navy)] text-white">LOCK YOUR PATCH →</Link>
-            )}
-            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PLANS →</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">CHECK FIND A TENDER →</Link>
+            <Link href="/methodology" className="jf-button bg-[var(--navy)] text-white">SEE THE METHOD →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)] border-2 border-[var(--ink)]">SEE PILOT PRICING →</Link>
           </div>
-          <p className="mt-3 text-xs font-black text-[var(--ink)]/50">No credit card required — 3 free scans every week</p>
+          <p className="mt-3 text-xs font-black text-[var(--ink)]/50">No card required for the current-coverage check.</p>
         </div>
       )}
 
@@ -411,7 +387,7 @@ export function DashboardPage() {
             <Link href="/find-jobs" className="block border-2 border-[var(--ink)] bg-white p-5 hover:bg-[var(--yellow)] transition shadow-[4px_4px_0_var(--ink)]">
               <p className="micro-label text-[var(--ink)]">SCAN NOW →</p>
               <p className="headline mt-2 text-4xl leading-none text-[var(--ink)]">SCAN</p>
-              <p className="mt-1 text-sm font-bold text-[var(--ink)]">Before Checkatrade lists them</p>
+              <p className="mt-1 text-sm font-bold text-[var(--ink)]">Current Find a Tender notices</p>
             </Link>
           ) : (
             <div className="border-2 border-[var(--ink)] bg-white p-5">
@@ -561,7 +537,7 @@ export function DashboardPage() {
               : <RowLink label="Postcode" href="/find-jobs" cta="Set your area →" />}
             <Row label="Scans this week" value={scansUsed === 0 ? 'None yet' : isPaid ? `${scansUsed} this week (unlimited)` : `${scansUsed} of 3 used · resets Mon`} />
             {!isPaid && scansUsed >= 3 && <RowLink label="Scan limit reached" href="/pricing" cta="Upgrade for unlimited →" />}
-            <Row label="Leads flagged" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
+            <Row label="Opportunities tracked" value={trackedLeadCount === 0 ? 'None tracked yet' : `${trackedLeadCount} in your list`} />
           </div>
         </section>
 
@@ -570,16 +546,16 @@ export function DashboardPage() {
           <div className="flex items-center justify-between">
             <p className="micro-label text-[var(--orange)]">TRACKING</p>
           </div>
-          <p className="headline mt-3 text-2xl leading-none">YOUR ACTIVE JOBS</p>
+          <p className="headline mt-3 text-2xl leading-none">YOUR ACTIVE OPPORTUNITIES</p>
           <div className="mt-4 grid gap-3 text-sm">
-            <Row label="Active" value={`${activeChase} leads`} />
-            <Row label="Not contacted" value={`${notContacted} need first touch`} />
+            <Row label="Active" value={`${activeChase} decisions`} />
+            <Row label="Not actioned" value={`${notContacted} need review`} />
             <Row label="Won" value={`${chaseWons} closed`} />
             {overdueCount > 0 && <Row label="Overdue" value={`${overdueCount} need attention`} />}
           </div>
           {activeChase === 0 && (
             <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
-              Track a lead from Find Jobs — your list stays here so you know who to contact first.
+              Track an opportunity from Find Opportunities so its decision evidence and next action stay visible here.
             </p>
           )}
         </section>
@@ -610,14 +586,11 @@ export function DashboardPage() {
             {winRate !== null && (
               <Row label="Win rate" value={`${winRate}%`} />
             )}
-            {monthlyRoi !== null && monthlyRoi > 1 && (
-              <Row label="This month ROI" value={`${monthlyRoi}x return on £39`} />
-            )}
             <Row label="Losses" value={`${winData.losses} logged`} />
           </div>
           {winData.wins === 0 && (
             <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
-              Chase a lead and tap WON after you land the job. Your wins, earnings, and loss reasons track here.
+              Record WON only after a real outcome. Your wins, contract values and loss reasons track here.
             </p>
           )}
           <Link href="/leads" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">Review all leads →</Link>
@@ -627,40 +600,19 @@ export function DashboardPage() {
         <section className="jf-box bg-[var(--navy)] p-5 text-white" id="quick-actions">
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
-            {!territory && (
-              <div>
-                <Link href="/territories" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-                  LOCK YOUR PATCH NOW →
-                </Link>
-                <p className="mt-1.5 text-xs font-black text-white/70 text-center">
-                  Founder price £39/mo — no shared auction, no credit burn
-                </p>
-              </div>
-            )}
+            <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
+              CHECK CURRENT FTS OPPORTUNITIES →
+            </Link>
             {isEmpty ? (
               <Link href="/pricing" className="jf-button w-full bg-white text-[var(--ink)] text-center">
-                SEE WHAT YOU UNLOCK →
+                REVIEW PILOT FIT →
               </Link>
             ) : (
               <Link href="/leads" className="jf-button w-full bg-white text-[var(--ink)] text-center">
-                REVIEW LEADS →
+                REVIEW DECISIONS →
               </Link>
             )}
           </div>
-        </section>
-
-        {/* Admin Guard Entry Card */}
-        <section className="jf-box bg-white p-5" style={{ borderLeftColor: 'var(--yellow)', borderLeftWidth: '4px' }}>
-          <div className="flex items-center justify-between">
-            <p className="micro-label text-[var(--muted)]">TAX & DEADLINES</p>
-            <Link href="/dashboard/admin-guard" className="text-xs font-black text-[var(--navy)] underline underline-offset-2">OPEN →</Link>
-          </div>
-          <p className="headline mt-3 text-2xl leading-none">ADMIN GUARD</p>
-          <p className="mt-1 text-xs font-black text-[var(--muted)]">Tax dates, Self Assessment, and trade admin — free</p>
-          <p className="mt-2 font-black text-[var(--muted)] text-sm">
-            HMRC deadlines, monthly checklists and calendar exports — so tax dates and renewal fees don&apos;t sneak up on you.
-          </p>
-          <Link href="/features/admin-guard" className="mt-4 block text-xs font-black text-[var(--navy)] underline underline-offset-2">What does it track? →</Link>
         </section>
       </div>
 

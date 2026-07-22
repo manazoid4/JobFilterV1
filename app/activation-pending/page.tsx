@@ -5,7 +5,7 @@ import { ActivationPendingPage } from '../../src/pages/ActivationPendingPage';
 
 export default function Page(props: any) {
   return (
-    <Suspense fallback={<main className="page-shell py-10" />}>
+    <Suspense fallback={<main className="page-shell py-10"><p role="status" aria-live="polite">Loading account setup…</p></main>}>
       <ActivationPendingPage {...props} />
     </Suspense>
   );
