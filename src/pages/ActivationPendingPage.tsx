@@ -3,7 +3,6 @@ import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-import { createBrowserSupabaseClient } from '../lib/supabase/client';
 import { useAuth } from '../components/AuthProvider';
 
 const TRADES = [
@@ -66,18 +65,12 @@ export function ActivationPendingPage() {
         return;
       }
 
-      const supabase = createBrowserSupabaseClient();
-      const { data } = await supabase.auth.getUser();
       const checkout = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tier,
           billing,
-          email: data.user?.email,
-          userId: data.user?.id,
-          trade,
-          postcodeOutward: postcode.trim().toUpperCase(),
         }),
       });
       const checkoutPayload = await checkout.json() as { ok?: boolean; url?: string; error?: string };

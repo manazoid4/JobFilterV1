@@ -1,7 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { PricingPage } from '../../src/pages/PricingPage';
 
-export default function Page(props: any) {
-  return <PricingPage {...props} />;
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <PricingPage />
+    </Suspense>
+  );
 }

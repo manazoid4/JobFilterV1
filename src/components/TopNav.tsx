@@ -21,6 +21,7 @@ const memberLinks = [
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/leads', label: 'My Leads' },
   { to: '/find-jobs', label: 'Find Jobs' },
+  { to: '/account', label: 'Account' },
   { to: '/free-tools', label: 'Free Tools' },
   { to: '/whats-new', label: "What's New" },
 ];

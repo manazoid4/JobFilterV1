@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { type ReactNode } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
@@ -21,8 +22,21 @@ const objections = [
 ];
 
 export function PricingPage() {
+  const checkoutCancelled = useSearchParams()?.get('cancelled') === '1';
+
   return (
     <main className="page-shell grid gap-6 py-8 pb-16 text-[var(--ink)]">
+      {checkoutCancelled && (
+        <section role="status" className="border-4 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+          <p className="micro-label text-[var(--orange)]">CHECKOUT CANCELLED</p>
+          <p className="mt-2 font-black text-[var(--ink)]">
+            No payment was taken. Your account and saved patch are unchanged — you can restart checkout whenever you're ready.
+          </p>
+          <Link href="/account" className="mt-3 inline-block font-black underline underline-offset-4">
+            RETURN TO ACCOUNT →
+          </Link>
+        </section>
+      )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FOUNDER PRICING</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">

@@ -1,22 +1,23 @@
 "use client";
 
 import { useState } from 'react';
+import { useAuth } from './AuthProvider';
 
 interface CheckoutButtonProps {
   tier: 'founding' | 'pro' | 'business' | 'epc';
   billing: 'monthly' | 'annual';
-  email?: string;
-  userId?: string;
   label?: string;
   className?: string;
 }
 
-export function CheckoutButton({ tier, billing, email, userId, label, className = '' }: CheckoutButtonProps) {
+export function CheckoutButton({ tier, billing, label, className = '' }: CheckoutButtonProps) {
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleClick = async () => {
-    if (!email && !userId) {
+    if (authLoading) return;
+    if (!user) {
       const params = new URLSearchParams({ tier, billing });
       window.location.href = `/signup?${params.toString()}`;
       return;
@@ -32,8 +33,6 @@ export function CheckoutButton({ tier, billing, email, userId, label, className 
         body: JSON.stringify({
           tier,
           billing,
-          email,
-          userId,
         }),
       });
 
@@ -53,9 +52,9 @@ export function CheckoutButton({ tier, billing, email, userId, label, className 
         type="button"
         className={`jf-button ${className}`}
         onClick={handleClick}
-        disabled={loading}
+        disabled={loading || authLoading}
       >
-        {loading ? 'Redirecting...' : label || 'GET STARTED'}
+        {loading || authLoading ? 'Redirecting...' : label || 'GET STARTED'}
       </button>
       {error && <p className="mt-2 text-sm font-black text-[var(--orange)]">{error}</p>}
     </div>
