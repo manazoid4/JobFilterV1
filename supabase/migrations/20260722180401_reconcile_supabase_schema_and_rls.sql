@@ -51,7 +51,7 @@ where (plan is null or plan in ('', 'free'))
 update public.subscriptions
 set plan = coalesce(nullif(plan, ''), nullif(tier, ''), 'free'),
     tier = coalesce(nullif(plan, ''), nullif(tier, ''), 'free'),
-    active = status in ('active', 'trialing');
+    active = coalesce(status in ('active', 'trialing'), false);
 
 create or replace function public.sync_subscription_tier()
 returns trigger
