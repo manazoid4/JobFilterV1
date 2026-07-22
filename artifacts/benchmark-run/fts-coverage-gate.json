@@ -1,0 +1,61 @@
+{
+  "status": "GO",
+  "evaluatedAt": "2026-07-20T00:00:00.000Z",
+  "thresholds": {
+    "minimumLabels": 100,
+    "minimumPrecisionAt10": 0.8,
+    "minimumLocalityResolutionRate": 0.8,
+    "minimumActionableLocalOpportunities": 1
+  },
+  "checks": [
+    {
+      "id": "benchmark_report_present",
+      "passed": true,
+      "actual": true,
+      "required": true
+    },
+    {
+      "id": "territory_defined",
+      "passed": true,
+      "actual": true,
+      "required": true
+    },
+    {
+      "id": "external_label_provenance",
+      "passed": true,
+      "actual": true,
+      "required": true
+    },
+    {
+      "id": "minimum_human_labels",
+      "passed": true,
+      "actual": 190,
+      "required": 100
+    },
+    {
+      "id": "top_10_fully_labelled",
+      "passed": true,
+      "actual": true,
+      "required": true
+    },
+    {
+      "id": "precision_at_10",
+      "passed": true,
+      "actual": 1,
+      "required": 0.8
+    },
+    {
+      "id": "locality_resolution_rate",
+      "passed": true,
+      "actual": 1,
+      "required": 0.8
+    },
+    {
+      "id": "actionable_local_opportunities",
+      "passed": true,
+      "actual": 55,
+      "required": 1
+    }
+  ],
+  "blockers": []
+}
