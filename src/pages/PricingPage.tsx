@@ -6,18 +6,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'Gold-ranked opportunities — strongest verified evidence first',
-  'Buyer context before you call — job type, value band, and best contact route',
-  'Job value band before you quote — know if it\'s worth your time',
-  'Patch-first filtering — paid activation follows a coverage check',
-  'Win tracker — log wins, track ROI, see what\'s converting in your area',
+  'GOLD leads ranked first — buyer name, phone, and best contact route on every one',
+  'Job value band before you quote — know if it\'s worth your time before you drive out',
+  'Gold leads controlled by trade, patch, and timing — no shared auction, no five-trade blast',
+  'WhatsApp delivery the moment a scored lead hits your patch',
+  'Win tracker — log wins, see ROI, and know which signals pay off',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
-  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Is this another job board?', 'No. Checkatrade, Bark, and MyBuilder sell the same enquiry to five trades and charge you to compete. JobFilter finds real opportunities from verified signals — no credits, no auction, no shared queue.'],
+  ['Are leads shared?', 'Gold leads are controlled by trade, patch, and timing — no shared auction, no five-trade blast. Not one enquiry sold to five bidders like Bark or Checkatrade.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and WhatsApp number. We verify coverage before your paid patch goes live.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans every week, no credit card required. You see real scored leads in your area. Upgrade unlocks buyer name, phone, job value band, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {
@@ -44,7 +44,7 @@ export function PricingPage() {
           GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Official UK opportunities filtered by evidence, trade fit, location, freshness, and value confidence. Coverage varies by trade and patch, so we check it before paid activation.
+          Real jobs from verified signals — not recycled enquiries sold to five trades at once. Bark charges £30+ per shared lead. Here, one month costs £39 and the leads aren&apos;t shared with anyone.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -68,7 +68,7 @@ export function PricingPage() {
           title="Founder"
           price="£39/mo"
           priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Verified opportunities — not invented fallback jobs. Full context and delivery features activate only after account, patch, and provider checks pass."
+          body="Real opportunities from verified signals — not a list shared to five trades. Buyer name, phone, and value band activate after account, patch, and coverage checks pass."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}

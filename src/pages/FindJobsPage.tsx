@@ -418,21 +418,29 @@ export function FindJobsPage() {
         <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
 
-        {!unlimitedTester && (
-          <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
-            <span className={`h-2 w-2 rounded-full shrink-0 ${weeklyScansRemaining === 0 ? 'bg-[var(--orange)]' : weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
-            <p className="text-sm font-black text-[var(--ink)]">
-              {weeklyScansRemaining > 0
-                ? weeklyScansUsed === 0
-                  ? `3 free scans this week — no credit card required`
-                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer details locked. Scanning is always free — upgrade to see who to call.'}
+        {!unlimitedTester && weeklyScansRemaining === 0 && (
+          <div className="mt-3 border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
+            <p className="micro-label text-[10px] text-[var(--yellow)]">YOU&apos;VE SEEN THE LEADS — NOW SEE WHO TO CALL</p>
+            <p className="mt-1 font-black text-white">
+              Buyer name and phone are locked on the free tier. Unlock them for £39/mo — no shared auction, no credit burn.
             </p>
-            {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
-            ) : weeklyScansUsed > 0 ? (
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
+              <span className="text-xs font-black text-white/60">30-day money-back · Scans reset Monday</span>
+            </div>
+          </div>
+        )}
+        {!unlimitedTester && weeklyScansRemaining > 0 && (
+          <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
+            <span className={`h-2 w-2 rounded-full shrink-0 ${weeklyScansRemaining === 1 ? 'bg-[var(--orange)]' : 'bg-[var(--green)]'}`} />
+            <p className="text-sm font-black text-[var(--ink)]">
+              {weeklyScansUsed === 0
+                ? `3 free scans this week — no credit card required`
+                : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`}
+            </p>
+            {weeklyScansUsed > 0 && (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
-            ) : null}
+            )}
           </div>
         )}
 

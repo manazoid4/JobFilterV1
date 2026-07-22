@@ -6,10 +6,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official opportunity data ranked by evidence',
-  'Internal samples blocked from live scans',
-  'Paid details stay locked in the free preview',
-  'No verified match means an honest empty result',
+  'Verified signals only — not recycled enquiries from Bark or Checkatrade',
+  'Real leads in your patch — score, source, and trade fit shown free',
+  'No shared auction — Gold leads go to one trade, not five',
+  'Empty result is honest — no made-up jobs to fill the screen',
 ];
 
 const signalRows = [
@@ -95,7 +95,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth checking for your trade and patch. No invented jobs. No recycled lead auction.
+              Bark sells your enquiry to five trades and charges £30+ a lead. JobFilter scans verified UK opportunity signals, scores them for your trade and patch, and sends you the ones worth pricing. No shared queue. No credit burn.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -152,9 +152,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
+          <span>Real opportunities — not shared enquiries sold to five trades</span>
           <span>Scored by evidence, trade fit, location, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Empty scan means no verified match — not a made-up job to fill your screen</span>
         </div>
       </section>
 
