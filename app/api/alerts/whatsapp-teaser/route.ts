@@ -1,5 +1,5 @@
-import { getSupabaseServiceClient } from '../../../../../src/lib/supabase/server';
-import { scan } from '../../../../../leadEngine/scan';
+import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { scan } from '../../../../leadEngine/scan';
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
