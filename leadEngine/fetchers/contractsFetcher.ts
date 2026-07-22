@@ -229,9 +229,11 @@ export function mapFindATenderRelease(release: any, trade: string, now = new Dat
   const description = String(tender.description ?? '').trim();
   if (title.length < 4) return null;
 
+  const isAward = asArray<string>(release.tag).some(t => ['award', 'contract', 'implementation'].includes(t)) || status === 'complete';
+  
   const deadline = String(tender?.tenderPeriod?.endDate ?? '').trim();
   const deadlineTimestamp = Date.parse(deadline);
-  if (Number.isFinite(deadlineTimestamp)) {
+  if (!isAward && Number.isFinite(deadlineTimestamp)) {
     const deadlineDays = (deadlineTimestamp - now.getTime()) / 86_400_000;
     if (deadlineDays < CONFIG.minDeadlineDaysFromNow || deadlineDays > CONFIG.maxDeadlineDaysFromNow) return null;
   }
@@ -250,8 +252,21 @@ export function mapFindATenderRelease(release: any, trade: string, now = new Dat
   const buyerParty = parties.find(party => party?.id && party.id === buyerReference?.id)
     ?? parties.find(party => asArray<string>(party?.roles).includes('buyer'))
     ?? {};
-  const buyerAddress = buyerParty.address ?? buyerReference.address ?? {};
-  const buyerContact = buyerParty.contactPoint ?? buyerReference.contactPoint ?? {};
+
+  let targetContact = buyerParty.contactPoint ?? buyerReference.contactPoint ?? {};
+  let targetName = String(buyerParty?.name ?? buyerReference?.name ?? tender?.procuringEntity?.name ?? '').trim();
+  
+  // Extract main contractor for awards
+  if (isAward) {
+    const awards = asArray<any>(release.awards);
+    const suppliers = awards.flatMap(a => asArray<any>(a.suppliers));
+    if (suppliers.length > 0) {
+      const supplier = suppliers[0];
+      const supplierParty = parties.find(p => p?.id === supplier?.id) ?? supplier;
+      targetName = `Main Contractor: ${supplierParty.name}`;
+      targetContact = supplierParty.contactPoint ?? targetContact;
+    }
+  }
 
   const deliveryAddresses = items.flatMap(item => [
     ...asArray<any>(item?.deliveryAddresses),
@@ -290,14 +305,14 @@ export function mapFindATenderRelease(release: any, trade: string, now = new Dat
     rawPostcode: deliveryPostcode || '',
     rawDeadline: deadline,
     rawPublished: String(release.date ?? '').trim(),
-    rawBuyer: String(buyerParty?.name ?? buyerReference?.name ?? tender?.procuringEntity?.name ?? '').trim(),
+    rawBuyer: targetName,
     rawCpvCodes: cpvCodes,
     rawContact: {
-      name: String(buyerContact?.name ?? '').trim() || undefined,
-      phone: String(buyerContact?.telephone ?? buyerContact?.phone ?? '').trim() || undefined,
-      email: String(buyerContact?.email ?? '').trim() || undefined,
+      name: String(targetContact?.name ?? '').trim() || undefined,
+      phone: String(targetContact?.telephone ?? targetContact?.phone ?? '').trim() || undefined,
+      email: String(targetContact?.email ?? '').trim() || undefined,
     },
-    rawStage: asArray<string>(release.tag).includes('tender') ? 'tender' : (status || undefined),
+    rawStage: isAward ? 'award' : (asArray<string>(release.tag).includes('tender') ? 'tender' : (status || undefined)),
     sourceSystem: 'FTS',
     sourceUrl: typeof sourceUrl === 'string' ? sourceUrl : undefined,
   };
@@ -314,7 +329,7 @@ export async function fetchFindATender(
   const useCache = options.useCache ?? options.fetchImpl == null;
   const cacheWindowNow = new Date(Math.floor(now.getTime() / PACKAGE_CACHE_TTL_MS) * PACKAGE_CACHE_TTL_MS);
   const since = new Date(cacheWindowNow.getTime() - CONFIG.lookbackDays * 86_400_000).toISOString().substring(0, 19);
-  const params = new URLSearchParams({ updatedFrom: since, stages: 'tender', limit: '100' });
+  const params = new URLSearchParams({ updatedFrom: since, stages: 'tender,award,contract', limit: '100' });
 
   let nextUrl: string | undefined = `${FTS_BASE}?${params}`;
   const visitedUrls = new Set<string>();
