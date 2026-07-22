@@ -8,7 +8,7 @@ import { SampleLeadCard } from '../components/SampleLeadCard';
 const proofPoints = [
   'Verified signals only — not recycled enquiries from Bark or Checkatrade',
   'Real leads in your patch — score, source, and trade fit shown free',
-  'No shared auction — Gold leads go to one trade, not five',
+  'No shared auction — not one enquiry sold to five bidders like Bark',
   'Empty result is honest — no made-up jobs to fill the screen',
 ];
 
