@@ -16,6 +16,8 @@ export type LeadStatus =
   | 'cancelled';
 export type Tier = 'free' | 'paid';
 export type ComplianceRisk = 'low' | 'medium' | 'high';
+export type OpportunityDecision = 'BID' | 'WATCH' | 'SUBCONTRACT' | 'SKIP';
+export type ScoreFactorProvenance = 'source' | 'derived' | 'fusion' | 'outcome';
 export type AuditLabel =
   | 'ACTIONABLE'
   | 'WRONG_TRADE'
@@ -87,6 +89,9 @@ export interface Lead {
   signalStack?: string[];
   signalClass?: 'homeowner_retrofit' | 'active_site' | 'commercial_fitout' | 'distressed_property' | 'public_contract' | 'internal_fallback';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  decision?: OpportunityDecision;
+  scoringPolicyVersion?: string;
+  scoreFactors?: Array<{ reason: string; provenance: ScoreFactorProvenance }>;
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;

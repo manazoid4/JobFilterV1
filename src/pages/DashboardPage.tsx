@@ -24,16 +24,19 @@ const TRADES = [
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY (FREE)' },
   { value: 'daily', label: 'DAILY (PAID)' },
-  { value: 'instant', label: 'INSTANT (PAID)' },
+  { value: 'instant', label: 'HOURLY CHECK (PAID)' },
 ];
+
+type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };
 
 function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
   const [trade, setTrade] = useState(scanTrade ?? 'electrical');
   const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
   const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
+  const [radiusMiles, setRadiusMiles] = useState(25);
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
-  const [activeAlerts, setActiveAlerts] = useState<{ id: string; trade: string; postcode_outward: string; frequency: string }[]>([]);
+  const [activeAlerts, setActiveAlerts] = useState<ActiveAlert[]>([]);
   const [loaded, setLoaded] = useState(false);
   const mountedRef = React.useRef(true);
 
@@ -71,7 +74,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ trade, location: postcode.trim().toUpperCase(), postcode_outward: postcode.trim().toUpperCase(), frequency }),
+        body: JSON.stringify({ trade, location: postcode.trim().toUpperCase(), postcode_outward: postcode.trim().toUpperCase(), frequency, radius_miles: radiusMiles }),
       });
       const data = await res.json();
       if (!mountedRef.current) return;
@@ -88,19 +91,53 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
     }
   }
 
+  async function updateAlert(id: string, update: Record<string, unknown>) {
+    setStatus('sending');
+    const response = await fetch('/api/alerts', {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+      body: JSON.stringify({ id, ...update }),
+    });
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      setErrorMsg(payload.error || 'Could not update alert');
+      setStatus('error');
+      return;
+    }
+    setStatus('done');
+    loadAlerts();
+  }
+
+  async function deleteAlert(id: string) {
+    setStatus('sending');
+    const response = await fetch(`/api/alerts?id=${encodeURIComponent(id)}`, { method: 'DELETE', credentials: 'include' });
+    if (!response.ok) {
+      setStatus('error');
+      setErrorMsg('Could not delete alert');
+      return;
+    }
+    setStatus('done');
+    loadAlerts();
+  }
+
   return (
     <section className="jf-box bg-white p-5">
       <p className="micro-label text-[var(--muted)]">LEAD ALERTS</p>
       <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN JOBS APPEAR</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Set up an alert for your trade and postcode area. Free weekly digest — paid subscribers get daily or instant.
+        Set up an alert for your trade, postcode and travel radius. Free weekly digest; paid subscribers can choose daily or an hourly source check.
       </p>
 
-      <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end">
+      <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
         <label className="field-label">
           Trade
           <select value={trade} onChange={e => setTrade(e.target.value)} className="field-input">
             {TRADES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+          </select>
+        </label>
+        <label className="field-label">
+          Radius
+          <select value={radiusMiles} onChange={e => setRadiusMiles(Number(e.target.value))} className="field-input">
+            {[5, 10, 15, 25, 50, 100].map(radius => <option key={radius} value={radius}>{radius} miles</option>)}
           </select>
         </label>
         <label className="field-label">
@@ -119,17 +156,28 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       </form>
 
       {status === 'error' && (
-        <p className="mt-2 text-xs font-black text-[var(--orange)]">{errorMsg || 'Failed — check you are logged in and try again'}</p>
+        <p role="alert" className="mt-2 text-xs font-black text-[var(--orange)]">{errorMsg || 'Failed — check you are logged in and try again'}</p>
       )}
+      <p aria-live="polite" className="sr-only">{status === 'done' ? 'Alert settings saved' : status === 'sending' ? 'Saving alert settings' : ''}</p>
 
       {loaded && activeAlerts.length > 0 && (
         <div className="mt-4 border-t-2 border-[var(--line)] pt-3">
-          <p className="micro-label text-[var(--muted)] text-[10px] mb-2">ACTIVE ALERTS</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="micro-label text-[var(--muted)] text-[10px] mb-2">YOUR ALERTS</p>
+          <div className="grid gap-2">
             {activeAlerts.map(a => (
-              <span key={a.id} className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-2 py-1 text-xs font-black uppercase text-[var(--green)]">
-                {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.frequency.charAt(0).toUpperCase() + a.frequency.slice(1)}
-              </span>
+              <div key={a.id} className={`flex flex-wrap items-center justify-between gap-2 border-2 border-[var(--line)] p-2 text-xs font-black uppercase ${a.active ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--muted)]'}`}>
+                <span>
+                  {a.active ? 'Active' : 'Paused'} · {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.radius_miles ?? 25}mi · {a.frequency === 'instant' ? 'Hourly check' : a.frequency}
+                </span>
+                <span className="flex gap-2">
+                  <button type="button" onClick={() => void updateAlert(a.id, { active: !a.active })} className="underline underline-offset-2" aria-label={`${a.active ? 'Pause' : 'Resume'} ${a.trade} alert for ${a.postcode_outward}`}>
+                    {a.active ? 'Pause' : 'Resume'}
+                  </button>
+                  <button type="button" onClick={() => void deleteAlert(a.id)} className="text-[var(--orange)] underline underline-offset-2" aria-label={`Delete ${a.trade} alert for ${a.postcode_outward}`}>
+                    Delete
+                  </button>
+                </span>
+              </div>
             ))}
           </div>
         </div>

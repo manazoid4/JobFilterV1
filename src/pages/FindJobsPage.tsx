@@ -258,6 +258,9 @@ export function FindJobsPage() {
       status: 'new',
       createdAt: new Date().toISOString(),
       qualityLabel: lead.qualityLabel,
+      decision: lead.decision,
+      scoringPolicyVersion: lead.scoringPolicyVersion,
+      scoreFactors: lead.scoreFactors,
       recommendedAction: lead.recommendedAction,
       signalStack: lead.signalStack,
       signalClass: lead.signalClass,
@@ -1151,6 +1154,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
 
   const isGold = lead.score >= 80;
   const isSilver = lead.score >= 50 && lead.score < 80;
+  const decision = lead.decision ?? (isGold ? 'BID' : isSilver ? 'WATCH' : lead.score >= 30 ? 'WATCH' : 'SKIP');
   const isCompaniesHouse = lead.source === 'CompaniesHouse';
   const isNew = lead.publishedAt && isNewLead(lead.publishedAt);
 
@@ -1187,14 +1191,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
       <div className="flex flex-col items-center gap-1">
         <div className={`grid place-items-center border-2 border-[var(--line)] ${scoreBadgeClass} h-20 w-20`}>
           <div className="flex flex-col items-center">
-            <span className="headline leading-none text-3xl">{lead.score}</span>
-            <span className="text-[10px] font-black uppercase">
-              {isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE'}
-            </span>
+            <span className="headline leading-none text-xl">{decision}</span>
+            <span className="text-[10px] font-black uppercase">SCORE {lead.score}</span>
           </div>
         </div>
         {lead.qualityLabel && (
-          <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel}</span>
+          <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
         )}
         {rawReasons.length > 0 && (
           <button

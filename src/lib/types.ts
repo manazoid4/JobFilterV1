@@ -3,6 +3,7 @@ export type LeadUrgency = 'high' | 'medium' | 'low';
 export type ContactSignal = 'strong' | 'weak' | 'none';
 export type LiveLeadStatus = 'new' | 'saved' | 'ignored';
 export type LeadDecisionStatus = 'new' | 'saved' | 'ignored' | 'won' | 'lost' | 'no_answer';
+export type OpportunityDecision = 'BID' | 'WATCH' | 'SUBCONTRACT' | 'SKIP';
 
 export type DecisionFlag = 'Local' | 'Urgent' | 'Photos' | 'Clear' | 'Risk' | 'Budget' | 'GoodBudget';
 
@@ -22,6 +23,9 @@ export type LeadDecision = {
   status: LeadDecisionStatus;
   createdAt: string;
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  decision?: OpportunityDecision;
+  scoringPolicyVersion?: string;
+  scoreFactors?: Array<{ reason: string; provenance: 'source' | 'derived' | 'fusion' | 'outcome' }>;
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;
@@ -64,6 +68,9 @@ export type Lead = {
   isCommercial?: boolean;
   projectScale?: 'small' | 'medium' | 'large';
   qualityLabel?: 'GOLD' | 'SILVER' | 'BRONZE' | 'CHECK' | 'SKIP';
+  decision?: OpportunityDecision;
+  scoringPolicyVersion?: string;
+  scoreFactors?: Array<{ reason: string; provenance: 'source' | 'derived' | 'fusion' | 'outcome' }>;
   ghostRisk?: 'READY' | 'MAYBE' | 'WASTE';
   leadReadiness?: 'READY' | 'MAYBE' | 'WASTE';
   recommendedAction?: string;

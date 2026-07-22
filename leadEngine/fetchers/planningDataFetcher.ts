@@ -164,7 +164,7 @@ export async function planningDataFetcher(
             rawLocation:   address || (isGeoLookup ? outward : ''),
             rawPostcode:   addressPostcode || (isGeoLookup ? outward : ''),
             rawDeadline:   new Date(Date.now() + 30 * 86_400_000).toISOString(),
-            rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? new Date().toISOString()),
+            rawPublished:  String(e?.['entry-date'] ?? e?.['start-date'] ?? e?.entry_date ?? e?.start_date ?? ''),
             rawBuyer:      String(e?.organisation ?? e?.['organisation-entity'] ?? jsonData?.applicant_name ?? 'Local Authority').trim(),
             rawCpvCodes:   [],
             sourceSystem:  'PlanningData',

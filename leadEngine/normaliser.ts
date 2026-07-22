@@ -172,7 +172,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const max = raw.rawValueMax ?? rawVal;
 
   const deadline = normaliseDate(raw.rawDeadline);
-  const published = normaliseDate(raw.rawPublished) || new Date().toISOString();
+  const published = normaliseDate(raw.rawPublished);
 
   const outward = deriveOutward(raw);
   const nutsMatch = String(raw.rawLocation ?? '').trim().toUpperCase().match(/\bUK[A-Z0-9]{1,3}\b/);

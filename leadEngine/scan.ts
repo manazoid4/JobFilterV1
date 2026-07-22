@@ -27,6 +27,7 @@ import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher';
 import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher';
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
+import { classifyFinalLead, scoreFactorsFromReasons, SCORING_POLICY_VERSION } from './decisionPolicy';
 import { sourceRegistryEndpoints } from './sourceRegistry';
 import { warmSourceConfigCache, isSourceEnabled, getAllSourcesConfig } from './sourceConfig';
 import { warmOutcomeLearningCache, getOutcomeAdjustment } from './outcomeLearning';
@@ -278,7 +279,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       opportunityAtoms,
       whyThisIsAJob: whyThisIsAJob(opportunityAtoms),
     };
-    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges, contactPath } = scoreLeadBreakdown(enrichedLead, region, outward, cleanTrade as any);
+    const { score, reasons, evidenceBadges, contactPath } = scoreLeadBreakdown(enrichedLead, region, outward, cleanTrade as any);
     const scoreReasons = [...reasons];
     let finalScore = score;
     const stack = enrichedLead.signalStack ?? [enrichedLead.source].filter(Boolean);
@@ -298,13 +299,14 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       scoreReasons.push(...learned.reasons);
     }
     finalScore = Math.min(Math.max(finalScore, 0), 100);
+    const finalClassification = classifyFinalLead(enrichedLead, finalScore, contactPath);
     const leadWithDistance: Lead = {
       ...enrichedLead,
       score: finalScore,
       scoreReasons,
-      qualityLabel,
-      leadReadiness,
-      recommendedAction,
+      ...finalClassification,
+      scoringPolicyVersion: SCORING_POLICY_VERSION,
+      scoreFactors: scoreFactorsFromReasons(scoreReasons),
       contactPath,
       evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
     };
