@@ -23,6 +23,7 @@ export interface SourceConfigEntry {
 // Runtime overrides are stored in the `source_config` Supabase table.
 // Adding a new source = add one entry here + write a fetcher + register it in scan.ts.
 export const SOURCE_REGISTRY: SourceConfigEntry[] = [
+  // Contracts Finder is excluded from the current live feed; retained only for legacy/backfill reference.
   { key: 'ContractsFinder',         label: 'Contracts Finder',          endpoint: 'https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search', signalClass: 'procurement', readiness: 'legacy',           scoreBonus: 0,  defaultEnabled: false },
   { key: 'FTS',                     label: 'Find a Tender Service',     endpoint: 'https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',        signalClass: 'procurement', readiness: 'live',             scoreBonus: 7,  defaultEnabled: true,  envToggle: 'SOURCE_FTS' },
   { key: 'PlanningData',            label: 'Planning Data API',         endpoint: 'https://www.planning.data.gov.uk/entity.json',                             signalClass: 'planning',    readiness: 'experimental',     scoreBonus: 7,  defaultEnabled: false, envToggle: 'SOURCE_PLANNING_DATA' },

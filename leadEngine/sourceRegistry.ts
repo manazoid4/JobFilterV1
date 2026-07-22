@@ -56,6 +56,7 @@ export const DATA_SOURCE_REGISTRY: DataSourceDefinition[] = [
     advantage: 'Planning, boundaries, ownership/property, EPC, and feasibility data that can compress multiple competitor datasets into one feed.',
     legalMode: 'Commercial API/partner access only.',
   },
+  // Contracts Finder is excluded from the current live feed; retained only for legacy/backfill reference.
   {
     key: 'ContractsFinder',
     label: 'Contracts Finder',

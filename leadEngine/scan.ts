@@ -40,9 +40,6 @@ const DISTANCE_LOOKUP_BUDGET_MS = 6_000;
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
   ...sourceRegistryEndpoints(),
-  ContractsFinder: [
-    'LEGACY/BACKFILL ONLY — excluded from the current-notice scan',
-  ],
   FTS: [
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
   ],

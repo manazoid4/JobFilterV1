@@ -11,6 +11,8 @@
     "clean": "rm -rf .next dist",
     "lint": "tsc --noEmit",
     "test:fts": "tsx tests/regression/fts-ocds-regression.mjs",
+    "benchmark:fts": "tsx scripts/fts-benchmark.ts",
+    "gate:fts": "tsx scripts/fts-coverage-gate.ts",
     "releases:check": "node scripts/validate-releases.mjs"
   },
   "dependencies": {

@@ -115,7 +115,7 @@ function calcProjectScale(value: number): 'small' | 'medium' | 'large' {
 function sourceConfidence(sourceSystem: string): number {
   switch (sourceSystem) {
     case 'FTS': return 88;
-    case 'ContractsFinder': return 85;
+    case 'ContractsFinder': return 65; // legacy backfill — lower confidence since CF is no longer the primary feed
     case 'PlanningData': return 65;
     case 'PlanAPI': return 82;
     case 'PlanNexus': return 82;

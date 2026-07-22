@@ -1,11 +1,11 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { fetchFindATender } from '../../leadEngine/fetchers/contractsFetcher';
-import { normalise } from '../../leadEngine/normaliser';
-import { getOutward, regionFromOutward, regionSimilarity } from '../../leadEngine/postcode';
-import { classifyFinalLead, scoreFactorsFromReasons, SCORING_POLICY_VERSION } from '../../leadEngine/decisionPolicy';
-import { scoreLeadBreakdown } from '../../leadEngine/scorer';
+import { fetchFindATender } from '../../leadEngine/fetchers/contractsFetcher.ts';
+import { normalise } from '../../leadEngine/normaliser.ts';
+import { getOutward, regionFromOutward, regionSimilarity } from '../../leadEngine/postcode.ts';
+import { classifyFinalLead, scoreFactorsFromReasons, SCORING_POLICY_VERSION } from '../../leadEngine/decisionPolicy.ts';
+import { scoreLeadBreakdown } from '../../leadEngine/scorer.ts';
 
 export const BENCHMARK_SCHEMA_VERSION = 'fts-benchmark-v1';
 export const DEFAULT_GATE_THRESHOLDS = Object.freeze({
