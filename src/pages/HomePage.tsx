@@ -8,7 +8,7 @@ import { SampleLeadCard } from '../components/SampleLeadCard';
 const proofPoints = [
   'Real UK planning, contracts, and energy data — not invented jobs',
   'Scored 0–100 so you know what\'s worth chasing',
-  'See who to call before you commit a penny',
+  'Know what\'s worth chasing before you pick up the phone',
   'No match? We tell you honestly — no fake results',
 ];
 
