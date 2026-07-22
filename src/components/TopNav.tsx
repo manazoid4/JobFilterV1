@@ -12,7 +12,7 @@ const publicLinks = [
   { to: '/territories', label: 'Claim Patch' },
   { to: '/for-your-trade', label: 'Trades' },
   { to: '/trust', label: 'Proof' },
-  { to: '/news', label: 'News' },
+  { to: '/news', label: 'Industry News' },
   { to: '/whats-new', label: "What's New" },
   { to: '/faq', label: 'FAQ' },
 ];

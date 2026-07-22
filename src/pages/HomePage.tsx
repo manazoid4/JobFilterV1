@@ -6,10 +6,10 @@ import { WaitlistForm } from '../components/WaitlistForm';
 import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official opportunity data ranked by evidence',
-  'Internal samples blocked from live scans',
-  'Paid details stay locked in the free preview',
-  'No verified match means an honest empty result',
+  'Real UK planning, contracts, and energy data — not invented jobs',
+  'Scored 0–100 so you know what\'s worth chasing',
+  'See who to call before you commit a penny',
+  'No match? We tell you honestly — no fake results',
 ];
 
 const signalRows = [
