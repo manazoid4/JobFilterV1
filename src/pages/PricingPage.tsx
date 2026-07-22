@@ -6,10 +6,10 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'GOLD leads ranked first — buyer name, phone, and best contact route on every one',
+  'GOLD leads ranked first — buyer name and best contact route; phone shown where available',
   'Job value band before you quote — know if it\'s worth your time before you drive out',
   'Gold leads controlled by trade, patch, and timing — no shared auction, no five-trade blast',
-  'WhatsApp delivery the moment a scored lead hits your patch',
+  'WhatsApp delivery for Gold leads in your patch',
   'Win tracker — log wins, see ROI, and know which signals pay off',
 ];
 
