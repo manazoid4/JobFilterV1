@@ -101,11 +101,17 @@ export function SignupPage() {
   return (
     <main className="page-shell grid gap-6 py-10">
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
-        <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
-        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
+        <p className="micro-label text-[var(--yellow)]">STOP BIDDING AGAINST FOUR OTHER TRADES</p>
+        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">ONE PATCH. YOUR LEADS.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
+          {planLabel}. Fill in your trade and postcode below. Gold leads hit your WhatsApp before anyone else calls — no shared auction, no five-trade blast.
         </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <span className="border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--yellow)]">Not Checkatrade</span>
+          <span className="border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--yellow)]">Not Bark</span>
+          <span className="border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--yellow)]">No shared auction</span>
+          <span className="border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-3 py-1 text-xs font-black uppercase text-[var(--yellow)]">30-day money-back</span>
+        </div>
       </section>
 
       <form onSubmit={submit} className="jf-box grid gap-4 bg-white p-7">

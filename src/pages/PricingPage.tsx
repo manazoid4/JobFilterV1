@@ -71,7 +71,12 @@ export function PricingPage() {
           body="Verified opportunities — not invented fallback jobs. Full context and delivery features activate only after account, patch, and provider checks pass."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={
+            <div className="mt-5">
+              <CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="bg-[var(--yellow)] text-[var(--ink)]" />
+              <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to scan first — 3 free scans every week.</p>
+            </div>
+          }
           order="order-first lg:order-none"
         />
       </section>
@@ -128,7 +133,7 @@ export function PricingPage() {
 
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">STRAIGHT ANSWERS</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NO AUCTION. NO CREDIT BURN. NO FLUFF.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NOT CHECKATRADE. NOT BARK. NOT MYBUILDER.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {objections.map(([q, a]) => (
             <article key={q} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
