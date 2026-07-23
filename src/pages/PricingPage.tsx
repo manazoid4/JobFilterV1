@@ -65,8 +65,8 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="One public contract typically recovers months of subscription cost."
+          body="Firm-aware qualification so bid time goes to the opportunities that fit — not the ones that look right until page three of the notice."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
@@ -161,7 +161,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
       <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
-      {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
+      {priceNote && <p className="mt-1 text-sm font-black text-[var(--muted)]">{priceNote}</p>}
       <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
       <ul className="mt-5 grid gap-2">
         {items.map((item) => (
