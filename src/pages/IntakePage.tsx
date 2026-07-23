@@ -68,7 +68,7 @@ export function IntakePage() {
     <main className="page-shell grid min-h-[calc(100svh-126px)] content-center py-10 pb-24 md:min-h-[calc(100vh-72px)] md:pb-8">
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">GET A QUOTE FROM {username.replace(/-/g, ' ').toUpperCase()}</p>
-        <p className="mb-5 text-sm font-black text-[var(--muted)]">
+        <p className="mb-5 text-sm font-bold text-[var(--muted)]">
           Answer 3 quick questions. Your request is scored for urgency and value — {username.replace(/-/g, ' ')} gets a notification so they can respond fast.
         </p>
 
@@ -100,7 +100,7 @@ export function IntakePage() {
           <div>
             <button type="button" onClick={() => setStep(3)} className="text-sm font-black text-[var(--muted)] hover:text-[var(--ink)]">← Back</button>
             <h1 className="headline mt-3 text-4xl leading-none sm:text-5xl">LAST STEP</h1>
-            <p className="mt-2 text-sm font-black text-[var(--muted)]">Add your details and we&apos;ll send the tradesman your request.</p>
+            <p className="mt-2 text-sm font-bold text-[var(--muted)]">Add your details and we&apos;ll send the tradesman your request.</p>
             <div className="mt-6 grid gap-3">
               <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="Your mobile number (for the tradesman to call)" />
               <input className="field-input" value={postcode} onChange={(event) => setPostcode(event.target.value.toUpperCase())} placeholder="Your postcode" />

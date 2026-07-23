@@ -83,13 +83,13 @@ export function SignupPage() {
   if (status === 'sent') {
     return (
       <main className="page-shell py-10">
-        <section className="ops-panel bg-[var(--yellow)] p-8">
+        <section role="status" aria-live="polite" className="ops-panel bg-[var(--yellow)] p-8">
           <p className="micro-label text-[var(--ink)]">CHECK YOUR EMAIL</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">CONFIRM YOUR ACCOUNT.</h1>
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
             We sent the confirmation link to {email}. Click it to confirm your account and activate your patch.
           </p>
-          <p className="mt-3 max-w-2xl text-sm font-black text-[var(--ink)]/70">
+          <p className="mt-3 max-w-2xl text-sm font-bold text-[var(--ink)]/70">
             Check your spam folder if you don&apos;t see it within 2 minutes.
           </p>
           <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BROWSE LIVE LEADS →</Link>
@@ -108,35 +108,36 @@ export function SignupPage() {
         </p>
       </section>
 
-      <form onSubmit={submit} className="jf-box grid gap-4 bg-white p-7">
-        <label className="field-label">
+      <form onSubmit={submit} className="jf-box grid gap-4 bg-white p-7" aria-busy={status === 'loading'}>
+        <label htmlFor="signup-email" className="field-label">
           Email
-          <input className="field-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <input id="signup-email" name="email" autoComplete="email" className="field-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
         </label>
-        <label className="field-label">
+        <label htmlFor="signup-password" className="field-label">
           Password
-          <input className="field-input" type="password" minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} required />
+          <input id="signup-password" name="password" autoComplete="new-password" aria-describedby="signup-password-hint" className="field-input" type="password" minLength={8} value={password} onChange={(event) => setPassword(event.target.value)} required />
+          <span id="signup-password-hint" className="text-xs font-bold normal-case tracking-normal text-[var(--muted)]">Use at least 8 characters.</span>
         </label>
-        <label className="field-label">
+        <label htmlFor="signup-company" className="field-label">
           Company name
-          <input className="field-input" value={companyName} onChange={(event) => setCompanyName(event.target.value)} required />
+          <input id="signup-company" name="organization" autoComplete="organization" className="field-input" value={companyName} onChange={(event) => setCompanyName(event.target.value)} required />
         </label>
-        <label className="field-label">
+        <label htmlFor="signup-phone" className="field-label">
           WhatsApp number
-          <input className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+44 7700 900000" required />
+          <input id="signup-phone" name="tel" autoComplete="tel" inputMode="tel" className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+44 7700 900000" required />
         </label>
-        <label className="field-label">
+        <label htmlFor="signup-trade" className="field-label">
           Trade
-          <select className="field-input" value={trade} onChange={(event) => setTrade(event.target.value)} required>
+          <select id="signup-trade" name="trade" className="field-input" value={trade} onChange={(event) => setTrade(event.target.value)} required>
             {TRADES.map((item) => <option key={item.label} value={item.value}>{item.label}</option>)}
           </select>
         </label>
-        <label className="field-label">
+        <label htmlFor="signup-postcode" className="field-label">
           Your area (e.g. B14, SW1, M20)
-          <input className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
+          <input id="signup-postcode" name="postal-code" autoComplete="postal-code" className="field-input" value={postcodeOutward} onChange={(event) => setPostcodeOutward(event.target.value.toUpperCase())} placeholder="B14" required />
         </label>
-        {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
-        <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
+        {status === 'error' && <p id="signup-error" role="alert" aria-live="assertive" className="font-black text-[var(--orange)]">{error}</p>}
+        <button type="submit" className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
           {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT →'}
         </button>
         <p className="text-xs font-black text-[var(--muted)]">No card required to create your account — payment comes after you confirm your email.</p>

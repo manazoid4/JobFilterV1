@@ -3,7 +3,7 @@
  *
  * Pipeline:
  *  1. Resolve postcode → outward, region, lat/lon
- *  2. Run all sources in parallel (ContractsFinder, FTS, PlanningData, DirectorySignal)
+ *  2. Run enabled sources in parallel (FTS is the primary current procurement feed)
  *  3. Normalise raw leads
  *  4. Deduplicate by id
  *  5. Score and rank
@@ -15,7 +15,7 @@
 
 import type { Lead, RawLead, ScanResult, SourceStats, SourceHealth } from './types';
 import { CONFIG, TRADE_KEYS } from './config';
-import { lookupPostcode, haversineMiles, regionFromOutward } from './postcode';
+import { lookupPostcode, lookupOutwardCoordinates, haversineMiles, regionFromOutward } from './postcode';
 import { contractsFetcher } from './fetchers/contractsFetcher';
 import { planningDataFetcher } from './fetchers/planningDataFetcher';
 import { directorySignalFetcher } from './fetchers/directorySignalFetcher';
@@ -27,17 +27,19 @@ import { charityCommissionFetcher } from './fetchers/charityCommissionFetcher';
 import { forestryCommissionFetcher } from './fetchers/forestryCommissionFetcher';
 import { normaliseAll } from './normaliser';
 import { scoreLeadBreakdown } from './scorer';
+import { classifyFinalLead, scoreFactorsFromReasons, SCORING_POLICY_VERSION } from './decisionPolicy';
 import { sourceRegistryEndpoints } from './sourceRegistry';
-import { warmSourceConfigCache, isSourceEnabled } from './sourceConfig';
+import { warmSourceConfigCache, isSourceEnabled, getAllSourcesConfig } from './sourceConfig';
 import { warmOutcomeLearningCache, getOutcomeAdjustment } from './outcomeLearning';
 import { extractOpportunityAtoms, whyThisIsAJob } from './opportunityAtoms';
+
+const MAX_DISTANCE_LOOKUPS = 50;
+const DISTANCE_LOOKUP_CONCURRENCY = 6;
+const DISTANCE_LOOKUP_BUDGET_MS = 6_000;
 
 // Endpoint registry — printed in diagnostics
 export const SOURCE_ENDPOINTS: Record<string, string[]> = {
   ...sourceRegistryEndpoints(),
-  ContractsFinder: [
-    'GET  https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search',
-  ],
   FTS: [
     'GET  https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages',
   ],
@@ -105,10 +107,12 @@ export interface ScanOptions {
   trade?: string;
   tier?: 'free' | 'paid';
   radiusMiles?: number;
+  signal?: AbortSignal;
 }
 
 export async function scan(opts: ScanOptions): Promise<ScanResult> {
-  const { postcode, trade = '', tier = 'free', radiusMiles } = opts;
+  const { postcode, trade = '', tier = 'free', radiusMiles, signal } = opts;
+  signal?.throwIfAborted();
   const cleanTrade = validateTrade(trade);
 
   // 1. Resolve postcode + warm source config cache (DB overrides, 5-min TTL)
@@ -117,9 +121,9 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
 
   // 2. Run all sources concurrently — failures are caught internally
   const [cfResult, planningResult, chResult, pcsResult, epcResult, lrResult, ccResult, fcResult] = await Promise.allSettled([
-    isSourceEnabled('ContractsFinder') || isSourceEnabled('FTS')
-      ? contractsFetcher(cleanTrade)
-      : Promise.resolve(disabledSources(['ContractsFinder', 'FTS'])),
+    isSourceEnabled('FTS')
+      ? contractsFetcher(cleanTrade, { signal })
+      : Promise.resolve(disabledSources(['FTS'])),
     isSourceEnabled('PlanningData')
       ? planningDataFetcher(outward, region, cleanTrade, pcInfo.latitude, pcInfo.longitude)
       : Promise.resolve(disabledSources(['PlanningData'])),
@@ -165,7 +169,6 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   if (cfResult.status === 'fulfilled') {
     Object.assign(mergedStats, cfResult.value.stats);
   } else {
-    mergedStats['ContractsFinder'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'ContractsFinder settled as rejected' };
     mergedStats['FTS'] = { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'FTS settled as rejected' };
   }
 
@@ -241,6 +244,30 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   // 5b. Fuse signals
   const fused = fuseSignals(unique, outward);
 
+  // Resolve delivery-postcode centroids in parallel. FTS buyer postcodes are
+  // deliberately not used as delivery evidence, so missing coordinates remain
+  // unknown and are excluded by a requested radius below.
+  const outwardCoordinates = new Map<string, Awaited<ReturnType<typeof lookupOutwardCoordinates>>>();
+  if (radiusMiles && Number.isFinite(pcInfo.latitude) && Number.isFinite(pcInfo.longitude)) {
+    const distanceBudget = AbortSignal.timeout(DISTANCE_LOOKUP_BUDGET_MS);
+    const distanceSignal = signal ? AbortSignal.any([signal, distanceBudget]) : distanceBudget;
+    const candidateOutwards = [...new Set(
+      fused
+        .map(lead => lead.postcodeOutward?.toUpperCase())
+        .filter((candidate): candidate is string => Boolean(candidate && candidate !== 'UK' && candidate !== outward.toUpperCase())),
+    )].slice(0, MAX_DISTANCE_LOOKUPS);
+    let nextCandidate = 0;
+    await Promise.all(Array.from(
+      { length: Math.min(DISTANCE_LOOKUP_CONCURRENCY, candidateOutwards.length) },
+      async () => {
+        while (nextCandidate < candidateOutwards.length && !distanceSignal.aborted) {
+          const candidate = candidateOutwards[nextCandidate++];
+          outwardCoordinates.set(candidate, await lookupOutwardCoordinates(candidate, { signal: distanceSignal }));
+        }
+      },
+    ));
+  }
+
   // 6. Score, update stats.passed, rank
   const scored: Lead[] = fused.map(l => {
     const opportunityAtoms = extractOpportunityAtoms(l);
@@ -249,7 +276,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       opportunityAtoms,
       whyThisIsAJob: whyThisIsAJob(opportunityAtoms),
     };
-    const { score, reasons, qualityLabel, leadReadiness, recommendedAction, evidenceBadges, contactPath } = scoreLeadBreakdown(enrichedLead, region, outward, cleanTrade as any);
+    const { score, reasons, evidenceBadges, contactPath } = scoreLeadBreakdown(enrichedLead, region, outward, cleanTrade as any);
     const scoreReasons = [...reasons];
     let finalScore = score;
     const stack = enrichedLead.signalStack ?? [enrichedLead.source].filter(Boolean);
@@ -269,21 +296,34 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
       scoreReasons.push(...learned.reasons);
     }
     finalScore = Math.min(Math.max(finalScore, 0), 100);
+    const finalClassification = classifyFinalLead(enrichedLead, finalScore, contactPath);
     const leadWithDistance: Lead = {
       ...enrichedLead,
       score: finalScore,
       scoreReasons,
-      qualityLabel,
-      leadReadiness,
-      recommendedAction,
+      ...finalClassification,
+      scoringPolicyVersion: SCORING_POLICY_VERSION,
+      scoreFactors: scoreFactorsFromReasons(scoreReasons),
       contactPath,
       evidenceBadges: stack.length > 1 ? [...evidenceBadges, 'Multi-source'] : evidenceBadges,
     };
     const leadOutward = l.postcodeOutward?.toUpperCase() ?? '';
     if (leadOutward === outward.toUpperCase()) {
       leadWithDistance.distanceMiles = 0;
+    } else if (
+      Number.isFinite(pcInfo.latitude)
+      && Number.isFinite(pcInfo.longitude)
+      && outwardCoordinates.get(leadOutward)
+    ) {
+      const coordinates = outwardCoordinates.get(leadOutward)!;
+      leadWithDistance.distanceMiles = Math.round(haversineMiles(
+        pcInfo.latitude!,
+        pcInfo.longitude!,
+        coordinates!.latitude,
+        coordinates!.longitude,
+      ) * 10) / 10;
     } else if (leadOutward && regionFromOutward(leadOutward) === region) {
-      leadWithDistance.distanceMiles = null as any;
+      leadWithDistance.distanceMiles = undefined;
       leadWithDistance.score = Math.max(0, (leadWithDistance.score ?? 0) - 3);
       leadWithDistance.scoreReasons = [...scoreReasons, 'Approximate regional distance only (-3)'];
     }
@@ -293,7 +333,7 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   const rankingPool = tradeMatched.length ? tradeMatched : scored;
 
   const radiusFiltered = radiusMiles
-    ? rankingPool.filter(l => (l.distanceMiles ?? 0) <= radiusMiles)
+    ? rankingPool.filter(l => isLeadWithinRadius(l, outward, radiusMiles))
     : rankingPool;
   radiusFiltered.sort((a, b) => compareLeadRank(a, b));
 
@@ -326,6 +366,25 @@ export async function scan(opts: ScanOptions): Promise<ScanResult> {
   };
 }
 
+/**
+ * Radius filters must fail closed when a source cannot prove distance.
+ * Exact outward matches are assigned distance 0 before this check. Other
+ * unknown distances are excluded rather than being treated as zero miles.
+ */
+export function isLeadWithinRadius(
+  lead: Pick<Lead, 'distanceMiles' | 'postcodeOutward'>,
+  requestedOutward: string,
+  radiusMiles: number,
+): boolean {
+  if (typeof lead.distanceMiles === 'number' && Number.isFinite(lead.distanceMiles)) {
+    return lead.distanceMiles >= 0 && lead.distanceMiles <= radiusMiles;
+  }
+  return Boolean(
+    lead.postcodeOutward
+    && lead.postcodeOutward.toUpperCase() === requestedOutward.toUpperCase(),
+  );
+}
+
 function buildSourceHealth(stats: Record<string, SourceStats>): Record<string, SourceHealth> {
   const health: Record<string, SourceHealth> = {};
   for (const [source, sourceStats] of Object.entries(stats)) {
@@ -344,11 +403,11 @@ function buildSourceHealth(stats: Record<string, SourceStats>): Record<string, S
 
 function sourceReadiness(source: string, stats: SourceStats): SourceHealth['readiness'] {
   if (stats.failed) return 'disabled';
-  if (source === 'CompaniesHouse' && !process.env.COMPANIES_HOUSE_API_KEY && process.env.DEMO_MODE !== 'true') return 'key-required';
-  if (source === 'EPC' && !process.env.EPC_BEARER_TOKEN && !process.env.EPC_API_KEY) return 'key-required';
   if (source === 'DirectorySignal') return 'demo';
-  if (source === 'LandRegistry' && process.env.DEMO_MODE !== 'true') return 'disabled';
-  if ((source === 'CharityCommission' || source === 'ForestryCommission') && process.env.DEMO_MODE !== 'true') return 'disabled';
+  const configKey = source === 'PCS' ? 'PublicContractsScotland' : source;
+  const config = getAllSourcesConfig().find(entry => entry.key === configKey);
+  if (config?.readiness === 'key-required' && !config.effectiveEnabled) return 'key-required';
+  if (config && (!config.effectiveEnabled || config.readiness !== 'live')) return 'disabled';
   return 'live';
 }
 

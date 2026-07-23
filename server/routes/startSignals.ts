@@ -3,6 +3,7 @@ import type { Lead } from '../../leadEngine/types';
 import { scan } from '../../leadEngine/scan';
 import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
+import { resolveRequestAccess } from '../lib/requestAuth';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -11,6 +12,13 @@ const FEEDBACK_STATUSES = new Set(['won', 'lost', 'too_early', 'not_real', 'real
 export function registerStartSignalsRoute(app: Express) {
   app.post('/api/start-signals/search', rateLimit, async (req: Request, res: Response) => {
     try {
+      const access = await resolveRequestAccess(req);
+      if (!access) {
+        return res.status(401).json({ ok: false, error: 'Authentication required.' });
+      }
+      if (!access.isPaid) {
+        return res.status(403).json({ ok: false, error: 'Paid subscription required.' });
+      }
       const postcode = parseUkPostcode(req.body?.postcode);
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
@@ -65,7 +73,11 @@ export function registerStartSignalsRoute(app: Express) {
     });
   });
 
-  app.post('/api/start-signals/:id/feedback', rateLimit, (req: Request, res: Response) => {
+  app.post('/api/start-signals/:id/feedback', rateLimit, async (req: Request, res: Response) => {
+    const access = await resolveRequestAccess(req);
+    if (!access) {
+      return res.status(401).json({ ok: false, error: 'Authentication required.' });
+    }
     const status = String(req.body?.status ?? '').toLowerCase();
     if (!FEEDBACK_STATUSES.has(status)) {
       return res.status(422).json({ ok: false, errors: ['feedback status must be won, lost, too_early, not_real, real_but_uncontactable, ignored'] });

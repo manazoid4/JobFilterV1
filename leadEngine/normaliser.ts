@@ -115,7 +115,7 @@ function calcProjectScale(value: number): 'small' | 'medium' | 'large' {
 function sourceConfidence(sourceSystem: string): number {
   switch (sourceSystem) {
     case 'FTS': return 88;
-    case 'ContractsFinder': return 85;
+    case 'ContractsFinder': return 65; // legacy backfill — lower confidence since CF is no longer the primary feed
     case 'PlanningData': return 65;
     case 'PlanAPI': return 82;
     case 'PlanNexus': return 82;
@@ -172,7 +172,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
   const max = raw.rawValueMax ?? rawVal;
 
   const deadline = normaliseDate(raw.rawDeadline);
-  const published = normaliseDate(raw.rawPublished) || new Date().toISOString();
+  const published = normaliseDate(raw.rawPublished);
 
   const outward = deriveOutward(raw);
   const nutsMatch = String(raw.rawLocation ?? '').trim().toUpperCase().match(/\bUK[A-Z0-9]{1,3}\b/);
@@ -204,6 +204,7 @@ export function normalise(raw: RawLead, requestedTrade: string): Lead | null {
     description: raw.rawDescription?.substring(0, 300) ?? '',
     publishedAt: published,
     deadlineAt: deadline,
+    procurementStage: raw.rawStage,
     buyerName: buyer,
     cpvCodes,
     isCommercial,

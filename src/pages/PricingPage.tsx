@@ -1,91 +1,96 @@
 "use client";
 
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
-import { content as addOnContent } from './ProductAdvantagePage';
 
 const planBullets = [
-  'Gold leads to your WhatsApp — scored and delivered within minutes of detection',
-  'Buyer context before you call — job type, value band, and best contact route',
-  'Job value band before you quote — know if it\'s worth your time',
-  'One trade per postcode patch — no shared auction, no five-trade blast',
-  'Win tracker — log wins, track ROI, see what\'s converting in your area',
+  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
+  'Evidence found and missing requirements shown before you commit bid time',
+  'Buyer, value, deadline and official response route in one view',
+  'Fit against your services, region, contract range and delivery model',
+  'Decision and outcome tracking so qualification improves over time',
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning approvals, council tenders, and energy data — then routes signals to you, not a field of bidders fighting on price.'],
-  ['Are leads shared?', 'No. Paid members get priority routing by trade and patch. No auction, no five-trade race, no Bark-style credit burn. One trade per patch gets first call.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, enter your WhatsApp number, trade, and postcode. We check source coverage for your patch, then activate. Usually same day.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
+  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
 ];
 
 export function PricingPage() {
+  const checkoutCancelled = useSearchParams()?.get('cancelled') === '1';
+
   return (
     <main className="page-shell grid gap-6 py-8 pb-16 text-[var(--ink)]">
+      {checkoutCancelled && (
+        <section role="status" className="border-4 border-[var(--line)] bg-white p-5 shadow-[4px_4px_0_var(--line)]">
+          <p className="micro-label text-[var(--orange)]">CHECKOUT CANCELLED</p>
+          <p className="mt-2 font-black text-[var(--ink)]">
+            No payment was taken. Your account and saved firm profile are unchanged — you can restart checkout whenever you're ready.
+          </p>
+          <Link href="/account" className="mt-3 inline-block font-black underline underline-offset-4">
+            RETURN TO ACCOUNT →
+          </Link>
+        </section>
+      )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER PRICING</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          GET SCORED CONSTRUCTION LEADS IN YOUR PATCH FOR £39/MO.
+          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Planning approvals, council tenders, and energy signals — not recycled from Checkatrade or Bark. Scored by value, trade fit, and distance. Hits your WhatsApp before anyone else calls.
+          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 12+ months at £39.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No credit card required — account creation is free. £39/mo activates only after email confirmation.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">30-day money-back — one job worth chasing or we refund every penny. No forms, just email us.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
+        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Scan your patch before you commit. Lead titles, source, and score are free — buyer name and contact route unlock with membership. No card needed. Resets every week."
-          items={['Preview scored leads', 'Lead score visible — buyer context locked', 'No WhatsApp routing', 'No territory priority']}
+          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
+          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
-          title="Founder"
+          title="Pilot"
           price="£39/mo"
-          priceNote="Standard rate when window closes: £79/mo — you save £40/mo"
-          body="Real jobs — not recycled from job boards. First look at work before it's advertised, with full buyer context and WhatsApp delivery."
+          priceNote="Paid activation follows coverage and delivery checks."
+          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="LOCK FOUNDER PRICE →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
 
-      <section className="jf-box border-4 border-[var(--line)] bg-[var(--paper)] p-7">
-        <p className="micro-label text-[var(--orange)]">MEMBER RESULT</p>
-        <blockquote className="mt-3 max-w-2xl text-xl font-black leading-snug text-[var(--ink)]">
-          &ldquo;Scanned B14 on a Tuesday morning. Planning signal came through for a rear extension — 4-bed, no contractor listed. Called the owner Wednesday. She hadn&apos;t heard from anyone else. Quoted £5,800, won it Friday.&rdquo;
-        </blockquote>
-        <p className="mt-3 text-sm font-black text-[var(--muted)]">— Dave, Builder, Birmingham B14</p>
-      </section>
-
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
-        <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">ONE JOB WORTH PRICING OR YOUR £39 BACK.</h2>
-        <p className="mt-3 max-w-2xl text-lg font-black text-[var(--muted)]">
-          Set up your patch, run your scans, check at least 10 scored leads. If you don&apos;t see one job worth quoting in 30 days, we refund every penny. No forms — just email us.
+        <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
+        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
+        <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
+          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
         </p>
       </section>
 
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">HOW ACTIVATION WORKS</p>
-        <h2 className="headline mt-3 text-3xl leading-none">NO FAKE "AVAILABLE" BADGE. WE CHECK THE PATCH.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none">SET THE FIRM PROFILE. CHECK THE EVIDENCE. MAKE THE DECISION.</h2>
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           {[
-            ['01', 'Check', 'Send trade, postcode and WhatsApp. We check source coverage and obvious conflicts.'],
-            ['02', 'Activate', 'Start founder billing only when your account and patch setup are ready.'],
-            ['03', 'Deliver', 'Gold signals route to WhatsApp with score, value band and proof context.'],
+            ['01', 'Profile', 'Set services, delivery region, contract range and whether you can bid directly or via a subcontract route.'],
+            ['02', 'Qualify', 'Compare each public notice with evidence, requirements and the official response route.'],
+            ['03', 'Decide', 'Record BID, WATCH, SUBCONTRACT or SKIP. JobFilter does not promise volume or awards.'],
           ].map(([step, title, body]) => (
             <article key={step} className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
               <p className="font-mono text-sm font-black text-[var(--orange)]">{step}</p>
@@ -97,70 +102,51 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--bg-main)] p-7 border-4 border-[var(--line)]">
-        <p className="micro-label text-[var(--orange)]">WHAT ONE MONTH LOOKS LIKE</p>
-        <h2 className="headline mt-3 text-3xl leading-none">ONE JOB COVERS IT. THAT&apos;S THE MATHS.</h2>
-        <p className="mt-3 font-black text-[var(--muted)] max-w-2xl">
-          One qualified lead that converts pays for 2–8 months at founder price. These are the types of signals that land.
+        <p className="micro-label text-[var(--orange)]">ILLUSTRATIVE PUBLIC-TENDER FORMATS</p>
+        <h2 className="headline mt-3 text-3xl leading-none">SEE WHAT THE QUALIFICATION LAYER EXTRACTS.</h2>
+        <p className="mt-3 font-bold text-[var(--muted)] max-w-2xl">
+          These are examples of notice formats, not live inventory, awards, or expected returns. Always open the official source before acting.
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
-            { signal: 'Planning approved', detail: 'Rear extension, B12 postcode — roofing + groundworks', band: '£4,200–£6,800', trade: 'Builder' },
-            { signal: 'Energy: Low-rated cluster', detail: 'Rental terrace block, 6 units — full insulation retrofit', band: '£8,000–£14,000', trade: 'Insulation' },
-            { signal: 'Council tender live', detail: 'School electrical maintenance, 12-month contract', band: '£18,000–£28,000', trade: 'Electrician' },
+            { signal: 'Building tender', detail: 'Refurbishment works — stage, buyer and deadline extracted', band: 'Published range', trade: 'Builder' },
+            { signal: 'Roofing tender', detail: 'Responsive repairs — delivery area and CPV matched', band: 'Published value', trade: 'Roofer' },
+            { signal: 'Electrical tender', detail: 'Estate maintenance — bid or subcontract route reviewed', band: 'Check notice', trade: 'Electrician' },
           ].map(({ signal, detail, band, trade }) => (
             <div key={signal} className="border-2 border-[var(--line)] bg-white p-4">
               <p className="text-[10px] font-black uppercase tracking-wider text-[var(--orange)]">{trade}</p>
               <p className="mt-1 text-base font-black text-[var(--ink)]">{signal}</p>
               <p className="mt-1 text-xs font-black text-[var(--muted)]">{detail}</p>
               <p className="mt-3 font-mono text-xl font-black text-[var(--ink)]">{band}</p>
-              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">estimated job value</p>
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">illustrative value field</p>
             </div>
           ))}
         </div>
-        <p className="mt-4 text-xs font-black text-[var(--muted)]">Examples of signal types seen across UK patches. Results vary by trade, area, and timing — which is why we offer a 30-day money-back guarantee.</p>
+        <p className="mt-4 text-xs font-black text-[var(--muted)]">Illustrative formats only. Results vary by trade, area and timing; an empty scan is a valid outcome.</p>
       </section>
 
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">STRAIGHT ANSWERS</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NO AUCTION. NO CREDIT BURN. NO FLUFF.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">CLEAR SOURCE. CLEAR FIT. CLEAR NEXT ACTION.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {objections.map(([q, a]) => (
             <article key={q} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
               <h3 className="headline text-xl">{q}</h3>
-              <p className="mt-2 font-black text-[var(--muted)]">{a}</p>
+              <p className="mt-2 font-bold text-[var(--muted)]">{a}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="ops-panel bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">ADD-ON SERVICES — QUOTED PER JOB</p>
-        <h2 className="headline mt-3 text-3xl leading-none md:text-4xl">DONE-FOR-YOU PAPERWORK. NO FIXED SUBSCRIPTION.</h2>
-        <p className="mt-3 max-w-2xl font-black text-[var(--muted)]">
-          Bid packs, compliance documents, grant paperwork, and other done-for-you trade admin — each priced per job, not bundled into a subscription. Submit your job details and the team quotes you back within 6 hours, usually faster.
-        </p>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {Object.entries(addOnContent).map(([slug, service]) => (
-            <Link
-              key={slug}
-              href={`/${slug}`}
-              className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-2 text-sm font-black text-[var(--ink)] hover:bg-[var(--yellow)]"
-            >
-              {service.title}
-            </Link>
-          ))}
-        </div>
-      </section>
-
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">LOCK YOUR PATCH</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CLAIM YOUR PATCH. OWN THE JOBS.</h2>
+        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">30-day money-back guarantee. No contract. Cancel anytime.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required to scan — 3 free scans every week.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
       </section>
     </main>
   );
@@ -182,10 +168,10 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'FOUNDER PRICE' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
-      <p className="mt-3 font-black text-[var(--muted)]">{body}</p>
+      <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
       <ul className="mt-5 grid gap-2">
         {items.map((item) => (
           <li key={item} className="flex gap-2 font-black text-[var(--ink)]">

@@ -72,7 +72,7 @@ export function CompareBarkPage() {
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <div className="jf-box bg-white p-5">
               <p className="micro-label text-[var(--orange)]">HOW BARK WORKS</p>
-              <ul className="mt-3 space-y-2 font-black text-sm text-[var(--ink)]">
+              <ul className="mt-3 space-y-2 font-bold text-sm text-[var(--ink)]">
                 <li>• Homeowner fills a form on Bark's site</li>
                 <li>• Bark sells that lead to 3–5 competing trades simultaneously</li>
                 <li>• You pay credits just to see the contact details</li>
@@ -82,7 +82,7 @@ export function CompareBarkPage() {
             </div>
             <div className="jf-box bg-[var(--navy)] p-5 text-white">
               <p className="micro-label text-[var(--yellow)]">HOW JOBFILTER WORKS</p>
-              <ul className="mt-3 space-y-2 font-black text-sm text-white">
+              <ul className="mt-3 space-y-2 font-bold text-sm text-white">
                 <li>• We scan planning data, contracts, energy signals and ownership data</li>
                 <li>• Your scan is private — no other trade sees your results</li>
                 <li>• GOLD/SILVER/SKIP scoring so you only chase what pays</li>
@@ -132,7 +132,7 @@ export function CompareBarkPage() {
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {quotes.map((q) => (
               <div key={q.role} className="jf-box bg-white p-5">
-                <p className="font-black text-[var(--ink)] leading-snug">"{q.quote}"</p>
+                <p className="font-bold text-[var(--ink)] leading-snug">"{q.quote}"</p>
                 <p className="mt-3 micro-label text-[var(--muted)]">{q.role}</p>
               </div>
             ))}
@@ -156,7 +156,7 @@ export function CompareBarkPage() {
               LOCK YOUR PATCH — £39/MO →
             </Link>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
+          <p className="mt-4 text-sm font-bold text-[var(--yellow)]/80">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
       </section>
     </main>

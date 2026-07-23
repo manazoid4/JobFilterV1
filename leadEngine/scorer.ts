@@ -1,4 +1,5 @@
 import type { Lead, TradeKey } from './types';
+import { classifyFinalLead } from './decisionPolicy';
 import { regionSimilarity } from './postcode';
 import { getScoreBonus } from './sourceConfig';
 import { buildContactPath, contactPathScoreAdjustment } from './contactPath';
@@ -239,44 +240,14 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
 
   const finalScore = Math.min(Math.max(score, 0), 100);
 
-  // Quality label
-  let qualityLabel: Lead['qualityLabel'];
-  if (finalScore >= 90) qualityLabel = 'GOLD';
-  else if (finalScore >= 75) qualityLabel = 'SILVER';
-  else if (finalScore >= 60) qualityLabel = 'BRONZE';
-  else if (finalScore >= 40) qualityLabel = 'CHECK';
-  else qualityLabel = 'SKIP';
-
-  // Ghost risk
-  const sourceLower = (lead.source ?? '').toLowerCase();
-  const isDirectorySource = sourceLower.includes('directory');
-  let ghostRisk: Lead['ghostRisk'];
-  if (
-    finalScore >= 65 &&
-    lead.sourceConfidence >= 60 &&
-    lead.contactSignal !== 'none' &&
-    !isDirectorySource &&
-    contactPath.allowedChannels.length > 0
-  ) {
-    ghostRisk = 'READY';
-  } else if (
-    finalScore < 40 ||
-    (isDirectorySource && lead.sourceConfidence < 50) ||
-    (lead.urgency === 'low' && lead.contactSignal === 'none') ||
-    contactPath.recommendedChannel === 'do_not_contact_yet'
-  ) {
-    ghostRisk = 'WASTE';
-  } else {
-    ghostRisk = 'MAYBE';
-  }
-
-  // Recommended action
-  const recommendedAction =
-    ghostRisk === 'READY' ? contactPath.reason :
-    ghostRisk === 'WASTE' ? 'Do not spend site-visit time yet' :
-    contactPath.reason;
+  const { qualityLabel, ghostRisk, leadReadiness, recommendedAction } = classifyFinalLead(
+    lead,
+    finalScore,
+    contactPath,
+  );
 
   // Evidence badges
+  const sourceLower = (lead.source ?? '').toLowerCase();
   const evidenceBadges: string[] = [];
   if (sourceLower.includes('planning')) evidenceBadges.push('Planning Verified');
   if (sourceLower.includes('contracts') || sourceLower.includes('fts') || sourceLower.includes('pcs')) evidenceBadges.push('Tender Live');
@@ -289,7 +260,6 @@ export function scoreLeadBreakdown(lead: Lead, userRegion: string, userOutward =
   if (lead.estimatedValue && !lead.estimatedValue.includes('POA') && lead.estimatedValue !== '') evidenceBadges.push('Budget Band');
   if (lead.opportunityAtoms?.length) evidenceBadges.push('Why this is a job');
 
-  const leadReadiness = ghostRisk;
   return { score: finalScore, reasons, qualityLabel, ghostRisk, leadReadiness, recommendedAction, evidenceBadges, contactPath };
 }
 

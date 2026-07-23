@@ -622,7 +622,7 @@ function LockedState() {
       <section className="jf-box bg-[var(--ink)] p-8 text-white text-center">
         <p className="micro-label text-[var(--yellow)]">TAX &amp; ADMIN</p>
         <h1 className="headline mt-2 text-4xl sm:text-6xl leading-none">ADMIN GUARD</h1>
-        <p className="mt-4 max-w-xl mx-auto font-black text-white/80 text-lg">
+        <p className="mt-4 max-w-xl mx-auto font-bold text-white/80 text-lg">
           HMRC dates, trade admin checklists and reminder exports — for paid JobFilter members.
         </p>
         <div className="mt-6 inline-flex items-center gap-2 border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-4 py-2">

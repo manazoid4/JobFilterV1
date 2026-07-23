@@ -1,0 +1,80 @@
+{
+  "uri": "fixture://fts/benchmark-90-day",
+  "publishedDate": "2026-07-21T12:00:00Z",
+  "releases": [
+    {
+      "ocid": "ocds-test-local-postcode",
+      "id": "local-postcode-2026",
+      "date": "2026-07-20T09:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "buyer-1", "name": "Buyer One" },
+      "parties": [{ "id": "buyer-1", "name": "Buyer One", "roles": ["buyer"], "address": { "locality": "London", "postalCode": "SW1A 1AA" } }],
+      "tender": {
+        "title": "Electrical upgrade for Birmingham schools",
+        "description": "Fixed wiring and lighting upgrades.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "45310000" },
+        "items": [{ "id": "1", "deliveryAddresses": [{ "locality": "Birmingham", "postalCode": "B14 7AB" }] }],
+        "tenderPeriod": { "endDate": "2026-08-20T12:00:00Z" }
+      }
+    },
+    {
+      "ocid": "ocds-test-local-nuts",
+      "id": "local-nuts-2026",
+      "date": "2026-07-19T09:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "name": "National Buyer", "address": { "locality": "Edinburgh", "postalCode": "EH1 1AA" } },
+      "tender": {
+        "title": "Electrical testing framework",
+        "description": "Electrical installation inspection and remedial works.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "45311000" },
+        "deliveryLocations": [{ "description": "UKG3", "classification": { "scheme": "NUTS", "id": "UKG3" } }],
+        "tenderPeriod": { "endDate": "2026-08-30T12:00:00Z" }
+      }
+    },
+    {
+      "ocid": "ocds-test-wrong-cpv",
+      "id": "wrong-cpv-2026",
+      "date": "2026-07-18T09:00:00Z",
+      "tag": ["tender"],
+      "tender": {
+        "title": "Electrical support for clinical services",
+        "description": "The title is misleading and CPV must remain authoritative.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "85121210" },
+        "deliveryLocation": { "description": "Birmingham" },
+        "tenderPeriod": { "endDate": "2026-08-25T12:00:00Z" }
+      }
+    },
+    {
+      "ocid": "ocds-test-buyer-only",
+      "id": "buyer-only-2026",
+      "date": "2026-07-17T09:00:00Z",
+      "tag": ["tender"],
+      "buyer": { "id": "buyer-4", "name": "Birmingham Buyer" },
+      "parties": [{ "id": "buyer-4", "name": "Birmingham Buyer", "roles": ["buyer"], "address": { "locality": "Birmingham", "postalCode": "B1 1AA" } }],
+      "tender": {
+        "title": "Electrical maintenance framework",
+        "description": "Delivery location omitted by the publisher.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "50711000" },
+        "tenderPeriod": { "endDate": "2026-09-01T12:00:00Z" }
+      }
+    },
+    {
+      "ocid": "ocds-test-outside-window",
+      "id": "outside-window-2026",
+      "date": "2026-03-01T09:00:00Z",
+      "tag": ["tender"],
+      "tender": {
+        "title": "Old electrical installation notice",
+        "description": "Outside the ninety day replay window.",
+        "status": "active",
+        "classification": { "scheme": "CPV", "id": "45310000" },
+        "deliveryAddress": { "locality": "Birmingham", "postalCode": "B14 1AA" },
+        "tenderPeriod": { "endDate": "2026-09-01T12:00:00Z" }
+      }
+    }
+  ]
+}

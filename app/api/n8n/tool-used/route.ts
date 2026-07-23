@@ -1,7 +1,17 @@
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { requireN8nIngressSignature } from '../auth';
 
 export async function POST(request: Request) {
-  const payload = await request.json().catch(() => ({}));
+  const rawBody = await request.text();
+  const authFailure = requireN8nIngressSignature(request, rawBody);
+  if (authFailure) return authFailure;
+
+  let payload: unknown;
+  try {
+    payload = JSON.parse(rawBody);
+  } catch {
+    return Response.json({ ok: false, error: 'Invalid JSON' }, { status: 400 });
+  }
   const supabase = getSupabaseServiceClient();
 
   if (supabase) {

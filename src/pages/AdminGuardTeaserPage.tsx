@@ -130,10 +130,10 @@ export function AdminGuardTeaserPage() {
         <h2 className="headline mt-1 text-3xl sm:text-5xl leading-none text-[var(--ink)]">
           YOU BUILD. JOBFILTER FILTERS, SCORES AND REMINDS.
         </h2>
-        <p className="mt-4 max-w-2xl font-black text-[var(--ink)]/80 text-base sm:text-lg">
+        <p className="mt-4 max-w-2xl font-bold text-[var(--ink)]/80 text-base sm:text-lg">
           Admin Guard is the first module inside TAX &amp; ADMIN — a dashboard built for UK tradespeople who want better local work, cleaner follow-ups, and admin dates they cannot afford to miss.
         </p>
-        <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/70">
+        <p className="mt-3 max-w-2xl font-bold text-[var(--ink)]/70">
           Not another bloated trade app. One system: find the work, chase it, and never miss the deadline that costs you a fine.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">

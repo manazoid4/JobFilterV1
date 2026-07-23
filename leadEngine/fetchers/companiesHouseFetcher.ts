@@ -388,7 +388,7 @@ export async function companiesHouseFetcher(
           rawLocation: locality || location || outward,
           rawPostcode: postcode,
           rawDeadline: new Date(Date.now() + deadlineDays * 86_400_000).toISOString(),
-          rawPublished: new Date().toISOString(),
+          rawPublished: dateCreated || '',
           rawBuyer: name,
           rawCpvCodes: [],
           sourceSystem: 'CompaniesHouse',

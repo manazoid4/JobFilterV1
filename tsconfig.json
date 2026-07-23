@@ -35,12 +35,8 @@
   },
   "exclude": [
     "functions",
-    "legacy/firebase",
     "dist",
-    "node_modules",
-    "Obsidian_Memory",
-    "memoryraw_claude",
-    "vite.config.ts"
+    "node_modules"
   ],
   "include": [
     "next-env.d.ts",

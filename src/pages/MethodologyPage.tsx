@@ -29,8 +29,8 @@ const pipelineSteps = [
     num: '04',
     label: 'SCORE',
     icon: Target,
-    body: 'Rank by value, urgency, rarity, distance, win probability, and contactability. Not volume. A hundred weak leads are worth less than five strong ones.',
-    detail: 'Score: 0-100. GOLD (80+). SILVER (50–79). BRONZE (below 50). Higher = chase today.',
+    body: 'Rank public-work notices by trade fit, locality, value, timing, evidence and a realistic route to the work. The decision comes first; the number explains it.',
+    detail: 'Decision: BID, WATCH, SUBCONTRACT or SKIP. Supporting tiers: GOLD 80+, SILVER 50–79, BRONZE 30–49, SKIP below 30.',
   },
   {
     num: '05',
@@ -113,12 +113,12 @@ export function MethodologyPage() {
 
       {/* Scoring */}
       <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">LEAD SCORING — GOLD / SILVER / BRONZE</p>
+        <p className="micro-label text-[var(--ink)]">DECISION POLICY — BID / WATCH / SUBCONTRACT / SKIP</p>
         <h2 className="headline mt-3 text-4xl leading-none">
           WHAT MAKES A LEAD WORTH CHASING?
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/80">
-          Every signal gets a score from 0 to 100. GOLD (80+) — call today. SILVER (50–79) — worth a check. BRONZE (below 50) — quiet week only.
+          Every notice gets an action backed by a 0–100 score and its evidence. GOLD is 80+, SILVER 50–79, BRONZE 30–49, and anything below 30 is a SKIP.
         </p>
 
         <div className="mt-8 grid gap-3">

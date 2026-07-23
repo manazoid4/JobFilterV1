@@ -9,8 +9,8 @@ import { ToastWrapper } from '../src/components/ToastWrapper';
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
-  title: 'UK Construction Intelligence | High-intent UK construction leads',
-  description: 'AI-filtered UK construction lead intelligence for trades who want better jobs with less chasing.',
+  title: 'JobFilter | Public-works opportunity qualification',
+  description: 'Firm-aware qualification for 5–25-person contractors deciding whether to BID, WATCH, pursue a SUBCONTRACT route, or SKIP public works opportunities.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Site-wide announcement bar ── */}
           <Link href="/find-jobs" className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors group">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
-            <span>Find local jobs before Checkatrade sees them · <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">Free scan, no card needed</span> · One job covers 3 months</span>
+            <span>Find a Tender is free and public · JobFilter helps contractors decide <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">BID, WATCH, SUBCONTRACT or SKIP</span> · Official source links included</span>
           </Link>
           <TopNav />
           {children}

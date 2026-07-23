@@ -22,27 +22,27 @@ export function NotFoundPage() {
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-left">
           <Link href="/" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">HOME</p>
+            <p className="micro-label text-[var(--orange)]">HOME</p>
             <p className="mt-2 font-black text-[var(--navy)]">See what JobFilter does</p>
           </Link>
           <Link href="/find-jobs" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">FIND JOBS</p>
+            <p className="micro-label text-[var(--orange)]">FIND JOBS</p>
             <p className="mt-2 font-black text-[var(--navy)]">Scan your area for live leads</p>
           </Link>
           <Link href="/pricing" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">PRICING</p>
+            <p className="micro-label text-[var(--orange)]">PRICING</p>
             <p className="mt-2 font-black text-[var(--navy)]">Founder £39/month. Standard £79/month.</p>
           </Link>
           <Link href="/dashboard" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">PIPELINE</p>
+            <p className="micro-label text-[var(--orange)]">PIPELINE</p>
             <p className="mt-2 font-black text-[var(--navy)]">Track your leads and results</p>
           </Link>
           <Link href="/signals" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">SIGNALS</p>
+            <p className="micro-label text-[var(--orange)]">SIGNALS</p>
             <p className="mt-2 font-black text-[var(--navy)]">See how the opportunity network works</p>
           </Link>
           <Link href="/free-tools" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--green)]">FREE TOOLS</p>
+            <p className="micro-label text-[var(--orange)]">FREE TOOLS</p>
             <p className="mt-2 font-black text-[var(--navy)]">Useful tools for trades</p>
           </Link>
         </div>
