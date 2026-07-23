@@ -51,7 +51,6 @@ export function PricingPage() {
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
         <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -70,17 +69,9 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
-      </section>
-
-      <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
-        <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
-        <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
-        </p>
       </section>
 
       <section className="ops-panel bg-white p-7">
@@ -139,8 +130,8 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">START YOUR PILOT</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">ONE TOOL. BETTER BID DECISIONS.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
