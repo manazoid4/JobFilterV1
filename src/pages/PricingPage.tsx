@@ -14,10 +14,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is this another job board?', 'No. JobFilter filters official opportunity data for your trade and patch. You do not buy credits to bid against a queue of trades.'],
-  ['Are leads shared?', 'JobFilter is not a shared-enquiry auction. Priority routing is a controlled pilot feature and is only confirmed after a patch coverage and conflict check.'],
-  ['What happens after I pay?', 'Create your account, confirm your email, then enter your trade, postcode, and delivery details. We verify coverage and configuration before paid patch activation.'],
-  ['Can I scan before paying?', 'Yes — 3 free scans, no card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
+  ['Is this another job board?', 'No. Checkatrade, MyBuilder, Bark, and BuildAlert sell the same lead to 5 trades at once. JobFilter reads planning approvals, council tenders, and energy data — then routes signals to you, not a field of bidders fighting on price.'],
+  ['Are leads shared?', 'No. Paid members get priority routing by trade and patch. No auction, no five-trade race, no Bark-style credit burn. One trade per patch gets first call.'],
+  ['What happens after I pay?', 'Create your account, confirm your email, enter your WhatsApp number, trade, and postcode. We check source coverage for your patch, then activate. Usually same day.'],
+  ['Can I scan before paying?', 'Yes — 3 free scans, no credit card required. You will see real scored leads in your area. Upgrade unlocks full buyer context, job value band, contact route, and WhatsApp delivery.'],
 ];
 
 export function PricingPage() {

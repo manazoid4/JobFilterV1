@@ -522,13 +522,15 @@ export function FindJobsPage() {
 
         {/* Trade presets — tap to scan by trade once postcode is entered */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">
+            {postcode.trim() ? 'TAP YOUR TRADE TO SCAN INSTANTLY' : 'ENTER POSTCODE ABOVE — THEN TAP YOUR TRADE'}
+          </p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
                 key={preset.trade}
                 type="button"
-                disabled={loading || fillWeekLoading}
+                disabled={loading || fillWeekLoading || !postcode.trim()}
                 onClick={() => {
                   if (!postcode.trim()) {
                     setPostcodeRequired(true);
@@ -540,10 +542,12 @@ export function FindJobsPage() {
                   setTrade(preset.trade);
                   void submit(undefined, { trade: preset.trade });
                 }}
-                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
-                  trade === preset.trade
-                    ? 'bg-[var(--yellow)] text-[var(--ink)]'
-                    : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
+                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black border-2 border-[var(--navy)] transition ${
+                  !postcode.trim()
+                    ? 'opacity-40 cursor-not-allowed bg-[var(--ink)] text-white/60'
+                    : trade === preset.trade
+                      ? 'bg-[var(--yellow)] text-[var(--ink)]'
+                      : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] disabled:opacity-60'
                 }`}
               >
                 {preset.icon}
@@ -567,15 +571,18 @@ export function FindJobsPage() {
         <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{scanMode === 'start_now' ? startReadyCount : planningCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">{scanMode === 'start_now' ? 'READY NOW' : 'PLANNING'}</p>
+            <p className="micro-label text-[11px] text-white/80 mt-1">{scanMode === 'start_now' ? 'READY NOW' : 'PLANNING JOBS'}</p>
+            <p className="text-[10px] text-white/40 mt-0.5 leading-tight hidden sm:block">{scanMode === 'start_now' ? 'works starting soon' : 'approved projects'}</p>
           </div>
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{epcCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">ENERGY</p>
+            <p className="micro-label text-[11px] text-white/80 mt-1">ENERGY UPGRADES</p>
+            <p className="text-[10px] text-white/40 mt-0.5 leading-tight hidden sm:block">EPC &amp; retrofit signals</p>
           </div>
           <div className="p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
-            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">CONTRACTS</p>
+            <p className="micro-label text-[11px] text-white/80 mt-1">CONTRACTS</p>
+            <p className="text-[10px] text-white/40 mt-0.5 leading-tight hidden sm:block">public tenders live</p>
           </div>
         </section>
       )}
@@ -901,12 +908,100 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORD_CONTEXT: Record<string, Record<string, string>> = {
+  electrical: {
+    'EV CHARGER': 'EV CHARGER — £600-1,200 · 1-2 days',
+    'EV CHARGING': 'EV CHARGING INSTALL — £600-1,200 · 1-2 days',
+    'REWIRE': 'FULL REWIRE — £4,000-8,000 · 3-5 days',
+    'REWIRING': 'REWIRING — £4,000-8,000 · 3-5 days',
+    'CONSUMER UNIT': 'CONSUMER UNIT — £500-900 · 1 day',
+    'EICR': 'EICR CERT — £100-250 · half day',
+    'SOLAR': 'SOLAR PV — £5,000-10,000 · 2-3 days',
+    'SOLAR PV': 'SOLAR PV — £5,000-10,000 · 2-3 days',
+    'SMART HOME': 'SMART HOME — £2,000-6,000',
+    'LIGHTING': 'LIGHTING INSTALL — £300-1,500',
+    'ELECTRIC VEHICLE': 'EV CHARGER — £600-1,200 · 1-2 days',
+  },
+  plumbing: {
+    'BOILER': 'BOILER SWAP — £2,000-3,500 incl. parts',
+    'BATHROOM': 'BATHROOM REFIT — £5,000-15,000 · 2 weeks',
+    'HEAT PUMP': 'HEAT PUMP — £8,000-15,000 · govt. grant possible',
+    'KITCHEN': 'KITCHEN PLUMBING — £500-2,000',
+    'DRAINAGE': 'DRAINAGE — £300-1,500',
+    'LEAK': 'LEAK FIX — £150-500',
+    'GAS': 'GAS WORK — £200-1,200',
+    'UNDERFLOOR HEATING': 'UFH — £3,000-8,000',
+  },
+  hvac: {
+    'HEAT PUMP': 'HEAT PUMP — £8,000-15,000 · govt. grant possible',
+    'AIR CONDITIONING': 'AIR CON — £1,500-4,000',
+    'HVAC': 'HVAC INSTALL — £2,000-8,000',
+    'VENTILATION': 'VENTILATION — £500-3,000',
+    'BOILER': 'BOILER SWAP — £2,000-3,500 incl. parts',
+    'SOLAR': 'SOLAR + BATTERY — £8,000-15,000',
+  },
+  roofing: {
+    'FLAT ROOF': 'FLAT ROOF — £2,000-8,000',
+    'ROOFING': 'ROOF REPAIR/REPLACE — £1,500-12,000',
+    'GUTTERING': 'GUTTERING — £300-1,000',
+    'SOLAR': 'SOLAR PANELS — £5,000-10,000',
+    'INSULATION': 'ROOF INSULATION — £1,000-3,500',
+    'SCAFFOLDING': 'SCAFFOLDING — £600-1,500 · access only',
+    'EXTENSION': 'EXTENSION ROOF — £5,000-20,000',
+  },
+  building: {
+    'EXTENSION': 'EXTENSION — £40,000-80,000 · 3-4 months',
+    'LOFT CONVERSION': 'LOFT CONVERSION — £30,000-60,000',
+    'GARAGE CONVERSION': 'GARAGE CONVERSION — £10,000-25,000',
+    'REFURBISHMENT': 'REFURB — £15,000-80,000',
+    'DAMP': 'DAMP PROOFING — £500-3,000',
+    'PLASTERING': 'PLASTERING — £300-1,500',
+    'STRUCTURAL': 'STRUCTURAL WORK — £5,000-40,000',
+    'BASEMENT': 'BASEMENT CONVERSION — £20,000-60,000',
+  },
+  carpentry: {
+    'KITCHEN': 'KITCHEN FIT — £2,000-8,000',
+    'FLOORING': 'FLOORING — £1,000-5,000',
+    'DECKING': 'DECKING — £1,500-5,000',
+    'FENCING': 'FENCING — £500-3,000',
+    'LOFT CONVERSION': 'LOFT JOINERY — £3,000-8,000',
+    'EXTENSION': 'EXTENSION JOINERY — £2,000-6,000',
+    'STAIRCASE': 'STAIRCASE — £2,000-6,000',
+  },
+  landscaping: {
+    'LANDSCAPING': 'LANDSCAPING — £2,000-15,000',
+    'GROUNDWORK': 'GROUNDWORKS — £3,000-20,000',
+    'DRIVEWAY': 'DRIVEWAY — £2,000-6,000',
+    'DECKING': 'DECKING — £1,500-5,000',
+    'FENCING': 'FENCING — £500-3,000',
+    'DRAINAGE': 'DRAINAGE — £1,000-5,000',
+    'PATIO': 'PATIO — £1,500-4,000',
+  },
+  painting: {
+    'DECORATING': 'INTERIOR DECO — £500-2,500',
+    'PAINTING': 'PAINTING — £300-2,000',
+    'EXTENSION': 'EXTENSION DECO — £1,000-3,500',
+    'REFURBISHMENT': 'REFURB DECO — £1,500-5,000',
+    'PLASTERING': 'PLASTER + PAINT — £600-2,500',
+  },
+};
+
+function enrichKeywordLabel(keyword: string, trade?: string | null): string {
+  if (!trade) return `${keyword} — YOUR TRADE`;
+  const tradeMap = TRADE_KEYWORD_CONTEXT[trade] ?? {};
+  const kw = keyword.trim().toUpperCase();
+  for (const [pattern, label] of Object.entries(tradeMap)) {
+    if (kw.includes(pattern) || pattern.includes(kw)) return label;
+  }
+  return `${keyword} — YOUR TRADE`;
+}
+
+function parseTradeReasons(raw: string[], trade?: string | null): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: enrichKeywordLabel(k, trade), highlight: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -1128,7 +1223,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead.trade ?? lead.tradeMatch);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);

@@ -95,7 +95,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth checking for your trade and patch. No invented jobs. No recycled lead auction.
+              JobFilter scans planning approvals, energy data and council contracts before they hit the open market — scored by quality, filtered by patch, delivered to WhatsApp. Not a shared auction. Not Checkatrade. Not Bark.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
