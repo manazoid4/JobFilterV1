@@ -440,7 +440,7 @@ export function FindJobsPage() {
                 : 'Buyer and submission context locked. Scanning remains free.'}
             </p>
             {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
+              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK BUYER DETAILS — £39/MO →</Link>
             ) : weeklyScansUsed > 0 ? (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
             ) : null}
