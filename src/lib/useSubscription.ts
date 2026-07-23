@@ -3,7 +3,7 @@ import { useAuth } from '../components/AuthProvider';
 
 export interface SubscriptionStatus {
   tier: 'free' | 'founding' | 'pro' | 'business';
-  status: 'active' | 'inactive' | 'past_due' | 'cancelled';
+  status: 'active' | 'trialing' | 'inactive' | 'past_due' | 'canceled' | 'cancelled' | 'unpaid' | 'incomplete' | 'incomplete_expired' | 'paused';
   active: boolean;
   loading: boolean;
 }

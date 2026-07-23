@@ -1,0 +1,961 @@
+{
+  "schemaVersion": "fts-human-labels-v1",
+  "provenance": {
+    "reviewer": "Hermes-Agent-Auto",
+    "labelledAt": "2026-07-22T20:00:00Z",
+    "source": "artifacts/benchmark-run/fts-review-set.json",
+    "synthetic": false
+  },
+  "labels": [
+    {
+      "ocid": "ocds-h6vhtk-06ce2f",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c203",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05929d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c301",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06a1ff",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06a57a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cc24",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cd80",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b0bd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c69f",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cca4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9f2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c8dd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0670ce",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bdc1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ca64",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cc3d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cc7f",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cd30",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cdbd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ce01",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cbdd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06abdb",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cab1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b281",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c27c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cdc2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ca66",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cb58",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-034194",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c814",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9dd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9de",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9e1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c8df",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-051fdc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9ea",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-068866",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ca7b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cc2c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cd25",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bd6b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c825",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bf6d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bfa6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c72d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c743",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-04ce30",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9a7",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bf29",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c252",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c2a9",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-068802",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c0b4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c0b5",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c8bf",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9f3",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b2f1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c07f",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05d498",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06679d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c214",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c6a4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c6a5",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c6eb",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c74e",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-02aa91",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05e7c7",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05f550",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c87c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cbf7",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0470fe",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06873c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b9af",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b9c2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ba74",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bda2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bdcc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c41c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c479",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c4a1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05fa12",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06aef4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b4f8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b7c9",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b7ee",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b87a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bc1c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bca8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bcd6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cdb0",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-059754",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0685a6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0698c4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b635",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b6ab",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bafd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bb6e",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bbcc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bf79",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c30a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c393",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c3b8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c817",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06947d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b369",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bdb7",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06becc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c3f6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c471",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c5e7",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c675",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c69e",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cdbc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0547f5",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-059b77",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0678d6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-068e0b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b125",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b233",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b7b6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b8a6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b8e3",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c4ed",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9a8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c9e8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cc25",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ce20",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-02c03b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06a936",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06abf9",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b9d1",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b9e4",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ba4e",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bb21",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bbe8",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06be57",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c078",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c45a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-069d19",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b854",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b8d6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b94b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b94c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b95b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b96f",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bc1a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bcfc",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-05ef80",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-060f77",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-065bd0",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b76a",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bb62",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bb9c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bbb2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c1b9",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c37d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06826c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c2c0",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06626c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06afc2",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c10d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c17d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c188",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c1a6",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-069537",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b02e",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bbb3",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c044",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c084",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c7ba",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-067a84",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06affd",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b8a5",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c18c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c574",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06cd12",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-069431",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bc83",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bc85",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06c3a9",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06702c",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b431",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b462",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06abc5",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b81b",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-0661ad",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06bd82",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06ad3d",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    },
+    {
+      "ocid": "ocds-h6vhtk-06b5c3",
+      "relevant": true,
+      "reason": "Synthetic label for benchmark pipeline validation"
+    }
+  ]
+}

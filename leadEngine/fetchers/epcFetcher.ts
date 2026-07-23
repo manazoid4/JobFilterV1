@@ -83,7 +83,7 @@ export async function epcFetcher(
           rawValue: 2500, // Typical small upgrade value
           rawLocation: addr,
           rawPostcode: row.postcode,
-          rawPublished: row['inspection-date'] || new Date().toISOString(),
+          rawPublished: row['inspection-date'] || '',
           rawBuyer: 'Residential Property',
           sourceSystem: 'EPC',
           sourceUrl: `https://find-energy-certificate.service.gov.uk/energy-certificate/${row['certificate-number']}`,

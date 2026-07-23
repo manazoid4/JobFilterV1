@@ -10,6 +10,9 @@
     "preview": "next start",
     "clean": "rm -rf .next dist",
     "lint": "tsc --noEmit",
+    "test:fts": "tsx tests/regression/fts-ocds-regression.mjs",
+    "benchmark:fts": "tsx scripts/fts-benchmark.ts",
+    "gate:fts": "tsx scripts/fts-coverage-gate.ts",
     "releases:check": "node scripts/validate-releases.mjs"
   },
   "dependencies": {
@@ -18,10 +21,10 @@
     "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.191",
     "dotenv": "^17.2.3",
-    "express": "^4.21.2",
+    "express": "^4.22.2",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
-    "next": "^16.2.10",
+    "next": "^16.2.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^6.12.2",
@@ -39,6 +42,8 @@
     "typescript": "~5.8.2"
   },
   "overrides": {
+    "body-parser": "1.20.6",
+    "sharp": "0.35.3",
     "postcss": "^8.5.10"
   }
 }

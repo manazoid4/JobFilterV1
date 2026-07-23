@@ -1,65 +1,37 @@
 "use client";
 import Link from 'next/link';
 
-import { AlertTriangle, Radio, ShieldCheck, Target, ArrowUpRight, ArrowDownRight, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap, Calculator } from 'lucide-react';
+import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
-import { SampleLeadCard } from '../components/SampleLeadCard';
 
 const proofPoints = [
-  'Official opportunity data ranked by evidence',
-  'Internal samples blocked from live scans',
-  'Paid details stay locked in the free preview',
-  'No verified match means an honest empty result',
+  'Find a Tender remains free and public',
+  'Firm-aware evidence and requirement checks',
+  'BID, WATCH, SUBCONTRACT or SKIP',
+  'No verified fit means an honest empty result',
 ];
 
 const signalRows = [
-  { source: 'Planning', signal: 'Rear extension approval', trade: 'Builder', value: 'Budget band', score: 94, trend: 'up' as const, location: 'Sample' },
-  { source: 'Energy', signal: 'Low-energy rental cluster', trade: 'Insulation', value: 'Retrofit band', score: 87, trend: 'up' as const, location: 'Sample' },
-  { source: 'Contracts', signal: 'School maintenance tender', trade: 'Electrical', value: 'Tender band', score: 91, trend: 'up' as const, location: 'Sample' },
-  { source: 'Property', signal: 'Brownfield site trigger', trade: 'Groundworks', value: 'High-value band', score: 82, trend: 'down' as const, location: 'Sample' },
+  { source: 'FTS sample', signal: 'Electrical maintenance tender', trade: 'Electrical', value: 'Published value', decision: 'BID', location: 'Leeds' },
+  { source: 'FTS sample', signal: 'Responsive roofing repairs', trade: 'Roofing', value: 'Published value', decision: 'WATCH', location: 'Portsmouth' },
+  { source: 'FTS sample', signal: 'Building refurbishment works', trade: 'Building', value: 'Value range', decision: 'SUBCONTRACT', location: 'Birmingham' },
+  { source: 'FTS sample', signal: 'Heating maintenance framework', trade: 'HVAC', value: 'Check notice', decision: 'SKIP', location: 'UK' },
 ];
 
-const territoryCards = [
-  ['B12 Roofing', 'FOUNDER RATE', '91'],
-  ['Birmingham Extensions', 'FOUNDER RATE', '88'],
-  ['Coventry Solar', 'FOUNDER RATE', '84'],
-  ['Manchester Bathrooms', 'FOUNDER RATE', '82'],
+const decisionChecks = [
+  ['Trade and CPV fit', 'QUALIFICATION CHECK', '01'],
+  ['Delivery location', 'QUALIFICATION CHECK', '02'],
+  ['Deadline and stage', 'QUALIFICATION CHECK', '03'],
+  ['Bid or subcontract route', 'NEXT ACTION', '04'],
 ] as const;
 
-const trustedCities = ['Birmingham', 'London', 'Manchester', 'Bristol', 'Leeds', 'Glasgow', 'Liverpool', 'Sheffield', 'Newcastle', 'Nottingham', 'Cardiff', 'Edinburgh', 'Leicester', 'Coventry', 'Bradford'];
+const trustedCities = ['Find a Tender', 'Official buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Official source link'];
 
-function ScoreBadge({ score, trend }: { score: number; trend: 'up' | 'down' }) {
-  const bg = score >= 90 ? 'bg-[var(--yellow)] text-[var(--ink)]' : score >= 80 ? 'bg-white text-[var(--ink)]' : 'bg-[var(--muted)]/15 text-[var(--muted)]';
-  const TrendIcon = trend === 'up' ? ArrowUpRight : ArrowDownRight;
-  const trendColor = trend === 'up' ? 'text-[var(--yellow)]' : 'text-[var(--orange)]';
+function DecisionBadge({ decision }: { decision: string }) {
   return (
-    <span className={`inline-flex items-center gap-1 border-2 border-[var(--line)] px-2 py-1 font-mono text-xs font-black ${bg}`}>
-      {score}
-      <TrendIcon size={12} strokeWidth={3} className={trendColor} />
+    <span className="inline-flex items-center border-2 border-[var(--line)] bg-[var(--yellow)] px-2 py-1 font-mono text-xs font-black text-[var(--ink)]">
+      {decision}
     </span>
-  );
-}
-
-function SignalStrengthBars({ level }: { level: number }) {
-  return (
-    <div className="flex items-end gap-[3px]" aria-label={`Signal strength: ${level} of 4`}>
-      {[1, 2, 3, 4].map((bar) => (
-        <div
-          key={bar}
-          className={`w-[5px] rounded-[1px] transition-all ${bar <= level ? 'bg-[var(--yellow)]' : 'bg-[var(--line)]/20'}`}
-          style={{ height: `${6 + bar * 4}px` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function MapPinIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="var(--yellow)" stroke="var(--ink)" strokeWidth="2" />
-      <circle cx="12" cy="9" r="2.5" fill="var(--ink)" />
-    </svg>
   );
 }
 
@@ -74,13 +46,13 @@ export function HomePage() {
         {/* Floating signal bubbles */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
           <div className="absolute left-[8%] top-[18%] animate-[float_6s_ease-in-out_infinite] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Planning: B12
+            Source: FTS
           </div>
           <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Energy: Low
+            CPV: Matched
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
-            Extension: Approved
+            Deadline: Published
           </div>
           <div className="absolute right-[6%] bottom-[30%] animate-[float_8s_ease-in-out_infinite_2s] rounded-full border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--orange)]">
             Tender: Live
@@ -89,13 +61,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">UK CONSTRUCTION OPPORTUNITIES — FILTERED AND SCORED</p>
+            <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
-              QUIT WORKING{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>FOR GHOSTS.</span>
+              KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM —{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans official UK opportunity data, removes weak matches, and ranks what is worth checking for your trade and patch. No invented jobs. No recycled lead auction.
+              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -112,20 +84,20 @@ export function HomePage() {
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
                   How it works →
                 </Link>
-                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/territories">
-                  Claim Territory →
+                <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/pricing">
+                  Coverage & pricing →
                 </Link>
               </div>
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Founder price locks forever while your plan stays active. 30-day money-back guarantee.
+              Scan the current feed before deciding whether the coverage fits your firm.
             </p>
           </div>
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
-              <p className="micro-label text-[var(--yellow)]">RECENT UK SIGNALS</p>
+              <p className="micro-label text-[var(--yellow)]">ILLUSTRATIVE PUBLIC-TENDER FORMATS</p>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (
@@ -135,7 +107,7 @@ export function HomePage() {
                       <p className="text-[11px] font-black uppercase tracking-[0.1em] text-[var(--yellow)]">{row.source}</p>
                       <h2 className="mt-1 text-base font-black leading-tight text-white">{row.signal}</h2>
                     </div>
-                    <ScoreBadge score={row.score} trend={row.trend} />
+                    <DecisionBadge decision={row.decision} />
                   </div>
                   <div className="mt-3 grid grid-cols-3 gap-2 text-xs font-black uppercase text-white/70">
                     <span>{row.trade}</span>
@@ -153,7 +125,7 @@ export function HomePage() {
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
           <span>Live coverage starts with official public opportunities</span>
-          <span>Scored by evidence, trade fit, location, and timing</span>
+          <span>Qualified by evidence, firm fit, region, value, and timing</span>
           <span>Empty scan means no verified match — never a made-up job</span>
         </div>
       </section>
@@ -165,12 +137,12 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Founding 30 — one dominant trade partner per postcode cluster
+                Built for 5–25-person construction and maintenance firms that can bid or subcontract
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">£39/mo locks forever while active</p>
+              <p className="text-sm font-black text-[var(--ink)]">Coverage checked before paid activation</p>
             </div>
           </div>
         </div>
@@ -179,7 +151,7 @@ export function HomePage() {
       {/* ── TRUSTED BY ────────────────────────────────── */}
       <section className="border-b-2 border-[var(--line)] bg-white">
         <div className="page-shell py-8 text-center">
-          <p className="micro-label text-[var(--muted)]">COVERING POSTCODES ACROSS THE UK</p>
+          <p className="micro-label text-[var(--muted)]">WHAT A CURRENT RESULT CAN PROVE</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             {trustedCities.map((city) => (
               <span key={city} className="border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-mono text-sm font-black uppercase text-[var(--ink)] shadow-[2px_2px_0_var(--yellow)]">
@@ -187,72 +159,7 @@ export function HomePage() {
               </span>
             ))}
           </div>
-          <p className="mt-4 text-sm font-bold text-[var(--muted)]">And 200+ postcodes across the UK</p>
-        </div>
-      </section>
-
-      {/* ── FREE TOOLS STRIP ──────────────────────────── */}
-      <section className="bg-white border-b-2 border-[var(--line)]">
-        <div className="page-shell py-10">
-          <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
-              <p className="micro-label text-[var(--orange)]">FREE FOR EVERYONE — NO SIGNUP</p>
-              <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">USEFUL BEFORE YOU PAY.</h2>
-              <p className="mt-3 max-w-2xl text-base font-bold text-[var(--muted)]">
-                Quote-floor calculator. Tyre-kicker scorer. Profit check. Travel-cost and time-waster maths. Checkatrade and Bark charge for these. We give them away — leads are the paid part.
-              </p>
-            </div>
-            <Link className="jf-button bg-[var(--ink)] text-white shrink-0" href="/free-tools">
-              OPEN FREE TOOLS →
-            </Link>
-          </div>
-          <div className="mt-6 grid gap-2 sm:grid-cols-3 lg:grid-cols-5">
-            {[
-              ['Quote Floor', 'Minimum sensible quote'],
-              ['Tyre-Kicker Check', 'Score before you visit'],
-              ['Profit Check', 'What is left after costs'],
-              ['Travel Cost', 'Fuel maths in seconds'],
-              ['Time-Waster Cost', 'Annual hit from bad leads'],
-            ].map(([name, sub]) => (
-              <Link key={name} href="/free-tools" className="border-2 border-[var(--line)] bg-[var(--paper)] p-3 hover:bg-[var(--yellow)]/15 transition-colors">
-                <div className="flex items-center gap-2">
-                  <Calculator size={14} strokeWidth={3} className="text-[var(--orange)] shrink-0" />
-                  <p className="text-sm font-black uppercase tracking-tight text-[var(--ink)]">{name}</p>
-                </div>
-                <p className="mt-1 text-[11px] font-black uppercase tracking-wider text-[var(--muted)]">{sub}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SAMPLE LEAD ───────────────────────────────── */}
-      <section className="bg-[var(--bg-main)] border-b-2 border-[var(--line)]">
-        <div className="page-shell py-14">
-          <p className="micro-label text-[var(--orange)]">THIS IS WHAT A GOLD LEAD LOOKS LIKE</p>
-          <h2 className="headline mt-3 text-4xl leading-none">
-            SEE THE PRODUCT BEFORE YOU PAY.
-          </h2>
-          <p className="mt-4 max-w-2xl copy">
-            This is a clearly labelled sample of the scoring format. Live scans can return fewer details or no match when the source evidence is not strong enough.
-          </p>
-          <div className="mt-8 max-w-3xl">
-            <SampleLeadCard />
-          </div>
-          <div className="mt-6 max-w-3xl grid grid-cols-3 divide-x-2 divide-[var(--line)] border-2 border-[var(--line)]">
-            <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">Freshness shown</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">check the published date before you chase</p>
-            </div>
-            <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">GOLD only</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">strongest evidence ranked first</p>
-            </div>
-            <div className="px-5 py-4">
-              <p className="headline text-3xl text-[var(--ink)]">No auction</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-wider text-[var(--muted)]">no credits burned against five bidders</p>
-            </div>
-          </div>
+          <p className="mt-4 text-sm font-bold text-[var(--muted)]">UK-wide coverage depends on what buyers publish in the current Find a Tender feed.</p>
         </div>
       </section>
 
@@ -267,42 +174,42 @@ export function HomePage() {
             <div className="flex items-start gap-6 bg-[var(--yellow)] px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
               <div>
-                <p className="headline text-xl text-[var(--ink)]">Enter your postcode and trade</p>
-                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">JobFilter checks the official sources currently available for your area and trade. Coverage varies by patch.</p>
+                <p className="headline text-xl text-[var(--ink)]">Describe your firm</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">Set services, delivery region, contract range and whether you can bid directly or need a subcontract route.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--yellow)] pt-1">02</span>
               <div>
-                <p className="headline text-xl text-white">Every signal is scored before you see it</p>
-                <p className="mt-1 text-sm font-bold text-white/60">Signals are scored 0–100 using source evidence, trade fit, location, freshness, and value confidence. Weak or internal sample data cannot enter live results.</p>
+                <p className="headline text-xl text-white">Check the evidence and gaps</p>
+                <p className="mt-1 text-sm font-bold text-white/60">JobFilter compares the public notice with your profile and exposes buyer, scope, value, deadline, requirements and missing evidence.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-white px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
               <div>
-                <p className="headline text-xl text-[var(--ink)]">You choose what is worth chasing</p>
-                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Use the evidence, date, value confidence, and recommended action. A scan is intelligence, not a promise that a buyer will award the job.</p>
+                <p className="headline text-xl text-[var(--ink)]">Choose the next action</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Decide BID, WATCH, SUBCONTRACT or SKIP. A recommendation is qualification support, not a promise of an award.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── TERRITORY CARDS ───────────────────────────── */}
+      {/* ── DECISION CHECKS ───────────────────────────── */}
       <section className="border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell grid gap-8 py-12 lg:grid-cols-[1fr_460px] lg:items-center">
           <div>
-            <p className="micro-label text-[var(--ink)]">TERRITORY OWNERSHIP</p>
+            <p className="micro-label text-[var(--ink)]">OPPORTUNITY QUALIFICATION</p>
             <h2 className="headline mt-3 text-5xl leading-none md:text-7xl">
-              SECURE YOUR PATCH BEFORE ANOTHER FIRM DOES.
+              SPEND BID TIME ON THE RIGHT OPPORTUNITIES.
             </h2>
             <p className="mt-5 max-w-2xl text-xl font-black text-[var(--ink)]/75">
-              Priority routing by trade and postcode is being piloted. We check coverage and conflicts before activating a paid patch.
+              JobFilter checks trade, delivery location, deadline, stage, buyer evidence and the likely route to market. It does not promise an award or exclusive access.
             </p>
             <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <Link className="jf-button bg-[var(--ink)] text-white" href="/territories">
-                SEE OPEN TERRITORIES →
+              <Link className="jf-button bg-[var(--ink)] text-white" href="/methodology">
+                SEE THE METHOD →
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
                 SCAN FREE — NO CARD NEEDED
@@ -310,30 +217,23 @@ export function HomePage() {
             </div>
           </div>
           <div className="grid gap-3">
-            {territoryCards.map(([name, status, score]) => {
-              const signalLevel = Number(score) >= 90 ? 4 : Number(score) >= 85 ? 3 : Number(score) >= 80 ? 2 : 1;
-              return (
-                <Link
+            {decisionChecks.map(([name, status, step]) => (
+                <article
                   key={name}
-                  href="/territories"
-                  className="group border-2 border-[var(--yellow)] bg-white p-4 text-[var(--ink)] shadow-[4px_4px_0_var(--yellow)] transition-colors hover:bg-[var(--yellow)]/10"
+                  className="border-2 border-[var(--yellow)] bg-white p-4 text-[var(--ink)] shadow-[4px_4px_0_var(--yellow)]"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <MapPinIcon />
+                        <CheckCircle size={20} strokeWidth={3} className="shrink-0 text-[var(--green)]" />
                         <h3 className="headline text-2xl">{name}</h3>
                       </div>
-                      <div className="mt-1 flex items-center gap-3">
-                        <p className="text-xs font-black uppercase tracking-[0.1em] text-[var(--orange)]">{status}</p>
-                        <SignalStrengthBars level={signalLevel} />
-                      </div>
+                      <p className="mt-1 text-xs font-black uppercase tracking-[0.1em] text-[var(--orange)]">{status}</p>
                     </div>
-                    <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-mono text-xl font-black">{score}</span>
+                    <span className="border-2 border-[var(--line)] bg-[var(--yellow)] px-3 py-2 font-mono text-xl font-black">{step}</span>
                   </div>
-                </Link>
-              );
-            })}
+                </article>
+            ))}
           </div>
         </div>
       </section>
@@ -347,14 +247,14 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'Patch-first filtering', body: 'Your trade and postcode shape every scan. Paid patch activation follows a coverage check.' },
-              { icon: Target, title: 'Alert-ready ranking', body: 'The strongest verified opportunities are ranked first. WhatsApp delivery activates only when your account is configured.' },
-              { icon: FileText, title: 'Letter drop scripts', body: 'Pre-written for your trade and area. Print and post in minutes.' },
-              { icon: Zap, title: 'Lead value kit', body: 'Quote floor, chase recommendation, and follow-up cadence on every lead.' },
-              { icon: TrendingUp, title: 'Pipeline tracking', body: 'Track every opportunity from first contact to won job.' },
+              { icon: ShieldCheck, title: 'Firm-aware fit', body: 'Services, region, contract range and delivery model shape every qualification.' },
+              { icon: Target, title: 'Decision first', body: 'Every reviewed opportunity leads to BID, WATCH, SUBCONTRACT or SKIP.' },
+              { icon: FileText, title: 'Requirement gaps', body: 'See what the notice proves and what your team still needs to verify.' },
+              { icon: Zap, title: 'Official evidence', body: 'Buyer, scope, value, deadline and response route stay tied to the public source.' },
+              { icon: TrendingUp, title: 'Outcome tracking', body: 'Record decisions and outcomes so future qualification can improve.' },
               { icon: Radio, title: 'Source health', body: 'Live source results stay separate from sample data, with empty and partial coverage reported honestly.' },
-              { icon: Clock, title: 'Founder price lock', body: '£39/mo stays £39/mo forever while your plan is active.' },
-              { icon: CheckCircle, title: '30-day guarantee', body: 'If you don\'t see one job worth chasing in 30 days, we refund every penny.' },
+              { icon: Clock, title: 'Deadline context', body: 'Published deadlines and stages make the available response time visible.' },
+              { icon: CheckCircle, title: 'Subcontract route', body: 'Flag opportunities that fit better through a principal contractor than a direct bid.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
                 <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
@@ -372,12 +272,12 @@ export function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <img src="/union-flag.svg" alt="" className="h-6 w-6 border border-[var(--line)]" aria-hidden="true" />
-              <p className="text-sm font-black uppercase text-[var(--ink)]">Built in Birmingham — not a London startup guessing how trades work</p>
+              <p className="text-sm font-black uppercase text-[var(--ink)]">Built for small UK contractors evaluating public works</p>
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-black uppercase text-[var(--muted)]">
-              <span>✓ WhatsApp-first</span>
-              <span>✓ No shared leads</span>
-              <span>✓ 30-day money-back</span>
+              <span>✓ Buyer and deadline context</span>
+              <span>✓ Official source links</span>
+              <span>✓ Coverage checked first</span>
             </div>
           </div>
         </div>
@@ -394,17 +294,17 @@ export function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--orange)]" />
-              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Limited founding spots</span>
+              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Coverage-first activation</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
-              ONE PATCH.<br />CLEAR EVIDENCE.<br />NO AUCTION.
+              ONE FIRM PROFILE.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Not a job board. Not a credit auction. Opportunities are filtered by trade, patch, timing, and evidence before you decide what to chase.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Find a Tender is a free public source. JobFilter compares current notices with your firm before you decide where bid time belongs.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
-                ['No credit auction', 'You do not pay credits to compete for a copied enquiry.'],
+                ['Public source', 'Every opportunity remains available through its official Find a Tender route.'],
                 ['No fake results', 'Internal samples are blocked from live scans. Weak evidence can produce an honest empty result.'],
-                ['Control first', 'Review the score and evidence before spending time on an opportunity.'],
+                ['Decision first', 'Review fit, evidence and gaps before choosing BID, WATCH, SUBCONTRACT or SKIP.'],
               ].map(([title, body]) => (
                 <div key={title} className="border-2 border-white/20 bg-white/8 p-4 transition-colors hover:border-[var(--yellow)]/40 hover:bg-white/12">
                   <h3 className="headline text-2xl text-[var(--yellow)]">{title}</h3>
@@ -417,18 +317,18 @@ export function HomePage() {
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
               <AlertTriangle size={28} strokeWidth={3} />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER ACCESS</p>
-                <h3 className="headline text-3xl">Claim early. Keep the rate.</h3>
+                <p className="micro-label text-[var(--orange)]">FOUNDER-ASSISTED PILOT</p>
+                <h3 className="headline text-3xl">Check fit before payment.</h3>
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No credit auction. No fabricated live jobs. Patch activation follows a real coverage check.
+              No fabricated live jobs and no promised volume. Pilot activation follows a real source-coverage and firm-fit check.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CLAIM YOUR PATCH — £39/MO →
+              CHECK PILOT FIT & PRICING →
             </Link>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
-              ✓ 30-DAY MONEY-BACK GUARANTEE — No job worth chasing? Full refund.
+              ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE
             </div>
             <p className="mt-3 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
               Not ready yet? Drop your email below.

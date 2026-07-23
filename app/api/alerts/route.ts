@@ -1,7 +1,7 @@
 /**
  * /api/alerts — Lead alert registration and listing.
  *
- * POST: Register a seeker alert { trade, location, frequency, postcode_outward? }
+ * POST: Register a seeker alert { trade, location, frequency, postcode_outward, radius_miles? }
  *   - instant: paid only
  *   - daily:   paid only
  *   - weekly:  free users allowed
@@ -25,6 +25,11 @@ const VALID_FREQUENCIES = new Set(['instant', 'daily', 'weekly']);
 const POSTCODE_OUTWARD_RE = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/;
 const PAID_FREQUENCIES = new Set(['instant', 'daily']);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
+
+function parseRadius(value: unknown): number | null {
+  const radius = Number(value ?? 25);
+  return Number.isInteger(radius) && radius >= 1 && radius <= 100 ? radius : null;
+}
 
 async function resolveUser(): Promise<{ userId: string; email: string; isPaid: boolean } | null> {
   if (FULL_ACCESS_TEST_MODE) return { userId: 'test', email: 'test@test.com', isPaid: true };
@@ -73,6 +78,7 @@ export async function POST(request: Request) {
   const postcode_raw = String(body.postcode_outward ?? body.postcode ?? '').toUpperCase().trim().replace(/\s+/g, '').slice(0, 8);
   const postcode_outward = POSTCODE_OUTWARD_RE.test(postcode_raw) ? postcode_raw : null;
   const frequency = String(body.frequency ?? 'weekly').toLowerCase();
+  const radius_miles = parseRadius(body.radius_miles ?? body.radiusMiles);
 
   if (!VALID_TRADES.has(trade)) {
     return Response.json(
@@ -82,6 +88,12 @@ export async function POST(request: Request) {
   }
   if (!location) {
     return Response.json({ ok: false, error: 'location is required' }, { status: 422 });
+  }
+  if (!postcode_outward) {
+    return Response.json({ ok: false, error: 'A valid UK postcode outward code is required' }, { status: 422 });
+  }
+  if (radius_miles === null) {
+    return Response.json({ ok: false, error: 'radius_miles must be a whole number from 1 to 100' }, { status: 422 });
   }
   if (!VALID_FREQUENCIES.has(frequency)) {
     return Response.json(
@@ -112,6 +124,7 @@ export async function POST(request: Request) {
         trade,
         location,
         postcode_outward,
+        radius_miles,
         frequency,
         active: true,
         updated_at: new Date().toISOString(),
@@ -129,9 +142,9 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     alert: data,
-    note: postcode_outward
-      ? 'Alert saved. Emails are sent hourly when matching leads are found.'
-      : 'Alert saved, but no postcode was provided — alerts require postcode_outward to find matching leads.',
+    note: frequency === 'instant'
+      ? 'Alert saved. New matches are checked hourly; delivery timing depends on source and email-provider availability.'
+      : `Alert saved. New matches are checked ${frequency}.`,
   });
 }
 
@@ -148,9 +161,8 @@ export async function GET() {
 
   const { data, error } = await admin
     .from('lead_alerts')
-    .select('id, trade, location, postcode_outward, frequency, active, last_sent_at, created_at')
+    .select('id, trade, location, postcode_outward, radius_miles, frequency, active, last_checked_at, last_sent_at, created_at')
     .eq('user_id', user.userId)
-    .eq('active', true)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -159,4 +171,48 @@ export async function GET() {
   }
 
   return Response.json({ ok: true, alerts: data ?? [] });
+}
+
+export async function PATCH(request: Request) {
+  const user = await resolveUser();
+  if (!user) return Response.json({ ok: false, error: 'Authentication required' }, { status: 401 });
+
+  const body = await request.json().catch(() => ({} as Record<string, unknown>));
+  const id = String(body.id ?? '').trim();
+  if (!id) return Response.json({ ok: false, error: 'id is required' }, { status: 422 });
+
+  const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  if (typeof body.active === 'boolean') update.active = body.active;
+  if (body.radius_miles !== undefined || body.radiusMiles !== undefined) {
+    const radius = parseRadius(body.radius_miles ?? body.radiusMiles);
+    if (radius === null) return Response.json({ ok: false, error: 'radius_miles must be a whole number from 1 to 100' }, { status: 422 });
+    update.radius_miles = radius;
+  }
+  if (body.frequency !== undefined) {
+    const frequency = String(body.frequency).toLowerCase();
+    if (!VALID_FREQUENCIES.has(frequency)) return Response.json({ ok: false, error: 'Invalid frequency' }, { status: 422 });
+    if (PAID_FREQUENCIES.has(frequency) && !user.isPaid) return Response.json({ ok: false, error: 'Paid subscription required' }, { status: 403 });
+    update.frequency = frequency;
+  }
+
+  const admin = getSupabaseServiceClient();
+  if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
+  const { data, error } = await admin.from('lead_alerts').update(update).eq('id', id).eq('user_id', user.userId).select().maybeSingle();
+  if (error) return Response.json({ ok: false, error: 'Failed to update alert' }, { status: 500 });
+  if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
+  return Response.json({ ok: true, alert: data });
+}
+
+export async function DELETE(request: Request) {
+  const user = await resolveUser();
+  if (!user) return Response.json({ ok: false, error: 'Authentication required' }, { status: 401 });
+  const id = new URL(request.url).searchParams.get('id')?.trim();
+  if (!id) return Response.json({ ok: false, error: 'id is required' }, { status: 422 });
+
+  const admin = getSupabaseServiceClient();
+  if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
+  const { data, error } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId).select('id').maybeSingle();
+  if (error) return Response.json({ ok: false, error: 'Failed to delete alert' }, { status: 500 });
+  if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
+  return Response.json({ ok: true });
 }

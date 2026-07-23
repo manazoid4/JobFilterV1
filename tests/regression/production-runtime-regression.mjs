@@ -1,10 +1,27 @@
 import assert from 'node:assert/strict';
 import { spawn, spawnSync } from 'node:child_process';
+import { createServer } from 'node:net';
 
-const baseUrl = 'http://127.0.0.1:3000';
+async function getAvailablePort() {
+  return new Promise((resolve, reject) => {
+    const probe = createServer();
+    probe.once('error', reject);
+    probe.listen(0, '127.0.0.1', () => {
+      const address = probe.address();
+      if (!address || typeof address === 'string') {
+        probe.close(() => reject(new Error('failed to allocate a runtime-test port')));
+        return;
+      }
+      probe.close(() => resolve(address.port));
+    });
+  });
+}
+
+const port = await getAvailablePort();
+const baseUrl = `http://127.0.0.1:${port}`;
 const server = spawn(
   process.execPath,
-  ['node_modules/next/dist/bin/next', 'start', '-p', '3000'],
+  ['node_modules/next/dist/bin/next', 'start', '-H', '127.0.0.1', '-p', String(port)],
   {
     env: { ...process.env, NODE_ENV: 'production' },
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -40,7 +57,10 @@ try {
   const liveContract = spawnSync(
     process.execPath,
     ['tests/regression/free-preview-live-contract-regression.mjs'],
-    { stdio: 'inherit' },
+    {
+      env: { ...process.env, JOBFILTER_TEST_BASE_URL: baseUrl },
+      stdio: 'inherit',
+    },
   );
   assert.equal(liveContract.status, 0, 'free preview live contract regression failed');
 

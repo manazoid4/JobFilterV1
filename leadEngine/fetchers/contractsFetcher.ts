@@ -1,304 +1,402 @@
 /**
- * Contracts Finder + FTS fetcher
+ * Current UK procurement notices from Find a Tender (FTS).
  *
- * Contracts Finder:
- *   Public OCDS endpoint (no auth required):
- *   GET https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search
- *   Params: publishedFrom, publishedTo, stages, limit, cursor
- *
- * FTS (Find a Tender Service):
- *   Official OCDS release packages endpoint:
- *   GET https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages
- *   Params: limit, cursor, updatedFrom, updatedTo, stages
+ * Contracts Finder is deliberately not queried here. New notices moved to FTS
+ * in February 2025, so Contracts Finder is retained only as a documented legacy
+ * and backfill source in the source registries.
  */
 
 import type { RawLead, SourceStats } from '../types';
 import { CONFIG } from '../config';
 
+const FTS_BASE = 'https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages';
+const FTS_MAX_PAGES = 5;
 const PACKAGE_CACHE_TTL_MS = 5 * 60_000;
-const packageCache = new Map<string, { expiresAt: number; payload: any }>();
-const packageInflight = new Map<string, Promise<any>>();
+const packageCache = new Map<string, { expiresAt: number; payload: unknown }>();
+const packageInflight = new Map<string, Promise<unknown>>();
 
-// ── CPV prefix → trade mapping (post-fetch filter) ────────────────────────────
+type FetchLike = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;
+
+export interface FindATenderOptions {
+  signal?: AbortSignal;
+  maxPages?: number;
+  now?: Date;
+  fetchImpl?: FetchLike;
+  useCache?: boolean;
+}
+
 const CPV_TRADE_PREFIXES: Record<string, string[]> = {
-  plumbing:    ['45330', '45331', '45332', '45333', '50720', '50730'],
-  electrical:  ['45310', '45311', '45312', '45315', '45316', '50710', '50711'],
-  roofing:     ['45260', '45261', '45262', '45263'],
-  building:    ['45000', '45100', '45200', '45210', '45211', '45220', '45400', '45410', '45450'],
-  carpentry:   ['45420', '45421', '45422', '45423'],
-  painting:    ['45440', '45441', '45442'],
-  hvac:        ['45331', '45332', '50720', '50730'],
+  plumbing: ['45330', '45331', '45332', '45333', '50720', '50730'],
+  electrical: ['45310', '45311', '45312', '45315', '45316', '50710', '50711'],
+  roofing: ['45260', '45261', '45262', '45263'],
+  building: ['45'],
+  carpentry: ['45420', '45421', '45422', '45423'],
+  painting: ['45440', '45441', '45442'],
+  hvac: ['45331', '45332', '50720', '50730'],
   landscaping: ['77300', '77310', '77311', '77312', '77313', '77314'],
-  all:         [],
+  all: [],
 };
 
-// Title/description keyword filter when CPV unavailable
 const TRADE_KEYWORDS: Record<string, RegExp> = {
-  plumbing:    /plumb|boiler|sanit|hot water|drain|water.*supply/i,
-  electrical:  /electric|rewire|wiring|lighting|ev.?charg|solar.?pv|power/i,
-  roofing:     /roof|tile|flat.?roof|epdm|gutter|fascia/i,
-  building:    /build|construct|refurb|renovat|extension|conversion|maintenance/i,
-  carpentry:   /carpent|joine|floor|timber|door|window.?frame/i,
-  painting:    /paint|decorat|plaster|render/i,
-  hvac:        /hvac|ventilat|air.?con|heat.?pump|ashp|mechanical/i,
+  plumbing: /plumb|boiler|sanit|hot water|drain|water.*supply/i,
+  electrical: /electric|rewire|wiring|lighting|ev.?charg|solar.?pv|power/i,
+  roofing: /roof|tile|flat.?roof|epdm|gutter|fascia/i,
+  building: /build|construct|refurb|renovat|extension|conversion|maintenance/i,
+  carpentry: /carpent|joine|floor|timber|door|window.?frame/i,
+  painting: /paint|decorat|plaster|render/i,
+  hvac: /hvac|ventilat|air.?con|heat.?pump|ashp|mechanical/i,
   landscaping: /landscap|grounds|garden|lawn|horticultur/i,
 };
 
-function matchesTrade(title: string, desc: string, cpvCodes: string[], trade: string): boolean {
+function asArray<T>(value: T | T[] | null | undefined): T[] {
+  if (Array.isArray(value)) return value;
+  return value == null ? [] : [value];
+}
+
+function uniqueStrings(values: unknown[]): string[] {
+  return [...new Set(values.map(value => String(value ?? '').trim()).filter(Boolean))];
+}
+
+function matchesTrade(title: string, description: string, cpvCodes: string[], trade: string): boolean {
   if (trade === 'all') return true;
   const prefixes = CPV_TRADE_PREFIXES[trade] ?? [];
-  if (prefixes.length > 0 && cpvCodes.some(c => prefixes.some(p => c.startsWith(p)))) return true;
-  const re = TRADE_KEYWORDS[trade];
-  if (re && re.test(`${title} ${desc}`)) return true;
-  return false;
+  // CPV is the authoritative classification. Text is only a fallback for
+  // notices where the buyer supplied no CPV at tender, item, or lot level.
+  if (cpvCodes.length > 0) {
+    return prefixes.some(prefix => cpvCodes.some(code => code.startsWith(prefix)));
+  }
+  return Boolean(TRADE_KEYWORDS[trade]?.test(`${title} ${description}`));
 }
 
-async function fetchWithTimeout(url: string, opts: RequestInit = {}): Promise<Response> {
-  let lastErr: unknown;
-  for (let i = 0; i < CONFIG.retryAttempts; i++) {
+function combineSignal(signal?: AbortSignal): AbortSignal {
+  const timeoutSignal = AbortSignal.timeout(CONFIG.fetchTimeoutMs);
+  return signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal;
+}
+
+function waitForRetry(milliseconds: number, signal?: AbortSignal): Promise<void> {
+  if (milliseconds <= 0) return Promise.resolve();
+  if (signal?.aborted) return Promise.reject(signal.reason ?? new Error('request aborted'));
+
+  return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout>;
+    const onAbort = () => {
+      clearTimeout(timer);
+      reject(signal?.reason ?? new Error('request aborted'));
+    };
+    timer = setTimeout(() => {
+      signal?.removeEventListener('abort', onAbort);
+      resolve();
+    }, milliseconds);
+    signal?.addEventListener('abort', onAbort, { once: true });
+  });
+}
+
+async function fetchWithTimeout(
+  url: string,
+  fetchImpl: FetchLike,
+  signal?: AbortSignal,
+): Promise<Response> {
+  let lastError: unknown;
+  // CONFIG describes retries after the initial request.
+  const attempts = Math.max(1, CONFIG.retryAttempts + 1);
+  const retryableStatuses = new Set([429, 502, 503, 504]);
+
+  for (let attempt = 0; attempt < attempts; attempt++) {
     try {
-      const r = await fetch(url, { ...opts, signal: AbortSignal.timeout(CONFIG.fetchTimeoutMs) });
-      if (r.status === 429) {
-        const retryAfter = Number(r.headers.get('Retry-After') ?? (i + 1) * 2);
-        await new Promise(res => setTimeout(res, retryAfter * 1000));
-        continue;
-      }
-      return r;
-    } catch (e) {
-      lastErr = e;
-      if (i < CONFIG.retryAttempts - 1) await new Promise(res => setTimeout(res, 500 * (i + 1)));
+      const requestSignal = combineSignal(signal);
+      requestSignal.throwIfAborted();
+      const response = await fetchImpl(url, {
+        headers: {
+          Accept: 'application/json',
+          'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
+        },
+        signal: requestSignal,
+      });
+
+      if (!retryableStatuses.has(response.status) || attempt === attempts - 1) return response;
+      const retryAfterSeconds = Math.min(5, Math.max(0, Number(response.headers.get('Retry-After') ?? 1)));
+      await waitForRetry(retryAfterSeconds * 1000, signal);
+    } catch (error) {
+      lastError = error;
+      if (signal?.aborted || attempt === attempts - 1) throw error;
     }
   }
-  throw lastErr ?? new Error('fetch failed');
+
+  throw lastError ?? new Error('FTS fetch failed');
 }
 
-async function fetchJsonPackage(label: string, url: string): Promise<any> {
-  const cached = packageCache.get(url);
-  if (cached && cached.expiresAt > Date.now()) return cached.payload;
+async function fetchJsonPackage(
+  url: string,
+  fetchImpl: FetchLike,
+  signal: AbortSignal | undefined,
+  useCache: boolean,
+): Promise<any> {
+  signal?.throwIfAborted();
+  const now = Date.now();
+  for (const [key, entry] of packageCache) {
+    if (entry.expiresAt <= now) packageCache.delete(key);
+  }
 
-  const existing = packageInflight.get(url);
-  if (existing) return existing;
+  if (useCache) {
+    const cached = packageCache.get(url);
+    if (cached && cached.expiresAt > Date.now()) return cached.payload;
+    const existing = signal ? undefined : packageInflight.get(url);
+    if (existing) return existing;
+  }
 
   const request = (async () => {
-    const r = await fetchWithTimeout(url, {
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'JobFilter/2.0 (jobfilter.uk)',
-      },
-    });
-
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      throw new Error(`${label} HTTP ${r.status} — ${url} — ${body.substring(0, 200)}`);
+    const response = await fetchWithTimeout(url, fetchImpl, signal);
+    if (!response.ok) {
+      const body = await response.text().catch(() => '');
+      throw new Error(`FTS HTTP ${response.status} — ${body.substring(0, 200)}`);
     }
-
-    const payload = await r.json() as any;
-    packageCache.set(url, { expiresAt: Date.now() + PACKAGE_CACHE_TTL_MS, payload });
+    const payload = await response.json();
+    if (useCache) packageCache.set(url, { expiresAt: Date.now() + PACKAGE_CACHE_TTL_MS, payload });
     return payload;
   })();
 
-  packageInflight.set(url, request);
+  if (useCache && !signal) packageInflight.set(url, request);
   try {
     return await request;
   } finally {
-    packageInflight.delete(url);
+    if (useCache && !signal) packageInflight.delete(url);
   }
 }
 
-// ── Contracts Finder OCDS Search ─────────────────────────────────────────────
-// Endpoint: GET https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search
-// No authentication required for public OCDS endpoint.
-
-const CF_OCDS_BASE = 'https://www.contractsfinder.service.gov.uk/Published/Notices/OCDS/Search';
-
-async function fetchContractsFinder(trade: string): Promise<{ leads: RawLead[]; stats: SourceStats }> {
-  const since = new Date(Date.now() - CONFIG.lookbackDays * 86_400_000)
-    .toISOString()
-    .replace('T', ' ')
-    .substring(0, 19);
-
-  const params = new URLSearchParams({
-    publishedFrom: since,
-    stages: 'tender',
-    limit: '50',
-  });
-
-  const url = `${CF_OCDS_BASE}?${params}`;
-
+function officialNextUrl(value: unknown): string | undefined {
+  if (typeof value !== 'string' || !value.trim()) return undefined;
   try {
-    const pkg = await fetchJsonPackage('CF', url);
-    // OCDS release package — releases array
-    const releases: any[] = pkg?.releases ?? pkg?.data ?? [];
-
-    const leads: RawLead[] = [];
-    let dropped = 0;
-
-    for (const rel of releases) {
-      const tender = rel?.tender ?? {};
-      const buyer = rel?.buyer ?? rel?.parties?.find((p: any) => p.roles?.includes('buyer')) ?? {};
-      const items: any[] = tender?.items ?? [];
-
-      const cpvCodes: string[] = items.flatMap((it: any) => [
-        it?.classification?.id,
-        ...(it?.additionalClassifications ?? []).map((c: any) => c?.id),
-      ]).filter(Boolean).map(String);
-
-      const title = String(tender?.title ?? '').trim();
-      const desc = String(tender?.description ?? '').trim();
-
-      if (!title || title.length < 4) { dropped++; continue; }
-      if (!matchesTrade(title, desc, cpvCodes, trade)) { dropped++; continue; }
-
-      const value = tender?.value?.amount ?? tender?.minValue?.amount ?? 0;
-      const deliveryLocs: any[] = tender?.deliveryLocations ?? [];
-      const location = deliveryLocs.map((l: any) => l?.description ?? l?.region ?? '').filter(Boolean).join(', ')
-        || tender?.deliveryAddress?.region
-        || buyer?.address?.region
-        || '';
-
-      leads.push({
-        rawId: String(rel?.ocid ?? rel?.id ?? `cf-${Date.now()}-${leads.length}`),
-        rawTitle: title,
-        rawDescription: desc,
-        rawValue: Number(value) || undefined,
-        rawLocation: location,
-        rawPostcode: String(tender?.deliveryAddress?.postalCode ?? buyer?.address?.postalCode ?? '').trim(),
-        rawDeadline: String(tender?.tenderPeriod?.endDate ?? '').trim(),
-        rawPublished: String(rel?.date ?? '').trim(),
-        rawBuyer: String(buyer?.name ?? tender?.procuringEntity?.name ?? '').trim(),
-        rawCpvCodes: cpvCodes,
-        sourceSystem: 'ContractsFinder',
-        sourceUrl: rel?.ocid
-          ? `https://www.contractsfinder.service.gov.uk/Notice/OCDS/${rel.ocid}`
-          : undefined,
-      });
-    }
-
-    return {
-      leads,
-      stats: { fetched: releases.length, passed: leads.length, dropped, failed: false },
-    };
-  } catch (err: any) {
-    return {
-      leads: [],
-      stats: {
-        fetched: 0, passed: 0, dropped: 0,
-        failed: true,
-        error: `CF threw — ${url} — ${String(err?.message ?? err)}`,
-      },
-    };
+    const url = new URL(value, FTS_BASE);
+    const base = new URL(FTS_BASE);
+    if (url.origin !== base.origin || url.pathname !== base.pathname) return undefined;
+    return url.toString();
+  } catch {
+    return undefined;
   }
 }
 
-// ── FTS OCDS Release Packages ─────────────────────────────────────────────────
-// Endpoint: GET https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages
-// Params: limit (1–100), cursor, updatedFrom (YYYY-MM-DDTHH:MM:SS), updatedTo, stages
-// No authentication required.
-
-const FTS_BASE = 'https://www.find-tender.service.gov.uk/api/1.0/ocdsReleasePackages';
-
-async function fetchFTS(trade: string): Promise<{ leads: RawLead[]; stats: SourceStats }> {
-  const since = new Date(Date.now() - CONFIG.lookbackDays * 86_400_000)
-    .toISOString()
-    .substring(0, 19); // YYYY-MM-DDTHH:MM:SS
-
-  const params = new URLSearchParams({
-    updatedFrom: since,
-    stages: 'tender',
-    limit: '100',
-  });
-
-  const url = `${FTS_BASE}?${params}`;
-
-  try {
-    const pkg = await fetchJsonPackage('FTS', url);
-    const releases: any[] = pkg?.releases ?? [];
-
-    const leads: RawLead[] = [];
-    let dropped = 0;
-
-    for (const rel of releases) {
-      const tender = rel?.tender ?? {};
-      const buyer = rel?.buyer ?? rel?.parties?.find((p: any) => p.roles?.includes('buyer')) ?? {};
-      const items: any[] = tender?.items ?? [];
-
-      const cpvCodes: string[] = items.flatMap((it: any) => [
-        it?.classification?.id,
-        ...(it?.additionalClassifications ?? []).map((c: any) => c?.id),
-      ]).filter(Boolean).map(String);
-
-      const title = String(tender?.title ?? '').trim();
-      const desc = String(tender?.description ?? '').trim();
-
-      if (!title || title.length < 4) { dropped++; continue; }
-      if (!matchesTrade(title, desc, cpvCodes, trade)) { dropped++; continue; }
-
-      const value = tender?.value?.amount ?? tender?.minValue?.amount ?? 0;
-      // FTS: tender.deliveryLocations absent — real path is items[].deliveryAddresses[].region
-      const deliveryAddrs: any[] = items.flatMap((it: any) => it?.deliveryAddresses ?? []);
-      const location = deliveryAddrs.map((a: any) => a?.region ?? a?.description ?? '').filter(Boolean).join(', ')
-        || items[0]?.deliveryLocation?.description
-        || buyer?.address?.region
-        || '';
-
-      leads.push({
-        rawId: String(rel?.ocid ?? rel?.id ?? `fts-${Date.now()}-${leads.length}`),
-        rawTitle: title,
-        rawDescription: desc,
-        rawValue: Number(value) || undefined,
-        rawLocation: location,
-        rawPostcode: String(buyer?.address?.postalCode ?? '').trim(),
-        rawDeadline: String(tender?.tenderPeriod?.endDate ?? '').trim(),
-        rawPublished: String(rel?.date ?? '').trim(),
-        rawBuyer: String(buyer?.name ?? tender?.procuringEntity?.name ?? '').trim(),
-        rawCpvCodes: cpvCodes,
-        sourceSystem: 'FTS',
-        sourceUrl: rel?.ocid
-          ? `https://www.find-tender.service.gov.uk/Notice/${rel.ocid.split('-').pop()}`
-          : undefined,
-      });
-    }
-
-    return {
-      leads,
-      stats: { fetched: releases.length, passed: leads.length, dropped, failed: false },
-    };
-  } catch (err: any) {
-    return {
-      leads: [],
-      stats: {
-        fetched: 0, passed: 0, dropped: 0,
-        failed: true,
-        error: `FTS threw — ${url} — ${String(err?.message ?? err)}`,
-      },
-    };
-  }
+function classificationIds(container: any): unknown[] {
+  return [container?.classification, ...asArray(container?.additionalClassifications)]
+    .filter((classification: any) => String(classification?.scheme ?? '').toUpperCase() === 'CPV')
+    .map((classification: any) => classification?.id);
 }
 
-// ── Public entry point ────────────────────────────────────────────────────────
+function releaseTimestamp(release: any): number {
+  const timestamp = Date.parse(String(release?.date ?? ''));
+  return Number.isFinite(timestamp) ? timestamp : 0;
+}
 
-export async function contractsFetcher(
-  trade: string
-): Promise<{ leads: RawLead[]; stats: Record<string, SourceStats> }> {
-  const [cfSettled, ftsSettled] = await Promise.allSettled([
-    fetchContractsFinder(trade),
-    fetchFTS(trade),
+function mergeReleaseAmendment(older: any, newer: any): any {
+  const olderTender = older?.tender ?? {};
+  const newerTender = newer?.tender ?? {};
+  return {
+    ...older,
+    ...newer,
+    buyer: newer?.buyer ?? older?.buyer,
+    parties: newer?.parties ?? older?.parties,
+    links: newer?.links ?? older?.links,
+    tender: {
+      ...olderTender,
+      ...newerTender,
+      tenderPeriod: {
+        ...(olderTender?.tenderPeriod ?? {}),
+        ...(newerTender?.tenderPeriod ?? {}),
+      },
+    },
+  };
+}
+
+function locationLabel(address: any): string {
+  return uniqueStrings([
+    address?.description,
+    address?.streetAddress,
+    address?.locality,
+    address?.region,
+    address?.postalCode,
+    address?.countryName,
+  ]).join(', ');
+}
+
+/** Map one realistic FTS OCDS release into the shared raw-lead contract. */
+export function mapFindATenderRelease(release: any, trade: string, now = new Date()): RawLead | null {
+  if (!release || typeof release !== 'object' || !release.tender || typeof release.tender !== 'object') return null;
+
+  const tender = release.tender;
+  const status = String(tender.status ?? '').toLowerCase();
+  if (['cancelled', 'complete', 'withdrawn', 'unsuccessful'].includes(status)) return null;
+
+  const title = String(tender.title ?? '').trim();
+  const description = String(tender.description ?? '').trim();
+  if (title.length < 4) return null;
+
+  const isAward = asArray<string>(release.tag).some(t => ['award', 'contract', 'implementation'].includes(t)) || status === 'complete';
+  
+  const deadline = String(tender?.tenderPeriod?.endDate ?? '').trim();
+  const deadlineTimestamp = Date.parse(deadline);
+  if (!isAward && Number.isFinite(deadlineTimestamp)) {
+    const deadlineDays = (deadlineTimestamp - now.getTime()) / 86_400_000;
+    if (deadlineDays < CONFIG.minDeadlineDaysFromNow || deadlineDays > CONFIG.maxDeadlineDaysFromNow) return null;
+  }
+
+  const items = asArray<any>(tender.items);
+  const lots = asArray<any>(tender.lots);
+  const cpvCodes = uniqueStrings([
+    ...classificationIds(tender),
+    ...items.flatMap(classificationIds),
+    ...lots.flatMap(classificationIds),
   ]);
+  if (!matchesTrade(title, description, cpvCodes, trade)) return null;
 
-  const cf = cfSettled.status === 'fulfilled'
-    ? cfSettled.value
-    : { leads: [], stats: { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'ContractsFinder threw unexpectedly' } };
+  const parties = asArray<any>(release.parties);
+  const buyerReference = release.buyer ?? tender.procuringEntity ?? {};
+  const buyerParty = parties.find(party => party?.id && party.id === buyerReference?.id)
+    ?? parties.find(party => asArray<string>(party?.roles).includes('buyer'))
+    ?? {};
 
-  const fts = ftsSettled.status === 'fulfilled'
-    ? ftsSettled.value
-    : { leads: [], stats: { fetched: 0, passed: 0, dropped: 0, failed: true, error: 'FTS threw unexpectedly' } };
+  let targetContact = buyerParty.contactPoint ?? buyerReference.contactPoint ?? {};
+  let targetName = String(buyerParty?.name ?? buyerReference?.name ?? tender?.procuringEntity?.name ?? '').trim();
+  
+  // Extract main contractor for awards
+  if (isAward) {
+    const awards = asArray<any>(release.awards);
+    const suppliers = awards.flatMap(a => asArray<any>(a.suppliers));
+    if (suppliers.length > 0) {
+      const supplier = suppliers[0];
+      const supplierParty = parties.find(p => p?.id === supplier?.id) ?? supplier;
+      targetName = `Main Contractor: ${supplierParty.name}`;
+      targetContact = supplierParty.contactPoint ?? targetContact;
+    }
+  }
 
-  // Log endpoint + status to stderr (visible in server logs, not surfaced to user)
-  console.error(`[CF]  ${CF_OCDS_BASE} → fetched=${cf.stats.fetched} passed=${cf.stats.passed} failed=${cf.stats.failed}${cf.stats.error ? ' ERR=' + cf.stats.error : ''}`);
-  console.error(`[FTS] ${FTS_BASE} → fetched=${fts.stats.fetched} passed=${fts.stats.passed} failed=${fts.stats.failed}${fts.stats.error ? ' ERR=' + fts.stats.error : ''}`);
+  const deliveryAddresses = items.flatMap(item => [
+    ...asArray<any>(item?.deliveryAddresses),
+    ...asArray<any>(item?.deliveryAddress),
+    ...asArray<any>(item?.deliveryLocation),
+  ]);
+  const tenderLocations = [
+    ...asArray<any>(tender.deliveryAddresses),
+    ...asArray<any>(tender.deliveryAddress),
+    ...asArray<any>(tender.deliveryLocations),
+    ...asArray<any>(tender.deliveryLocation),
+  ];
+  const locations = [...deliveryAddresses, ...tenderLocations];
+  const location = uniqueStrings(locations.map(locationLabel)).join('; ') || 'United Kingdom';
+  const deliveryPostcode = locations.map(address => String(address?.postalCode ?? '').trim()).find(Boolean);
+
+  const amount = Number(tender?.value?.amount);
+  const minAmount = Number(tender?.minValue?.amount);
+  const maxAmount = Number(tender?.maxValue?.amount);
+  const links = asArray<any>(release.links);
+  const submissionUrl = String(tender?.submissionMethodDetails ?? '').match(/https?:\/\/\S+/)?.[0];
+  const sourceUrl = links.find(link => ['canonical', 'tender'].includes(String(link?.rel ?? '').toLowerCase()))?.href
+    ?? submissionUrl
+    ?? (release.id ? `https://www.find-tender.service.gov.uk/Notice/${encodeURIComponent(String(release.id))}` : undefined);
 
   return {
-    leads: [...cf.leads, ...fts.leads],
-    stats: { ContractsFinder: cf.stats, FTS: fts.stats },
+    rawId: String(release.ocid ?? release.id),
+    rawTitle: title,
+    rawDescription: description,
+    rawValue: Number.isFinite(amount) && amount > 0 ? amount : undefined,
+    rawValueMin: Number.isFinite(minAmount) && minAmount > 0 ? minAmount : undefined,
+    rawValueMax: Number.isFinite(maxAmount) && maxAmount > 0 ? maxAmount : undefined,
+    rawLocation: location,
+    // Buyer headquarters are not proof of where work will be delivered.
+    // Keep radius filtering tied to an explicit delivery postcode only.
+    rawPostcode: deliveryPostcode || '',
+    rawDeadline: deadline,
+    rawPublished: String(release.date ?? '').trim(),
+    rawBuyer: targetName,
+    rawCpvCodes: cpvCodes,
+    rawContact: {
+      name: String(targetContact?.name ?? '').trim() || undefined,
+      phone: String(targetContact?.telephone ?? targetContact?.phone ?? '').trim() || undefined,
+      email: String(targetContact?.email ?? '').trim() || undefined,
+    },
+    rawStage: isAward ? 'award' : (asArray<string>(release.tag).includes('tender') ? 'tender' : (status || undefined)),
+    sourceSystem: 'FTS',
+    sourceUrl: typeof sourceUrl === 'string' ? sourceUrl : undefined,
   };
+}
+
+/** Fetch bounded FTS pages, following the API-provided next URL verbatim. */
+export async function fetchFindATender(
+  trade: string,
+  options: FindATenderOptions = {},
+): Promise<{ leads: RawLead[]; stats: SourceStats }> {
+  const now = options.now ?? new Date();
+  const maxPages = Math.min(FTS_MAX_PAGES, Math.max(1, options.maxPages ?? FTS_MAX_PAGES));
+  const fetchImpl = options.fetchImpl ?? globalThis.fetch;
+  const useCache = options.useCache ?? options.fetchImpl == null;
+  const cacheWindowNow = new Date(Math.floor(now.getTime() / PACKAGE_CACHE_TTL_MS) * PACKAGE_CACHE_TTL_MS);
+  const since = new Date(cacheWindowNow.getTime() - CONFIG.lookbackDays * 86_400_000).toISOString().substring(0, 19);
+  const params = new URLSearchParams({ updatedFrom: since, stages: 'tender,award,contract', limit: '100' });
+
+  let nextUrl: string | undefined = `${FTS_BASE}?${params}`;
+  const visitedUrls = new Set<string>();
+  const latestReleaseByOcid = new Map<string, any>();
+  const leads: RawLead[] = [];
+  let fetched = 0;
+  let dropped = 0;
+  let fetchError: string | undefined;
+
+  try {
+    for (let page = 0; page < maxPages && nextUrl; page++) {
+      if (visitedUrls.has(nextUrl)) break;
+      visitedUrls.add(nextUrl);
+
+      const pkg = await fetchJsonPackage(nextUrl, fetchImpl, options.signal, useCache);
+      const releases = Array.isArray(pkg?.releases) ? pkg.releases : [];
+      fetched += releases.length;
+
+      for (const release of releases) {
+        const releaseId = String(release?.ocid ?? release?.id ?? '').trim();
+        if (!releaseId) {
+          dropped++;
+          continue;
+        }
+        const existing = latestReleaseByOcid.get(releaseId);
+        if (!existing) {
+          latestReleaseByOcid.set(releaseId, release);
+          continue;
+        }
+
+        dropped++;
+        const [older, newer] = releaseTimestamp(release) >= releaseTimestamp(existing)
+          ? [existing, release]
+          : [release, existing];
+        latestReleaseByOcid.set(releaseId, mergeReleaseAmendment(older, newer));
+      }
+
+      nextUrl = officialNextUrl(pkg?.links?.next);
+    }
+
+  } catch (error: any) {
+    fetchError = String(error?.message ?? error);
+  }
+
+  for (const release of latestReleaseByOcid.values()) {
+    const mapped = mapFindATenderRelease(release, trade, now);
+    if (mapped) leads.push(mapped);
+    else dropped++;
+  }
+
+  return {
+    leads,
+    stats: {
+      fetched,
+      passed: leads.length,
+      dropped,
+      failed: Boolean(fetchError),
+      error: fetchError,
+    },
+  };
+}
+
+export async function contractsFetcher(
+  trade: string,
+  options: FindATenderOptions = {},
+): Promise<{ leads: RawLead[]; stats: Record<string, SourceStats> }> {
+  const result = await fetchFindATender(trade, options);
+  console.error(`[FTS] ${FTS_BASE} → fetched=${result.stats.fetched} passed=${result.stats.passed} failed=${result.stats.failed}${result.stats.error ? ` ERR=${result.stats.error}` : ''}`);
+  return { leads: result.leads, stats: { FTS: result.stats } };
 }

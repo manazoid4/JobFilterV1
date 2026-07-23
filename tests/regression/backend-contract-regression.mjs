@@ -7,11 +7,13 @@ const schema = fs.readFileSync('supabase/schema.sql', 'utf8');
 const app = fs.readFileSync('server/app.ts', 'utf8');
 
 for (const key of ['WHATSAPP_PHONE_NUMBER_ID', 'WHATSAPP_ACCESS_TOKEN', 'WHATSAPP_TO']) {
-  assert.match(sms, new RegExp(`process\\.env\\.${key}`), `sms service must read ${key}`);
   assert.match(env, new RegExp(`${key}=`), `.env.example must document ${key}`);
 }
 
-assert.match(sms, /graph\.facebook\.com\/v17\.0/, 'WhatsApp delivery must use Meta Cloud API');
+// Legacy Express-side WhatsApp delivery is now a disabled stub.
+assert.match(sms, /Legacy.*WhatsApp delivery is deliberately disabled/, 'sms.ts must document the disabled legacy delivery');
+assert.doesNotMatch(sms, /graph\.facebook\.com/, 'disabled sms.ts must not call Meta Cloud API');
+
 assert.match(schema, /delivery_lock_key\s+TEXT/i, 'delivery_events schema must include delivery_lock_key');
 assert.match(app, /registerSourceConfigRoute\(app\)/, 'source config route must be registered');
 

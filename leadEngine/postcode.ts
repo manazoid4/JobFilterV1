@@ -6,6 +6,20 @@ export interface PostcodeInfo {
   longitude?: number;
 }
 
+export interface PostcodeCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
+type CoordinateLookupOptions = {
+  fetchImpl?: typeof fetch;
+  signal?: AbortSignal;
+  useCache?: boolean;
+};
+
+const outwardCoordinateCache = new Map<string, { expiresAt: number; value: PostcodeCoordinates | null }>();
+const OUTWARD_COORDINATE_TTL_MS = 60 * 60 * 1000;
+
 const REGION_MAP: Array<[string, string]> = [
   // Length-3 prefixes first (more specific)
   ['NW', 'North West London'], ['SE', 'South East London'], ['SW', 'South West London'],
@@ -119,6 +133,39 @@ export async function lookupPostcode(postcode: string): Promise<PostcodeInfo> {
     };
   } catch {
     return fallback;
+  }
+}
+
+/** Resolve an outward postcode centroid for honest radius filtering. */
+export async function lookupOutwardCoordinates(
+  postcodeOutward: string,
+  options: CoordinateLookupOptions = {},
+): Promise<PostcodeCoordinates | null> {
+  const outward = getOutward(postcodeOutward);
+  if (!outward) return null;
+
+  const useCache = options.useCache ?? options.fetchImpl == null;
+  const cached = outwardCoordinateCache.get(outward);
+  if (useCache && cached && cached.expiresAt > Date.now()) return cached.value;
+
+  try {
+    const timeoutSignal = AbortSignal.timeout(4_000);
+    const signal = options.signal ? AbortSignal.any([options.signal, timeoutSignal]) : timeoutSignal;
+    const response = await (options.fetchImpl ?? globalThis.fetch)(
+      `https://api.postcodes.io/outcodes/${encodeURIComponent(outward)}`,
+      { signal },
+    );
+    if (!response.ok) return null;
+    const payload = await response.json() as any;
+    const latitude = Number(payload?.result?.latitude);
+    const longitude = Number(payload?.result?.longitude);
+    const value = Number.isFinite(latitude) && Number.isFinite(longitude)
+      ? { latitude, longitude }
+      : null;
+    if (useCache) outwardCoordinateCache.set(outward, { expiresAt: Date.now() + OUTWARD_COORDINATE_TTL_MS, value });
+    return value;
+  } catch {
+    return null;
   }
 }
 

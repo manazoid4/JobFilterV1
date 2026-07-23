@@ -10,6 +10,7 @@
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
 import { scan } from '../../../../leadEngine/scan';
 import { sendLeadAlertEmail } from '../../../../server/lib/resend';
+import { createHash } from 'node:crypto';
 
 const FREQUENCY_MS: Record<string, number> = {
   instant: 60 * 60 * 1000,
@@ -34,7 +35,7 @@ export async function GET(request: Request) {
 
   const { data: alerts, error } = await admin
     .from('lead_alerts')
-    .select('id, user_id, trade, location, postcode_outward, frequency, last_sent_at')
+    .select('id, user_id, trade, location, postcode_outward, radius_miles, frequency, last_checked_at, last_sent_at')
     .eq('active', true)
     .not('postcode_outward', 'is', null);
 
@@ -46,11 +47,12 @@ export async function GET(request: Request) {
   const now = Date.now();
   let checked = 0;
   let sent = 0;
+  let failed = 0;
 
   for (const alert of alerts ?? []) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
-    const lastSent = alert.last_sent_at ? new Date(alert.last_sent_at).getTime() : 0;
-    if (now - lastSent < interval) continue;
+    const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
+    if (now - lastChecked < interval) continue;
     checked++;
 
     try {
@@ -59,7 +61,16 @@ export async function GET(request: Request) {
         postcode: alert.postcode_outward,
         trade: alert.trade,
         tier: isPaid ? 'paid' : 'free',
+        radiusMiles: Number(alert.radius_miles ?? 25),
       });
+
+      const sourceStates = Object.values(result.sources ?? {});
+      const sourceFailures = sourceStates.filter((source) => source.failed).length;
+      if (sourceFailures > 0) {
+        failed++;
+        console.error('[alerts/send] source scan incomplete', { alertId: alert.id, sourceFailures });
+        continue;
+      }
 
       if (result.leads.length > 0) {
         const { data: profile } = await admin
@@ -69,7 +80,38 @@ export async function GET(request: Request) {
           .maybeSingle();
 
         if (profile?.email) {
-          await sendLeadAlertEmail(profile.email, {
+          const idempotencyKey = createHash('sha256')
+            .update(`${alert.id}:${alert.last_sent_at ?? 'never'}:${result.leads.slice(0, 5).map((lead) => lead.id).join(',')}`)
+            .digest('hex');
+          const deliveryId = `alert-${idempotencyKey.slice(0, 32)}`;
+          const { data: priorDelivery } = await admin
+            .from('delivery_events')
+            .select('id, status, attempts')
+            .eq('id', deliveryId)
+            .maybeSingle();
+          if (priorDelivery?.status === 'sent') {
+            await admin.from('lead_alerts').update({ last_checked_at: new Date().toISOString(), last_sent_at: new Date().toISOString() }).eq('id', alert.id);
+            continue;
+          }
+
+          const { error: outboxError } = await admin.from('delivery_events').upsert({
+            id: deliveryId,
+            lead_id: result.leads[0].id,
+            alert_id: alert.id,
+            user_id: alert.user_id,
+            provider: 'resend',
+            channel: 'email',
+            status: 'pending',
+            delivery_status: 'pending',
+            idempotency_key: idempotencyKey,
+            attempts: Number(priorDelivery?.attempts ?? 0) + 1,
+            next_attempt_at: null,
+            error: null,
+            updated_at: new Date().toISOString(),
+          });
+          if (outboxError) throw new Error(`Could not claim alert delivery: ${outboxError.code}`);
+
+          const delivery = await sendLeadAlertEmail(profile.email, {
             trade: alert.trade,
             location: alert.location,
             isPaid,
@@ -81,15 +123,44 @@ export async function GET(request: Request) {
               sourceUrl: l.sourceUrl,
             })),
           });
+          if (!delivery.sent) {
+            failed++;
+            await admin.from('delivery_events').update({
+              status: 'failed',
+              delivery_status: 'failed',
+              error: delivery.error ?? 'Email provider rejected delivery',
+              last_error: delivery.error ?? 'Email provider rejected delivery',
+              next_attempt_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+              updated_at: new Date().toISOString(),
+            }).eq('id', deliveryId);
+            continue;
+          }
+
+          const deliveredAt = new Date().toISOString();
+          await admin.from('delivery_events').update({
+            status: 'sent',
+            delivery_status: 'sent',
+            provider_message_id: delivery.providerMessageId ?? null,
+            last_error: null,
+            sent_at: deliveredAt,
+            next_attempt_at: null,
+            updated_at: deliveredAt,
+          }).eq('id', deliveryId);
+          await admin.from('lead_alerts').update({ last_checked_at: deliveredAt, last_sent_at: deliveredAt }).eq('id', alert.id);
           sent++;
+          continue;
         }
+        failed++;
+        console.error('[alerts/send] alert owner has no deliverable email', { alertId: alert.id });
+        continue;
       }
 
-      await admin.from('lead_alerts').update({ last_sent_at: new Date().toISOString() }).eq('id', alert.id);
+      await admin.from('lead_alerts').update({ last_checked_at: new Date().toISOString() }).eq('id', alert.id);
     } catch (err: any) {
+      failed++;
       console.error('[alerts/send] failed for alert', alert.id, err?.message);
     }
   }
 
-  return Response.json({ ok: true, total: alerts?.length ?? 0, checked, sent });
+  return Response.json({ ok: failed === 0, total: alerts?.length ?? 0, checked, sent, failed }, { status: failed === 0 ? 200 : 503 });
 }

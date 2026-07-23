@@ -12,8 +12,8 @@ const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry'
 const TRADES = new Set(TRADE_LIST);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
-// Weekly scan limit for free-tier authenticated users.
-// Unauthenticated requests get the same limit but are only tracked by rate-limit middleware.
+// Weekly scan limit for free-tier authenticated users. Claims are atomic in
+// Postgres; unauthenticated requests are separately protected by rate limiting.
 const FREE_WEEKLY_SCAN_LIMIT = 3;
 
 /** Returns the ISO week key for the current week: YYYY-WXX */
@@ -68,35 +68,20 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
       return { tier: 'full', userId: user.id, scanLimitExceeded: false, scansUsed: 0 };
     }
 
-    // Free tier — check + increment server-side weekly scan counter
+    // Free tier — atomically claim a server-side weekly scan slot.
     const thisWeek = getWeekKey();
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('weekly_scan_week, weekly_scan_count')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    const storedWeek: string | null = profile?.weekly_scan_week ?? null;
-    const storedCount: number = (storedWeek === thisWeek ? (profile?.weekly_scan_count ?? 0) : 0);
-
-    if (storedCount >= FREE_WEEKLY_SCAN_LIMIT) {
-      return { tier: 'preview', userId: user.id, scanLimitExceeded: true, scansUsed: storedCount };
-    }
-
-    // Increment counter (best-effort — never block the scan if this fails)
-    const newCount = storedCount + 1;
-    supabase.from('profiles').update({
-      weekly_scan_week: thisWeek,
-      weekly_scan_count: newCount,
-      updated_at: new Date().toISOString(),
-    }).eq('id', user.id).then(({ error: e }) => {
-      if (e) console.warn('[leads/search] scan counter update failed:', e.message);
+    const { data: claims, error: claimError } = await supabase.rpc('claim_weekly_scan', {
+      p_user_id: user.id,
+      p_week: thisWeek,
+      p_limit: FREE_WEEKLY_SCAN_LIMIT,
     });
-
-    return { tier: 'preview', userId: user.id, scanLimitExceeded: false, scansUsed: newCount };
-  } catch {
-    // Supabase unavailable — allow scan to proceed
-    return noAuth;
+    if (claimError) throw new Error(`scan quota unavailable: ${claimError.code}`);
+    const claim = Array.isArray(claims) ? claims[0] : claims;
+    const scansUsed = Number(claim?.scans_used ?? FREE_WEEKLY_SCAN_LIMIT + 1);
+    return { tier: 'preview', userId: user.id, scanLimitExceeded: claim?.allowed !== true, scansUsed };
+  } catch (error) {
+    console.error('[leads/search] access resolution failed', error instanceof Error ? error.message : 'unknown');
+    throw error;
   }
 }
 
@@ -104,26 +89,30 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
 export function registerLeadSearchRoute(app: Express) {
   app.post('/api/leads/search', rateLimit, async (req: Request, res: Response) => {
     const started = Date.now();
+    const requestAbort = new AbortController();
+    const abortOnDisconnect = () => {
+      if (!res.writableEnded && !requestAbort.signal.aborted) {
+        requestAbort.abort(new Error('client disconnected'));
+      }
+    };
+    req.once('aborted', abortOnDisconnect);
+    res.once('close', abortOnDisconnect);
+
     try {
       const postcode = parseUkPostcode(req.body?.postcode);
       const trade = sanitizeTrade(req.body?.trade);
       const radiusMiles = sanitizeRadius(req.body?.radiusMiles);
 
-      const queryStartedAt = new Date(started).toISOString();
-      const [result, accessCtx] = await Promise.all([
-        scan({ postcode: postcode.postcode, trade, tier: 'paid', radiusMiles }),
-        resolveAccessContext(req),
-      ]);
-      const queryFinishedAt = new Date().toISOString();
+      const accessCtx = await resolveAccessContext(req);
 
-      // Server-side free scan gate — blocks after FREE_WEEKLY_SCAN_LIMIT scans/week
+      // Resolve entitlement and quota before starting any source work.
       if (accessCtx.scanLimitExceeded) {
         return res.status(429).json({
           ok: false,
           source: 'lead_engine',
           count: 0,
-          region: result.region,
-          outward: result.outward,
+          region: '',
+          outward: postcode.outward,
           leads: [],
           errors: [`Free scan limit reached (${FREE_WEEKLY_SCAN_LIMIT} per week). Upgrade to scan without limits.`],
           scanLimitExceeded: true,
@@ -131,6 +120,16 @@ export function registerLeadSearchRoute(app: Express) {
           weeklyLimit: FREE_WEEKLY_SCAN_LIMIT,
         });
       }
+
+      const queryStartedAt = new Date().toISOString();
+      const result = await scan({
+        postcode: postcode.postcode,
+        trade,
+        tier: accessCtx.tier === 'full' ? 'paid' : 'free',
+        radiusMiles,
+        signal: requestAbort.signal,
+      });
+      const queryFinishedAt = new Date().toISOString();
 
       const persistence = await persistLeads(result.leads);
       const sourceBenchmark = await persistSourceBenchmarkRun({ result, trade, queryStartedAt, queryFinishedAt });
@@ -169,6 +168,9 @@ export function registerLeadSearchRoute(app: Express) {
         leads: [],
         errors: [message === 'This operation was aborted' ? 'lead engine request timed out' : message],
       });
+    } finally {
+      req.off('aborted', abortOnDisconnect);
+      res.off('close', abortOnDisconnect);
     }
   });
 }
