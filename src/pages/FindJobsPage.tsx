@@ -910,7 +910,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORDS: Record<string, string[]> = {
+  electrical:  ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'FUSE BOARD', 'EICR', 'SOLAR PV', 'SMART METER', 'LIGHTING', 'CIRCUIT', 'SOCKETS', 'DISTRIBUTION BOARD'],
+  plumbing:    ['BOILER', 'BATHROOM', 'HEATING', 'RADIATOR', 'HOT WATER', 'CYLINDER', 'BURST PIPE', 'SHOWER', 'TOILET', 'UNVENTED', 'CENTRAL HEATING', 'COMBI'],
+  roofing:     ['ROOF', 'FLAT ROOF', 'TILES', 'SLATES', 'FASCIA', 'GUTTERING', 'SOFFIT', 'LEAD FLASHING', 'CHIMNEY', 'FELT', 'RIDGE', 'SKYLIGHT', 'VELUX'],
+  building:    ['EXTENSION', 'LOFT CONVERSION', 'PARTITION', 'GROUNDWORK', 'BRICKWORK', 'PLASTERING', 'RENDER', 'CONVERSION', 'UNDERPINNING', 'FOUNDATIONS', 'BLOCK PAVING'],
+  hvac:        ['HEAT PUMP', 'AIR CON', 'AIR CONDITIONING', 'VENTILATION', 'DUCTWORK', 'WARM AIR', 'COOLING', 'MVHR', 'EXTRACT FAN', 'REFRIGERATION'],
+  painting:    ['DECORATING', 'PAINTING', 'WALLPAPER', 'INTERIOR', 'EXTERIOR PAINT', 'GLOSS', 'SPRAY PAINT', 'COVING', 'STAINING'],
+  carpentry:   ['KITCHEN', 'JOINERY', 'WINDOWS', 'DOORS', 'SKIRTING', 'FLOORING', 'STAIRS', 'FITTED', 'WARDROBES', 'TIMBER FRAME'],
+  landscaping: ['LANDSCAPING', 'GARDEN', 'PAVING', 'DECKING', 'FENCING', 'DRIVEWAY', 'TURFING', 'TREE', 'HEDGE', 'RETAINING WALL'],
+};
+
+function parseTradeReasons(raw: string[], trade?: string, title?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -943,7 +954,21 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+
+  // Trade-specific title scan: when no highlighted reason exists, pull job-type keywords from the lead title
+  if (out.filter(r => r.highlight).length === 0 && (trade || title)) {
+    const upper = (title ?? '').toUpperCase();
+    const tradeKey = (trade ?? '').toLowerCase();
+    const keywords = TRADE_KEYWORDS[tradeKey] ?? [];
+    const found = keywords.filter(kw => upper.includes(kw));
+    found.slice(0, 2).forEach(kw => out.unshift({ label: `${kw} — YOUR TRADE`, highlight: true }));
+    if (found.length === 0) {
+      const anyFound = Object.values(TRADE_KEYWORDS).flat().find(kw => upper.includes(kw));
+      if (anyFound) out.unshift({ label: anyFound, highlight: false });
+    }
+  }
+
+  return out.length > 0 ? out.slice(0, 5) : [{ label: 'VERIFIED SIGNAL', highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1137,7 +1162,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead.trade as string, lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);

@@ -39,7 +39,8 @@
     "dist",
     "node_modules",
     "Obsidian_Memory",
-    "memoryraw_claude"
+    "memoryraw_claude",
+    "vite.config.ts"
   ],
   "include": [
     "next-env.d.ts",

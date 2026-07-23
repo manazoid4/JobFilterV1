@@ -37,8 +37,8 @@ export function PricingPage() {
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Average UK trade job: £800–£3,000. One job covers 12+ months at £39.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No credit card required to scan — 3 free scans every week.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">30-day money-back guarantee — one job worth chasing or we refund every penny.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required — account creation is free. £39/mo activates only after email confirmation.</p>
+        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">30-day money-back — one job worth chasing or we refund every penny. No forms, just email us.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">

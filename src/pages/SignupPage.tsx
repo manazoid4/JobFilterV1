@@ -104,7 +104,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
+          {planLabel}. Fill in your trade, postcode, and WhatsApp. Confirm your email. Scored leads route to your phone before the same signal hits anyone else on your patch. No credit card until you're ready.
         </p>
       </section>
 
@@ -137,7 +137,7 @@ export function SignupPage() {
         </label>
         {status === 'error' && <p className="font-black text-[var(--orange)]">{error}</p>}
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" disabled={status === 'loading'}>
-          {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
+          {status === 'loading' ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT →'}
         </button>
         <p className="text-xs font-black text-[var(--muted)]">No card required to create your account — payment comes after you confirm your email.</p>
         <div className="flex flex-wrap gap-3 border-t-2 border-[var(--line)] pt-4">
