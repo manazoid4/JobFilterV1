@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Scan live public contracts before rivals act on them',
+  'Know which tenders match your trade, region and capacity',
+  'BID, WATCH, SUBCONTRACT or SKIP — clear next action every time',
+  'Free check. No card. Empty result = no match, never a fake job',
 ];
 
 const signalRows = [

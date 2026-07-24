@@ -141,12 +141,16 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <p className="mt-3 text-lg font-black text-[var(--ink)]/80">One job worth chasing pays for 12+ months of JobFilter.</p>
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
         <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <div className="mt-4 border-2 border-[var(--ink)]/30 bg-[var(--ink)]/8 px-4 py-3 text-sm font-black text-[var(--ink)]">
+          30-DAY MONEY-BACK GUARANTEE — Use it for 30 days. If you don&apos;t see one job worth chasing, we refund every penny. No quibbles.
+        </div>
       </section>
     </main>
   );
