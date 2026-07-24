@@ -3,7 +3,7 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, Lock } from 'lucide-react';
+import { Search, Wrench, Zap, Home, Paintbrush, Hammer, Thermometer, TreePine, FileText, Building2, ArrowRight, Clock, TrendingUp, ShieldCheck, Lock, CalendarDays } from 'lucide-react';
 import { ScoreBadge } from '../components/ScoreBadge';
 import { Tag } from '../components/Tag';
 import { TrustBadges } from '../components/TrustBadges';
@@ -1347,6 +1347,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <p className="text-center text-xs font-black text-[var(--muted)]">Public tender · access is not exclusive</p>
           </div>
         )}
+        <a
+          href={`/api/leads/calendar.ics?leadId=${encodeURIComponent(lead.id)}&jobType=${encodeURIComponent(titleCase(String(lead.trade || lead.tradeMatch || 'trade')))}&postcode=${encodeURIComponent(outward)}&area=${encodeURIComponent(lead.location || outward)}&score=${lead.score}&urgency=${encodeURIComponent(lead.urgency || '')}&details=${encodeURIComponent(lead.title)}`}
+          download
+          className="flex items-center justify-center gap-2 border-2 border-[var(--line)] bg-white px-3 py-2 text-xs font-black uppercase text-[var(--ink)] hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors w-full"
+        >
+          <CalendarDays className="w-3.5 h-3.5 shrink-0" />
+          ADD TO CALENDAR
+        </a>
         <QuickResponseKit
           leadId={lead.id}
           trade={String(lead.trade || lead.tradeMatch || 'job')}

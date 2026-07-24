@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Find a Tender is free — JobFilter adds firm-aware qualification on top',
+  'Trade match, region, deadline and response route in one view',
+  'BID, WATCH, SUBCONTRACT or SKIP — with evidence, not a guess',
+  'Empty scan = no match. We never invent jobs to fill the screen.',
 ];
 
 const signalRows = [
@@ -124,9 +124,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
-          <span>Qualified by evidence, firm fit, region, value, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Not Checkatrade. Not Bark. Official public-sector tenders — your trade, your region.</span>
+          <span>BID, WATCH, SUBCONTRACT or SKIP — decided by evidence, not gut feel</span>
+          <span>Empty scan = no verified match. We never pad results.</span>
         </div>
       </section>
 

@@ -19,6 +19,8 @@ const objections = [
   ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['How is this different from BuildAlert or Planning Pipe?', 'BuildAlert and Planning Pipe send bulk alerts. JobFilter adds firm-aware qualification on top of the public FTS feed — so you see a BID, WATCH, SUBCONTRACT or SKIP decision with evidence, not just a raw notice list.'],
+  ['Why not just search FTS directly?', 'You can — and it is free. JobFilter saves the time of reading notices that do not match your trade, region, value range or current capacity. If FTS works for you, use it.'],
 ];
 
 export function PricingPage() {
@@ -38,20 +40,19 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT — £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP READING TENDERS THAT DON&apos;T FIT YOUR FIRM.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          JobFilter reads current Find a Tender notices and gives you a BID, WATCH, SUBCONTRACT or SKIP verdict with the evidence — trade match, delivery region, deadline, and official response route. No shared auction. No five-firm blast. Your qualification stays yours.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for firm-aware qualification, evidence and workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Results vary by trade, region and timing — an empty scan is a valid outcome.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -70,7 +71,7 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)]">Run the free scan first to confirm coverage fits your firm before paying.</p></>}
           order="order-first lg:order-none"
         />
       </section>
@@ -139,14 +140,14 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE BEFORE YOU PAY</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SEE WHAT&apos;S LIVE IN YOUR TRADE AND REGION.</h2>
+        <p className="mt-3 text-lg font-bold text-[var(--ink)]/80">Run the free scan first. If you see qualified matches, £39/mo pays for itself on the first bid it saves you from writing.</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CREDIT CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not privileged access.</p>
       </section>
     </main>
   );
