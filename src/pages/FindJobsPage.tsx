@@ -920,17 +920,17 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim()).slice(0, 3).forEach(k => out.push({ label: keywordToJobLabel(k), highlight: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: keywordToJobLabel(tradeTeaser[1].trim()), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => k.trim()).slice(0, 2).forEach(k => out.push({ label: keywordToJobLabel(k), highlight: false }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
@@ -960,6 +960,145 @@ const TITLE_KEYWORDS = [
   'INSULATION', 'REWIRING', 'VENTILATION', 'GARAGE CONVERSION',
   'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
 ];
+
+const KEYWORD_TO_JOB_LABEL: Record<string, string> = {
+  // Electrical
+  'rewire': 'FULL REWIRE',
+  'rewiring': 'FULL REWIRE',
+  'electrical': 'ELECTRICAL WORKS',
+  'electrical installation': 'NEW INSTALLATION',
+  'wiring': 'WIRING WORKS',
+  'ev charger': 'EV CHARGER INSTALL',
+  'electric vehicle': 'EV CHARGING',
+  'solar': 'SOLAR PV',
+  'solar pv': 'SOLAR PV',
+  'consumer unit': 'CONSUMER UNIT',
+  'fuse board': 'FUSEBOARD UPGRADE',
+  'lighting': 'LIGHTING',
+  'fire alarm': 'FIRE ALARM',
+  'eicr': 'EICR TEST',
+  'pat test': 'PAT TESTING',
+  'rcd': 'RCD PROTECTION',
+  'smart home': 'SMART HOME',
+  'data cabling': 'DATA CABLING',
+  'security system': 'SECURITY SYSTEM',
+  'cctv': 'CCTV SYSTEM',
+  'access control': 'ACCESS CONTROL',
+  'battery storage': 'BATTERY STORAGE',
+  // Plumbing / Gas
+  'boiler': 'BOILER REPLACEMENT',
+  'bathroom': 'BATHROOM REFIT',
+  'plumb': 'PLUMBING',
+  'heating': 'HEATING SYSTEM',
+  'radiator': 'RADIATOR WORK',
+  'hot water': 'HOT WATER SYSTEM',
+  'central heating': 'CENTRAL HEATING',
+  'gas safe': 'GAS SAFE WORK',
+  'gas engineer': 'GAS ENGINEER',
+  'gas installation': 'GAS INSTALLATION',
+  'combi': 'COMBI BOILER',
+  'heat exchanger': 'HEAT EXCHANGER',
+  'pipework': 'PIPEWORK',
+  'unvented': 'UNVENTED CYLINDER',
+  'pressurised': 'PRESSURISED SYSTEM',
+  'wet room': 'WET ROOM',
+  'shower': 'SHOWER INSTALL',
+  'kitchen': 'KITCHEN REFIT',
+  'cylinder': 'HOT WATER CYLINDER',
+  // Roofing
+  'roof': 'ROOF WORKS',
+  'roofing': 'ROOFING',
+  'flat roof': 'FLAT ROOF',
+  'slate': 'SLATE ROOFING',
+  'tile roof': 'TILED ROOF',
+  'felt roof': 'FELT ROOF',
+  'epdm': 'EPDM MEMBRANE',
+  'gutter': 'GUTTERING',
+  'fascia': 'FASCIA/SOFFIT',
+  'soffit': 'SOFFIT BOARDS',
+  'cladding': 'CLADDING',
+  'lead flashing': 'LEAD FLASHING',
+  'ridge': 'RIDGE TILES',
+  're-roof': 'FULL RE-ROOF',
+  'velux': 'VELUX WINDOW',
+  // Building
+  'extension': 'EXTENSION BUILD',
+  'new build': 'NEW BUILD',
+  'loft conversion': 'LOFT CONVERSION',
+  'loft': 'LOFT WORKS',
+  'garage': 'GARAGE WORKS',
+  'structural': 'STRUCTURAL WORKS',
+  'building work': 'BUILDING WORKS',
+  'construction': 'CONSTRUCTION',
+  'refurbishment': 'REFURB',
+  'renovation': 'RENOVATION',
+  'groundwork': 'GROUNDWORKS',
+  'foundation': 'FOUNDATIONS',
+  'underpinning': 'UNDERPINNING',
+  // HVAC
+  'heat pump': 'HEAT PUMP INSTALL',
+  'air conditioning': 'AIR CONDITIONING',
+  'air source': 'AIR SOURCE HP',
+  'ground source': 'GROUND SOURCE HP',
+  'ashp': 'ASHP INSTALL',
+  'gshp': 'GSHP INSTALL',
+  'mvhr': 'MVHR SYSTEM',
+  'ventilation': 'VENTILATION',
+  'hvac': 'HVAC SYSTEM',
+  'mechanical': 'MECHANICAL WORKS',
+  'ductwork': 'DUCTWORK',
+  'extractor': 'EXTRACTION',
+  'refrigeration': 'REFRIGERATION',
+  'vrf': 'VRF SYSTEM',
+  // Painting / Decorating
+  'paint': 'PAINTING',
+  'decorat': 'DECORATING',
+  'plaster': 'PLASTERING',
+  'plastering': 'PLASTERING',
+  'render': 'RENDERING',
+  'wallpaper': 'WALLPAPERING',
+  'exterior paint': 'EXTERIOR PAINTING',
+  'interior paint': 'INTERIOR PAINTING',
+  'emulsion': 'EMULSION WORKS',
+  'gloss': 'GLOSS WORK',
+  'skimming': 'SKIM COAT',
+  'skim coat': 'SKIM COAT',
+  'tiling': 'TILING',
+  'tile': 'TILING',
+  'ceramic': 'CERAMIC TILING',
+  'porcelain': 'PORCELAIN TILING',
+  // Landscaping
+  'landscape': 'LANDSCAPING',
+  'grounds': 'GROUNDS MAINTENANCE',
+  'garden': 'GARDEN WORKS',
+  'paving': 'PAVING',
+  'block paving': 'BLOCK PAVING',
+  'resin driveway': 'RESIN DRIVEWAY',
+  'decking': 'DECKING',
+  'fencing': 'FENCING',
+  'turf': 'TURFING',
+  'retaining wall': 'RETAINING WALL',
+  'patio': 'PATIO WORKS',
+  'driveway': 'DRIVEWAY',
+  // Carpentry
+  'carpentry': 'CARPENTRY',
+  'joinery': 'JOINERY',
+  'staircase': 'STAIRCASE',
+  'bespoke': 'BESPOKE JOINERY',
+  'fitted wardrob': 'FITTED WARDROBES',
+  'kitchen fitting': 'KITCHEN FIT-OUT',
+  'door hanging': 'DOOR HANGING',
+  'skirting': 'SKIRTING BOARDS',
+  'architrave': 'ARCHITRAVE',
+  'wood floor': 'WOOD FLOORING',
+  'hardwood floor': 'HARDWOOD FLOORS',
+  'engineered floor': 'ENGINEERED FLOORING',
+};
+
+function keywordToJobLabel(keyword: string): string {
+  const lower = keyword.toLowerCase().trim();
+  return KEYWORD_TO_JOB_LABEL[lower] ?? keyword.toUpperCase();
+}
 
 function extractTopJobTypes(leads: Lead[]): string[] {
   const counts: Record<string, number> = {};
@@ -1566,9 +1705,9 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Tender activity changes daily — new notices drop throughout the week. Get a free email when jobs matching your trade appear near you.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
+          SET UP FREE EMAIL ALERTS →
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
