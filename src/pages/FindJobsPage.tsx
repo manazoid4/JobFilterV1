@@ -231,6 +231,12 @@ export function FindJobsPage() {
   // so in-flight scan responses can check if the identity changed mid-flight.
   const currentUserIdRef = useRef<string | null | undefined>(user?.id);
   currentUserIdRef.current = user?.id;
+  // True once AuthProvider has rendered a non-null user ID at least once.
+  // Distinguishes pre-hydration (undefined user, no prior session) from post-sign-out (undefined user after session).
+  const hasEverHydratedRef = useRef(false);
+  // Tracks the user ID for whom the current result was fetched — prevents hydration
+  // from clearing a valid fallback-session result when user?.id changes undefined→ownId.
+  const resultOwnerIdRef = useRef<string | null | undefined>(null);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -268,15 +274,23 @@ export function FindJobsPage() {
   }, []);
 
   useEffect(() => {
-    if (user?.id) setWeeklyScansUsed(getWeeklyScansUsedForUser(user.id));
-    else setWeeklyScansUsed(getWeeklyScansUsed());
+    if (user?.id) {
+      hasEverHydratedRef.current = true;
+      setWeeklyScansUsed(getWeeklyScansUsedForUser(user.id));
+    } else {
+      setWeeklyScansUsed(getWeeklyScansUsed());
+    }
   }, [user?.id]);
 
-  // Clear retained results when the authenticated identity changes so a
-  // different account can never view a prior user's paid lead data.
+  // Clear retained results only when the identity changes to a *different* user.
+  // Skip the clear when user?.id changes undefined→ownId (hydration completing
+  // while a fallback-session scan result is already displayed).
   useEffect(() => {
-    setResult(null);
-    setFillWeekResult(null);
+    if (resultOwnerIdRef.current !== null && user?.id !== resultOwnerIdRef.current) {
+      setResult(null);
+      setFillWeekResult(null);
+      resultOwnerIdRef.current = null;
+    }
   }, [user?.id]);
 
   useEffect(() => {
@@ -361,19 +375,23 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
-      // Discard if a (different) authenticated user is now present.
-      // Guard: currentUserIdRef.current is defined (someone is logged in) AND differs from
-      // the initiating user (covers A→B switch AND anonymous→sign-in where initiatingUserId
-      // is undefined). currentUserIdRef.current=undefined means pre-hydration — keep response.
-      const identityChanged = currentUserIdRef.current !== undefined && currentUserIdRef.current !== initiatingUserId;
+      // Discard if the authenticated identity changed mid-flight.
+      // Cases covered:
+      //   A→B: currentUserIdRef.current=B, initiatingUserId=A → different defined IDs → discard
+      //   anon→sign-in: currentUserIdRef.current=B, initiatingUserId=undefined → B !== undefined → discard
+      //   sign-out: currentUserIdRef.current=undefined AND hydration previously completed AND initiatingUserId defined → discard
+      //   hydration window: currentUserIdRef.current=undefined, hasEverHydrated=false → keep (pre-auth scan)
+      const signedOut = currentUserIdRef.current === undefined && hasEverHydratedRef.current && initiatingUserId !== undefined;
+      const identityChanged = (currentUserIdRef.current !== undefined && currentUserIdRef.current !== initiatingUserId) || signedOut;
       if (identityChanged) {
-        // The server already claimed A's scan slot, so persist the authoritative count
-        // under the initiating user before discarding the UI result.
+        // The server may have already claimed the initiating user's scan slot — persist
+        // the authoritative count under that user before discarding the UI result.
         if (token && data.scansUsed !== undefined && initiatingUserId) {
           persistWeeklyScanCount(data.scansUsed, initiatingUserId);
         }
         return;
       }
+      resultOwnerIdRef.current = initiatingUserId ?? null;
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
