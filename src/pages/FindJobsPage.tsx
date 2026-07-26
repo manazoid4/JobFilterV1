@@ -321,7 +321,11 @@ export function FindJobsPage() {
           setWeeklyScansUsed(data.scansUsed);
         }
       } else {
-        const used = (token && data.scansUsed !== undefined) ? data.scansUsed : recordWeeklyScan();
+        // Only trust the server count if the server confirmed authentication:
+        // paid users return weeklyLimit=null; free users return scansUsed>0 after the claim.
+        // Both unauthenticated and token-rejected paths return scansUsed=0 with weeklyLimit=3.
+        const serverConfirmedAuth = data.weeklyLimit === null || (data.scansUsed !== undefined && data.scansUsed > 0);
+        const used = (token && serverConfirmedAuth) ? data.scansUsed! : recordWeeklyScan();
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
