@@ -77,11 +77,27 @@ function recordWeeklyScan(): number {
   return next;
 }
 
-function persistWeeklyScanCount(count: number): void {
+function userScanKeys(userId?: string | null) {
+  const suffix = userId ? `-${userId}` : '';
+  return { weekKey: `${SCAN_WEEK_KEY}${suffix}`, countKey: `${SCAN_COUNT_KEY}${suffix}` };
+}
+
+function getWeeklyScansUsedForUser(userId: string): number {
   try {
+    const { weekKey, countKey } = userScanKeys(userId);
+    const ls = typeof window !== "undefined" ? localStorage : { getItem: () => null } as unknown as Storage;
+    const storedWeek = ls.getItem(weekKey);
+    if (storedWeek !== getMondayKey()) return 0;
+    return Number(ls.getItem(countKey)) || 0;
+  } catch { return 0; }
+}
+
+function persistWeeklyScanCount(count: number, userId?: string | null): void {
+  try {
+    const { weekKey, countKey } = userScanKeys(userId);
     const ls = typeof window !== "undefined" ? localStorage : { setItem: () => {} };
-    ls.setItem(SCAN_WEEK_KEY, getMondayKey());
-    ls.setItem(SCAN_COUNT_KEY, String(count));
+    ls.setItem(weekKey, getMondayKey());
+    ls.setItem(countKey, String(count));
   } catch { /* ignore */ }
 }
 
@@ -200,7 +216,7 @@ export function FindJobsPage() {
   const isOwner = isOwnerEmail(user?.email);
   const subscription = useSubscription();
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const unlimitedTester = devUnlocked || isOwner || subscription.active || result?.accessMode === 'paid';
+  const unlimitedTester = devUnlocked || isOwner || subscription.active || (!!user && result?.accessMode === 'paid');
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
@@ -246,6 +262,10 @@ export function FindJobsPage() {
   useEffect(() => {
     setWeeklyScansUsed(getWeeklyScansUsed());
   }, []);
+
+  useEffect(() => {
+    if (user?.id) setWeeklyScansUsed(getWeeklyScansUsedForUser(user.id));
+  }, [user?.id]);
 
   useEffect(() => {
     if (!loading && result) resultsRef.current?.focus();
@@ -327,7 +347,7 @@ export function FindJobsPage() {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
         if (token && data.scansUsed !== undefined) {
           setWeeklyScansUsed(data.scansUsed);
-          persistWeeklyScanCount(data.scansUsed);
+          persistWeeklyScanCount(data.scansUsed, user?.id);
         }
       } else {
         // Only trust the server count if the server confirmed authentication:
@@ -335,7 +355,7 @@ export function FindJobsPage() {
         // Both unauthenticated and token-rejected paths return scansUsed=0 with weeklyLimit=3.
         const serverConfirmedAuth = data.weeklyLimit === null || (data.scansUsed !== undefined && data.scansUsed > 0);
         const used = (token && serverConfirmedAuth) ? data.scansUsed! : recordWeeklyScan();
-        if (token && serverConfirmedAuth) persistWeeklyScanCount(used);
+        if (token && serverConfirmedAuth) persistWeeklyScanCount(used, user?.id);
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
