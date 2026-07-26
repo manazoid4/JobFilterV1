@@ -20,10 +20,12 @@ export function useSubscription(): SubscriptionStatus {
       return;
     }
 
+    let cancelled = false;
     fetch(`/api/subscription-status?user_id=${encodeURIComponent(user.id)}&email=${encodeURIComponent(user.email)}`)
       .then(r => r.json())
-      .then(data => setSub({ ...data, loading: false }))
-      .catch(() => setSub({ ...DEFAULT, loading: false }));
+      .then(data => { if (!cancelled) setSub({ ...data, loading: false }); })
+      .catch(() => { if (!cancelled) setSub({ ...DEFAULT, loading: false }); });
+    return () => { cancelled = true; };
   }, [user?.email]);
 
   return sub;

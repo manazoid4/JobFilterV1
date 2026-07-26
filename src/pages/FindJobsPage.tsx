@@ -361,8 +361,11 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
-      // Discard the response if the authenticated identity changed while the request was in-flight.
-      if (currentUserIdRef.current !== initiatingUserId) return;
+      // Discard the response only when a *different* authenticated user is now present.
+      // If either ID is undefined (anonymous or still in hydration), keep the response —
+      // a hydration-window scan uses fallbackSession so initiatingUserId may be set while
+      // currentUserIdRef.current is still undefined.
+      if (currentUserIdRef.current !== undefined && initiatingUserId !== undefined && currentUserIdRef.current !== initiatingUserId) return;
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
