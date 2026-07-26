@@ -82,6 +82,7 @@ export type Lead = {
   fusionKey?: string;
   readiness?: 'READY' | 'MAYBE' | 'WASTE';
   evidenceCount?: number;
+  hasDeadline?: boolean;
   whyNow?: string;
   sourceUrls?: string[];
   contactPath?: {

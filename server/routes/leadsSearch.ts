@@ -220,6 +220,7 @@ function toFreePreviewLead(lead: Lead) {
     postcodeOutward: lead.postcodeOutward,
     publishedAt: '',
     deadlineAt: '',
+    hasDeadline: !!lead.deadlineAt,
     url: '',
     estimatedValue: valuePreview(lead.estimatedValue),
     urgency: 'medium' as const,

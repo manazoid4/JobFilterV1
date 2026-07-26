@@ -731,10 +731,10 @@ export function FindJobsPage() {
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">
-                        {lead.deadlineAt ? 'BUYER & DEADLINE LOCKED — CHECK BEFORE THE WINDOW CLOSES' : 'BUYER DETAIL LOCKED — FULL ACCESS REQUIRED'}
+                        {(lead.deadlineAt || lead.hasDeadline) ? 'BUYER & DEADLINE LOCKED — CHECK BEFORE THE WINDOW CLOSES' : 'BUYER DETAIL LOCKED — FULL ACCESS REQUIRED'}
                       </p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Value range: ${lead.estimatedValue}. ` : ''}Not on Checkatrade. Not on Bark. This is a public-sector notice — buyer name{lead.deadlineAt ? ', official deadline,' : ''} and official response route visible in Full Access. Other suppliers may pursue the same notice.
+                        {lead.estimatedValue ? `Value range: ${lead.estimatedValue}. ` : ''}Not on Checkatrade. Not on Bark. This is a public-sector notice — buyer name{(lead.deadlineAt || lead.hasDeadline) ? ', official deadline,' : ''} and official response route visible in Full Access. Other suppliers may pursue the same notice.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
