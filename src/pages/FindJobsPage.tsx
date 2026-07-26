@@ -325,6 +325,10 @@ export function FindJobsPage() {
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
+        // Sync server quota on 429 so the banner shows zero-remaining immediately.
+        if (session?.access_token && typeof data.scansUsed === 'number' && data.scansUsed > 0) {
+          setWeeklyScansUsed(data.scansUsed);
+        }
       } else {
         const localUsed = recordWeeklyScan();
         // Only trust server scansUsed for authenticated quota responses;
@@ -546,12 +550,13 @@ export function FindJobsPage() {
               <button
                 key={`${entry.postcode}-${entry.trade}`}
                 type="button"
+                disabled={loading}
                 onClick={() => {
                   setPostcode(entry.postcode);
                   setTrade(entry.trade);
                   void submit(undefined, { postcode: entry.postcode, trade: entry.trade });
                 }}
-                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors"
+                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {entry.postcode} · {entry.trade.toUpperCase()}
               </button>
