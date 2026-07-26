@@ -317,6 +317,9 @@ export function FindJobsPage() {
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
+        if (token && data.scansUsed !== undefined) {
+          setWeeklyScansUsed(data.scansUsed);
+        }
       } else {
         const used = (token && data.scansUsed !== undefined) ? data.scansUsed : recordWeeklyScan();
         setWeeklyScansUsed(used);
