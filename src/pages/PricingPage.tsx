@@ -81,6 +81,7 @@ export function PricingPage() {
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
         </p>
+        <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--ink)] text-white">SCAN FREE — NO CARD NEEDED →</Link>
       </section>
 
       <section className="ops-panel bg-white p-7">

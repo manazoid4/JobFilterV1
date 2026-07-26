@@ -330,9 +330,15 @@ export function HomePage() {
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
               ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE
             </div>
-            <p className="mt-3 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
-              Not ready yet? Drop your email below.
-            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b-2 border-[var(--line)] bg-[var(--paper)] py-10">
+        <div className="page-shell max-w-xl text-center mx-auto">
+          <p className="micro-label text-[var(--muted)]">NOT READY TO ACTIVATE?</p>
+          <h3 className="headline mt-2 text-2xl">Get a heads-up when coverage improves in your area.</h3>
+          <div className="mt-5">
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>
         </div>

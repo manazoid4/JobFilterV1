@@ -369,7 +369,7 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--orange)]">NO OPPORTUNITIES TRACKED YET</p>
           <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">CHECK THE CURRENT PUBLIC FEED.</h2>
           <p className="mt-3 max-w-lg mx-auto font-bold text-[var(--ink)]/80 text-sm">
-            Find a Tender is free and public. JobFilter helps you qualify what fits; it does not promise opportunity volume, awards or early access.
+            Public tender notices are live right now. Most trades miss them — they don't have time to read the feed. JobFilter reads it for you, scores what fits your trade and patch, and tells you where your bid time belongs.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">CHECK FIND A TENDER →</Link>
