@@ -77,6 +77,14 @@ function recordWeeklyScan(): number {
   return next;
 }
 
+function persistWeeklyScanCount(count: number): void {
+  try {
+    const ls = typeof window !== "undefined" ? localStorage : { setItem: () => {} };
+    ls.setItem(SCAN_WEEK_KEY, getMondayKey());
+    ls.setItem(SCAN_COUNT_KEY, String(count));
+  } catch { /* ignore */ }
+}
+
 const SCAN_HISTORY_KEY = 'jf-scan-history';
 type ScanHistoryEntry = { postcode: string; trade: Trade };
 
@@ -319,6 +327,7 @@ export function FindJobsPage() {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
         if (token && data.scansUsed !== undefined) {
           setWeeklyScansUsed(data.scansUsed);
+          persistWeeklyScanCount(data.scansUsed);
         }
       } else {
         // Only trust the server count if the server confirmed authentication:
@@ -326,6 +335,7 @@ export function FindJobsPage() {
         // Both unauthenticated and token-rejected paths return scansUsed=0 with weeklyLimit=3.
         const serverConfirmedAuth = data.weeklyLimit === null || (data.scansUsed !== undefined && data.scansUsed > 0);
         const used = (token && serverConfirmedAuth) ? data.scansUsed! : recordWeeklyScan();
+        if (token && serverConfirmedAuth) persistWeeklyScanCount(used);
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
