@@ -216,7 +216,7 @@ export function FindJobsPage() {
   const isOwner = isOwnerEmail(user?.email);
   const subscription = useSubscription();
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const unlimitedTester = devUnlocked || isOwner || subscription.active || (!!user && result?.accessMode === 'paid');
+  const unlimitedTester = devUnlocked || isOwner || (!!user && subscription.active) || (!!user && result?.accessMode === 'paid');
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
@@ -265,6 +265,7 @@ export function FindJobsPage() {
 
   useEffect(() => {
     if (user?.id) setWeeklyScansUsed(getWeeklyScansUsedForUser(user.id));
+    else setWeeklyScansUsed(getWeeklyScansUsed());
   }, [user?.id]);
 
   useEffect(() => {
