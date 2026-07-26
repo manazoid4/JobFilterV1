@@ -227,6 +227,10 @@ export function FindJobsPage() {
   const [postcodeRequired, setPostcodeRequired] = useState(false);
   const postcodeRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
+  // Always reflects the latest rendered user ID — updated unconditionally each render
+  // so in-flight scan responses can check if the identity changed mid-flight.
+  const currentUserIdRef = useRef<string | null | undefined>(user?.id);
+  currentUserIdRef.current = user?.id;
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -342,6 +346,8 @@ export function FindJobsPage() {
       const fallbackSession = !session ? (await supabase?.auth.getSession())?.data?.session ?? null : null;
       const token = session?.access_token ?? fallbackSession?.access_token;
       const effectiveUserId = user?.id ?? fallbackSession?.user?.id;
+      // Snapshot at scan start — compared after the async response arrives to detect mid-flight identity changes.
+      const initiatingUserId = effectiveUserId;
       const authHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
       if (token) authHeaders['Authorization'] = `Bearer ${token}`;
       const response = await fetch(endpoint, {
@@ -355,6 +361,8 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
+      // Discard the response if the authenticated identity changed while the request was in-flight.
+      if (currentUserIdRef.current !== initiatingUserId) return;
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
