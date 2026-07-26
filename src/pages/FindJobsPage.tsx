@@ -268,6 +268,13 @@ export function FindJobsPage() {
     else setWeeklyScansUsed(getWeeklyScansUsed());
   }, [user?.id]);
 
+  // Clear retained results when the authenticated identity changes so a
+  // different account can never view a prior user's paid lead data.
+  useEffect(() => {
+    setResult(null);
+    setFillWeekResult(null);
+  }, [user?.id]);
+
   useEffect(() => {
     if (!loading && result) resultsRef.current?.focus();
   }, [loading, result]);
@@ -483,7 +490,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Free scans used — upgrade to see buyer, deadline and source link.'}
+                : '3 free scans used — results stay in preview. Upgrade to unlock buyer, deadline and source.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
