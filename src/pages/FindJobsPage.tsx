@@ -328,7 +328,12 @@ export function FindJobsPage() {
     const effectiveTrade = overrides?.trade ?? trade;
     try {
       const endpoint = '/api/leads/search';
-      const token = session?.access_token ?? (await supabase?.auth.getSession())?.data?.session?.access_token;
+      // When AuthProvider hasn't hydrated yet, session is null even for signed-in users.
+      // Grab the fallback session so we can both send the bearer token AND persist
+      // quota counts under the correct user-scoped localStorage key.
+      const fallbackSession = !session ? (await supabase?.auth.getSession())?.data?.session ?? null : null;
+      const token = session?.access_token ?? fallbackSession?.access_token;
+      const effectiveUserId = user?.id ?? fallbackSession?.user?.id;
       const authHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
       if (token) authHeaders['Authorization'] = `Bearer ${token}`;
       const response = await fetch(endpoint, {
@@ -347,7 +352,7 @@ export function FindJobsPage() {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
         if (token && data.scansUsed !== undefined) {
           setWeeklyScansUsed(data.scansUsed);
-          persistWeeklyScanCount(data.scansUsed, user?.id);
+          persistWeeklyScanCount(data.scansUsed, effectiveUserId);
         }
       } else {
         // Only trust the server count if the server confirmed authentication:
@@ -355,7 +360,7 @@ export function FindJobsPage() {
         // Both unauthenticated and token-rejected paths return scansUsed=0 with weeklyLimit=3.
         const serverConfirmedAuth = data.weeklyLimit === null || (data.scansUsed !== undefined && data.scansUsed > 0);
         const used = (token && serverConfirmedAuth) ? data.scansUsed! : recordWeeklyScan();
-        if (token && serverConfirmedAuth) persistWeeklyScanCount(used, user?.id);
+        if (token && serverConfirmedAuth) persistWeeklyScanCount(used, effectiveUserId);
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
