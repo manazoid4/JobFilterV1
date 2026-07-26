@@ -184,7 +184,7 @@ export function FindJobsPage() {
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
   const unlimitedTester = devUnlocked || isOwner;
@@ -297,7 +297,10 @@ export function FindJobsPage() {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           postcode: effectivePostcode,
           trade: effectiveTrade,
@@ -381,7 +384,10 @@ export function FindJobsPage() {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           postcode,
           trade,
@@ -737,12 +743,12 @@ export function FindJobsPage() {
                         {lead.estimatedValue ? `Value range: ${lead.estimatedValue}. ` : ''}
                         {['ContractsFinder', 'FTS', 'PCS', 'Sell2Wales'].includes(lead.source)
                           ? <>Not on Checkatrade. Not on Bark. This is a public-sector notice — buyer name{(lead.deadlineAt || lead.hasDeadline) ? ', official deadline,' : ''} and official response route visible in Full Access. Other suppliers may pursue the same notice.</>
-                          : <>Buyer name{(lead.deadlineAt || lead.hasDeadline) ? ', deadline,' : ''} and contact route visible in Full Access.</>
+                          : <>Source evidence{(lead.deadlineAt || lead.hasDeadline) ? ', date,' : ''} and source detail visible in Full Access.</>
                         }
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">No credit card required to browse · public tender</span>
+                        <span className="text-xs font-black text-white/50">No credit card required to browse{['ContractsFinder', 'FTS', 'PCS', 'Sell2Wales'].includes(lead.source) ? ' · public tender' : ''}</span>
                       </div>
                     </div>
                   )}
