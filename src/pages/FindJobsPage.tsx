@@ -342,30 +342,17 @@ export function FindJobsPage() {
   }
 
   async function sendWhatsApp(lead: Lead) {
-    setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
     try {
-      await fetch('/api/leads/notify', {
+      const res = await fetch('/api/leads/whatsapp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phoneNumber: 'user',
-          leadData: {
-            trade: lead.trade,
-            area: lead.location,
-            value: lead.estimatedValue,
-            score: lead.score,
-            source: lead.source,
-            planningRef: lead.url,
-            id: lead.id,
-            leadReadiness: lead.leadReadiness,
-            qualityLabel: lead.qualityLabel,
-            postcodeOutward: lead.postcodeOutward,
-            recommendedAction: lead.recommendedAction,
-            contactPath: lead.contactPath,
-            scoreReasons: lead.reasons,
-          },
-        }),
+        body: JSON.stringify({ lead }),
       });
+      if (res.ok) {
+        setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
+      } else {
+        setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+      }
     } catch {
       setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
     }
