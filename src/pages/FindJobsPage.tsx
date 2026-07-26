@@ -730,9 +730,11 @@ export function FindJobsPage() {
                   <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">BUYER & DEADLINE LOCKED — CHECK BEFORE THE WINDOW CLOSES</p>
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">
+                        {lead.deadlineAt ? 'BUYER & DEADLINE LOCKED — CHECK BEFORE THE WINDOW CLOSES' : 'BUYER DETAIL LOCKED — FULL ACCESS REQUIRED'}
+                      </p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Value range: ${lead.estimatedValue}. ` : ''}Not on Checkatrade. Not on Bark. This is a public-sector opportunity — buyer name, official deadline, and response route visible in Full Access.
+                        {lead.estimatedValue ? `Value range: ${lead.estimatedValue}. ` : ''}Not on Checkatrade. Not on Bark. This is a public-sector notice — buyer name{lead.deadlineAt ? ', official deadline,' : ''} and official response route visible in Full Access. Other suppliers may pursue the same notice.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
@@ -778,7 +780,7 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">NOT ON CHECKATRADE. NOT ON BARK. NOT SHARED.</p>
+                  <p className="micro-label text-[var(--ink)]">NOT ON CHECKATRADE. NOT ON BARK. NO FIVE-TRADE BLAST.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`

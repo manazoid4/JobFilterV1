@@ -67,7 +67,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Scan free first — no credit card required."
-          body="One firm profile. Every current public-sector notice scored by your trade, delivery region, and contract value. See the buyer, deadline, and official response route before you spend a day writing a bid."
+          body="One firm profile. Current public-sector notices from the live feed scored by trade, delivery region, and contract value. See the buyer, published deadline where available, and official response route before you spend a day writing a bid."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
