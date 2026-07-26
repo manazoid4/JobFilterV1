@@ -20,6 +20,7 @@ import { QuickResponseKit } from '../components/QuickResponseKit';
 import { useAuth } from '../components/AuthProvider';
 import { isOwnerEmail } from '../lib/ownerAccess';
 import { useSubscription } from '../lib/useSubscription';
+import { supabase } from '../lib/supabase';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
@@ -297,8 +298,9 @@ export function FindJobsPage() {
     const effectiveTrade = overrides?.trade ?? trade;
     try {
       const endpoint = '/api/leads/search';
+      const token = session?.access_token ?? (await supabase?.auth.getSession())?.data?.session?.access_token;
       const authHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (session?.access_token) authHeaders['Authorization'] = `Bearer ${session.access_token}`;
+      if (token) authHeaders['Authorization'] = `Bearer ${token}`;
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: authHeaders,
@@ -314,7 +316,7 @@ export function FindJobsPage() {
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
-        const used = recordWeeklyScan();
+        const used = data.scansUsed !== undefined ? data.scansUsed : recordWeeklyScan();
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
@@ -1259,7 +1261,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
-        {!OPEN_ACCESS && (
+        {!cardOpenAccess && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
