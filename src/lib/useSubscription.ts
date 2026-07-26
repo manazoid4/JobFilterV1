@@ -20,6 +20,9 @@ export function useSubscription(): SubscriptionStatus {
       return;
     }
 
+    // Reset immediately so a prior user's active subscription doesn't linger
+    // while the new user's fetch is in-flight.
+    setSub(DEFAULT);
     let cancelled = false;
     fetch(`/api/subscription-status?user_id=${encodeURIComponent(user.id)}&email=${encodeURIComponent(user.email)}`)
       .then(r => r.json())

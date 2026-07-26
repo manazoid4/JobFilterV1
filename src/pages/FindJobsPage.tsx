@@ -236,7 +236,8 @@ export function FindJobsPage() {
   const hasEverHydratedRef = useRef(false);
   // Tracks the user ID for whom the current result was fetched — prevents hydration
   // from clearing a valid fallback-session result when user?.id changes undefined→ownId.
-  const resultOwnerIdRef = useRef<string | null | undefined>(null);
+  // undefined = no result; null = anonymous result; string = result for that user ID.
+  const resultOwnerIdRef = useRef<string | null | undefined>(undefined);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -286,10 +287,13 @@ export function FindJobsPage() {
   // Skip the clear when user?.id changes undefined→ownId (hydration completing
   // while a fallback-session scan result is already displayed).
   useEffect(() => {
-    if (resultOwnerIdRef.current !== null && user?.id !== resultOwnerIdRef.current) {
+    // undefined means no result yet — nothing to clear.
+    // null means anonymous result — clear when any user signs in (user?.id defined).
+    // string means authenticated result — clear when user changes to a different ID.
+    if (resultOwnerIdRef.current !== undefined && user?.id !== resultOwnerIdRef.current) {
       setResult(null);
       setFillWeekResult(null);
-      resultOwnerIdRef.current = null;
+      resultOwnerIdRef.current = undefined;
     }
   }, [user?.id]);
 
