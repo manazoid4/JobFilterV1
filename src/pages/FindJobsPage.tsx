@@ -238,6 +238,12 @@ export function FindJobsPage() {
     if (!loading && result) resultsRef.current?.focus();
   }, [loading, result]);
 
+  // Clear paid results when auth changes (sign-out or account switch) so stale
+  // paid entitlement cannot persist in the tab for a signed-out or free user.
+  useEffect(() => {
+    setResult(null);
+  }, [user?.id]);
+
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
     importLeadToChase({
