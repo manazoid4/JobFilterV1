@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Site-wide announcement bar ── */}
           <Link href="/find-jobs" className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors group">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
-            <span>Find a Tender is free and public · JobFilter helps contractors decide <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">BID, WATCH, SUBCONTRACT or SKIP</span> · Official source links included</span>
+            <span>Scan public contracts for your trade and area · Free, no card needed · <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">Check your area now →</span></span>
           </Link>
           <TopNav />
           {children}
