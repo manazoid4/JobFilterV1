@@ -715,7 +715,7 @@ export function FindJobsPage() {
                       COMMERCIAL ONLY ({commercialCount})
                     </button>
                   </div>
-                  {commercialOnly && !OPEN_ACCESS && (
+                  {commercialOnly && !unlimitedTester && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details in Full Access</p>
                       <p className="mt-1 text-sm font-black text-white/90">
@@ -1278,7 +1278,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
-        {!OPEN_ACCESS && (
+        {!cardOpenAccess && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
