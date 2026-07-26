@@ -64,7 +64,7 @@ export function PricingPage() {
           order="order-last lg:order-none"
         />
         <PlanCard
-          title="Full Access"
+          title="Pilot"
           price="£39/mo"
           priceNote="Run a free scan first. Upgrade when you see your area has matches."
           body="Firm-aware qualification for public opportunities. Every result shows buyer evidence, requirement gaps and the official response route — so bid time goes on the right jobs."
@@ -146,7 +146,10 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not access to a closed list.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">30-day money-back guarantee. Cancel anytime.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">
+          30-day money-back guarantee — use the system, view at least 10 scored leads, and if you genuinely see nothing worth chasing we refund every penny.{' '}
+          <Link href="/trust" className="underline underline-offset-2">Full conditions on the trust page.</Link>
+        </p>
       </section>
     </main>
   );
@@ -168,7 +171,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'FULL ACCESS — £39/MO' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT — £39/MO' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
