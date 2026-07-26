@@ -23,7 +23,8 @@
 - [x] **Codex P2 — anonymous scan counter broken**: fixed (`token &&` guard so local counter fires for anon users).
 - [x] **Codex P2 (outdated) — complete tender coverage copy**: already says "available" not "every"; replied to thread.
 - [x] **Codex P2 (outdated) — area-specific WaitlistForm promise**: heading softened to "new coverage" (no postcode); replied to thread.
-- [ ] **Waiting: CI on `fcd628f`** — last commit (quota-sync error branch fix). Check job must pass before PR is green.
+- [x] **Codex P2 — persist fallback-session counts under authenticated user**: fixed (`fallbackSession` captured separately; `effectiveUserId` derived and passed to both `persistWeeklyScanCount` call sites in `347a5b1`).
+- [ ] **Waiting: CI on `347a5b1`** — last commit (fallback-session user ID fix). Check job must pass before PR is green.
 - [ ] **DECISION NEEDED — Vercel cron**: `vercel.json` has `0 * * * *` (hourly) which requires Vercel Pro. Vercel bot failing on every PR. Options: change to `0 6 * * *` (daily, free) or upgrade to Pro. Pre-existing, non-blocking for merge.
 - [ ] **Founder decision — add-on service pricing**: 14 add-on services still have no £ shown on pricing page.
 - [ ] **Stripe live test** — still blocked on test keys in Vercel.
