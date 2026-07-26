@@ -318,7 +318,7 @@ export function FindJobsPage() {
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
-        const used = data.scansUsed !== undefined ? data.scansUsed : recordWeeklyScan();
+        const used = (token && data.scansUsed !== undefined) ? data.scansUsed : recordWeeklyScan();
         setWeeklyScansUsed(used);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
