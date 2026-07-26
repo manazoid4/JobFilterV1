@@ -187,7 +187,7 @@ export function FindJobsPage() {
   const { user, session } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const unlimitedTester = devUnlocked || isOwner;
+  const unlimitedTester = devUnlocked || isOwner || result?.accessMode === 'paid' || result?.accessMode === 'full-test-access';
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
@@ -733,7 +733,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isPaid={unlimitedTester} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">
@@ -874,7 +874,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isPaid={unlimitedTester} />
             ))}
           </div>
         )}
@@ -1152,10 +1152,10 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, isPaid }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; isPaid?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
-  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
+  const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner || !!isPaid;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
   const rawOutward = lead.postcodeOutward || 'Unknown';
