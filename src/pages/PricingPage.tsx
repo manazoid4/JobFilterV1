@@ -41,7 +41,7 @@ export function PricingPage() {
         <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION TOOL</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
           STOP WASTING BID TIME ON THE WRONG JOBS.<br />
-          <span style={{ color: 'var(--yellow)' }}>£39/MO — ONE JOB PAYS FOR THE YEAR.</span>
+          <span style={{ color: 'var(--yellow)' }}>£39/MO — LESS THAN THE MARGIN ON ONE SMALL WIN.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           JobFilter scans current public tender notices and tells you which ones fit your firm — evidence, gaps and a clear next action: BID, WATCH, SUBCONTRACT or SKIP.
