@@ -198,6 +198,9 @@ export function FindJobsPage() {
   const [postcodeRequired, setPostcodeRequired] = useState(false);
   const postcodeRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
+  // Tracks the user identity at the time each scan was initiated so in-flight
+  // responses from a prior session can be discarded after sign-out/switch.
+  const scanUserRef = useRef<string | undefined>(user?.id);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -299,6 +302,8 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
     const effectiveTrade = overrides?.trade ?? trade;
+    const initiatingUserId = user?.id;
+    scanUserRef.current = initiatingUserId;
     try {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
@@ -315,12 +320,18 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
+      // Discard paid responses from a session that has since changed.
+      if (data.accessMode === 'paid' && scanUserRef.current !== initiatingUserId) return;
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
         const localUsed = recordWeeklyScan();
-        setWeeklyScansUsed(typeof data.scansUsed === 'number' ? data.scansUsed : localUsed);
+        // Only trust server scansUsed for authenticated quota responses;
+        // unauthenticated requests return scansUsed: 0 which must not override local.
+        setWeeklyScansUsed(session?.access_token && typeof data.scansUsed === 'number' && data.scansUsed > 0
+          ? data.scansUsed
+          : localUsed);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
       }
