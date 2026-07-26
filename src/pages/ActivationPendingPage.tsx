@@ -99,7 +99,7 @@ export function ActivationPendingPage() {
           <p className="micro-label text-[var(--ink)]">PROFILE CONFIRMED</p>
           <h1 className="headline mt-3 text-5xl leading-none md:text-7xl">YOU'RE IN THE SYSTEM.</h1>
           <p className="mt-4 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            Profile set. Run your first scan now — every current public tender in your trade and area, scored and ranked. No Bark credits. No Checkatrade auction. Just real jobs.
+            Profile set. Run your first scan now — matching available public tenders for your trade and area, scored and ranked. No Bark credits. No Checkatrade auction. Just real jobs.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">RUN FIRST SCAN →</Link>

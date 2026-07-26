@@ -337,7 +337,7 @@ export function HomePage() {
       <section className="border-b-2 border-[var(--line)] bg-[var(--paper)] py-10">
         <div className="page-shell max-w-xl text-center mx-auto">
           <p className="micro-label text-[var(--muted)]">NOT READY TO ACTIVATE?</p>
-          <h3 className="headline mt-2 text-2xl">Get a heads-up when coverage improves in your area.</h3>
+          <h3 className="headline mt-2 text-2xl">Get notified when JobFilter adds new coverage.</h3>
           <div className="mt-5">
             <WaitlistForm source="home-tactical-2026-05-09" />
           </div>

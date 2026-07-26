@@ -19,6 +19,7 @@ import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 import { useAuth } from '../components/AuthProvider';
 import { isOwnerEmail } from '../lib/ownerAccess';
+import { useSubscription } from '../lib/useSubscription';
 
 const DEV_MODE = false;
 const OPEN_ACCESS = process.env.NEXT_PUBLIC_OPEN_ACCESS === 'true';
@@ -186,8 +187,9 @@ export function FindJobsPage() {
   const [showDocSearch, setShowDocSearch] = useState(false);
   const { user } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
+  const subscription = useSubscription();
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const unlimitedTester = devUnlocked || isOwner;
+  const unlimitedTester = devUnlocked || isOwner || subscription.active;
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
