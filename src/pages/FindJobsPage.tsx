@@ -177,6 +177,8 @@ export function FindJobsPage() {
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
   const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
+  const [whatsappSending, setWhatsappSending] = useState<Record<string, boolean>>({});
+  const [whatsappError, setWhatsappError] = useState<Record<string, string>>({});
   const [hasScanned, setHasScanned] = useState(false);
   const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
@@ -344,6 +346,9 @@ export function FindJobsPage() {
   }
 
   async function sendWhatsApp(lead: Lead) {
+    if (whatsappSending[lead.id] || whatsappSent[lead.id]) return;
+    setWhatsappSending((prev) => ({ ...prev, [lead.id]: true }));
+    setWhatsappError((prev) => ({ ...prev, [lead.id]: '' }));
     try {
       const res = await fetch('/api/leads/whatsapp', {
         method: 'POST',
@@ -353,10 +358,13 @@ export function FindJobsPage() {
       if (res.ok) {
         setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
       } else {
-        setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+        const payload = await res.json().catch(() => ({})) as { error?: string };
+        setWhatsappError((prev) => ({ ...prev, [lead.id]: payload.error ?? 'Send failed — check your WhatsApp settings in your profile.' }));
       }
     } catch {
-      setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+      setWhatsappError((prev) => ({ ...prev, [lead.id]: 'Network error — please retry.' }));
+    } finally {
+      setWhatsappSending((prev) => ({ ...prev, [lead.id]: false }));
     }
   }
 
@@ -704,7 +712,7 @@ export function FindJobsPage() {
                       COMMERCIAL ONLY ({commercialCount})
                     </button>
                   </div>
-                  {commercialOnly && !OPEN_ACCESS && (
+                  {commercialOnly && !unlimitedTester && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details in Full Access</p>
                       <p className="mt-1 text-sm font-black text-white/90">
@@ -722,7 +730,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isUnlimited={unlimitedTester} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isSending={!!whatsappSending[lead.id]} whatsappError={whatsappError[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isUnlimited={unlimitedTester} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -857,7 +865,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isUnlimited={unlimitedTester} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isSending={!!whatsappSending[lead.id]} whatsappError={whatsappError[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} isUnlimited={unlimitedTester} />
             ))}
           </div>
         )}
@@ -1135,7 +1143,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, isUnlimited }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; isUnlimited?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isSending, whatsappError, isTracked, onTrack, isOwner, isUnlimited }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isSending?: boolean; whatsappError?: string; isTracked: boolean; onTrack: () => void; isOwner?: boolean; isUnlimited?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner || !!isUnlimited;
@@ -1327,11 +1335,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
               </button>
             )}
             {isGold ? (
-              <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" onClick={onWhatsapp} disabled={whatsappSent}>
-                {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
+              <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" onClick={onWhatsapp} disabled={whatsappSent || isSending}>
+                {whatsappSent ? 'SENT TO WHATSAPP' : isSending ? 'SENDING...' : 'SEND TO WHATSAPP'}
               </button>
             ) : (
-              <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
+              <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent || isSending}>{whatsappSent ? 'SENT' : isSending ? 'SENDING...' : 'SEND TO WHATSAPP'}</button>
+            )}
+            {whatsappError && (
+              <p className="text-xs font-black text-[var(--orange)]">{whatsappError}</p>
             )}
           </>
         ) : (
