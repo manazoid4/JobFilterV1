@@ -17,8 +17,8 @@ for (const text of [
 for (const text of [
   '£39/mo',
   'Official tenders are public',
-  'You pay for qualification, evidence and workflow',
-  'Coverage varies by service, region and timing',
+  'pays for trade-aware qualification, evidence',
+  'coverage fit your firm',
 ]) {
   assert.ok(pricing.includes(text), `pricing missing: ${text}`);
 }

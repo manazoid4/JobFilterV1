@@ -787,7 +787,7 @@ export function FindJobsPage() {
                       : 'SEE THE BUYER ON EVERY LEAD.'}
                   </h2>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
-                    One lead per opportunity. Controlled by trade, patch, and timing — no shared auction, no five-trade blast. Full Access adds buyer name, published value, official deadline, and submission route.
+                    One lead per opportunity. Controlled by trade, patch, and timing — no shared auction, no five-trade blast. Full Access adds buyer name, published value and deadline where available, and the official submission route.
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
