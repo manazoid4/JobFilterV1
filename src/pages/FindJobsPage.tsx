@@ -361,11 +361,19 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
-      // Discard the response only when a *different* authenticated user is now present.
-      // If either ID is undefined (anonymous or still in hydration), keep the response —
-      // a hydration-window scan uses fallbackSession so initiatingUserId may be set while
-      // currentUserIdRef.current is still undefined.
-      if (currentUserIdRef.current !== undefined && initiatingUserId !== undefined && currentUserIdRef.current !== initiatingUserId) return;
+      // Discard if a (different) authenticated user is now present.
+      // Guard: currentUserIdRef.current is defined (someone is logged in) AND differs from
+      // the initiating user (covers A→B switch AND anonymous→sign-in where initiatingUserId
+      // is undefined). currentUserIdRef.current=undefined means pre-hydration — keep response.
+      const identityChanged = currentUserIdRef.current !== undefined && currentUserIdRef.current !== initiatingUserId;
+      if (identityChanged) {
+        // The server already claimed A's scan slot, so persist the authoritative count
+        // under the initiating user before discarding the UI result.
+        if (token && data.scansUsed !== undefined && initiatingUserId) {
+          persistWeeklyScanCount(data.scansUsed, initiatingUserId);
+        }
+        return;
+      }
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
