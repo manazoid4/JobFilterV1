@@ -129,6 +129,8 @@ export type LeadSearchResponse = {
   leads: Lead[];
   lockedCount?: number;
   accessMode?: string;
+  scansUsed?: number;
+  weeklyLimit?: number | null;
   sources?: Record<string, SourceStats>;
   sourceHealth?: Record<string, SourceStats>;
   sourceBenchmark?: {

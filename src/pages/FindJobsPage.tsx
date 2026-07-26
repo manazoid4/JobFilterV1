@@ -319,8 +319,8 @@ export function FindJobsPage() {
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
-        const used = recordWeeklyScan();
-        setWeeklyScansUsed(used);
+        const localUsed = recordWeeklyScan();
+        setWeeklyScansUsed(typeof data.scansUsed === 'number' ? data.scansUsed : localUsed);
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
       }
@@ -347,11 +347,13 @@ export function FindJobsPage() {
   }
 
   async function sendWhatsApp(lead: Lead) {
-    setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
     try {
-      await fetch('/api/leads/notify', {
+      const res = await fetch('/api/leads/notify', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           phoneNumber: 'user',
           leadData: {
@@ -371,8 +373,11 @@ export function FindJobsPage() {
           },
         }),
       });
+      if (res.ok) {
+        setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
+      }
     } catch {
-      setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+      // leave button in unsent state on network error
     }
   }
 
