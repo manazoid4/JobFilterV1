@@ -47,10 +47,10 @@ function hasDevUnlock(): boolean {
 
 function getMondayKey(): string {
   const d = new Date();
-  const day = d.getDay();
+  const day = d.getUTCDay();
   const diff = (day === 0 ? -6 : 1 - day);
   const monday = new Date(d);
-  monday.setDate(d.getDate() + diff);
+  monday.setUTCDate(d.getUTCDate() + diff);
   return monday.toISOString().slice(0, 10);
 }
 
@@ -80,6 +80,10 @@ function recordWeeklyScan(): number {
 function userScanKeys(userId?: string | null) {
   const suffix = userId ? `-${userId}` : '';
   return { weekKey: `${SCAN_WEEK_KEY}${suffix}`, countKey: `${SCAN_COUNT_KEY}${suffix}` };
+}
+
+function trackedLeadsKey(userId?: string | null): string {
+  return userId ? `jobfilter.find.tracked-${userId}` : 'jobfilter.find.tracked';
 }
 
 function getWeeklyScansUsedForUser(userId: string): number {
@@ -238,6 +242,9 @@ export function FindJobsPage() {
   // from clearing a valid fallback-session result when user?.id changes undefined→ownId.
   // undefined = no result; null = anonymous result; string = result for that user ID.
   const resultOwnerIdRef = useRef<string | null | undefined>(undefined);
+  // Tracks the user identity seen in the previous render of the store-scoping effect.
+  // undefined = not yet initialized; null = signed-out; string = authenticated user ID.
+  const lastKnownUserIdRef = useRef<string | null | undefined>(undefined);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -297,6 +304,43 @@ export function FindJobsPage() {
     }
   }, [user?.id]);
 
+  // Scope lead-tracking localStorage to the active user. On identity change:
+  //   - clear global chase/lead stores so a second user on the same device cannot
+  //     read the first user's paid buyer-phone / source-URL data
+  //   - reload trackedLeads from the new user-scoped key
+  useEffect(() => {
+    const prev = lastKnownUserIdRef.current;
+    const curr = user?.id ?? null;
+    lastKnownUserIdRef.current = curr;
+
+    if (prev === undefined) {
+      // First run — if already signed in, load user-scoped tracked leads
+      if (curr) {
+        try {
+          const raw = typeof window !== 'undefined' ? localStorage.getItem(trackedLeadsKey(curr)) ?? '[]' : '[]';
+          setTrackedLeads(new Set(JSON.parse(raw) as string[]));
+        } catch { /* ignore */ }
+      }
+      return;
+    }
+
+    if (prev !== curr) {
+      try {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('jobfilter.chase');
+          localStorage.removeItem('jobfilter.leads');
+          localStorage.removeItem('jobfilter.find.tracked');
+        }
+      } catch { /* ignore */ }
+      try {
+        const raw = curr && typeof window !== 'undefined' ? localStorage.getItem(trackedLeadsKey(curr)) ?? '[]' : '[]';
+        setTrackedLeads(new Set(JSON.parse(raw) as string[]));
+      } catch {
+        setTrackedLeads(new Set());
+      }
+    }
+  }, [user?.id]);
+
   useEffect(() => {
     if (!loading && result) resultsRef.current?.focus();
   }, [loading, result]);
@@ -344,7 +388,7 @@ export function FindJobsPage() {
     const next = new Set(trackedLeads);
     next.add(lead.id);
     setTrackedLeads(next);
-    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem('jobfilter.find.tracked', JSON.stringify([...next]));
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(trackedLeadsKey(user?.id), JSON.stringify([...next]));
   };
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade; postcode?: string }) {
@@ -1473,7 +1517,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
   async function report(status: 'contacted' | 'no_answer' | 'quoted' | 'lost', value?: number) {
     setBusy(status);
     try {
-      await fetch('/api/leads/outcome', {
+      const res = await fetch('/api/leads/outcome', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1490,7 +1534,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
           ...(value !== undefined ? { wonValue: value } : {}),
         }),
       });
-      setDone(status);
+      if (res.ok) setDone(status);
     } finally {
       setBusy('');
     }
@@ -1509,7 +1553,7 @@ function OutcomeActions({ lead }: { lead: Lead }) {
       source: 'chase',
     });
     try {
-      await fetch('/api/leads/outcome', {
+      const res = await fetch('/api/leads/outcome', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1525,10 +1569,14 @@ function OutcomeActions({ lead }: { lead: Lead }) {
           wonValue: parsedValue > 0 ? parsedValue : undefined,
         }),
       });
-    } catch {}
-    setBusy('');
-    setShowWonCapture(false);
-    setDone('won');
+      if (res.ok) setDone('won');
+    } catch {
+      // local win already recorded via markWon; treat network failure as acceptable
+      setDone('won');
+    } finally {
+      setBusy('');
+      setShowWonCapture(false);
+    }
   }
 
   if (done === 'won') {
