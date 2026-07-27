@@ -5,10 +5,10 @@ import { Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
+  'Find a Tender stays free — we just decode it',
+  'Evidence and missing requirements shown before you quote',
   'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'No match? You get an honest empty result',
 ];
 
 const signalRows = [
@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans live public tenders and tells you which ones fit your trade, your area, and your firm size — and which to skip. Scan free. No card needed.
+              JobFilter scans live public tenders and tells you which ones fit your trade and area — and which to skip. Scan free. No card needed.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
