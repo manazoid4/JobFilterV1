@@ -414,38 +414,63 @@ export function LeadDetailPage() {
 
       <section className="jf-box bg-white p-6">
         <h2 className="headline text-2xl sm:text-3xl">WHY THIS LEAD</h2>
-        <div className="mt-4 grid gap-2 text-base font-black">
-          {lead.flags.includes('Local') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Within your area</p>}
-          {lead.flags.includes('Urgent') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">YES</span> Urgent — customer wants it done fast</p>}
-          {lead.flags.includes('Photos') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Photos provided — serious enquiry</p>}
-          {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
-          {lead.flags.includes('GoodBudget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
-          {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Budget may be tight — qualify before committing a full day</p>}
-          {lead.flags.includes('Risk') && !lead.flags.includes('Clear') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Low detail — ask for a site visit before quoting</p>}
-          {lead.isCommercial && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Commercial job — business buyer, not a homeowner</p>}
-          {lead.isCommercial && lead.projectScale === 'large' && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">BIG</span> Large project — likely needs more than one trade on site</p>}
-        </div>
+        {lead.decision ? (
+          /* Public tender — show procurement-relevant summary */
+          <div className="mt-4 grid gap-2 text-base font-black">
+            {lead.isCommercial && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Public contract — official buyer and submission route</p>}
+            {lead.projectScale === 'large' && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">BIG</span> Large contract — check capacity and resource before bidding</p>}
+            {lead.flags.includes('Local') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Within your delivery region</p>}
+            {lead.flags.includes('Urgent') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">YES</span> Deadline approaching — act fast</p>}
+          </div>
+        ) : (
+          /* Domestic / non-tender lead — original flags */
+          <div className="mt-4 grid gap-2 text-base font-black">
+            {lead.flags.includes('Local') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Within your area</p>}
+            {lead.flags.includes('Urgent') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">YES</span> Urgent — customer wants it done fast</p>}
+            {lead.flags.includes('Photos') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Photos provided — serious enquiry</p>}
+            {lead.flags.includes('Clear') ? <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Clear brief — no guesswork on the quote</p> : <p className="flex items-center gap-2"><span className="text-[var(--muted)]">LOW</span> Limited detail — ask questions before quoting</p>}
+            {lead.flags.includes('GoodBudget') && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Budget confirmed — not fishing for a free quote</p>}
+            {lead.flags.includes('Budget') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Budget may be tight — qualify before committing a full day</p>}
+            {lead.flags.includes('Risk') && !lead.flags.includes('Clear') && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">LOW</span> Low detail — ask for a site visit before quoting</p>}
+            {lead.isCommercial && <p className="flex items-center gap-2"><span className="text-[var(--green)]">YES</span> Commercial job — business buyer, not a homeowner</p>}
+            {lead.isCommercial && lead.projectScale === 'large' && <p className="flex items-center gap-2"><span className="text-[var(--orange)]">BIG</span> Large project — likely needs more than one trade on site</p>}
+          </div>
+        )}
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
-            <p className="text-sm font-bold text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
-            {quickWaUrl && (
-              <a
-                href={quickWaUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
-              >
-                {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
-              </a>
+            {lead.decision ? (
+              <p className="text-sm font-bold text-[var(--ink)]">GOLD — high-fit match. Review the buyer, published value and official submission route before the deadline. Other suppliers may also bid.</p>
+            ) : (
+              <>
+                <p className="text-sm font-bold text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
+                {quickWaUrl && (
+                  <a
+                    href={quickWaUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
+                  >
+                    {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
+                  </a>
+                )}
+              </>
             )}
           </div>
         ) : lead.score >= 50 ? (
           <div className="mt-4 border-l-4 border-[var(--navy)] bg-[var(--navy)]/5 px-4 py-3">
-            <p className="text-sm font-bold text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
+            {lead.decision ? (
+              <p className="text-sm font-bold text-[var(--ink)]">SILVER — worth watching. Check whether the scope and deadline fit your capacity before committing bid time.</p>
+            ) : (
+              <p className="text-sm font-bold text-[var(--ink)]">SILVER — timing not confirmed yet. Signal is verified. A quick message asking if they need a quote now finds out if they're ready — use the WhatsApp templates below. Takes 30 seconds.</p>
+            )}
           </div>
         ) : (
           <div className="mt-4 border-l-4 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
-            <p className="text-sm font-bold text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
+            {lead.decision ? (
+              <p className="text-sm font-bold text-[var(--muted)]">BRONZE — low fit or early stage. Check the notice details before spending bid time. Add to your watch list if the scope looks relevant.</p>
+            ) : (
+              <p className="text-sm font-bold text-[var(--muted)]">BRONZE — real signal, not urgent. Work may not start for weeks. Add to your quiet-week list. Don't spend chase time here yet — revisit when work is quiet.</p>
+            )}
           </div>
         )}
       </section>
@@ -777,10 +802,12 @@ export function LeadDetailPage() {
 
       {!lead.phone && (
         <section className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">GET THE BUYER'S CONTACT</p>
-          <h2 className="headline mt-1 text-2xl">GET THE BUYER'S NUMBER.</h2>
+          <p className="micro-label text-[var(--yellow)]">FULL ACCESS</p>
+          <h2 className="headline mt-1 text-2xl">{lead.decision ? 'SEE THE BUYER, DEADLINE & SUBMISSION ROUTE.' : 'GET THE BUYER\'S NUMBER.'}</h2>
           <p className="mt-2 text-sm font-black text-white/80">
-            The template above is ready. Members get the buyer&apos;s direct number so you can send it — no shared auction, no five-trade blast.
+            {lead.decision
+              ? 'Full Access shows the buyer organisation, published contract value, bid deadline and the official submission route for this notice.'
+              : 'The template above is ready. Members get the buyer\'s direct number so you can send it — no shared auction, no five-trade blast.'}
           </p>
           <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
             GET FULL ACCESS — £39/MO →
