@@ -1583,7 +1583,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden, pos
         );
       })()}
       <div className="mt-3">
-        <AlertQuickSetup trade={trade} postcode={postcode} />
+        <AlertQuickSetup key={`${trade}-${postcode}`} trade={trade} postcode={postcode} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>

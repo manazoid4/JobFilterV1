@@ -49,10 +49,11 @@ export async function GET(request: Request) {
   let sent = 0;
   let failed = 0;
 
+  const HEADROOM_MS = 5 * 60 * 1000; // absorbs cron jitter so daily alerts don't slip a day
   for (const alert of alerts ?? []) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    if (now - lastChecked < interval - HEADROOM_MS) continue;
     checked++;
 
     try {
