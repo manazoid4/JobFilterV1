@@ -322,7 +322,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No fabricated live jobs and no promised volume. Scan the current feed free — no card needed. If coverage fits your trade and area, unlock full access for £39/mo. Straight to Stripe, no approval process.
+              No fabricated live jobs and no promised volume. Scan the current feed free — no card needed. If coverage fits your trade and area, create a free account and subscribe for £39/mo. No manual review, no coverage gate before payment.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               SEE PRICING →

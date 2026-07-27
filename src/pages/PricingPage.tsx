@@ -16,7 +16,7 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Who is JobFilter for?', 'JobFilter is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
 ];
@@ -43,7 +43,7 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Scan free first. If there are live opportunities in your trade and area, unlock full access for £39/mo — no approval, no waiting, straight to Stripe.
+          Scan free first. If coverage fits your trade and area, create a free account and subscribe for £39/mo — no manual review, no coverage gate before payment.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -66,7 +66,7 @@ export function PricingPage() {
         <PlanCard
           title="Full Access"
           price="£39/mo"
-          priceNote="No approval process. Scan free, then start — straight to Stripe."
+          priceNote="No coverage gate or manual review. Create an account and subscribe directly."
           body="Firm-aware qualification for public opportunities. Pay £39/mo, get full access immediately — buyer detail, published value where available, deadline, fit reasoning and the official response route."
           items={planBullets}
           featured
