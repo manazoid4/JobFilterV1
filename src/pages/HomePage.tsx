@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 
-import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
+import { Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
@@ -315,17 +315,17 @@ export function HomePage() {
           </div>
           <div className="ops-panel bg-white p-5 text-[var(--ink)]">
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
-              <AlertTriangle size={28} strokeWidth={3} />
+              <Zap size={28} strokeWidth={3} className="text-[var(--yellow)]" />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER-ASSISTED PILOT</p>
-                <h3 className="headline text-3xl">Check fit before payment.</h3>
+                <p className="micro-label text-[var(--orange)]">FULL ACCESS — £39/MO</p>
+                <h3 className="headline text-3xl">Scan free. Pay £39. Unlock.</h3>
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No fabricated live jobs and no promised volume. Pilot activation follows a real source-coverage and firm-fit check.
+              No fabricated live jobs and no promised volume. Scan the current feed free — no card needed. If coverage fits your trade and area, unlock full access for £39/mo. Straight to Stripe, no approval process.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CHECK PILOT FIT & PRICING →
+              SEE PRICING →
             </Link>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
               ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE

@@ -38,20 +38,20 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FULL ACCESS — £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          Scan free first. If there are live opportunities in your trade and area, unlock full access for £39/mo — no approval, no waiting, straight to Stripe.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for knowing which jobs are worth quoting and which to skip.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No card required for the free scan. Results depend on what buyers have published for your trade and area.</p>
+        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">One won job typically covers several months. No contract — cancel anytime.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -64,13 +64,13 @@ export function PricingPage() {
           order="order-last lg:order-none"
         />
         <PlanCard
-          title="Pilot"
+          title="Full Access"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="No approval process. Scan free, then start — straight to Stripe."
+          body="Firm-aware qualification for public opportunities. Pay £39/mo, get full access immediately — buyer detail, published value where available, deadline, fit reasoning and the official response route."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
@@ -168,7 +168,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FULL ACCESS' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
