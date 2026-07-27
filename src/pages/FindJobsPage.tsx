@@ -773,7 +773,7 @@ export function FindJobsPage() {
 
               {/* Alert quick-setup CTA */}
               {displayedLeads.length > 0 && (
-                <AlertQuickSetup trade={trade} postcode={postcode} />
+                <AlertQuickSetup trade={trade} postcode={postcode} radiusMiles={radiusMiles} />
               )}
 
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
@@ -1027,7 +1027,7 @@ const TRADE_FRIENDLY: Record<string, string> = {
   landscaping: 'Landscaper',
 };
 
-function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }) {
+function AlertQuickSetup({ trade, postcode, radiusMiles }: { trade: Trade; postcode: string; radiusMiles?: number }) {
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const outward = postcode.trim().split(' ')[0].toUpperCase();
   const tradeLabel = TRADE_FRIENDLY[trade] ?? trade;
@@ -1041,7 +1041,7 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ trade, location: outward, postcode_outward: outward, frequency: 'weekly' }),
+        body: JSON.stringify({ trade, location: outward, postcode_outward: outward, frequency: 'weekly', radius_miles: radiusMiles ?? 25 }),
       });
       const data = await res.json();
       if (mountedRef.current) setState(data.ok ? 'done' : 'error');
@@ -1583,7 +1583,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden, pos
         );
       })()}
       <div className="mt-3">
-        <AlertQuickSetup key={`${trade}-${postcode}`} trade={trade} postcode={postcode} />
+        <AlertQuickSetup key={`${trade}-${postcode}-${radiusMiles}`} trade={trade} postcode={postcode} radiusMiles={radiusMiles} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
