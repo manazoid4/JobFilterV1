@@ -92,7 +92,7 @@ export function SignupPage() {
           <p className="mt-3 max-w-2xl text-sm font-bold text-[var(--ink)]/70">
             Check your spam folder if you don&apos;t see it within 2 minutes.
           </p>
-          <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BROWSE LIVE LEADS →</Link>
+          <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">RUN YOUR FIRST SCAN →</Link>
         </section>
       </main>
     );
@@ -104,7 +104,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
+          {planLabel}. Fill in your details below. Confirm your email. Run your first scan immediately — see which current public tenders fit your trade and area.
         </p>
       </section>
 
@@ -123,8 +123,8 @@ export function SignupPage() {
           <input id="signup-company" name="organization" autoComplete="organization" className="field-input" value={companyName} onChange={(event) => setCompanyName(event.target.value)} required />
         </label>
         <label htmlFor="signup-phone" className="field-label">
-          WhatsApp number
-          <input id="signup-phone" name="tel" autoComplete="tel" inputMode="tel" className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+44 7700 900000" required />
+          WhatsApp number <span className="normal-case font-bold text-[var(--muted)] text-xs">(optional — used for new-match alerts)</span>
+          <input id="signup-phone" name="tel" autoComplete="tel" inputMode="tel" className="field-input" type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="+44 7700 900000" />
         </label>
         <label htmlFor="signup-trade" className="field-label">
           Trade
