@@ -67,7 +67,7 @@ export function PricingPage() {
           title="Full Access"
           price="£39/mo"
           priceNote="No coverage gate or manual review. Create an account and subscribe directly."
-          body="Firm-aware qualification for public opportunities. Pay £39/mo, get full access immediately — buyer detail, published value where available, deadline, fit reasoning and the official response route."
+          body="Pay £39/mo and unlock the full qualification layer: buyer detail, published value where available, deadline, fit reasoning, and the official response route. Access activates once Stripe confirms payment."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}

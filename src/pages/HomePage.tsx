@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              JobFilter scans live public tenders and tells you which ones fit your trade, your area, and your firm size — and which to skip. Scan free. No card needed.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -142,7 +142,7 @@ export function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">Coverage checked before paid activation</p>
+              <p className="text-sm font-black text-[var(--ink)]">Scan free — no card, no signup needed</p>
             </div>
           </div>
         </div>
@@ -277,7 +277,7 @@ export function HomePage() {
             <div className="flex flex-wrap gap-4 text-xs font-black uppercase text-[var(--muted)]">
               <span>✓ Buyer and deadline context</span>
               <span>✓ Official source links</span>
-              <span>✓ Coverage checked first</span>
+              <span>✓ Scan free — no card needed</span>
             </div>
           </div>
         </div>
@@ -294,7 +294,7 @@ export function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--orange)]" />
-              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Coverage-first activation</span>
+              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Self-service — no manual review</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE FIRM PROFILE.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
