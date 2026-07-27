@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'How does the territory lock work?',
-    a: 'Patch priority is active for subscribers by trade and postcode cluster. Source coverage varies by area. Do not treat priority as exclusive territory.',
+    a: 'Patch priority is being piloted by trade and postcode cluster. Source coverage varies by area. Do not treat priority as exclusive territory.',
   },
   {
     q: 'Do I need to be VAT registered?',
