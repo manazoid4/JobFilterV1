@@ -338,32 +338,18 @@ export function FindJobsPage() {
   }
 
   async function sendWhatsApp(lead: Lead) {
-    setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
     try {
-      await fetch('/api/leads/notify', {
+      const res = await fetch('/api/leads/whatsapp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phoneNumber: 'user',
-          leadData: {
-            trade: lead.trade,
-            area: lead.location,
-            value: lead.estimatedValue,
-            score: lead.score,
-            source: lead.source,
-            planningRef: lead.url,
-            id: lead.id,
-            leadReadiness: lead.leadReadiness,
-            qualityLabel: lead.qualityLabel,
-            postcodeOutward: lead.postcodeOutward,
-            recommendedAction: lead.recommendedAction,
-            contactPath: lead.contactPath,
-            scoreReasons: lead.reasons,
-          },
-        }),
+        body: JSON.stringify({ lead }),
       });
+      if (res.ok) {
+        setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
+      }
+      // On failure (no phone set, no consent, 503): button stays active for retry
     } catch {
-      setWhatsappSent((prev) => ({ ...prev, [lead.id]: false }));
+      // Network error — button stays active for retry
     }
   }
 
@@ -890,10 +876,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">PUBLIC TENDERS ARE LIVE RIGHT NOW</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SCAN WHICH ONES FIT YOUR TRADE AND PATCH.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode above. Pick your trade. Scan takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
@@ -901,12 +887,6 @@ export function FindJobsPage() {
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN MY AREA →
-            </button>
-            <button onClick={() => {
-              if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-              setTrade('building'); void submit(undefined, { trade: 'building' });
-            }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
             </button>
           </div>
         </section>
@@ -1565,10 +1545,11 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
+      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
+        <p className="micro-label text-[var(--yellow)]">NO MATCHES DOESN'T MEAN NO WORK</p>
+        <p className="mt-2 font-black text-white">Nothing's been published on Find a Tender for your trade and patch this cycle. The live feed updates daily — check back or widen your radius to pick up regional contracts.</p>
+        <Link className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm" href="/pricing">
+          GET WEEKLY ALERTS — NO CARD NEEDED →
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
