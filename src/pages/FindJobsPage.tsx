@@ -175,6 +175,8 @@ export function FindJobsPage() {
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
   const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
+  const [whatsappPending, setWhatsappPending] = useState<Record<string, boolean>>({});
+  const [whatsappError, setWhatsappError] = useState<Record<string, string>>({});
   const [hasScanned, setHasScanned] = useState(false);
   const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
@@ -338,6 +340,9 @@ export function FindJobsPage() {
   }
 
   async function sendWhatsApp(lead: Lead) {
+    if (whatsappPending[lead.id]) return;
+    setWhatsappPending((prev) => ({ ...prev, [lead.id]: true }));
+    setWhatsappError((prev) => { const n = { ...prev }; delete n[lead.id]; return n; });
     try {
       const res = await fetch('/api/leads/whatsapp', {
         method: 'POST',
@@ -346,10 +351,19 @@ export function FindJobsPage() {
       });
       if (res.ok) {
         setWhatsappSent((prev) => ({ ...prev, [lead.id]: true }));
+      } else {
+        let msg = 'WhatsApp failed — try again';
+        try {
+          const body = await res.json() as { error?: string };
+          if (res.status === 401 || res.status === 409) msg = 'Add your WhatsApp number in Account';
+          else if (body.error) msg = body.error;
+        } catch { /* ignore */ }
+        setWhatsappError((prev) => ({ ...prev, [lead.id]: msg }));
       }
-      // On failure (no phone set, no consent, 503): button stays active for retry
     } catch {
-      // Network error — button stays active for retry
+      setWhatsappError((prev) => ({ ...prev, [lead.id]: 'Network error — check connection' }));
+    } finally {
+      setWhatsappPending((prev) => { const n = { ...prev }; delete n[lead.id]; return n; });
     }
   }
 
@@ -651,6 +665,7 @@ export function FindJobsPage() {
               result={result}
               lastUpdated={lastUpdated}
               onWiden={widenAndScan}
+              postcode={postcode}
             />
           ) : (
             <div className="grid gap-4">
@@ -713,7 +728,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} whatsappPending={!!whatsappPending[lead.id]} whatsappError={whatsappError[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -848,7 +863,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} whatsappPending={!!whatsappPending[lead.id]} whatsappError={whatsappError[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
             ))}
           </div>
         )}
@@ -1120,7 +1135,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, whatsappPending, whatsappError, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; whatsappPending?: boolean; whatsappError?: string; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
@@ -1312,11 +1327,14 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
               </button>
             )}
             {isGold ? (
-              <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" onClick={onWhatsapp} disabled={whatsappSent}>
-                {whatsappSent ? 'SENT TO WHATSAPP' : 'SEND TO WHATSAPP'}
+              <button className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]" onClick={onWhatsapp} disabled={whatsappSent || whatsappPending}>
+                {whatsappSent ? 'SENT TO WHATSAPP' : whatsappPending ? 'SENDING…' : 'SEND TO WHATSAPP'}
               </button>
             ) : (
-              <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent}>{whatsappSent ? 'SENT' : 'SEND TO WHATSAPP'}</button>
+              <button className="jf-button w-full bg-[var(--navy)] text-white" onClick={onWhatsapp} disabled={whatsappSent || whatsappPending}>{whatsappSent ? 'SENT' : whatsappPending ? 'SENDING…' : 'SEND TO WHATSAPP'}</button>
+            )}
+            {whatsappError && (
+              <p className="text-[10px] font-black text-[var(--orange)] leading-tight">{whatsappError}</p>
             )}
           </>
         ) : (
@@ -1506,12 +1524,13 @@ function CompaniesHouseSourceBadge({ title }: { title: string }) {
   );
 }
 
-function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
+function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden, postcode }: {
   trade: Trade;
   radiusMiles: number;
   result: LeadSearchResponse;
   lastUpdated: string;
   onWiden: (radius: number) => void;
+  postcode: string;
 }) {
   const nextRadius = radiusMiles < 50 ? 50 : 100;
   const adjacentTrade = trade === 'building' ? 'roofing' : 'building';
@@ -1545,12 +1564,26 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
-        <p className="micro-label text-[var(--yellow)]">NO MATCHES DOESN'T MEAN NO WORK</p>
-        <p className="mt-2 font-black text-white">Nothing's been published on Find a Tender for your trade and patch this cycle. The live feed updates daily — check back or widen your radius to pick up regional contracts.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm" href="/pricing">
-          GET WEEKLY ALERTS — NO CARD NEEDED →
-        </Link>
+      {(() => {
+        const ftsFailed = !!result.sources?.['fts']?.failed;
+        return (
+          <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
+            {ftsFailed ? (
+              <>
+                <p className="micro-label text-[var(--yellow)]">DATA SOURCE TEMPORARILY UNAVAILABLE</p>
+                <p className="mt-2 font-black text-white">The public tender feed is down right now. Try again in a few minutes — notices will load when the source recovers.</p>
+              </>
+            ) : (
+              <>
+                <p className="micro-label text-[var(--yellow)]">NO MATCHES DOESN&apos;T MEAN NO WORK</p>
+                <p className="mt-2 font-black text-white">Nothing&apos;s been published on Find a Tender for your trade and patch this cycle. The live feed updates daily — check back or widen your radius to pick up regional contracts.</p>
+              </>
+            )}
+          </div>
+        );
+      })()}
+      <div className="mt-3">
+        <AlertQuickSetup trade={trade} postcode={postcode} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
