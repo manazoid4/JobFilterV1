@@ -355,8 +355,7 @@ export function FindJobsPage() {
         let msg = 'WhatsApp failed — try again';
         try {
           const body = await res.json() as { error?: string };
-          if (res.status === 401 || res.status === 409) msg = 'Add your WhatsApp number in Account';
-          else if (body.error) msg = body.error;
+          if (body.error) msg = body.error;
         } catch { /* ignore */ }
         setWhatsappError((prev) => ({ ...prev, [lead.id]: msg }));
       }
@@ -1565,7 +1564,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden, pos
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       {(() => {
-        const ftsFailed = !!result.sources?.['fts']?.failed;
+        const ftsFailed = !result.ok || !!result.sources?.['FTS']?.failed;
         return (
           <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)] p-4 text-white">
             {ftsFailed ? (
