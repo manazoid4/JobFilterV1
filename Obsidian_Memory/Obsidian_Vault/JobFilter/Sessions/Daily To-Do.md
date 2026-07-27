@@ -1,6 +1,6 @@
 # Daily To-Do
 
-## Last updated: 2026-07-27 NightlyBuildAgent Run
+## Last updated: 2026-07-27 NightlyBuildAgent Run (continuation — Codex fixes)
 
 ---
 
@@ -15,6 +15,12 @@
 - [x] FindJobsPage: EmptyScanReport "Alert delivery available only after..." → tradesman-first copy
 - [x] PR #398 created and pushed
 - [x] Vault changelog written
+- [x] Codex P1: WhatsApp double-click guard — `whatsappPending` state disables button during in-flight fetch
+- [x] Codex P2: WhatsApp error parsing — 401/409 → "Add your WhatsApp number in Account"; body.error otherwise
+- [x] Codex P1: EmptyScanReport FTS outage copy — checks `result.sources['fts'].failed`, shows "Data source temporarily unavailable" instead of claiming nothing was published
+- [x] Codex P2: EmptyScanReport alert CTA — replaced `/pricing` Link with `AlertQuickSetup` component (posts to `/api/alerts`)
+- [x] Build and `npx tsc --noEmit` clean after Codex fixes
+- [x] Pushed commit `4c2c286` to `nightly/2026-07-27-fixes`
 
 ---
 
