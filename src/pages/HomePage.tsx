@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans live public tenders and tells you which ones fit your trade and area — and which to skip. Scan free. No card needed.
+              JobFilter scans current Find a Tender notices and tells you which ones fit your trade and area — and which to skip. Every result remains a public opportunity that other suppliers may pursue. Scan free. No card needed.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
