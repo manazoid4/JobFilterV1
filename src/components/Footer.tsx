@@ -57,8 +57,8 @@ export function Footer() {
             </p>
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
               <p>Local knowledge baked into every signal score.</p>
-              <p>Delivery setup is checked before paid activation.</p>
-              <p>Pilot price: £39/month after coverage review.</p>
+              <p>No coverage gate before payment — scan free, then subscribe.</p>
+              <p>£39/month. No contract. Cancel anytime.</p>
             </div>
             <div className="mt-4 border-2 border-[var(--green)]/40 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)]">
               30-DAY MONEY-BACK GUARANTEE
