@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'Full opportunity context, value guidance, response templates, job tracking, and delivery features after your account and patch pass activation checks. Priority routing is being piloted; it is not sold as guaranteed exclusivity.',
+    a: 'Full opportunity context, value guidance, response templates, job tracking, and delivery features. Subscribe at £39/mo — no manual activation checks, no coverage gate before payment. Priority routing is not sold as guaranteed exclusivity.',
   },
   {
     q: 'Can I cancel anytime?',
@@ -34,7 +34,7 @@ const faqs = [
   },
   {
     q: 'How does the territory lock work?',
-    a: 'Patch priority is being piloted by trade and postcode cluster. We check source coverage and obvious conflicts before activation. Do not treat an unconfirmed patch as exclusive.',
+    a: 'Patch priority is active for subscribers by trade and postcode cluster. Source coverage varies by area. Do not treat priority as exclusive territory.',
   },
   {
     q: 'Do I need to be VAT registered?',

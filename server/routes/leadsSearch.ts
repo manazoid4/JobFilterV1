@@ -6,7 +6,7 @@ import { rateLimit } from '../middleware/rateLimit';
 import { parseUkPostcode } from '../utils/postcode';
 import { persistLeads } from '../services/leadPersistence';
 import { persistSourceBenchmarkRun } from '../services/sourceBenchmark';
-import { resolveOwnerFromToken } from '../lib/ownerAccess';
+import { resolveRequestAccess } from '../lib/requestAuth';
 
 const TRADE_LIST = ['plumbing', 'electrical', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 const TRADES = new Set(TRADE_LIST);
@@ -39,46 +39,30 @@ async function resolveAccessContext(req: Request): Promise<AccessContext> {
   const noAuth: AccessContext = { tier: 'preview', userId: null, scanLimitExceeded: false, scansUsed: 0 };
   if (FULL_ACCESS_TEST_MODE) return { tier: 'full', userId: null, scanLimitExceeded: false, scansUsed: 0 };
 
-  const authHeader = req.headers.authorization;
-  if (!authHeader?.startsWith('Bearer ')) return noAuth;
+  // Resolve auth via Bearer token or Supabase SSR cookies (browser requests use cookies).
+  const access = await resolveRequestAccess(req);
+  if (!access) return noAuth;
 
-  const token = authHeader.slice(7);
+  // Owner or active subscriber gets full access immediately.
+  if (access.isOwner || access.isPaid) {
+    return { tier: 'full', userId: access.userId, scanLimitExceeded: false, scansUsed: 0 };
+  }
 
-  // Owner always gets full access
-  const ownerEmail = await resolveOwnerFromToken(token);
-  if (ownerEmail) return { tier: 'full', userId: null, scanLimitExceeded: false, scansUsed: 0 };
-
+  // Free authenticated user — atomically claim a server-side weekly scan slot.
   try {
     const { supabase } = await import('../lib/supabase');
     if (!supabase) return noAuth;
 
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    if (error || !user) return noAuth;
-
-    // Check subscription
-    const { data: sub } = await supabase
-      .from('subscriptions')
-      .select('active, status')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
-
-    if (sub?.active || sub?.status === 'active') {
-      return { tier: 'full', userId: user.id, scanLimitExceeded: false, scansUsed: 0 };
-    }
-
-    // Free tier — atomically claim a server-side weekly scan slot.
     const thisWeek = getWeekKey();
     const { data: claims, error: claimError } = await supabase.rpc('claim_weekly_scan', {
-      p_user_id: user.id,
+      p_user_id: access.userId,
       p_week: thisWeek,
       p_limit: FREE_WEEKLY_SCAN_LIMIT,
     });
     if (claimError) throw new Error(`scan quota unavailable: ${claimError.code}`);
     const claim = Array.isArray(claims) ? claims[0] : claims;
     const scansUsed = Number(claim?.scans_used ?? FREE_WEEKLY_SCAN_LIMIT + 1);
-    return { tier: 'preview', userId: user.id, scanLimitExceeded: claim?.allowed !== true, scansUsed };
+    return { tier: 'preview', userId: access.userId, scanLimitExceeded: claim?.allowed !== true, scansUsed };
   } catch (error) {
     console.error('[leads/search] access resolution failed', error instanceof Error ? error.message : 'unknown');
     throw error;
