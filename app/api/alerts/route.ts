@@ -199,7 +199,8 @@ export async function PATCH(request: Request) {
 
   const admin = getSupabaseServiceClient();
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
-  const { data: before } = await admin.from('lead_alerts').select('frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
+  const { data: before, error: beforeError } = await admin.from('lead_alerts').select('frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
+  if (beforeError) return Response.json({ ok: false, error: 'Failed to read alert state' }, { status: 500 });
   const prevFrequency = before?.frequency ?? null;
   const { data, error } = await admin.from('lead_alerts').update(update).eq('id', id).eq('user_id', user.userId).select().maybeSingle();
 
@@ -224,8 +225,9 @@ export async function PATCH(request: Request) {
         if (current.frequency === 'instant' || current.frequency === 'daily') {
           const siblingFreq = current.frequency === 'instant' ? 'daily' : 'instant';
           if (siblingFreq !== targetFrequency) {
-            await admin.from('lead_alerts').delete()
+            const { error: siblingDeleteError } = await admin.from('lead_alerts').delete()
               .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', siblingFreq);
+            if (siblingDeleteError) return Response.json({ ok: false, error: 'Failed to remove sibling alert' }, { status: 500 });
           }
         }
         return Response.json({ ok: true, alert: merged });
