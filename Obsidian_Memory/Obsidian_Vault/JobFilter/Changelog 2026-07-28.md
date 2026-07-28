@@ -50,3 +50,35 @@ All 5 Tier 1 features were already fully built:
 ## PR Created
 - Branch: nightly/2026-07-28-copy-polish
 - PR: https://github.com/manazoid4/JobFilterV1/pull/402
+
+## Codex Review Loop (all addressed in PR #402)
+
+### Commit a79980d — FindJobsPage nudge copy
+- P1: "No shared auction" claim → fixed with explicit non-exclusive disclaimer
+- P1: Categorical field promise → fixed with "where available" qualifier
+
+### Commit 90dde49 — Cron cadence alignment
+- P1: Hourly alert contract broken (Hobby plan) → removed instant option from UI, updated labels to "DAILY SOURCE CHECK" / "Daily check", aligned regression test assertions to `0 8 * * *`
+
+### Commit 72e4c7e — Remove duplicate instant option
+- P2: Duplicate daily option (instant+daily same cadence) → collapsed FREQ_OPTIONS to weekly+daily only, aliased `FREQUENCY_MS.instant` to 24h
+
+### Commit 419516c — API normalization + sender dedup
+- P2: API still accepts instant, no DB migration → POST/PATCH normalize instant→daily; sender deduplicates by (user_id, trade, location, normalizedFrequency)
+
+### Commit 8506b4f — Fix dedup key collapse
+- P2: Dedup key collapsed weekly+daily pairs → key now includes normalized frequency so weekly+daily produce different keys and both fire
+
+### Commit de65ac8 — Sync suppressed rows
+- P2: Suppressed instant rows keep stale timestamps → bulk-updates `last_checked_at` for suppressed rows after each cron run
+
+### Commit e6d61a5 — PATCH unique constraint collision
+- P2: PATCHing instant row's frequency→daily 500s on unique constraint → 23505 handler added: fetches source row, merges non-frequency updates into daily row, deletes instant row
+
+### Commit 4d501e3 — Fix PATCH collision handler bugs
+- P2: Hardcoded 'daily' merge target (breaks daily→weekly) + delete-before-merge data loss → uses actual `update.frequency` as target, merges first then deletes source row
+
+## Final CI State (commit 4d501e3)
+- check: SUCCESS
+- Vercel: Ready
+- Meticulous: No baseline yet (first PR since setup)
