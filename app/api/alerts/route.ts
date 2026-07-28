@@ -225,11 +225,13 @@ export async function PATCH(request: Request) {
 
   if (error) return Response.json({ ok: false, error: 'Failed to update alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
-  // Propagate active changes to the instant/daily twin so pausing or resuming one row affects both.
-  if (typeof update.active === 'boolean' && (data.frequency === 'instant' || data.frequency === 'daily')) {
+  // Propagate all updates to the instant/daily twin (sender deduplicates pairs at runtime).
+  if (data.frequency === 'instant' || data.frequency === 'daily') {
     const twinFreq = data.frequency === 'instant' ? 'daily' : 'instant';
+    const twinUpdate = { ...update };
+    delete twinUpdate.frequency;
     const { error: twinError } = await admin.from('lead_alerts')
-      .update({ active: update.active, updated_at: new Date().toISOString() })
+      .update(twinUpdate)
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
   }
