@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Official source — Find a Tender, public and free',
+  'Matched to your trade, region, and contract range',
+  'BID, WATCH, SUBCONTRACT or SKIP — not just a list',
+  'Empty scan means no verified match — never fabricated',
 ];
 
 const signalRows = [
@@ -61,13 +61,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
+            <p className="micro-label text-[var(--yellow)]">PUBLIC TENDER QUALIFICATION FOR ELECTRICIANS, BUILDERS, ROOFERS AND SPECIALIST TRADES</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
-              KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM —{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
+              STOP PRICING TENDERS THAT WON'T FIT.{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>START WITH THE ONES THAT DO.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              JobFilter reads current official notices and tells you BID, WATCH, SUBCONTRACT or SKIP — before you waste a day pricing a tender your firm can't win. Free to scan. No card required.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -137,7 +137,7 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Built for 5–25-person construction and maintenance firms that can bid or subcontract
+                For electricians, builders, roofers, HVAC, groundworkers and specialist trades — 5 to 25 people, bidding direct or subcontracting
               </p>
             </div>
             <div className="flex items-center gap-2">
@@ -247,14 +247,14 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'Firm-aware fit', body: 'Services, region, contract range and delivery model shape every qualification.' },
-              { icon: Target, title: 'Decision first', body: 'Every reviewed opportunity leads to BID, WATCH, SUBCONTRACT or SKIP.' },
-              { icon: FileText, title: 'Requirement gaps', body: 'See what the notice proves and what your team still needs to verify.' },
-              { icon: Zap, title: 'Official evidence', body: 'Buyer, scope, value, deadline and response route stay tied to the public source.' },
-              { icon: TrendingUp, title: 'Outcome tracking', body: 'Record decisions and outcomes so future qualification can improve.' },
-              { icon: Radio, title: 'Source health', body: 'Live source results stay separate from sample data, with empty and partial coverage reported honestly.' },
-              { icon: Clock, title: 'Deadline context', body: 'Published deadlines and stages make the available response time visible.' },
-              { icon: CheckCircle, title: 'Subcontract route', body: 'Flag opportunities that fit better through a principal contractor than a direct bid.' },
+              { icon: ShieldCheck, title: 'Your trade. Your patch.', body: 'Notices are matched to your trade, delivery area, and contract range — irrelevant tenders filtered before you see them.' },
+              { icon: Target, title: 'BID or skip in 30 seconds', body: 'Every notice leads to a BID, WATCH, SUBCONTRACT or SKIP — not a list of links to read yourself.' },
+              { icon: FileText, title: 'What your firm is missing', body: 'See what the buyer requires and what your firm still needs to prove before you commit bid time.' },
+              { icon: Zap, title: 'Buyer and value up front', body: 'Buyer name, published value, deadline and official response route — all in one place before you open the full notice.' },
+              { icon: TrendingUp, title: 'Win tracking', body: 'Log BID, WATCH and SKIP decisions. See which tenders you win so your qualification sharpens over time.' },
+              { icon: Radio, title: 'Honest coverage', body: 'Empty results are shown as empty — never padded with samples. Coverage depends on what buyers publish for your trade and region.' },
+              { icon: Clock, title: 'Time left to respond', body: 'Deadline and stage shown against each notice so you know how many days you have before it closes.' },
+              { icon: CheckCircle, title: 'Subcontract route', body: 'Notices too large for direct bid are flagged as subcontract opportunities — still worth pursuing, different approach.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
                 <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />

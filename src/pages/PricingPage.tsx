@@ -7,18 +7,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
-  'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'BID, WATCH, SUBCONTRACT or SKIP — before you write a single word of a bid',
+  'See what the buyer requires and what your firm is missing — before you waste a day pricing it',
+  'Buyer, value, deadline and official response route in one place — no chasing the notice yourself',
+  'Matched to your trade, patch, and contract range — irrelevant tenders filtered out',
+  'Decision and outcome tracking so you stop repeating the same qualification mistakes',
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Is Find a Tender free?', 'Yes. The notices, search and alerts are free and public. JobFilter charges for the qualification layer on top — evidence, missing requirements, next-action routing, and outcome tracking that the raw feed does not give you.'],
+  ['Who is JobFilter for?', 'Electrical, building, roofing, civil, HVAC, and specialist-trade firms with 5 to 25 people that price public tenders or subcontract to principal contractors. Not for homeowners. Not for domestic handymen.'],
+  ['Are opportunities exclusive?', 'No. Official tenders are public — any supplier may pursue them. You pay for the qualification and workflow that decides which ones are worth your time, not for privileged access to a notice.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free scan against current notices. Coverage depends on what buyers have published for your trade and region — an empty result is honest, not a bug. Check fit before you activate.'],
 ];
 
 export function PricingPage() {
@@ -43,15 +43,13 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          Most contractors waste days pricing tenders that never fitted their trade, region, or capacity. JobFilter reads current official notices and tells you BID, WATCH, SUBCONTRACT or SKIP — before you commit a single hour to a bid that won't land.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START PILOT £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-white/60">Free scan shows current coverage for your trade and region before you decide. Official tenders remain public and free; the £39/mo subscription pays for qualification, evidence and workflow.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -66,11 +64,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Run the free scan first — check your trade and region are covered."
+          body="Full qualification for every public notice that matches your trade. See the evidence, the gaps, and the right next move — before you price a job that won't win."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
