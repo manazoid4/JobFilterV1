@@ -247,7 +247,7 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'Your trade. Your patch.', body: 'Notices are matched to your trade, delivery area, and contract range — irrelevant tenders filtered before you see them.' },
+              { icon: ShieldCheck, title: 'Your trade. Your patch.', body: 'Notices are matched to your trade and delivery area — irrelevant trades and regions filtered before you see them.' },
               { icon: Target, title: 'BID or skip in 30 seconds', body: 'Every notice leads to a BID, WATCH, SUBCONTRACT or SKIP — not a list of links to read yourself.' },
               { icon: FileText, title: 'What your firm is missing', body: 'See what the buyer requires and what your firm still needs to prove before you commit bid time.' },
               { icon: Zap, title: 'Buyer and value up front', body: 'Buyer name, published value, deadline and official response route — all in one place before you open the full notice.' },
