@@ -23,8 +23,7 @@ const TRADES = [
 ];
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY' },
-  { value: 'daily', label: 'DAILY' },
-  { value: 'instant', label: 'DAILY CHECK' },
+  { value: 'daily', label: 'DAILY CHECK' },
 ];
 
 type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };

@@ -12,13 +12,16 @@ import { scan } from '../../../../leadEngine/scan';
 import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
-// Thresholds are set below the nominal period so a cron that fires a few
-// seconds after last_checked_at is never skipped due to exact-ms rounding.
-// instant/daily both run once-daily (Vercel Hobby plan); weekly uses 6 days.
+// Thresholds are set slightly below the nominal period so a cron that fires
+// a few seconds after last_checked_at is never skipped due to exact-ms drift.
+// instant/daily: 23h (Vercel Hobby runs the cron once daily).
+// weekly: 7 days minus 5 minutes — preserves the weekly cadence while
+//   absorbing the few seconds of execution overhead between cron fire and
+//   last_checked_at stamp. A daily cron cannot fire twice in 6d-23h-55m.
 const FREQUENCY_MS: Record<string, number> = {
   instant: 23 * 60 * 60 * 1000,
   daily: 23 * 60 * 60 * 1000,
-  weekly: 6 * 24 * 60 * 60 * 1000,
+  weekly: 7 * 24 * 60 * 60 * 1000 - 5 * 60 * 1000,
 };
 
 export async function GET(request: Request) {
