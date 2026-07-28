@@ -154,8 +154,12 @@ export async function POST(request: Request) {
     if (twinLookupError) return Response.json({ ok: false, error: 'Failed to look up legacy instant alert' }, { status: 500 });
     if (twin) {
       const historyUpdate: Record<string, string> = {};
-      if (!data.last_checked_at && twin.last_checked_at) historyUpdate.last_checked_at = twin.last_checked_at;
-      if (!data.last_sent_at && twin.last_sent_at) historyUpdate.last_sent_at = twin.last_sent_at;
+      const dailyChecked = data.last_checked_at ? new Date(data.last_checked_at).getTime() : 0;
+      const twinChecked = twin.last_checked_at ? new Date(twin.last_checked_at).getTime() : 0;
+      if (twinChecked > dailyChecked) historyUpdate.last_checked_at = twin.last_checked_at!;
+      const dailySent = data.last_sent_at ? new Date(data.last_sent_at).getTime() : 0;
+      const twinSent = twin.last_sent_at ? new Date(twin.last_sent_at).getTime() : 0;
+      if (twinSent > dailySent) historyUpdate.last_sent_at = twin.last_sent_at!;
       if (Object.keys(historyUpdate).length > 0) {
         const { error: historyError } = await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
         if (historyError) return Response.json({ ok: false, error: 'Failed to migrate delivery history' }, { status: 500 });
