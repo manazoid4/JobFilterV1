@@ -56,6 +56,14 @@ export async function GET(request: Request) {
     }
   }
 
+  // Keep suppressed legacy instant rows' timestamps current so they don't re-fire
+  // unexpectedly if their paired daily row is later paused or deleted.
+  const keptIds = new Set([...dedupMap.values()].map((a) => a.id));
+  const suppressedIds = (alerts ?? []).filter((a) => !keptIds.has(a.id)).map((a) => a.id);
+  if (suppressedIds.length > 0) {
+    await admin.from('lead_alerts').update({ last_checked_at: new Date().toISOString() }).in('id', suppressedIds);
+  }
+
   const now = Date.now();
   let checked = 0;
   let sent = 0;
