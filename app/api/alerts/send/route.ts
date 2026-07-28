@@ -157,7 +157,7 @@ export async function GET(request: Request) {
               delivery_status: 'failed',
               error: delivery.error ?? 'Email provider rejected delivery',
               last_error: delivery.error ?? 'Email provider rejected delivery',
-              next_attempt_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+              next_attempt_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
               updated_at: new Date().toISOString(),
             }).eq('id', deliveryId);
             continue;
