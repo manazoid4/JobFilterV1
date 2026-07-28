@@ -225,8 +225,9 @@ export async function PATCH(request: Request) {
 
   if (error) return Response.json({ ok: false, error: 'Failed to update alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
-  // Propagate all updates to the instant/daily twin (sender deduplicates pairs at runtime).
+  // data.frequency is the NEW value after the update.
   if (data.frequency === 'instant' || data.frequency === 'daily') {
+    // Row stayed in the instant/daily family — propagate non-frequency updates to the sibling.
     const twinFreq = data.frequency === 'instant' ? 'daily' : 'instant';
     const twinUpdate = { ...update };
     delete twinUpdate.frequency;
@@ -234,6 +235,13 @@ export async function PATCH(request: Request) {
       .update(twinUpdate)
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
+  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily') {
+    // Frequency changed away from instant/daily (e.g. → weekly) — remove any orphaned twin.
+    for (const orphanFreq of ['instant', 'daily'] as const) {
+      const { error: orphanError } = await admin.from('lead_alerts').delete()
+        .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', orphanFreq);
+      if (orphanError) return Response.json({ ok: false, error: 'Failed to remove orphaned paired alert' }, { status: 500 });
+    }
   }
   return Response.json({ ok: true, alert: data });
 }
@@ -247,8 +255,9 @@ export async function DELETE(request: Request) {
   const admin = getSupabaseServiceClient();
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
   // Fetch details before deleting so we can remove the instant/daily twin if present.
-  const { data: toDelete } = await admin.from('lead_alerts')
+  const { data: toDelete, error: lookupError } = await admin.from('lead_alerts')
     .select('trade, location, frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
+  if (lookupError) return Response.json({ ok: false, error: 'Failed to look up alert' }, { status: 500 });
   const { data, error } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId).select('id').maybeSingle();
   if (error) return Response.json({ ok: false, error: 'Failed to delete alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
