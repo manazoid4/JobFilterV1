@@ -14,7 +14,7 @@ const signals = [
   },
   {
     source: 'SIGNAL 2 · CONTRACTS',
-    name: 'COUNCIL WORK. NO BIDDING WAR.',
+    name: 'COUNCIL WORK. BID WITH EVIDENCE.',
     description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping', 'Roofing', 'Carpentry', 'Painting'],
     signalType: 'LIVE TENDER',
@@ -191,7 +191,7 @@ export function SignalsPage() {
                     {s.source}
                   </span>
                   {s.live ? (
-                    <span className="inline-block bg-[var(--green)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">● LIVE</span>
+                    <span className="inline-block bg-[var(--green)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-[var(--ink)]">● LIVE</span>
                   ) : (
                     <span className="inline-block border border-[var(--line)] bg-[var(--bg-main)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-[var(--muted)]">COMING SOON</span>
                   )}
@@ -250,15 +250,12 @@ export function SignalsPage() {
                 ))}
               </div>
             </div>
-            <div className="jf-box bg-[var(--ink)] p-5 text-white">
-              <p className="micro-label text-[var(--yellow)]">PAID MODE</p>
+            <div className="jf-box bg-[var(--ink)] p-5 text-white opacity-60">
+              <p className="micro-label text-[var(--muted)]">COMING SOON</p>
               <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
               <p className="mt-3 text-sm font-bold text-white/85">
-                Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
+                Multi-source timing filter — planning, building control, energy and property signals combined. In development. Government tender qualification is live now.
               </p>
-              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
-                OPEN WORKS STARTING NOW →
-              </Link>
             </div>
           </div>
         </div>
@@ -356,7 +353,7 @@ export function SignalsPage() {
             </Link>
           </div>
           <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week — no credit card required. Founder access: £39/month. Checkatrade charges £180/month for shared leads. This is unshared and filtered.
+            3 free scans every week — no credit card required. Founder access: £39/month. JobFilter qualifies official public tenders — evidence-first, not shared leads.
           </p>
           <p className="mt-4 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
