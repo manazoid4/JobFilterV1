@@ -115,11 +115,11 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
   { trade: 'Electrician', active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Retrofit Grants'] },
   { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
   { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
-  { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
+  { trade: 'Roofer',      active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
   { trade: 'HEATING',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
   { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
-  { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
+  { trade: 'Carpenter',   active: ['Planning', 'Contracts', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
+  { trade: 'Painter',     active: ['Planning', 'Contracts', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
 ];
 
 const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
@@ -264,16 +264,16 @@ export function SignalsPage() {
         </div>
       </section>
 
-      {/* 3. How it combines */}
+      {/* 3. How it works */}
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">QUALIFY FASTER. BID SMARTER.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
-              ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
+              ['STEP 1', 'TENDER DETECTED', 'A public works notice matching your trade and region appears on Find a Tender. Council contracts, public works frameworks, maintenance tenders.'],
+              ['STEP 2', 'EVIDENCE EXTRACTED', 'JobFilter pulls buyer, scope, value, deadline, CPV codes and requirements from the official notice. You see what fits and what is missing.'],
+              ['STEP 3', 'CLEAR NEXT ACTION', 'Decide BID, WATCH, SUBCONTRACT or SKIP based on real evidence — before you spend bid time on the wrong opportunity.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
@@ -283,7 +283,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xl font-bold text-[var(--muted)]">
-            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
+            Live source: Find a Tender. Additional signal types — planning, energy, property — are in development and shown as Coming Soon above.
           </p>
         </div>
       </section>
@@ -292,15 +292,19 @@ export function SignalsPage() {
       <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
         <div className="page-shell py-5">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            {['PLANNING', 'CONTRACTS', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
-              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
+            <span className="flex items-center gap-2 text-sm font-black uppercase text-white">
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
+              CONTRACTS
+            </span>
+            {['PLANNING', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
+              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white/40">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
                 {src}
               </span>
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
+            1 LIVE SOURCE (FIND A TENDER) · 9 IN DEVELOPMENT · NO SHARED LEADS
           </p>
         </div>
       </section>
@@ -344,7 +348,7 @@ export function SignalsPage() {
             SEE WHAT'S LIVE IN YOUR PATCH RIGHT NOW.
           </h2>
           <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
+            Enter your postcode. Pick your trade. Live Find a Tender notices — matched to your region in seconds. Free — no card, no contract.
           </p>
           <div className="mt-8">
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
