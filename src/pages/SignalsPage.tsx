@@ -138,16 +138,16 @@ export function SignalsPage() {
       {/* 1. Hero */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
+          <p className="micro-label text-[var(--yellow)]">TENDER SIGNALS FOR UK CONTRACTORS</p>
           <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            JOBS BEFORE THEY GET POSTED.
+            THE RIGHT TENDERS. NO TIME WASTED.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
+            Current public works notices from Find a Tender, filtered by trade, region and firm fit. Know whether to BID, WATCH, SUBCONTRACT or SKIP — before you waste bid time.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">QUALIFY BIDS — £39/MO →</Link>
           </div>
           <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. Founder price £39/mo. One job covers 12+ months.</p>
         </div>
