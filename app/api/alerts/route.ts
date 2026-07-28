@@ -156,9 +156,11 @@ export async function POST(request: Request) {
       if (!data.last_checked_at && twin.last_checked_at) historyUpdate.last_checked_at = twin.last_checked_at;
       if (!data.last_sent_at && twin.last_sent_at) historyUpdate.last_sent_at = twin.last_sent_at;
       if (Object.keys(historyUpdate).length > 0) {
-        await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
+        const { error: historyError } = await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
+        if (historyError) return Response.json({ ok: false, error: 'Failed to migrate delivery history' }, { status: 500 });
       }
-      await admin.from('lead_alerts').delete().eq('id', twin.id).eq('user_id', user.userId);
+      const { error: twinDeleteError } = await admin.from('lead_alerts').delete().eq('id', twin.id).eq('user_id', user.userId);
+      if (twinDeleteError) return Response.json({ ok: false, error: 'Failed to remove legacy instant alert' }, { status: 500 });
     }
   }
 
