@@ -45,6 +45,9 @@ export async function GET(request: Request) {
   }
 
   const now = Date.now();
+  // 5-minute buffer so cron execution time doesn't cause an interval to be
+  // skipped when the sender writes last_checked_at slightly after the tick.
+  const TOLERANCE_MS = 5 * 60 * 1000;
   let checked = 0;
   let sent = 0;
   let failed = 0;
@@ -52,7 +55,7 @@ export async function GET(request: Request) {
   for (const alert of alerts ?? []) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    if (now - lastChecked < interval - TOLERANCE_MS) continue;
     checked++;
 
     try {

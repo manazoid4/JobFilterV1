@@ -22,6 +22,6 @@ assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\
 assert.match(dashboard, /HOURLY SOURCE CHECK/);
 assert.match(dashboard, /'Pause' : 'Resume'/);
 assert.match(dashboard, /deleteAlert\(a\.id\)/);
-assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 * * * *');
+assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 8 * * *');
 
 console.log('alert delivery contract regression passed');
