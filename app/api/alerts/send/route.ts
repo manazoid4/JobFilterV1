@@ -17,6 +17,8 @@ const FREQUENCY_MS: Record<string, number> = {
   daily: 24 * 60 * 60 * 1000,
   weekly: 7 * 24 * 60 * 60 * 1000,
 };
+// Allow 1 hour of cron jitter so a check at 08:00:30 doesn't skip the next 08:00 invocation.
+const CRON_TOLERANCE_MS = 60 * 60 * 1000;
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
@@ -72,7 +74,7 @@ export async function GET(request: Request) {
   for (const alert of dedupMap.values()) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    if (now - lastChecked < interval - CRON_TOLERANCE_MS) continue;
     checked++;
 
     try {

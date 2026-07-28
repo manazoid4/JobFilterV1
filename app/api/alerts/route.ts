@@ -199,6 +199,8 @@ export async function PATCH(request: Request) {
 
   const admin = getSupabaseServiceClient();
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
+  const { data: before } = await admin.from('lead_alerts').select('frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
+  const prevFrequency = before?.frequency ?? null;
   const { data, error } = await admin.from('lead_alerts').update(update).eq('id', id).eq('user_id', user.userId).select().maybeSingle();
 
   // Frequency normalization (instant→daily, or any change) can collide with an existing row at the target
@@ -207,7 +209,7 @@ export async function PATCH(request: Request) {
   if (error?.code === '23505') {
     const targetFrequency = update.frequency as string | undefined;
     if (targetFrequency) {
-      const { data: current } = await admin.from('lead_alerts').select('trade, location').eq('id', id).eq('user_id', user.userId).maybeSingle();
+      const { data: current } = await admin.from('lead_alerts').select('trade, location, frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
       if (current) {
         const mergeUpdate = { ...update };
         delete mergeUpdate.frequency;
@@ -218,6 +220,14 @@ export async function PATCH(request: Request) {
         if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
         const { error: deleteError } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
         if (deleteError) return Response.json({ ok: false, error: 'Failed to remove duplicate alert' }, { status: 500 });
+        // Source was in the instant/daily family — its sibling becomes orphaned after this merge; remove it.
+        if (current.frequency === 'instant' || current.frequency === 'daily') {
+          const siblingFreq = current.frequency === 'instant' ? 'daily' : 'instant';
+          if (siblingFreq !== targetFrequency) {
+            await admin.from('lead_alerts').delete()
+              .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', siblingFreq);
+          }
+        }
         return Response.json({ ok: true, alert: merged });
       }
     }
@@ -235,7 +245,7 @@ export async function PATCH(request: Request) {
       .update(twinUpdate)
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
-  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily') {
+  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily' && (prevFrequency === 'instant' || prevFrequency === 'daily')) {
     // Frequency changed away from instant/daily (e.g. → weekly) — remove any orphaned twin.
     for (const orphanFreq of ['instant', 'daily'] as const) {
       const { error: orphanError } = await admin.from('lead_alerts').delete()
