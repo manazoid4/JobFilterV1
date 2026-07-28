@@ -23,8 +23,7 @@ const TRADES = [
 ];
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY' },
-  { value: 'daily', label: 'DAILY' },
-  { value: 'instant', label: 'DAILY SOURCE CHECK' },
+  { value: 'daily', label: 'DAILY SOURCE CHECK' },
 ];
 
 type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };
@@ -167,7 +166,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
             {activeAlerts.map(a => (
               <div key={a.id} className={`flex flex-wrap items-center justify-between gap-2 border-2 border-[var(--line)] p-2 text-xs font-black uppercase ${a.active ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--muted)]'}`}>
                 <span>
-                  {a.active ? 'Active' : 'Paused'} · {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.radius_miles ?? 25}mi · {a.frequency === 'instant' ? 'Daily check' : a.frequency}
+                  {a.active ? 'Active' : 'Paused'} · {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.radius_miles ?? 25}mi · {{ instant: 'Daily check', daily: 'Daily check', weekly: 'Weekly check' }[a.frequency] ?? a.frequency}
                 </span>
                 <span className="flex gap-2">
                   <button type="button" onClick={() => void updateAlert(a.id, { active: !a.active })} className="underline underline-offset-2" aria-label={`${a.active ? 'Pause' : 'Resume'} ${a.trade} alert for ${a.postcode_outward}`}>

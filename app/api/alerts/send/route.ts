@@ -13,7 +13,7 @@ import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
 const FREQUENCY_MS: Record<string, number> = {
-  instant: 60 * 60 * 1000,
+  instant: 24 * 60 * 60 * 1000,
   daily: 24 * 60 * 60 * 1000,
   weekly: 7 * 24 * 60 * 60 * 1000,
 };
