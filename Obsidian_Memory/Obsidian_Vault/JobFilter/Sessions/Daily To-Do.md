@@ -15,7 +15,7 @@
 
 ## In Progress
 
-- [ ] PR #402 — 25 Codex threads addressed through commit 20c8c71; awaiting Codex review of 20c8c71
+- [ ] PR #402 — 31 Codex threads addressed through commit 50f3742; awaiting Codex review of 50f3742
 
 ## Next Run — Top 3 Priorities
 
