@@ -10,6 +10,7 @@ const signals = [
     description: 'A 4-bed extension approved this morning in your postcode. The homeowner hasn\'t called anyone yet. You get the alert. They don\'t.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'BEFORE THE CALL',
+    live: false,
   },
   {
     source: 'SIGNAL 2 · CONTRACTS',
@@ -17,6 +18,7 @@ const signals = [
     description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
     signalType: 'LIVE TENDER',
+    live: true,
   },
   {
     source: 'SIGNAL 3 · ENERGY',
@@ -24,6 +26,7 @@ const signals = [
     description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
+    live: false,
   },
   {
     source: 'SIGNAL 4 · PROPERTY SALES',
@@ -31,6 +34,7 @@ const signals = [
     description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just cleared.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'FRESH PURCHASE',
+    live: false,
   },
   {
     source: 'SIGNAL 5 · NEW BUSINESS',
@@ -38,6 +42,7 @@ const signals = [
     description: 'New company registered in your postcode in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'NEW BUSINESS',
+    live: false,
   },
   {
     source: 'SIGNAL 6 · HMO LICENSING',
@@ -45,6 +50,7 @@ const signals = [
     description: 'HMO licence activity points to fire doors, alarms, electrics, plumbing, ventilation, repairs and compliance work before the landlord starts ringing round.',
     trades: ['Electrical', 'Plumbing', 'Building', 'Carpentry', 'Painting'],
     signalType: 'COMPLIANCE WORK',
+    live: false,
   },
   {
     source: 'SIGNAL 7 · BUILDING CONTROL',
@@ -52,6 +58,7 @@ const signals = [
     description: 'Building control notices show projects that are past planning talk and closer to actual work: extensions, structural work, conversions, roof changes and inspections.',
     trades: ['Building', 'Roofing', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'SITE MOVEMENT',
+    live: false,
   },
   {
     source: 'SIGNAL 8 · AUCTION PROPERTY',
@@ -59,6 +66,7 @@ const signals = [
     description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Good trades get in before the new owner starts searching.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Roofing', 'Painting', 'Carpentry'],
     signalType: 'FAST TURNAROUND',
+    live: false,
   },
   {
     source: 'SIGNAL 9 · INSOLVENCY / VOID WORKS',
@@ -66,6 +74,7 @@ const signals = [
     description: 'Business distress, empty premises and interrupted projects can create urgent make-safe, refit, repair and takeover work for local trades.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Security', 'Carpentry'],
     signalType: 'URGENT TAKEOVER',
+    live: false,
   },
   {
     source: 'SIGNAL 10 · RETROFIT GRANTS',
@@ -73,6 +82,7 @@ const signals = [
     description: 'Grant windows, local retrofit schemes and funded upgrade programmes create timed demand for insulation, heating, solar, ventilation and electrical work.',
     trades: ['Insulation', 'HVAC', 'Electrical', 'Roofing', 'Building'],
     signalType: 'FUNDED UPGRADE',
+    live: false,
   },
 ] as const;
 
@@ -175,11 +185,16 @@ export function SignalsPage() {
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visibleSignals.map((s) => (
-              <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
-                <div>
+              <article key={s.name} className={`jf-box bg-white p-6 flex flex-col gap-4 ${!s.live ? 'opacity-75' : ''}`}>
+                <div className="flex items-center justify-between gap-2">
                   <span className="inline-block bg-[var(--navy)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">
                     {s.source}
                   </span>
+                  {s.live ? (
+                    <span className="inline-block bg-[var(--green)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">● LIVE</span>
+                  ) : (
+                    <span className="inline-block border border-[var(--line)] bg-[var(--bg-main)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-[var(--muted)]">COMING SOON</span>
+                  )}
                 </div>
                 <h3 className="headline text-4xl leading-none">{s.name}</h3>
                 <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
@@ -208,7 +223,7 @@ export function SignalsPage() {
       <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
           <p className="text-base font-black text-[var(--ink)]">
-            All 10 signals included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
+            Government tender signals live now via Find a Tender. More signal types in development. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first.
           </p>
           <div className="flex shrink-0 gap-3">
             <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">SCAN FREE →</Link>
