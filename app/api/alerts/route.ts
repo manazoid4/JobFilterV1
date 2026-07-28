@@ -140,6 +140,28 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: 'Failed to save alert' }, { status: 500 });
   }
 
+  // When saving a daily alert, carry delivery history from any legacy instant twin and remove it,
+  // so the new daily row doesn't start with null timestamps and immediately re-send already-delivered leads.
+  if (frequency === 'daily') {
+    const { data: twin } = await admin
+      .from('lead_alerts')
+      .select('id, last_checked_at, last_sent_at')
+      .eq('user_id', user.userId)
+      .eq('trade', trade)
+      .eq('location', location)
+      .eq('frequency', 'instant')
+      .maybeSingle();
+    if (twin) {
+      const historyUpdate: Record<string, string> = {};
+      if (!data.last_checked_at && twin.last_checked_at) historyUpdate.last_checked_at = twin.last_checked_at;
+      if (!data.last_sent_at && twin.last_sent_at) historyUpdate.last_sent_at = twin.last_sent_at;
+      if (Object.keys(historyUpdate).length > 0) {
+        await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
+      }
+      await admin.from('lead_alerts').delete().eq('id', twin.id).eq('user_id', user.userId);
+    }
+  }
+
   return Response.json({
     ok: true,
     alert: data,
