@@ -216,7 +216,8 @@ export async function PATCH(request: Request) {
           .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
           .select().maybeSingle();
         if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
-        await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
+        const { error: deleteError } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
+        if (deleteError) return Response.json({ ok: false, error: 'Failed to remove duplicate alert' }, { status: 500 });
         return Response.json({ ok: true, alert: merged });
       }
     }
@@ -224,6 +225,13 @@ export async function PATCH(request: Request) {
 
   if (error) return Response.json({ ok: false, error: 'Failed to update alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
+  // Propagate active changes to the instant/daily twin so pausing or resuming one row affects both.
+  if (typeof update.active === 'boolean' && (data.frequency === 'instant' || data.frequency === 'daily')) {
+    const twinFreq = data.frequency === 'instant' ? 'daily' : 'instant';
+    await admin.from('lead_alerts')
+      .update({ active: update.active, updated_at: new Date().toISOString() })
+      .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
+  }
   return Response.json({ ok: true, alert: data });
 }
 
@@ -235,8 +243,17 @@ export async function DELETE(request: Request) {
 
   const admin = getSupabaseServiceClient();
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
+  // Fetch details before deleting so we can remove the instant/daily twin if present.
+  const { data: toDelete } = await admin.from('lead_alerts')
+    .select('trade, location, frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
   const { data, error } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId).select('id').maybeSingle();
   if (error) return Response.json({ ok: false, error: 'Failed to delete alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
+  if (toDelete && (toDelete.frequency === 'instant' || toDelete.frequency === 'daily')) {
+    const twinFreq = toDelete.frequency === 'instant' ? 'daily' : 'instant';
+    await admin.from('lead_alerts')
+      .delete()
+      .eq('user_id', user.userId).eq('trade', toDelete.trade).eq('location', toDelete.location).eq('frequency', twinFreq);
+  }
   return Response.json({ ok: true });
 }
