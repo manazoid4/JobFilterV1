@@ -124,6 +124,9 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
 
 const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
 
+// Derived from signals array so the matrix stays in sync with the live: boolean flags above.
+const liveSignalLabels = new Set(allSignalLabels.filter((_, i) => signals[i]?.live));
+
 const tradeToSignalLabel: Record<string, string> = {
   Electrician: 'Electrical',
   Plumber: 'Plumbing',
@@ -311,15 +314,17 @@ export function SignalsPage() {
                 <div className="mt-4 grid gap-2">
                   {allSignalLabels.map((label) => {
                     const on = active.includes(label);
+                    const live = liveSignalLabels.has(label);
                     return (
                       <div
                         key={label}
-                        className={`flex items-center gap-2 text-sm font-black ${on ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}
+                        className={`flex items-center gap-2 text-sm font-black ${on && live ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}
                       >
-                        <span className={`text-base leading-none ${on ? 'text-[var(--green)]' : ''}`}>
-                          {on ? '✓' : '✗'}
+                        <span className={`text-base leading-none ${on && live ? 'text-[var(--green)]' : ''}`}>
+                          {on && live ? '✓' : on ? '◯' : '✗'}
                         </span>
                         {label}
+                        {on && !live && <span className="text-xs font-bold normal-case">(soon)</span>}
                       </div>
                     );
                   })}
