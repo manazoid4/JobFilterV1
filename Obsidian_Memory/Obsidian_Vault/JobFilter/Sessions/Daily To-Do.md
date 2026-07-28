@@ -15,7 +15,7 @@
 
 ## In Progress
 
-- [ ] PR #402 — CI green on commit 4d501e3, awaiting Codex review + merge decision
+- [ ] PR #402 — CI green on commit 73f4914, Codex clean pass, awaiting merge decision
 
 ## Next Run — Top 3 Priorities
 
