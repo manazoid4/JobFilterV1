@@ -239,10 +239,22 @@ export async function PATCH(request: Request) {
   if (error?.code === '23505') {
     const targetFrequency = update.frequency as string | undefined;
     if (targetFrequency) {
-      const { data: current } = await admin.from('lead_alerts').select('trade, location, frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
+      const { data: current } = await admin.from('lead_alerts').select('trade, location, frequency, last_checked_at, last_sent_at').eq('id', id).eq('user_id', user.userId).maybeSingle();
       if (current) {
         const mergeUpdate = { ...update };
         delete mergeUpdate.frequency;
+        // Migrate delivery history: take the later timestamp so the surviving row
+        // doesn't become immediately eligible and redeliver already-sent leads.
+        const { data: target } = await admin.from('lead_alerts')
+          .select('last_checked_at, last_sent_at')
+          .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
+          .maybeSingle();
+        const srcChecked = current.last_checked_at ? new Date(current.last_checked_at).getTime() : 0;
+        const tgtChecked = target?.last_checked_at ? new Date(target.last_checked_at).getTime() : 0;
+        if (srcChecked > tgtChecked) mergeUpdate.last_checked_at = current.last_checked_at;
+        const srcSent = current.last_sent_at ? new Date(current.last_sent_at).getTime() : 0;
+        const tgtSent = target?.last_sent_at ? new Date(target.last_sent_at).getTime() : 0;
+        if (srcSent > tgtSent) mergeUpdate.last_sent_at = current.last_sent_at;
         const { data: merged, error: mergeError } = await admin.from('lead_alerts')
           .update(mergeUpdate)
           .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
