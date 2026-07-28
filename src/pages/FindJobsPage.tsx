@@ -789,7 +789,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Checkatrade sells the same lead to 5 other trades. JobFilter shows you the buyer, the value, and the deadline — verified. No shared auction. One job typically covers 12+ months at £39.
+                    Unlike Checkatrade, JobFilter shows you the buyer, the published value and deadline where available, and the official response route. Public tenders can be pursued by any supplier — you pay for qualification and workflow, not exclusive access. One job typically covers 12+ months at £39.
                   </p>
                 </section>
               )}
