@@ -237,21 +237,14 @@ export function SignalsPage() {
         <div className="page-shell section-pad">
           <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
             <div>
-              <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
+              <p className="micro-label text-[var(--muted)]">IN DEVELOPMENT</p>
               <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
               <p className="mt-4 max-w-3xl text-lg font-bold leading-tight text-[var(--ink)]/80">
-                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
+                Start Signal mode will combine planning, building-control, energy and property signals to surface jobs with stronger timing evidence. In development — government tender qualification on Find a Tender is live now.
               </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {['READY = act now', 'MAYBE = verify source', 'WASTE = skip'].map((label) => (
-                  <span key={label} className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
-                    {label}
-                  </span>
-                ))}
-              </div>
             </div>
             <div className="jf-box bg-[var(--ink)] p-5 text-white opacity-60">
-              <p className="micro-label text-[var(--muted)]">COMING SOON</p>
+              <p className="micro-label text-white/70">COMING SOON</p>
               <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
               <p className="mt-3 text-sm font-bold text-white/85">
                 Multi-source timing filter — planning, building control, energy and property signals combined. In development. Government tender qualification is live now.
@@ -294,7 +287,7 @@ export function SignalsPage() {
               CONTRACTS
             </span>
             {['PLANNING', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
-              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white/40">
+              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white/60">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
                 {src}
               </span>
