@@ -308,27 +308,35 @@ export async function PATCH(request: Request) {
       .update(twinUpdate)
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
-  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily' && (prevFrequency === 'instant' || prevFrequency === 'daily')) {
-    // Frequency changed away from instant/daily (e.g. → weekly) — migrate history from twin then remove it.
-    const twinFreq = prevFrequency === 'instant' ? 'daily' : 'instant';
-    const { data: twin, error: twinHistoryError } = await admin.from('lead_alerts')
-      .select('last_checked_at, last_sent_at')
-      .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq)
-      .maybeSingle();
-    if (twinHistoryError) return Response.json({ ok: false, error: 'Failed to read twin delivery history' }, { status: 500 });
-    if (twin) {
-      const historyUpdate: Record<string, string> = {};
-      const dataChecked = data.last_checked_at ? new Date(data.last_checked_at).getTime() : 0;
-      const twinChecked = twin.last_checked_at ? new Date(twin.last_checked_at).getTime() : 0;
-      if (twinChecked > dataChecked) historyUpdate.last_checked_at = twin.last_checked_at!;
-      const dataSent = data.last_sent_at ? new Date(data.last_sent_at).getTime() : 0;
-      const twinSent = twin.last_sent_at ? new Date(twin.last_sent_at).getTime() : 0;
-      if (twinSent > dataSent) historyUpdate.last_sent_at = twin.last_sent_at!;
-      if (Object.keys(historyUpdate).length > 0) {
-        const { error: historyError } = await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
-        if (historyError) return Response.json({ ok: false, error: 'Failed to migrate twin delivery history' }, { status: 500 });
-      }
+  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily') {
+    // Frequency moved to non-daily-family (e.g. → weekly) — clean up any instant/daily orphans.
+    // Guard omits prevFrequency so retries succeed even when the row is already at the target frequency.
+    // Pass 1: collect the best delivery timestamps across all potential orphans.
+    let bestChecked = data.last_checked_at ? new Date(data.last_checked_at).getTime() : 0;
+    let bestCheckedStr = data.last_checked_at as string | null;
+    let bestSent = data.last_sent_at ? new Date(data.last_sent_at).getTime() : 0;
+    let bestSentStr = data.last_sent_at as string | null;
+    for (const orphanFreq of ['instant', 'daily'] as const) {
+      const { data: orphan, error: orphanHistoryError } = await admin.from('lead_alerts')
+        .select('last_checked_at, last_sent_at')
+        .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', orphanFreq)
+        .maybeSingle();
+      if (orphanHistoryError) return Response.json({ ok: false, error: 'Failed to read orphan delivery history' }, { status: 500 });
+      if (!orphan) continue;
+      const orphanChecked = orphan.last_checked_at ? new Date(orphan.last_checked_at).getTime() : 0;
+      if (orphanChecked > bestChecked) { bestChecked = orphanChecked; bestCheckedStr = orphan.last_checked_at; }
+      const orphanSent = orphan.last_sent_at ? new Date(orphan.last_sent_at).getTime() : 0;
+      if (orphanSent > bestSent) { bestSent = orphanSent; bestSentStr = orphan.last_sent_at; }
     }
+    // Pass 2: migrate the best history to the surviving row in one update.
+    const historyUpdate: Record<string, string> = {};
+    if (bestCheckedStr && bestCheckedStr !== data.last_checked_at) historyUpdate.last_checked_at = bestCheckedStr;
+    if (bestSentStr && bestSentStr !== data.last_sent_at) historyUpdate.last_sent_at = bestSentStr;
+    if (Object.keys(historyUpdate).length > 0) {
+      const { error: historyError } = await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
+      if (historyError) return Response.json({ ok: false, error: 'Failed to migrate orphan delivery history' }, { status: 500 });
+    }
+    // Pass 3: delete all orphans.
     for (const orphanFreq of ['instant', 'daily'] as const) {
       const { error: orphanError } = await admin.from('lead_alerts').delete()
         .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', orphanFreq);
