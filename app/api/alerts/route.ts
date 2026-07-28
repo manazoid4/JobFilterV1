@@ -201,20 +201,24 @@ export async function PATCH(request: Request) {
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
   const { data, error } = await admin.from('lead_alerts').update(update).eq('id', id).eq('user_id', user.userId).select().maybeSingle();
 
-  // instant→daily normalization can collide with an existing daily row (unique index on user_id,trade,location,frequency).
-  // Resolve by deleting the instant row and merging non-frequency updates into the daily row.
+  // Frequency normalization (instant→daily, or any change) can collide with an existing row at the target
+  // frequency (unique index on user_id,trade,location,frequency). Resolve by merging non-frequency
+  // updates into the target row first, then deleting the source row only after the merge succeeds.
   if (error?.code === '23505') {
-    const { data: current } = await admin.from('lead_alerts').select('trade, location').eq('id', id).eq('user_id', user.userId).maybeSingle();
-    if (current) {
-      await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
-      const mergeUpdate = { ...update };
-      delete mergeUpdate.frequency;
-      const { data: merged, error: mergeError } = await admin.from('lead_alerts')
-        .update(mergeUpdate)
-        .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', 'daily')
-        .select().maybeSingle();
-      if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
-      return Response.json({ ok: true, alert: merged });
+    const targetFrequency = update.frequency as string | undefined;
+    if (targetFrequency) {
+      const { data: current } = await admin.from('lead_alerts').select('trade, location').eq('id', id).eq('user_id', user.userId).maybeSingle();
+      if (current) {
+        const mergeUpdate = { ...update };
+        delete mergeUpdate.frequency;
+        const { data: merged, error: mergeError } = await admin.from('lead_alerts')
+          .update(mergeUpdate)
+          .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
+          .select().maybeSingle();
+        if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
+        await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
+        return Response.json({ ok: true, alert: merged });
+      }
     }
   }
 
