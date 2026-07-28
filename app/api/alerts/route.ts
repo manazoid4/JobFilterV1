@@ -77,7 +77,8 @@ export async function POST(request: Request) {
   const location = String(body.location ?? '').trim().slice(0, 120);
   const postcode_raw = String(body.postcode_outward ?? body.postcode ?? '').toUpperCase().trim().replace(/\s+/g, '').slice(0, 8);
   const postcode_outward = POSTCODE_OUTWARD_RE.test(postcode_raw) ? postcode_raw : null;
-  const frequency = String(body.frequency ?? 'weekly').toLowerCase();
+  const frequencyRaw = String(body.frequency ?? 'weekly').toLowerCase();
+  const frequency = frequencyRaw === 'instant' ? 'daily' : frequencyRaw;
   const radius_miles = parseRadius(body.radius_miles ?? body.radiusMiles);
 
   if (!VALID_TRADES.has(trade)) {
@@ -189,8 +190,9 @@ export async function PATCH(request: Request) {
     update.radius_miles = radius;
   }
   if (body.frequency !== undefined) {
-    const frequency = String(body.frequency).toLowerCase();
-    if (!VALID_FREQUENCIES.has(frequency)) return Response.json({ ok: false, error: 'Invalid frequency' }, { status: 422 });
+    const freqRaw = String(body.frequency).toLowerCase();
+    const frequency = freqRaw === 'instant' ? 'daily' : freqRaw;
+    if (!VALID_FREQUENCIES.has(freqRaw)) return Response.json({ ok: false, error: 'Invalid frequency' }, { status: 422 });
     if (PAID_FREQUENCIES.has(frequency) && !user.isPaid) return Response.json({ ok: false, error: 'Paid subscription required' }, { status: 403 });
     update.frequency = frequency;
   }

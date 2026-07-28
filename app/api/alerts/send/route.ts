@@ -44,12 +44,23 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
+  // Deduplicate legacy instant+daily rows for the same user+trade+location.
+  // Prefer daily over instant; otherwise first seen wins.
+  const dedupMap = new Map<string, typeof alerts[0]>();
+  for (const alert of alerts ?? []) {
+    const key = `${alert.user_id}|${alert.trade}|${alert.location}`;
+    const existing = dedupMap.get(key);
+    if (!existing || (existing.frequency === 'instant' && alert.frequency === 'daily')) {
+      dedupMap.set(key, alert);
+    }
+  }
+
   const now = Date.now();
   let checked = 0;
   let sent = 0;
   let failed = 0;
 
-  for (const alert of alerts ?? []) {
+  for (const alert of dedupMap.values()) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
     if (now - lastChecked < interval) continue;
