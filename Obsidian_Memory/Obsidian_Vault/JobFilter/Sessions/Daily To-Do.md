@@ -8,7 +8,7 @@ Last updated: 2026-07-28 (NightlyBuildAgent run)
 - [x] PricingPage H1: unique headline "QUALIFY PUBLIC WORKS IN MINUTES. £39/MO. CANCEL ANY TIME."
 - [x] PricingPage FAQ: added Checkatrade/Bark/BuildAlert/MyBuilder competitor differentiation entry
 - [x] HomePage: removed rounded-full from 4 hero signal bubbles (design rule fix)
-- [x] Vercel cron: fixed Hobby plan violation (hourly → daily 07:00 UTC)
+- [ ] Vercel cron: UNRESOLVED — schedule remains 0 * * * * (hourly, required by paid "instant" tier + regression test). Vercel Hobby plan blocks this. Owner must choose: upgrade to Pro, use external hourly trigger (GitHub Actions/QStash), or remove instant tier. See PR #405 comment.
 - [x] Vault changelog written: Obsidian_Memory/Obsidian_Vault/JobFilter/Changelog 2026-07-28.md
 - [x] PR opened: https://github.com/manazoid4/JobFilterV1/pull/405
 
