@@ -263,10 +263,29 @@ export async function PATCH(request: Request) {
         if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
         const { error: deleteError } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
         if (deleteError) return Response.json({ ok: false, error: 'Failed to remove duplicate alert' }, { status: 500 });
-        // Source was in the instant/daily family — its sibling becomes orphaned after this merge; remove it.
+        // Source was in the instant/daily family — its sibling becomes orphaned after this merge; migrate its
+        // history then remove it so the surviving row doesn't become immediately eligible.
         if (current.frequency === 'instant' || current.frequency === 'daily') {
           const siblingFreq = current.frequency === 'instant' ? 'daily' : 'instant';
           if (siblingFreq !== targetFrequency) {
+            const { data: sibling, error: siblingHistoryError } = await admin.from('lead_alerts')
+              .select('last_checked_at, last_sent_at')
+              .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', siblingFreq)
+              .maybeSingle();
+            if (siblingHistoryError) return Response.json({ ok: false, error: 'Failed to read sibling delivery history' }, { status: 500 });
+            if (sibling) {
+              const siblingHistoryUpdate: Record<string, string> = {};
+              const mergedChecked = merged.last_checked_at ? new Date(merged.last_checked_at).getTime() : 0;
+              const sibChecked = sibling.last_checked_at ? new Date(sibling.last_checked_at).getTime() : 0;
+              if (sibChecked > mergedChecked) siblingHistoryUpdate.last_checked_at = sibling.last_checked_at!;
+              const mergedSent = merged.last_sent_at ? new Date(merged.last_sent_at).getTime() : 0;
+              const sibSent = sibling.last_sent_at ? new Date(sibling.last_sent_at).getTime() : 0;
+              if (sibSent > mergedSent) siblingHistoryUpdate.last_sent_at = sibling.last_sent_at!;
+              if (Object.keys(siblingHistoryUpdate).length > 0) {
+                const { error: siblingHistoryUpdateError } = await admin.from('lead_alerts').update(siblingHistoryUpdate).eq('id', merged.id);
+                if (siblingHistoryUpdateError) return Response.json({ ok: false, error: 'Failed to migrate sibling delivery history' }, { status: 500 });
+              }
+            }
             const { error: siblingDeleteError } = await admin.from('lead_alerts').delete()
               .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', siblingFreq);
             if (siblingDeleteError) return Response.json({ ok: false, error: 'Failed to remove sibling alert' }, { status: 500 });
