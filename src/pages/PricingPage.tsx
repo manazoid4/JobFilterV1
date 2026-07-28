@@ -43,7 +43,7 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Most contractors waste days pricing tenders that never fitted their trade, region, or capacity. JobFilter reads current official notices and tells you BID, WATCH, SUBCONTRACT or SKIP — before you commit a single hour to a bid that won't land.
+          Most contractors waste days pricing tenders that never fitted their trade, region, or capacity. JobFilter reads current official notices and tells you BID, WATCH, SUBCONTRACT or SKIP — before you commit a single hour to a bid that doesn't fit your trade, region, or capacity.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
@@ -65,7 +65,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Run the free scan first — check your trade and region are covered."
-          body="Qualification for matched notices in your trade and region. See the evidence, the gaps, and the right next move — before you price a job that won't win."
+          body="Qualification for matched notices in your trade and region. See the evidence, the gaps, and the right next move — before you price a job your firm doesn't qualify for."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}

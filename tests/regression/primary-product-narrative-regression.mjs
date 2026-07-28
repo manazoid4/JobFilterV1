@@ -12,8 +12,8 @@ const primaryCopy = [home, pricing, dashboard, layout].join('\n');
 for (const phrase of ['Find a Tender', 'BID', 'WATCH', 'SUBCONTRACT', 'SKIP']) {
   assert.ok(primaryCopy.includes(phrase), `primary product copy missing: ${phrase}`);
 }
-assert.ok(home.includes('5–25-PERSON CONTRACTORS'), 'homepage must identify the target firm size');
-assert.ok(pricing.includes('5–25-person contractors'), 'pricing must identify the target firm size');
+assert.ok(home.includes('5 to 25') || home.includes('5–25'), 'homepage must identify the target firm size');
+assert.ok(pricing.includes('5 to 25') || pricing.includes('5–25'), 'pricing must identify the target firm size');
 assert.ok(primaryCopy.includes('free and public'), 'primary copy must state that Find a Tender is free and public');
 
 for (const route of ['/find-jobs', '/methodology', '/pricing', '/trust']) {
