@@ -496,10 +496,13 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
-            <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
-            {loading ? 'SCANNING...' : 'SCAN NOW →'}
-          </button>
+          <div className="flex flex-col gap-1 self-end">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[var(--muted)]">Trade: <span className="text-[var(--ink)]">{trade.toUpperCase()}</span></span>
+            <button type="submit" disabled={loading || fillWeekLoading} className="jf-button bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+              <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
+              {loading ? 'SCANNING...' : 'SCAN NOW →'}
+            </button>
+          </div>
         </form>
 
         {/* Recent Scans */}

@@ -65,7 +65,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Run the free scan first — check your trade and region are covered."
-          body="Full qualification for every public notice that matches your trade. See the evidence, the gaps, and the right next move — before you price a job that won't win."
+          body="Qualification for matched notices in your trade and region. See the evidence, the gaps, and the right next move — before you price a job that won't win."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
@@ -77,7 +77,7 @@ export function PricingPage() {
         <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
+          Coverage varies by service, region and timing — results depend on what buyers have published. Confirm fit before activation.
         </p>
       </section>
 

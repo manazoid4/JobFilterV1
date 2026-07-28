@@ -299,10 +299,10 @@ export function HomePage() {
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE FIRM PROFILE.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Find a Tender is a free public source. JobFilter compares current notices with your firm before you decide where bid time belongs.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">JobFilter scans current Find a Tender notices and compares them with your firm profile before you decide where bid time belongs.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
-                ['Public source', 'Every opportunity remains available through its official Find a Tender route.'],
+                ['Public source', 'Every result remains a public opportunity that other suppliers may pursue — access is not exclusive.'],
                 ['No fake results', 'Internal samples are blocked from live scans. Weak evidence can produce an honest empty result.'],
                 ['Decision first', 'Review fit, evidence and gaps before choosing BID, WATCH, SUBCONTRACT or SKIP.'],
               ].map(([title, body]) => (
