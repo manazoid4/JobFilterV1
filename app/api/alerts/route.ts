@@ -245,10 +245,11 @@ export async function PATCH(request: Request) {
         delete mergeUpdate.frequency;
         // Migrate delivery history: take the later timestamp so the surviving row
         // doesn't become immediately eligible and redeliver already-sent leads.
-        const { data: target } = await admin.from('lead_alerts')
+        const { data: target, error: targetHistoryError } = await admin.from('lead_alerts')
           .select('last_checked_at, last_sent_at')
           .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
           .maybeSingle();
+        if (targetHistoryError) return Response.json({ ok: false, error: 'Failed to read target delivery history' }, { status: 500 });
         const srcChecked = current.last_checked_at ? new Date(current.last_checked_at).getTime() : 0;
         const tgtChecked = target?.last_checked_at ? new Date(target.last_checked_at).getTime() : 0;
         if (srcChecked > tgtChecked) mergeUpdate.last_checked_at = current.last_checked_at;
