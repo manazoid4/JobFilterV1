@@ -228,9 +228,10 @@ export async function PATCH(request: Request) {
   // Propagate active changes to the instant/daily twin so pausing or resuming one row affects both.
   if (typeof update.active === 'boolean' && (data.frequency === 'instant' || data.frequency === 'daily')) {
     const twinFreq = data.frequency === 'instant' ? 'daily' : 'instant';
-    await admin.from('lead_alerts')
+    const { error: twinError } = await admin.from('lead_alerts')
       .update({ active: update.active, updated_at: new Date().toISOString() })
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
+    if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
   }
   return Response.json({ ok: true, alert: data });
 }
@@ -251,9 +252,10 @@ export async function DELETE(request: Request) {
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
   if (toDelete && (toDelete.frequency === 'instant' || toDelete.frequency === 'daily')) {
     const twinFreq = toDelete.frequency === 'instant' ? 'daily' : 'instant';
-    await admin.from('lead_alerts')
+    const { error: twinDeleteError } = await admin.from('lead_alerts')
       .delete()
       .eq('user_id', user.userId).eq('trade', toDelete.trade).eq('location', toDelete.location).eq('frequency', twinFreq);
+    if (twinDeleteError) return Response.json({ ok: false, error: 'Failed to delete paired alert' }, { status: 500 });
   }
   return Response.json({ ok: true });
 }
