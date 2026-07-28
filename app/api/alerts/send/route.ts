@@ -12,13 +12,14 @@ import { scan } from '../../../../leadEngine/scan';
 import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
-const FREQUENCY_MS: Record<string, number> = {
-  instant: 24 * 60 * 60 * 1000,
-  daily: 24 * 60 * 60 * 1000,
-  weekly: 7 * 24 * 60 * 60 * 1000,
+// Calendar-day intervals (UTC). Using days rather than milliseconds avoids misalignment when
+// last_checked_at was written by a differently-scheduled cron (e.g. hourly → daily migration).
+const FREQUENCY_DAYS: Record<string, number> = {
+  instant: 1,
+  daily: 1,
+  weekly: 7,
 };
-// Allow 1 hour of cron jitter so a check at 08:00:30 doesn't skip the next 08:00 invocation.
-const CRON_TOLERANCE_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
@@ -77,9 +78,11 @@ export async function GET(request: Request) {
   let failed = 0;
 
   for (const alert of dedupMap.values()) {
-    const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
+    const daysRequired = FREQUENCY_DAYS[alert.frequency] ?? FREQUENCY_DAYS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval - CRON_TOLERANCE_MS) continue;
+    const lastCheckedDay = lastChecked > 0 ? Math.floor(lastChecked / DAY_MS) : 0;
+    const todayDay = Math.floor(now / DAY_MS);
+    if (todayDay - lastCheckedDay < daysRequired) continue;
     checked++;
 
     try {
