@@ -18,6 +18,36 @@ const FREQUENCY_MS: Record<string, number> = {
   weekly: 7 * 24 * 60 * 60 * 1000,
 };
 
+// Calendar-window due check so serial scan latency doesn't push daily alerts
+// to every other day or weekly alerts to day 8.
+function isAlertDue(lastCheckedMs: number, frequency: string, nowMs: number): boolean {
+  if (lastCheckedMs === 0) return true;
+  if (frequency === 'daily') {
+    const last = new Date(lastCheckedMs);
+    const now = new Date(nowMs);
+    return (
+      last.getUTCFullYear() !== now.getUTCFullYear() ||
+      last.getUTCMonth() !== now.getUTCMonth() ||
+      last.getUTCDate() !== now.getUTCDate()
+    );
+  }
+  if (frequency === 'weekly') {
+    const lastDay = Date.UTC(
+      new Date(lastCheckedMs).getUTCFullYear(),
+      new Date(lastCheckedMs).getUTCMonth(),
+      new Date(lastCheckedMs).getUTCDate(),
+    );
+    const nowDay = Date.UTC(
+      new Date(nowMs).getUTCFullYear(),
+      new Date(nowMs).getUTCMonth(),
+      new Date(nowMs).getUTCDate(),
+    );
+    return nowDay - lastDay >= 7 * 24 * 60 * 60 * 1000;
+  }
+  // instant (1 h): interval check with 5-min tolerance for minor scheduler drift
+  return nowMs - lastCheckedMs >= (FREQUENCY_MS[frequency] ?? FREQUENCY_MS.weekly) - 5 * 60 * 1000;
+}
+
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
   if (!cronSecret) {
@@ -45,17 +75,13 @@ export async function GET(request: Request) {
   }
 
   const now = Date.now();
-  // 5-minute buffer so cron execution time doesn't cause an interval to be
-  // skipped when the sender writes last_checked_at slightly after the tick.
-  const TOLERANCE_MS = 5 * 60 * 1000;
   let checked = 0;
   let sent = 0;
   let failed = 0;
 
   for (const alert of alerts ?? []) {
-    const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval - TOLERANCE_MS) continue;
+    if (!isAlertDue(lastChecked, alert.frequency, now)) continue;
     checked++;
 
     try {
