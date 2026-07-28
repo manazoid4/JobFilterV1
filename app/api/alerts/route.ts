@@ -290,7 +290,26 @@ export async function PATCH(request: Request) {
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
   } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily' && (prevFrequency === 'instant' || prevFrequency === 'daily')) {
-    // Frequency changed away from instant/daily (e.g. → weekly) — remove any orphaned twin.
+    // Frequency changed away from instant/daily (e.g. → weekly) — migrate history from twin then remove it.
+    const twinFreq = prevFrequency === 'instant' ? 'daily' : 'instant';
+    const { data: twin, error: twinHistoryError } = await admin.from('lead_alerts')
+      .select('last_checked_at, last_sent_at')
+      .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq)
+      .maybeSingle();
+    if (twinHistoryError) return Response.json({ ok: false, error: 'Failed to read twin delivery history' }, { status: 500 });
+    if (twin) {
+      const historyUpdate: Record<string, string> = {};
+      const dataChecked = data.last_checked_at ? new Date(data.last_checked_at).getTime() : 0;
+      const twinChecked = twin.last_checked_at ? new Date(twin.last_checked_at).getTime() : 0;
+      if (twinChecked > dataChecked) historyUpdate.last_checked_at = twin.last_checked_at!;
+      const dataSent = data.last_sent_at ? new Date(data.last_sent_at).getTime() : 0;
+      const twinSent = twin.last_sent_at ? new Date(twin.last_sent_at).getTime() : 0;
+      if (twinSent > dataSent) historyUpdate.last_sent_at = twin.last_sent_at!;
+      if (Object.keys(historyUpdate).length > 0) {
+        const { error: historyError } = await admin.from('lead_alerts').update(historyUpdate).eq('id', data.id);
+        if (historyError) return Response.json({ ok: false, error: 'Failed to migrate twin delivery history' }, { status: 500 });
+      }
+    }
     for (const orphanFreq of ['instant', 'daily'] as const) {
       const { error: orphanError } = await admin.from('lead_alerts').delete()
         .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', orphanFreq);
