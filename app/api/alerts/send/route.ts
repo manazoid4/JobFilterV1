@@ -53,7 +53,12 @@ export async function GET(request: Request) {
   for (const alert of alerts ?? []) {
     const key = `${alert.user_id}|${alert.trade}|${alert.location}|${normalizeFreq(alert.frequency)}`;
     const existing = dedupMap.get(key);
-    if (!existing || (existing.frequency === 'instant' && alert.frequency === 'daily')) {
+    if (!existing) { dedupMap.set(key, alert); continue; }
+    // Keep the row with the newer last_checked_at so a recently-processed instant twin
+    // doesn't leave a stale daily row immediately eligible. Break ties by preferring daily.
+    const existingMs = existing.last_checked_at ? new Date(existing.last_checked_at).getTime() : 0;
+    const alertMs = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
+    if (alertMs > existingMs || (alertMs === existingMs && existing.frequency === 'instant' && alert.frequency === 'daily')) {
       dedupMap.set(key, alert);
     }
   }

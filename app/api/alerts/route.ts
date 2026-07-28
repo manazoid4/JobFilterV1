@@ -143,7 +143,7 @@ export async function POST(request: Request) {
   // When saving a daily alert, carry delivery history from any legacy instant twin and remove it,
   // so the new daily row doesn't start with null timestamps and immediately re-send already-delivered leads.
   if (frequency === 'daily') {
-    const { data: twin } = await admin
+    const { data: twin, error: twinLookupError } = await admin
       .from('lead_alerts')
       .select('id, last_checked_at, last_sent_at')
       .eq('user_id', user.userId)
@@ -151,6 +151,7 @@ export async function POST(request: Request) {
       .eq('location', location)
       .eq('frequency', 'instant')
       .maybeSingle();
+    if (twinLookupError) return Response.json({ ok: false, error: 'Failed to look up legacy instant alert' }, { status: 500 });
     if (twin) {
       const historyUpdate: Record<string, string> = {};
       if (!data.last_checked_at && twin.last_checked_at) historyUpdate.last_checked_at = twin.last_checked_at;
