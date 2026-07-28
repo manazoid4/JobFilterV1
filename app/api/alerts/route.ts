@@ -200,6 +200,24 @@ export async function PATCH(request: Request) {
   const admin = getSupabaseServiceClient();
   if (!admin) return Response.json({ ok: false, error: 'Supabase not configured' }, { status: 503 });
   const { data, error } = await admin.from('lead_alerts').update(update).eq('id', id).eq('user_id', user.userId).select().maybeSingle();
+
+  // instant→daily normalization can collide with an existing daily row (unique index on user_id,trade,location,frequency).
+  // Resolve by deleting the instant row and merging non-frequency updates into the daily row.
+  if (error?.code === '23505') {
+    const { data: current } = await admin.from('lead_alerts').select('trade, location').eq('id', id).eq('user_id', user.userId).maybeSingle();
+    if (current) {
+      await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
+      const mergeUpdate = { ...update };
+      delete mergeUpdate.frequency;
+      const { data: merged, error: mergeError } = await admin.from('lead_alerts')
+        .update(mergeUpdate)
+        .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', 'daily')
+        .select().maybeSingle();
+      if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
+      return Response.json({ ok: true, alert: merged });
+    }
+  }
+
   if (error) return Response.json({ ok: false, error: 'Failed to update alert' }, { status: 500 });
   if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
   return Response.json({ ok: true, alert: data });
