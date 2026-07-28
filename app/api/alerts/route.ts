@@ -261,10 +261,8 @@ export async function PATCH(request: Request) {
           .eq('user_id', user.userId).eq('trade', current.trade).eq('location', current.location).eq('frequency', targetFrequency)
           .select().maybeSingle();
         if (mergeError || !merged) return Response.json({ ok: false, error: 'Failed to merge duplicate alerts' }, { status: 500 });
-        const { error: deleteError } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
-        if (deleteError) return Response.json({ ok: false, error: 'Failed to remove duplicate alert' }, { status: 500 });
-        // Source was in the instant/daily family — its sibling becomes orphaned after this merge; migrate its
-        // history then remove it so the surviving row doesn't become immediately eligible.
+        // Sibling cleanup runs BEFORE source deletion: if any sibling op fails, the source row
+        // is still present so a retry can re-enter this 23505 handler and try again.
         if (current.frequency === 'instant' || current.frequency === 'daily') {
           const siblingFreq = current.frequency === 'instant' ? 'daily' : 'instant';
           if (siblingFreq !== targetFrequency) {
@@ -291,6 +289,8 @@ export async function PATCH(request: Request) {
             if (siblingDeleteError) return Response.json({ ok: false, error: 'Failed to remove sibling alert' }, { status: 500 });
           }
         }
+        const { error: deleteError } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId);
+        if (deleteError) return Response.json({ ok: false, error: 'Failed to remove duplicate alert' }, { status: 500 });
         return Response.json({ ok: true, alert: merged });
       }
     }
@@ -308,9 +308,9 @@ export async function PATCH(request: Request) {
       .update(twinUpdate)
       .eq('user_id', user.userId).eq('trade', data.trade).eq('location', data.location).eq('frequency', twinFreq);
     if (twinError) return Response.json({ ok: false, error: 'Failed to update paired alert' }, { status: 500 });
-  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily') {
-    // Frequency moved to non-daily-family (e.g. → weekly) — clean up any instant/daily orphans.
-    // Guard omits prevFrequency so retries succeed even when the row is already at the target frequency.
+  } else if (update.frequency && update.frequency !== 'instant' && update.frequency !== 'daily' && (prevFrequency === 'instant' || prevFrequency === 'daily')) {
+    // Frequency moved away from the instant/daily family (e.g. daily → weekly) — clean up orphans.
+    // Guard on prevFrequency protects legitimate weekly+daily pairs from a no-op weekly PATCH.
     // Pass 1: collect the best delivery timestamps across all potential orphans.
     let bestChecked = data.last_checked_at ? new Date(data.last_checked_at).getTime() : 0;
     let bestCheckedStr = data.last_checked_at as string | null;
@@ -358,9 +358,8 @@ export async function DELETE(request: Request) {
   const { data: toDelete, error: lookupError } = await admin.from('lead_alerts')
     .select('trade, location, frequency').eq('id', id).eq('user_id', user.userId).maybeSingle();
   if (lookupError) return Response.json({ ok: false, error: 'Failed to look up alert' }, { status: 500 });
-  const { data, error } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId).select('id').maybeSingle();
-  if (error) return Response.json({ ok: false, error: 'Failed to delete alert' }, { status: 500 });
-  if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
+  // Delete twin first so that if primary deletion fails a retry can still find the primary row
+  // and the twin deletion is a no-op (idempotent filter-based delete).
   if (toDelete && (toDelete.frequency === 'instant' || toDelete.frequency === 'daily')) {
     const twinFreq = toDelete.frequency === 'instant' ? 'daily' : 'instant';
     const { error: twinDeleteError } = await admin.from('lead_alerts')
@@ -368,5 +367,8 @@ export async function DELETE(request: Request) {
       .eq('user_id', user.userId).eq('trade', toDelete.trade).eq('location', toDelete.location).eq('frequency', twinFreq);
     if (twinDeleteError) return Response.json({ ok: false, error: 'Failed to delete paired alert' }, { status: 500 });
   }
+  const { data, error } = await admin.from('lead_alerts').delete().eq('id', id).eq('user_id', user.userId).select('id').maybeSingle();
+  if (error) return Response.json({ ok: false, error: 'Failed to delete alert' }, { status: 500 });
+  if (!data) return Response.json({ ok: false, error: 'Alert not found' }, { status: 404 });
   return Response.json({ ok: true });
 }
