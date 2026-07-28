@@ -253,7 +253,7 @@ export function HomePage() {
               { icon: Zap, title: 'Buyer and value up front', body: 'Buyer name, published value, deadline and official response route — all in one place before you open the full notice.' },
               { icon: TrendingUp, title: 'Win tracking', body: 'Log BID, WATCH and SKIP decisions. See which tenders you win so your qualification sharpens over time.' },
               { icon: Radio, title: 'Honest coverage', body: 'Empty results are shown as empty — never padded with samples. Coverage depends on what buyers publish for your trade and region.' },
-              { icon: Clock, title: 'Time left to respond', body: 'Deadline and stage shown against each notice so you know how many days you have before it closes.' },
+              { icon: Clock, title: 'Time left to respond', body: 'Notices closing within three weeks show a days-remaining countdown. Deadline date available on full access.' },
               { icon: CheckCircle, title: 'Subcontract route', body: 'Notices too large for direct bid are flagged as subcontract opportunities — still worth pursuing, different approach.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
