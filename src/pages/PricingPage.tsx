@@ -8,9 +8,9 @@ import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
   'BID, WATCH, SUBCONTRACT or SKIP — before you write a single word of a bid',
-  'See what the buyer requires and what your firm is missing — before you waste a day pricing it',
+  'See what the notice requires and what evidence is still unconfirmed — before you waste a day pricing it',
   'Buyer, value, deadline and official response route in one place — no chasing the notice yourself',
-  'Matched to your trade, patch, and contract range — irrelevant tenders filtered out',
+  'Matched to your trade and delivery area — irrelevant notices filtered out',
   'Decision and outcome tracking so you stop repeating the same qualification mistakes',
 ];
 
