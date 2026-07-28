@@ -66,11 +66,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Run the free scan first to confirm coverage for your trade and region."
+          body="Firm-aware qualification for public opportunities. Scan free first — coverage varies by trade, region and timing. Start the subscription once you see evidence in your area."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
