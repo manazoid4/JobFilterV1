@@ -304,7 +304,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            1 LIVE SOURCE (FIND A TENDER) · 9 IN DEVELOPMENT · NO SHARED LEADS
+            1 LIVE SOURCE (FIND A TENDER) · 9 IN DEVELOPMENT · QUALIFY FASTER
           </p>
         </div>
       </section>
