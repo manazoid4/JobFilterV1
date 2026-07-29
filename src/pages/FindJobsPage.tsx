@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +862,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={trade} />
             ))}
           </div>
         )}
@@ -924,7 +924,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['REWIRE', 'REWIRE'],
     ['CONSUMER UNIT', 'CONSUMER UNIT'],
     ['FUSE BOARD', 'CONSUMER UNIT'],
-    ['EICR', 'LANDLORD EICR'],
+    ['EICR', 'EICR'],
     ['SOLAR PV', 'SOLAR PV'],
     ['SOLAR', 'SOLAR'],
     ['HEAT PUMP', 'HEAT PUMP ELEC'],
@@ -1028,15 +1028,15 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
     const signals = TRADE_TITLE_SIGNALS[trade];
     if (signals) {
       const titleUpper = title.toUpperCase();
-      const existingLabels = new Set(out.map(r => r.label));
       for (const [keyword, specific] of signals) {
         if (!titleUpper.includes(keyword)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
-        if (existingLabels.has(fullLabel)) break; // already present
-        // Only swap when the scorer already produced a generic trade-match label — never promote
-        // unscored title text to a highlighted "YOUR TRADE" reason.
         const genericIdx = out.findIndex(r => r.highlight && GENERIC_TRADE_LABELS.has(r.label));
-        if (genericIdx !== -1) {
+        if (out.some(r => r.label === fullLabel)) {
+          // Specific already scored — just clean up the generic label if it also snuck in
+          if (genericIdx !== -1) out.splice(genericIdx, 1);
+        } else if (genericIdx !== -1) {
+          // Swap the generic for the specific — only when scorer confirmed a trade match
           out[genericIdx] = { label: fullLabel, highlight: true };
         }
         break;
@@ -1236,9 +1236,11 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, scanTrade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; scanTrade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons, lead.title, lead.trade as string);
+  // Use the user's requested scan trade rather than lead.trade — the engine can tag a lead with a
+  // related trade (e.g. hvac) while still scoring it against the electrical scan trade.
+  const parsedReasons = parseTradeReasons(rawReasons, lead.title, scanTrade ?? lead.trade as string);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
