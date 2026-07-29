@@ -926,7 +926,6 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
   electrical: [
     ['EV CHARGER', 'EV CHARGER'],
     ['EV CHARGING', 'EV CHARGER'],
-    ['ELECTRIC VEHICLE', 'EV CHARGER'],
     ['REWIR', 'REWIRE'],
     ['CONSUMER UNIT', 'CONSUMER UNIT'],
     ['FUSE BOARD', 'CONSUMER UNIT'],
