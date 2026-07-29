@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'All 3 free scans used. Who to call is locked — upgrade to see buyer contact on every lead.'}
+                : 'All 3 free scans used. Buyer name and official response route locked — upgrade to act on these leads.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">SEE WHO TO CALL — £39/MO →</Link>
@@ -1033,11 +1033,11 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
         if (!titleUpper.includes(keyword)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
         if (existingLabels.has(fullLabel)) break; // already present
+        // Only swap when the scorer already produced a generic trade-match label — never promote
+        // unscored title text to a highlighted "YOUR TRADE" reason.
         const genericIdx = out.findIndex(r => r.highlight && GENERIC_TRADE_LABELS.has(r.label));
         if (genericIdx !== -1) {
-          out[genericIdx] = { label: fullLabel, highlight: true }; // swap generic for specific
-        } else if (!out.some(r => r.highlight)) {
-          out.unshift({ label: fullLabel, highlight: true }); // inject if no highlighted reason yet
+          out[genericIdx] = { label: fullLabel, highlight: true };
         }
         break;
       }
