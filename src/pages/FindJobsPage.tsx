@@ -371,11 +371,11 @@ export function FindJobsPage() {
     setFillWeekLoading(true);
     setFillWeekResult(null);
     setCommercialOnly(false);
-    setFillWeekPhase('Checking verified job signals across your patch...');
+    setFillWeekPhase('Fetching current Find a Tender notices for your region...');
     await new Promise(r => setTimeout(r, 800));
-    setFillWeekPhase('Matching leads to your trade — scoring every signal...');
+    setFillWeekPhase('Qualifying notices against your trade and firm profile...');
     await new Promise(r => setTimeout(r, 600));
-    setFillWeekPhase('Ranking the best jobs in your postcode...');
+    setFillWeekPhase('Scoring and ranking by fit evidence...');
     await new Promise(r => setTimeout(r, 400));
     try {
       const endpoint = '/api/leads/search';
@@ -634,7 +634,7 @@ export function FindJobsPage() {
       {loading && !fillWeekLoading && (
         <section role="status" aria-live="polite" aria-atomic="true" className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
-          <p className="mt-2 text-xl font-black">Checking verified signals. Running the Money Filter.</p>
+          <p className="mt-2 text-xl font-black">Checking current Find a Tender notices. Qualifying against your firm profile.</p>
         </section>
       )}
 
