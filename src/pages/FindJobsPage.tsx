@@ -997,7 +997,7 @@ const GENERIC_TRADE_LABELS: Partial<Record<string, Set<string>>> = {
   carpentry: new Set(['CARPENTRY — YOUR TRADE', 'JOINERY — YOUR TRADE']),
   painting: new Set(['PAINT — YOUR TRADE', 'DECORAT — YOUR TRADE', 'PLASTER — YOUR TRADE']),
   hvac: new Set(['HVAC — YOUR TRADE', 'MECHANICAL — YOUR TRADE', 'VENTILATION — YOUR TRADE', 'HEAT PUMP — YOUR TRADE', 'AIR SOURCE — YOUR TRADE']),
-  landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE', 'TURF — YOUR TRADE']),
+  landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE', 'TURF — YOUR TRADE', 'PAVING — YOUR TRADE']),
 };
 
 function parseTradeReasons(raw: string[], title?: string, trade?: string): Array<{ label: string; highlight: boolean }> {
@@ -1038,7 +1038,7 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
   if (title && trade) {
     const signals = TRADE_TITLE_SIGNALS[trade];
     if (signals) {
-      const titleUpper = title.toUpperCase();
+      const titleUpper = title.toUpperCase().replace(/-/g, ' ');
       const tradeGenerics = GENERIC_TRADE_LABELS[trade];
       // Teaser labels are the stem of each generic (e.g. "ELECTRICAL" from "ELECTRICAL — YOUR TRADE")
       const teaserGenerics = tradeGenerics ? new Set([...tradeGenerics].map(l => l.replace(' — YOUR TRADE', ''))) : undefined;
