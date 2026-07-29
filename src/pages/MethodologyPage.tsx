@@ -1,68 +1,68 @@
 "use client";
 import Link from 'next/link';
 
-import { Radar, Database, Layers, Target, HardHat, Send, CheckCircle, ArrowRight } from 'lucide-react';
+import { Radar, Database, Layers, Target, HardHat, Send, CheckCircle } from 'lucide-react';
 
 const pipelineSteps = [
   {
     num: '01',
     label: 'FETCH',
     icon: Radar,
-    body: 'Scan official sources — planning applications, government contracts, energy ratings, property data, business registrations, council notices, and streetworks permits.',
-    detail: 'We check 10+ official registers every day. Planning approvals. Energy ratings. Property sales. New businesses. Council tenders.',
+    body: 'Pull current notices from Find a Tender — the official UK public contract register. Every notice is a published buyer requirement, not a scraped listing.',
+    detail: 'Find a Tender publishes contract notices from UK public bodies: councils, NHS trusts, housing associations, utilities and central government. Free and public.',
   },
   {
     num: '02',
-    label: 'NORMALISE',
+    label: 'PARSE',
     icon: Database,
-    body: 'Join every signal to a specific address and company. No orphan records. No guesswork.',
-    detail: 'Every signal gets matched to a specific property or business. No duplicates. No confusion.',
+    body: 'Extract buyer identity, scope description, CPV trade codes, value band, published deadline and the official response route from each notice.',
+    detail: 'Raw notices contain everything needed to qualify. JobFilter pulls the structured data so you can assess fit without reading 40-page procurement documents.',
   },
   {
     num: '03',
-    label: 'ENRICH',
+    label: 'MATCH',
     icon: Layers,
-    body: 'Add property type, floor area, value history, trade-fit classification, and local demand indicators. Context turns a signal into a lead.',
-    detail: 'A planning approval is good. A planning approval for a detached house in an affluent postcode is a lead.',
+    body: 'Compare notice requirements against your firm profile: services you deliver, your delivery region, contract size range and whether you can bid directly or via a subcontract route.',
+    detail: 'Firm-aware means the result is specific to your business. A roofer in Leeds sees different notices to a plumber in Bristol. Incomplete profiles produce honest gaps, not guesses.',
   },
   {
     num: '04',
-    label: 'SCORE',
+    label: 'QUALIFY',
     icon: Target,
-    body: 'Rank public-work notices by trade fit, locality, value, timing, evidence and a realistic route to the work. The decision comes first; the number explains it.',
-    detail: 'Decision: BID, WATCH, SUBCONTRACT or SKIP. Supporting tiers: GOLD 80+, SILVER 50–79, BRONZE 30–49, SKIP below 30.',
+    body: 'Score the fit across trade, location, deadline, evidence and route to work. Every score produces a decision first: BID, WATCH, SUBCONTRACT or SKIP.',
+    detail: 'GOLD 80+, SILVER 50–79, BRONZE 30–49, SKIP below 30. The number backs the decision — it does not replace your judgement or promise an award.',
   },
   {
     num: '05',
-    label: 'STORE',
+    label: 'EXPOSE GAPS',
     icon: HardHat,
-    body: 'Build a persistent property graph. Every scan improves coverage, confidence, and scoring accuracy. The system gets sharper the longer it runs.',
-    detail: 'Historical data improves predictions. We learn which signals actually convert.',
+    body: 'Show what the notice proves and what your firm still needs to verify before committing bid time. Missing accreditations, value ceilings, regional limits.',
+    detail: 'Knowing a gap before you start saves wasted bid hours. Some gaps are easy to close. Others mean this opportunity is not yours yet.',
   },
   {
     num: '06',
     label: 'DELIVER',
     icon: Send,
-    body: 'Gold signals route to WhatsApp, letter drop scripts, territory locks, and follow-up tracking. The right trade gets the right lead at the right time.',
-    detail: 'WhatsApp first. Dashboard second. One trade partner per postcode cluster.',
+    body: 'Every result stays tied to the official Find a Tender source link. You see the public notice, the extracted evidence and the next action — in one view.',
+    detail: 'Empty results are shown honestly. If nothing matches your firm today, that is a valid outcome — not a failure. Coverage varies by trade, region and timing.',
   },
 ];
 
 const scoreFactors = [
-  { factor: 'Planning exists', weight: '20 pts', why: 'Homeowner has invested time and money' },
-  { factor: 'Planning approved', weight: '+15 pts', why: 'Recent approval = high intent' },
-  { factor: 'Property sold', weight: '+15 pts', why: 'New owner likely to renovate' },
-  { factor: 'Low energy rating', weight: '+10 pts', why: 'Legal obligation to upgrade' },
-  { factor: 'Council contract', weight: '+15 pts', why: 'Public sector = defined budget' },
-  { factor: 'Affluent postcode', weight: '+10 pts', why: 'Budget availability higher' },
-  { factor: 'Fresh signal', weight: '+5 pts', why: 'Less shopped = better chance' },
+  { factor: 'Trade and CPV code match', weight: 'HIGH', why: 'Wrong trade code = no fit. CPV codes are set by the buyer.' },
+  { factor: 'Delivery region overlap', weight: 'HIGH', why: 'Contract outside your area wastes bid cost and time.' },
+  { factor: 'Notice stage and deadline', weight: 'HIGH', why: 'Expired or pre-market notices have no response window.' },
+  { factor: 'Contract value vs firm ceiling', weight: 'MED', why: 'Overbidding on value raises qualification barriers.' },
+  { factor: 'Direct bid or subcontract route', weight: 'MED', why: 'Not every notice is directly biddable for a 5–25-person firm.' },
+  { factor: 'Buyer evidence published', weight: 'MED', why: 'Buyers with published history are easier to qualify against.' },
+  { factor: 'Requirements vs firm evidence', weight: 'MED', why: 'ISO, accreditation or turnover gaps shown before you start.' },
 ];
 
-const readinessFactors = [
-  { signal: 'Planning approved + recent sale', readiness: 'READY', meaning: 'Homeowner invested. Ready to proceed.' },
-  { signal: 'Planning submitted only', readiness: 'VERIFY', meaning: 'Interest confirmed. Verify timeline.' },
-  { signal: 'No official data', readiness: 'LOW CONFIDENCE', meaning: 'No verification. Check before spending time.' },
-  { signal: 'Old signal (>14 days)', readiness: 'LOW CONFIDENCE', meaning: 'Likely shopped or cancelled.' },
+const decisionTiers = [
+  { signal: 'Strong trade fit + within region + open deadline', readiness: 'BID', meaning: 'Evidence supports a direct bid. Verify requirements before committing time.' },
+  { signal: 'Partial fit or deadline approaching', readiness: 'WATCH', meaning: 'Monitor for re-tendering or framework lots. Not ready to bid today.' },
+  { signal: 'Scope too large or direct bid not viable for firm size', readiness: 'SUBCONTRACT', meaning: 'Route in as a subcontractor to the principal. Smaller exposure, still real work.' },
+  { signal: 'Wrong trade, region or deadline passed', readiness: 'SKIP', meaning: 'No qualified fit. Move on. Empty results save bid time.' },
 ];
 
 export function MethodologyPage() {
@@ -72,10 +72,10 @@ export function MethodologyPage() {
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">METHODOLOGY</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-6xl">
-          HOW WE TURN OFFICIAL DATA INTO SCORED LEADS.
+          HOW JOBFILTER QUALIFIES PUBLIC WORKS OPPORTUNITIES.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-bold text-white/85">
-          No guesswork. No scraped job boards. Every lead comes from a verified official register, scored for intent, and in your hands before Checkatrade or MyBuilder even know the job exists.
+          No guesswork. Every result comes from the official Find a Tender register, matched against your firm and qualified for trade, region, value and deadline. The decision — BID, WATCH, SUBCONTRACT or SKIP — comes first. The evidence backs it up.
         </p>
       </section>
 
@@ -113,12 +113,12 @@ export function MethodologyPage() {
 
       {/* Scoring */}
       <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">DECISION POLICY — BID / WATCH / SUBCONTRACT / SKIP</p>
+        <p className="micro-label text-[var(--ink)]">FIT SCORE — WHAT DRIVES IT</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          WHAT MAKES A LEAD WORTH CHASING?
+          WHAT MAKES A NOTICE WORTH YOUR BID TIME?
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/80">
-          Every notice gets an action backed by a 0–100 score and its evidence. GOLD is 80+, SILVER 50–79, BRONZE 30–49, and anything below 30 is a SKIP.
+          Every notice gets a 0–100 score backed by evidence. GOLD is 80+, SILVER 50–79, BRONZE 30–49. Anything below 30 is a SKIP. The score explains the decision — it never replaces it.
         </p>
 
         <div className="mt-8 grid gap-3">
@@ -129,7 +129,7 @@ export function MethodologyPage() {
                 <span className="font-black text-[var(--ink)]">{f.factor}</span>
               </div>
               <div className="flex items-center gap-4 text-sm">
-                <span className="font-mono font-black text-[var(--yellow)]">{f.weight}</span>
+                <span className={`font-mono font-black px-2 py-0.5 border-2 border-[var(--line)] ${f.weight === 'HIGH' ? 'bg-[var(--ink)] text-[var(--yellow)]' : 'bg-white text-[var(--ink)]'}`}>{f.weight}</span>
                 <span className="text-[var(--muted)] font-bold">{f.why}</span>
               </div>
             </div>
@@ -138,32 +138,34 @@ export function MethodologyPage() {
 
         <div className="mt-6 p-4 border-2 border-[var(--ink)] bg-white">
           <p className="text-sm font-black text-[var(--ink)]">
-            <strong>Transparency:</strong> We show you every factor that contributed to the score. You see what we see.
+            Every factor that contributed to the score is shown. You see what we see — no black box.
           </p>
         </div>
       </section>
 
-      {/* Lead Readiness */}
+      {/* Decision Tiers */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">LEAD READINESS</p>
+        <p className="micro-label text-[var(--orange)]">DECISION TIERS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          HOW WE SPOT TIME-WASTERS BEFORE YOU DO.
+          BID. WATCH. SUBCONTRACT. SKIP.
         </h2>
-        <p className="mt-4 max-w-2xl copy">
-          Dead leads cost tradesmen £2,000-5,000 a year. We flag weak signals before you waste fuel.
+        <p className="mt-4 max-w-2xl font-bold text-[var(--muted)]">
+          Every qualified notice produces one of four decisions. The decision is qualification support — not a promise of work or an exclusive claim on the opportunity.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {readinessFactors.map((g) => (
+          {decisionTiers.map((g) => (
             <div key={g.signal} className={`jf-box p-5 border-2 ${
-              g.readiness === 'READY' ? 'border-[var(--green)] bg-[var(--green)]/5' :
-              g.readiness === 'VERIFY' ? 'border-[var(--yellow)] bg-[var(--yellow)]/5' :
+              g.readiness === 'BID' ? 'border-[var(--green)] bg-[var(--green)]/5' :
+              g.readiness === 'WATCH' ? 'border-[var(--yellow)] bg-[var(--yellow)]/5' :
+              g.readiness === 'SUBCONTRACT' ? 'border-[var(--navy)] bg-[var(--navy)]/5' :
               'border-[var(--orange)] bg-[var(--orange)]/5'
             }`}>
               <div className="flex items-center gap-2 mb-2">
                 <span className={`micro-label ${
-                  g.readiness === 'READY' ? 'text-[var(--green)]' :
-                  g.readiness === 'VERIFY' ? 'text-[var(--yellow)]' :
+                  g.readiness === 'BID' ? 'text-[var(--green)]' :
+                  g.readiness === 'WATCH' ? 'text-[var(--ink)]' :
+                  g.readiness === 'SUBCONTRACT' ? 'text-[var(--navy)]' :
                   'text-[var(--orange)]'
                 }`}>{g.readiness}</span>
               </div>
@@ -174,24 +176,24 @@ export function MethodologyPage() {
         </div>
       </section>
 
-      {/* Data Sources Detail */}
+      {/* Source */}
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
-        <p className="micro-label text-[var(--yellow)]">DATA SOURCES</p>
+        <p className="micro-label text-[var(--yellow)]">DATA SOURCE</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          OFFICIAL REGISTERS. NOT GUESSES.
+          FIND A TENDER. OFFICIAL. FREE. PUBLIC.
         </h2>
+        <p className="mt-4 max-w-2xl text-lg font-bold text-white/85">
+          Find a Tender is the UK government's official public procurement register. JobFilter qualifies the notices — it does not control them, gate them, or sell access to them. Every result links to the official source.
+        </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            'Planning applications (400+ councils)',
-            'Energy efficiency registers',
-            'Property transaction data',
-            'Company registration data',
-            'Public contract notices',
-            'Public tender notices',
-            'Building Control notices',
-            'HMO licensing records',
-            'Property auction listings',
+            'Find a Tender (FTS) — official source',
+            'UK public buyers: councils, NHS, housing',
+            'CPV codes — buyer-defined trade categories',
+            'Published values and notice stages',
+            'Official response routes and deadlines',
+            'Open Government Licence v3.0 data',
           ].map((source) => (
             <div key={source} className="flex items-center gap-3 border-2 border-white/20 p-4">
               <CheckCircle size={18} strokeWidth={3} className="text-[var(--yellow)] shrink-0" />
@@ -200,8 +202,8 @@ export function MethodologyPage() {
           ))}
         </div>
 
-        <p className="mt-6 text-sm font-black text-white/70">
-          All data used under Open Government Licence v3.0. No private data. No scraping.
+        <p className="mt-6 text-sm font-black text-white/60">
+          Coverage varies by trade, region and what buyers publish. An empty scan is a valid and honest result.
         </p>
       </section>
 
@@ -211,17 +213,17 @@ export function MethodologyPage() {
           SEE IT IN ACTION.
         </h2>
         <p className="mt-4 max-w-xl mx-auto text-lg font-bold text-[var(--ink)]/80">
-          Free scan. No credit card required. See real scored leads in your area — before Checkatrade or Bark list them.
+          Run a free scan against current Find a Tender notices. See which public works opportunities match your firm before committing bid time.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">
-            SCAN MY AREA FREE →
+            SCAN FREE — NO CARD NEEDED →
           </Link>
-          <Link href="/trust" className="jf-button bg-white text-[var(--ink)]">
-            READ OUR PROMISE →
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">
+            CHECK PRICING →
           </Link>
         </div>
-        <p className="mt-3 text-sm font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
+        <p className="mt-3 text-sm font-black text-[var(--ink)]/60">No credit card required. Coverage varies by trade, region and timing.</p>
       </section>
     </main>
   );
