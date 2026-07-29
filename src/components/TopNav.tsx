@@ -8,7 +8,7 @@ const publicLinks = [
   { to: '/find-jobs', label: 'Find Opportunities' },
   { to: '/methodology', label: 'How It Works' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/free-tools', label: 'Free Tools' },
+  { to: '/trust', label: 'Trust' },
 ];
 
 const memberLinks = [

@@ -9,7 +9,7 @@ const pipelineSteps = [
     label: 'FETCH',
     icon: Radar,
     body: 'Pull current notices from Find a Tender — the official UK public contract register. Every notice is a published buyer requirement, not a scraped listing.',
-    detail: 'Find a Tender publishes contract notices from UK public bodies: councils, NHS trusts, housing associations, utilities and central government. Free and public.',
+    detail: 'Find a Tender is the primary current procurement source. It publishes contract notices from UK public bodies: councils, NHS trusts, housing associations, utilities and central government. Additional sources may appear in results where enabled.',
   },
   {
     num: '02',
@@ -22,8 +22,8 @@ const pipelineSteps = [
     num: '03',
     label: 'MATCH',
     icon: Layers,
-    body: 'Compare notice requirements against your firm profile: services you deliver, your delivery region, contract size range and whether you can bid directly or via a subcontract route.',
-    detail: 'Firm-aware means the result is specific to your business. A roofer in Leeds sees different notices to a plumber in Bristol. Incomplete profiles produce honest gaps, not guesses.',
+    body: 'Filter results by trade type and delivery postcode. The active feed is scoped to notices relevant to your trade category in your area.',
+    detail: 'A roofer in Leeds sees different results to a plumber in Bristol. Contract-level qualification — ceilings, accreditation gaps, bid-route fit — is assessed at the decision stage against each specific notice.',
   },
   {
     num: '04',
@@ -75,7 +75,7 @@ export function MethodologyPage() {
           HOW JOBFILTER QUALIFIES PUBLIC WORKS OPPORTUNITIES.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-bold text-white/85">
-          No guesswork. Every result comes from the official Find a Tender register, matched against your firm and qualified for trade, region, value and deadline. The decision — BID, WATCH, SUBCONTRACT or SKIP — comes first. The evidence backs it up.
+          No guesswork. Find a Tender is the primary current procurement source — official notices from UK public buyers, qualified for trade, region, value and deadline. The decision — BID, WATCH, SUBCONTRACT or SKIP — comes first. The evidence backs it up.
         </p>
       </section>
 
