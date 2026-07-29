@@ -437,10 +437,10 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'All 3 free scans used. Who to call is locked — upgrade to see buyer contact on every lead.'}
             </p>
             {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
+              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">SEE WHO TO CALL — £39/MO →</Link>
             ) : weeklyScansUsed > 0 ? (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
             ) : null}
@@ -716,7 +716,7 @@ export function FindJobsPage() {
                         These {commercialCount} public opportunit{commercialCount === 1 ? 'y has' : 'ies have'} buyer evidence. Full access shows the buyer, published value where available, deadline and official response route. Other suppliers may pursue the same notice.
                       </p>
                       <Link href="/pricing" className="mt-3 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition">
-                        SEE BUYER & SUBMISSION CONTEXT →
+                        SEE WHO TO CALL — £39/MO →
                       </Link>
                       <p className="mt-1.5 text-xs font-black text-white/70">No credit card required to browse</p>
                       <p className="mt-0.5 text-xs font-black text-[var(--yellow)]/80">PUBLIC NOTICE — ACCESS IS NOT EXCLUSIVE</p>
@@ -735,8 +735,8 @@ export function FindJobsPage() {
                         {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
+                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE WHO TO CALL — £39/MO →</Link>
+                        <span className="text-xs font-black text-white/50">No credit card required · public tender</span>
                       </div>
                     </div>
                   )}
@@ -785,11 +785,11 @@ export function FindJobsPage() {
                       : 'SEE BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE WHO TO CALL — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Unlocks buyer name, contact, published value, deadline and official response route. Verified official sources — no shared auction, no five-trade blast. Public opportunities that other suppliers may also pursue.
                   </p>
                 </section>
               )}
@@ -915,7 +915,81 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+// Per-trade title keywords → specific label shown in the WHY popup
+const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
+  electrical: [
+    ['EV CHARGER', 'EV CHARGER'],
+    ['EV CHARGING', 'EV CHARGER'],
+    ['ELECTRIC VEHICLE', 'EV CHARGER'],
+    ['REWIRE', 'REWIRE'],
+    ['CONSUMER UNIT', 'CONSUMER UNIT'],
+    ['FUSE BOARD', 'CONSUMER UNIT'],
+    ['EICR', 'LANDLORD EICR'],
+    ['SOLAR PV', 'SOLAR PV'],
+    ['SOLAR', 'SOLAR'],
+    ['HEAT PUMP', 'HEAT PUMP ELEC'],
+  ],
+  plumbing: [
+    ['BOILER', 'BOILER REPLACE'],
+    ['BATHROOM', 'BATHROOM FIT'],
+    ['WET ROOM', 'WET ROOM'],
+    ['EN SUITE', 'EN SUITE'],
+    ['UNDERFLOOR', 'UNDERFLOOR HEAT'],
+    ['HOT WATER', 'HOT WATER'],
+  ],
+  hvac: [
+    ['HEAT PUMP', 'HEAT PUMP'],
+    ['AIR SOURCE', 'AIR SOURCE HP'],
+    ['AIR CONDITIONING', 'AIR CON'],
+    ['VENTILATION', 'VENTILATION'],
+    ['DUCTING', 'DUCTWORK'],
+  ],
+  roofing: [
+    ['FLAT ROOF', 'FLAT ROOF'],
+    ['GUTTERING', 'GUTTER WORK'],
+    ['FASCIA', 'FASCIA / SOFFIT'],
+    ['SOFFIT', 'FASCIA / SOFFIT'],
+    ['CHIMNEY', 'CHIMNEY'],
+    ['SKYLIGHT', 'SKYLIGHT'],
+  ],
+  building: [
+    ['EXTENSION', 'EXTENSION'],
+    ['LOFT CONVERSION', 'LOFT CONVERSION'],
+    ['GARAGE CONVERSION', 'GARAGE CONVERSION'],
+    ['NEW BUILD', 'NEW BUILD'],
+    ['REFURB', 'FULL REFURB'],
+    ['CONSERVATORY', 'CONSERVATORY'],
+  ],
+  landscaping: [
+    ['DRIVEWAY', 'DRIVEWAY'],
+    ['FENCING', 'FENCING'],
+    ['DECKING', 'DECKING'],
+    ['PATIO', 'PATIO'],
+    ['BLOCK PAVING', 'BLOCK PAVING'],
+    ['TURFING', 'TURFING'],
+  ],
+  carpentry: [
+    ['KITCHEN', 'KITCHEN FIT'],
+    ['STAIRCASE', 'STAIRCASE'],
+    ['FLOORING', 'FLOORING'],
+    ['WINDOW', 'WINDOW FIT'],
+  ],
+  painting: [
+    ['DECORATING', 'DECORATING'],
+    ['PLASTERING', 'PLASTERING'],
+    ['RENDER', 'RENDER / COAT'],
+    ['EXTERIOR', 'EXTERIOR PAINT'],
+  ],
+};
+
+// Generic single-trade labels that title enrichment can replace with something specific
+const GENERIC_TRADE_LABELS = new Set([
+  'ELECTRICAL — YOUR TRADE', 'PLUMBING — YOUR TRADE', 'ROOFING — YOUR TRADE',
+  'BUILDING — YOUR TRADE', 'HVAC — YOUR TRADE', 'LANDSCAPING — YOUR TRADE',
+  'CARPENTRY — YOUR TRADE', 'PAINTING — YOUR TRADE',
+]);
+
+function parseTradeReasons(raw: string[], title?: string, trade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,6 +1022,28 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
+
+  // Enrich: replace generic "ELECTRICAL — YOUR TRADE" with specific job type from title
+  if (title && trade) {
+    const signals = TRADE_TITLE_SIGNALS[trade];
+    if (signals) {
+      const titleUpper = title.toUpperCase();
+      const existingLabels = new Set(out.map(r => r.label));
+      for (const [keyword, specific] of signals) {
+        if (!titleUpper.includes(keyword)) continue;
+        const fullLabel = `${specific} — YOUR TRADE`;
+        if (existingLabels.has(fullLabel)) break; // already present
+        const genericIdx = out.findIndex(r => r.highlight && GENERIC_TRADE_LABELS.has(r.label));
+        if (genericIdx !== -1) {
+          out[genericIdx] = { label: fullLabel, highlight: true }; // swap generic for specific
+        } else if (!out.some(r => r.highlight)) {
+          out.unshift({ label: fullLabel, highlight: true }); // inject if no highlighted reason yet
+        }
+        break;
+      }
+    }
+  }
+
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
@@ -1142,7 +1238,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead.title, lead.trade as string);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
