@@ -1043,7 +1043,7 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
       // Teaser labels are the stem of each generic (e.g. "ELECTRICAL" from "ELECTRICAL — YOUR TRADE")
       const teaserGenerics = tradeGenerics ? new Set([...tradeGenerics].map(l => l.replace(' — YOUR TRADE', ''))) : undefined;
       for (const [keyword, specific] of signals) {
-        if (!titleUpper.includes(keyword)) continue;
+        if (!new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(titleUpper)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
         const genericIdx = out.findIndex(r =>
           (r.highlight && (tradeGenerics?.has(r.label) ?? false)) ||
