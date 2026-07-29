@@ -106,7 +106,7 @@ export function LeadListPage() {
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-bold text-white/90">
-          Decisions on current Find a Tender notices — qualified against your trade, region and firm evidence. Every result stays tied to its official public source.
+          Decisions on public works notices — filtered by trade type and delivery region. Each result links to its official public source.
         </p>
       </div>
 
