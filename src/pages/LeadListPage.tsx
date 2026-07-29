@@ -120,7 +120,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-bold leading-snug text-white/85">
-              Trade, region, deadline, value and evidence — combined into one score. GOLD 80+ supports a BID decision. SILVER 50–79 is WATCH. Below 30 is SKIP. The score backs the decision — it does not replace your judgement.
+              Trade, region, deadline, value and evidence — combined into one score. GOLD 80+, SILVER 50–79, BRONZE 30–49. GOLD with a contact path supports BID. Large or awarded contracts are SUBCONTRACT regardless of score. Below 30 is SKIP. The score backs the decision — it does not replace your judgement.
             </p>
           </div>
         </div>
