@@ -944,7 +944,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
   ],
   hvac: [
     ['HEAT PUMP', 'HEAT PUMP'],
-    ['AIR SOURCE', 'AIR SOURCE HP'],
+    ['AIR SOURCE HEAT', 'AIR SOURCE HP'],
     ['AIR CONDITIONING', 'AIR CON'],
     ['VENTILATION', 'VENTILATION'],
     ['DUCTING', 'DUCTWORK'],
@@ -997,7 +997,7 @@ const GENERIC_TRADE_LABELS: Partial<Record<string, Set<string>>> = {
   carpentry: new Set(['CARPENTRY — YOUR TRADE', 'JOINERY — YOUR TRADE']),
   painting: new Set(['PAINT — YOUR TRADE', 'DECORAT — YOUR TRADE']),
   hvac: new Set(['HVAC — YOUR TRADE', 'MECHANICAL — YOUR TRADE', 'VENTILATION — YOUR TRADE']),
-  landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE']),
+  landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE', 'TURF — YOUR TRADE']),
 };
 
 function parseTradeReasons(raw: string[], title?: string, trade?: string): Array<{ label: string; highlight: boolean }> {
