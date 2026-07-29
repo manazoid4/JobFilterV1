@@ -3,7 +3,8 @@
 ## Build Status
 - **TypeScript**: CLEAN (0 errors)
 - **Production build**: PASS
-- **CI check**: PASSED ✅ (job 90508614142)
+- **CI check**: PASSED ✅ (job 90508614142, commit 73f8bdb)
+- **Latest commit**: feae3eb — CI pending (pre-existing Vercel cron failure not blocking)
 
 ## Phase 1 — Fix Broken
 No broken imports, no fake form flows found. Build was clean after `npm ci`.
@@ -18,6 +19,7 @@ Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trad
 - Roofers, builders, HVAC, landscapers, carpenters, painters all have trade-specific labels
 - Logic: if a "Trade match" reason produces a generic single-trade label (matched against `GENERIC_TRADE_LABELS` per trade), it's swapped for a specific job-type label extracted from the lead title
 - `LeadResultCard` updated with `scanTrade` prop; `submittedTrade` state captures the trade at scan time — dropdown changes mid-results cannot re-interpret labels
+- Preview teaser support: `teaserGenerics` derived from `GENERIC_TRADE_LABELS` enables enrichment for free-tier users whose reasons come back as `Trade teaser: keyword` (unhighlighted, no `— YOUR TRADE` suffix)
 
 ## Phase 3 — Copy Fixed
 
@@ -26,7 +28,7 @@ Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trad
 - **All upgrade CTAs unified** to `SEE WHO TO CALL — £39/MO →` across: scan counter banner, commercial filter gate, mid-list gold interstitial, main yellow upsell section
 - Added "No credit card required" to mid-list interstitial
 - **Upgrade gate body copy**: "Verified official sources — no shared auction, no five-trade blast" added
-- **Upsell section** (line 797): buyer-details promise qualified — "Shows the official submission route for every lead, plus buyer name, contact and published value where the source includes them."
+- **Upsell section**: buyer-details promise qualified — "Shows the official submission route for every lead, plus buyer name, contact and published value where the source includes them."
 
 ### PricingPage
 - "No credit card required" added inline next to SCAN FREE CTA on hero section and bottom section
@@ -44,11 +46,8 @@ Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trad
 - Mobile quick-link: `CHECK FTS` → `FIND JOBS →`
 - Mobile bottom CTA: `CHECK FIND A TENDER FREE` → `SCAN FOR JOBS FREE — NO CARD →`
 
-**CRITIC**: Is the fix clearer in <3 seconds? **YES** — "SCAN FOR JOBS FREE" is instantly understood by any tradesperson.
-**REVENUE**: Does it increase likelihood of paying £39/month? **YES** — more tradespeople clicking through to the scanner means more people seeing the lead list and hitting the upgrade gate.
-
-## Codex P2 Fixes Applied (5 rounds)
-All 9 Codex review threads addressed and replied to:
+## Codex P2 Fixes Applied (7 rounds, 11 comments)
+All 11 Codex review threads addressed and replied to:
 1. Enrichment no longer manufactures highlighted reasons without a scored trade match
 2. Buyer contact promise qualified (scan counter banner and upsell section)
 3. `scanTrade` prop added; `submittedTrade` state binds enrichment to scan time
@@ -58,14 +57,28 @@ All 9 Codex review threads addressed and replied to:
 7. `REWIR` stem matches REWIRE/REWIRING/REWIRED
 8. `BOILER REPLACE` → `BOILER WORK` (neutral, doesn't imply replacement scope)
 9. `FULL REFURB` → `REFURBISHMENT` (neutral, doesn't imply full scope)
+10. Preview teaser enrichment: `teaserGenerics` path fires for free-tier users
+11. `UNDERFLOOR` → `UNDERFLOOR HEAT` keyword (prevents drainage-title false positive)
+12. Generic-equals-specific guard: only splice genericIdx when `out[genericIdx].label !== fullLabel`
+13. Duplicate teaser dedup: remove `!r.highlight && r.label === specific` after promotion in both branches
+
+## Commits This Run
+- `b5ea390` — trade-specific WHY popup labels + copy polish
+- `8f21c5c` — P2 fixes: generic cleanup + scan trade prop + EICR label
+- `6ac4038` — P2 fixes: submittedTrade state + REWIR stem
+- `882324a` — P2 fixes: GENERIC_TRADE_LABELS tokens + upsell copy qualified
+- `73f8bdb` — P2 fixes: BOILER WORK + REFURBISHMENT neutral labels
+- `b436702` — P2 fixes: preview teaser enrichment + UNDERFLOOR HEAT keyword
+- `5af7902` — P2 fixes: teaserGenerics path for free-tier enrichment
+- `feae3eb` — P2 fixes: generic-equals-specific guard + duplicate teaser dedup
 
 ## PR
 - Branch: `nightly-build-agent/2026-07-29`
 - PR: https://github.com/manazoid4/JobFilterV1/pull/406
-- CI: PASSED ✅
+- CI: PASSED ✅ (73f8bdb); feae3eb pending
 
 ## Next Run: Top 3 Priorities
 
 1. **Fix audience split on homepage** — the homepage hero says "PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS" but the scanner is used by sole traders. Either align the homepage to match the scanner audience or create a clearer bifurcation in the nav.
-2. **Upgrade prompt deduplication** — only 3 of 4 upgrade prompts were unified this run. Review if the commercial filter gate and full-page yellow upsell can be consolidated into one well-placed CTA.
-3. **Scan counter UX when scans = 0** — currently shows a locked state but still renders the form. Consider whether showing a "you've used all scans, here's what you saw" summary is clearer than an empty scanner.
+2. **Upgrade prompt deduplication** — reduce 4 upgrade prompts to 2 max (one mid-list, one end-of-results).
+3. **Scan counter UX when scans = 0** — consider showing a "you've used all scans, here's what you saw" summary rather than an empty scanner with a locked form.

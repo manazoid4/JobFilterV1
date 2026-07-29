@@ -1,6 +1,6 @@
 # Daily To-Do — JobFilter
 
-Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅
+Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (feae3eb pending)
 
 ## Completed this run ✅
 - [x] Trade-specific scoring UX: electrician sees EV CHARGER/REWIRE/EICR, plumber sees BOILER WORK/BATHROOM FIT in WHY? popup
@@ -10,7 +10,10 @@ Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅
 - [x] PricingPage: "No credit card required" inline next to SCAN FREE CTA
 - [x] PricingPage: Checkatrade/Bark competitor callout added
 - [x] NEEDLE site health check — 3 issues identified
-- [x] 9 Codex P2 review comments addressed across 5 push rounds; CI green ✅
+- [x] 11 Codex P2 review comments addressed across 7 push rounds; CI green ✅
+- [x] Preview teaser enrichment: free-tier users now get trade-specific labels (teaserGenerics path)
+- [x] Generic-equals-specific overlap guard: VENTILATION/REFURBISHMENT labels no longer erroneously spliced
+- [x] Duplicate teaser dedup: EV CHARGER teaser removed after promotion to EV CHARGER — YOUR TRADE
 
 ## High Priority — Next Run 🔴
 - [ ] **Homepage audience split**: hero says "5–25-person contractors" but scanner is sole-trader UX — decide on one audience and align copy throughout
@@ -26,5 +29,8 @@ Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅
 - `parseTradeReasons` is called in `LeadResultCard` inside `FindJobsPage.tsx` — NOT in the `LeadCard` component in `src/components/LeadCard.tsx`. Any changes to scoring display on the leads list page must go in `FindJobsPage.tsx`.
 - `GENERIC_TRADE_LABELS` is now a per-trade `Record<string, Set<string>>` — keys are the exact scorer keyword tokens (e.g. `PLUMB — YOUR TRADE`, not `PLUMBING — YOUR TRADE`). Must match `leadEngine/scorer.ts` TRADE_KEYWORDS high-tier strings.
 - `submittedTrade` state captures the trade at scan time; `scanTrade={submittedTrade ?? trade}` passed to `LeadResultCard` — do not revert to `trade` (mutable form state).
+- `teaserGenerics` is derived at runtime by stripping `' — YOUR TRADE'` from each entry in `GENERIC_TRADE_LABELS[trade]` — enables enrichment to match unhighlighted preview teaser labels (free-tier users).
+- Generic-equals-specific guard: when `out[genericIdx].label === fullLabel` (label is in both TRADE_TITLE_SIGNALS and GENERIC_TRADE_LABELS), do NOT splice — it removes the only confirmed trade-match chip.
+- Duplicate teaser dedup: after any swap/keep, find `!r.highlight && r.label === specific` and splice — prevents `EV CHARGER` teaser coexisting with `EV CHARGER — YOUR TRADE`.
 - `vercel.json` has hourly cron (`0 * * * *`) which fails Hobby plan preview deployments — pre-existing, not blocking the required `check` CI job.
 - Vault directory is NOT in the repo on clone — agent must `mkdir -p` on each run.
