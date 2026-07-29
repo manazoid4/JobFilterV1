@@ -388,7 +388,7 @@ export function FindJobsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           postcode,
-          trade,
+          trade: capturedTrade,
           radiusMiles: Math.max(radiusMiles, 25),
           mode: scanMode,
         }),
@@ -974,7 +974,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['TURFING', 'TURFING'],
   ],
   carpentry: [
-    ['KITCHEN', 'KITCHEN FIT'],
+    ['KITCHEN', 'KITCHEN WORK'],
     ['STAIRCASE', 'STAIRCASE'],
     ['FLOORING', 'FLOORING'],
     ['WINDOW', 'WINDOW FIT'],
