@@ -106,7 +106,7 @@ export function LeadListPage() {
           YOUR LEADS
         </h1>
         <p className="mt-3 max-w-xl text-lg font-bold text-white/90">
-          Not recycled from Checkatrade or Bark. Every signal here comes from verified official UK sources — scored by your trade, patch, and urgency before it reaches you.
+          Decisions on current Find a Tender notices — qualified against your trade, region and firm evidence. Every result stays tied to its official public source.
         </p>
       </div>
 
@@ -120,7 +120,7 @@ export function LeadListPage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">HOW IT'S SCORED</p>
             <p className="mt-1 text-[14px] font-bold leading-snug text-white/85">
-              Your trade, how far from your base, urgency, job value, and verified evidence — combined into one score. GOLD means call today. SILVER means watch it. BRONZE means worth a look when work is quiet.
+              Trade, region, deadline, value and evidence — combined into one score. GOLD 80+ supports a BID decision. SILVER 50–79 is WATCH. Below 30 is SKIP. The score backs the decision — it does not replace your judgement.
             </p>
           </div>
         </div>
@@ -156,7 +156,7 @@ export function LeadListPage() {
             TIP
           </span>
           <p className="text-sm font-black text-[var(--navy)]">
-            Call GOLD leads the same day. Response rate drops significantly after 24 hours.
+            Check the official source link for deadlines before committing bid time. Published deadlines are set by the buyer, not JobFilter.
           </p>
         </div>
       )}
