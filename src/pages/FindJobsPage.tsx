@@ -1050,11 +1050,17 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
           (!r.highlight && (teaserGenerics?.has(r.label) ?? false))
         );
         if (out.some(r => r.label === fullLabel)) {
-          // Specific already scored — just clean up the generic label if it also snuck in
-          if (genericIdx !== -1) out.splice(genericIdx, 1);
+          // Full "SPECIFIC — YOUR TRADE" already present — remove generic only when it's a different entry
+          if (genericIdx !== -1 && out[genericIdx].label !== fullLabel) out.splice(genericIdx, 1);
+          // Also remove any unhighlighted teaser with the same stem (avoid paid label + teaser duplicate)
+          const stemIdx = out.findIndex(r => !r.highlight && r.label === specific);
+          if (stemIdx !== -1) out.splice(stemIdx, 1);
         } else if (genericIdx !== -1) {
           // Swap the generic for the specific — only when scorer confirmed a trade match
           out[genericIdx] = { label: fullLabel, highlight: true };
+          // Remove any remaining unhighlighted teaser with the same stem (e.g. "EV CHARGER" teaser after promotion)
+          const stemIdx = out.findIndex(r => !r.highlight && r.label === specific);
+          if (stemIdx !== -1) out.splice(stemIdx, 1);
         }
         break;
       }
