@@ -94,10 +94,15 @@ export async function GET() {
   const contributors = contributorErr || valueContributorCount === null ? 0 : valueContributorCount;
   const displayValue = !valueQueryFailed && contributors >= MIN_COHORT ? totalValue : 0;
 
-  return Response.json({
-    ok: true,
-    wonCount,
-    totalValueFormatted: displayValue > 0 ? formatValue(displayValue) : '',
-    message: buildMessage(wonCount, displayValue),
-  });
+  // Cache national aggregate at CDN layer — results change rarely and the endpoint
+  // is called on every postcode keystroke via WinStatsBanner.
+  return Response.json(
+    {
+      ok: true,
+      wonCount,
+      totalValueFormatted: displayValue > 0 ? formatValue(displayValue) : '',
+      message: buildMessage(wonCount, displayValue),
+    },
+    { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } },
+  );
 }
