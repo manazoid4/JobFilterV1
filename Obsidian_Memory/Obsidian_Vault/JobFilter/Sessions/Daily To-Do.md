@@ -28,6 +28,7 @@ Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (db977bf — all 
 - [x] GUTTERING → GUTTER stem (matches base noun "gutter" titles)
 
 ## High Priority — Next Run 🔴
+- [ ] **Server-side preview enrichment**: `buildPreviewReasons()` redacts planning/CompaniesHouse/LandRegistry/EPC/directory titles before client receives them, so `TRADE_TITLE_SIGNALS` enrichment can't fire for those leads. Fix: either (a) add `jobTypeSignal` field to preview payload with matched specific keyword, or (b) move enrichment into `buildPreviewReasons()` server-side and emit specific label in `Trade teaser:` string directly. File: `server/routes/leadsSearch.ts:187-209`.
 - [ ] **Homepage audience split**: hero says "5–25-person contractors" but scanner is sole-trader UX — decide on one audience and align copy throughout
 - [ ] **Scan=0 empty state**: when all free scans used, scanner form is still visible but confusing — consider a "here's what you found, upgrade to call them" summary instead
 - [ ] **Vault directory**: Obsidian_Memory not committed to repo — agent needs to create on each run (no persistence between sessions)
