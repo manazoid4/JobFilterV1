@@ -373,7 +373,7 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     setFillWeekPhase('Fetching current public works notices for your region...');
     await new Promise(r => setTimeout(r, 800));
-    setFillWeekPhase('Qualifying notices against your trade and firm profile...');
+    setFillWeekPhase('Qualifying notices by trade type and delivery region...');
     await new Promise(r => setTimeout(r, 600));
     setFillWeekPhase('Scoring and ranking by fit evidence...');
     await new Promise(r => setTimeout(r, 400));
@@ -634,7 +634,7 @@ export function FindJobsPage() {
       {loading && !fillWeekLoading && (
         <section role="status" aria-live="polite" aria-atomic="true" className="jf-box bg-[var(--navy)] p-5 text-white">
           <p className="micro-label text-[var(--yellow)]">SCANNING</p>
-          <p className="mt-2 text-xl font-black">Checking current public works notices. Qualifying against your firm profile.</p>
+          <p className="mt-2 text-xl font-black">Checking current public works notices. Filtering by trade type and delivery region.</p>
         </section>
       )}
 

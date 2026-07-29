@@ -15,7 +15,7 @@ const qualityFilterSteps = [
   {
     num: '01',
     title: 'Official data only',
-    body: 'Every notice comes from Find a Tender — the UK government\'s official public procurement register. No scraped directories. No user-submitted enquiries.',
+    body: 'Find a Tender is the primary current procurement source — the UK government\'s official public procurement register. Additional verified public sources may appear in results where enabled. No scraped directories. No user-submitted enquiries.',
     icon: Database,
   },
   {
@@ -78,7 +78,7 @@ export function TrustCenterPage() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { label: 'BID', score: 'GOLD 80+', action: 'Evidence and contact route support a direct bid. Verify requirements before committing time.', color: 'bg-[var(--green)]/10 border-[var(--green)]', textColor: 'text-[var(--green)]', icon: Trophy },
-            { label: 'WATCH', score: 'SILVER 50–79', action: 'Notice matched but missing evidence or contact route. Verify before committing bid time.', color: 'bg-[var(--yellow)]/10 border-[var(--yellow)]', textColor: 'text-[var(--ink)]', icon: Medal },
+            { label: 'WATCH', score: 'Score 30–79, or GOLD without contact path', action: 'Notice matched but missing evidence or contact route. Verify before committing bid time.', color: 'bg-[var(--yellow)]/10 border-[var(--yellow)]', textColor: 'text-[var(--ink)]', icon: Medal },
             { label: 'SUBCONTRACT', score: 'Large or awarded', action: 'Too large or already awarded for a direct bid — route in via the principal contractor.', color: 'bg-[var(--navy)]/10 border-[var(--navy)]', textColor: 'text-[var(--navy)]', icon: AlertTriangle },
             { label: 'SKIP', score: 'Below 30', action: 'Insufficient evidence for this opportunity. Move on — empty results save bid time.', color: 'bg-[var(--orange)]/10 border-[var(--orange)]', textColor: 'text-[var(--orange)]', icon: Crown },
           ].map(({ label, score, action, color, textColor, icon: Icon }) => (
@@ -108,7 +108,7 @@ export function TrustCenterPage() {
           OFFICIAL SOURCE. OPEN LICENCE. NO MANUFACTURED INVENTORY.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
-          JobFilter does not generate leads. It qualifies official public notices that buyers publish on Find a Tender.
+          JobFilter does not generate leads. It qualifies official public notices from Find a Tender and other enabled verified sources.
         </p>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
