@@ -10,7 +10,6 @@ const staticRoutes: { url: string; changeFrequency: MetadataRoute.Sitemap[number
   { url: '/find-jobs', changeFrequency: 'weekly', priority: 0.9 },
   { url: '/pricing', changeFrequency: 'monthly', priority: 0.9 },
   { url: '/features', changeFrequency: 'monthly', priority: 0.8 },
-  { url: '/signals', changeFrequency: 'weekly', priority: 0.8 },
   { url: '/free-tools', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/for-your-trade', changeFrequency: 'monthly', priority: 0.7 },
   { url: '/news', changeFrequency: 'weekly', priority: 0.6 },
