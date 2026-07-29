@@ -1,19 +1,31 @@
 # Daily To-Do — JobFilter
 
-Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (feae3eb pending)
+Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (db977bf — all 26 P2 threads resolved)
 
 ## Completed this run ✅
-- [x] Trade-specific scoring UX: electrician sees EV CHARGER/REWIRE/EICR, plumber sees BOILER WORK/BATHROOM FIT in WHY? popup
+- [x] Trade-specific scoring UX: electrician sees EV CHARGER/REWIRE/EICR, plumber sees BOILER WORK/BATHROOM WORK in WHY? popup
 - [x] Nav CTA "CHECK FTS FREE" → "SCAN FOR JOBS FREE →" (FTS acronym removed)
 - [x] All upgrade CTAs unified to "SEE WHO TO CALL — £39/MO →"
 - [x] 0-scans-remaining message rewritten from B2B jargon to plain tradesman language
 - [x] PricingPage: "No credit card required" inline next to SCAN FREE CTA
 - [x] PricingPage: Checkatrade/Bark competitor callout added
 - [x] NEEDLE site health check — 3 issues identified
-- [x] 11 Codex P2 review comments addressed across 7 push rounds; CI green ✅
+- [x] 26 Codex P2 review comments addressed across 14 push rounds; CI green ✅
 - [x] Preview teaser enrichment: free-tier users now get trade-specific labels (teaserGenerics path)
 - [x] Generic-equals-specific overlap guard: VENTILATION/REFURBISHMENT labels no longer erroneously spliced
 - [x] Duplicate teaser dedup: EV CHARGER teaser removed after promotion to EV CHARGER — YOUR TRADE
+- [x] Multi-generic cleanup: reverse loop removes all generic siblings (ROOF/ROOFING + FLAT ROOF → only FLAT ROOF — YOUR TRADE)
+- [x] removeKeywordLabel helper: BOILER/GUTTER/BATHROOM/WINDOW original scored labels removed when mapping rewrites keyword
+- [x] fillMyWeek header uses submittedTrade ?? trade (not mutable form state)
+- [x] fillMyWeek fetch body sends capturedTrade (not mutable trade)
+- [x] submit() clears fillWeekResult to prevent cross-result enrichment bleed
+- [x] ELECTRIC VEHICLE entry removed (too broad — fleet maintenance ≠ charger work)
+- [x] AIR SOURCE → AIR SOURCE HEAT (requires heat pump context)
+- [x] TURF — YOUR TRADE added to GENERIC_TRADE_LABELS.landscaping
+- [x] BATHROOM FIT → BATHROOM WORK (neutral)
+- [x] KITCHEN FIT → KITCHEN WORK (neutral)
+- [x] WINDOW FIT → WINDOW WORK (neutral)
+- [x] GUTTERING → GUTTER stem (matches base noun "gutter" titles)
 
 ## High Priority — Next Run 🔴
 - [ ] **Homepage audience split**: hero says "5–25-person contractors" but scanner is sole-trader UX — decide on one audience and align copy throughout
@@ -27,10 +39,14 @@ Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (feae3eb pending)
 
 ## Discovered this run — do not break
 - `parseTradeReasons` is called in `LeadResultCard` inside `FindJobsPage.tsx` — NOT in the `LeadCard` component in `src/components/LeadCard.tsx`. Any changes to scoring display on the leads list page must go in `FindJobsPage.tsx`.
-- `GENERIC_TRADE_LABELS` is now a per-trade `Record<string, Set<string>>` — keys are the exact scorer keyword tokens (e.g. `PLUMB — YOUR TRADE`, not `PLUMBING — YOUR TRADE`). Must match `leadEngine/scorer.ts` TRADE_KEYWORDS high-tier strings.
+- `GENERIC_TRADE_LABELS` is now a per-trade `Record<string, Set<string>>` — keys are the exact scorer keyword tokens (e.g. `PLUMB — YOUR TRADE`, not `PLUMBING — YOUR TRADE`). Must match `leadEngine/scorer.ts` TRADE_KEYWORDS high-tier strings. Includes `TURF — YOUR TRADE` in landscaping.
 - `submittedTrade` state captures the trade at scan time; `scanTrade={submittedTrade ?? trade}` passed to `LeadResultCard` — do not revert to `trade` (mutable form state).
+- `capturedTrade`: local variable at top of `fillMyWeek()` — BOTH the fetch body AND `setSubmittedTrade` must use this snapshot.
 - `teaserGenerics` is derived at runtime by stripping `' — YOUR TRADE'` from each entry in `GENERIC_TRADE_LABELS[trade]` — enables enrichment to match unhighlighted preview teaser labels (free-tier users).
 - Generic-equals-specific guard: when `out[genericIdx].label === fullLabel` (label is in both TRADE_TITLE_SIGNALS and GENERIC_TRADE_LABELS), do NOT splice — it removes the only confirmed trade-match chip.
+- Multi-generic cleanup: both branches use reverse `for` loop over all `out` entries removing every entry matching `tradeGenerics`/`teaserGenerics`, skipping only `fullLabel` itself.
+- `removeKeywordLabel` helper: when `keywordFullLabel !== fullLabel` (mapping rewrites keyword), splices `${keyword} — YOUR TRADE` (paid) and `keyword` (teaser) in both branches.
 - Duplicate teaser dedup: after any swap/keep, find `!r.highlight && r.label === specific` and splice — prevents `EV CHARGER` teaser coexisting with `EV CHARGER — YOUR TRADE`.
+- `submit()` calls `setFillWeekResult(null)` alongside `setResult(null)` — prevents cross-result enrichment bleed between normal and expanded scans.
 - `vercel.json` has hourly cron (`0 * * * *`) which fails Hobby plan preview deployments — pre-existing, not blocking the required `check` CI job.
 - Vault directory is NOT in the repo on clone — agent must `mkdir -p` on each run.

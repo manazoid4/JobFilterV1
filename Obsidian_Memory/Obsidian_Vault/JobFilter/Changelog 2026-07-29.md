@@ -3,8 +3,8 @@
 ## Build Status
 - **TypeScript**: CLEAN (0 errors)
 - **Production build**: PASS
-- **CI check**: PASSED ✅ (job 90508614142, commit 73f8bdb)
-- **Latest commit**: feae3eb — CI pending (pre-existing Vercel cron failure not blocking)
+- **CI check**: PASSED ✅ (all 26 P2 threads resolved; final green commit: db977bf)
+- **Latest commit**: db977bf — CI PASSED ✅
 
 ## Phase 1 — Fix Broken
 No broken imports, no fake form flows found. Build was clean after `npm ci`.
@@ -15,7 +15,7 @@ No broken imports, no fake form flows found. Build was clean after `npm ci`.
 
 Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trade?)`:
 - Electricians now see `EV CHARGER — YOUR TRADE`, `REWIRE — YOUR TRADE`, `CONSUMER UNIT — YOUR TRADE`, `EICR — YOUR TRADE` etc. in the WHY? popup instead of generic `ELECTRICAL — YOUR TRADE`
-- Plumbers see `BOILER WORK — YOUR TRADE`, `BATHROOM FIT — YOUR TRADE`, `HOT WATER — YOUR TRADE` etc.
+- Plumbers see `BOILER WORK — YOUR TRADE`, `BATHROOM WORK — YOUR TRADE`, `HOT WATER — YOUR TRADE` etc.
 - Roofers, builders, HVAC, landscapers, carpenters, painters all have trade-specific labels
 - Logic: if a "Trade match" reason produces a generic single-trade label (matched against `GENERIC_TRADE_LABELS` per trade), it's swapped for a specific job-type label extracted from the lead title
 - `LeadResultCard` updated with `scanTrade` prop; `submittedTrade` state captures the trade at scan time — dropdown changes mid-results cannot re-interpret labels
@@ -46,8 +46,8 @@ Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trad
 - Mobile quick-link: `CHECK FTS` → `FIND JOBS →`
 - Mobile bottom CTA: `CHECK FIND A TENDER FREE` → `SCAN FOR JOBS FREE — NO CARD →`
 
-## Codex P2 Fixes Applied (7 rounds, 11 comments)
-All 11 Codex review threads addressed and replied to:
+## Codex P2 Fixes Applied (14 rounds, 26 comments)
+All 26 Codex review threads addressed and replied to:
 1. Enrichment no longer manufactures highlighted reasons without a scored trade match
 2. Buyer contact promise qualified (scan counter banner and upsell section)
 3. `scanTrade` prop added; `submittedTrade` state binds enrichment to scan time
@@ -61,6 +61,19 @@ All 11 Codex review threads addressed and replied to:
 11. `UNDERFLOOR` → `UNDERFLOOR HEAT` keyword (prevents drainage-title false positive)
 12. Generic-equals-specific guard: only splice genericIdx when `out[genericIdx].label !== fullLabel`
 13. Duplicate teaser dedup: remove `!r.highlight && r.label === specific` after promotion in both branches
+14. Multi-generic cleanup: reverse loop removes ALL generic siblings (not just first)
+15. `BATHROOM FIT` → `BATHROOM WORK` (neutral)
+16. `submit()` clears `fillWeekResult` to prevent cross-result enrichment bleed
+17. `KITCHEN FIT` → `KITCHEN WORK` (neutral)
+18. `fillMyWeek` body sends `capturedTrade` (not mutable `trade`)
+19. `WINDOW FIT` → `WINDOW WORK` (neutral)
+20. `removeKeywordLabel` helper: splices original `${keyword} — YOUR TRADE` / teaser when mapping rewrites keyword (BOILER→BOILER WORK etc.)
+21. `fillMyWeek` header uses `submittedTrade ?? trade` (not live form state)
+22. `GUTTERING` → `GUTTER` stem (matches "Gutter repairs" base-noun titles)
+23. `ELECTRIC VEHICLE` entry removed (fleet maintenance ≠ charger work)
+24. `AIR SOURCE` → `AIR SOURCE HEAT` (requires heat pump context)
+25. `TURF — YOUR TRADE` added to `GENERIC_TRADE_LABELS.landscaping` (scorer's stemmed `turf` token)
+26. All P2 threads replied to with fix commit reference
 
 ## Commits This Run
 - `b5ea390` — trade-specific WHY popup labels + copy polish
@@ -71,11 +84,18 @@ All 11 Codex review threads addressed and replied to:
 - `b436702` — P2 fixes: preview teaser enrichment + UNDERFLOOR HEAT keyword
 - `5af7902` — P2 fixes: teaserGenerics path for free-tier enrichment
 - `feae3eb` — P2 fixes: generic-equals-specific guard + duplicate teaser dedup
+- `bc11005` — P2 fixes: multi-generic reverse loop + BATHROOM WORK neutral label
+- `37ce531` — P2 fixes: fillMyWeek capturedTrade body + KITCHEN WORK neutral label
+- `bdc07c3` — P2 fixes: submit clears fillWeekResult + WINDOW WORK neutral label
+- `ae258a5` — P2 fixes: removeKeywordLabel helper + fillMyWeek header submittedTrade
+- `7a515ff` — P2 fixes: GUTTER stem + ELECTRIC VEHICLE removed
+- `ca45694` — P2 fixes: EV CHARGER/CHARGING only (ELECTRIC VEHICLE removed)
+- `db977bf` — P2 fixes: AIR SOURCE HEAT + TURF generic label ✅ FINAL GREEN
 
 ## PR
 - Branch: `nightly-build-agent/2026-07-29`
 - PR: https://github.com/manazoid4/JobFilterV1/pull/406
-- CI: PASSED ✅ (73f8bdb); feae3eb pending
+- CI: PASSED ✅ (db977bf — 26/26 P2 threads resolved)
 
 ## Next Run: Top 3 Priorities
 
