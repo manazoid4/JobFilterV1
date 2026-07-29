@@ -1,47 +1,7 @@
 "use client";
 import Link from 'next/link';
 
-import { ShieldCheck, Target, Database, Lock, MessageCircle, FileText, Zap, CheckCircle, Clock, Mail, MessageSquare, Trophy, Medal, AlertTriangle, Crown } from 'lucide-react';
-
-const verifiedSignals = [
-  'Planning approvals in your postcode cluster',
-  'Energy upgrade demand across your patch',
-  'Recent property ownership changes in your patch',
-  'New commercial premises activity',
-  'Public sector and housing association work',
-  'Active building work notifications',
-  'Rental market upgrade signals',
-  'Property change-of-use activity',
-  'Government retrofit and grant-funded work',
-  'Insolvency and void premises — urgent make-safe and refit work',
-];
-
-const qualityFilterSteps = [
-  {
-    num: '01',
-    title: 'Official data only',
-    body: 'No user-submitted enquiries. Every signal comes from a government or public register.',
-    icon: Database,
-  },
-  {
-    num: '02',
-    title: 'Scoring before delivery',
-    body: 'Weak signals never reach your phone. Only scored leads make it through.',
-    icon: Target,
-  },
-  {
-    num: '03',
-    title: 'Evidence stack',
-    body: 'You see why a lead is scored before you call. Approval timing. Sale recency. Energy demand. You decide if it is worth your time.',
-    icon: FileText,
-  },
-  {
-    num: '04',
-    title: 'Lead readiness marker',
-    body: 'Every lead gets a clear action marker: call now, verify first, or skip.',
-    icon: ShieldCheck,
-  },
-];
+import { ShieldCheck, Target, Database, Lock, FileText, CheckCircle, Mail, AlertTriangle, Crown, Medal, Trophy } from 'lucide-react';
 
 const privacyPoints = [
   { label: 'What we collect', value: 'Name, trade, contact, postcode' },
@@ -51,122 +11,130 @@ const privacyPoints = [
   { label: 'Third parties', value: 'We do not sell your data. Period.' },
 ];
 
-const guaranteeFeatures = [
-  'One exclusive territory lock — your patch, nobody else in it',
-  'Unlimited lead alerts within locked territory',
-  'Unlimited WhatsApp alerts',
-  'Letter drop scripts for every lead — print and post in minutes',
-  'Full lead scoring + lead readiness markers',
-  'Job tracking — every lead from first call to won job',
-  'All free tools included',
-  'Locked at £39/mo for life — price never rises as long as you stay active',
-  '30-day money-back guarantee',
+const qualityFilterSteps = [
+  {
+    num: '01',
+    title: 'Official data only',
+    body: 'Every notice comes from Find a Tender — the UK government\'s official public procurement register. No scraped directories. No user-submitted enquiries.',
+    icon: Database,
+  },
+  {
+    num: '02',
+    title: 'Firm-aware qualification',
+    body: 'Results are filtered and scored against your trade, delivery region, contract range and delivery model — not served as a generic list.',
+    icon: Target,
+  },
+  {
+    num: '03',
+    title: 'Evidence before commitment',
+    body: 'You see buyer, scope, value, deadline and missing requirements before deciding whether to commit bid time. Gaps are shown, not hidden.',
+    icon: FileText,
+  },
+  {
+    num: '04',
+    title: 'Honest empty results',
+    body: 'If no current notices match your firm, the result is empty. That is a valid outcome — not a failure. Coverage varies by trade, region and timing.',
+    icon: ShieldCheck,
+  },
+];
+
+const sourcePoints = [
+  'Find a Tender (FTS) — official UK public procurement register',
+  'Notices from UK public buyers: councils, NHS trusts, housing associations',
+  'CPV trade codes — buyer-defined, not assigned by JobFilter',
+  'Published contract values and response deadlines',
+  'Open Government Licence v3.0 data',
+  'Official source links in paid results',
 ];
 
 export function TrustCenterPage() {
   return (
     <main className="page-shell grid gap-8 py-8 pb-24">
-      {/* 1. Hero: Our Promise */}
+      {/* 1. Hero */}
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">TRUST CENTER</p>
         <h1 className="headline mt-3 text-4xl leading-none sm:text-6xl">
-          WE DON'T SELL SHARED LEADS.<br />
-          WE DON'T TAKE COMMISSION.<br />
-          WE DON'T LOCK YOU IN.
+          FIND A TENDER IS FREE AND PUBLIC.<br />
+          JOBFILTER QUALIFIES WHAT'S IN IT.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-bold text-white/80">
-          Checkatrade blasts the same lead to 5 trades. Bark sells you a name then makes you fight for it. MyBuilder runs the auction in public. JobFilter does none of that.
+          We do not control public tender notices, gate them, or sell access to them. Find a Tender is the UK government's official procurement register. JobFilter compares current notices against your firm's trade, region and evidence — and produces a BID, WATCH, SUBCONTRACT or SKIP decision.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-bold text-white/80">
-          We scan verified signals. Score every opportunity. Send the good ones to your WhatsApp — controlled by trade, patch, and timing. No shared auction. No five-trade blast.
-        </p>
-        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--yellow)]">
-          Use JobFilter for 30 days. Set up your territory. View your leads. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+          Every opportunity in a result is accessible through its official public route. You pay for qualification and workflow, never privileged access.
         </p>
       </section>
 
-      {/* 2. How Scoring Works */}
+      {/* 2. Decision Tiers */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">HOW SCORING WORKS</p>
+        <p className="micro-label text-[var(--orange)]">DECISION TIERS</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          EVERY SIGNAL GETS A SERIOUS BUYER SCORE FROM 0 TO 100.
+          BID. WATCH. SUBCONTRACT. SKIP.
         </h2>
         <p className="mt-4 max-w-2xl copy">
-          Not guesswork. Verified signals. Approval timing. Sale recency. Energy demand. Contract status. All combined into one score — 0 to 100.
+          Every qualified notice produces one of four decisions. The score (0–100) backs the decision — it does not replace your judgement or promise an award.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { score: '80-100', label: 'GOLD', action: 'Call within 24 hours', color: 'bg-[var(--ink)] text-[var(--yellow)]', icon: Trophy, tag: '80+ score — worth quoting today' },
-            { score: '50-79', label: 'SILVER', action: 'Call within 48 hours', color: 'bg-[var(--yellow)] text-[var(--ink)]', icon: Medal, tag: 'Worth watching' },
-            { score: 'Below 50', label: 'BRONZE', action: 'Verify before quoting', color: 'bg-[var(--orange)] text-white', icon: AlertTriangle, tag: 'Check before quoting' },
-          ].map((tier) => {
-            const Icon = tier.icon;
-            const isGold = tier.label === 'GOLD';
-            return (
-              <div key={tier.label} className={`jf-box p-5 ${tier.color} ${isGold ? 'ring-4 ring-[var(--yellow)] ring-offset-2' : ''}`}>
-                <div className="flex items-center gap-2">
-                  <Icon size={isGold ? 28 : 22} strokeWidth={3} />
-                  <p className="micro-label opacity-80">{tier.score}</p>
-                </div>
-                <p className={`headline mt-2 ${isGold ? 'text-3xl' : 'text-2xl'}`}>{tier.label}</p>
-                <p className="mt-2 text-sm font-black opacity-90">{tier.action}</p>
-                {isGold && (
-                  <div className="mt-3 inline-flex items-center gap-1 border border-white/40 bg-white/15 px-2 py-1 text-[10px] font-black uppercase">
-                    <Crown size={12} strokeWidth={3} />
-                    {tier.tag}
-                  </div>
-                )}
-                {!isGold && (
-                  <p className="mt-3 text-[10px] font-black uppercase opacity-70">{tier.tag}</p>
-                )}
+            { label: 'BID', score: 'GOLD 80+', action: 'Evidence and contact route support a direct bid. Verify requirements before committing time.', color: 'bg-[var(--green)]/10 border-[var(--green)]', textColor: 'text-[var(--green)]', icon: Trophy },
+            { label: 'WATCH', score: 'SILVER 50–79', action: 'Notice matched but missing evidence or contact route. Verify before committing bid time.', color: 'bg-[var(--yellow)]/10 border-[var(--yellow)]', textColor: 'text-[var(--ink)]', icon: Medal },
+            { label: 'SUBCONTRACT', score: 'Large or awarded', action: 'Too large or already awarded for a direct bid — route in via the principal contractor.', color: 'bg-[var(--navy)]/10 border-[var(--navy)]', textColor: 'text-[var(--navy)]', icon: AlertTriangle },
+            { label: 'SKIP', score: 'Below 30', action: 'Insufficient evidence for this opportunity. Move on — empty results save bid time.', color: 'bg-[var(--orange)]/10 border-[var(--orange)]', textColor: 'text-[var(--orange)]', icon: Crown },
+          ].map(({ label, score, action, color, textColor, icon: Icon }) => (
+            <div key={label} className={`jf-box border-2 p-5 ${color}`}>
+              <div className="flex items-center gap-2 mb-2">
+                <Icon size={18} strokeWidth={3} className={textColor} />
+                <p className={`micro-label ${textColor}`}>{label}</p>
               </div>
-            );
-          })}
+              <p className="text-xs font-black text-[var(--muted)] uppercase mb-2">{score}</p>
+              <p className="text-sm font-bold text-[var(--ink)]">{action}</p>
+            </div>
+          ))}
         </div>
 
         <div className="mt-6 jf-box bg-[var(--bg-main)] p-6">
           <p className="micro-label text-[var(--muted)]">TRANSPARENCY NOTE</p>
           <p className="mt-2 font-bold text-[var(--muted)]">
-            We show you the evidence behind every score — approval timing, sale recency, energy demand level, contract status. You see what we see. You decide if it's worth your time.
+            Every factor that contributed to the score is shown. You see what we see. The decision is qualification support — not a promise of work or an exclusive claim on the opportunity.
           </p>
         </div>
       </section>
 
-      {/* 3. Verified Signals */}
+      {/* 3. Data Source */}
       <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">VERIFIED SIGNALS</p>
+        <p className="micro-label text-[var(--ink)]">DATA SOURCE</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          TEN TYPES OF SIGNAL. ALL VERIFIED. ALL BEFORE IT REACHES YOUR PHONE.
+          OFFICIAL SOURCE. OPEN LICENCE. NO MANUFACTURED INVENTORY.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
-          No scraped directories. No user-submitted enquiries. Every signal comes from verified official UK sources.
+          JobFilter does not generate leads. It qualifies official public notices that buyers publish on Find a Tender.
         </p>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {verifiedSignals.map((signal) => (
-            <div key={signal} className="flex items-center gap-3 jf-box bg-white p-4">
+          {sourcePoints.map((point) => (
+            <div key={point} className="flex items-center gap-3 jf-box bg-white p-4">
               <CheckCircle size={20} strokeWidth={3} className="text-[var(--green)] shrink-0" />
-              <span className="font-black text-[var(--ink)] text-sm">{signal}</span>
+              <span className="font-black text-[var(--ink)] text-sm">{point}</span>
             </div>
           ))}
         </div>
 
         <div className="mt-6 p-4 border-2 border-[var(--ink)] bg-white">
           <p className="text-sm font-bold text-[var(--ink)]">
-            <strong>Our rule:</strong> We do not scrape private homeowner data. We do not sell your information. We do not share which signals we monitor — that is how the filter stays private.
+            Coverage is honest. An empty scan — when no current FTS notices match your trade and region — is a valid outcome, not a system failure. We show empty results rather than manufacturing volume.
           </p>
         </div>
       </section>
 
-      {/* 4. Quality Filter Philosophy */}
+      {/* 4. Quality Filter */}
       <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--orange)]">QUALITY FILTER PHILOSOPHY</p>
+        <p className="micro-label text-[var(--orange)]">QUALIFICATION APPROACH</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          EVERY WASTED SITE VISIT COSTS FUEL, TIME, AND A JOB YOU DIDN'T GET TO QUOTE.
+          EVERY WASTED BID COSTS TIME AND OVERHEAD YOU DON'T GET BACK.
         </h2>
         <p className="mt-4 max-w-2xl copy">
-          Wasted fuel. Wasted time. Wasted hope. We built JobFilter to stop that.
+          JobFilter qualifies before you commit bid time — not after you've spent hours on a tender that didn't fit.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -188,15 +156,9 @@ export function TrustCenterPage() {
             );
           })}
         </div>
-
-        <div className="mt-6 p-6 border-2 border-[var(--orange)] bg-[var(--orange)]/5">
-          <p className="headline text-2xl text-[var(--orange)]">
-            BRONZE-scored leads have unconfirmed buyer intent — timing unclear, budget unverified, or signal too weak to act on. Our scoring flags them before you waste fuel on the visit.
-          </p>
-        </div>
       </section>
 
-      {/* 5. Privacy First */}
+      {/* 5. Privacy */}
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">PRIVACY FIRST</p>
         <h2 className="headline mt-3 text-4xl leading-none">
@@ -220,49 +182,39 @@ export function TrustCenterPage() {
         </div>
       </section>
 
-      {/* 6. Fair Use & Refunds */}
-      <section className="jf-box bg-white p-8">
-        <p className="micro-label text-[var(--green)]">FAIR USE & REFUNDS</p>
-        <h2 className="headline mt-3 text-4xl leading-none text-[var(--green)]">
-          30-DAY MONEY-BACK GUARANTEE.
+      {/* 6. CTA */}
+      <section className="jf-box bg-[var(--yellow)] p-8">
+        <p className="micro-label text-[var(--ink)]">VERIFY COVERAGE FIRST</p>
+        <h2 className="headline mt-3 text-4xl leading-none">
+          SCAN THE CURRENT FEED BEFORE YOU PAY.
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops. We just ask that you actually use the system — this filter exists to stop tyre-kickers, not tradesmen.
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
+          Check current coverage against your trade and region before activation. An honest empty result is better than manufactured volume.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {guaranteeFeatures.map((feature) => (
-            <div key={feature} className="flex items-center gap-3">
-              <CheckCircle size={18} strokeWidth={3} className="text-[var(--green)] shrink-0" />
-              <span className="font-black text-[var(--ink)] text-sm">{feature}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-            SCAN MY AREA FREE →
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/find-jobs" className="jf-button bg-[var(--ink)] text-white">
+            SCAN FREE — NO CARD NEEDED →
           </Link>
-          <Link href="/pricing" className="jf-button bg-[var(--navy)] text-white">
-            LOCK YOUR PATCH — £39/MO →
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">
+            CHECK PRICING →
           </Link>
         </div>
-        <p className="mt-3 text-sm font-bold text-[var(--ink)]/70">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
-        <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — one job worth chasing or we refund every penny. No quibbles.</p>
+        <p className="mt-3 text-sm font-bold text-[var(--ink)]/70">Coverage varies by trade, region and timing. Check before committing.</p>
       </section>
 
       {/* 7. Contact */}
-      <section className="jf-box bg-[var(--yellow)] p-8">
-        <p className="micro-label text-[var(--ink)]">CONTACT</p>
+      <section className="jf-box bg-white p-8">
+        <p className="micro-label text-[var(--orange)]">CONTACT</p>
         <h2 className="headline mt-3 text-4xl leading-none">
-          QUESTIONS? CONCERNS? TALK TO US DIRECTLY.
+          QUESTIONS? TALK TO US DIRECTLY.
         </h2>
-        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--ink)]/75">
+        <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
           No chatbots. No ticket systems. Direct contact with the team.
         </p>
 
         <div className="mt-8">
-          <a href="mailto:support@jobfilter.uk" className="jf-box bg-white p-5 flex items-center gap-3 hover:border-[var(--ink)]">
+          <a href="mailto:support@jobfilter.uk" className="jf-box bg-[var(--bg-main)] p-5 flex items-center gap-3 hover:border-[var(--ink)]">
             <Mail size={24} strokeWidth={2.5} className="text-[var(--navy)]" />
             <div>
               <p className="headline text-lg">Email</p>
@@ -270,7 +222,6 @@ export function TrustCenterPage() {
             </div>
           </a>
         </div>
-
       </section>
     </main>
   );
