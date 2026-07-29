@@ -190,6 +190,7 @@ export function FindJobsPage() {
   const unlimitedTester = devUnlocked || isOwner;
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
+  const [submittedTrade, setSubmittedTrade] = useState<Trade | null>(null);
 
   const [fillWeekLoading, setFillWeekLoading] = useState(false);
   const [fillWeekResult, setFillWeekResult] = useState<LeadSearchResponse | null>(null);
@@ -289,6 +290,7 @@ export function FindJobsPage() {
     setErrorText('');
     setLoading(true);
     setResult(null);
+    setSubmittedTrade(null);
     setHasScanned(true);
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
@@ -307,6 +309,7 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      setSubmittedTrade(effectiveTrade);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
@@ -368,6 +371,7 @@ export function FindJobsPage() {
   }
 
   async function fillMyWeek() {
+    const capturedTrade = trade;
     setFillWeekLoading(true);
     setFillWeekResult(null);
     setCommercialOnly(false);
@@ -391,6 +395,7 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setFillWeekResult(data);
+      setSubmittedTrade(capturedTrade);
     } catch {
       setFillWeekResult({
         ok: false,
@@ -727,7 +732,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={trade} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={submittedTrade ?? trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +867,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={trade} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} scanTrade={submittedTrade ?? trade} />
             ))}
           </div>
         )}
@@ -921,7 +926,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['EV CHARGER', 'EV CHARGER'],
     ['EV CHARGING', 'EV CHARGER'],
     ['ELECTRIC VEHICLE', 'EV CHARGER'],
-    ['REWIRE', 'REWIRE'],
+    ['REWIR', 'REWIRE'],
     ['CONSUMER UNIT', 'CONSUMER UNIT'],
     ['FUSE BOARD', 'CONSUMER UNIT'],
     ['EICR', 'EICR'],
