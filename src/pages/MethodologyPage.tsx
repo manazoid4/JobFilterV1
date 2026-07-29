@@ -52,9 +52,9 @@ const scoreFactors = [
   { factor: 'Trade and CPV code match', weight: 'HIGH', why: 'Wrong trade code = no fit. CPV codes are set by the buyer.' },
   { factor: 'Delivery region overlap', weight: 'HIGH', why: 'Contract outside your area wastes bid cost and time.' },
   { factor: 'Notice stage and deadline', weight: 'HIGH', why: 'Expired or pre-market notices have no response window.' },
-  { factor: 'Contract value vs firm ceiling', weight: 'MED', why: 'Overbidding on value raises qualification barriers.' },
+  { factor: 'Contract value band', weight: 'MED', why: 'Large contracts flag as more competitive — value band assessed against the notice, not a firm profile.' },
   { factor: 'Direct bid or subcontract route', weight: 'MED', why: 'Not every notice is directly biddable for a 5–25-person firm.' },
-  { factor: 'Requirements vs firm evidence', weight: 'MED', why: 'ISO, accreditation or turnover gaps shown before you start.' },
+  { factor: 'Notice requirements', weight: 'MED', why: 'Published accreditation, ISO or turnover requirements shown — your firm verifies fit before committing.' },
 ];
 
 const decisionTiers = [
@@ -137,7 +137,7 @@ export function MethodologyPage() {
 
         <div className="mt-6 p-4 border-2 border-[var(--ink)] bg-white">
           <p className="text-sm font-black text-[var(--ink)]">
-            Every factor that contributed to the score is shown. You see what we see — no black box.
+            Key factors that shaped the score are shown — trade match, urgency, value band, contact path. You see what drove the decision.
           </p>
         </div>
       </section>
@@ -191,7 +191,7 @@ export function MethodologyPage() {
             'UK public buyers: councils, NHS, housing',
             'CPV codes — buyer-defined trade categories',
             'Published values and notice stages',
-            'Official response routes and deadlines',
+            'Published response deadlines and bid windows',
             'Open Government Licence v3.0 data',
           ].map((source) => (
             <div key={source} className="flex items-center gap-3 border-2 border-white/20 p-4">

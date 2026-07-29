@@ -838,8 +838,8 @@ export function FindJobsPage() {
               </div>
             </div>
             <div className="mt-3 flex gap-1">
-              {['Checking signals', 'Scoring leads', 'Ranking results'].map((step, i) => {
-                const stepIdx = fillWeekPhase.includes('Matching') ? 1 : fillWeekPhase.includes('Ranking') ? 2 : 0;
+              {['Fetching notices', 'Scoring matches', 'Ranking results'].map((step, i) => {
+                const stepIdx = fillWeekPhase.includes('Qualifying') ? 1 : fillWeekPhase.includes('Scoring') ? 2 : 0;
                 return (
                   <div key={step} className={`h-1 flex-1 transition-colors ${i <= stepIdx ? 'bg-[var(--yellow)]' : 'bg-white/20'}`} />
                 );

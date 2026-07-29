@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'How is coverage checked before activation?',
-    a: 'Run a free scan before paying. Coverage varies by trade, region and what buyers have published in the current Find a Tender feed. An empty result is a valid and honest outcome — not a system failure. Paid activation follows a coverage check, not a guaranteed volume promise.',
+    a: 'Run a free scan before paying — it shows current coverage for your trade and region before you commit to anything. Coverage varies by trade, region and what buyers have published in the current Find a Tender feed. An empty result is a valid and honest outcome — not a system failure. Check free first, not after.',
   },
   {
     q: 'Do I need to be VAT registered?',
