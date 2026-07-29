@@ -943,8 +943,8 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['HOT WATER', 'HOT WATER'],
   ],
   hvac: [
-    ['HEAT PUMP', 'HEAT PUMP'],
     ['AIR SOURCE HEAT', 'AIR SOURCE HP'],
+    ['HEAT PUMP', 'HEAT PUMP'],
     ['AIR CONDITIONING', 'AIR CON'],
     ['VENTILATION', 'VENTILATION'],
     ['DUCTING', 'DUCTWORK'],
