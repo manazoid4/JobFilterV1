@@ -742,7 +742,7 @@ export function FindJobsPage() {
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE WHO TO CALL — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">No credit card required · public tender</span>
+                        <span className="text-xs font-black text-white/50">Public tender</span>
                       </div>
                     </div>
                   )}
@@ -1043,7 +1043,7 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
       // Teaser labels are the stem of each generic (e.g. "ELECTRICAL" from "ELECTRICAL — YOUR TRADE")
       const teaserGenerics = tradeGenerics ? new Set([...tradeGenerics].map(l => l.replace(' — YOUR TRADE', ''))) : undefined;
       for (const [keyword, specific] of signals) {
-        if (!new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(titleUpper)) continue;
+        if (!new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(titleUpper)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
         const genericIdx = out.findIndex(r =>
           (r.highlight && (tradeGenerics?.has(r.label) ?? false)) ||
