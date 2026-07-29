@@ -15,7 +15,7 @@ const pipelineSteps = [
     num: '02',
     label: 'PARSE',
     icon: Database,
-    body: 'Extract buyer identity, scope description, CPV trade codes, value band, published deadline and the official response route from each notice.',
+    body: 'Extract buyer identity, scope description, CPV trade codes, value band, published deadline and a source link to the official notice.',
     detail: 'Raw notices contain everything needed to qualify. JobFilter pulls the structured data so you can assess fit without reading 40-page procurement documents.',
   },
   {
