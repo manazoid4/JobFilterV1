@@ -29,8 +29,8 @@ const pipelineSteps = [
     num: '04',
     label: 'QUALIFY',
     icon: Target,
-    body: 'Score the fit across trade, location, deadline, evidence and route to work. Every score produces a decision first: BID, WATCH, SUBCONTRACT or SKIP.',
-    detail: 'GOLD 80+, SILVER 50–79, BRONZE 30–49, SKIP below 30. The number backs the decision — it does not replace your judgement or promise an award.',
+    body: 'Score the fit across trade, location, deadline, evidence and route to work. Paid qualification produces a decision for each notice: BID, WATCH, SUBCONTRACT or SKIP.',
+    detail: 'GOLD 80+, SILVER 50–79, BRONZE 30–49, SKIP below 30. The free scan shows a preview score. The number backs the decision — it does not replace your judgement or promise an award.',
   },
   {
     num: '05',
@@ -43,7 +43,7 @@ const pipelineSteps = [
     num: '06',
     label: 'DELIVER',
     icon: Send,
-    body: 'Every result stays tied to the official Find a Tender source link. You see the public notice, the extracted evidence and the next action — in one view.',
+    body: 'Paid results stay tied to the official Find a Tender source link. You see the public notice, extracted evidence and decision — in one view. The free scan shows a preview without the source URL.',
     detail: 'Empty results are shown honestly. If nothing matches your firm today, that is a valid outcome — not a failure. Coverage varies by trade, region and timing.',
   },
 ];
@@ -183,7 +183,7 @@ export function MethodologyPage() {
           FIND A TENDER. OFFICIAL. FREE. PUBLIC.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-white/85">
-          Find a Tender is the UK government's official public procurement register. JobFilter qualifies the notices — it does not control them, gate them, or sell access to them. Every result links to the official source.
+          Find a Tender is the UK government's official public procurement register. JobFilter qualifies the notices — it does not control them, gate them, or sell access to them. Paid results include a direct link to the official notice; the free scan shows a preview without the source URL.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
