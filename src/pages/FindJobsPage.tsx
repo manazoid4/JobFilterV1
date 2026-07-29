@@ -935,7 +935,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['HEAT PUMP', 'HEAT PUMP ELEC'],
   ],
   plumbing: [
-    ['BOILER', 'BOILER REPLACE'],
+    ['BOILER', 'BOILER WORK'],
     ['BATHROOM', 'BATHROOM FIT'],
     ['WET ROOM', 'WET ROOM'],
     ['EN SUITE', 'EN SUITE'],
@@ -962,7 +962,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['LOFT CONVERSION', 'LOFT CONVERSION'],
     ['GARAGE CONVERSION', 'GARAGE CONVERSION'],
     ['NEW BUILD', 'NEW BUILD'],
-    ['REFURB', 'FULL REFURB'],
+    ['REFURB', 'REFURBISHMENT'],
     ['CONSERVATORY', 'CONSERVATORY'],
   ],
   landscaping: [

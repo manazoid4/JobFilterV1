@@ -3,6 +3,7 @@
 ## Build Status
 - **TypeScript**: CLEAN (0 errors)
 - **Production build**: PASS
+- **CI check**: PASSED ✅ (job 90508614142)
 
 ## Phase 1 — Fix Broken
 No broken imports, no fake form flows found. Build was clean after `npm ci`.
@@ -12,19 +13,20 @@ No broken imports, no fake form flows found. Build was clean after `npm ci`.
 **File**: `src/pages/FindJobsPage.tsx`
 
 Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trade?)`:
-- Electricians now see `EV CHARGER — YOUR TRADE`, `REWIRE — YOUR TRADE`, `CONSUMER UNIT — YOUR TRADE`, `LANDLORD EICR — YOUR TRADE` etc. in the WHY? popup instead of generic `ELECTRICAL — YOUR TRADE`
-- Plumbers see `BOILER REPLACE — YOUR TRADE`, `BATHROOM FIT — YOUR TRADE`, `HOT WATER — YOUR TRADE` etc.
+- Electricians now see `EV CHARGER — YOUR TRADE`, `REWIRE — YOUR TRADE`, `CONSUMER UNIT — YOUR TRADE`, `EICR — YOUR TRADE` etc. in the WHY? popup instead of generic `ELECTRICAL — YOUR TRADE`
+- Plumbers see `BOILER WORK — YOUR TRADE`, `BATHROOM FIT — YOUR TRADE`, `HOT WATER — YOUR TRADE` etc.
 - Roofers, builders, HVAC, landscapers, carpenters, painters all have trade-specific labels
-- Logic: if a "Trade match" reason produces a generic single-trade label (e.g. `ELECTRICAL — YOUR TRADE`), it's swapped for a specific job-type label extracted from the lead title
-- `LeadResultCard` updated to pass `lead.title` and `lead.trade` to `parseTradeReasons`
+- Logic: if a "Trade match" reason produces a generic single-trade label (matched against `GENERIC_TRADE_LABELS` per trade), it's swapped for a specific job-type label extracted from the lead title
+- `LeadResultCard` updated with `scanTrade` prop; `submittedTrade` state captures the trade at scan time — dropdown changes mid-results cannot re-interpret labels
 
 ## Phase 3 — Copy Fixed
 
 ### FindJobsPage
-- **0-scans message**: "Buyer and submission context locked. Scanning remains free." → "All 3 free scans used. Who to call is locked — upgrade to see buyer contact on every lead."
+- **0-scans message**: "Buyer and submission context locked. Scanning remains free." → "All 3 free scans used. Buyer name and official response route locked — upgrade to act on these leads."
 - **All upgrade CTAs unified** to `SEE WHO TO CALL — £39/MO →` across: scan counter banner, commercial filter gate, mid-list gold interstitial, main yellow upsell section
 - Added "No credit card required" to mid-list interstitial
 - **Upgrade gate body copy**: "Verified official sources — no shared auction, no five-trade blast" added
+- **Upsell section** (line 797): buyer-details promise qualified — "Shows the official submission route for every lead, plus buyer name, contact and published value where the source includes them."
 
 ### PricingPage
 - "No credit card required" added inline next to SCAN FREE CTA on hero section and bottom section
@@ -45,10 +47,22 @@ Added `TRADE_TITLE_SIGNALS` map and updated `parseTradeReasons(raw, title?, trad
 **CRITIC**: Is the fix clearer in <3 seconds? **YES** — "SCAN FOR JOBS FREE" is instantly understood by any tradesperson.
 **REVENUE**: Does it increase likelihood of paying £39/month? **YES** — more tradespeople clicking through to the scanner means more people seeing the lead list and hitting the upgrade gate.
 
+## Codex P2 Fixes Applied (5 rounds)
+All 9 Codex review threads addressed and replied to:
+1. Enrichment no longer manufactures highlighted reasons without a scored trade match
+2. Buyer contact promise qualified (scan counter banner and upsell section)
+3. `scanTrade` prop added; `submittedTrade` state binds enrichment to scan time
+4. `EICR` label no longer implies landlord context
+5. Generic label removed when specific label already present in `out`
+6. `GENERIC_TRADE_LABELS` now per-trade Record matching actual scorer token output
+7. `REWIR` stem matches REWIRE/REWIRING/REWIRED
+8. `BOILER REPLACE` → `BOILER WORK` (neutral, doesn't imply replacement scope)
+9. `FULL REFURB` → `REFURBISHMENT` (neutral, doesn't imply full scope)
+
 ## PR
 - Branch: `nightly-build-agent/2026-07-29`
 - PR: https://github.com/manazoid4/JobFilterV1/pull/406
-- CI: in_progress at time of vault write
+- CI: PASSED ✅
 
 ## Next Run: Top 3 Priorities
 
