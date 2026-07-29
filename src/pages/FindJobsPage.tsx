@@ -939,7 +939,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['BATHROOM', 'BATHROOM FIT'],
     ['WET ROOM', 'WET ROOM'],
     ['EN SUITE', 'EN SUITE'],
-    ['UNDERFLOOR', 'UNDERFLOOR HEAT'],
+    ['UNDERFLOOR HEAT', 'UNDERFLOOR HEAT'],
     ['HOT WATER', 'HOT WATER'],
   ],
   hvac: [
@@ -1034,16 +1034,21 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
     }
   }
 
-  // Enrich: replace generic "ELECTRICAL — YOUR TRADE" with specific job type from title
+  // Enrich: replace generic "ELECTRICAL — YOUR TRADE" (paid) or "ELECTRICAL" teaser (preview) with specific job-type label
   if (title && trade) {
     const signals = TRADE_TITLE_SIGNALS[trade];
     if (signals) {
       const titleUpper = title.toUpperCase();
+      const tradeGenerics = GENERIC_TRADE_LABELS[trade];
+      // Teaser labels are the stem of each generic (e.g. "ELECTRICAL" from "ELECTRICAL — YOUR TRADE")
+      const teaserGenerics = tradeGenerics ? new Set([...tradeGenerics].map(l => l.replace(' — YOUR TRADE', ''))) : undefined;
       for (const [keyword, specific] of signals) {
         if (!titleUpper.includes(keyword)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
-        const tradeGenerics = GENERIC_TRADE_LABELS[trade];
-        const genericIdx = out.findIndex(r => r.highlight && (tradeGenerics?.has(r.label) ?? false));
+        const genericIdx = out.findIndex(r =>
+          (r.highlight && (tradeGenerics?.has(r.label) ?? false)) ||
+          (!r.highlight && (teaserGenerics?.has(r.label) ?? false))
+        );
         if (out.some(r => r.label === fullLabel)) {
           // Specific already scored — just clean up the generic label if it also snuck in
           if (genericIdx !== -1) out.splice(genericIdx, 1);
