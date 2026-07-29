@@ -8,6 +8,9 @@
 
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
 
+/** Suppress monetary value for small cohorts to avoid disclosing individual contract values. */
+const MIN_COHORT = 3;
+
 function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
   if (pounds >= 1_000) return `£${Math.round(pounds / 1_000)}k`;
@@ -28,11 +31,17 @@ export async function GET() {
 
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  // Two queries: exact count (no row-fetch cap) + value rows for client-side sum.
-  // Client-side sum applies won_value ?? quote_value per row — matches the ROI
-  // endpoint logic and correctly handles rows where only quote_value is set.
-  // High limit covers realistic 30-day win volumes on this platform.
-  const [{ count: wonCount, error: countErr }, { data: rows, error: rowErr }] = await Promise.all([
+  // Three parallel queries:
+  // 1. Exact count with no row-fetch cap.
+  // 2. Sum of won_value for rows where won_value IS NOT NULL (primary value source).
+  // 3. Sum of quote_value for rows where won_value IS NULL (fallback — replicates
+  //    COALESCE(won_value, quote_value) per-row without a row-fetch cap or PostgREST
+  //    column-naming collision from selecting two aggregate columns at once).
+  const [
+    { count: wonCount, error: countErr },
+    { data: wonValueRow, error: wonValueErr },
+    { data: quoteValueRow, error: quoteValueErr },
+  ] = await Promise.all([
     admin
       .from('lead_outcomes')
       .select('*', { count: 'exact', head: true })
@@ -40,13 +49,21 @@ export async function GET() {
       .gte('won_at', since),
     admin
       .from('lead_outcomes')
-      .select('won_value, quote_value')
+      .select('won_value.sum()')
       .eq('status', 'won')
       .gte('won_at', since)
-      .limit(10_000),
+      .not('won_value', 'is', null)
+      .single(),
+    admin
+      .from('lead_outcomes')
+      .select('quote_value.sum()')
+      .eq('status', 'won')
+      .gte('won_at', since)
+      .is('won_value', null)
+      .single(),
   ]);
 
-  if (countErr || rowErr || wonCount === null) {
+  if (countErr || wonCount === null) {
     return Response.json({ ok: false, reason: 'query_error' });
   }
 
@@ -54,15 +71,18 @@ export async function GET() {
     return Response.json({ ok: false, reason: 'no_data' });
   }
 
-  const totalValue = (rows ?? []).reduce(
-    (sum, r) => sum + Number((r as { won_value: number | null; quote_value: number | null }).won_value ?? (r as { won_value: number | null; quote_value: number | null }).quote_value ?? 0),
-    0,
-  );
+  // Value aggregate errors resolve to 0 so a schema/query issue doesn't break the count display.
+  const wonValue = wonValueErr ? 0 : Number((wonValueRow as { sum: number | null } | null)?.sum ?? 0);
+  const quoteValue = quoteValueErr ? 0 : Number((quoteValueRow as { sum: number | null } | null)?.sum ?? 0);
+  const totalValue = wonValue + quoteValue;
+
+  // Suppress value for small cohorts — a single aggregate could disclose an individual's contract value.
+  const displayValue = wonCount >= MIN_COHORT ? totalValue : 0;
 
   return Response.json({
     ok: true,
     wonCount,
-    totalValueFormatted: totalValue > 0 ? formatValue(totalValue) : '',
-    message: buildMessage(wonCount, totalValue),
+    totalValueFormatted: displayValue > 0 ? formatValue(displayValue) : '',
+    message: buildMessage(wonCount, displayValue),
   });
 }
