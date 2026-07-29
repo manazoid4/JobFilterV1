@@ -1,10 +1,9 @@
 /**
- * GET /api/wins/stats?postcode=B14
+ * GET /api/wins/stats
  * Returns anonymised aggregate win stats for the WinStatsBanner component.
  * No user data exposed — count and total value only.
  *
  * Note: lead_outcomes has no postcode column, so stats are national.
- * The banner copy is intentionally non-location-specific.
  */
 
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
@@ -29,9 +28,11 @@ export async function GET() {
 
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
 
-  // Count and sum in two lightweight queries to avoid a row-fetch cap.
-  // won_value stores pounds (toMoneyInt strips formatting, rounds — no ×100).
-  const [{ count: wonCount, error: countErr }, { data: sumRow, error: sumErr }] = await Promise.all([
+  // Two queries: exact count (no row-fetch cap) + value rows for client-side sum.
+  // Client-side sum applies won_value ?? quote_value per row — matches the ROI
+  // endpoint logic and correctly handles rows where only quote_value is set.
+  // High limit covers realistic 30-day win volumes on this platform.
+  const [{ count: wonCount, error: countErr }, { data: rows, error: rowErr }] = await Promise.all([
     admin
       .from('lead_outcomes')
       .select('*', { count: 'exact', head: true })
@@ -39,13 +40,13 @@ export async function GET() {
       .gte('won_at', since),
     admin
       .from('lead_outcomes')
-      .select('won_value.sum(),quote_value.sum()')
+      .select('won_value, quote_value')
       .eq('status', 'won')
       .gte('won_at', since)
-      .single(),
+      .limit(10_000),
   ]);
 
-  if (countErr || sumErr || wonCount === null) {
+  if (countErr || rowErr || wonCount === null) {
     return Response.json({ ok: false, reason: 'query_error' });
   }
 
@@ -53,7 +54,10 @@ export async function GET() {
     return Response.json({ ok: false, reason: 'no_data' });
   }
 
-  const totalValue = Number((sumRow as Record<string, unknown> | null)?.['won_value'] ?? (sumRow as Record<string, unknown> | null)?.['quote_value'] ?? 0);
+  const totalValue = (rows ?? []).reduce(
+    (sum, r) => sum + Number((r as { won_value: number | null; quote_value: number | null }).won_value ?? (r as { won_value: number | null; quote_value: number | null }).quote_value ?? 0),
+    0,
+  );
 
   return Response.json({
     ok: true,
