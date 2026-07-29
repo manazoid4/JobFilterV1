@@ -524,12 +524,13 @@ export function FindJobsPage() {
               <button
                 key={`${entry.postcode}-${entry.trade}`}
                 type="button"
+                disabled={loading || fillWeekLoading}
                 onClick={() => {
                   setPostcode(entry.postcode);
                   setTrade(entry.trade);
                   void submit(undefined, { postcode: entry.postcode, trade: entry.trade });
                 }}
-                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors"
+                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors disabled:opacity-60 disabled:pointer-events-none"
               >
                 {entry.postcode} · {entry.trade.toUpperCase()}
               </button>
@@ -990,7 +991,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
 // Per-trade generic labels (from bare trade-name scorer keywords) that title enrichment can swap for something specific.
 // Keyed by trade; values are the exact "KEYWORD — YOUR TRADE" strings the scorer produces from its generic high-tier keywords.
 const GENERIC_TRADE_LABELS: Partial<Record<string, Set<string>>> = {
-  electrical: new Set(['ELECTRICAL — YOUR TRADE', 'WIRING — YOUR TRADE']),
+  electrical: new Set(['ELECTRICAL — YOUR TRADE', 'WIRING — YOUR TRADE', 'SOLAR — YOUR TRADE']),
   plumbing: new Set(['PLUMB — YOUR TRADE']),
   roofing: new Set(['ROOF — YOUR TRADE', 'ROOFING — YOUR TRADE']),
   building: new Set(['BUILDING WORK — YOUR TRADE', 'CONSTRUCTION — YOUR TRADE', 'STRUCTURAL — YOUR TRADE', 'REFURBISHMENT — YOUR TRADE', 'RENOVATION — YOUR TRADE']),
