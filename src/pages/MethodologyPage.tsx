@@ -54,7 +54,6 @@ const scoreFactors = [
   { factor: 'Notice stage and deadline', weight: 'HIGH', why: 'Expired or pre-market notices have no response window.' },
   { factor: 'Contract value vs firm ceiling', weight: 'MED', why: 'Overbidding on value raises qualification barriers.' },
   { factor: 'Direct bid or subcontract route', weight: 'MED', why: 'Not every notice is directly biddable for a 5–25-person firm.' },
-  { factor: 'Buyer evidence published', weight: 'MED', why: 'Buyers with published history are easier to qualify against.' },
   { factor: 'Requirements vs firm evidence', weight: 'MED', why: 'ISO, accreditation or turnover gaps shown before you start.' },
 ];
 
