@@ -1,6 +1,6 @@
 # Daily To-Do — JobFilter
 
-Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (db977bf — all 26 P2 threads resolved)
+Last updated: 2026-07-29 (NightlyBuildAgent) — CI in progress (78477ad — GARAGE CONVERSION fix + all P2 threads replied)
 
 ## Completed this run ✅
 - [x] Trade-specific scoring UX: electrician sees EV CHARGER/REWIRE/EICR, plumber sees BOILER WORK/BATHROOM WORK in WHY? popup
@@ -26,6 +26,10 @@ Last updated: 2026-07-29 (NightlyBuildAgent) — CI PASSED ✅ (db977bf — all 
 - [x] KITCHEN FIT → KITCHEN WORK (neutral)
 - [x] WINDOW FIT → WINDOW WORK (neutral)
 - [x] GUTTERING → GUTTER stem (matches base noun "gutter" titles)
+
+## Completed this run (continuation) ✅
+- [x] P2 fix: GARAGE and CONVERSION tokens added to `GENERIC_TRADE_LABELS.building` (commit 78477ad) — scorer's `GARAGE — YOUR TRADE` now promotable for "Garage conversion" titles
+- [x] Missing thread reply: "Match title signals on word boundaries" (comment 3672434240) — was fixed in 2a4d25a but reply was posted to wrong thread; corrected
 
 ## High Priority — Next Run 🔴
 - [ ] **Server-side preview enrichment**: `buildPreviewReasons()` redacts planning/CompaniesHouse/LandRegistry/EPC/directory titles before client receives them, so `TRADE_TITLE_SIGNALS` enrichment can't fire for those leads. Fix: either (a) add `jobTypeSignal` field to preview payload with matched specific keyword, or (b) move enrichment into `buildPreviewReasons()` server-side and emit specific label in `Trade teaser:` string directly. File: `server/routes/leadsSearch.ts:187-209`.
