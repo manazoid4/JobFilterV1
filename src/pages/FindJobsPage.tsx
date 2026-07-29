@@ -861,7 +861,7 @@ export function FindJobsPage() {
                 {fillWeekResult.count} JOBS FOUND IN {(result?.outward || postcode).toUpperCase()}
               </p>
               <p className="mt-1 font-black text-white/70">
-                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(trade)} within {Math.max(radiusMiles, 25)} miles
+                {fillWeekResult.leads.filter(l => l.score >= 80).length} are GOLD — scored for {titleCase(submittedTrade ?? trade)} within {Math.max(radiusMiles, 25)} miles
               </p>
               <p className="mt-1 text-sm font-black text-white/75">
                 Your quiet week isn&apos;t a skills problem. It&apos;s a leads problem.
@@ -1050,6 +1050,17 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
           (r.highlight && (tradeGenerics?.has(r.label) ?? false)) ||
           (!r.highlight && (teaserGenerics?.has(r.label) ?? false))
         );
+        // When the mapping rewrites the keyword label (e.g. BOILER→BOILER WORK), we need to
+        // remove the keyword's own scored/teaser entry so it doesn't coexist with fullLabel.
+        const keywordFullLabel = `${keyword} — YOUR TRADE`;
+        const removeKeywordLabel = keywordFullLabel !== fullLabel
+          ? () => {
+              for (let i = out.length - 1; i >= 0; i--) {
+                if (out[i].label === keywordFullLabel || (!out[i].highlight && out[i].label === keyword)) out.splice(i, 1);
+              }
+            }
+          : null;
+
         if (out.some(r => r.label === fullLabel)) {
           // Full "SPECIFIC — YOUR TRADE" already present — remove ALL remaining generics (scorer can emit several)
           for (let i = out.length - 1; i >= 0; i--) {
@@ -1061,6 +1072,7 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
           }
           const stemIdx = out.findIndex(r => !r.highlight && r.label === specific);
           if (stemIdx !== -1) out.splice(stemIdx, 1);
+          removeKeywordLabel?.();
         } else if (genericIdx !== -1) {
           // Swap the first generic for the specific — only when scorer confirmed a trade match
           out[genericIdx] = { label: fullLabel, highlight: true };
@@ -1074,6 +1086,7 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
           }
           const stemIdx = out.findIndex(r => !r.highlight && r.label === specific);
           if (stemIdx !== -1) out.splice(stemIdx, 1);
+          removeKeywordLabel?.();
         }
         break;
       }
