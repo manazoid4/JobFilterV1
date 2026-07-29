@@ -290,6 +290,7 @@ export function FindJobsPage() {
     setErrorText('');
     setLoading(true);
     setResult(null);
+    setFillWeekResult(null);
     setSubmittedTrade(null);
     setHasScanned(true);
     setCommercialOnly(false);
@@ -977,7 +978,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
     ['KITCHEN', 'KITCHEN WORK'],
     ['STAIRCASE', 'STAIRCASE'],
     ['FLOORING', 'FLOORING'],
-    ['WINDOW', 'WINDOW FIT'],
+    ['WINDOW', 'WINDOW WORK'],
   ],
   painting: [
     ['DECORATING', 'DECORATING'],
