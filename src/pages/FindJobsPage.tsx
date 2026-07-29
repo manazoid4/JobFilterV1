@@ -794,7 +794,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Unlocks buyer name, contact, published value, deadline and official response route. Verified official sources — no shared auction, no five-trade blast. Public opportunities that other suppliers may also pursue.
+                    Shows the official submission route for every lead, plus buyer name, contact and published value where the source includes them. Verified official sources — no shared auction, no five-trade blast. Public opportunities that other suppliers may also pursue.
                   </p>
                 </section>
               )}
@@ -987,12 +987,18 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
   ],
 };
 
-// Generic single-trade labels that title enrichment can replace with something specific
-const GENERIC_TRADE_LABELS = new Set([
-  'ELECTRICAL — YOUR TRADE', 'PLUMBING — YOUR TRADE', 'ROOFING — YOUR TRADE',
-  'BUILDING — YOUR TRADE', 'HVAC — YOUR TRADE', 'LANDSCAPING — YOUR TRADE',
-  'CARPENTRY — YOUR TRADE', 'PAINTING — YOUR TRADE',
-]);
+// Per-trade generic labels (from bare trade-name scorer keywords) that title enrichment can swap for something specific.
+// Keyed by trade; values are the exact "KEYWORD — YOUR TRADE" strings the scorer produces from its generic high-tier keywords.
+const GENERIC_TRADE_LABELS: Partial<Record<string, Set<string>>> = {
+  electrical: new Set(['ELECTRICAL — YOUR TRADE', 'WIRING — YOUR TRADE']),
+  plumbing: new Set(['PLUMB — YOUR TRADE']),
+  roofing: new Set(['ROOF — YOUR TRADE', 'ROOFING — YOUR TRADE']),
+  building: new Set(['BUILDING WORK — YOUR TRADE', 'CONSTRUCTION — YOUR TRADE', 'STRUCTURAL — YOUR TRADE', 'REFURBISHMENT — YOUR TRADE', 'RENOVATION — YOUR TRADE']),
+  carpentry: new Set(['CARPENTRY — YOUR TRADE', 'JOINERY — YOUR TRADE']),
+  painting: new Set(['PAINT — YOUR TRADE', 'DECORAT — YOUR TRADE']),
+  hvac: new Set(['HVAC — YOUR TRADE', 'MECHANICAL — YOUR TRADE', 'VENTILATION — YOUR TRADE']),
+  landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE']),
+};
 
 function parseTradeReasons(raw: string[], title?: string, trade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
@@ -1036,7 +1042,8 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
       for (const [keyword, specific] of signals) {
         if (!titleUpper.includes(keyword)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
-        const genericIdx = out.findIndex(r => r.highlight && GENERIC_TRADE_LABELS.has(r.label));
+        const tradeGenerics = GENERIC_TRADE_LABELS[trade];
+        const genericIdx = out.findIndex(r => r.highlight && (tradeGenerics?.has(r.label) ?? false));
         if (out.some(r => r.label === fullLabel)) {
           // Specific already scored — just clean up the generic label if it also snuck in
           if (genericIdx !== -1) out.splice(genericIdx, 1);
