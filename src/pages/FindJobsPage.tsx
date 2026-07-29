@@ -952,7 +952,7 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
   ],
   roofing: [
     ['FLAT ROOF', 'FLAT ROOF'],
-    ['GUTTERING', 'GUTTER WORK'],
+    ['GUTTER', 'GUTTER WORK'],
     ['FASCIA', 'FASCIA / SOFFIT'],
     ['SOFFIT', 'FASCIA / SOFFIT'],
     ['CHIMNEY', 'CHIMNEY'],
