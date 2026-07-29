@@ -29,12 +29,8 @@ const faqs = [
     a: 'Yes. No contracts. No cancellation fees. Access continues until the end of your billing period.',
   },
   {
-    q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. Browse at least 10 scored leads in your patch. If you do not see a single job worth quoting — not one — email us and we refund the same day. No forms, no argument, no awkward calls.',
-  },
-  {
-    q: 'How does the territory lock work?',
-    a: 'Patch priority is being piloted by trade and postcode cluster. We check source coverage and obvious conflicts before activation. Do not treat an unconfirmed patch as exclusive.',
+    q: 'How is coverage checked before activation?',
+    a: 'Run a free scan before paying. Coverage varies by trade, region and what buyers have published in the current Find a Tender feed. An empty result is a valid and honest outcome — not a system failure. Paid activation follows a coverage check, not a guaranteed volume promise.',
   },
   {
     q: 'Do I need to be VAT registered?',
@@ -64,7 +60,7 @@ export function FaqPage() {
           QUESTIONS? STRAIGHT ANSWERS.
         </h1>
         <p className="mt-6 max-w-2xl text-lg font-bold text-white/85">
-          If you&apos;ve used Checkatrade, Bark, or MyBuilder and got burned — you probably have questions. Here are the straight answers.
+          JobFilter qualifies current Find a Tender public works notices for 5–25-person contractors. Here are the straight answers on how it works, what it costs and what to expect.
         </p>
       </section>
 
@@ -88,16 +84,15 @@ export function FaqPage() {
       {/* Free Scan CTA */}
       <section className="jf-box bg-[var(--ink)] p-8 text-white">
         <p className="micro-label text-[var(--yellow)]">READY TO TRY IT?</p>
-        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SEE REAL LEADS IN YOUR AREA — FREE.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">SCAN CURRENT FIND A TENDER NOTICES — FREE.</h2>
         <p className="mt-3 max-w-xl text-lg font-bold text-white/85">
-          No Checkatrade membership. No Bark credits. Scan your postcode and see what&apos;s active in your trade today.
+          Check current coverage for your trade and region before deciding whether the pilot fits your firm. No card needed for the free scan.
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
-          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
+          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN FREE — NO CARD NEEDED →</Link>
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">CHECK PRICING →</Link>
         </div>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
-        <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
+        <p className="mt-3 text-sm font-black text-white/60">Coverage varies by trade, region and timing. An empty result is honest — not a failure.</p>
       </section>
 
       {/* Still Have Questions */}
