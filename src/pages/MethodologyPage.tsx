@@ -59,10 +59,10 @@ const scoreFactors = [
 ];
 
 const decisionTiers = [
-  { signal: 'Strong trade fit + within region + open deadline', readiness: 'BID', meaning: 'Evidence supports a direct bid. Verify requirements before committing time.' },
-  { signal: 'Partial fit or deadline approaching', readiness: 'WATCH', meaning: 'Monitor for re-tendering or framework lots. Not ready to bid today.' },
-  { signal: 'Scope too large or direct bid not viable for firm size', readiness: 'SUBCONTRACT', meaning: 'Route in as a subcontractor to the principal. Smaller exposure, still real work.' },
-  { signal: 'Wrong trade, region or deadline passed', readiness: 'SKIP', meaning: 'No qualified fit. Move on. Empty results save bid time.' },
+  { signal: 'GOLD score (80+) with a usable contact path identified', readiness: 'BID', meaning: 'Evidence and contact route support a direct bid. Verify requirements before committing time.' },
+  { signal: 'Score 30–79, or GOLD but no contact path yet confirmed', readiness: 'WATCH', meaning: 'Notice matched but missing evidence or contact route. Verify before committing bid time.' },
+  { signal: 'Large public contract or awarded framework notice', readiness: 'SUBCONTRACT', meaning: 'Too large or already awarded for a direct bid — route in via the principal contractor.' },
+  { signal: 'Aggregate score below 30', readiness: 'SKIP', meaning: 'Insufficient evidence for this opportunity. Move on — empty results save bid time.' },
 ];
 
 export function MethodologyPage() {
