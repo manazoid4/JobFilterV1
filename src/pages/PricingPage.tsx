@@ -50,8 +50,7 @@ export function PricingPage() {
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Results vary by trade, region and timing.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -66,11 +65,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Cancel any time. Run the free scan first — no card needed."
+          body="Qualification for public works opportunities. Buyer, value, deadline and response route — extracted from official sources. Cancel any time."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to scan first</p></>}
           order="order-first lg:order-none"
         />
       </section>
@@ -81,6 +80,7 @@ export function PricingPage() {
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
         </p>
+        <Link href="/find-jobs" className="jf-button mt-5 inline-block bg-[var(--green)] text-white">SCAN FREE NOW →</Link>
       </section>
 
       <section className="ops-panel bg-white p-7">
@@ -142,11 +142,10 @@ export function PricingPage() {
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START — £39/MO →" className="bg-[var(--ink)] text-white" />
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
       </section>
     </main>
   );
