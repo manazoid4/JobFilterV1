@@ -1,7 +1,5 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { SignalsPage } from '../../src/pages/SignalsPage';
-
-export default function Page(props: any) {
-  return <SignalsPage {...props} />;
+export default function Page() {
+  redirect('/methodology');
 }

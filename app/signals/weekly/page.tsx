@@ -1,7 +1,5 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { WeeklySignalsPage } from '../../../src/pages/WeeklySignalsPage';
-
-export default function Page(props: any) {
-  return <WeeklySignalsPage {...props} />;
+export default function Page() {
+  redirect('/methodology');
 }
