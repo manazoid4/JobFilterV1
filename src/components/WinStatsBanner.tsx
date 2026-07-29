@@ -11,8 +11,9 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
 
   useEffect(() => {
-    const outward = postcode.trim().split(' ')[0].toUpperCase();
-    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
+    // Aggregate is national — no postcode param so CDN cache key stays stable
+    // regardless of which postcode the user has typed.
+    fetch('/api/wins/stats')
       .then((r) => r.json())
       .then((data) => {
         if (data.ok && data.wonCount > 0) setStats(data);

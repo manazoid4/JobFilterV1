@@ -11,6 +11,13 @@ import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
 /** Suppress monetary value unless this many rows contribute non-null values (anonymisation). */
 const MIN_COHORT = 3;
 
+/** Module-level cache so warm serverless instances don't re-run four DB queries per keystroke. */
+const CACHE_TTL_MS = 5 * 60 * 1000;
+const NO_DATA_CACHE_TTL_MS = 60 * 1000;
+let _cache: { body: object; expiresAt: number } | null = null;
+
+const CACHE_HEADERS = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } as const;
+
 function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
   if (pounds >= 1_000) return `£${Math.round(pounds / 1_000)}k`;
@@ -24,6 +31,10 @@ function buildMessage(wonCount: number, totalValue: number): string {
 }
 
 export async function GET() {
+  if (_cache && Date.now() < _cache.expiresAt) {
+    return Response.json(_cache.body, { headers: CACHE_HEADERS });
+  }
+
   const admin = getSupabaseServiceClient();
   if (!admin) {
     return Response.json({ ok: false, reason: 'db_unavailable' });
@@ -78,7 +89,9 @@ export async function GET() {
   }
 
   if (wonCount === 0) {
-    return Response.json({ ok: false, reason: 'no_data' });
+    const noDataBody = { ok: false, reason: 'no_data' };
+    _cache = { body: noDataBody, expiresAt: Date.now() + NO_DATA_CACHE_TTL_MS };
+    return Response.json(noDataBody, { headers: CACHE_HEADERS });
   }
 
   // If either aggregate query failed, suppress the value entirely — a partial subtotal
@@ -94,15 +107,12 @@ export async function GET() {
   const contributors = contributorErr || valueContributorCount === null ? 0 : valueContributorCount;
   const displayValue = !valueQueryFailed && contributors >= MIN_COHORT ? totalValue : 0;
 
-  // Cache national aggregate at CDN layer — results change rarely and the endpoint
-  // is called on every postcode keystroke via WinStatsBanner.
-  return Response.json(
-    {
-      ok: true,
-      wonCount,
-      totalValueFormatted: displayValue > 0 ? formatValue(displayValue) : '',
-      message: buildMessage(wonCount, displayValue),
-    },
-    { headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' } },
-  );
+  const successBody = {
+    ok: true,
+    wonCount,
+    totalValueFormatted: displayValue > 0 ? formatValue(displayValue) : '',
+    message: buildMessage(wonCount, displayValue),
+  };
+  _cache = { body: successBody, expiresAt: Date.now() + CACHE_TTL_MS };
+  return Response.json(successBody, { headers: CACHE_HEADERS });
 }
