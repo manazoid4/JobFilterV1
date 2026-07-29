@@ -982,11 +982,15 @@ const TRADE_TITLE_SIGNALS: Partial<Record<string, Array<[string, string]>>> = {
   ],
   painting: [
     ['DECORATING', 'DECORATING'],
-    ['PLASTERING', 'PLASTERING'],
+    ['PLASTER', 'PLASTERING'],
     ['RENDER', 'RENDER / COAT'],
     ['EXTERIOR', 'EXTERIOR PAINT'],
   ],
 };
+
+// Keywords that are intentional stems (prefix of valid inflections) — use leading \b only, no trailing boundary.
+// All other keywords in TRADE_TITLE_SIGNALS use \b...\b to prevent false prefix matches (e.g. WINDOW vs WINDOWLESS).
+const STEM_KEYWORDS = new Set(['REWIR', 'REFURB', 'GUTTER', 'RENDER', 'PLASTER']);
 
 // Per-trade generic labels (from bare trade-name scorer keywords) that title enrichment can swap for something specific.
 // Keyed by trade; values are the exact "KEYWORD — YOUR TRADE" strings the scorer produces from its generic high-tier keywords.
@@ -1044,7 +1048,9 @@ function parseTradeReasons(raw: string[], title?: string, trade?: string): Array
       // Teaser labels are the stem of each generic (e.g. "ELECTRICAL" from "ELECTRICAL — YOUR TRADE")
       const teaserGenerics = tradeGenerics ? new Set([...tradeGenerics].map(l => l.replace(' — YOUR TRADE', ''))) : undefined;
       for (const [keyword, specific] of signals) {
-        if (!new RegExp(`\\b${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`).test(titleUpper)) continue;
+        const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const pattern = STEM_KEYWORDS.has(keyword) ? `\\b${escaped}` : `\\b${escaped}\\b`;
+        if (!new RegExp(pattern).test(titleUpper)) continue;
         const fullLabel = `${specific} — YOUR TRADE`;
         const genericIdx = out.findIndex(r =>
           (r.highlight && (tradeGenerics?.has(r.label) ?? false)) ||
