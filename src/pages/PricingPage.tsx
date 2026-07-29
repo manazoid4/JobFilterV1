@@ -16,7 +16,7 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['How is this different from Checkatrade or Bark?', 'Checkatrade and Bark sell homeowner enquiries — you compete with 4 other trades on every lead. JobFilter finds verified public opportunities before they hit lead marketplaces. No shared auction. No five-trade blast.'],
+  ['How is this different from Checkatrade or Bark?', 'Checkatrade and Bark sell homeowner enquiries — you pay per lead and compete with 4 other tradespeople on every one. JobFilter qualifies public procurement notices that are already published and open to any firm. No pay-per-lead, no shared auction, no five-trade blast.'],
   ['Who is JobFilter for?', 'Contractors that can bid public or B2B work — electrical, building, roofing, HVAC, plumbing. It is not a domestic lead marketplace.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current verified signals — no card required. Coverage varies by trade, region and timing, and an empty result is a valid outcome.'],
