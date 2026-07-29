@@ -443,7 +443,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'All 3 free scans used. Buyer name and official response route locked — upgrade to act on these leads.'}
+                : '3 scans complete — scanning remains free. Buyer name and official response route locked — upgrade to act on these leads.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">SEE WHO TO CALL — £39/MO →</Link>
@@ -995,8 +995,8 @@ const GENERIC_TRADE_LABELS: Partial<Record<string, Set<string>>> = {
   roofing: new Set(['ROOF — YOUR TRADE', 'ROOFING — YOUR TRADE']),
   building: new Set(['BUILDING WORK — YOUR TRADE', 'CONSTRUCTION — YOUR TRADE', 'STRUCTURAL — YOUR TRADE', 'REFURBISHMENT — YOUR TRADE', 'RENOVATION — YOUR TRADE']),
   carpentry: new Set(['CARPENTRY — YOUR TRADE', 'JOINERY — YOUR TRADE']),
-  painting: new Set(['PAINT — YOUR TRADE', 'DECORAT — YOUR TRADE']),
-  hvac: new Set(['HVAC — YOUR TRADE', 'MECHANICAL — YOUR TRADE', 'VENTILATION — YOUR TRADE']),
+  painting: new Set(['PAINT — YOUR TRADE', 'DECORAT — YOUR TRADE', 'PLASTER — YOUR TRADE']),
+  hvac: new Set(['HVAC — YOUR TRADE', 'MECHANICAL — YOUR TRADE', 'VENTILATION — YOUR TRADE', 'HEAT PUMP — YOUR TRADE', 'AIR SOURCE — YOUR TRADE']),
   landscaping: new Set(['LANDSCAPE — YOUR TRADE', 'GROUNDS — YOUR TRADE', 'GARDEN — YOUR TRADE', 'TURF — YOUR TRADE']),
 };
 
