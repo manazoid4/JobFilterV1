@@ -134,8 +134,8 @@ export function NewsPage() {
             <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
               SCAN MY POSTCODE FREE →
             </Link>
-            <Link className="text-sm font-black text-[var(--ink)]/70 underline underline-offset-2 hover:text-[var(--ink)]" href="/signals">
-              See live signals →
+            <Link className="text-sm font-black text-[var(--ink)]/70 underline underline-offset-2 hover:text-[var(--ink)]" href="/methodology">
+              How it works →
             </Link>
           </div>
           <p className="mt-3 text-xs font-black text-[var(--ink)]/60">No credit card required — 3 free scans every week</p>
@@ -213,8 +213,8 @@ export function NewsPage() {
             <p className="micro-label text-[var(--orange)]">EARLIER THIS WEEK</p>
             <h2 className="headline mt-1 text-2xl leading-none sm:text-3xl">RECENT BRIEFINGS.</h2>
           </div>
-          <Link href="/signals" className="text-sm font-black uppercase text-[var(--ink)] hover:text-[var(--orange)]">
-            All signals →
+          <Link href="/methodology" className="text-sm font-black uppercase text-[var(--ink)] hover:text-[var(--orange)]">
+            How it works →
           </Link>
         </div>
 

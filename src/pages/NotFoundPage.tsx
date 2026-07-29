@@ -37,13 +37,13 @@ export function NotFoundPage() {
             <p className="micro-label text-[var(--orange)]">PIPELINE</p>
             <p className="mt-2 font-black text-[var(--navy)]">Track your leads and results</p>
           </Link>
-          <Link href="/signals" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--orange)]">SIGNALS</p>
-            <p className="mt-2 font-black text-[var(--navy)]">See how the opportunity network works</p>
+          <Link href="/methodology" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
+            <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
+            <p className="mt-2 font-black text-[var(--navy)]">How JobFilter qualifies public works opportunities</p>
           </Link>
-          <Link href="/free-tools" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
-            <p className="micro-label text-[var(--orange)]">FREE TOOLS</p>
-            <p className="mt-2 font-black text-[var(--navy)]">Useful tools for trades</p>
+          <Link href="/trust" className="jf-box bg-white p-5 block hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[10px_10px_0_var(--navy)] transition">
+            <p className="micro-label text-[var(--orange)]">TRUST</p>
+            <p className="mt-2 font-black text-[var(--navy)]">Data source, scoring and privacy</p>
           </Link>
         </div>
 
