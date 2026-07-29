@@ -1266,6 +1266,17 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
+        {/* ── Trade-fit strip — always visible, no click needed ── */}
+        {parsedReasons.filter(r => r.highlight).length > 0 && (
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] font-black text-[var(--muted)] uppercase shrink-0">TRADE FIT:</span>
+            {parsedReasons.filter(r => r.highlight).slice(0, 3).map(r => (
+              <span key={r.label} className="bg-[var(--yellow)] text-[var(--ink)] border border-[var(--ink)] px-2 py-0.5 text-[10px] font-black uppercase">
+                {r.label.replace(' — YOUR TRADE', '')}
+              </span>
+            ))}
+          </div>
+        )}
         {!OPEN_ACCESS && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
@@ -1299,16 +1310,15 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Stat key={label} label={label} value={value} />
           ))}
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {parsedReasons.map((r) => (
-            <span
-              key={r.label}
-              className={`badge font-black ${r.highlight ? 'bg-[var(--yellow)] text-[var(--ink)] border border-[var(--ink)]' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
-            >
-              {r.label}
-            </span>
-          ))}
-        </div>
+        {parsedReasons.filter(r => !r.highlight).length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {parsedReasons.filter(r => !r.highlight).map((r) => (
+              <span key={r.label} className="badge font-black bg-[var(--bg-main)] text-[var(--ink)]">
+                {r.label}
+              </span>
+            ))}
+          </div>
+        )}
         {lead.evidenceBadges && lead.evidenceBadges.length > 0 && (
           <div className="mt-2">
             <TrustBadges badges={lead.evidenceBadges} max={3} />
