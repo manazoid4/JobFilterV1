@@ -61,16 +61,21 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
-  // Deduplicate legacy rows: users who saved both instant and daily for the same
-  // trade/postcode get two rows (unique key includes frequency). Prefer daily over
-  // instant so only one email fires per calendar day per user/trade/postcode.
+  // Deduplicate legacy instant+daily pairs that share the same effective scope
+  // (trade/postcode/location/radius). weekly is a distinct cadence and always
+  // passes through unchanged; only instant vs. daily rows are collapsed.
   const alertsByKey = new Map<string, (typeof alerts)[number]>();
+  const nonInstantDaily: (typeof alerts)[number][] = [];
   for (const a of alerts ?? []) {
+    if (a.frequency !== 'instant' && a.frequency !== 'daily') {
+      nonInstantDaily.push(a);
+      continue;
+    }
     const key = `${a.user_id}:${a.trade}:${a.postcode_outward}:${a.location}:${a.radius_miles}`;
     const existing = alertsByKey.get(key);
     if (!existing || a.frequency === 'daily') alertsByKey.set(key, a);
   }
-  const deduped = [...alertsByKey.values()];
+  const deduped = [...nonInstantDaily, ...alertsByKey.values()];
 
   let checked = 0;
   let sent = 0;
