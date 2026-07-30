@@ -180,21 +180,28 @@ export async function GET() {
     const dailyByKey = new Map(
       alerts.filter(a => a.frequency === 'daily').map(a => [`${a.trade}|${a.postcode_outward}`, a])
     );
-    await Promise.all(instantRows.map(row => {
+    await Promise.all(instantRows.map(async row => {
       const key = `${row.trade}|${row.postcode_outward}`;
       const sibling = dailyByKey.get(key);
       if (sibling) {
         const mergedActive = row.active || sibling.active;
         const mergedRadius = Math.max(Number(row.radius_miles ?? 25), Number(sibling.radius_miles ?? 25));
         const needsMerge = mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25);
-        return Promise.all([
-          needsMerge
-            ? admin.from('lead_alerts').update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() }).eq('id', sibling.id).eq('user_id', user.userId)
-            : Promise.resolve(),
-          admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId),
-        ]);
+        if (needsMerge) {
+          // Update first; only delete the instant row if the merge succeeded so
+          // we never discard the source row while leaving the sibling unmerged.
+          const { error } = await admin.from('lead_alerts')
+            .update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() })
+            .eq('id', sibling.id).eq('user_id', user.userId);
+          if (error) return;
+          // Mutate the in-memory snapshot so the response reflects the merged state.
+          sibling.active = mergedActive;
+          sibling.radius_miles = mergedRadius;
+        }
+        await admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId);
+        return;
       }
-      return admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
+      await admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
     }));
   }
 
