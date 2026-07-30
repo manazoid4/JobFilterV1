@@ -174,27 +174,37 @@ export async function GET() {
   const instantRows = alerts.filter(a => a.frequency === 'instant');
   if (instantRows.length > 0) {
     // instant was removed from the UI when Vercel Hobby moved to daily-only crons.
-    // Migrate existing instant rows: update to daily, or delete if a daily sibling
-    // already exists for the same trade+postcode (to prevent duplicate sends).
-    const dailyKeys = new Set(
-      alerts.filter(a => a.frequency === 'daily').map(a => `${a.trade}|${a.postcode_outward}`)
+    // Migrate existing instant rows: if a daily sibling exists for the same
+    // trade+postcode, merge the better settings (active, radius) into it then
+    // delete the instant row; otherwise just update the instant row to daily.
+    const dailyByKey = new Map(
+      alerts.filter(a => a.frequency === 'daily').map(a => [`${a.trade}|${a.postcode_outward}`, a])
     );
     await Promise.all(instantRows.map(row => {
       const key = `${row.trade}|${row.postcode_outward}`;
-      return dailyKeys.has(key)
-        ? admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId)
-        : admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
+      const sibling = dailyByKey.get(key);
+      if (sibling) {
+        const mergedActive = row.active || sibling.active;
+        const mergedRadius = Math.max(Number(row.radius_miles ?? 25), Number(sibling.radius_miles ?? 25));
+        const needsMerge = mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25);
+        return Promise.all([
+          needsMerge
+            ? admin.from('lead_alerts').update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() }).eq('id', sibling.id).eq('user_id', user.userId)
+            : Promise.resolve(),
+          admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId),
+        ]);
+      }
+      return admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
     }));
   }
 
+  const dailyByKey = new Map(
+    alerts.filter(a => a.frequency === 'daily').map(a => [`${a.trade}|${a.postcode_outward}`, a])
+  );
   return Response.json({
     ok: true,
     alerts: alerts
-      .filter(a => {
-        if (a.frequency !== 'instant') return true;
-        const dailyKeys = new Set(alerts.filter(x => x.frequency === 'daily').map(x => `${x.trade}|${x.postcode_outward}`));
-        return !dailyKeys.has(`${a.trade}|${a.postcode_outward}`);
-      })
+      .filter(a => a.frequency !== 'instant' || !dailyByKey.has(`${a.trade}|${a.postcode_outward}`))
       .map(a => ({ ...a, frequency: a.frequency === 'instant' ? 'daily' : a.frequency })),
   });
 }
@@ -215,7 +225,8 @@ export async function PATCH(request: Request) {
     update.radius_miles = radius;
   }
   if (body.frequency !== undefined) {
-    const frequency = String(body.frequency).toLowerCase();
+    const rawFreq = String(body.frequency).toLowerCase();
+    const frequency = rawFreq === 'instant' ? 'daily' : rawFreq;
     if (!VALID_FREQUENCIES.has(frequency)) return Response.json({ ok: false, error: 'Invalid frequency' }, { status: 422 });
     if (PAID_FREQUENCIES.has(frequency) && !user.isPaid) return Response.json({ ok: false, error: 'Paid subscription required' }, { status: 403 });
     update.frequency = frequency;
