@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — resets Monday`
-                : 'Free scans used up. Buyer name, phone and deadline locked until you upgrade.'}
+                : 'Scanning is always free. Buyer details and official response route locked until you upgrade.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">SEE BUYER DETAILS — £39/MO →</Link>
@@ -778,11 +778,11 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">BUYER NAME AND PHONE LOCKED</p>
+                  <p className="micro-label text-[var(--ink)]">BUYER DETAILS LOCKED</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — WHO DO YOU CALL?`
-                      : 'WHO DO YOU CALL? UNLOCK BUYER DETAILS.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER.`
+                      : 'UNLOCK BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/80">
                     Full access shows buyer name, deadline and the official response route. No shared auction. No five-trade blast. One subscription per firm — £39/mo, no contract.
