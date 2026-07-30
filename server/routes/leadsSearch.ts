@@ -274,6 +274,17 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+const TRADE_TITLE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'SMART METER', 'FUSE BOARD', 'ELECTRICAL', 'FAULT FINDING'],
+  plumbing: ['BOILER', 'BATHROOM', 'SHOWER', 'HEATING', 'RADIATOR', 'LEAK', 'DRAIN', 'TOILET', 'PLUMBING', 'GAS', 'COMBI BOILER', 'WATER HEATER'],
+  roofing: ['FLAT ROOF', 'ROOF', 'GUTTERING', 'FASCIA', 'CHIMNEY', 'POINTING', 'TILES', 'FELT', 'SOFFIT', 'LEADWORK'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'CONSERVATORY', 'REFURBISHMENT', 'RENOVATION', 'DAMP PROOFING', 'UNDERPINNING'],
+  carpentry: ['FLOORING', 'STAIRCASE', 'WARDROBE', 'DECKING', 'FENCING', 'JOINERY', 'SKIRTING', 'ARCHITRAVE'],
+  painting: ['DECORATING', 'EXTERIOR PAINT', 'INTERIOR PAINT', 'PLASTERING', 'WALLPAPER', 'COVING'],
+  hvac: ['HEAT PUMP', 'AIR CONDITIONING', 'VENTILATION', 'UNDERFLOOR HEATING', 'HVAC', 'AIR CON'],
+  landscaping: ['GARDEN', 'PATIO', 'BLOCK PAVING', 'TURFING', 'DRIVEWAY', 'LANDSCAPING', 'RETAINING WALL'],
+};
+
 function buildPreviewReasons(lead: Lead): string[] {
   const real = lead.scoreReasons ?? [];
   const tradeMatchReason = real.find((r) => r.startsWith('Trade match:'));
@@ -305,6 +316,13 @@ function buildPreviewReasons(lead: Lead): string[] {
   }
   if (real.some((r) => r.startsWith('Urgent timeline'))) {
     return ['Trade teaser: urgent timeline'];
+  }
+  // Scan original title for trade-specific keywords so free-tier users see relevant context
+  const titleUpper = (lead.title ?? '').toUpperCase();
+  const tradeKeywords = TRADE_TITLE_KEYWORDS[String(lead.trade ?? '')] ?? [];
+  const titleMatches = tradeKeywords.filter((k) => titleUpper.includes(k)).slice(0, 2);
+  if (titleMatches.length > 0) {
+    return titleMatches.map((k) => `Trade teaser: ${k}`);
   }
   return ['Paid preview - unlock buyer, deadline, exact value, and action route'];
 }

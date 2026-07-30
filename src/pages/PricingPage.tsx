@@ -19,6 +19,7 @@ const objections = [
   ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['How is this different from Planning Pipe or BuildAlert?', 'Planning Pipe and BuildAlert surface signals from planning applications and construction data — useful for estimating pipeline. JobFilter focuses on live public tenders from Find a Tender: notices with a published buyer, a deadline, and an official response route. Different source, different stage, different action.'],
 ];
 
 export function PricingPage() {
