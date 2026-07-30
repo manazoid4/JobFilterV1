@@ -319,7 +319,7 @@ function buildPreviewReasons(lead: Lead): string[] {
   }
   // Scan original title for trade-specific keywords so free-tier users see relevant context.
   // Pad with spaces so ` AIR CON ` won't match inside ` STAIR CONSTRUCTION `.
-  const paddedTitle = ` ${(lead.title ?? '').toUpperCase()} `;
+  const paddedTitle = ` ${(lead.title ?? '').toUpperCase().replace(/[^A-Z0-9]+/g, ' ')} `;
   const tradeKeywords = TRADE_TITLE_KEYWORDS[String(lead.trade ?? '')] ?? [];
   const titleMatches = tradeKeywords.filter((k) => paddedTitle.includes(` ${k} `)).slice(0, 2);
   if (titleMatches.length > 0) {
