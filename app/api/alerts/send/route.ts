@@ -64,6 +64,11 @@ export async function GET(request: Request) {
   // Deduplicate legacy instant+daily pairs that share the same effective scope
   // (trade/postcode/location/radius). weekly is a distinct cadence and always
   // passes through unchanged; only instant vs. daily rows are collapsed.
+  // The canonical daily row carries forward the freshest last_checked_at and
+  // last_sent_at from both rows so isDue() sees the most recent delivery state
+  // and avoids re-sending what an old hourly runner already sent that UTC day.
+  const laterOf = (x: string | null, y: string | null) =>
+    !x ? y : !y ? x : x > y ? x : y;
   const alertsByKey = new Map<string, (typeof alerts)[number]>();
   const nonInstantDaily: (typeof alerts)[number][] = [];
   for (const a of alerts ?? []) {
@@ -73,7 +78,17 @@ export async function GET(request: Request) {
     }
     const key = `${a.user_id}:${a.trade}:${a.postcode_outward}:${a.location}:${a.radius_miles}`;
     const existing = alertsByKey.get(key);
-    if (!existing || a.frequency === 'daily') alertsByKey.set(key, a);
+    if (!existing) {
+      alertsByKey.set(key, a);
+    } else {
+      const canonical = a.frequency === 'daily' ? a : existing;
+      const other = a.frequency === 'daily' ? existing : a;
+      alertsByKey.set(key, {
+        ...canonical,
+        last_checked_at: laterOf(canonical.last_checked_at, other.last_checked_at),
+        last_sent_at: laterOf(canonical.last_sent_at, other.last_sent_at),
+      });
+    }
   }
   const deduped = [...nonInstantDaily, ...alertsByKey.values()];
 
