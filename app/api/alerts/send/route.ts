@@ -18,6 +18,11 @@ const FREQUENCY_MS: Record<string, number> = {
   weekly: 7 * 24 * 60 * 60 * 1000,
 };
 
+// Allow delivery up to 10% early so daily crons that fire a few seconds after
+// the last stamp (e.g. 08:00:05 → next day 08:00:00 = 23h59m55s elapsed) are
+// not skipped. Without tolerance, daily alerts effectively run every two days.
+const CRON_TOLERANCE = 0.9;
+
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
   if (!cronSecret) {
@@ -52,7 +57,7 @@ export async function GET(request: Request) {
   for (const alert of alerts ?? []) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    if (now - lastChecked < interval * CRON_TOLERANCE) continue;
     checked++;
 
     try {
