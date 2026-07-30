@@ -18,6 +18,7 @@ assert.match(sender, /idempotency_key/);
 assert.match(sender, /delivery\.sent/);
 assert.match(sender, /sourceFailures > 0/);
 assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\(\) \}\)/, 'failed or empty scans must not masquerade as sent');
+assert.match(sender, /SCHEDULE_TOLERANCE_MS/, 'interval gate must include processing-time tolerance to avoid skipping every other run');
 
 assert.match(dashboard, /DAILY SOURCE CHECK/);
 assert.match(dashboard, /'Pause' : 'Resume'/);
