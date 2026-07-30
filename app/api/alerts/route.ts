@@ -183,6 +183,9 @@ export async function GET() {
     );
     const instantByKey = new Map<string, typeof instantRows>();
     for (const row of instantRows) {
+      // Skip rows without a postcode — they can't be keyed safely (null collapses
+      // distinct locations) and can't be delivered by the cron anyway.
+      if (!row.postcode_outward) continue;
       const key = `${row.trade}|${row.postcode_outward}`;
       const group = instantByKey.get(key) ?? [];
       group.push(row);

@@ -70,13 +70,20 @@ export async function GET(request: Request) {
       if (sibling) {
         const mergedActive = alert.active || sibling.active;
         const mergedRadius = Math.max(Number(alert.radius_miles ?? 25), Number(sibling.radius_miles ?? 25));
-        if (mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25)) {
-          const { error } = await admin.from('lead_alerts')
-            .update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() })
-            .eq('id', sibling.id);
+        const tsOf = (v: string | null) => (v ? new Date(v).getTime() : 0);
+        const mergedChecked = tsOf(alert.last_checked_at) > tsOf(sibling.last_checked_at) ? alert.last_checked_at : null;
+        const mergedSent = tsOf(alert.last_sent_at) > tsOf(sibling.last_sent_at) ? alert.last_sent_at : null;
+        const needsUpdate = mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25) || mergedChecked || mergedSent;
+        if (needsUpdate) {
+          const update: Record<string, unknown> = { active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() };
+          if (mergedChecked) update.last_checked_at = mergedChecked;
+          if (mergedSent) update.last_sent_at = mergedSent;
+          const { error } = await admin.from('lead_alerts').update(update).eq('id', sibling.id);
           if (!error) {
             sibling.active = mergedActive;
             sibling.radius_miles = mergedRadius;
+            if (mergedChecked) sibling.last_checked_at = mergedChecked;
+            if (mergedSent) sibling.last_sent_at = mergedSent;
           }
         }
         continue;
