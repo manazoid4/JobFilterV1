@@ -1,17 +1,16 @@
 # Daily To-Do — JobFilter
 
-## Last updated: 2026-07-30 (NightlyBuildAgent)
+## Last updated: 2026-07-30 (NightlyBuildAgent — session 2)
 
 ---
 
-## COMPLETED THIS SESSION
+## COMPLETED THIS SESSION (session 2 continuation)
 
-- [x] Build passes (npm install required in fresh clone)
-- [x] TypeScript: 0 errors
-- [x] PricingPage copy polish — competitor differentiation, CTA clarity, "no credit card required"
-- [x] FindJobsPage copy polish — exhausted-scan copy, upgrade nudge headline "WHO DO YOU CALL?"
-- [x] Vercel cron fix — `/api/alerts/send` changed from `0 * * * *` (hourly) to `0 8 * * *` (daily) to fix Hobby plan limit
-- [x] PR #410 opened — nightly/copy-polish-2026-07-30
+- [x] Codex P1 (vercel.json): renamed DashboardPage `instant` option from "HOURLY SOURCE CHECK" → "DAILY SOURCE CHECK"; inline active-alert text "Hourly check" → "Daily check"; `alert-delivery-contract-regression.mjs` updated to assert `'0 8 * * *'` and `/DAILY SOURCE CHECK/`
+- [x] Codex P2 (PricingPage.tsx): updated `package-copy-regression.mjs` to match current copy (`'you pay for qualification, evidence and workflow'` lowercase, `'Results vary by trade, area and timing'`); both assertions pass
+- [x] All 4 Codex review comments on PR #410 replied to (2 outdated + 2 active)
+- [x] Commit b22b8a0 pushed to nightly/copy-polish-2026-07-30
+- [x] Vercel build triggered (awaiting green)
 
 ---
 
@@ -27,6 +26,7 @@
 
 ## KNOWN ISSUES / WATCH LIST
 
-- `vercel.json` cron was hourly — now daily at 8am UTC. If alerts need more frequency, must upgrade Vercel plan.
+- `vercel.json` cron is daily at 8am UTC (Hobby plan limit). DashboardPage now correctly labels the `instant` alert frequency option "DAILY SOURCE CHECK". If hourly checks are needed in future, must upgrade Vercel plan and revert regression test + dashboard label.
 - Obsidian_Memory vault is gitignored in main repo — vault files committed to feature branches only, not persisted to main.
 - `NEXT_PUBLIC_OPEN_ACCESS` env var controls scan limits — confirm it's set to `'false'` in production.
+- PR #410 (nightly/copy-polish-2026-07-30) open — awaiting CI green and owner merge.
