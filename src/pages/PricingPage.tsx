@@ -45,13 +45,12 @@ export function PricingPage() {
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <CheckoutButton tier="founding" billing="monthly" label="ACTIVATE PILOT — £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Scan first. See coverage for your trade and region before you pay.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -66,11 +65,14 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan free first — no card required until you activate."
+          body="Firm-aware qualification for public tenders. See the buyer, evidence, missing requirements and the exact response route — then decide BID, WATCH, SUBCONTRACT or SKIP."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<>
+            <CheckoutButton tier="founding" billing="monthly" label="ACTIVATE PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />
+            <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to scan first. Activation follows coverage check.</p>
+          </>}
           order="order-first lg:order-none"
         />
       </section>
@@ -141,12 +143,11 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <CheckoutButton tier="founding" billing="monthly" label="ACTIVATE PILOT — £39/MO →" className="bg-[var(--ink)] text-white" />
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow. No credit card required to scan first.</p>
       </section>
     </main>
   );
