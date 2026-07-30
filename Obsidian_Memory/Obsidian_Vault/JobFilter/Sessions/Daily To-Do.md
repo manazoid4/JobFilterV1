@@ -15,8 +15,8 @@ Last updated: 2026-07-30 (NightlyBuildAgent run)
 - [ ] NEEDLE issue #3: Replace hard-coded "SCAN BUILDING WORK" secondary button with a trade-aware button using the user's currently selected trade
 - [ ] WinStatsBanner empty state: show a nudge for logged-in users when no wins are tracked for the postcode yet
 - [ ] Cron delivery check: verify `/api/alerts/send` is actually delivering daily email alerts — check Supabase logs for recent alert deliveries
-- [ ] Confirm Vercel deploy preview is green after cron fix (PR #412)
 - [ ] Consider promoting `SHOW_ADVANCED_TOOLS` flag to true once multi-source adapters are verified — currently hidden behind flag in FindJobsPage
+- [ ] PR #412 ready to merge — all Codex/Vercel/Meticulous checks clean
 
 ## STANDING RULES
 
