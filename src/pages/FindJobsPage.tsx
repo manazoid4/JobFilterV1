@@ -444,8 +444,8 @@ export function FindJobsPage() {
         )}
         {!unlimitedTester && weeklyScansRemaining === 0 && (
           <div className="mt-3 border-2 border-[var(--orange)] bg-[var(--orange)]/10 p-4">
-            <p className="text-sm font-black text-[var(--ink)]">3 scans used this week — buyer names, deadlines, and full lead values are locked.</p>
-            <p className="mt-0.5 text-xs font-black text-[var(--muted)]">Resets Monday. Upgrade to scan unlimited and unlock all details.</p>
+            <p className="text-sm font-black text-[var(--ink)]">3 scans used — scanning still works but buyer names, deadlines, and full values stay hidden.</p>
+            <p className="mt-0.5 text-xs font-black text-[var(--muted)]">Upgrade to unlock all details and scan without limit. Resets Monday either way.</p>
             <Link href="/pricing" className="mt-3 inline-block w-full text-center border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2.5 text-sm font-black uppercase text-[var(--ink)] hover:opacity-90 transition">UNLOCK FULL ACCESS — £39/MO →</Link>
           </div>
         )}

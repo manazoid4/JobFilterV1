@@ -317,10 +317,11 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (real.some((r) => r.startsWith('Urgent timeline'))) {
     return ['Trade teaser: urgent timeline'];
   }
-  // Scan original title for trade-specific keywords so free-tier users see relevant context
-  const titleUpper = (lead.title ?? '').toUpperCase();
+  // Scan original title for trade-specific keywords so free-tier users see relevant context.
+  // Pad with spaces so ` AIR CON ` won't match inside ` STAIR CONSTRUCTION `.
+  const paddedTitle = ` ${(lead.title ?? '').toUpperCase()} `;
   const tradeKeywords = TRADE_TITLE_KEYWORDS[String(lead.trade ?? '')] ?? [];
-  const titleMatches = tradeKeywords.filter((k) => titleUpper.includes(k)).slice(0, 2);
+  const titleMatches = tradeKeywords.filter((k) => paddedTitle.includes(` ${k} `)).slice(0, 2);
   if (titleMatches.length > 0) {
     return titleMatches.map((k) => `Trade teaser: ${k}`);
   }
