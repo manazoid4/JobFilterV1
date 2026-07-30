@@ -22,7 +22,7 @@ assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\
 assert.match(sender, /isDue/, 'interval gate must use calendar-period check to tolerate Vercel Hobby scheduler jitter');
 
 assert.doesNotMatch(dashboard, /DAILY SOURCE CHECK/, 'instant option removed — no duplicate daily choice in UI');
-assert.doesNotMatch(dashboard, /instant.*FREQ_OPTIONS|FREQ_OPTIONS.*instant/, 'instant must not appear in FREQ_OPTIONS');
+assert.doesNotMatch(dashboard, /value:\s*['"]instant['"]/, 'instant must not appear as a selectable option value');
 assert.match(dashboard, /'Pause' : 'Resume'/);
 assert.match(dashboard, /deleteAlert\(a\.id\)/);
 assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 8 * * *');

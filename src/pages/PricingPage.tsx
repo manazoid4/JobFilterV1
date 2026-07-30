@@ -8,7 +8,7 @@ import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
   'BID, WATCH, SUBCONTRACT or SKIP — clear recommendation on every notice',
-  'See the buyer, published value and deadline before you commit bid time',
+  'See the buyer, published value and deadline — where the notice includes them — before you commit bid time',
   'Know what evidence is missing before you write a word of the bid',
   'Fit check against your trade, region, contract range and delivery model',
   'Track decisions and outcomes so your bid hit-rate improves over time',
