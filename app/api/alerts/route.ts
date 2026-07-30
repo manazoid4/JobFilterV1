@@ -77,7 +77,9 @@ export async function POST(request: Request) {
   const location = String(body.location ?? '').trim().slice(0, 120);
   const postcode_raw = String(body.postcode_outward ?? body.postcode ?? '').toUpperCase().trim().replace(/\s+/g, '').slice(0, 8);
   const postcode_outward = POSTCODE_OUTWARD_RE.test(postcode_raw) ? postcode_raw : null;
-  const frequency = String(body.frequency ?? 'weekly').toLowerCase();
+  const rawFrequency = String(body.frequency ?? 'weekly').toLowerCase();
+  // instant was removed when Vercel moved to daily-only crons; map to daily silently
+  const frequency = rawFrequency === 'instant' ? 'daily' : rawFrequency;
   const radius_miles = parseRadius(body.radius_miles ?? body.radiusMiles);
 
   if (!VALID_TRADES.has(trade)) {
@@ -142,9 +144,7 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     alert: data,
-    note: frequency === 'instant'
-      ? 'Alert saved. New matches are checked hourly; delivery timing depends on source and email-provider availability.'
-      : `Alert saved. New matches are checked ${frequency}.`,
+    note: `Alert saved. New matches are checked ${frequency}.`,
   });
 }
 
@@ -170,7 +170,33 @@ export async function GET() {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
-  return Response.json({ ok: true, alerts: data ?? [] });
+  const alerts = data ?? [];
+  const instantRows = alerts.filter(a => a.frequency === 'instant');
+  if (instantRows.length > 0) {
+    // instant was removed from the UI when Vercel Hobby moved to daily-only crons.
+    // Migrate existing instant rows: update to daily, or delete if a daily sibling
+    // already exists for the same trade+postcode (to prevent duplicate sends).
+    const dailyKeys = new Set(
+      alerts.filter(a => a.frequency === 'daily').map(a => `${a.trade}|${a.postcode_outward}`)
+    );
+    await Promise.all(instantRows.map(row => {
+      const key = `${row.trade}|${row.postcode_outward}`;
+      return dailyKeys.has(key)
+        ? admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId)
+        : admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
+    }));
+  }
+
+  return Response.json({
+    ok: true,
+    alerts: alerts
+      .filter(a => {
+        if (a.frequency !== 'instant') return true;
+        const dailyKeys = new Set(alerts.filter(x => x.frequency === 'daily').map(x => `${x.trade}|${x.postcode_outward}`));
+        return !dailyKeys.has(`${a.trade}|${a.postcode_outward}`);
+      })
+      .map(a => ({ ...a, frequency: a.frequency === 'instant' ? 'daily' : a.frequency })),
+  });
 }
 
 export async function PATCH(request: Request) {
