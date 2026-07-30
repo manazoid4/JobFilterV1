@@ -785,7 +785,7 @@ export function FindJobsPage() {
                       : 'UNLOCK BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/80">
-                    Full access shows buyer name, deadline and the official response route. No shared auction. No five-trade blast. One subscription per firm — £39/mo, no contract.
+                    Full access shows buyer name, deadline and the official response route — where the notice includes them. No shared auction. No five-trade blast. One subscription per firm — £39/mo, no contract.
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
