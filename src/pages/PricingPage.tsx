@@ -67,7 +67,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Scan free first — no credit card required."
-          body="Know which public contract notices fit your firm before you spend time on a bid. See the buyer, deadline and gaps in one place. One subscription per firm — no contract."
+          body="Know which public contract notices fit your firm before you spend time on a bid. See the buyer, deadline and gaps — where the notice includes them — in one place. One subscription per firm — no contract."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="GET FULL ACCESS — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
