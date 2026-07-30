@@ -19,9 +19,11 @@ assert.match(sender, /delivery\.sent/);
 assert.match(sender, /sourceFailures > 0/);
 assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\(\) \}\)/, 'failed or empty scans must not masquerade as sent');
 
-assert.match(dashboard, /HOURLY SOURCE CHECK/);
+assert.doesNotMatch(dashboard, /value: 'instant'/, 'instant option must not appear in FREQ_OPTIONS — Vercel Hobby only allows daily crons');
+assert.match(dashboard, /value: 'daily'/, 'daily frequency option must be present');
+assert.match(dashboard, /value: 'weekly'/, 'weekly frequency option must be present');
 assert.match(dashboard, /'Pause' : 'Resume'/);
 assert.match(dashboard, /deleteAlert\(a\.id\)/);
-assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 * * * *');
+assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 8 * * *', 'cron must be daily at 08:00 UTC — Vercel Hobby blocks sub-daily schedules');
 
 console.log('alert delivery contract regression passed');
