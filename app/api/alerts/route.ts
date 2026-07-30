@@ -221,7 +221,8 @@ export async function GET() {
           if (mergedChecked) sibling.last_checked_at = mergedChecked;
           if (mergedSent) sibling.last_sent_at = mergedSent;
         }
-        await Promise.all(rows.map(r => { deletedInstantIds.add(r.id); return admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId); }));
+        const siblingDeletes = await Promise.all(rows.map(r => admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId)));
+        siblingDeletes.forEach((res, i) => { if (!res.error) deletedInstantIds.add(rows[i].id); });
         return;
       }
 
@@ -238,7 +239,8 @@ export async function GET() {
       primary.radius_miles = bestRadius;
       if (bestCheckedTs > 0) primary.last_checked_at = new Date(bestCheckedTs).toISOString();
       if (bestSentTs > 0) primary.last_sent_at = new Date(bestSentTs).toISOString();
-      await Promise.all(extras.map(r => { deletedInstantIds.add(r.id); return admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId); }));
+      const extraDeletes = await Promise.all(extras.map(r => admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId)));
+      extraDeletes.forEach((res, i) => { if (!res.error) deletedInstantIds.add(extras[i].id); });
     }));
   }
 

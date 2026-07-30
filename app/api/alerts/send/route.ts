@@ -54,7 +54,19 @@ export async function GET(request: Request) {
   let sent = 0;
   let failed = 0;
 
-  for (const alert of alerts ?? []) {
+  // Skip instant rows that have a daily sibling for the same user+trade+postcode.
+  // The GET migration handles full deduplication, but users who never visit the
+  // dashboard would otherwise receive duplicate sends indefinitely.
+  const dailySiblingKeys = new Set(
+    (alerts ?? [])
+      .filter(a => a.frequency === 'daily')
+      .map(a => `${a.user_id}|${a.trade}|${a.postcode_outward}`)
+  );
+  const deduped = (alerts ?? []).filter(a =>
+    a.frequency !== 'instant' || !dailySiblingKeys.has(`${a.user_id}|${a.trade}|${a.postcode_outward}`)
+  );
+
+  for (const alert of deduped) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
     if (now - lastChecked < interval * CRON_TOLERANCE) continue;
