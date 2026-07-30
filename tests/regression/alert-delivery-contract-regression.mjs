@@ -19,9 +19,9 @@ assert.match(sender, /delivery\.sent/);
 assert.match(sender, /sourceFailures > 0/);
 assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\(\) \}\)/, 'failed or empty scans must not masquerade as sent');
 
-assert.match(dashboard, /HOURLY SOURCE CHECK/);
+assert.match(dashboard, /DAILY SOURCE CHECK/);
 assert.match(dashboard, /'Pause' : 'Resume'/);
 assert.match(dashboard, /deleteAlert\(a\.id\)/);
-assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 * * * *');
+assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 8 * * *');
 
 console.log('alert delivery contract regression passed');
