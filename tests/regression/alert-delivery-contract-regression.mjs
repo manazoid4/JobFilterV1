@@ -11,6 +11,7 @@ assert.match(api, /export async function PATCH/);
 assert.match(api, /export async function DELETE/);
 assert.match(api, /\.eq\('user_id', user\.userId\)/, 'alert mutations must be owner scoped');
 assert.doesNotMatch(api, /Emails are sent hourly/, 'API must not promise delivery rather than checking cadence');
+assert.doesNotMatch(api, /checked hourly/, 'API POST response must not promise hourly delivery when cron is daily');
 
 assert.match(sender, /radiusMiles: Number\(alert\.radius_miles \?\? 25\)/);
 assert.match(sender, /last_checked_at/);
@@ -20,7 +21,8 @@ assert.match(sender, /sourceFailures > 0/);
 assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\(\) \}\)/, 'failed or empty scans must not masquerade as sent');
 assert.match(sender, /SCHEDULE_TOLERANCE_MS/, 'interval gate must include processing-time tolerance to avoid skipping every other run');
 
-assert.match(dashboard, /DAILY SOURCE CHECK/);
+assert.doesNotMatch(dashboard, /DAILY SOURCE CHECK/, 'instant option removed — no duplicate daily choice in UI');
+assert.doesNotMatch(dashboard, /instant.*FREQ_OPTIONS|FREQ_OPTIONS.*instant/, 'instant must not appear in FREQ_OPTIONS');
 assert.match(dashboard, /'Pause' : 'Resume'/);
 assert.match(dashboard, /deleteAlert\(a\.id\)/);
 assert.equal(vercel.crons.find((cron) => cron.path === '/api/alerts/send')?.schedule, '0 8 * * *');

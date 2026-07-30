@@ -142,9 +142,7 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     alert: data,
-    note: frequency === 'instant'
-      ? 'Alert saved. New matches are checked hourly; delivery timing depends on source and email-provider availability.'
-      : `Alert saved. New matches are checked ${frequency}.`,
+    note: `Alert saved. New matches are checked ${frequency === 'instant' ? 'daily' : frequency}; delivery timing depends on source and email-provider availability.`,
   });
 }
 
