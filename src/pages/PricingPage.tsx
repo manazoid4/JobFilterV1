@@ -16,7 +16,7 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender is free and public. JobFilter charges for firm-aware qualification — trade fit, buyer evidence, requirement gaps, and a clear BID/SKIP decision — so you stop wasting days on the wrong notices.'],
-  ['How is this different from Checkatrade or MyBuilder?', 'Checkatrade and MyBuilder sell domestic leads to anyone who pays. JobFilter qualifies public contract notices by trade, region and firm capability. No auction, no five-trade blast, no homeowners. Different product entirely.'],
+  ['How is this different from Checkatrade or MyBuilder?', 'Checkatrade and MyBuilder sell domestic leads to anyone who pays. JobFilter qualifies public contract notices by trade and region. No auction, no five-trade blast, no homeowners. Different product entirely.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes — no credit card needed. Run a free scan against current Find a Tender notices. Coverage varies by trade, region and timing. An empty result is honest, not broken.'],
 ];
