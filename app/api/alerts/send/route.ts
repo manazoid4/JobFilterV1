@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
   const { data: alerts, error } = await admin
     .from('lead_alerts')
-    .select('id, user_id, trade, location, postcode_outward, radius_miles, frequency, last_checked_at, last_sent_at')
+    .select('id, user_id, trade, location, postcode_outward, radius_miles, frequency, active, last_checked_at, last_sent_at')
     .eq('active', true)
     .not('postcode_outward', 'is', null);
 
@@ -54,17 +54,36 @@ export async function GET(request: Request) {
   let sent = 0;
   let failed = 0;
 
-  // Skip instant rows that have a daily sibling for the same user+trade+postcode.
-  // The GET migration handles full deduplication, but users who never visit the
-  // dashboard would otherwise receive duplicate sends indefinitely.
-  const dailySiblingKeys = new Set(
+  // Deduplicate instant rows that have a daily sibling. Before skipping, merge
+  // the better delivery settings (active, radius) into the sibling so coverage
+  // is never narrowed for users who haven't yet opened the dashboard.
+  const dailyByKey = new Map(
     (alerts ?? [])
       .filter(a => a.frequency === 'daily')
-      .map(a => `${a.user_id}|${a.trade}|${a.postcode_outward}`)
+      .map(a => [`${a.user_id}|${a.trade}|${a.postcode_outward}`, a])
   );
-  const deduped = (alerts ?? []).filter(a =>
-    a.frequency !== 'instant' || !dailySiblingKeys.has(`${a.user_id}|${a.trade}|${a.postcode_outward}`)
-  );
+  const deduped: typeof alerts = [];
+  for (const alert of (alerts ?? [])) {
+    if (alert.frequency === 'instant') {
+      const key = `${alert.user_id}|${alert.trade}|${alert.postcode_outward}`;
+      const sibling = dailyByKey.get(key);
+      if (sibling) {
+        const mergedActive = alert.active || sibling.active;
+        const mergedRadius = Math.max(Number(alert.radius_miles ?? 25), Number(sibling.radius_miles ?? 25));
+        if (mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25)) {
+          const { error } = await admin.from('lead_alerts')
+            .update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() })
+            .eq('id', sibling.id);
+          if (!error) {
+            sibling.active = mergedActive;
+            sibling.radius_miles = mergedRadius;
+          }
+        }
+        continue;
+      }
+    }
+    deduped.push(alert);
+  }
 
   for (const alert of deduped) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
