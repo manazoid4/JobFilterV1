@@ -12,15 +12,16 @@ import { scan } from '../../../../leadEngine/scan';
 import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
-// Vercel Hobby cron has ±59 min jitter, so ms-based tolerance is unreliable.
-// Use calendar-period checks instead: daily fires if UTC date changed,
-// weekly fires if ≥6 calendar days have elapsed (tolerates ±1 day drift).
+// Vercel Hobby cron has ±59 min time-of-day jitter but fires at most once per
+// calendar day, so calendar-period checks are reliable where ms thresholds are not.
+const DAY_MS = 24 * 60 * 60 * 1000;
 function isDue(lastCheckedAt: string | null, frequency: string): boolean {
   if (!lastCheckedAt) return true;
   const lastMs = new Date(lastCheckedAt).getTime();
   if (Number.isNaN(lastMs)) return true;
   const nowMs = Date.now();
   if (frequency === 'instant' || frequency === 'daily') {
+    // Fire when the UTC calendar date has changed.
     const now = new Date(nowMs);
     const last = new Date(lastMs);
     return (
@@ -29,8 +30,9 @@ function isDue(lastCheckedAt: string | null, frequency: string): boolean {
       now.getUTCDate() !== last.getUTCDate()
     );
   }
-  // weekly: at least 6 days (tolerates Hobby scheduler drift)
-  return nowMs - lastMs >= 6 * 24 * 60 * 60 * 1000;
+  // weekly: require 7 full UTC calendar days so jitter (time-of-day only) cannot
+  // shorten the interval to 6 days.
+  return Math.floor(nowMs / DAY_MS) - Math.floor(lastMs / DAY_MS) >= 7;
 }
 
 export async function GET(request: Request) {
@@ -59,11 +61,22 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
+  // Deduplicate legacy rows: users who saved both instant and daily for the same
+  // trade/postcode get two rows (unique key includes frequency). Prefer daily over
+  // instant so only one email fires per calendar day per user/trade/postcode.
+  const alertsByKey = new Map<string, (typeof alerts)[number]>();
+  for (const a of alerts ?? []) {
+    const key = `${a.user_id}:${a.trade}:${a.postcode_outward}`;
+    const existing = alertsByKey.get(key);
+    if (!existing || a.frequency === 'daily') alertsByKey.set(key, a);
+  }
+  const deduped = [...alertsByKey.values()];
+
   let checked = 0;
   let sent = 0;
   let failed = 0;
 
-  for (const alert of alerts ?? []) {
+  for (const alert of deduped) {
     if (!isDue(alert.last_checked_at, alert.frequency)) continue;
     checked++;
 
@@ -142,7 +155,7 @@ export async function GET(request: Request) {
               delivery_status: 'failed',
               error: delivery.error ?? 'Email provider rejected delivery',
               last_error: delivery.error ?? 'Email provider rejected delivery',
-              next_attempt_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+              next_attempt_at: null,
               updated_at: new Date().toISOString(),
             }).eq('id', deliveryId);
             continue;
@@ -174,5 +187,5 @@ export async function GET(request: Request) {
     }
   }
 
-  return Response.json({ ok: failed === 0, total: alerts?.length ?? 0, checked, sent, failed }, { status: failed === 0 ? 200 : 503 });
+  return Response.json({ ok: failed === 0, total: deduped.length, checked, sent, failed }, { status: failed === 0 ? 200 : 503 });
 }
