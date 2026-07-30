@@ -6,10 +6,10 @@ const opportunityTypes = [
     num: '01',
     label: 'MAINTENANCE FRAMEWORK',
     tag: 'RECURRING WORK',
-    what: 'A buyer sets up a panel of contractors for recurring site maintenance over 2–4 years. Call-offs are issued as work arises — no fresh tender each time.',
-    suits: 'Firms with local presence and the capacity to respond at short notice. Low bid risk once you are on the panel.',
+    what: 'A buyer sets up a panel of contractors for recurring site maintenance over 2–4 years. Call-offs are issued as work arises — some direct award, some via mini-competition among panel members.',
+    suits: 'Firms with local presence and the capacity to respond at short notice. Low bid risk once on the panel, though some call-offs still require competitive pricing.',
     decision: 'BID',
-    detail: 'Panel entry is competitive but the payoff is ongoing volume with no repeat tendering.',
+    detail: 'Panel entry is competitive. Check the framework terms — call-off mechanism varies between direct award and mini-competition.',
   },
   {
     num: '02',
@@ -33,10 +33,10 @@ const opportunityTypes = [
     num: '04',
     label: 'DYNAMIC PURCHASING SYSTEM',
     tag: 'OPEN ENTRY',
-    what: 'An online catalogue of pre-approved suppliers. Any compliant firm can apply to join at any point. Buyers call off contracts without further tendering.',
-    suits: 'Firms that want a pipeline of smaller contracts without responding to individual tenders. Entry requirements are typically light.',
+    what: 'An online catalogue of pre-approved suppliers. Any compliant firm can apply to join at any point. Each call-off is awarded via a mini-competition among admitted suppliers in the relevant category.',
+    suits: 'Firms that want a steady pipeline of smaller contracts. Entry is relatively light, but you still need bid capacity for individual call-off competitions.',
     decision: 'WATCH',
-    detail: 'Call-off values are often below DPS headline figures. Confirm the likely individual contract size before committing to entry.',
+    detail: 'Admission does not guarantee work — each call-off requires a competitive response. Confirm the likely call-off value and competition frequency before committing.',
   },
   {
     num: '05',
@@ -214,7 +214,7 @@ export function SignalsPage() {
             {[
               ['01', 'TRADE AND CPV FIT', 'Does the Common Procurement Vocabulary code match your trade category? Mismatched notices waste bid time.'],
               ['02', 'DELIVERY LOCATION', 'Is the project or maintenance area within your operational radius? Distance is the most common filter in public works.'],
-              ['03', 'STAGE AND DEADLINE', 'Is this a PQQ, ITT, or direct award? How much time is left? Early notices have the most value.'],
+              ['03', 'STAGE AND DEADLINE', 'Is this an active tender or a contract award? How much time is left on the response window? Early notices have the most value.'],
               ['04', 'BID OR SUB ROUTE', 'Is this a contract you can prime-bid, or a package you should pursue via the main contractor? Different actions, different timing.'],
             ].map(([num, title, body]) => (
               <div key={num} className="jf-box bg-[var(--bg-main)] p-5">
