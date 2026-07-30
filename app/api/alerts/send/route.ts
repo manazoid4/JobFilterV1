@@ -66,7 +66,7 @@ export async function GET(request: Request) {
   // instant so only one email fires per calendar day per user/trade/postcode.
   const alertsByKey = new Map<string, (typeof alerts)[number]>();
   for (const a of alerts ?? []) {
-    const key = `${a.user_id}:${a.trade}:${a.postcode_outward}`;
+    const key = `${a.user_id}:${a.trade}:${a.postcode_outward}:${a.location}`;
     const existing = alertsByKey.get(key);
     if (!existing || a.frequency === 'daily') alertsByKey.set(key, a);
   }
