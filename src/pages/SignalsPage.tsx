@@ -1,202 +1,191 @@
 "use client";
-import { useState } from 'react';
 import Link from 'next/link';
 
-
-const signals = [
+const opportunityTypes = [
   {
-    source: 'SIGNAL 1 · PLANNING',
-    name: 'PLANNING APPROVED. BUILDER NOT PICKED.',
-    description: 'A 4-bed extension approved this morning in your postcode. The homeowner hasn\'t called anyone yet. You get the alert. They don\'t.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
-    signalType: 'BEFORE THE CALL',
+    num: '01',
+    label: 'MAINTENANCE FRAMEWORK',
+    tag: 'RECURRING WORK',
+    what: 'A buyer sets up a panel of contractors for recurring site maintenance over 2–4 years. Call-offs are issued as work arises — no fresh tender each time.',
+    suits: 'Firms with local presence and the capacity to respond at short notice. Low bid risk once you are on the panel.',
+    decision: 'BID',
+    detail: 'Panel entry is competitive but the payoff is ongoing volume with no repeat tendering.',
   },
   {
-    source: 'SIGNAL 2 · CONTRACTS',
-    name: 'COUNCIL WORK. NO BIDDING WAR.',
-    description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
-    signalType: 'LIVE TENDER',
+    num: '02',
+    label: 'ONE-OFF WORKS CONTRACT',
+    tag: 'SINGLE PROJECT',
+    what: 'A defined project with a fixed scope and a published contract value. One tender, one award. Delivered and closed.',
+    suits: 'Any contractor with the relevant trade, insurance and references. Most common notice type on Find a Tender.',
+    decision: 'BID',
+    detail: 'Read the scope carefully — scope creep on public works is limited by contract, which protects you.',
   },
   {
-    source: 'SIGNAL 3 · ENERGY',
-    name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
-    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
-    trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
-    signalType: 'LEGAL TRIGGER',
+    num: '03',
+    label: 'PRE-QUALIFICATION QUESTIONNAIRE',
+    tag: 'FIRST STAGE',
+    what: 'A screening round before the tender documents are issued. No cost to enter. Buyers shortlist a fixed number of firms before releasing the full ITT.',
+    suits: 'Smaller firms with limited bid resources — PQQ effort is lower than a full tender submission.',
+    decision: 'BID',
+    detail: 'A failed PQQ costs little. A passed PQQ gives you a closed shortlist — fewer competitors than an open tender.',
   },
   {
-    source: 'SIGNAL 4 · PROPERTY SALES',
-    name: 'JUST BOUGHT IT. HASN\'T CALLED ANYONE.',
-    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just cleared.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
-    signalType: 'FRESH PURCHASE',
+    num: '04',
+    label: 'DYNAMIC PURCHASING SYSTEM',
+    tag: 'OPEN ENTRY',
+    what: 'An online catalogue of pre-approved suppliers. Any compliant firm can apply to join at any point. Buyers call off contracts without further tendering.',
+    suits: 'Firms that want a pipeline of smaller contracts without responding to individual tenders. Entry requirements are typically light.',
+    decision: 'WATCH',
+    detail: 'Call-off values are often below DPS headline figures. Confirm the likely individual contract size before committing to entry.',
   },
   {
-    source: 'SIGNAL 5 · NEW BUSINESS',
-    name: 'NEW COMPANY. NEEDS A FIT-OUT.',
-    description: 'New company registered in your postcode in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
-    signalType: 'NEW BUSINESS',
+    num: '05',
+    label: 'FRAMEWORK AGREEMENT',
+    tag: 'MULTI-SUPPLIER',
+    what: 'A buyer or group of buyers establishes a roster of approved contractors. Individual call-off contracts are placed from the framework over its lifetime, often 4 years.',
+    suits: 'Contractors with capacity across a region. Competition for entry is stiffer than a DPS, but framework volumes can be substantial.',
+    decision: 'BID',
+    detail: 'Check whether call-offs require a mini-competition — some frameworks still require competitive pricing per order.',
   },
   {
-    source: 'SIGNAL 6 · HMO LICENSING',
-    name: 'LANDLORD HAS TO BRING THE PROPERTY UP TO STANDARD.',
-    description: 'HMO licence activity points to fire doors, alarms, electrics, plumbing, ventilation, repairs and compliance work before the landlord starts ringing round.',
-    trades: ['Electrical', 'Plumbing', 'Building', 'Carpentry', 'Painting'],
-    signalType: 'COMPLIANCE WORK',
+    num: '06',
+    label: 'CAPITAL BUILD PROJECT',
+    tag: 'LARGER WORKS',
+    what: 'A new-build or major extension for a public body. Typically procured under JCT or NEC conditions. Values usually exceed £500k.',
+    suits: 'Firms with a strong QS function, recognised quality management systems, relevant professional body memberships and a track record on comparable-value projects. Unsuitable for most 5–10 person firms bidding as prime contractor.',
+    decision: 'SUBCONTRACT',
+    detail: 'Flag these for subcontract targeting — the main contractor will tender specialist packages separately.',
   },
   {
-    source: 'SIGNAL 7 · BUILDING CONTROL',
-    name: 'WORK HAS MOVED FROM IDEA TO SITE.',
-    description: 'Building control notices show projects that are past planning talk and closer to actual work: extensions, structural work, conversions, roof changes and inspections.',
-    trades: ['Building', 'Roofing', 'Electrical', 'Plumbing', 'Carpentry'],
-    signalType: 'SITE MOVEMENT',
+    num: '07',
+    label: 'RESPONSIVE REPAIRS CONTRACT',
+    tag: 'REACTIVE VOLUME',
+    what: 'A housing association or council appoints a contractor to handle day-to-day repairs across a housing stock. Volume is steady but unpredictable on any given day.',
+    suits: 'Firms with local operatives, a mobile workforce and robust job-management systems. Not suitable for firms that price each job individually.',
+    decision: 'WATCH',
+    detail: 'Margin per job is lower than project work. Assess the KPI regime — penalties for missed response times erode margin fast.',
   },
   {
-    source: 'SIGNAL 8 · AUCTION PROPERTY',
-    name: 'NEW OWNER NEEDS A FAST TURNAROUND.',
-    description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Good trades get in before the new owner starts searching.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'Roofing', 'Painting', 'Carpentry'],
-    signalType: 'FAST TURNAROUND',
+    num: '08',
+    label: 'DESIGN AND BUILD',
+    tag: 'WITH DESIGN LIABILITY',
+    what: 'The contractor takes on both the design and construction. Single-point responsibility for the client. Requires professional indemnity insurance for design.',
+    suits: 'Firms with in-house design capability or a reliable architect/engineer sub-consultant. Most small contractors should avoid prime responsibility here.',
+    decision: 'SKIP',
+    detail: 'Subcontract route still viable — the main D&B contractor will package trade works separately.',
   },
   {
-    source: 'SIGNAL 9 · INSOLVENCY / VOID WORKS',
-    name: 'SITES AND PREMISES NEED SOMEONE TO STEP IN.',
-    description: 'Business distress, empty premises and interrupted projects can create urgent make-safe, refit, repair and takeover work for local trades.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'Security', 'Carpentry'],
-    signalType: 'URGENT TAKEOVER',
+    num: '09',
+    label: 'MINOR WORKS ORDER',
+    tag: 'SMALL-SCALE DIRECT',
+    what: 'Low-value contract issued under a simplified procedure. Often awarded directly from an approved list or via a light-touch quote process. Below the Find a Tender threshold.',
+    suits: 'Any firm on a council or housing body approved-supplier list. Fast to award, fast to mobilise.',
+    decision: 'BID',
+    detail: 'These rarely appear as full FTS notices — below the Find a Tender threshold, often awarded via approved-supplier list rather than a published notice.',
   },
   {
-    source: 'SIGNAL 10 · RETROFIT GRANTS',
-    name: 'FUNDING CREATES THE DEADLINE.',
-    description: 'Grant windows, local retrofit schemes and funded upgrade programmes create timed demand for insulation, heating, solar, ventilation and electrical work.',
-    trades: ['Insulation', 'HVAC', 'Electrical', 'Roofing', 'Building'],
-    signalType: 'FUNDED UPGRADE',
+    num: '10',
+    label: 'UTILITIES AND STREETWORKS',
+    tag: 'SPECIALIST ROUTE',
+    what: 'Contracts involving public highways, telecoms infrastructure, water mains or energy network works. Procurement routes differ from standard public-works tenders.',
+    suits: 'Firms with NRSWA licences, street-opening permits and relevant utility-sector accreditations. Not appropriate without specialist compliance.',
+    decision: 'SKIP',
+    detail: 'Skip unless you hold the required licences. Flag as a subcontract target if you have a compatible trade.',
   },
 ] as const;
 
-type SignalType =
-  | 'BEFORE THE CALL'
-  | 'LIVE TENDER'
-  | 'LEGAL TRIGGER'
-  | 'FRESH PURCHASE'
-  | 'NEW BUSINESS'
-  | 'COMPLIANCE WORK'
-  | 'SITE MOVEMENT'
-  | 'FAST TURNAROUND'
-  | 'URGENT TAKEOVER'
-  | 'FUNDED UPGRADE';
 
-const signalTypeStyle: Record<SignalType, string> = {
-  'BEFORE THE CALL': 'bg-[var(--yellow)] text-[var(--ink)]',
-  'LIVE TENDER': 'bg-[var(--yellow)] text-[var(--ink)]',
-  'LEGAL TRIGGER': 'bg-[var(--orange)] text-white',
-  'FRESH PURCHASE': 'bg-[var(--navy)] text-white',
-  'NEW BUSINESS': 'bg-[var(--steel)] text-white',
-  'COMPLIANCE WORK': 'bg-[var(--orange)] text-white',
-  'SITE MOVEMENT': 'bg-[var(--ink)] text-white',
-  'FAST TURNAROUND': 'bg-[var(--yellow)] text-[var(--ink)]',
-  'URGENT TAKEOVER': 'bg-[var(--orange)] text-white',
-  'FUNDED UPGRADE': 'bg-[var(--steel-2)] text-white',
-};
 
-const tradeSignals: Array<{ trade: string; active: string[] }> = [
-  { trade: 'Electrician', active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Retrofit Grants'] },
-  { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
-  { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
-  { trade: 'HEATING',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
-  { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
-  { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
-];
+type Decision = 'BID' | 'WATCH' | 'SUBCONTRACT' | 'SKIP';
 
-const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
-
-const tradeToSignalLabel: Record<string, string> = {
-  Electrician: 'Electrical',
-  Plumber: 'Plumbing',
-  Builder: 'Building',
-  Roofer: 'Roofing',
-  HEATING: 'HVAC',
-  Landscaper: 'Landscaping',
-  Carpenter: 'Carpentry',
-  Painter: 'Painting',
+const decisionStyle: Record<Decision, string> = {
+  BID: 'bg-[var(--yellow)] text-[var(--ink)]',
+  WATCH: 'bg-[var(--navy)] text-white',
+  SUBCONTRACT: 'bg-[var(--steel)] text-white',
+  SKIP: 'bg-[var(--orange)] text-white',
 };
 
 export function SignalsPage() {
-  const [trade, setTrade] = useState<string>('All Trades');
-  const visibleSignals =
-    trade === 'All Trades'
-      ? signals
-      : signals.filter((s) => (s.trades as readonly string[]).includes(tradeToSignalLabel[trade]));
-
   return (
     <main className="pb-8">
 
       {/* 1. Hero */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
-          <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            JOBS BEFORE THEY GET POSTED.
+          <p className="micro-label text-[var(--yellow)]">FIND A TENDER — PUBLIC-WORKS OPPORTUNITY TYPES</p>
+          <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,6.5rem)] leading-[0.88] text-[var(--yellow)]">
+            10 TYPES OF PUBLIC WORKS OPPORTUNITY.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
+            Find a Tender publishes every kind of public contract — but not all of them fit a 5–25-person firm. This page maps the categories that appear, what each means for a small contractor, and whether the default signal is BID, WATCH, SUBCONTRACT or SKIP.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — SEE WHAT IS LIVE NOW →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">GET FULL ACCESS — £39/MO →</Link>
           </div>
-          <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. Founder price £39/mo. One job covers 12+ months.</p>
+          <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. No card needed. One job covers 12+ months at £39/mo.</p>
         </div>
       </section>
 
-      {/* 2. Signals grid */}
-      <section className="bg-[var(--bg-main)]">
-        <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">TEN SIGNAL TYPES</p>
-          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">PICK YOUR TRADE. SEE WHAT APPLIES TO YOU.</h2>
-          <p className="mt-4 font-black text-[var(--muted)]">Filter by trade below — only signals relevant to your work.</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {['All Trades', ...Object.keys(tradeToSignalLabel)].map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTrade(t)}
-                className={`border-2 border-[var(--line)] px-3 py-1.5 text-sm font-black uppercase ${
-                  trade === t ? 'bg-[var(--yellow)] text-[var(--ink)]' : 'bg-white text-[var(--ink)] hover:bg-[var(--bg-main)]'
-                }`}
-              >
-                {t}
-              </button>
+      {/* 2. Decision key strip */}
+      <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
+        <div className="page-shell py-4">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <p className="micro-label text-white/60 shrink-0">DECISION KEY</p>
+            {([
+              ['BID', 'bg-[var(--yellow)] text-[var(--ink)]', 'Pursue this as prime contractor'],
+              ['WATCH', 'bg-[var(--navy)] text-white border-2 border-white/30', 'Monitor — fits only under certain conditions'],
+              ['SUBCONTRACT', 'bg-[var(--steel)] text-white', 'Target the main contractor for packages'],
+              ['SKIP', 'bg-[var(--orange)] text-white', 'Out of scope for most small firms'],
+            ] as const).map(([label, cls, tip]) => (
+              <div key={label} className="flex items-center gap-2">
+                <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${cls}`}>{label}</span>
+                <span className="text-xs font-bold text-white/60">{tip}</span>
+              </div>
             ))}
           </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {visibleSignals.map((s) => (
-              <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
-                <div>
-                  <span className="inline-block bg-[var(--navy)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">
-                    {s.source}
+        </div>
+      </section>
+
+      {/* 3. Opportunity types grid */}
+      <section className="bg-[var(--bg-main)] border-b-4 border-[var(--line)]">
+        <div className="page-shell section-pad">
+          <p className="micro-label text-[var(--orange)]">TEN OPPORTUNITY TYPES</p>
+          <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">KNOW WHAT YOU ARE EVALUATING BEFORE YOU BID.</h2>
+          <p className="mt-4 font-black text-[var(--muted)] max-w-3xl">
+            Each type carries different risk, margin profile and entry requirements. Identifying the type in the first 60 seconds of reading a notice saves hours of wasted bid work.
+          </p>
+
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {opportunityTypes.map((opp) => (
+              <article key={opp.num} className="jf-box bg-white p-6 flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="inline-block bg-[var(--ink)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-[var(--yellow)]">
+                    {opp.num}
+                  </span>
+                  <span className="inline-block border border-[var(--line)] bg-[var(--bg-main)] px-2 py-0.5 text-[0.65rem] font-black uppercase tracking-wider text-[var(--muted)]">
+                    {opp.tag}
                   </span>
                 </div>
-                <h3 className="headline text-4xl leading-none">{s.name}</h3>
-                <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {s.trades.map((t) => (
-                    <span
-                      key={t}
-                      className="border border-[var(--line)] bg-[var(--bg-main)] px-2 py-0.5 text-xs font-black uppercase"
-                    >
-                      {t}
+                <h3 className="headline text-2xl leading-none">{opp.label}</h3>
+                <div className="space-y-3 flex-1">
+                  <div>
+                    <p className="micro-label text-[var(--muted)] mb-1">WHAT IT IS</p>
+                    <p className="text-sm font-bold text-[var(--ink)] leading-snug">{opp.what}</p>
+                  </div>
+                  <div>
+                    <p className="micro-label text-[var(--muted)] mb-1">WHO IT SUITS</p>
+                    <p className="text-sm font-bold text-[var(--muted)] leading-snug">{opp.suits}</p>
+                  </div>
+                </div>
+                <div className="pt-3 border-t-2 border-[var(--line)] space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="micro-label text-[var(--muted)]">DEFAULT SIGNAL</span>
+                    <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${decisionStyle[opp.decision as Decision]}`}>
+                      {opp.decision}
                     </span>
-                  ))}
-                </div>
-                <div className="mt-auto pt-3 border-t-2 border-[var(--line)]">
-                  <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
-                    {s.signalType}
-                  </span>
+                  </div>
+                  <p className="text-xs font-bold text-[var(--muted)] leading-snug">{opp.detail}</p>
                 </div>
               </article>
             ))}
@@ -204,142 +193,64 @@ export function SignalsPage() {
         </div>
       </section>
 
-      {/* 2b. Pricing bridge */}
-      <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
-        <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
-          <p className="text-base font-black text-[var(--ink)]">
-            All 10 signals included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
-          </p>
-          <div className="flex shrink-0 gap-3">
-            <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">SCAN FREE →</Link>
-            <Link className="jf-button bg-white px-4 py-2 text-sm text-[var(--ink)]" href="/pricing">SEE PRICING →</Link>
+      {/* 4. Decision guide strip */}
+      <section className="bg-[var(--yellow)] border-y-4 border-[var(--line)]">
+        <div className="page-shell py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <p className="text-base font-black text-[var(--ink)] max-w-2xl">
+              The average FTS notice takes 4+ hours to evaluate manually. JobFilter reads the notice and returns a BID / WATCH / SUBCONTRACT / SKIP decision in under 60 seconds — with the evidence shown.
+            </p>
+            <Link className="jf-button bg-[var(--ink)] text-white shrink-0" href="/find-jobs">SCAN FREE — SEE WHAT IS LIVE →</Link>
           </div>
         </div>
       </section>
 
-      {/* 2c. Works Starting Now */}
-      <section className="border-b-4 border-[var(--line)] bg-white">
-        <div className="page-shell section-pad">
-          <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
-            <div>
-              <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
-              <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
-              <p className="mt-4 max-w-3xl text-lg font-bold leading-tight text-[var(--ink)]/80">
-                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {['READY = act now', 'MAYBE = verify source', 'WASTE = skip'].map((label) => (
-                  <span key={label} className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
-                    {label}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="jf-box bg-[var(--ink)] p-5 text-white">
-              <p className="micro-label text-[var(--yellow)]">PAID MODE</p>
-              <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
-              <p className="mt-3 text-sm font-bold text-white/85">
-                Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
-              </p>
-              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
-                OPEN WORKS STARTING NOW →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. How it combines */}
-      <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
-        <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
-              ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
-            ].map(([step, title, body]) => (
-              <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
-                <p className="micro-label text-[var(--yellow)]">{step}</p>
-                <h3 className="headline mt-3 text-3xl text-[var(--yellow)]">{title}</h3>
-                <p className="mt-3 font-bold text-white/90">{body}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 max-w-3xl text-xl font-bold text-[var(--muted)]">
-            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
-          </p>
-        </div>
-      </section>
-
-      {/* 4. Source status strip */}
-      <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
-        <div className="page-shell py-5">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            {['PLANNING', 'CONTRACTS', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
-              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
-                {src}
-              </span>
-            ))}
-          </div>
-          <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
-          </p>
-        </div>
-      </section>
-
-      {/* 5. Trade targeting */}
+      {/* 5. How JobFilter reads a notice */}
       <section className="bg-white border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--orange)]">TRADE TARGETING</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOUR TRADE. YOUR SIGNALS.</h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {tradeSignals.map(({ trade, active }) => (
-              <article key={trade} className="jf-box bg-[var(--bg-main)] p-5">
-                <h3 className="headline text-2xl">{trade}</h3>
-                <div className="mt-4 grid gap-2">
-                  {allSignalLabels.map((label) => {
-                    const on = active.includes(label);
-                    return (
-                      <div
-                        key={label}
-                        className={`flex items-center gap-2 text-sm font-black ${on ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}
-                      >
-                        <span className={`text-base leading-none ${on ? 'text-[var(--green)]' : ''}`}>
-                          {on ? '✓' : '✗'}
-                        </span>
-                        {label}
-                      </div>
-                    );
-                  })}
-                </div>
-              </article>
+          <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WHAT JOBFILTER CHECKS ON EACH NOTICE.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              ['01', 'TRADE AND CPV FIT', 'Does the Common Procurement Vocabulary code match your trade category? Mismatched notices waste bid time.'],
+              ['02', 'DELIVERY LOCATION', 'Is the project or maintenance area within your operational radius? Distance is the most common filter in public works.'],
+              ['03', 'STAGE AND DEADLINE', 'Is this a PQQ, ITT, or direct award? How much time is left? Early notices have the most value.'],
+              ['04', 'BID OR SUB ROUTE', 'Is this a contract you can prime-bid, or a package you should pursue via the main contractor? Different actions, different timing.'],
+            ].map(([num, title, body]) => (
+              <div key={num} className="jf-box bg-[var(--bg-main)] p-5">
+                <p className="micro-label text-[var(--orange)]">CHECK {num}</p>
+                <h3 className="headline mt-3 text-2xl text-[var(--ink)]">{title}</h3>
+                <p className="mt-3 text-sm font-bold text-[var(--muted)] leading-snug">{body}</p>
+              </div>
             ))}
+          </div>
+          <div className="mt-6 flex justify-center">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SEE IT ON A LIVE NOTICE — SCAN FREE →</Link>
           </div>
         </div>
       </section>
 
       {/* 6. CTA */}
-      <section className="bg-[var(--yellow)] border-t-4 border-[var(--line)]">
+      <section className="bg-[var(--ink)] border-t-4 border-[var(--line)]">
         <div className="page-shell section-pad text-center">
-          <p className="micro-label text-[var(--ink)]">READY TO SCAN</p>
-          <h2 className="headline mt-4 text-[clamp(2.25rem,8vw,6rem)] leading-[0.88] text-[var(--ink)]">
-            SEE WHAT'S LIVE IN YOUR PATCH RIGHT NOW.
+          <p className="micro-label text-[var(--yellow)]">GET STARTED</p>
+          <h2 className="headline mt-4 text-[clamp(2.25rem,7vw,5.5rem)] leading-[0.88] text-white">
+            £39/MO. ONE JOB COVERS 12 MONTHS.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
-            Enter your postcode. Pick your trade. Every active signal fires in under 10 seconds. Free — no card, no contract.
+          <p className="mx-auto mt-5 max-w-2xl text-xl font-bold text-white/85">
+            Scan the current Find a Tender feed. Get a BID / WATCH / SUBCONTRACT / SKIP decision on every relevant notice. Free scans available now — no card required.
           </p>
-          <div className="mt-8">
-            <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">
-              RUN MY FREE SCAN →
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">
+              SCAN FREE — NO CARD NEEDED →
+            </Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">
+              SEE FULL PRICING →
             </Link>
           </div>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]">
-            3 free scans every week — no credit card required. Founder access: £39/month. Checkatrade charges £180/month for shared leads. This is unshared and filtered.
+          <p className="mt-4 text-sm font-black text-white/60 uppercase">
+            3 free scans per week. Founder access: £39/month. One qualifying contract covers the subscription for a full year.
           </p>
-          <p className="mt-4 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
         </div>
       </section>
 
