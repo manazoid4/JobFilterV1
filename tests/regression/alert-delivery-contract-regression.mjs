@@ -19,7 +19,7 @@ assert.match(sender, /idempotency_key/);
 assert.match(sender, /delivery\.sent/);
 assert.match(sender, /sourceFailures > 0/);
 assert.doesNotMatch(sender, /update\(\{ last_sent_at: new Date\(\)\.toISOString\(\) \}\)/, 'failed or empty scans must not masquerade as sent');
-assert.match(sender, /SCHEDULE_TOLERANCE_MS/, 'interval gate must include processing-time tolerance to avoid skipping every other run');
+assert.match(sender, /isDue/, 'interval gate must use calendar-period check to tolerate Vercel Hobby scheduler jitter');
 
 assert.doesNotMatch(dashboard, /DAILY SOURCE CHECK/, 'instant option removed — no duplicate daily choice in UI');
 assert.doesNotMatch(dashboard, /instant.*FREQ_OPTIONS|FREQ_OPTIONS.*instant/, 'instant must not appear in FREQ_OPTIONS');

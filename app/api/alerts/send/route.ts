@@ -12,16 +12,26 @@ import { scan } from '../../../../leadEngine/scan';
 import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
-const FREQUENCY_MS: Record<string, number> = {
-  instant: 60 * 60 * 1000,
-  daily: 24 * 60 * 60 * 1000,
-  weekly: 7 * 24 * 60 * 60 * 1000,
-};
-
-// Cron fires at a fixed clock time but last_checked_at is written after processing
-// completes, so elapsed time at the next invocation is slightly under the nominal
-// interval. Allow 5 minutes of slack so daily/weekly alerts don't skip every other run.
-const SCHEDULE_TOLERANCE_MS = 5 * 60 * 1000;
+// Vercel Hobby cron has ±59 min jitter, so ms-based tolerance is unreliable.
+// Use calendar-period checks instead: daily fires if UTC date changed,
+// weekly fires if ≥6 calendar days have elapsed (tolerates ±1 day drift).
+function isDue(lastCheckedAt: string | null, frequency: string): boolean {
+  if (!lastCheckedAt) return true;
+  const lastMs = new Date(lastCheckedAt).getTime();
+  if (Number.isNaN(lastMs)) return true;
+  const nowMs = Date.now();
+  if (frequency === 'instant' || frequency === 'daily') {
+    const now = new Date(nowMs);
+    const last = new Date(lastMs);
+    return (
+      now.getUTCFullYear() !== last.getUTCFullYear() ||
+      now.getUTCMonth() !== last.getUTCMonth() ||
+      now.getUTCDate() !== last.getUTCDate()
+    );
+  }
+  // weekly: at least 6 days (tolerates Hobby scheduler drift)
+  return nowMs - lastMs >= 6 * 24 * 60 * 60 * 1000;
+}
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
@@ -49,15 +59,12 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
-  const now = Date.now();
   let checked = 0;
   let sent = 0;
   let failed = 0;
 
   for (const alert of alerts ?? []) {
-    const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
-    const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval - SCHEDULE_TOLERANCE_MS) continue;
+    if (!isDue(alert.last_checked_at, alert.frequency)) continue;
     checked++;
 
     try {
