@@ -172,46 +172,80 @@ export async function GET() {
 
   const alerts = data ?? [];
   const instantRows = alerts.filter(a => a.frequency === 'instant');
+  const deletedInstantIds = new Set<string>();
+
   if (instantRows.length > 0) {
-    // instant was removed from the UI when Vercel Hobby moved to daily-only crons.
-    // Migrate existing instant rows: if a daily sibling exists for the same
-    // trade+postcode, merge the better settings (active, radius) into it then
-    // delete the instant row; otherwise just update the instant row to daily.
+    // instant was removed when Vercel Hobby moved to daily-only crons.
+    // Group by trade+postcode so multiple location variants (permitted by the
+    // uniqueness key) are aggregated into one sibling update rather than racing.
     const dailyByKey = new Map(
       alerts.filter(a => a.frequency === 'daily').map(a => [`${a.trade}|${a.postcode_outward}`, a])
     );
-    await Promise.all(instantRows.map(async row => {
+    const instantByKey = new Map<string, typeof instantRows>();
+    for (const row of instantRows) {
       const key = `${row.trade}|${row.postcode_outward}`;
+      const group = instantByKey.get(key) ?? [];
+      group.push(row);
+      instantByKey.set(key, group);
+    }
+
+    await Promise.all([...instantByKey.entries()].map(async ([key, rows]) => {
+      // Aggregate best delivery settings across all instant rows for this key.
+      const bestActive = rows.some(r => r.active);
+      const bestRadius = Math.max(...rows.map(r => Number(r.radius_miles ?? 25)));
+      const ts = (v: string | null) => (v ? new Date(v).getTime() : 0);
+      const bestCheckedTs = Math.max(...rows.map(r => ts(r.last_checked_at)));
+      const bestSentTs = Math.max(...rows.map(r => ts(r.last_sent_at)));
+
       const sibling = dailyByKey.get(key);
       if (sibling) {
-        const mergedActive = row.active || sibling.active;
-        const mergedRadius = Math.max(Number(row.radius_miles ?? 25), Number(sibling.radius_miles ?? 25));
-        const needsMerge = mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25);
+        const mergedActive = bestActive || sibling.active;
+        const mergedRadius = Math.max(bestRadius, Number(sibling.radius_miles ?? 25));
+        const mergedCheckedTs = Math.max(bestCheckedTs, ts(sibling.last_checked_at));
+        const mergedSentTs = Math.max(bestSentTs, ts(sibling.last_sent_at));
+        const mergedChecked = mergedCheckedTs > ts(sibling.last_checked_at) ? new Date(mergedCheckedTs).toISOString() : null;
+        const mergedSent = mergedSentTs > ts(sibling.last_sent_at) ? new Date(mergedSentTs).toISOString() : null;
+        const needsMerge = mergedActive !== sibling.active || mergedRadius !== Number(sibling.radius_miles ?? 25) || mergedChecked || mergedSent;
+
         if (needsMerge) {
-          // Update first; only delete the instant row if the merge succeeded so
-          // we never discard the source row while leaving the sibling unmerged.
-          const { error } = await admin.from('lead_alerts')
-            .update({ active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() })
-            .eq('id', sibling.id).eq('user_id', user.userId);
+          const update: Record<string, unknown> = { active: mergedActive, radius_miles: mergedRadius, updated_at: new Date().toISOString() };
+          if (mergedChecked) update.last_checked_at = mergedChecked;
+          if (mergedSent) update.last_sent_at = mergedSent;
+          // Update first; only delete if the merge succeeded so we never lose
+          // the source row while leaving the sibling unmerged.
+          const { error } = await admin.from('lead_alerts').update(update).eq('id', sibling.id).eq('user_id', user.userId);
           if (error) return;
-          // Mutate the in-memory snapshot so the response reflects the merged state.
+          // Reflect in snapshot so the response shows the merged state.
           sibling.active = mergedActive;
           sibling.radius_miles = mergedRadius;
+          if (mergedChecked) sibling.last_checked_at = mergedChecked;
+          if (mergedSent) sibling.last_sent_at = mergedSent;
         }
-        await admin.from('lead_alerts').delete().eq('id', row.id).eq('user_id', user.userId);
+        await Promise.all(rows.map(r => { deletedInstantIds.add(r.id); return admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId); }));
         return;
       }
-      await admin.from('lead_alerts').update({ frequency: 'daily', updated_at: new Date().toISOString() }).eq('id', row.id).eq('user_id', user.userId);
+
+      // No daily sibling: promote the primary row to daily with the best
+      // aggregated settings; delete any extras for the same key.
+      const [primary, ...extras] = rows;
+      const update: Record<string, unknown> = { frequency: 'daily', active: bestActive, radius_miles: bestRadius, updated_at: new Date().toISOString() };
+      if (bestCheckedTs > 0) update.last_checked_at = new Date(bestCheckedTs).toISOString();
+      if (bestSentTs > 0) update.last_sent_at = new Date(bestSentTs).toISOString();
+      const { error } = await admin.from('lead_alerts').update(update).eq('id', primary.id).eq('user_id', user.userId);
+      if (error) return;
+      primary.frequency = 'daily';
+      primary.active = bestActive;
+      primary.radius_miles = bestRadius;
+      if (bestCheckedTs > 0) primary.last_checked_at = new Date(bestCheckedTs).toISOString();
+      if (bestSentTs > 0) primary.last_sent_at = new Date(bestSentTs).toISOString();
+      await Promise.all(extras.map(r => { deletedInstantIds.add(r.id); return admin.from('lead_alerts').delete().eq('id', r.id).eq('user_id', user.userId); }));
     }));
   }
 
-  const dailyByKey = new Map(
-    alerts.filter(a => a.frequency === 'daily').map(a => [`${a.trade}|${a.postcode_outward}`, a])
-  );
   return Response.json({
     ok: true,
     alerts: alerts
-      .filter(a => a.frequency !== 'instant' || !dailyByKey.has(`${a.trade}|${a.postcode_outward}`))
+      .filter(a => !deletedInstantIds.has(a.id))
       .map(a => ({ ...a, frequency: a.frequency === 'instant' ? 'daily' : a.frequency })),
   });
 }
