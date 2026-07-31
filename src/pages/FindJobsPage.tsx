@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans used this week — upgrade to unlock buyer, deadline and submission details.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +862,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
             ))}
           </div>
         )}
@@ -876,46 +876,40 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
-          {/* Empty map illustration */}
-          <div className="flex justify-center mb-4">
-            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
-              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
-              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
-            </svg>
-          </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white">
+          <p className="micro-label text-[var(--yellow)]">LIVE PUBLIC-TENDER FEED</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SEE WHAT CONTRACTS ARE OPEN IN YOUR AREA RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Current public opportunities matched to your trade and postcode. 10 seconds. No credit card. Unlike Bark or Checkatrade, no other trade sees your result.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <div className="mt-5 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN MY AREA →
+              SCAN MY AREA — FREE →
+            </button>
+            <button onClick={() => {
+              if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+              setTrade('electrical'); void submit(undefined, { trade: 'electrical' });
+            }} className="jf-button bg-white text-[var(--ink)]">
+              SCAN ELECTRICAL
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               setTrade('building'); void submit(undefined, { trade: 'building' });
             }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
+              SCAN BUILDING
             </button>
           </div>
+          <p className="mt-3 text-xs font-black text-white/40 uppercase tracking-wider">No credit card required · Results are official public opportunities</p>
         </section>
       )}
     </main>
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+function parseTradeReasons(raw: string[], trade?: string, title?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,6 +942,17 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
+  // When backend reasons don't contain trade keywords, scan the lead title against known trade terms
+  if (out.filter(r => r.highlight).length === 0 && title && trade) {
+    const kws = TRADE_TITLE_KEYWORDS[trade] ?? [];
+    const upper = title.toUpperCase();
+    for (const kw of kws) {
+      if (upper.includes(kw)) {
+        out.push({ label: `${kw} — YOUR TRADE`, highlight: true });
+        if (out.filter(r => r.highlight).length >= 2) break;
+      }
+    }
+  }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
@@ -960,6 +965,17 @@ const TITLE_KEYWORDS = [
   'INSULATION', 'REWIRING', 'VENTILATION', 'GARAGE CONVERSION',
   'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
 ];
+
+const TRADE_TITLE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'DISTRIBUTION BOARD', 'LIGHTING', 'ELECTRICAL', 'SMART METER'],
+  plumbing: ['BOILER', 'HEAT PUMP', 'BATHROOM', 'KITCHEN', 'HOT WATER', 'DRAINAGE', 'RADIATOR', 'UNVENTED', 'CYLINDER', 'PLUMBING'],
+  roofing: ['FLAT ROOF', 'ROOFING', 'ROOF', 'GUTTERING', 'GUTTERS', 'FASCIA', 'SOFFIT', 'CHIMNEY', 'SLATE', 'TILE'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'REFURBISHMENT', 'INSULATION', 'PLASTERING', 'DAMP', 'STRUCTURAL', 'UNDERPINNING'],
+  hvac: ['HEAT PUMP', 'BOILER', 'VENTILATION', 'AIR CON', 'HEATING', 'RETROFIT', 'INSULATION', 'HVAC', 'MECHANICAL'],
+  carpentry: ['KITCHEN', 'FLOORING', 'DOORS', 'WINDOWS', 'DECKING', 'FENCING', 'FITTED', 'JOINERY', 'TIMBER'],
+  painting: ['DECORATING', 'PAINTING', 'PAINT', 'DAMP', 'PLASTERING', 'RENDER', 'INTERNAL'],
+  landscaping: ['GARDEN', 'DRIVEWAY', 'GROUNDWORK', 'DECKING', 'FENCING', 'PAVING', 'LANDSCAPING', 'DRAINAGE'],
+};
 
 function extractTopJobTypes(leads: Lead[]): string[] {
   const counts: Record<string, number> = {};
@@ -1140,9 +1156,9 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, trade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; trade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, trade, lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
