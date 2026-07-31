@@ -138,12 +138,12 @@ export function SignalsPage() {
       {/* 1. Hero */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
+          <p className="micro-label text-[var(--yellow)]">TEN SIGNAL TYPES — INCLUDED IN YOUR SCAN</p>
           <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            JOBS BEFORE THEY GET POSTED.
+            KNOW WHICH SIGNALS FIT YOUR TRADE.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
+            JobFilter reads ten signal classes — planning, contracts, energy, property sales and more — and qualifies which opportunities fit your trade, location and capacity. Know what to bid, what to watch, and what to skip.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
@@ -285,7 +285,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
+            10 SIGNAL CLASSES · QUALIFY WHAT FITS YOUR FIRM · PUBLIC + PRIVATE SOURCES
           </p>
         </div>
       </section>
