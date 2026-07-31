@@ -67,7 +67,7 @@ export function TopNav() {
                 Sign in
               </Link>
               <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-                CHECK FTS FREE
+                SCAN FREE →
               </Link>
             </>
           )}
@@ -136,7 +136,7 @@ export function TopNav() {
                 onClick={() => setMenuOpen(false)}
                 className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
               >
-                CHECK FIND A TENDER FREE
+                SCAN FREE — NO CARD NEEDED
               </Link>
             </>
           )}

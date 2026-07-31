@@ -15,10 +15,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning — not access to notices Checkatrade, MyBuilder, or Bark can hide from you.'],
+  ['Who is JobFilter for?', 'Contractors already considering business-to-business or public works — not sole traders looking for domestic leads. If you want planning-signal or EPC leads, the free scanner on the Find Jobs page is a better fit.'],
+  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow — never privileged access to a notice that any supplier can already find.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free scan against current Find a Tender notices — no credit card required. Coverage varies by trade, region and timing, and an empty result is a valid outcome, not a failure.'],
 ];
 
 export function PricingPage() {
@@ -47,11 +47,11 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for firm-aware qualification, evidence and workflow — not access to the notices themselves.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Current results can be sparse or empty depending on your trade and area.</p>
+        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Checkatrade, MyBuilder, and Bark don't touch this data. This is official source evidence — not form-fillers.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -143,10 +143,10 @@ export function PricingPage() {
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not access to notices Bark or Checkatrade can't see either.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required for the free current-coverage check. Cancel anytime.</p>
       </section>
     </main>
   );
