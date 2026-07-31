@@ -436,8 +436,8 @@ export function FindJobsPage() {
               {weeklyScansRemaining > 0
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
-                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — no credit card required`
+                : 'All 3 free scans used. Buyer details, deadlines and submission routes unlock at £39/mo.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -904,9 +904,9 @@ export function FindJobsPage() {
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-              setTrade('building'); void submit(undefined, { trade: 'building' });
+              void submit();
             }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
+              SCAN {trade.toUpperCase()} WORK
             </button>
           </div>
         </section>
@@ -915,7 +915,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_FALLBACK_REASONS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'REWIRE', 'CONSUMER UNIT', 'EICR', 'ELECTRICAL WORKS'],
+  plumbing: ['BOILER WORKS', 'BATHROOM', 'HOT WATER', 'DRAINAGE', 'PLUMBING'],
+  roofing: ['ROOFING WORKS', 'FLAT ROOF', 'GUTTERING', 'WATERPROOFING', 'SLATING'],
+  building: ['REFURBISHMENT', 'EXTENSION', 'BRICKWORK', 'CONCRETE', 'BUILDING WORKS'],
+  carpentry: ['CARPENTRY', 'JOINERY', 'TIMBER FRAME', 'DOORS', 'WINDOWS'],
+  painting: ['DECORATION', 'PAINTING', 'PLASTERING', 'FINISHING', 'RENDERING'],
+  hvac: ['HEAT PUMP', 'BOILER WORKS', 'VENTILATION', 'AIR CON', 'HEATING WORKS'],
+  landscaping: ['GROUNDWORKS', 'FENCING', 'PAVING', 'DRAINAGE', 'LANDSCAPING'],
+};
+
+function parseTradeReasons(raw: string[], trade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,7 +959,10 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  if (out.length > 0) return out.slice(0, 5);
+  const tradeFallbacks = trade ? TRADE_FALLBACK_REASONS[trade.toLowerCase()] : undefined;
+  if (tradeFallbacks) return tradeFallbacks.slice(0, 3).map(label => ({ label, highlight: false }));
+  return [{ label: 'Verified signal', highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1142,7 +1156,8 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const leadTrade = String(lead.trade || lead.tradeMatch || '').toLowerCase();
+  const parsedReasons = parseTradeReasons(rawReasons, leadTrade);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
