@@ -43,7 +43,7 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Checkatrade, MyBuilder, and Bark send the same lead to five tradespeople. JobFilter reads verified official sources and shows you the decision — BID, WATCH, SUBCONTRACT, or SKIP — before anyone else sees it. No shared auctions.
+          Checkatrade, MyBuilder, and Bark send the same lead to five tradespeople. JobFilter reads verified official sources and scores each opportunity against your trade, location, and deadline — so your bid time goes to work that fits, not work five competitors are already chasing.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />

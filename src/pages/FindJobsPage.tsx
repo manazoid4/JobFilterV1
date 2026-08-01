@@ -891,7 +891,7 @@ export function FindJobsPage() {
             </svg>
           </div>
           <p className="micro-label text-[var(--yellow)]">3 FREE SCANS — NO CARD</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">JOBS IN YOUR PATCH BEFORE CHECKATRADE OR BARK LIST THEM.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">VERIFIED JOBS IN YOUR PATCH. SCORED FOR YOUR TRADE. NOT BLASTED TO FIVE COMPETITORS.</h2>
           <p className="mt-3 font-black text-white/70">
             Enter your postcode. Pick your trade. 10 seconds. No credit card required.
           </p>
