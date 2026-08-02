@@ -24,7 +24,6 @@ const TRADES = [
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY' },
   { value: 'daily', label: 'DAILY' },
-  { value: 'instant', label: 'HOURLY SOURCE CHECK' },
 ];
 
 type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };
@@ -32,7 +31,7 @@ type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius
 function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
   const [trade, setTrade] = useState(scanTrade ?? 'electrical');
   const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
-  const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
+  const [frequency, setFrequency] = useState<'weekly' | 'daily'>('weekly');
   const [radiusMiles, setRadiusMiles] = useState(25);
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -124,7 +123,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
       <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN NEW LEADS MATCH YOUR PATCH</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Set your trade, postcode and how often you want to hear about it. We check public opportunities against your patch and email you when something matches. Weekly alerts are free — no card required. Daily and instant alerts require Full Access.
+        Set your trade, postcode and how often you want to hear about it. We check public opportunities against your patch and email you when something matches. Weekly alerts are free — no card required. Daily alerts require Full Access.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
@@ -167,7 +166,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
             {activeAlerts.map(a => (
               <div key={a.id} className={`flex flex-wrap items-center justify-between gap-2 border-2 border-[var(--line)] p-2 text-xs font-black uppercase ${a.active ? 'bg-[var(--bg-main)]' : 'bg-white text-[var(--muted)]'}`}>
                 <span>
-                  {a.active ? 'Active' : 'Paused'} · {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.radius_miles ?? 25}mi · {a.frequency === 'instant' ? 'Hourly check' : a.frequency}
+                  {a.active ? 'Active' : 'Paused'} · {TRADES.find(t => t.value === a.trade)?.label ?? a.trade} · {a.postcode_outward} · {a.radius_miles ?? 25}mi · {a.frequency}
                 </span>
                 <span className="flex gap-2">
                   <button type="button" onClick={() => void updateAlert(a.id, { active: !a.active })} className="underline underline-offset-2" aria-label={`${a.active ? 'Pause' : 'Resume'} ${a.trade} alert for ${a.postcode_outward}`}>

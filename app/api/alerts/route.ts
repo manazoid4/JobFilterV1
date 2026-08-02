@@ -21,9 +21,9 @@ const VALID_TRADES = new Set([
   'plumbing', 'electrical', 'roofing', 'building', 'carpentry',
   'painting', 'hvac', 'landscaping',
 ]);
-const VALID_FREQUENCIES = new Set(['instant', 'daily', 'weekly']);
+const VALID_FREQUENCIES = new Set(['daily', 'weekly']);
 const POSTCODE_OUTWARD_RE = /^[A-Z]{1,2}[0-9]{1,2}[A-Z]?$/;
-const PAID_FREQUENCIES = new Set(['instant', 'daily']);
+const PAID_FREQUENCIES = new Set(['daily']);
 const FULL_ACCESS_TEST_MODE = process.env.FULL_ACCESS_TEST_MODE === 'true';
 
 function parseRadius(value: unknown): number | null {
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
   }
   if (!VALID_FREQUENCIES.has(frequency)) {
     return Response.json(
-      { ok: false, error: 'frequency must be instant, daily, or weekly' },
+      { ok: false, error: 'frequency must be daily or weekly' },
       { status: 422 }
     );
   }
@@ -142,9 +142,7 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     alert: data,
-    note: frequency === 'instant'
-      ? 'Alert saved. New matches are checked hourly; delivery timing depends on source and email-provider availability.'
-      : `Alert saved. New matches are checked ${frequency}.`,
+    note: `Alert saved. New matches are checked ${frequency}.`,
   });
 }
 
