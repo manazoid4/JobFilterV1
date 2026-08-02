@@ -124,7 +124,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
       <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN NEW LEADS MATCH YOUR PATCH</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Set your trade, postcode and how often you want to hear about it. We check public opportunities against your patch and email you when something matches — free, no credit card required.
+        Set your trade, postcode and how often you want to hear about it. We check public opportunities against your patch and email you when something matches. Weekly alerts are free — no card required. Daily and instant alerts require Full Access.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
