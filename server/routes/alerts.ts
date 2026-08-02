@@ -122,4 +122,15 @@ export function registerAlertsRoute(app: Express) {
       return res.status(500).json({ ok: false, error: String(err?.message ?? 'Alert deletion failed.') });
     }
   });
+
+  // GET /api/alerts/send — Vercel daily cron trigger; dispatches pending alert emails
+  app.get('/api/alerts/send', async (_req: Request, res: Response) => {
+    if (!supabase) {
+      console.log('[alerts/send] Supabase not configured — skipping alert dispatch');
+      return res.json({ ok: true, sent: 0, reason: 'supabase_not_configured' });
+    }
+    // Placeholder: fetch active alerts and dispatch — full send logic added in a follow-up
+    console.log('[alerts/send] Daily cron fired');
+    return res.json({ ok: true, sent: 0, reason: 'dispatch_not_yet_implemented' });
+  });
 }
