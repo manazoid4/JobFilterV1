@@ -419,7 +419,7 @@ export function FindJobsPage() {
   const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
   const bestSource = getBestSource(result?.sources);
   const sourceMix = getSourceMix(result?.sources);
-  const topJobTypes = extractTopJobTypes(displayedLeads);
+  const topJobTypes = extractTopJobTypes(displayedLeads, trade);
 
   return (
     <main className="page-shell grid gap-5 py-8 pb-24 md:pb-8">
@@ -533,7 +533,7 @@ export function FindJobsPage() {
 
         {/* Trade presets — tap to scan by trade once postcode is entered */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'TAP A TRADE TO SCAN NOW' : 'ENTER POSTCODE ABOVE, THEN TAP A TRADE'}</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -876,38 +876,36 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
-          {/* Empty map illustration */}
-          <div className="flex justify-center mb-4">
-            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
-              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
-              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
-            </svg>
-          </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
-          <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+        <section className="jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">LIVE PUBLIC-TENDER FEED</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">
+            HOW MANY BIDS DID YOU PRICE THIS MONTH THAT YOU HAD NO CHANCE OF WINNING?
+          </h2>
+          <p className="mt-3 font-black text-white/70 max-w-xl">
+            Enter your postcode. We check every live public notice against your trade — and tell you which ones are worth your time and which to skip. Takes 10 seconds.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">Most notices</p>
+              <p className="mt-1 font-black text-white">Wrong CPV, wrong region, wrong size. We filter those out instantly.</p>
+            </div>
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">The ones that fit</p>
+              <p className="mt-1 font-black text-white">Buyer, deadline, and response route — so you know exactly what to do next.</p>
+            </div>
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">Zero guesswork</p>
+              <p className="mt-1 font-black text-white">BID, WATCH, SUBCONTRACT, or SKIP — one clear call per notice.</p>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN MY AREA →
             </button>
-            <button onClick={() => {
-              if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-              setTrade('building'); void submit(undefined, { trade: 'building' });
-            }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
-            </button>
+            <span className="self-center text-xs font-black text-white/50">No credit card required</span>
           </div>
         </section>
       )}
@@ -951,6 +949,17 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
+const TRADE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'SMART HOME', 'VENTILATION', 'ELECTRICAL MAINTENANCE'],
+  plumbing: ['BOILER', 'HEAT PUMP', 'BATHROOM', 'KITCHEN', 'HEATING', 'DRAINAGE', 'RETROFIT', 'GAS', 'PLUMBING'],
+  roofing: ['FLAT ROOF', 'ROOFING', 'GUTTERING', 'SOLAR', 'SCAFFOLDING', 'INSULATION', 'ROOF REPAIR'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'GARAGE', 'GROUNDWORK', 'PLASTERING', 'FLOORING', 'TILING', 'CONSERVATORY', 'DAMP', 'REFURBISHMENT'],
+  carpentry: ['FLOORING', 'TILING', 'FENCING', 'JOINERY', 'FITTING', 'KITCHEN'],
+  painting: ['DECORATING', 'PAINTING', 'PLASTERING', 'REFURBISHMENT'],
+  hvac: ['BOILER', 'HEAT PUMP', 'VENTILATION', 'HEATING', 'INSULATION', 'RETROFIT', 'HVAC', 'MECHANICAL'],
+  landscaping: ['DRAINAGE', 'FENCING', 'GROUNDWORK', 'LANDSCAPING', 'EARTHWORKS'],
+};
+
 const TITLE_KEYWORDS = [
   'EV CHARGER', 'EV CHARGING', 'REWIRE', 'CONSUMER UNIT', 'EICR',
   'BOILER', 'HEAT PUMP', 'BATHROOM', 'KITCHEN', 'EXTENSION',
@@ -961,7 +970,7 @@ const TITLE_KEYWORDS = [
   'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
 ];
 
-function extractTopJobTypes(leads: Lead[]): string[] {
+function extractTopJobTypes(leads: Lead[], currentTrade?: Trade): string[] {
   const counts: Record<string, number> = {};
 
   for (const lead of leads) {
@@ -994,9 +1003,10 @@ function extractTopJobTypes(leads: Lead[]): string[] {
   }
 
   // Fallback: extract from lead titles (free-tier users with generic reasons)
+  const keywordList = (currentTrade && TRADE_KEYWORDS[currentTrade]) ?? TITLE_KEYWORDS;
   for (const lead of leads) {
     const title = (lead.title ?? '').toUpperCase();
-    for (const kw of TITLE_KEYWORDS) {
+    for (const kw of keywordList) {
       if (title.includes(kw)) {
         counts[kw] = (counts[kw] || 0) + 1;
       }

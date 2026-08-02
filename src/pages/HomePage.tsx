@@ -2,7 +2,6 @@
 import Link from 'next/link';
 
 import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
-import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
   'Find a Tender remains free and public',
@@ -317,23 +316,22 @@ export function HomePage() {
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
               <AlertTriangle size={28} strokeWidth={3} />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER-ASSISTED PILOT</p>
-                <h3 className="headline text-3xl">Check fit before payment.</h3>
+                <p className="micro-label text-[var(--orange)]">CHECK BEFORE YOU COMMIT</p>
+                <h3 className="headline text-3xl">Scan free. Pay only when coverage fits.</h3>
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No fabricated live jobs and no promised volume. Pilot activation follows a real source-coverage and firm-fit check.
+              Run a free check against current Find a Tender notices for your trade and region. No credit card, no bid wasted.
             </p>
-            <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CHECK PILOT FIT & PRICING →
+            <Link href="/find-jobs" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              SCAN FREE — NO CARD NEEDED →
+            </Link>
+            <Link href="/pricing" className="jf-button mt-2 block text-center bg-[var(--ink)] text-white">
+              SEE PRICING — £39/MO →
             </Link>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
               ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE
             </div>
-            <p className="mt-3 text-center text-xs font-black uppercase tracking-wider text-[var(--muted)]">
-              Not ready yet? Drop your email below.
-            </p>
-            <WaitlistForm source="home-tactical-2026-05-09" />
           </div>
         </div>
       </section>
