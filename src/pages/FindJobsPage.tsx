@@ -972,19 +972,24 @@ function parseTradeReasons(raw: string[], trade?: string, title?: string): Array
     }
   }
 
-  // When no reasons extracted from scoring engine, fall back to title keywords
-  if (out.length === 0 && title) {
+  // Run title fallback when no trade-specific keyword was extracted from scoring reasons.
+  // Status labels like URGENT/THIS WEEK can populate `out` without any trade context,
+  // so gate on highlight absence rather than out.length, and prepend trade matches.
+  const hasTradeKeyword = out.some(r => r.highlight);
+  if (!hasTradeKeyword && title) {
     const titleUpper = title.toUpperCase();
     const tradeKws = trade ? (TRADE_SIGNAL_KEYWORDS[trade] ?? []) : [];
-    const seen = new Set<string>();
+    const seen = new Set<string>(out.map(r => r.label));
+    const titleMatches: Array<{ label: string; highlight: boolean }> = [];
     for (const kw of [...tradeKws, ...TITLE_KEYWORDS]) {
       if (seen.has(kw)) continue;
       seen.add(kw);
       if (titleUpper.includes(kw)) {
-        out.push({ label: kw, highlight: tradeKws.includes(kw) });
-        if (out.length >= 3) break;
+        titleMatches.push({ label: kw, highlight: tradeKws.includes(kw) });
+        if (titleMatches.length >= 2) break;
       }
     }
+    out.unshift(...titleMatches);
   }
 
   const fallback = trade ? (TRADE_GENERIC_LABELS[trade] ?? 'Verified signal') : 'Verified signal';
