@@ -21,7 +21,8 @@
 - [x] Pushed fix commit 24c7be8 to nightly/2026-08-02
 
 ### TODO — NEXT RUN
-- [ ] Create Supabase `lead_alerts` table migration (alerts CRUD backend exists; table may not — App Router uses `lead_alerts`)
+- [ ] Apply Supabase migration `20260802_lead_alerts_schema_fix.sql` — adds `last_checked_at` + `radius_miles` columns and drops `instant` from frequency CHECK constraint
+- [ ] Verify "ADD TO CALENDAR →" on LeadDetailPage is accessible to free-tier users
   ```sql
   CREATE TABLE alerts (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

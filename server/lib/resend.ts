@@ -140,7 +140,7 @@ export function buildLeadAlertEmailContent(opts: LeadAlertEmailOptions) {
     .join('');
   const cta = isPaid
     ? ''
-    : `<p><a href="https://jobfilter.uk/pricing">Upgrade</a> for instant/daily alerts and full lead details.</p>`;
+    : `<p><a href="https://jobfilter.uk/pricing">Upgrade</a> for daily alerts and full lead details.</p>`;
 
   return {
     subject: `JobFilter — ${leads.length} new ${stripHeaderControls(trade)} lead${leads.length === 1 ? '' : 's'} in ${stripHeaderControls(location)}`,

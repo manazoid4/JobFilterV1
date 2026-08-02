@@ -59,8 +59,8 @@ REVENUE assessment: All 3 increases likelihood of £39/month conversion.
 
 ## NEXT RUN PRIORITIES
 
-1. **Implement /api/alerts/send dispatch logic** — the daily cron stub exists but doesn't actually send emails. Needs: read active alerts from Supabase, run scan for each alert's trade+postcode, email matches via Resend. Requires Supabase `alerts` table to exist.
+NOTE: Both the alerts sender (`app/api/alerts/send/route.ts`) and the `lead_alerts` table migration (`supabase/migrations/20260531_lead_alerts.sql`) already exist. The original priorities below were obsolete.
 
-2. **Create Supabase `alerts` table migration** — the alerts CRUD backend is live but the table doesn't exist yet. Add to `supabase/` directory: `CREATE TABLE alerts (id uuid, user_id uuid, trade text, postcode_outward text, radius_miles int, frequency text, active bool, updated_at timestamptz, UNIQUE(user_id, trade, postcode_outward))`
+1. **Add missing columns to `lead_alerts` migration** — the existing migration is missing `last_checked_at` and `radius_miles`, both of which the send route reads. Add a new migration: `ALTER TABLE lead_alerts ADD COLUMN IF NOT EXISTS last_checked_at TIMESTAMPTZ, ADD COLUMN IF NOT EXISTS radius_miles INTEGER DEFAULT 25`. Also update the CHECK constraint to remove `instant` now that it is no longer a supported frequency.
 
-3. **Google Calendar link visibility** — verify the "ADD TO CALENDAR →" link on LeadDetailPage is actually visible to free-tier users (not locked behind paid access). It's a useful free feature that may be hidden.
+2. **Google Calendar link visibility** — verify the "ADD TO CALENDAR →" link on LeadDetailPage is actually visible to free-tier users (not locked behind paid access). It's a useful free feature that may be hidden.
