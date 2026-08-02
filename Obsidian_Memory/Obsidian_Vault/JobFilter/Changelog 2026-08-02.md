@@ -57,9 +57,28 @@
 - Changed to `0 8 * * *` (once daily at 08:00 UTC)
 - Alert delivery path: `/api/alerts/send`
 
+### Phase 5 — Codex Review Fixes
+
+#### P1: Hourly-alert label removed (vercel.json / Hobby-plan cron)
+- Codex flagged that `DashboardPage.tsx` promised "HOURLY SOURCE CHECK" and the POST success message said "checked hourly", but the cron now fires once daily — making those promises false.
+- Fix (commit 57f7302):
+  - `DashboardPage.tsx`: `"HOURLY SOURCE CHECK"` → `"DAILY PRIORITY CHECK"`; active-alert badge `"Hourly check"` → `"Priority daily"`
+  - `app/api/alerts/route.ts`: success message `"checked hourly"` → `"checked daily at 08:00 UTC"`
+  - DB frequency value `instant` unchanged; no migration required.
+- Replied to Codex P1 thread with explanation.
+
+#### P2 (×2): Both outdated — already fixed in commit 7aebde8
+- FindJobsPage line 885: "every live public notice" → "current public tender feed"
+- FindJobsPage line 898: SUBCONTRACT/SKIP copy qualified for free vs paid tier
+
+#### Meticulous
+- 50 user flows evaluated, 137 visual snapshots taken.
+- No baseline on main yet (first run) — no regressions reported. Expected.
+
 ### PR
 - Branch: `nightly/2026-08-02-copy-and-ux`
 - PR #421: https://github.com/manazoid4/JobFilterV1/pull/421
+- Final commit: 57f7302
 
 ### Features Already Built (Not Re-implemented)
 - Scan counter: BUILT (localStorage, resets Monday)

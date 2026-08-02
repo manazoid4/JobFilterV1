@@ -2,7 +2,7 @@
 
 Last updated: 2026-08-02 (NightlyBuildAgent run)
 
-## Completed This Run ✓
+## Completed This Run ✓ (including context-continuation fixes)
 - [x] Trade-specific scoring UX — TRADE_KEYWORDS map + extractTopJobTypes(leads, trade)
 - [x] FindJobsPage pre-scan copy — fear→proof→control structure
 - [x] FindJobsPage trade preset label — conditional based on postcode presence
@@ -10,6 +10,8 @@ Last updated: 2026-08-02 (NightlyBuildAgent run)
 - [x] PricingPage CTA fix — removed "START AFTER COVERAGE CHECK →" backward label
 - [x] HomePage — removed waitlist from conversion panel
 - [x] vercel.json — fixed hourly cron → daily (Vercel Hobby plan compliance)
+- [x] Codex P1 resolved — instant-alert labels updated: "HOURLY SOURCE CHECK" → "DAILY PRIORITY CHECK"; POST message updated; replied to Codex thread
+- [x] Codex P2 ×2 resolved — both outdated (fixed in earlier commit: scan-feed accuracy + free-tier copy)
 
 ## Previously Built (No Action Needed)
 - [x] Scan counter — localStorage, resets Monday midnight
