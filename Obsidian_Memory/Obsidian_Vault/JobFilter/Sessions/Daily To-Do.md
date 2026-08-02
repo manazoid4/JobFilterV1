@@ -13,8 +13,15 @@
 - [x] UX fix: postcode error inline on mobile (was off-screen below trade presets)
 - [x] PR #419 open: nightly/2026-08-02
 
+### ALSO COMPLETED (continuation run) ✓
+- [x] Remove dead Express alerts route (`server/routes/alerts.ts` deleted; App Router already handles /api/alerts correctly)
+- [x] Remove broken import + registration from `server/app.ts`
+- [x] Fix misleading DashboardPage alerts copy — now correctly states weekly is free, daily/instant require Full Access
+- [x] tsc + build: PASS after cleanup
+- [x] Pushed fix commit 24c7be8 to nightly/2026-08-02
+
 ### TODO — NEXT RUN
-- [ ] Create Supabase `alerts` table migration (alerts CRUD backend exists, table may not)
+- [ ] Create Supabase `lead_alerts` table migration (alerts CRUD backend exists; table may not — App Router uses `lead_alerts`)
   ```sql
   CREATE TABLE alerts (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
