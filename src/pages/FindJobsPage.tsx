@@ -426,8 +426,8 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">PUBLIC TENDER SCANNER — 3 FREE SCANS, NO CARD NEEDED</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND PUBLIC TENDERS THAT FIT YOUR FIRM</h1>
+        <p className="micro-label text-[var(--orange)]">PUBLIC WORKS SCANNER — 3 FREE SCANS, NO CARD NEEDED</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND PUBLIC WORKS THAT FIT YOUR FIRM</h1>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
