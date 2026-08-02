@@ -301,21 +301,21 @@ export function DashboardPage() {
     <main className="page-shell grid gap-6 py-8 pb-24">
       {/* Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS DECISION TRACKER</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR OPPORTUNITIES. YOUR DECISIONS.</h1>
+        <p className="micro-label text-[var(--yellow)]">YOUR JOB PIPELINE</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">FIND IT. TRACK IT. WIN IT.</h1>
         <p className="mt-3 max-w-2xl font-bold text-white/90">
-          Review current public Find a Tender notices against your firm. Track BID, WATCH, SUBCONTRACT or SKIP decisions, the evidence behind them, and eventual outcomes.
+          Every job scored for your trade and postcode. See who to call, what to quote, and when to chase — then log what happened so the filter gets smarter.
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-sm">
+            SCAN FOR JOBS →
+          </Link>
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--green)]" />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              FIND A TENDER: FREE + PUBLIC
+              VERIFIED SIGNALS — UPDATED DAILY
             </span>
           </div>
-          <p className="text-sm font-bold text-[var(--yellow)]">
-            JobFilter adds firm-aware qualification and workflow. It does not provide exclusive or early access to public notices.
-          </p>
         </div>
       </section>
 
