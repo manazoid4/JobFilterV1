@@ -7,18 +7,19 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
-  'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'BID, WATCH, SUBCONTRACT or SKIP — one clear decision per notice',
+  'Buyer name, value range and official deadline in one view before you commit bid time',
+  'Evidence found vs. requirements missing — know what you need before you bid',
+  'Fit scored against your services, delivery region and contract range',
+  'Outcome tracking so your qualification gets sharper over time',
+  'No Checkatrade. No MyBuilder. No shared leads. Your qualified opportunity, your bid.',
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning — the layer that saves your team from wasting bid time on wrong-fit notices.'],
+  ['How is this different from Checkatrade or Bark?', 'Checkatrade and Bark sell the same lead to 4–8 trades and charge per lead on top of membership. JobFilter qualifies public tender notices before you see them — no shared auction, no credit system, no homeowner forms.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices — no card required. Coverage varies by service, region and timing, and an honest empty result is always better than a phantom pipeline.'],
 ];
 
 export function PricingPage() {
@@ -70,7 +71,7 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to scan first</p></>}
           order="order-first lg:order-none"
         />
       </section>
@@ -139,14 +140,14 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">STOP BIDDING BLIND</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">£39/MO. KNOW WHICH JOBS ARE WORTH YOUR TIME.</h2>
+        <p className="mt-4 max-w-2xl font-black text-[var(--ink)]/80">Checkatrade costs £80–£370/mo and shares your lead with 4–8 other trades. JobFilter qualifies every notice before you see it — one price, your trade, your patch.</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not access to a notice.</p>
       </section>
     </main>
   );

@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'WHO TO CALL and HOW MUCH TO QUOTE is hidden — unlock buyer details and quote guidance on every lead.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -533,7 +533,7 @@ export function FindJobsPage() {
 
         {/* Trade presets — tap to scan by trade once postcode is entered */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">YOUR TRADE — PICK ONE, THEN HIT SCAN</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -876,31 +876,32 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
-          {/* Empty map illustration */}
-          <div className="flex justify-center mb-4">
-            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
-              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
-              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
-            </svg>
-          </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+        <section className="jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">NO SHARED AUCTION. NO FIVE-TRADE BLAST.</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">REAL JOBS IN YOUR PATCH — SCORED BEFORE YOU SEE THEM.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Unlike Checkatrade or Bark, every lead is scored for your trade and postcode before it reaches you. Takes 10 seconds. No credit card required.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <div className="mt-5 grid gap-2 sm:grid-cols-3">
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">Free</p>
+              <p className="mt-1 text-sm font-black text-white">3 scans a week — see all verified signals in your area</p>
+            </div>
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">Scored</p>
+              <p className="mt-1 text-sm font-black text-white">GOLD / SILVER / BRONZE — chase what pays, skip the rest</p>
+            </div>
+            <div className="border-2 border-white/20 bg-white/5 p-3">
+              <p className="text-xs font-black text-[var(--yellow)] uppercase">Yours</p>
+              <p className="mt-1 text-sm font-black text-white">No shared auction — not sold to four other trades at the same time</p>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN MY AREA →
+              SCAN MY AREA — NO CARD NEEDED →
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
@@ -915,7 +916,29 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_SIGNAL_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'SMART METER', 'FUSEBOARD', 'ELECTRICAL INSTALLATION', 'LIGHTING', 'FIRE ALARM'],
+  plumbing: ['BOILER', 'BATHROOM', 'HOT WATER', 'GAS SAFE', 'CYLINDER', 'LEAK', 'DRAINAGE', 'RADIATOR', 'UNDERFLOOR HEATING', 'GAS ENGINEER', 'PLUMBING'],
+  roofing: ['FLAT ROOF', 'ROOFING', 'GUTTERING', 'FASCIA', 'CHIMNEY', 'DORMER', 'SLATE', 'TILE', 'FELT', 'ROOF REPAIR'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'CONSERVATORY', 'REFURBISHMENT', 'STRUCTURAL', 'GROUNDWORK', 'FOUNDATION'],
+  hvac: ['HEAT PUMP', 'AIR SOURCE', 'GROUND SOURCE', 'VENTILATION', 'AIR CON', 'THERMOSTAT', 'INSULATION', 'RETROFIT', 'MVHR'],
+  landscaping: ['GARDEN', 'PAVING', 'DRIVEWAY', 'FENCING', 'PATIO', 'DECKING', 'GROUNDWORK', 'DRAINAGE'],
+  carpentry: ['FLOORING', 'STAIRCASE', 'JOINERY', 'FITTED KITCHEN', 'FITTED WARDROBES', 'DOORS', 'WINDOWS', 'SKIRTING'],
+  painting: ['DECORATING', 'PLASTERING', 'RENDER', 'ARTEX', 'COVING', 'DAMP PROOF'],
+};
+
+const TRADE_GENERIC_LABELS: Record<string, string> = {
+  electrical: 'ELECTRICAL WORK',
+  plumbing: 'PLUMBING / HEATING WORK',
+  roofing: 'ROOFING WORK',
+  building: 'BUILDING WORK',
+  hvac: 'HEATING / HVAC WORK',
+  landscaping: 'LANDSCAPING WORK',
+  carpentry: 'CARPENTRY WORK',
+  painting: 'DECORATING WORK',
+};
+
+function parseTradeReasons(raw: string[], trade?: string, title?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,7 +971,21 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+
+  // When no reasons extracted from scoring engine, fall back to title keywords
+  if (out.length === 0 && title) {
+    const titleUpper = title.toUpperCase();
+    const tradeKws = trade ? (TRADE_SIGNAL_KEYWORDS[trade] ?? []) : [];
+    for (const kw of [...tradeKws, ...TITLE_KEYWORDS]) {
+      if (titleUpper.includes(kw)) {
+        out.push({ label: kw, highlight: tradeKws.includes(kw) });
+        if (out.length >= 3) break;
+      }
+    }
+  }
+
+  const fallback = trade ? (TRADE_GENERIC_LABELS[trade] ?? 'Verified signal') : 'Verified signal';
+  return out.length > 0 ? out.slice(0, 5) : [{ label: fallback, highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1142,7 +1179,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || ''), lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
