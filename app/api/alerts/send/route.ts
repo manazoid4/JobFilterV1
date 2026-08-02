@@ -14,8 +14,8 @@ import { createHash } from 'node:crypto';
 
 const FREQUENCY_MS: Record<string, number> = {
   instant: 60 * 60 * 1000,
-  daily: 24 * 60 * 60 * 1000,
-  weekly: 7 * 24 * 60 * 60 * 1000,
+  daily: 23 * 60 * 60 * 1000,          // 1h grace for single-daily cron timing drift
+  weekly: (7 * 24 - 1) * 60 * 60 * 1000,
 };
 
 export async function GET(request: Request) {

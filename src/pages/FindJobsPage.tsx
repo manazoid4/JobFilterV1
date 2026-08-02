@@ -887,7 +887,7 @@ export function FindJobsPage() {
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <div className="border-2 border-white/20 bg-white/5 p-3">
               <p className="text-xs font-black text-[var(--yellow)] uppercase">Most notices</p>
-              <p className="mt-1 font-black text-white">Wrong CPV, wrong region, wrong size. We filter those out instantly.</p>
+              <p className="mt-1 font-black text-white">Wrong CPV, wrong region, no trade match — we filter those out instantly.</p>
             </div>
             <div className="border-2 border-white/20 bg-white/5 p-3">
               <p className="text-xs font-black text-[var(--yellow)] uppercase">The ones that fit</p>
