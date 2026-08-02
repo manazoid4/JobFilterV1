@@ -143,7 +143,7 @@ export async function POST(request: Request) {
     ok: true,
     alert: data,
     note: frequency === 'instant'
-      ? 'Alert saved. New matches are checked hourly; delivery timing depends on source and email-provider availability.'
+      ? 'Alert saved. New matches are checked daily at 08:00 UTC; delivery timing depends on source and email-provider availability.'
       : `Alert saved. New matches are checked ${frequency}.`,
   });
 }
