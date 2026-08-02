@@ -21,22 +21,5 @@
 - [x] Pushed fix commit 24c7be8 to nightly/2026-08-02
 
 ### TODO — NEXT RUN
-- [ ] Apply Supabase migration `20260802_lead_alerts_schema_fix.sql` — adds `last_checked_at` + `radius_miles` columns and drops `instant` from frequency CHECK constraint
+- [ ] Apply Supabase migration `20260802_lead_alerts_schema_fix.sql` — migrates instant→daily rows, adds `last_checked_at` + `radius_miles` columns, tightens frequency CHECK to daily/weekly only
 - [ ] Verify "ADD TO CALENDAR →" on LeadDetailPage is accessible to free-tier users
-  ```sql
-  CREATE TABLE alerts (
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id uuid NOT NULL,
-    trade text NOT NULL,
-    postcode_outward text NOT NULL,
-    radius_miles int DEFAULT 25,
-    frequency text DEFAULT 'weekly',
-    active bool DEFAULT true,
-    updated_at timestamptz DEFAULT now(),
-    created_at timestamptz DEFAULT now(),
-    UNIQUE(user_id, trade, postcode_outward)
-  );
-  ```
-- [ ] Implement /api/alerts/send dispatch — read active alerts, run scan, email matches via Resend
-- [ ] Verify "ADD TO CALENDAR →" link on LeadDetailPage is accessible to free-tier users
-- [ ] Check CI "check" job result for PR #419 — was queued at run time
