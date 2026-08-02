@@ -885,7 +885,7 @@ export function FindJobsPage() {
           <div className="mt-5 grid gap-2 sm:grid-cols-3">
             <div className="border-2 border-white/20 bg-white/5 p-3">
               <p className="text-xs font-black text-[var(--yellow)] uppercase">Free</p>
-              <p className="mt-1 text-sm font-black text-white">3 scans a week — see all verified signals in your area</p>
+              <p className="mt-1 text-sm font-black text-white">3 scans a week — see top verified signals in your area</p>
             </div>
             <div className="border-2 border-white/20 bg-white/5 p-3">
               <p className="text-xs font-black text-[var(--yellow)] uppercase">Scored</p>
