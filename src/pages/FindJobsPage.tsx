@@ -976,7 +976,10 @@ function parseTradeReasons(raw: string[], trade?: string, title?: string): Array
   if (out.length === 0 && title) {
     const titleUpper = title.toUpperCase();
     const tradeKws = trade ? (TRADE_SIGNAL_KEYWORDS[trade] ?? []) : [];
+    const seen = new Set<string>();
     for (const kw of [...tradeKws, ...TITLE_KEYWORDS]) {
+      if (seen.has(kw)) continue;
+      seen.add(kw);
       if (titleUpper.includes(kw)) {
         out.push({ label: kw, highlight: tradeKws.includes(kw) });
         if (out.length >= 3) break;
