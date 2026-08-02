@@ -49,9 +49,12 @@ export async function GET(request: Request) {
   let failed = 0;
 
   for (const alert of alerts ?? []) {
-    const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
+    const interval = FREQUENCY_MS[alert.frequency];
+    if (interval === undefined) continue; // skip rows with unsupported/removed frequencies
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    // Use 90% of the interval as threshold so a cron that runs slightly after last_checked_at
+    // doesn't skip the alert for a full extra cycle (e.g. daily = fires at 21.6h+ not 24h+)
+    if (now - lastChecked < interval * 0.9) continue;
     checked++;
 
     try {
