@@ -40,7 +40,7 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING BID TIME ON THE WRONG TENDERS.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
