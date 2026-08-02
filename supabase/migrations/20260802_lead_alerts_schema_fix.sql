@@ -15,7 +15,9 @@ ALTER TABLE lead_alerts
 -- has none (the cron skips rows with a null postcode_outward).
 UPDATE lead_alerts d
 SET    active           = (d.active OR i.active),
-       postcode_outward = COALESCE(d.postcode_outward, i.postcode_outward)
+       postcode_outward = COALESCE(d.postcode_outward, i.postcode_outward),
+       last_checked_at  = GREATEST(d.last_checked_at, i.last_checked_at),
+       last_sent_at     = GREATEST(d.last_sent_at, i.last_sent_at)
 FROM   lead_alerts i
 WHERE  i.user_id   = d.user_id
   AND  i.trade     = d.trade
