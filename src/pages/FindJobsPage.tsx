@@ -882,7 +882,7 @@ export function FindJobsPage() {
             HOW MANY BIDS DID YOU PRICE THIS MONTH THAT YOU HAD NO CHANCE OF WINNING?
           </h2>
           <p className="mt-3 font-black text-white/70 max-w-xl">
-            Enter your postcode. We check every live public notice against your trade — and tell you which ones are worth your time and which to skip. Takes 10 seconds.
+            Enter your postcode. We scan the current public tender feed against your trade — and score which notices are worth your time. Takes 10 seconds.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <div className="border-2 border-white/20 bg-white/5 p-3">
@@ -895,7 +895,7 @@ export function FindJobsPage() {
             </div>
             <div className="border-2 border-white/20 bg-white/5 p-3">
               <p className="text-xs font-black text-[var(--yellow)] uppercase">Zero guesswork</p>
-              <p className="mt-1 font-black text-white">BID, WATCH, SUBCONTRACT, or SKIP — one clear call per notice.</p>
+              <p className="mt-1 font-black text-white">BID, WATCH, or SKIP on every scored notice. Buyer details and subcontract routing in full access.</p>
             </div>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
