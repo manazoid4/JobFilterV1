@@ -122,9 +122,9 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
   return (
     <section className="jf-box bg-white p-5">
       <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
-      <h2 className="headline mt-1 text-2xl leading-none">WATCH FOR MATCHING PUBLIC OPPORTUNITIES</h2>
+      <h2 className="headline mt-1 text-2xl leading-none">GET NOTIFIED WHEN NEW LEADS MATCH YOUR PATCH</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Save a trade, outward postcode, radius and preferred check frequency. Alerts report matching public notices when configured; availability and delivery depend on the current source and account setup.
+        Set your trade, postcode and how often you want to hear about it. We check public opportunities against your patch and email you when something matches — free, no credit card required.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">

@@ -15,10 +15,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning. Unlike Checkatrade, MyBuilder or Bark — you pay for decisions, not a directory listing.'],
+  ['Who is JobFilter for?', '5–25-person contractors already considering public works or B2B contracts. Not homeowners looking for domestic trades. If you want to know whether a council or public-body contract fits your firm before wasting bid time, this is for you.'],
+  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice. No shared auction, no five-trade blast — every firm runs its own scan.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free check against current public notices. Coverage depends on what buyers publish for your trade and region — an empty result is an honest answer, not a failure. No credit card required.'],
 ];
 
 export function PricingPage() {
@@ -58,19 +58,19 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
+          body="See what's live in your trade and region right now. No account, no card, no commitment. If the coverage doesn't fit your firm, you'll know before spending a penny."
+          items={['Current public tender results', 'Trade and region fit summary', 'Official source links', 'Empty results shown honestly — never padded']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan free first. Pay only if the coverage fits."
+          body="Firm-aware qualification for public works. Every notice is checked against your services, region, contract range and delivery model. BID, WATCH, SUBCONTRACT or SKIP — no guesswork, no shared auction."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
