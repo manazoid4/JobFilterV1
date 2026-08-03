@@ -38,20 +38,19 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT — £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          CHECKATRADE TAKES £370. BARK SELLS YOUR LEAD TO 5 TRADES. THIS IS £39 — AND IT&apos;S YOURS ALONE.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          Public-tender qualification for small contractors. Official notices, evidence, and a BID / WATCH / SUBCONTRACT / SKIP decision — no shared auction, no price war.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Official sources. Firm-aware qualification. Cancel anytime — no contract.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Results vary by trade, area and what buyers are publishing.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">

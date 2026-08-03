@@ -127,7 +127,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
         Save a trade, outward postcode, radius and preferred check frequency. Alerts report matching public notices when configured; availability and delivery depend on the current source and account setup.
       </p>
 
-      <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
+      <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 md:grid-cols-[1fr_auto_auto_auto_auto] md:items-end">
         <label className="field-label">
           Trade
           <select value={trade} onChange={e => setTrade(e.target.value)} className="field-input">
