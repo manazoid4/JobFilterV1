@@ -46,12 +46,20 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: 'Failed to load alerts' }, { status: 500 });
   }
 
+  // Deduplicate: skip legacy instant rows when a daily row covers the same combo
+  const dailyCombos = new Set(
+    (alerts ?? [])
+      .filter(a => a.frequency === 'daily')
+      .map(a => `${a.user_id}|${a.trade}|${a.postcode_outward}`)
+  );
+
   const now = Date.now();
   let checked = 0;
   let sent = 0;
   let failed = 0;
 
   for (const alert of alerts ?? []) {
+    if (alert.frequency === 'instant' && dailyCombos.has(`${alert.user_id}|${alert.trade}|${alert.postcode_outward}`)) continue;
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
     if (now - lastChecked < interval - CRON_BUFFER_MS) continue;

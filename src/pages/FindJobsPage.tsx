@@ -294,7 +294,6 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
     const effectiveTrade = overrides?.trade ?? trade;
-    setScannedTrade(effectiveTrade);
     try {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
@@ -309,6 +308,7 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      setScannedTrade(effectiveTrade);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
