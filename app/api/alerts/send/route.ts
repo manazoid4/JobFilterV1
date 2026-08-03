@@ -50,7 +50,7 @@ export async function GET(request: Request) {
   const dailyCombos = new Set(
     (alerts ?? [])
       .filter(a => a.frequency === 'daily')
-      .map(a => `${a.user_id}|${a.trade}|${a.postcode_outward}`)
+      .map(a => `${a.user_id}|${a.trade}|${a.postcode_outward}|${a.radius_miles ?? 25}`)
   );
 
   const now = Date.now();
@@ -59,7 +59,7 @@ export async function GET(request: Request) {
   let failed = 0;
 
   for (const alert of alerts ?? []) {
-    if (alert.frequency === 'instant' && dailyCombos.has(`${alert.user_id}|${alert.trade}|${alert.postcode_outward}`)) continue;
+    if (alert.frequency === 'instant' && dailyCombos.has(`${alert.user_id}|${alert.trade}|${alert.postcode_outward}|${alert.radius_miles ?? 25}`)) continue;
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
     if (now - lastChecked < interval - CRON_BUFFER_MS) continue;
