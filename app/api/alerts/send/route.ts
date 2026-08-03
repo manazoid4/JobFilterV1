@@ -13,9 +13,12 @@ import { sendLeadAlertEmail } from '../../../../server/lib/resend';
 import { createHash } from 'node:crypto';
 
 const FREQUENCY_MS: Record<string, number> = {
+  instant: 24 * 60 * 60 * 1000, // legacy rows: treat as daily (Hobby plan is daily-only)
   daily: 24 * 60 * 60 * 1000,
   weekly: 7 * 24 * 60 * 60 * 1000,
 };
+// Allow 30-minute tolerance so a once-daily cron at 07:00 doesn't skip due to sub-interval elapsed time.
+const CRON_BUFFER_MS = 30 * 60 * 1000;
 
 export async function GET(request: Request) {
   const cronSecret = process.env.CRON_SECRET;
@@ -51,7 +54,7 @@ export async function GET(request: Request) {
   for (const alert of alerts ?? []) {
     const interval = FREQUENCY_MS[alert.frequency] ?? FREQUENCY_MS.weekly;
     const lastChecked = alert.last_checked_at ? new Date(alert.last_checked_at).getTime() : 0;
-    if (now - lastChecked < interval) continue;
+    if (now - lastChecked < interval - CRON_BUFFER_MS) continue;
     checked++;
 
     try {
