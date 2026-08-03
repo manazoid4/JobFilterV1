@@ -9,6 +9,15 @@
 - [x] Copy polish — "SCAN FREE — NO CARD →" on first-visit CTA
 - [x] Vercel cron bug fixed — hourly → daily (Hobby account limit)
 - [x] P1 fix — removed `instant` alert frequency from all layers (DashboardPage, alerts API, send cron, regression test)
+- [x] P2 fix — CRON_BUFFER_MS (30 min) prevents daily alerts skipping due to sub-24h elapsed time
+- [x] P2 fix — legacy `instant` DB rows aliased to daily cadence (not silently dropped to weekly)
+- [x] P2 fix — `scannedTrade` state prevents trade-badge relabeling on dropdown change after scan
+- [x] P2 fix — `scannedTrade` set atomically with `setResult` to handle concurrent Recent Scans clicks
+- [x] P2 fix — negative-keyword guard prevents scorer-rejected keywords appearing as "YOUR TRADE" badges
+- [x] P2 fix — frequency validation error message generated from `VALID_FREQUENCIES` (no stale `instant` mention)
+- [x] P2 fix — `dailyCombos` dedup prevents duplicate daily emails when user has both instant + daily rows
+- [x] P2 fix — `dailyCombos` key includes `radius_miles` so different-radius rows are not incorrectly deduplicated
+- [x] P2 fix — email upgrade CTA updated from "instant/daily alerts" → "daily alerts"
 
 ### Next run priorities
 1. **Wins leaderboard data** — WinStatsBanner component and API both exist but need real outcome data flowing (outcomes.jsonl or Supabase). Consider seeding test data to verify the banner actually shows for UK postcode areas.

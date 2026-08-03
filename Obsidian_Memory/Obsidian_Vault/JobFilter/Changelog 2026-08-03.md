@@ -44,6 +44,24 @@ Vercel Hobby cron runs once daily at 07:00 UTC; the `instant` frequency promised
 
 All three Codex review threads resolved.
 
+## Additional P2 Fixes (Codex rounds 2–3)
+
+**`323767c` — CRON_BUFFER_MS + instant legacy alias**
+- `alerts/send`: Added `CRON_BUFFER_MS = 30 * 60 * 1000`; gate changed from `< interval` to `< interval - CRON_BUFFER_MS` — prevents daily alerts skipping because elapsed time is fractionally under 24h
+- `alerts/send`: Re-added `instant: 24 * 60 * 60 * 1000` as legacy alias so existing DB rows with `frequency='instant'` run at daily cadence, not weekly
+
+**`97b6baa` — negative-keyword guard + dynamic error message**
+- `FindJobsPage`: `parseTradeReasons` builds `negativeText` from `Not your trade:` reasons before applying title-keyword fallback — prevents "TILING — YOUR TRADE" on a roofing scan
+- `alerts/route`: frequency error message now generated from `VALID_FREQUENCIES` set — stays accurate if the set changes
+
+**`6802e42` — atomic scannedTrade + instant-row dedup**
+- `FindJobsPage`: `setScannedTrade(effectiveTrade)` moved to alongside `setResult(data)` inside try block — prevents stale-trade badge on concurrent Recent Scans clicks
+- `alerts/send`: `dailyCombos` set built before loop to skip `instant` rows where a `daily` row covers the same `user_id|trade|postcode_outward` — no duplicate daily emails
+
+**`32eedea` — radius-aware dedup + email CTA copy**
+- `alerts/send`: `dailyCombos` key now includes `radius_miles` — a 50-mile `instant` row is no longer suppressed by a 5-mile `daily` row for the same trade/postcode
+- `resend.ts`: Free-tier upgrade CTA changed from "instant/daily alerts" → "daily alerts"
+
 ## PR
 https://github.com/manazoid4/JobFilterV1/pull/423
 
@@ -54,3 +72,4 @@ https://github.com/manazoid4/JobFilterV1/pull/423
 - `app/api/alerts/route.ts`
 - `app/api/alerts/send/route.ts`
 - `tests/regression/alert-delivery-contract-regression.mjs`
+- `server/lib/resend.ts`
