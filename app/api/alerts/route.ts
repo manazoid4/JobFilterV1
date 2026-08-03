@@ -96,7 +96,7 @@ export async function POST(request: Request) {
   }
   if (!VALID_FREQUENCIES.has(frequency)) {
     return Response.json(
-      { ok: false, error: 'frequency must be instant, daily, or weekly' },
+      { ok: false, error: `frequency must be ${[...VALID_FREQUENCIES].join(', ')}` },
       { status: 422 }
     );
   }

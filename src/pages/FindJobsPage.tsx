@@ -971,13 +971,15 @@ function parseTradeReasons(raw: string[], lead?: { title?: string; trade?: strin
     }
   }
 
-  // When no trade-specific keywords came from reasons, extract from lead title
+  // When no trade-specific keywords came from reasons, extract from lead title.
+  // Skip any keyword the scorer already classified as negative ("Not your trade: X").
   if (lead && out.filter(r => r.highlight).length === 0) {
     const tradeStr = String(lead.trade || lead.tradeMatch || '').toLowerCase();
     const title = (lead.title ?? '').toUpperCase();
     const keywords = TRADE_TITLE_KEYWORDS[tradeStr] ?? [];
+    const negativeText = raw.filter(r => r.startsWith('Not your trade')).join(' ').toUpperCase();
     for (const kw of keywords) {
-      if (title.includes(kw)) {
+      if (title.includes(kw) && !negativeText.includes(kw)) {
         out.unshift({ label: `${kw} — YOUR TRADE`, highlight: true });
         break;
       }
