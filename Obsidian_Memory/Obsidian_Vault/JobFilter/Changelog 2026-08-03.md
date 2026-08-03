@@ -32,9 +32,25 @@ Changed `LeadResultCard` to pass the `lead` object to `parseTradeReasons`.
 ## Bug Fixed (CI)
 `vercel.json` cron expression `0 * * * *` (hourly) fails on Vercel Hobby accounts. Changed to `0 7 * * *` (daily at 07:00 UTC — 8am UK time).
 
+## Bug Fixed (P1 — Codex review)
+**Instant alert frequency removed** (`04aa5bf`)
+
+Vercel Hobby cron runs once daily at 07:00 UTC; the `instant` frequency promised 1-hour delivery and the regression test explicitly required `'0 * * * *'`. Resolution: removed `instant` entirely from all layers.
+
+- `src/pages/DashboardPage.tsx` — `FREQ_OPTIONS` trimmed to `weekly`/`daily`; state type narrowed
+- `app/api/alerts/route.ts` — `VALID_FREQUENCIES` and `PAID_FREQUENCIES` updated; hourly-delivery note removed from POST response
+- `app/api/alerts/send/route.ts` — `instant` key removed from `FREQUENCY_MS`; existing instant-rows fall through to weekly interval
+- `tests/regression/alert-delivery-contract-regression.mjs` — `HOURLY SOURCE CHECK` assertion removed; schedule assertion updated to `'0 7 * * *'`
+
+All three Codex review threads resolved.
+
 ## PR
 https://github.com/manazoid4/JobFilterV1/pull/423
 
 ## Files Changed
 - `src/pages/FindJobsPage.tsx`
 - `vercel.json`
+- `src/pages/DashboardPage.tsx`
+- `app/api/alerts/route.ts`
+- `app/api/alerts/send/route.ts`
+- `tests/regression/alert-delivery-contract-regression.mjs`

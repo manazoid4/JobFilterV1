@@ -8,6 +8,7 @@
 - [x] Copy polish — upgrade nudge names competitors (Checkatrade, Bark)
 - [x] Copy polish — "SCAN FREE — NO CARD →" on first-visit CTA
 - [x] Vercel cron bug fixed — hourly → daily (Hobby account limit)
+- [x] P1 fix — removed `instant` alert frequency from all layers (DashboardPage, alerts API, send cron, regression test)
 
 ### Next run priorities
 1. **Wins leaderboard data** — WinStatsBanner component and API both exist but need real outcome data flowing (outcomes.jsonl or Supabase). Consider seeding test data to verify the banner actually shows for UK postcode areas.
