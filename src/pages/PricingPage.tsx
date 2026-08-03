@@ -57,7 +57,7 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
+          body="Search this week's public contracts before you commit. See which score GOLD for your trade and patch. An empty result means no match — that's honest, not a bug. No credit card required."
           items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
@@ -65,11 +65,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan first. Pay only if the coverage fits your trade and patch."
+          body="See the buyer name, published value, deadline, and exactly how to respond. BID, WATCH, SUBCONTRACT or SKIP — before you waste a day on the wrong job. No Checkatrade fees. No MyBuilder auction. 30-day money-back."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>

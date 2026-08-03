@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans used this week. Buyer names and deadlines locked until Monday — or unlock now.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -729,14 +729,14 @@ export function FindJobsPage() {
                 <React.Fragment key={lead.id}>
                   <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
-                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
+                    <div className="border-2 border-[var(--yellow)] bg-[var(--ink)] p-4">
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">BUYER, DEADLINE &amp; SUBMISSION ROUTE — LOCKED</p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
+                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}This notice is live. Other firms are scanning the same patch right now. Full access shows the buyer name, deadline, and the official route to submit — before you commit bid time to the wrong job.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
+                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK BUYER &amp; DEADLINE — £39/MO →</Link>
+                        <span className="text-xs font-black text-white/60">No credit card required to browse · no shared auction</span>
                       </div>
                     </div>
                   )}
@@ -778,19 +778,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER NAMES IN FULL ACCESS.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      : 'STOP BIDDING BLIND. SEE BUYER, DEADLINE, AND HOW TO RESPOND.'}
                   </h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
-                  </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/70">
+                    No Checkatrade fees. No five-firm auction. Gold leads are controlled by trade, patch, and timing — you get the buyer name, the published value, the deadline, and the submission route. No shared blast.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK BUYER DETAILS — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required · cancel anytime</span>
+                  </div>
                 </section>
               )}
 
