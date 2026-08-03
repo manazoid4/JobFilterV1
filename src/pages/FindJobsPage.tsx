@@ -977,7 +977,7 @@ function parseTradeReasons(raw: string[], lead?: { title?: string; trade?: strin
     const tradeStr = String(lead.trade || lead.tradeMatch || '').toLowerCase();
     const title = (lead.title ?? '').toUpperCase();
     const keywords = TRADE_TITLE_KEYWORDS[tradeStr] ?? [];
-    const negativeText = raw.filter(r => r.startsWith('Not your trade') || r.startsWith('Related')).join(' ').toUpperCase();
+    const negativeText = raw.filter(r => r.startsWith('Not your trade') || r.startsWith('Related') || r.startsWith('Trade teaser')).join(' ').toUpperCase();
     for (const kw of keywords) {
       const inNegative = kw.split(' ').some(token => negativeText.includes(token));
       if (title.includes(kw) && !inNegative) {
