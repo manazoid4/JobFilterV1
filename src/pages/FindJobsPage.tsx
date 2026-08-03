@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans used — you can still scan, buyer details need Full Access'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -778,18 +778,18 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">NOT ON CHECKATRADE. NOT ON BARK. THESE ARE LIVE CONTRACTS.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER, VALUE & DEADLINE.`
+                      : 'SEE THE BUYER, CONTRACT VALUE & SUBMISSION DEADLINE.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FULL LEAD — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · official source · not exclusive</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full Access shows: buyer name, published contract value, response deadline, and the official submission route. No shared auction, no five-trade blast. Find a Tender notices are public — JobFilter sells qualification, not exclusivity.
                   </p>
                 </section>
               )}
@@ -900,7 +900,7 @@ export function FindJobsPage() {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN MY AREA →
+              SCAN FREE — NO CARD →
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
@@ -915,7 +915,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_TITLE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'LIGHTING', 'FUSE BOARD', 'SMART METER', 'ELECTRICAL'],
+  plumbing: ['BOILER', 'BATHROOM', 'HEAT PUMP', 'UNDERFLOOR HEATING', 'GAS MAIN', 'RADIATOR', 'CYLINDER', 'PLUMBING', 'HEATING', 'GAS SAFE'],
+  roofing: ['FLAT ROOF', 'FELT ROOF', 'SLATING', 'TILING', 'GUTTERING', 'FASCIA', 'ROOFING', 'PITCHED ROOF', 'LEADWORK'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'REFURBISHMENT', 'RENOVATION', 'CONSERVATORY', 'DEMOLITION', 'UNDERPINNING'],
+  carpentry: ['FLOORING', 'JOINERY', 'DOORS', 'WINDOWS', 'STAIRCASE', 'SKIRTING', 'FITTED', 'KITCHEN FIT'],
+  painting: ['DECORATING', 'PAINTING', 'PLASTERING', 'RENDERING', 'WALLPAPER'],
+  hvac: ['HEAT PUMP', 'HVAC', 'VENTILATION', 'AIR CONDITIONING', 'INSULATION', 'RETROFIT', 'MEES', 'BOILER REPLACEMENT'],
+  landscaping: ['LANDSCAPING', 'DRAINAGE', 'GROUNDWORK', 'FENCING', 'DRIVEWAY', 'PATIO', 'DECKING', 'TURF'],
+};
+
+function parseTradeReasons(raw: string[], lead?: { title?: string; trade?: string | null; tradeMatch?: string | null }): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,6 +959,20 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
+
+  // When no trade-specific keywords came from reasons, extract from lead title
+  if (lead && out.filter(r => r.highlight).length === 0) {
+    const tradeStr = String(lead.trade || lead.tradeMatch || '').toLowerCase();
+    const title = (lead.title ?? '').toUpperCase();
+    const keywords = TRADE_TITLE_KEYWORDS[tradeStr] ?? [];
+    for (const kw of keywords) {
+      if (title.includes(kw)) {
+        out.unshift({ label: `${kw} — YOUR TRADE`, highlight: true });
+        break;
+      }
+    }
+  }
+
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
@@ -1142,7 +1167,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
