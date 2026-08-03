@@ -24,7 +24,6 @@ const TRADES = [
 const FREQ_OPTIONS = [
   { value: 'weekly', label: 'WEEKLY' },
   { value: 'daily', label: 'DAILY' },
-  { value: 'instant', label: 'HOURLY SOURCE CHECK' },
 ];
 
 type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius_miles: number; frequency: string; active: boolean };
@@ -32,7 +31,7 @@ type ActiveAlert = { id: string; trade: string; postcode_outward: string; radius
 function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | null; scanPostcode: string | null }) {
   const [trade, setTrade] = useState(scanTrade ?? 'electrical');
   const [postcode, setPostcode] = useState(scanPostcode?.split(' ')[0] ?? '');
-  const [frequency, setFrequency] = useState<'weekly' | 'daily' | 'instant'>('weekly');
+  const [frequency, setFrequency] = useState<'weekly' | 'daily'>('weekly');
   const [radiusMiles, setRadiusMiles] = useState(25);
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
