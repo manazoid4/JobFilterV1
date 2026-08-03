@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} scanTrade={trade} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -776,23 +776,31 @@ export function FindJobsPage() {
               )}
 
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
-              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
-                <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">NOT ON CHECKATRADE. NOT ON BARK. THESE ARE LIVE CONTRACTS.</p>
-                  <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
-                    {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER, VALUE & DEADLINE.`
-                      : 'SEE THE BUYER, CONTRACT VALUE & SUBMISSION DEADLINE.'}
-                  </h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FULL LEAD — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · official source · not exclusive</span>
-                  </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access shows: buyer name, published contract value, response deadline, and the official submission route. No shared auction, no five-trade blast. Find a Tender notices are public — JobFilter sells qualification, not exclusivity.
-                  </p>
-                </section>
-              )}
+              {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (() => {
+                const hasContracts = displayedLeads.some(l => {
+                  const src = (l.source ?? '').toLowerCase();
+                  return src === 'fts' || src === 'pcs' || src.includes('contract') || src.includes('sell2wales');
+                });
+                return (
+                  <section className="jf-box bg-[var(--yellow)] p-5">
+                    <p className="micro-label text-[var(--ink)]">
+                      {hasContracts ? 'NOT ON CHECKATRADE. NOT ON BARK. THESE ARE VERIFIED CONTRACTS.' : 'NOT ON CHECKATRADE. NOT ON BARK. VERIFIED SIGNALS.'}
+                    </p>
+                    <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
+                      {goldCount > 0
+                        ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE BUYER DETAILS WHERE AVAILABLE.`
+                        : 'SEE BUYER DETAILS, VALUE & DEADLINE WHERE AVAILABLE.'}
+                    </h2>
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FULL LEAD — £39/MO →</Link>
+                      <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · official source · not exclusive</span>
+                    </div>
+                    <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
+                      Full Access shows buyer, published value where available, deadline and official response route. No shared auction, no five-trade blast. Find a Tender notices are public — JobFilter sells qualification, not exclusivity.
+                    </p>
+                  </section>
+                );
+              })()}
 
               {/* Results footer */}
               {displayedLeads.length > 0 && (
@@ -862,7 +870,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} scanTrade={trade} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
             ))}
           </div>
         )}
@@ -1165,9 +1173,9 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, scanTrade, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; scanTrade?: string; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons, lead);
+  const parsedReasons = parseTradeReasons(rawReasons, { ...lead, trade: scanTrade ?? lead.trade });
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
