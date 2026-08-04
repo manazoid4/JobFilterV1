@@ -778,15 +778,18 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">NOT ON CHECKATRADE OR BARK — OFFICIAL SIGNALS ONLY.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE BUYER, VALUE & DEADLINE.`
+                      : 'SEE BUYER DETAILS ON EVERY LEAD — NO CREDIT CARD REQUIRED.'}
                   </h2>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/75">
+                    Your scan results are private. No shared auction. No five-trade blast. Checkatrade and Bark sell the same lead to 4–8 trades — these signals are yours alone.
+                  </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER & DEADLINE — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
                     Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
@@ -915,12 +918,148 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORD_LABELS: Record<string, Record<string, string>> = {
+  electrical: {
+    'ev charger': 'EV CHARGER INSTALL',
+    'ev charging': 'EV CHARGING POINT',
+    'electric vehicle': 'EV CHARGER INSTALL',
+    'rewire': 'FULL REWIRE',
+    'rewiring': 'FULL REWIRE',
+    'consumer unit': 'CONSUMER UNIT UPGRADE',
+    'fuse board': 'FUSE BOARD UPGRADE',
+    'eicr': 'EICR CERTIFICATE',
+    'pat test': 'PAT TESTING',
+    'solar': 'SOLAR PV',
+    'solar pv': 'SOLAR PV INSTALL',
+    'battery storage': 'BATTERY STORAGE',
+    'fire alarm': 'FIRE ALARM SYSTEM',
+    'lighting': 'LIGHTING INSTALL',
+    'cctv': 'CCTV SYSTEM',
+    'data cabling': 'DATA CABLING',
+    'smart home': 'SMART HOME WIRING',
+  },
+  plumbing: {
+    'boiler': 'BOILER REPLACEMENT',
+    'bathroom': 'BATHROOM FIT-OUT',
+    'central heating': 'CENTRAL HEATING',
+    'heat exchanger': 'HEAT EXCHANGER',
+    'unvented': 'UNVENTED CYLINDER',
+    'pressurised': 'PRESSURISED SYSTEM',
+    'radiator': 'RADIATOR WORK',
+    'gas safe': 'GAS SAFE JOB',
+    'gas installation': 'GAS INSTALL',
+    'combi': 'COMBI BOILER SWAP',
+    'heat pump': 'HEAT PUMP PLUMBING',
+    'wet room': 'WET ROOM FIT',
+    'shower': 'SHOWER INSTALL',
+    'drain': 'DRAINAGE WORK',
+    'pipework': 'PIPEWORK',
+  },
+  roofing: {
+    'flat roof': 'FLAT ROOF JOB',
+    'epdm': 'EPDM FLAT ROOF',
+    're-roof': 'FULL RE-ROOF',
+    'gutter': 'GUTTERING',
+    'fascia': 'FASCIA & SOFFIT',
+    'soffit': 'SOFFIT WORK',
+    'slate': 'SLATE TILING',
+    'velux': 'VELUX INSTALL',
+    'chimney': 'CHIMNEY WORK',
+    'lead flashing': 'LEAD FLASHING',
+    'ridge': 'RIDGE TILE WORK',
+    'dormer': 'DORMER ROOF',
+    'felt roof': 'FELT RE-ROOF',
+    'cladding': 'CLADDING',
+  },
+  building: {
+    'extension': 'EXTENSION BUILD',
+    'loft conversion': 'LOFT CONVERSION',
+    'garage conversion': 'GARAGE CONVERSION',
+    'garage': 'GARAGE WORK',
+    'groundwork': 'GROUNDWORK',
+    'foundation': 'FOUNDATIONS',
+    'underpinning': 'UNDERPINNING',
+    'renovation': 'RENOVATION',
+    'refurbishment': 'REFURB JOB',
+    'structural': 'STRUCTURAL WORK',
+    'new build': 'NEW BUILD',
+    'block work': 'BLOCKWORK',
+    'brickwork': 'BRICKWORK',
+    'basement': 'BASEMENT CONVERSION',
+    'steel beam': 'STEEL BEAM FIT',
+  },
+  hvac: {
+    'heat pump': 'HEAT PUMP INSTALL',
+    'air source': 'AIR SOURCE HP',
+    'ground source': 'GROUND SOURCE HP',
+    'ashp': 'AIR SOURCE HP',
+    'gshp': 'GROUND SOURCE HP',
+    'air conditioning': 'AC SYSTEM',
+    'ventilation': 'VENTILATION',
+    'mvhr': 'MVHR INSTALL',
+    'ductwork': 'DUCTWORK',
+    'underfloor heating': 'UNDERFLOOR HEATING',
+    'vrf': 'VRF SYSTEM',
+  },
+  carpentry: {
+    'staircase': 'STAIRCASE FIT',
+    'kitchen fitting': 'KITCHEN FIT',
+    'kitchen': 'KITCHEN FITTING',
+    'door hanging': 'DOOR HANGING',
+    'door': 'DOOR FIT',
+    'hardwood floor': 'HARDWOOD FLOORING',
+    'engineered floor': 'ENGINEERED FLOORING',
+    'wood floor': 'WOOD FLOORING',
+    'fitted wardrob': 'FITTED WARDROBES',
+    'skirting': 'SKIRTING & ARCH',
+    'decking': 'DECKING',
+    'fencing': 'FENCING',
+  },
+  painting: {
+    'plaster': 'PLASTERING JOB',
+    'skim': 'SKIMMING',
+    'render': 'RENDERING',
+    'decorat': 'DECORATING',
+    'wallpaper': 'WALLPAPERING',
+    'exterior paint': 'EXTERIOR PAINT',
+    'tiling': 'TILING JOB',
+    'tile': 'TILING WORK',
+    'coving': 'COVING WORK',
+  },
+  landscaping: {
+    'paving': 'PAVING JOB',
+    'block paving': 'BLOCK PAVING',
+    'resin driveway': 'RESIN DRIVEWAY',
+    'driveway': 'DRIVEWAY',
+    'decking': 'DECKING',
+    'fencing': 'FENCING',
+    'retaining wall': 'RETAINING WALL',
+    'patio': 'PATIO',
+    'turf': 'TURFING',
+    'irrigation': 'IRRIGATION',
+    'groundwork': 'GROUNDWORK',
+  },
+};
+
+function enrichTradeKeyword(keyword: string, trade: string): string {
+  const tradeLookup = TRADE_KEYWORD_LABELS[trade.toLowerCase()];
+  if (!tradeLookup) return keyword.toUpperCase();
+  const lower = keyword.toLowerCase();
+  for (const [pattern, label] of Object.entries(tradeLookup)) {
+    if (lower.includes(pattern)) return label;
+  }
+  return keyword.toUpperCase();
+}
+
+function parseTradeReasons(raw: string[], trade = ''): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim()).slice(0, 3).forEach(k => {
+        const enriched = enrichTradeKeyword(k, trade);
+        out.push({ label: `${enriched} — YOUR TRADE`, highlight: true });
+      });
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -930,7 +1069,9 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => k.trim()).slice(0, 2).forEach(k => {
+        out.push({ label: enrichTradeKeyword(k, trade), highlight: false });
+      });
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
@@ -1142,7 +1283,8 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const leadTrade = String(lead.trade || lead.tradeMatch || '');
+  const parsedReasons = parseTradeReasons(rawReasons, leadTrade);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
