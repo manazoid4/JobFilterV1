@@ -28,6 +28,23 @@ const KEYS: Record<keyof MicrositeProfile, string> = {
 
 export const REF_STORAGE_KEY = 'jobfilter.ref';
 
+// Top-level route names a microsite slug must not take (a static route would
+// shadow the firm's page). Not exhaustive — the worst case for a missed name is
+// a shadowed page, never a broken route.
+export const RESERVED_SLUGS = new Set<string>([
+  'api', 'auth', 'account', 'dashboard', 'leads', 'login', 'logout', 'signup',
+  'find-jobs', 'pricing', 'trust', 'methodology', 'blueprint', 'free-tools', 'tips',
+  'microsite', 'pro', 'signals', 'news', 'whats-new', 'faq', 'features', 'health',
+  'intake', 'intelligence', 'epc', 'post-job', 'my-link', 'codex', 'vantage',
+  'vicinity', 'trade', 'for-your-trade', 'vs', 'tradie-zone', 'tradiestack',
+  'dev-portal', 'test', 'privacy', 'terms', 'claim', 'construction-leads',
+  'forgot-password', 'reset-password', 'activation-pending',
+]);
+
+export function isReservedSlug(slug: string): boolean {
+  return slug.length < 3 || RESERVED_SLUGS.has(slug);
+}
+
 export function slugify(input: string): string {
   return String(input ?? '')
     .toLowerCase()
