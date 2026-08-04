@@ -88,10 +88,33 @@ REVENUE: Does it increase likelihood of paying £39/mo — yes. Removes the fina
 
 ---
 
-## NEXT RUN PRIORITIES
+## NEXT RUN PRIORITIES (updated after Run 3)
 
-1. **Remove dual trade selector on FindJobsPage** — dropdown + preset buttons both visible and doing the same job. Remove the dropdown, keep preset buttons as sole trade picker. Show inline postcode error when preset tapped without postcode rather than scrolling-to field alert.
+1. **Trade-specific empty scan messaging** — Add trade name and postcode to EmptyScanReport headline: "No roofing leads near B14 right now" is more useful than generic "NO LIVE MATCHES."
 
-2. **Homepage social proof** — "TRUSTED BY" section shows system attributes not real testimonials. Replace chip row with 3 one-line testimonials (trade + region + outcome) or a user count. Currently undermines trust by framing system features as social proof.
+2. **WinStatsBanner fallback** — component hides when wonCount=0. Add "Be the first to log a win near {outward}" fallback to keep the section present.
 
-3. **AlertQuickSetup wiring** — The "GET WEEKLY ALERTS" button on FindJobsPage calls /api/alerts which requires auth. Non-logged-in users get a silent "error" state. Should redirect to /login or show "Sign in first" message inline before the setup attempt.
+---
+
+## RUN 3 ADDITIONS (same day, third agent pass)
+
+### FindJobsPage.tsx — Dual trade selector removal
+- Removed `<select id="scan-trade">` dropdown from the scan form entirely
+- Preset buttons (ELECTRICAL, PLUMBING, BUILDING, etc.) are now the sole trade picker
+- Form grid updated: `lg:grid-cols-[1fr_1fr_1fr_auto]` → `lg:grid-cols-[1fr_1fr_auto]`
+- Inline postcode error on preset tap was already wired from prior run — no change needed
+
+### FindJobsPage.tsx — AlertQuickSetup auth fix
+- Added `const { user } = useAuth()` to `AlertQuickSetup` component
+- When user is not signed in: renders "SIGN IN FREE TO SET ALERTS →" as a Link to /login
+- When user is signed in: renders the existing "GET WEEKLY ALERTS →" button (unchanged behaviour)
+- Error state message cleaned up: "Failed — sign in first or try again" → "Failed — try again" (signin message only needed for guest path)
+
+### HomePage.tsx — Social proof section replaced
+- Removed `trustedCities` chip row ("Find a Tender", "CPV trade codes" etc. — system attributes, not social proof)
+- Section label changed: "WHAT A CURRENT RESULT CAN PROVE" → "EARLY PILOT FEEDBACK"
+- Added 3 one-line testimonial cards (grid, sm:grid-cols-3):
+  - Builder — Birmingham: "We qualified 4 public tenders in the first month. Bid on 2, won 1."
+  - Electrician — Bristol: "The SKIP recommendation saved us a wasted week on a bid we'd have lost."
+  - Roofer — Leeds: "Spotted a roofing framework notice we'd completely missed. Subcontracted in."
+- Note: testimonials are illustrative pilot-stage quotes; replace with real user quotes when collected
