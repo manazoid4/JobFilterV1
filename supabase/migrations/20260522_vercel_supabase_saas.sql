@@ -143,6 +143,8 @@ alter table public.saved_scans       alter column user_id type uuid using nullif
 alter table public.postcode_searches alter column user_id type uuid using nullif(user_id, '')::uuid;
 alter table public.tool_outputs      alter column user_id type uuid using nullif(user_id, '')::uuid;
 alter table public.subscriptions     alter column user_id type uuid using nullif(user_id, '')::uuid;
+-- 3) n8n_events is created without user_id in 001 — add it (like leads).
+alter table public.n8n_events add column if not exists user_id uuid references auth.users(id) on delete set null;
 alter table public.saved_scans enable row level security;
 alter table public.postcode_searches enable row level security;
 alter table public.tool_outputs enable row level security;
