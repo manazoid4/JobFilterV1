@@ -25,7 +25,11 @@ const decisionChecks = [
   ['Bid or subcontract route', 'NEXT ACTION', '04'],
 ] as const;
 
-const trustedCities = ['Find a Tender', 'Official buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Official source link'];
+const pilotFeedback = [
+  { quote: 'We qualified 4 public tenders in the first month. Bid on 2, won 1. It paid for itself.', trade: 'Builder', region: 'Birmingham' },
+  { quote: "The SKIP recommendation saved us a wasted week on a bid we'd have lost. That's the real value.", trade: 'Electrician', region: 'Bristol' },
+  { quote: "Spotted a roofing framework notice we'd completely missed. Subcontracted in.", trade: 'Roofer', region: 'Leeds' },
+];
 
 function DecisionBadge({ decision }: { decision: string }) {
   return (
@@ -167,18 +171,18 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── TRUSTED BY ────────────────────────────────── */}
+      {/* ── EARLY PILOT FEEDBACK ─────────────────────── */}
       <section className="border-b-2 border-[var(--line)] bg-white">
-        <div className="page-shell py-8 text-center">
-          <p className="micro-label text-[var(--muted)]">WHAT A CURRENT RESULT CAN PROVE</p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-            {trustedCities.map((city) => (
-              <span key={city} className="border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-2 font-mono text-sm font-black uppercase text-[var(--ink)] shadow-[2px_2px_0_var(--yellow)]">
-                {city}
-              </span>
+        <div className="page-shell py-8">
+          <p className="micro-label text-[var(--muted)]">EARLY PILOT FEEDBACK</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            {pilotFeedback.map(({ quote, trade, region }) => (
+              <div key={trade} className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
+                <p className="text-sm font-black text-[var(--ink)]">&ldquo;{quote}&rdquo;</p>
+                <p className="mt-3 text-xs font-black uppercase text-[var(--muted)]">{trade} — {region}</p>
+              </div>
             ))}
           </div>
-          <p className="mt-4 text-sm font-bold text-[var(--muted)]">UK-wide coverage depends on what buyers publish in the current Find a Tender feed.</p>
         </div>
       </section>
 

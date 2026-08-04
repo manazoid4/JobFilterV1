@@ -485,18 +485,10 @@ export function FindJobsPage() {
         )}
 
         {/* Form — postcode + trade + radius so users always see their trade before scanning */}
-        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
+        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto]">
           <label htmlFor="scan-postcode" className="field-label">
             Postcode
             <input id="scan-postcode" name="postal-code" autoComplete="postal-code" ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} aria-invalid={postcodeRequired} aria-describedby={postcodeRequired ? 'scan-postcode-error' : undefined} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" required />
-          </label>
-          <label htmlFor="scan-trade" className="field-label">
-            Trade
-            <select id="scan-trade" name="trade" value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
-              {TRADE_PRESETS.map((p) => (
-                <option key={p.trade} value={p.trade}>{p.label}</option>
-              ))}
-            </select>
           </label>
           <label htmlFor="scan-radius" className="field-label">
             Radius
@@ -1174,6 +1166,7 @@ const TRADE_FRIENDLY: Record<string, string> = {
 };
 
 function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }) {
+  const { user } = useAuth();
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const outward = postcode.trim().split(' ')[0].toUpperCase();
   const tradeLabel = TRADE_FRIENDLY[trade] ?? trade;
@@ -1204,6 +1197,22 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
     );
   }
 
+  if (!user) {
+    return (
+      <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-black text-[var(--yellow)] uppercase">Don&apos;t miss next week&apos;s leads</p>
+          <p className="mt-0.5 text-sm font-black text-white">
+            Get weekly email alerts for {tradeLabel} jobs near {outward} — free, no credit card
+          </p>
+        </div>
+        <Link href="/login" className="shrink-0 border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">
+          SIGN IN FREE TO SET ALERTS →
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="border-2 border-[var(--navy)] bg-[var(--navy)] p-4 flex flex-col sm:flex-row sm:items-center gap-3">
       <div className="flex-1 min-w-0">
@@ -1211,7 +1220,7 @@ function AlertQuickSetup({ trade, postcode }: { trade: Trade; postcode: string }
         <p className="mt-0.5 text-sm font-black text-white">
           Get weekly email alerts for {tradeLabel} jobs near {outward} — free, no credit card
         </p>
-        {state === 'error' && <p className="mt-1 text-xs font-black text-[var(--orange)]">Failed — sign in first or try again</p>}
+        {state === 'error' && <p className="mt-1 text-xs font-black text-[var(--orange)]">Failed — try again</p>}
       </div>
       <button
         type="button"
