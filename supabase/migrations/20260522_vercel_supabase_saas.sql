@@ -145,6 +145,10 @@ alter table public.tool_outputs      alter column user_id type uuid using nullif
 alter table public.subscriptions     alter column user_id type uuid using nullif(user_id, '')::uuid;
 -- 3) n8n_events is created without user_id in 001 — add it (like leads).
 alter table public.n8n_events add column if not exists user_id uuid references auth.users(id) on delete set null;
+-- 4) 001's leads is also missing status and payload (present in the canonical
+--    shape and referenced by later check constraints / migrations). Add them.
+alter table public.leads add column if not exists status text not null default 'new';
+alter table public.leads add column if not exists payload jsonb not null default '{}'::jsonb;
 alter table public.saved_scans enable row level security;
 alter table public.postcode_searches enable row level security;
 alter table public.tool_outputs enable row level security;
