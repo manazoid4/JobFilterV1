@@ -124,6 +124,12 @@ create index if not exists ai_scores_lead_idx on public.ai_scores(lead_id, creat
 
 alter table public.profiles enable row level security;
 alter table public.leads enable row level security;
+-- Baseline fix: 001_full_schema.sql creates public.leads without user_id, so the
+-- create-table-if-not-exists above is a no-op on a from-scratch replay and the
+-- user_id-based policies below fail. Add the column idempotently. This is a no-op
+-- on production (where leads already has user_id) and only matters for full replays
+-- such as Supabase Branching preview databases.
+alter table public.leads add column if not exists user_id uuid references auth.users(id) on delete set null;
 alter table public.saved_scans enable row level security;
 alter table public.postcode_searches enable row level security;
 alter table public.tool_outputs enable row level security;
