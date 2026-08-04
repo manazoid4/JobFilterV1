@@ -1,5 +1,28 @@
 [
   {
+    "id": "your-own-trade-page",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "GET YOUR OWN FREE TRADE PAGE",
+    "summary": "Build a clean, shareable page for your firm in under a minute — put it on quotes, WhatsApp, your van QR and socials. No login, no cost.",
+    "availability": "Live at /microsite",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "NEW",
+        "items": [
+          "Fill in your firm name, trade, area and contact — get an instant shareable page at jobfilter.uk/pro/your-firm.",
+          "One-tap COPY and SHARE ON WHATSAPP so you can send it straight to a customer.",
+          "Every page carries call and WhatsApp buttons so enquiries reach you fast."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["b5440af"],
+      "pullRequests": [426]
+    }
+  },
+  {
     "id": "faster-clearer-first-scans",
     "publishedAt": "2026-07-15",
     "status": "live",
