@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { ClipboardCheck, MapPin, Radar, ShieldCheck } from 'lucide-react';
 
+import { attributionSource } from '../lib/microsite';
+
 const trades = ['Builder', 'Roofer', 'Electrician', 'Plumber', 'Heat pump installer', 'Bathroom fitter', 'Landscaper', 'Not sure'];
 const proofCards = [
   { icon: ShieldCheck, label: 'One trade, not five bidders' },
@@ -30,7 +32,7 @@ export function PostJobPage() {
           trade: fd.get('trade'),
           contact: fd.get('contact'),
           details: fd.get('details'),
-          source: `post-job-${String(fd.get('postcode') ?? '').toUpperCase()}`,
+          source: attributionSource(`post-job-${String(fd.get('postcode') ?? '').toUpperCase()}`),
         }),
       });
       if (!res.ok) throw new Error('Submit failed');
