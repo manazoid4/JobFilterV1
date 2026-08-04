@@ -1,5 +1,28 @@
 [
   {
+    "id": "free-trade-page-everywhere",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "YOUR FREE TRADE PAGE, NOW EASY TO FIND",
+    "summary": "The free trade page is now featured across the site — in the top menu, the footer and on the homepage — so you can build and share yours in seconds.",
+    "availability": "Live across JobFilter",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "Added to the main menu and mobile menu on every page.",
+          "Added a Free Trade Page link in the footer.",
+          "New homepage panel so first-time visitors can build a page straight away."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["be0bff7"],
+      "pullRequests": [426]
+    }
+  },
+  {
     "id": "your-own-trade-page",
     "publishedAt": "2026-08-04",
     "status": "live",
