@@ -6,6 +6,7 @@ import { useAuth } from './AuthProvider';
 
 const publicLinks = [
   { to: '/find-jobs', label: 'Find Opportunities' },
+  { to: '/microsite', label: 'Free Trade Page' },
   { to: '/methodology', label: 'How It Works' },
   { to: '/pricing', label: 'Pricing' },
   { to: '/trust', label: 'Trust' },
@@ -14,6 +15,7 @@ const publicLinks = [
 const memberLinks = [
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/find-jobs', label: 'Find Opportunities' },
+  { to: '/microsite', label: 'Free Trade Page' },
   { to: '/leads', label: 'Decisions' },
   { to: '/account', label: 'Account' },
 ];
