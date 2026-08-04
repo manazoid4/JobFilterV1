@@ -10,6 +10,8 @@ Last updated: 2026-08-04 (NightlyBuildAgent)
 - [x] FindJobsPage copy — competitor differentiation (Checkatrade, Bark named), no shared auction line, "No credit card required to browse" on CTA
 - [x] PricingPage copy — pilot CTA fixed ("START AFTER COVERAGE CHECK" → "START — £39/MO, CANCEL ANYTIME"), competitors named, no-lock-in messaging
 - [x] Site health check (NEEDLE/BUILDER/CRITIC/REVENUE) — fixed pricing CTA inconsistency
+- [x] Scan counter zero-state copy: "Buyer and submission context locked" → "Free scans used up — who to call is locked" (Run 2)
+- [x] Gold lead paywall gate copy: "THIS JOB HAS A BUYER — MEMBERS ONLY" → "GOLD LEAD — WHO TO CALL IS LOCKED" (Run 2)
 
 ---
 

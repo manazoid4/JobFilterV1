@@ -75,6 +75,19 @@ REVENUE: Does it increase likelihood of paying £39/mo — yes. Removes the fina
 
 ---
 
+---
+
+## RUN 2 ADDITIONS (same day, second agent pass)
+
+### FindJobsPage.tsx — Scan counter and paywall gate copy
+- Scan counter zero-state: "Buyer and submission context locked. Scanning remains free." → "Free scans used up — who to call is locked until you upgrade." (clearer plain English)
+- Gold lead paywall gate micro-label: "THIS JOB HAS A BUYER — MEMBERS ONLY" → "GOLD LEAD — WHO TO CALL IS LOCKED"
+- Gold lead gate body: "Review the buyer, deadline and official submission route before deciding whether to bid." → "Unlock the buyer contact, deadline, and the official route to quote — £39/month, no per-lead fees."
+- Gold lead gate CTA: "SEE BUYER DETAILS — £39/MO →" → "SEE WHO TO CALL — £39/MO →"
+- Gold lead gate sub-label: "Public tender · other suppliers may bid" → "No credit card required to browse first"
+
+---
+
 ## NEXT RUN PRIORITIES
 
 1. **Remove dual trade selector on FindJobsPage** — dropdown + preset buttons both visible and doing the same job. Remove the dropdown, keep preset buttons as sole trade picker. Show inline postcode error when preset tapped without postcode rather than scrolling-to field alert.
