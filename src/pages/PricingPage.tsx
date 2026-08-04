@@ -37,21 +37,36 @@ export function PricingPage() {
           </Link>
         </section>
       )}
+      {/* ROI anchor — answers "is £39 worth it?" before anything else */}
+      <section className="border-4 border-[var(--yellow)] bg-[var(--yellow)] p-5">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-4xl font-black text-[var(--ink)]">£39</span>
+            <div>
+              <p className="text-xs font-black uppercase tracking-wider text-[var(--ink)]/70">per month</p>
+              <p className="text-sm font-black text-[var(--ink)]">One public works contract won = months paid.</p>
+            </div>
+          </div>
+          <div className="hidden sm:block h-10 w-0.5 bg-[var(--ink)]/20" aria-hidden="true" />
+          <p className="text-sm font-black text-[var(--ink)]/80 max-w-sm">Skip one bad bid and you've saved more than a year's subscription. Know before you spend a day on it.</p>
+          <Link className="jf-button bg-[var(--ink)] text-white shrink-0 ml-auto" href="/find-jobs">SCAN FREE FIRST →</Link>
+        </div>
+      </section>
+
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT · £39/MONTH</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING BID TIME ON CONTRACTS THAT DON'T FIT.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          Tell us your trade, area and contract size. We scan government contracts and give you a clear call — <span className="text-[var(--yellow)]">bid it, subcontract it, or skip it</span> — before you spend a day writing a tender.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Scan the current feed free — no card. One decent contract found pays for a year.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Results vary by trade and region. An empty scan is an honest result, not a bug.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">

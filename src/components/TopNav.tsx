@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useAuth } from './AuthProvider';
 
 const publicLinks = [
-  { to: '/find-jobs', label: 'Find Opportunities' },
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/microsite', label: 'Free Trade Page' },
   { to: '/methodology', label: 'How It Works' },
   { to: '/pricing', label: 'Pricing' },
