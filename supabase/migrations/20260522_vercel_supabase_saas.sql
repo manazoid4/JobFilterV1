@@ -124,12 +124,25 @@ create index if not exists ai_scores_lead_idx on public.ai_scores(lead_id, creat
 
 alter table public.profiles enable row level security;
 alter table public.leads enable row level security;
--- Baseline fix: 001_full_schema.sql creates public.leads without user_id, so the
--- create-table-if-not-exists above is a no-op on a from-scratch replay and the
--- user_id-based policies below fail. Add the column idempotently. This is a no-op
--- on production (where leads already has user_id) and only matters for full replays
--- such as Supabase Branching preview databases.
+-- Baseline reconciliation for from-scratch replays (e.g. Supabase Branching).
+-- 001_full_schema.sql pre-creates several of these tables with an incompatible
+-- shape, so the create-table-if-not-exists statements above are no-ops and the
+-- uuid-based policies below fail. Normalise those tables here. Every statement is
+-- a no-op on production (which already has the canonical uuid schema) and only
+-- matters when the full migration history is replayed onto a fresh database.
+--
+-- 1) leads has no user_id column in 001 — add it.
 alter table public.leads add column if not exists user_id uuid references auth.users(id) on delete set null;
+-- 2) saved_scans / postcode_searches / tool_outputs / subscriptions have user_id as
+--    text in 001 with legacy text-based policies. Drop the legacy policies, then
+--    normalise the column type to uuid so the policies below type-check.
+drop policy if exists "Users can read own scans" on public.saved_scans;
+drop policy if exists "Users can insert own scans" on public.saved_scans;
+drop policy if exists "Users can read own subscription" on public.subscriptions;
+alter table public.saved_scans       alter column user_id type uuid using nullif(user_id, '')::uuid;
+alter table public.postcode_searches alter column user_id type uuid using nullif(user_id, '')::uuid;
+alter table public.tool_outputs      alter column user_id type uuid using nullif(user_id, '')::uuid;
+alter table public.subscriptions     alter column user_id type uuid using nullif(user_id, '')::uuid;
 alter table public.saved_scans enable row level security;
 alter table public.postcode_searches enable row level security;
 alter table public.tool_outputs enable row level security;
