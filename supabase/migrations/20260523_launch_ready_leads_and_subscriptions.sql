@@ -1,4 +1,5 @@
 alter table public.leads
+  add column if not exists status text not null default 'new',
   add column if not exists fusion_key text,
   add column if not exists source_url text,
   add column if not exists buyer_name text,
