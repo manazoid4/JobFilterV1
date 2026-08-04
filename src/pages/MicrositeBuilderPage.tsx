@@ -5,9 +5,12 @@ import Link from 'next/link';
 
 import { encodeProfile, micrositeLink, slugify, type MicrositeProfile } from '../lib/microsite';
 
-// Builder: a firm fills a few fields and gets a shareable /pro/{slug} link.
-// No login for this MVP — the details ride in the link. Share it anywhere;
-// every view carries the "Powered by JobFilter" mark and drives referrals back.
+type Result = { link: string; slug: string; clean: boolean };
+
+// Builder: a firm fills a few fields and reserves a page.
+// Primary path persists to the DB and returns a clean root URL
+// (jobfilter.uk/{slug}); if the DB isn't configured it falls back to a
+// self-contained URL-param link at /pro/{slug}.
 export function MicrositeBuilderPage() {
   const [form, setForm] = useState<MicrositeProfile>({
     name: '',
@@ -18,20 +21,53 @@ export function MicrositeBuilderPage() {
     years: '',
     blurb: '',
   });
+  const [result, setResult] = useState<Result | null>(null);
+  const [status, setStatus] = useState<'idle' | 'working' | 'error'>('idle');
   const [copied, setCopied] = useState(false);
 
   const slug = useMemo(() => slugify(form.name), [form.name]);
   const origin = typeof window === 'undefined' ? 'https://jobfilter.uk' : window.location.origin;
-  const link = slug ? micrositeLink(origin, slug, form) : '';
 
   function update(field: keyof MicrositeProfile, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
+    setResult(null);
     setCopied(false);
   }
 
+  function fallbackResult(): Result {
+    return { link: micrositeLink(origin, slug, form), slug, clean: false };
+  }
+
+  async function createPage() {
+    if (!slug) return;
+    setStatus('working');
+    setCopied(false);
+    try {
+      const res = await fetch('/api/microsites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data?.ok && data?.slug) {
+        setResult({ link: `${origin}/${data.slug}`, slug: data.slug, clean: true });
+      } else if (res.status === 409 && data?.error && data.error !== 'not_configured') {
+        setStatus('error');
+        return;
+      } else {
+        // Not configured or unexpected — hand back a self-contained link.
+        setResult(fallbackResult());
+      }
+      setStatus('idle');
+    } catch {
+      setResult(fallbackResult());
+      setStatus('idle');
+    }
+  }
+
   async function copyLink() {
-    if (!link) return;
-    await navigator.clipboard.writeText(link);
+    if (!result) return;
+    await navigator.clipboard.writeText(result.link);
     setCopied(true);
   }
 
@@ -68,31 +104,46 @@ export function MicrositeBuilderPage() {
             </label>
           ))}
         </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <button
+            className="jf-button bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-50"
+            onClick={() => void createPage()}
+            disabled={!slug || status === 'working'}
+          >
+            {status === 'working' ? 'CREATING…' : 'CREATE MY PAGE →'}
+          </button>
+          {!slug ? <span className="text-sm font-bold text-[var(--muted)]">Enter your firm name to start.</span> : null}
+          {status === 'error' ? (
+            <span className="text-sm font-black text-[var(--orange)]">That name is taken or reserved — try a more specific firm name.</span>
+          ) : null}
+        </div>
       </section>
 
-      <section className="jf-box bg-[var(--navy)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">YOUR SHAREABLE LINK</p>
-        {link ? (
-          <>
-            <div className="mt-4 break-all border-2 border-white/30 bg-white/10 p-4 text-base font-black sm:text-lg">
-              {link}
-            </div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => void copyLink()}>
-                {copied ? 'COPIED' : 'COPY LINK'}
-              </button>
-              <a className="jf-button bg-white text-[var(--ink)]" href={`https://wa.me/?text=${encodeURIComponent(link)}`} target="_blank" rel="noreferrer">
-                SHARE ON WHATSAPP →
-              </a>
-              <Link className="jf-button bg-[var(--ink)] text-white" href={`/pro/${slug}${encodeProfile(form)}`}>
-                PREVIEW PAGE →
-              </Link>
-            </div>
-          </>
-        ) : (
-          <p className="mt-4 text-base font-bold text-white/80">Enter your firm name to generate your link.</p>
-        )}
-      </section>
+      {result ? (
+        <section className="jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">YOUR SHAREABLE LINK</p>
+          <div className="mt-4 break-all border-2 border-white/30 bg-white/10 p-4 text-base font-black sm:text-lg">
+            {result.link}
+          </div>
+          {!result.clean ? (
+            <p className="mt-2 text-xs font-bold text-white/70">
+              Tip: this is a self-contained link. Your firm details travel inside it.
+            </p>
+          ) : null}
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => void copyLink()}>
+              {copied ? 'COPIED' : 'COPY LINK'}
+            </button>
+            <a className="jf-button bg-white text-[var(--ink)]" href={`https://wa.me/?text=${encodeURIComponent(result.link)}`} target="_blank" rel="noreferrer">
+              SHARE ON WHATSAPP →
+            </a>
+            <Link className="jf-button bg-[var(--ink)] text-white" href={result.clean ? `/${result.slug}` : `/pro/${result.slug}${encodeProfile(form)}`}>
+              PREVIEW PAGE →
+            </Link>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }

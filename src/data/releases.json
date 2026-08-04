@@ -1,5 +1,28 @@
 [
   {
+    "id": "trade-page-clean-links",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "TRADE PAGES NOW GET A CLEAN JOBFILTER.UK LINK",
+    "summary": "Create your free trade page and get a tidy jobfilter.uk/your-firm link that's saved for you — no messy long links to share.",
+    "availability": "Live at /microsite",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "NEW",
+        "items": [
+          "Your page now lives at a clean jobfilter.uk/your-firm address.",
+          "Your details are saved, so the link stays short and tidy on quotes and WhatsApp.",
+          "We count how many people your shared page brings back to JobFilter."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["64a33fb"],
+      "pullRequests": [426]
+    }
+  },
+  {
     "id": "free-trade-page-everywhere",
     "publishedAt": "2026-08-04",
     "status": "live",
