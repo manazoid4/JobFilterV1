@@ -138,6 +138,27 @@ export function PricingPage() {
         </div>
       </section>
 
+      <section className="ops-panel bg-[var(--ink)] p-7 text-white">
+        <p className="micro-label text-[var(--yellow)]">HOW JOBFILTER COMPARES</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NOT CHECKATRADE. NOT MYBUILDER. NOT BARK.</h2>
+        <p className="mt-3 font-bold text-white/80 max-w-2xl">
+          Those platforms sell your contact details to homeowners and let 4–5 trades bid against each other. JobFilter reads official public tender notices — the buyer posts the job on Find a Tender, you see it first, you approach direct. No shared auction. No lead credit.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            { name: 'Checkatrade / Bark', them: 'You bid against 4+ other trades. Pay per lead, no guaranteed contact.', us: 'JobFilter: public tender, you approach direct. No shared bidding.' },
+            { name: 'MyBuilder / BuildAlert', them: 'Domestic homeowner jobs. Platform controls the relationship.', us: 'JobFilter: commercial and public works. You own the contact route.' },
+            { name: 'Planning Pipe', them: 'Planning data only — no scoring, no decision, no next action.', us: 'JobFilter: scored, filtered, with BID / WATCH / SUBCONTRACT / SKIP.' },
+          ].map(({ name, them, us }) => (
+            <div key={name} className="border-2 border-white/20 bg-white/8 p-4">
+              <p className="text-xs font-black uppercase tracking-wider text-[var(--yellow)]">{name}</p>
+              <p className="mt-2 text-sm font-bold text-white/60">{them}</p>
+              <p className="mt-3 text-sm font-black text-white">{us}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>

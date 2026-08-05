@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Scans used up. Unlike Checkatrade, you see leads before paying — no blind auction, no five-trade blast.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -725,23 +725,22 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {displayedLeads.map((lead, idx) => (
-                <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
-                  {idx === firstGoldIdx && (
-                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
-                      <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
-                      </p>
-                      <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
+              {displayedLeads.map((lead) => (
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
               ))}
+
+              {firstGoldIdx >= 0 && (
+                <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
+                  <p className="micro-label text-[10px] text-[var(--yellow)]">BUYER DETAILS LOCKED — {goldCount} GOLD LEAD{goldCount === 1 ? '' : 'S'} FOUND</p>
+                  <p className="mt-2 font-bold text-white">
+                    These {goldCount} gold lead{goldCount === 1 ? '' : 's'} have a buyer and a submission route. Full access shows buyer name, published value, deadline, and how to respond — no shared auction, no lead credits.
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK BUYER DETAILS — £39/MO →</Link>
+                    <span className="text-xs font-black text-white/50">No credit card required to browse · public tender · other suppliers may bid</span>
+                  </div>
+                </div>
+              )}
 
 
               {/* Patch Pulse */}
@@ -951,6 +950,47 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
+const TRADE_KEYWORD_LABELS: Record<string, string> = {
+  'EV CHARGER': 'EV charger install',
+  'EV CHARGING': 'EV charging point',
+  'REWIRE': 'Full rewire',
+  'REWIRING': 'Full rewire',
+  'CONSUMER UNIT': 'Consumer unit upgrade',
+  'EICR': 'Electrical inspection',
+  'SOLAR': 'Solar PV install',
+  'SOLAR PV': 'Solar PV install',
+  'BOILER': 'Boiler replacement',
+  'HEAT PUMP': 'Heat pump install',
+  'BATHROOM': 'Bathroom fit-out',
+  'DRAINAGE': 'Drainage work',
+  'PLUMBING': 'Plumbing work',
+  'FLAT ROOF': 'Flat roof repair',
+  'ROOFING': 'Roofing work',
+  'GUTTERING': 'Guttering',
+  'KITCHEN': 'Kitchen fit-out',
+  'EXTENSION': 'Extension build',
+  'LOFT CONVERSION': 'Loft conversion',
+  'DAMP': 'Damp proofing',
+  'PLASTERING': 'Plastering',
+  'DECORATING': 'Decorating',
+  'FENCING': 'Fencing',
+  'FLOORING': 'Flooring',
+  'TILING': 'Tiling',
+  'RETROFIT': 'Retrofit install',
+  'INSULATION': 'Insulation work',
+  'SCAFFOLDING': 'Scaffolding',
+  'GROUNDWORK': 'Groundwork',
+  'VENTILATION': 'Ventilation system',
+  'GARAGE CONVERSION': 'Garage conversion',
+};
+
+function getTopTradeReason(parsedReasons: Array<{ label: string; highlight: boolean }>): string | null {
+  const highlighted = parsedReasons.find(r => r.highlight);
+  if (!highlighted) return null;
+  const label = highlighted.label.replace(/\s*—\s*YOUR TRADE$/i, '').trim();
+  return TRADE_KEYWORD_LABELS[label] ?? label.charAt(0) + label.slice(1).toLowerCase();
+}
+
 const TITLE_KEYWORDS = [
   'EV CHARGER', 'EV CHARGING', 'REWIRE', 'CONSUMER UNIT', 'EICR',
   'BOILER', 'HEAT PUMP', 'BATHROOM', 'KITCHEN', 'EXTENSION',
@@ -1143,6 +1183,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
+  const topTradeReason = getTopTradeReason(parsedReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
@@ -1205,6 +1246,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         </div>
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
+        )}
+        {topTradeReason && (
+          <span className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase text-center leading-tight border border-[var(--yellow)] bg-[var(--yellow)]/15 text-[var(--ink)] max-w-[80px] break-words">{topTradeReason}</span>
         )}
         {rawReasons.length > 0 && (
           <button
