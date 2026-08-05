@@ -759,10 +759,10 @@ export function FindJobsPage() {
                     )}
                   </div>
                   {sourceMix && (
-                    <p className="mt-2 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
+                    <p className="mt-2 text-xs font-black text-white/70">Verified signals: {sourceMix}</p>
                   )}
                   {bestSource && (
-                    <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
+                    <p className="mt-0.5 text-xs font-black text-white/70">Strongest signal: {bestSource}</p>
                   )}
                   {topJobTypes.length > 0 && (
                     <p className="mt-2 text-xs font-black text-[var(--yellow)]">IN DEMAND: {topJobTypes.join(' · ')}</p>
@@ -1210,16 +1210,16 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+            className="mt-1 min-h-[28px] px-2 py-1 text-[10px] font-black uppercase border-2 border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
           >
-            {showScoreReasons ? 'HIDE' : 'WHY?'}
+            {showScoreReasons ? 'HIDE REASONS' : 'WHY THIS SCORE?'}
           </button>
         )}
         {showScoreReasons && (
-          <div className="mt-2 w-36 border border-[var(--line)] bg-[var(--bg-main)] p-2">
-            <ul className="grid gap-0.5">
+          <div className="mt-2 w-40 border-2 border-[var(--line)] bg-[var(--bg-main)] p-2">
+            <ul className="grid gap-1">
               {parsedReasons.map((r, i) => (
-                <li key={i} className={`text-[9px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
+                <li key={i} className={`text-[10px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
               ))}
             </ul>
           </div>

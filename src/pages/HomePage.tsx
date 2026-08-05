@@ -61,13 +61,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
+            <p className="micro-label text-[var(--yellow)]">PUBLIC CONTRACT FILTER — FREE SCAN, NO CARD NEEDED</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM —{' '}
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              Bidding the wrong public contract wastes weeks of bid time. JobFilter reads the current notice and tells you whether it fits your firm — BID, WATCH, SUBCONTRACT or SKIP — before you write a single page. Three free scans, no card.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -91,7 +91,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Scan the current feed before deciding whether the coverage fits your firm.
+              Unlike BuildAlert and Planning Pipe — we check firm fit against each notice, not just trade type.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Built for 5–25-person construction and maintenance firms that can bid or subcontract
+                Built for contractors who need to know which public contracts are worth bidding — before they spend bid time
               </p>
             </div>
             <div className="flex items-center gap-2">
