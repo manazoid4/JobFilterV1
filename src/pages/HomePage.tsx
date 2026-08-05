@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Filters live FTS feed by trade, region and contract range',
+  'Buyer, deadline and CPV code — before you write a single line of bid',
+  'BID, WATCH, SUBCONTRACT or SKIP in under 2 minutes',
+  'No verified match = empty result — we never fabricate leads',
 ];
 
 const signalRows = [
@@ -193,22 +193,22 @@ export function HomePage() {
             <div className="flex items-start gap-6 bg-[var(--yellow)] px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">01</span>
               <div>
-                <p className="headline text-xl text-[var(--ink)]">Describe your firm</p>
-                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">Set services, delivery region, contract range and whether you can bid directly or need a subcontract route.</p>
+                <p className="headline text-xl text-[var(--ink)]">Set your trade, postcode and contract range</p>
+                <p className="mt-1 text-sm font-bold text-[var(--ink)]/70">Tell JobFilter your services, delivery region, whether you bid direct or need a subcontract route. Takes 2 minutes once.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-[var(--ink)] px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--yellow)] pt-1">02</span>
               <div>
-                <p className="headline text-xl text-white">Check the evidence and gaps</p>
-                <p className="mt-1 text-sm font-bold text-white/60">JobFilter compares the public notice with your profile and exposes buyer, scope, value, deadline, requirements and missing evidence.</p>
+                <p className="headline text-xl text-white">See what the notice proves — and what's missing</p>
+                <p className="mt-1 text-sm font-bold text-white/60">JobFilter reads the FTS notice and surfaces buyer, scope, published value, deadline, CPV match and any requirement gaps — before you spend an hour on it yourself.</p>
               </div>
             </div>
             <div className="flex items-start gap-6 bg-white px-6 py-6">
               <span className="font-mono text-xs font-black text-[var(--ink)] pt-1">03</span>
               <div>
-                <p className="headline text-xl text-[var(--ink)]">Choose the next action</p>
-                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Decide BID, WATCH, SUBCONTRACT or SKIP. A recommendation is qualification support, not a promise of an award.</p>
+                <p className="headline text-xl text-[var(--ink)]">BID, WATCH, SUBCONTRACT or SKIP — then open the source</p>
+                <p className="mt-1 text-sm font-bold text-[var(--muted)]">Get a clear recommendation based on your profile. The official FTS notice link is always there — you stay in control of the bid decision.</p>
               </div>
             </div>
           </div>

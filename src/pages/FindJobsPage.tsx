@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans done this week. Full buyer info, published values and submission routes unlock from £39/mo. Resets Monday.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -961,6 +961,23 @@ const TITLE_KEYWORDS = [
   'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
 ];
 
+const TRADE_TITLE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'VENTILATION'],
+  plumbing: ['BOILER', 'HEAT PUMP', 'BATHROOM', 'DRAINAGE', 'GUTTERING', 'KITCHEN'],
+  roofing: ['FLAT ROOF', 'ROOFING', 'GUTTERING', 'SCAFFOLDING', 'INSULATION'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'CONSERVATORY', 'RETROFIT', 'INSULATION', 'KITCHEN'],
+  carpentry: ['FLOORING', 'TILING', 'KITCHEN', 'CONSERVATORY'],
+  painting: ['DECORATING', 'PLASTERING', 'DAMP'],
+  hvac: ['HEAT PUMP', 'VENTILATION', 'BOILER', 'INSULATION', 'RETROFIT'],
+  landscaping: ['DRAINAGE', 'FENCING', 'GROUNDWORK', 'DAMP'],
+};
+
+function extractTitleKeywords(title: string, trade: string): string[] {
+  const upper = title.toUpperCase();
+  const relevant = TRADE_TITLE_KEYWORDS[trade] ?? TITLE_KEYWORDS;
+  return relevant.filter(kw => upper.includes(kw));
+}
+
 function extractTopJobTypes(leads: Lead[]): string[] {
   const counts: Record<string, number> = {};
 
@@ -1142,7 +1159,16 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedFromEngine = parseTradeReasons(rawReasons);
+  const titleKws = extractTitleKeywords(lead.title, String(lead.trade || ''));
+  const existingLabels = new Set(parsedFromEngine.map(r => r.label));
+  const titleHints = titleKws
+    .filter(kw => !existingLabels.has(`${kw} — YOUR TRADE`) && !existingLabels.has(kw))
+    .map(kw => ({ label: kw, highlight: true }));
+  const isGenericFallback = parsedFromEngine.length === 1 && parsedFromEngine[0].label === 'Verified signal';
+  const parsedReasons = isGenericFallback
+    ? (titleHints.length > 0 ? titleHints.slice(0, 5) : parsedFromEngine)
+    : [...parsedFromEngine, ...titleHints].slice(0, 5);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
@@ -1206,7 +1232,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
         )}
-        {rawReasons.length > 0 && (
+        {parsedReasons.length > 0 && (
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
