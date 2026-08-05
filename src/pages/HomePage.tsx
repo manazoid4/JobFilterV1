@@ -12,10 +12,10 @@ const proofPoints = [
 ];
 
 const signalRows = [
-  { source: 'FTS sample', signal: 'Electrical maintenance tender', trade: 'Electrical', value: 'Published value', decision: 'BID', location: 'Leeds' },
-  { source: 'FTS sample', signal: 'Responsive roofing repairs', trade: 'Roofing', value: 'Published value', decision: 'WATCH', location: 'Portsmouth' },
-  { source: 'FTS sample', signal: 'Building refurbishment works', trade: 'Building', value: 'Value range', decision: 'SUBCONTRACT', location: 'Birmingham' },
-  { source: 'FTS sample', signal: 'Heating maintenance framework', trade: 'HVAC', value: 'Check notice', decision: 'SKIP', location: 'UK' },
+  { source: 'Find a Tender', signal: 'Electrical maintenance tender', trade: 'Electrical', value: 'See notice', decision: 'BID', location: 'Leeds' },
+  { source: 'Find a Tender', signal: 'Responsive roofing repairs', trade: 'Roofing', value: 'See notice', decision: 'WATCH', location: 'Portsmouth' },
+  { source: 'Find a Tender', signal: 'Building refurbishment works', trade: 'Building', value: 'See notice', decision: 'SUBCONTRACT', location: 'Birmingham' },
+  { source: 'Find a Tender', signal: 'Heating maintenance framework', trade: 'HVAC', value: 'See notice', decision: 'SKIP', location: 'UK-wide' },
 ];
 
 const decisionChecks = [
@@ -25,7 +25,7 @@ const decisionChecks = [
   ['Bid or subcontract route', 'NEXT ACTION', '04'],
 ] as const;
 
-const trustedCities = ['Find a Tender', 'Official buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Official source link'];
+const trustedCities = ['Find a Tender', 'Official buyer', 'Trade matched', 'Delivery evidence', 'Published deadline', 'Official source link'];
 
 function DecisionBadge({ decision }: { decision: string }) {
   return (
@@ -46,16 +46,16 @@ export function HomePage() {
         {/* Floating signal bubbles */}
         <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
           <div className="absolute left-[8%] top-[18%] animate-[float_6s_ease-in-out_infinite] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            Source: FTS
+            Find a Tender
           </div>
           <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            CPV: Matched
+            Trade: Matched ✓
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
-            Deadline: Published
+            Deadline: Visible
           </div>
           <div className="absolute right-[6%] bottom-[30%] animate-[float_8s_ease-in-out_infinite_2s] rounded-full border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--orange)]">
-            Tender: Live
+            Live Notice
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export function HomePage() {
 
           <aside className="ops-panel bg-[var(--steel)] p-4 text-white">
             <div className="flex items-center justify-between border-b-2 border-[var(--yellow)] pb-3">
-              <p className="micro-label text-[var(--yellow)]">ILLUSTRATIVE PUBLIC-TENDER FORMATS</p>
+              <p className="micro-label text-[var(--yellow)]">FIND A TENDER EXAMPLES</p>
             </div>
             <div className="mt-4 grid gap-3">
               {signalRows.map((row) => (
@@ -336,7 +336,7 @@ export function HomePage() {
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
               <AlertTriangle size={28} strokeWidth={3} />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER-ASSISTED PILOT</p>
+                <p className="micro-label text-[var(--orange)]">£39/MONTH — CANCEL ANYTIME</p>
                 <h3 className="headline text-3xl">Check fit before payment.</h3>
               </div>
             </div>

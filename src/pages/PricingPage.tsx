@@ -38,12 +38,12 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">£39/MONTH — CANCEL ANYTIME</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING TIME ON JOBS THAT DON'T FIT. START WINNING THE ONES THAT DO.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          JobFilter reads live government tender notices and tells you: BID, WATCH, find a SUBCONTRACT route, or SKIP. Built for small UK contractors who can't afford to waste bid time.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
@@ -168,7 +168,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FULL ACCESS' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>
