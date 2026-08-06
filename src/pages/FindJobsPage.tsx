@@ -108,6 +108,17 @@ const TRADE_PRESETS: { label: string; trade: Trade; icon: React.ReactNode }[] = 
   { label: 'HEATING', trade: 'hvac', icon: <Thermometer className="w-4 h-4" /> },
 ];
 
+const TRADE_SCAN_JOBS: Record<Trade, string> = {
+  electrical: 'rewire, EV charger, consumer unit, EICR',
+  plumbing: 'boiler, bathroom, hot water, central heating',
+  roofing: 're-roof, flat roof, guttering, fascia',
+  building: 'extension, loft conversion, refurbishment',
+  carpentry: 'kitchen fit, flooring, joinery, staircase',
+  painting: 'full redecorate, exterior painting, commercial repaint',
+  hvac: 'heating system, air conditioning, ventilation',
+  landscaping: 'patio, fencing, driveway, garden design',
+};
+
 
 function getSavedRadius(): number {
   const saved = (typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.radius');
@@ -417,8 +428,6 @@ export function FindJobsPage() {
     return source.includes('contract') || source.includes('companies') || source === 'fts' || source === 'pcs' || source.includes('sell2wales');
   }).length ?? 0;
   const startReadyCount = result?.leads.filter(l => l.leadReadiness === 'READY' || l.readiness === 'READY' || l.signalClass === 'active_site').length ?? 0;
-  const bestSource = getBestSource(result?.sources);
-  const sourceMix = getSourceMix(result?.sources);
   const topJobTypes = extractTopJobTypes(displayedLeads);
 
   return (
@@ -426,8 +435,9 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
+        <p className="micro-label text-[var(--orange)]">3 FREE SCANS — NO CREDIT CARD, NO CATCH</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
+        <p className="mt-2 text-sm font-black text-[var(--muted)]">Bark charges credits. Checkatrade charges £80+/mo. JobFilter is £39/month flat — or free for 3 scans a week. Leads are not shared with other trades.</p>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -633,8 +643,9 @@ export function FindJobsPage() {
       {/* ── LOADING ─────────────────────────────────────────────────── */}
       {loading && !fillWeekLoading && (
         <section role="status" aria-live="polite" aria-atomic="true" className="jf-box bg-[var(--navy)] p-5 text-white">
-          <p className="micro-label text-[var(--yellow)]">SCANNING</p>
-          <p className="mt-2 text-xl font-black">Checking verified signals. Running the Money Filter.</p>
+          <p className="micro-label text-[var(--yellow)]">SCANNING {postcode.trim().split(' ')[0].toUpperCase() || 'YOUR AREA'}</p>
+          <p className="mt-2 text-xl font-black">Checking for {TRADE_SCAN_JOBS[trade] ?? 'trade'} jobs near you.</p>
+          <p className="mt-1 text-sm font-black text-white/60">Running the Money Filter — skipping low-value signals.</p>
         </section>
       )}
 
@@ -758,12 +769,6 @@ export function FindJobsPage() {
                       <span className="font-black text-white/50">{result.lockedCount} MORE LEADS <span className="font-normal">— full access at £39/mo</span></span>
                     )}
                   </div>
-                  {sourceMix && (
-                    <p className="mt-2 text-xs font-black text-white/70">Source mix: {sourceMix}</p>
-                  )}
-                  {bestSource && (
-                    <p className="mt-0.5 text-xs font-black text-white/70">Best source this scan: {bestSource}</p>
-                  )}
                   {topJobTypes.length > 0 && (
                     <p className="mt-2 text-xs font-black text-[var(--yellow)]">IN DEMAND: {topJobTypes.join(' · ')}</p>
                   )}
@@ -778,18 +783,18 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">REAL JOBS. REAL CONTACTS. NO SHARED LEADS.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      : 'SEE WHO TO CALL ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">GET FULL ACCESS — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · no shared auctions</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full access shows the contact, value, deadline, and the right way to approach each job. Unlike Bark or Checkatrade, these leads are not sold to five other trades — your scan is private.
                   </p>
                 </section>
               )}
