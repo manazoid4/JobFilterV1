@@ -14,8 +14,8 @@ export function Footer() {
             <p className="headline mt-2 text-3xl sm:text-4xl">START FILTERING TODAY. FREE SCAN. NO SIGNUP.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
-            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN FTS FREE →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">START PILOT — £39/MO →</Link>
           </div>
         </div>
 
@@ -30,7 +30,6 @@ export function Footer() {
             <div className="grid gap-1.5 md:gap-2.5 text-xs md:text-sm font-black uppercase text-white/90">
               <Link href="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
               <Link href="/microsite" className="hover:text-[var(--yellow)]">Free Trade Page</Link>
-              <Link href="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
               <Link href="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
               <Link href="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
               <Link href="/for-your-trade" className="hover:text-[var(--yellow)]">By Trade</Link>
@@ -57,7 +56,7 @@ export function Footer() {
               Not a London startup guessing. Built by people who know how trades work.
             </p>
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
-              <p>Local knowledge baked into every signal score.</p>
+              <p>Qualification evidence tied to official notice data.</p>
               <p>Delivery setup is checked before paid activation.</p>
               <p>Pilot price: £39/month after coverage review.</p>
             </div>
