@@ -49,7 +49,7 @@ export function HomePage() {
             Source: FTS
           </div>
           <div className="absolute right-[12%] top-[12%] animate-[float_7s_ease-in-out_infinite_1s] rounded-full border-2 border-[var(--yellow)] bg-[var(--yellow)] px-3 py-1.5 font-mono text-[11px] font-black uppercase text-[var(--ink)] shadow-[3px_3px_0_var(--yellow)]">
-            CPV: Matched
+            Trade: Matched
           </div>
           <div className="absolute left-[5%] bottom-[22%] animate-[float_5s_ease-in-out_infinite_0.5s] rounded-full border-2 border-white/40 bg-white/10 px-3 py-1.5 font-mono text-[11px] font-black uppercase text-white/70">
             Deadline: Published
@@ -61,7 +61,7 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
+            <p className="micro-label text-[var(--yellow)]">FOR ELECTRICIANS, PLUMBERS, ROOFERS AND BUILDERS</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM —{' '}
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
