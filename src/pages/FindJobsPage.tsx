@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Free scans used. Upgrade to see buyer contacts, deadlines, and lead detail.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -915,12 +915,86 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_LABEL_MAP: Record<string, Record<string, string>> = {
+  electrical: {
+    'EV CHARGER': 'EV CHARGER FIT',
+    'EV CHARGING': 'EV CHARGING INSTALL',
+    'REWIRE': 'FULL REWIRE',
+    'REWIRING': 'FULL REWIRE',
+    'CONSUMER UNIT': 'CU UPGRADE',
+    'EICR': 'EICR TEST',
+    'SOLAR PV': 'SOLAR PV INSTALL',
+    'SOLAR': 'SOLAR INSTALL',
+    'HEAT PUMP': 'HEAT PUMP WIRING',
+    'VENTILATION': 'EXTRACT FAN/MEV',
+  },
+  plumbing: {
+    'BOILER': 'BOILER SWAP',
+    'BOILER REPLACEMENT': 'BOILER SWAP',
+    'BATHROOM': 'BATHROOM FIT',
+    'HEAT PUMP': 'HEAT PUMP INSTALL',
+    'KITCHEN': 'KITCHEN PLUMBING',
+    'DRAINAGE': 'DRAINAGE WORK',
+    'RETROFIT': 'RETROFIT JOB',
+    'INSULATION': 'PIPE INSULATION',
+  },
+  roofing: {
+    'FLAT ROOF': 'FLAT ROOF JOB',
+    'ROOFING': 'ROOFING WORKS',
+    'GUTTERING': 'GUTTERING FIT',
+    'SCAFFOLDING': 'SCAFFOLD NEEDED',
+    'EXTENSION': 'EXTENSION ROOF',
+  },
+  building: {
+    'EXTENSION': 'EXTENSION BUILD',
+    'LOFT CONVERSION': 'LOFT CONV',
+    'GARAGE CONVERSION': 'GARAGE CONV',
+    'INSULATION': 'INSULATION FIT',
+    'DAMP': 'DAMP TREATMENT',
+    'PLASTERING': 'PLASTER WORKS',
+    'GROUNDWORK': 'GROUNDWORKS',
+  },
+  hvac: {
+    'BOILER': 'BOILER REPLACEMENT',
+    'HEAT PUMP': 'HEAT PUMP INSTALL',
+    'VENTILATION': 'VENTILATION WORKS',
+    'HVAC': 'HVAC SERVICE',
+    'AIR CONDITIONING': 'A/C INSTALL',
+  },
+  carpentry: {
+    'FLOORING': 'FLOORING FIT',
+    'FENCING': 'FENCE INSTALL',
+    'GARAGE': 'GARAGE DOOR',
+    'KITCHEN': 'KITCHEN FIT',
+    'JOINERY': 'JOINERY WORKS',
+  },
+  painting: {
+    'DECORATING': 'FULL DECOR',
+    'PLASTERING': 'PLASTER + PAINT',
+    'EXTERNAL': 'EXTERNAL PAINT',
+  },
+  landscaping: {
+    'DRAINAGE': 'DRAINAGE WORKS',
+    'FENCING': 'FENCE FIT',
+    'GROUNDWORK': 'GROUNDWORKS',
+    'DRIVEWAY': 'DRIVEWAY JOB',
+  },
+};
+
+function getTradeLabel(keyword: string, trade: string): string {
+  const map = TRADE_LABEL_MAP[trade];
+  return (map && map[keyword]) ?? keyword;
+}
+
+function parseTradeReasons(raw: string[], trade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => {
+        const label = trade ? getTradeLabel(k, trade) : k;
+        out.push({ label: `${label} — YOUR TRADE`, highlight: true });
+      });
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -1142,7 +1216,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || ''));
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
