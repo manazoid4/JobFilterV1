@@ -16,9 +16,9 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Who is JobFilter for?', 'Built for small UK trades and contractors already considering public works — electricians, plumbers, builders, roofers. Not homeowners, not recruitment.'],
+  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access. No shared auction, no five-trade blast.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free scan — no credit card required. Coverage varies by trade, region and timing, and an empty result is an honest answer, not a failure.'],
 ];
 
 export function PricingPage() {
@@ -79,8 +79,30 @@ export function PricingPage() {
         <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
+          Results depend on what buyers have published for your trade and region. Confirm coverage fits before activating — no credit card required for the check.
         </p>
+        <Link href="/find-jobs" className="jf-button mt-4 inline-block bg-[var(--green)] text-white">SCAN FREE — NO CARD REQUIRED →</Link>
+      </section>
+
+      <section className="jf-box bg-[var(--ink)] p-7 text-white">
+        <p className="micro-label text-[var(--yellow)]">HOW IT COMPARES</p>
+        <h2 className="headline mt-3 text-3xl leading-none text-white sm:text-4xl">NOT CHECKATRADE. NOT MYBUILDER. NOT BARK.</h2>
+        <p className="mt-3 max-w-2xl font-bold text-white/70">
+          On Checkatrade, MyBuilder, and Bark — you pay to compete in a shared auction. Five trades get the same lead, the cheapest quote usually wins, and you lose jobs you never even saw.
+        </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {[
+            ['Checkatrade / MyBuilder', 'Shared lead, shared auction. You pay per lead whether you win or not. Margins get squeezed.'],
+            ['Bark / BuildAlert', 'Lead packs sold to multiple trades at once. The homeowner gets five quotes on day one.'],
+            ['JobFilter', 'Leads scored for your trade and postcode. See the official source, value, and buyer. No auction, no blast.'],
+          ].map(([title, body], i) => (
+            <div key={title} className={`border-2 p-4 ${i === 2 ? 'border-[var(--yellow)] bg-[var(--yellow)]/10' : 'border-white/20 bg-white/5'}`}>
+              <p className={`text-xs font-black uppercase ${i === 2 ? 'text-[var(--yellow)]' : 'text-white/50'}`}>{i === 2 ? 'JOBFILTER' : 'THEM'}</p>
+              <p className="mt-2 font-black text-white text-sm">{title}</p>
+              <p className="mt-1 text-xs font-bold text-white/60">{body}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="ops-panel bg-white p-7">

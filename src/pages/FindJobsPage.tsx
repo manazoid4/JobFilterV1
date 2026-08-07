@@ -876,37 +876,29 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
-          {/* Empty map illustration */}
-          <div className="flex justify-center mb-4">
-            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
-              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
-              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
-            </svg>
-          </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
-          <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+        <section className="jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">NO SHARED AUCTION. NO FIVE-TRADE BLAST.</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">JOBS SCORED FOR YOUR TRADE AND YOUR PATCH.</h2>
+          <p className="mt-3 font-black text-white/70 max-w-xl">
+            Unlike Checkatrade, MyBuilder, or Bark — leads are controlled by trade, patch, and timing. Enter your postcode and see what is live near you right now.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3 max-w-lg">
+            <div className="border border-white/20 px-3 py-2 text-xs font-black text-white/80">Scored for your trade only</div>
+            <div className="border border-white/20 px-3 py-2 text-xs font-black text-white/80">Verified official sources</div>
+            <div className="border border-white/20 px-3 py-2 text-xs font-black text-[var(--yellow)]">No credit card required</div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN MY AREA →
+              SCAN MY AREA — FREE →
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
-              setTrade('building'); void submit(undefined, { trade: 'building' });
+              setTrade('electrical'); void submit(undefined, { trade: 'electrical' });
             }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
+              SCAN ELECTRICAL JOBS
             </button>
           </div>
         </section>
@@ -915,36 +907,114 @@ export function FindJobsPage() {
   );
 }
 
+const TRADE_KEYWORD_LABELS: Record<string, string> = {
+  // Electrical
+  'ev charger': 'EV CHARGER INSTALL',
+  'ev charging': 'EV CHARGING POINT',
+  'electric vehicle': 'EV CHARGE POINT',
+  'rewire': 'FULL REWIRE',
+  'rewiring': 'REWIRING WORK',
+  'consumer unit': 'CONSUMER UNIT UPGRADE',
+  'fuse board': 'FUSE BOARD UPGRADE',
+  'electrical installation': 'ELECTRICAL INSTALL',
+  'electrical': 'ELECTRICAL WORK',
+  'eicr': 'EICR INSPECTION',
+  'pat test': 'PAT TESTING',
+  'fire alarm': 'FIRE ALARM INSTALL',
+  'rcd': 'RCD PROTECTION',
+  'wiring': 'WIRING WORK',
+  'lighting': 'LIGHTING INSTALL',
+  'solar': 'SOLAR PV INSTALL',
+  'solar panel': 'SOLAR PANEL FIT',
+  // Plumbing
+  'boiler': 'BOILER INSTALL/SERVICE',
+  'central heating': 'CENTRAL HEATING',
+  'heat pump': 'HEAT PUMP INSTALL',
+  'bathroom': 'BATHROOM FIT-OUT',
+  'hot water': 'HOT WATER CYLINDER',
+  'radiator': 'RADIATOR WORK',
+  'plumb': 'PLUMBING WORK',
+  'gas safe': 'GAS SAFE JOB',
+  'combi': 'COMBI BOILER',
+  'unvented': 'UNVENTED CYLINDER',
+  'heat exchanger': 'HEAT EXCHANGER',
+  'pipework': 'PIPEWORK',
+  // Roofing
+  'flat roof': 'FLAT ROOF JOB',
+  'epdm': 'EPDM FLAT ROOF',
+  'lead flashing': 'LEAD FLASHING',
+  're-roof': 'FULL RE-ROOF',
+  'tile roof': 'TILE ROOFING',
+  'slate': 'SLATE ROOF',
+  'velux': 'VELUX WINDOW',
+  'ridge': 'RIDGE REPAIR',
+  'gutter': 'GUTTERING WORK',
+  'fascia': 'FASCIA/SOFFIT',
+  'soffit': 'SOFFIT WORK',
+  'felt roof': 'FELT ROOFING',
+  // Building
+  'extension': 'EXTENSION BUILD',
+  'loft conversion': 'LOFT CONVERSION',
+  'refurbishment': 'REFURB JOB',
+  'kitchen': 'KITCHEN FIT-OUT',
+  'damp': 'DAMP PROOFING',
+  'plastering': 'PLASTERING',
+  'render': 'RENDER WORK',
+  'structural': 'STRUCTURAL WORK',
+  'garage conversion': 'GARAGE CONVERSION',
+  'drainage': 'DRAINAGE WORK',
+  'groundwork': 'GROUNDWORKS',
+  // Painting/decorating
+  'decorat': 'DECORATING',
+  'painting': 'PAINTING WORK',
+  // Carpentry/joinery
+  'carpentry': 'CARPENTRY WORK',
+  'joinery': 'JOINERY',
+  'flooring': 'FLOORING FIT',
+  'tiling': 'TILING WORK',
+  // HVAC/scaffolding
+  'scaffolding': 'SCAFFOLDING',
+  'hvac': 'HVAC WORK',
+  'ventilation': 'VENTILATION',
+  'insulation': 'INSULATION INSTALL',
+  'retrofit': 'RETROFIT WORKS',
+};
+
+function tradeKeywordLabel(keyword: string): string {
+  const lower = keyword.toLowerCase().trim();
+  return TRADE_KEYWORD_LABELS[lower] ?? keyword.toUpperCase().trim();
+}
+
 function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => tradeKeywordLabel(k)).slice(0, 3).forEach(label => out.push({ label: `${label} — YOUR TRADE`, highlight: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: tradeKeywordLabel(tradeTeaser[1].trim()), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => tradeKeywordLabel(k)).slice(0, 2).forEach(label => out.push({ label, highlight: false }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
     if (r.match(/^Source (confidence|class)/)) continue;
     if (r.match(/^Proximity fit/)) continue;
-    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false }); continue; }
-    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false }); continue; }
-    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false }); continue; }
+    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT — ACT TODAY', highlight: false }); continue; }
+    if (r.startsWith('Medium urgency')) { out.push({ label: 'QUOTE THIS WEEK', highlight: false }); continue; }
+    if (r.includes('pay-worthy range')) { out.push({ label: 'WORTH QUOTING', highlight: false }); continue; }
     if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false }); continue; }
     if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false }); continue; }
     if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      intent[1].split(',').map(k => tradeKeywordLabel(k)).slice(0, 2).forEach(label => out.push({ label, highlight: false }));
       continue;
     }
   }
