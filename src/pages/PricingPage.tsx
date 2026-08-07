@@ -49,9 +49,8 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]">One public contract win pays for months of access. Scan free first — no card needed.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Find a Tender is free. The subscription pays for qualification, evidence and next-action workflow. Scan before you pay — current results can be sparse or empty.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
