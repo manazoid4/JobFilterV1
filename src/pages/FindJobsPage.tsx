@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Free scans used up. See who to call — unlock for £39/mo.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -778,19 +778,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">FLAT FEE. NO SHARED AUCTIONS. NO PER-LEAD CHARGES.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER.`
+                      : 'SEE BUYER DETAILS. ONE FLAT FEE.'}
                   </h2>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
+                    Unlike Checkatrade or Bark — no five-trade blast, no bidding war. Gold leads show the buyer, deadline, published value and the official submission route. One tradesman, one patch, one price.
+                  </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · public tender</span>
                   </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
-                  </p>
                 </section>
               )}
 
@@ -915,12 +915,24 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_MATCH_LABELS: Record<string, string> = {
+  electrical: 'ELECTRICIAN',
+  plumbing: 'PLUMBER',
+  roofing: 'ROOFER',
+  building: 'BUILDER',
+  carpentry: 'CARPENTER',
+  painting: 'DECORATOR',
+  hvac: 'HEATING ENGINEER',
+  landscaping: 'LANDSCAPER',
+};
+
+function parseTradeReasons(raw: string[], trade?: string): Array<{ label: string; highlight: boolean }> {
+  const tradeLabel = trade ? (TRADE_MATCH_LABELS[trade] ?? trade.toUpperCase()) : 'YOUR TRADE';
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — ${tradeLabel}`, highlight: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -1142,7 +1154,8 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const leadTrade = String(lead.trade || lead.tradeMatch || '').toLowerCase();
+  const parsedReasons = parseTradeReasons(rawReasons, leadTrade);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
