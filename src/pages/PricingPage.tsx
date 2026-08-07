@@ -15,10 +15,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for knowing whether a notice actually fits your firm — buyer, deadline, fit evidence, and what to do next.'],
+  ['Who is JobFilter for?', 'Contractors with 5 to 25 people already chasing commercial or public work — not homeowners booking a decorator.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Can I check coverage before paying?', 'Yes. Scan the current feed for free — no card needed. Coverage varies by trade, region and timing, and an honest empty result is better than an invented match.'],
 ];
 
 export function PricingPage() {
@@ -67,10 +67,10 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          body="Full buyer context, quote floor, response templates, and outcome tracking — on public notices that actually match your firm, trade and region. Scan free first; pay only if the coverage fits."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO — NO CARD FOR FREE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>

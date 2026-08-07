@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: 'What do I actually get for £39/month?',
-    a: 'Full opportunity context, value guidance, response templates, job tracking, and delivery features after your account and patch pass activation checks. Priority routing is being piloted; it is not sold as guaranteed exclusivity.',
+    a: 'Buyer name, published value, deadline, official response route, response templates, and outcome tracking — on notices that match your trade and region. Priority routing is in pilot; no patch is sold as exclusive.',
   },
   {
     q: 'Can I cancel anytime?',
