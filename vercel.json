@@ -6,11 +6,5 @@
     "deploymentEnabled": {
       "main": true
     }
-  },
-  "crons": [
-    {
-      "path": "/api/alerts/send",
-      "schedule": "0 * * * *"
-    }
-  ]
+  }
 }

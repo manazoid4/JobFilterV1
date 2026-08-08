@@ -6,6 +6,7 @@ import { TopNav } from '../src/components/TopNav';
 import { Footer } from '../src/components/Footer';
 import { LaunchWaitlistModal } from '../src/components/LaunchWaitlistModal';
 import { ToastWrapper } from '../src/components/ToastWrapper';
+import { RefCapture } from '../src/components/RefCapture';
 import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <LaunchWaitlistModal />
           <ToastWrapper />
+          <RefCapture />
           <Analytics />
         </AuthProvider>
       </body>

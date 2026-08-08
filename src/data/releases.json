@@ -1,5 +1,74 @@
 [
   {
+    "id": "trade-page-clean-links",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "TRADE PAGES NOW GET A CLEAN JOBFILTER.UK LINK",
+    "summary": "Create your free trade page and get a tidy jobfilter.uk/your-firm link that's saved for you — no messy long links to share.",
+    "availability": "Live at /microsite",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "NEW",
+        "items": [
+          "Your page now lives at a clean jobfilter.uk/your-firm address.",
+          "Your details are saved, so the link stays short and tidy on quotes and WhatsApp.",
+          "We count how many people your shared page brings back to JobFilter."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["64a33fb"],
+      "pullRequests": [426]
+    }
+  },
+  {
+    "id": "free-trade-page-everywhere",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "YOUR FREE TRADE PAGE, NOW EASY TO FIND",
+    "summary": "The free trade page is now featured across the site — in the top menu, the footer and on the homepage — so you can build and share yours in seconds.",
+    "availability": "Live across JobFilter",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "BETTER",
+        "items": [
+          "Added to the main menu and mobile menu on every page.",
+          "Added a Free Trade Page link in the footer.",
+          "New homepage panel so first-time visitors can build a page straight away."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["be0bff7"],
+      "pullRequests": [426]
+    }
+  },
+  {
+    "id": "your-own-trade-page",
+    "publishedAt": "2026-08-04",
+    "status": "live",
+    "title": "GET YOUR OWN FREE TRADE PAGE",
+    "summary": "Build a clean, shareable page for your firm in under a minute — put it on quotes, WhatsApp, your van QR and socials. No login, no cost.",
+    "availability": "Live at /microsite",
+    "audiences": ["Any trade firm", "Sole traders"],
+    "sections": [
+      {
+        "label": "NEW",
+        "items": [
+          "Fill in your firm name, trade, area and contact — get an instant shareable page at jobfilter.uk/pro/your-firm.",
+          "One-tap COPY and SHARE ON WHATSAPP so you can send it straight to a customer.",
+          "Every page carries call and WhatsApp buttons so enquiries reach you fast."
+        ]
+      }
+    ],
+    "evidence": {
+      "commits": ["b5440af"],
+      "pullRequests": [426]
+    }
+  },
+  {
     "id": "faster-clearer-first-scans",
     "publishedAt": "2026-07-15",
     "status": "live",
