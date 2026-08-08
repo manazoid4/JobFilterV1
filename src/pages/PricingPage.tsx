@@ -7,18 +7,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
-  'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'BID, WATCH, SUBCONTRACT or SKIP — clear call on every lead, no guesswork',
+  'Buyer name, published value, and official deadline in one screen',
+  'Missing requirements flagged before you waste a day on a no-win tender',
+  'Trade, region, and contract range matched to your firm — not a generic feed',
+  'Track decisions and outcomes so your win rate improves over time',
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Is this like Checkatrade or MyBuilder?', 'No. Checkatrade and MyBuilder sell domestic leads shared with multiple trades. JobFilter reads official public contracts from Find a Tender — publicly advertised, buyer-named, with a published deadline. You pay for qualification and evidence, not lead credits or shared auctions.'],
+  ['Who is JobFilter for?', 'Contractors who already do — or want to start doing — public or commercial work: council repairs, housing associations, NHS estates, school refurbs. Not domestic-only firms.'],
+  ['Are opportunities exclusive?', 'No. Public tenders are visible to everyone. JobFilter saves you the hours it takes to read, qualify, and decide — it does not lock others out of the notice.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free scan against current Find a Tender notices before you decide. Coverage varies by trade and region; an empty result is an honest one.'],
 ];
 
 export function PricingPage() {
@@ -43,15 +43,14 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          Most contractors spend hours reading public tenders that were never going to fit — wrong trade, wrong region, wrong contract size. JobFilter cuts that to seconds: it reads the live Find a Tender feed and tells you BID, WATCH, SUBCONTRACT or SKIP. Buyer named. Deadline shown. No shared auctions, no lead credits.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for the qualification layer — evidence, fit scoring, and next-action workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Not like Checkatrade or MyBuilder — no domestic lead credits, no five-trade blast. Public contracts only.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -70,7 +69,7 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="CHECK FIT & START — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
