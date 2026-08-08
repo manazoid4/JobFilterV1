@@ -18,7 +18,7 @@ const objections = [
   ['Is this like Checkatrade or MyBuilder?', 'No. Checkatrade and MyBuilder sell domestic leads shared with multiple trades. JobFilter reads official public contracts from Find a Tender — publicly advertised, buyer-named, with a published deadline. You pay for qualification and evidence, not lead credits or shared auctions.'],
   ['Who is JobFilter for?', 'Contractors who already do — or want to start doing — public or commercial work: council repairs, housing associations, NHS estates, school refurbs. Not domestic-only firms.'],
   ['Are opportunities exclusive?', 'No. Public tenders are visible to everyone. JobFilter saves you the hours it takes to read, qualify, and decide — it does not lock others out of the notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free scan against current Find a Tender notices before you decide. Coverage varies by trade and region; an empty result is an honest one.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free scan against current Find a Tender notices before you decide. Coverage varies by service, region and timing; an empty result is an honest one.'],
 ];
 
 export function PricingPage() {
@@ -43,7 +43,7 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          Most contractors spend hours reading public tenders that were never going to fit — wrong trade, wrong region, wrong contract size. JobFilter cuts that to seconds: it reads the live Find a Tender feed and tells you BID, WATCH, SUBCONTRACT or SKIP. Buyer named. Deadline shown. No shared auctions, no lead credits.
+          Most 5–25-person contractors spend hours reading public tenders that were never going to fit — wrong trade, wrong region, wrong contract size. JobFilter cuts that to seconds: it reads the live Find a Tender feed and tells you BID, WATCH, SUBCONTRACT or SKIP. Buyer named. Deadline shown. No shared auctions, no lead credits.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
