@@ -1191,21 +1191,29 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
         )}
-        {/* Top trade keyword — always visible, no click needed */}
-        {parsedReasons.length > 0 && parsedReasons[0].highlight && (
-          <span className="mt-1 w-[5.5rem] border-2 border-[var(--ink)] bg-[var(--ink)] px-1 py-0.5 text-center text-[9px] font-black uppercase leading-tight text-[var(--yellow)]">
-            {parsedReasons[0].label.replace(' — YOUR TRADE', '')}
-          </span>
-        )}
-        {rawReasons.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
-          >
-            {showScoreReasons ? 'HIDE' : parsedReasons.length > 1 ? `+${parsedReasons.length - 1} MORE` : 'WHY?'}
-          </button>
-        )}
+        {/* Top trade keyword — always visible, no click needed. Find first highlighted reason, not just [0] */}
+        {(() => {
+          const topTrade = parsedReasons.find(r => r.highlight);
+          const hiddenCount = parsedReasons.length - (topTrade ? 1 : 0);
+          return (
+            <>
+              {topTrade && (
+                <span className="mt-1 w-[5.5rem] border-2 border-[var(--ink)] bg-[var(--ink)] px-1 py-0.5 text-center text-[9px] font-black uppercase leading-tight text-[var(--yellow)]">
+                  {topTrade.label.replace(' — YOUR TRADE', '')}
+                </span>
+              )}
+              {rawReasons.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowScoreReasons(v => !v)}
+                  className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+                >
+                  {showScoreReasons ? 'HIDE' : hiddenCount > 0 ? `+${hiddenCount} MORE` : 'WHY?'}
+                </button>
+              )}
+            </>
+          );
+        })()}
         {showScoreReasons && (
           <div className="mt-2 w-36 border border-[var(--line)] bg-[var(--bg-main)] p-2">
             <ul className="grid gap-0.5">
