@@ -915,7 +915,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeKw: false }));
+      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeKw: true }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
