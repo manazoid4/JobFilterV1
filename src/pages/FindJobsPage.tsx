@@ -910,7 +910,10 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false, isTradeKw: true });
+      const kw = tradeTeaser[1].toUpperCase();
+      // Generic signals masquerading as teasers — not trade keywords
+      const isGenericSignal = kw === 'URGENT TIMELINE' || kw === 'COMMERCIAL JOB';
+      out.push({ label: kw, highlight: false, isTradeKw: !isGenericSignal });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
