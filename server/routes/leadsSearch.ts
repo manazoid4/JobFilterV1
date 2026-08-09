@@ -135,7 +135,7 @@ export function registerLeadSearchRoute(app: Express) {
       const sourceBenchmark = await persistSourceBenchmarkRun({ result, trade, queryStartedAt, queryFinishedAt });
       const isPaid = accessCtx.tier === 'full';
       const leads = isPaid
-        ? result.leads.map(l => ({ ...l, reasons: l.scoreReasons ?? [] }))
+        ? result.leads.map(l => ({ ...l, buyer: l.buyerName, url: l.sourceUrl, reasons: l.scoreReasons ?? [] }))
         : result.leads.slice(0, CONFIG.freeTierLimit).map(toFreePreviewLead);
 
       console.log('[leads/search]', { trade, outward: result.outward, radiusMiles, total: result.total, shown: leads.length, accessTier: accessCtx.tier, scansUsed: accessCtx.scansUsed, ms: Date.now() - started });
