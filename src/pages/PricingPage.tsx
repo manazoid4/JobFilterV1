@@ -46,7 +46,7 @@ export function PricingPage() {
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
         <div className="mt-4 inline-block border-2 border-[var(--yellow)]/40 bg-[var(--yellow)]/10 px-4 py-3">
-          <p className="text-sm font-black text-[var(--yellow)]">UK public contracts typically start from £5,000. The subscription pays for the qualification layer — not access to the notices, which remain free and public.</p>
+          <p className="text-sm font-black text-[var(--yellow)]">The subscription pays for the qualification layer — not access to the notices, which remain free and public. The fee is small relative to the bid time saved on the wrong tender.</p>
         </div>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START — £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
