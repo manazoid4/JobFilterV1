@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Buyer details locked — scan is still free. Upgrade to see who to call.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -890,11 +890,18 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">CHECKATRADE CHARGES £80/MO. BARK SELLS THE SAME LEAD TO 5 TRADES.</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SCAN YOUR PATCH. FIND JOBS WORTH PRICING.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Verified signals from official sources — planning approvals, contract notices, energy work. Scored by trade, distance, and value. 10 seconds. No credit card required.
           </p>
+          <div className="mt-2 mb-4 flex flex-wrap justify-center gap-3 text-xs font-black text-[var(--yellow)]/80">
+            <span>No shared auction</span>
+            <span>·</span>
+            <span>No five-trade blast</span>
+            <span>·</span>
+            <span>Gold leads scored for your trade and patch</span>
+          </div>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }

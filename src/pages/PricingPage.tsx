@@ -19,6 +19,7 @@ const objections = [
   ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['How is this different to Checkatrade or Bark?', 'Checkatrade charges £80–£370/mo and sells the same lead to 4–8 trades. Bark sells credits that expire in 3 months. JobFilter gives you verified signals from official sources — not shared auctions. No bidding against four other plumbers for the same job.'],
 ];
 
 export function PricingPage() {
@@ -70,7 +71,7 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
@@ -141,12 +142,15 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <div className="flex flex-col gap-1">
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+            <span className="text-xs font-black text-[var(--ink)]/60">No credit card required</span>
+          </div>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">Not Checkatrade. Not Bark. No shared auctions, no five-trade blast — your signals, your patch.</p>
       </section>
     </main>
   );
