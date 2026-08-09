@@ -900,40 +900,40 @@ const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).len
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
-  const out: Array<{ label: string; highlight: boolean }> = [];
+function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean; isTradeKw: boolean }> {
+  const out: Array<{ label: string; highlight: boolean; isTradeKw: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeKw: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false, isTradeKw: true });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeKw: false }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
     if (r.match(/^Source (confidence|class)/)) continue;
     if (r.match(/^Proximity fit/)) continue;
-    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false }); continue; }
-    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false }); continue; }
-    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false }); continue; }
-    if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false }); continue; }
-    if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false }); continue; }
-    if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
+    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false, isTradeKw: false }); continue; }
+    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false, isTradeKw: false }); continue; }
+    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false, isTradeKw: false }); continue; }
+    if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false, isTradeKw: false }); continue; }
+    if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false, isTradeKw: false }); continue; }
+    if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false, isTradeKw: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeKw: false }));
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false, isTradeKw: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1191,9 +1191,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
         )}
-        {/* Top trade keyword — always visible, no click needed. Find first highlighted reason, not just [0] */}
+        {/* Top trade keyword — always visible for both paid (highlight) and free (teaser) users */}
         {(() => {
-          const topTrade = parsedReasons.find(r => r.highlight);
+          const topTrade = parsedReasons.find(r => r.isTradeKw) ?? null;
           const hiddenCount = parsedReasons.length - (topTrade ? 1 : 0);
           return (
             <>
