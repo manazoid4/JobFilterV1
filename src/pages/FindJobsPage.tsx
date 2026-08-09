@@ -730,13 +730,13 @@ export function FindJobsPage() {
                   <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
+                      <p className="micro-label text-[10px] text-[var(--yellow)]">BUYER NAME LOCKED — FULL ACCESS BELOW</p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
+                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Bidding without knowing the buyer wastes your time. Unlock the buyer name, deadline, and submission route before you commit.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
+                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK BUYER DETAILS — £39/MO →</Link>
+                        <span className="text-xs font-black text-white/50">No credit card required to scan · public tender</span>
                       </div>
                     </div>
                   )}
@@ -789,7 +789,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full access shows the buyer name, published value, deadline, and the right route to respond. Tenders are public — you pay for the qualification layer, not exclusive access. No credit card required to scan.
                   </p>
                 </section>
               )}

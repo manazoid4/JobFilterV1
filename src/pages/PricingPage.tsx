@@ -48,7 +48,7 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
         <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
@@ -68,7 +68,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          body="Know which public tenders fit your firm — and which to skip. See the buyer, published value, deadline, and submission route on every matched notice. Stop wasting time on bids that were never going to land."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
@@ -145,7 +145,7 @@ export function PricingPage() {
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
           <div className="flex flex-col gap-1">
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
             <span className="text-xs font-black text-[var(--ink)]/60">No credit card required</span>
           </div>
         </div>
