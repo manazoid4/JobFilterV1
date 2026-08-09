@@ -408,8 +408,7 @@ export function FindJobsPage() {
   }
 
   const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
-  const firstGoldIdx = (!unlimitedTester && !DEV_MODE) ? displayedLeads.findIndex(l => l.score >= 80) : -1;
-  const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
+const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
   const contractCount = result?.leads.filter(l => {
@@ -426,8 +425,8 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
+        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS PER WEEK, NO CARD REQUIRED</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND PUBLIC JOBS WORTH PRICING</h1>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -436,11 +435,11 @@ export function FindJobsPage() {
               {weeklyScansRemaining > 0
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
-                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} remaining — resets Monday`
+                : 'Buyer detail and submission context locked — scan results still free.'}
             </p>
             {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
+              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">SEE BUYER DETAILS — £39/MO →</Link>
             ) : weeklyScansUsed > 0 ? (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
             ) : null}
@@ -725,22 +724,8 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {displayedLeads.map((lead, idx) => (
-                <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
-                  {idx === firstGoldIdx && (
-                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
-                      <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
-                      </p>
-                      <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
+              {displayedLeads.map((lead) => (
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
               ))}
 
 
@@ -1206,13 +1191,19 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {lead.qualityLabel && (
           <span className="px-2 py-0.5 text-[10px] font-black border border-[var(--navy)] bg-[var(--ink)] text-[var(--yellow)]">{lead.qualityLabel} · {lead.scoringPolicyVersion ?? 'CURRENT'}</span>
         )}
+        {/* Top trade keyword — always visible, no click needed */}
+        {parsedReasons.length > 0 && parsedReasons[0].highlight && (
+          <span className="mt-1 w-[5.5rem] border-2 border-[var(--ink)] bg-[var(--ink)] px-1 py-0.5 text-center text-[9px] font-black uppercase leading-tight text-[var(--yellow)]">
+            {parsedReasons[0].label.replace(' — YOUR TRADE', '')}
+          </span>
+        )}
         {rawReasons.length > 0 && (
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
             className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
           >
-            {showScoreReasons ? 'HIDE' : 'WHY?'}
+            {showScoreReasons ? 'HIDE' : parsedReasons.length > 1 ? `+${parsedReasons.length - 1} MORE` : 'WHY?'}
           </button>
         )}
         {showScoreReasons && (
