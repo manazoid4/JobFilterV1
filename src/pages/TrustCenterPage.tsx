@@ -77,7 +77,7 @@ export function TrustCenterPage() {
           Checkatrade blasts the same lead to 5 trades. Bark sells you a name then makes you fight for it. MyBuilder runs the auction in public. JobFilter does none of that.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-bold text-white/80">
-          We scan current Find a Tender notices and score every opportunity against your firm — trade, region, contract range, delivery model. You see the evidence, requirements and gaps before you decide where bid time goes.
+          We scan current Find a Tender notices and score each opportunity by trade fit, location, and evidence strength. You see the requirements and gaps before you decide where bid time goes.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--yellow)]">
           Use JobFilter for 30 days. Run your scans. If you don't see at least one opportunity worth chasing, we refund every penny. No quibbles.

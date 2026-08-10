@@ -30,11 +30,11 @@ const faqs = [
   },
   {
     q: 'What is the 30-day money-back guarantee?',
-    a: 'Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. Browse at least 10 scored leads in your patch. If you do not see a single job worth quoting — not one — email us and we refund the same day. No forms, no argument, no awkward calls.',
+    a: 'Use JobFilter for 30 days. Run your scans, review the evidence and decisions. If you do not see a single public opportunity worth chasing, email us and we refund the same day. No forms, no argument, no awkward calls.',
   },
   {
-    q: 'How does the territory lock work?',
-    a: 'Patch priority is being piloted by trade and postcode cluster. We check source coverage and obvious conflicts before activation. Do not treat an unconfirmed patch as exclusive.',
+    q: 'Is coverage exclusive to my area?',
+    a: 'No. Official Find a Tender notices are public and any qualified supplier can respond. JobFilter charges for qualification and workflow — not privileged access or exclusive territory.',
   },
   {
     q: 'Do I need to be VAT registered?',
@@ -94,9 +94,9 @@ export function FaqPage() {
         </p>
         <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
-          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
+          <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">START PILOT — £39/MO →</Link>
         </div>
-        <p className="mt-3 text-sm font-black text-white/60">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
+        <p className="mt-3 text-sm font-black text-white/60">No credit card required — scan the current feed free first. Check coverage fits your trade and region before paying.</p>
         <p className="mt-2 text-sm font-black text-[var(--yellow)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
