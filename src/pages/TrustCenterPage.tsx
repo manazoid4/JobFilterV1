@@ -56,7 +56,6 @@ const guaranteeFeatures = [
   'Evidence, requirements and gaps shown before you commit bid time',
   'Buyer, value, deadline and official response route in one view',
   'Fit against your services, region, contract range and delivery model',
-  'WhatsApp sharing for gold leads',
   'Decision and outcome tracking',
   'All free tools included',
   'Pilot price: £39/mo — check coverage first, no card for the free scan',
