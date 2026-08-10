@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Find a Tender stays free — we charge for qualification, not access',
+  'Buyer, deadline and CPV match checked before you commit bid time',
+  'BID, WATCH, SUBCONTRACT or SKIP — not a generic list of notices',
+  'No credit card required to scan the current feed',
 ];
 
 const signalRows = [
@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              JobFilter scans current Find a Tender notices and tells you whether the notice fits your trade, delivery area and contract range — then shows the buyer, deadline and official response route. No shared auction. No five-trade blast. Just qualified opportunities with a clear next action.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
