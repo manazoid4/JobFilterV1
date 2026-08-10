@@ -16,6 +16,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
       .then((r) => r.json())
       .then((data) => {
         if (data.ok && data.wonCount > 0) setStats(data);
+        else setStats(null);
       })
       .catch(() => {});
   }, [postcode]);

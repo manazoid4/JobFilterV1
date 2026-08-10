@@ -36,11 +36,15 @@ function buildIcs(params: {
   score: string;
   urgency: string;
   details?: string;
+  clientDate?: string; // YYYYMMDD from client — avoids UTC-vs-local midnight skew
 }): string {
   const now = new Date();
-  // Use DATE-only (all-day event) so the reminder is always "tomorrow"
-  // in the recipient's local calendar — no server-UTC/BST mismatch.
-  const startDate = new Date(now);
+  // Derive "tomorrow" from the client's local date when supplied so a UK user
+  // at 00:30 BST (23:30 UTC) gets the correct next-day event, not today's date.
+  const baseDate = params.clientDate?.match(/^\d{8}$/)
+    ? new Date(`${params.clientDate.slice(0, 4)}-${params.clientDate.slice(4, 6)}-${params.clientDate.slice(6, 8)}`)
+    : new Date();
+  const startDate = new Date(baseDate);
   startDate.setDate(startDate.getDate() + 1);
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + 1); // DTEND exclusive for DATE events
@@ -88,12 +92,13 @@ export async function GET(req: NextRequest) {
   const score = searchParams.get('score') || '0';
   const urgency = searchParams.get('urgency') || 'This week';
   const details = searchParams.get('details') || undefined;
+  const clientDate = searchParams.get('date') || undefined;
 
   if (!postcode) {
     return new NextResponse('postcode required', { status: 400 });
   }
 
-  const ics = buildIcs({ leadId, jobType, postcode, area, score, urgency, details });
+  const ics = buildIcs({ leadId, jobType, postcode, area, score, urgency, details, clientDate });
   const filename = `jobfilter-lead-${postcode.replace(/\s+/g, '')}.ics`;
 
   return new NextResponse(ics, {

@@ -11,12 +11,6 @@ function normaliseOutward(raw: string): string {
   return raw.trim().toUpperCase().split(/\s+/)[0];
 }
 
-function areaPrefix(outward: string): string {
-  // B14 → B, SW1A → SW, EC1 → EC
-  const m = outward.match(/^([A-Z]{1,2})/);
-  return m ? m[1] : outward.slice(0, 2);
-}
-
 function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
   if (pounds >= 1_000) return `£${Math.round(pounds / 1_000)}k`;
@@ -40,16 +34,16 @@ export async function GET(req: NextRequest) {
   }
 
   const outward = normaliseOutward(raw);
-  const prefix = areaPrefix(outward);
 
   const supabase = getSupabaseServiceClient();
   if (!supabase) {
     return NextResponse.json({ ok: false, error: 'service unavailable' }, { status: 503 });
   }
 
-  // Look for wins within 90 days, in same postcode district or area prefix.
+  // Look for wins within 90 days in the same postcode district only.
+  // Using the area prefix as a fallback subsumes the district and inflates
+  // counts across the whole postal area, so we use the outward code alone.
   const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
-  const filter = `postcode_outward.ilike.${outward}%,postcode_outward.ilike.${prefix}%`;
 
   // Exact count via HEAD request — no row limit, accurate at any scale.
   const { count: wonCount, error: countError } = await supabase
@@ -57,7 +51,7 @@ export async function GET(req: NextRequest) {
     .select('*', { count: 'exact', head: true })
     .eq('status', 'won')
     .gte('won_at', since)
-    .or(filter);
+    .ilike('postcode_outward', `${outward}%`);
 
   if (countError) {
     return NextResponse.json({ ok: false, error: 'query error' }, { status: 500 });
@@ -67,14 +61,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, wonCount: 0 });
   }
 
-  // Fetch won_values to sum — limit is generous; a realistic 90-day area
+  // Fetch won_values to sum — limit is generous; a realistic 90-day district
   // count rarely exceeds a few hundred even at full scale.
   const { data: valueRows, error: valueError } = await supabase
     .from('lead_outcomes')
     .select('won_value')
     .eq('status', 'won')
     .gte('won_at', since)
-    .or(filter)
+    .ilike('postcode_outward', `${outward}%`)
     .limit(5_000);
 
   const totalValue = valueError
