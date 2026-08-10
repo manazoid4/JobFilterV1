@@ -52,14 +52,14 @@ const privacyPoints = [
 ];
 
 const guaranteeFeatures = [
-  'One exclusive territory lock — your patch, nobody else in it',
-  'Unlimited lead alerts within locked territory',
-  'Unlimited WhatsApp alerts',
-  'Letter drop scripts for every lead — print and post in minutes',
-  'Full lead scoring + lead readiness markers',
-  'Job tracking — every lead from first call to won job',
+  'BID, WATCH, SUBCONTRACT or SKIP decision on every opportunity',
+  'Evidence, requirements and gaps shown before you commit bid time',
+  'Buyer, value, deadline and official response route in one view',
+  'Fit against your services, region, contract range and delivery model',
+  'WhatsApp sharing for gold leads',
+  'Decision and outcome tracking',
   'All free tools included',
-  'Locked at £39/mo for life — price never rises as long as you stay active',
+  'Pilot price: £39/mo — check coverage first, no card for the free scan',
   '30-day money-back guarantee',
 ];
 
@@ -78,10 +78,10 @@ export function TrustCenterPage() {
           Checkatrade blasts the same lead to 5 trades. Bark sells you a name then makes you fight for it. MyBuilder runs the auction in public. JobFilter does none of that.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-bold text-white/80">
-          We scan verified signals. Score every opportunity. Send the good ones to your WhatsApp — controlled by trade, patch, and timing. No shared auction. No five-trade blast.
+          We scan current Find a Tender notices and score every opportunity against your firm — trade, region, contract range, delivery model. You see the evidence, requirements and gaps before you decide where bid time goes.
         </p>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--yellow)]">
-          Use JobFilter for 30 days. Set up your territory. View your leads. If you don't see at least one job worth chasing, we refund every penny. No quibbles.
+          Use JobFilter for 30 days. Run your scans. If you don't see at least one opportunity worth chasing, we refund every penny. No quibbles.
         </p>
       </section>
 
@@ -227,7 +227,7 @@ export function TrustCenterPage() {
           30-DAY MONEY-BACK GUARANTEE.
         </h2>
         <p className="mt-4 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. View at least 10 scored leads. If you genuinely don't see one job worth chasing, we refund every penny. No hoops. We just ask that you actually use the system — this filter exists to stop tyre-kickers, not tradesmen.
+          Use JobFilter for 30 days. Run your scans, review the evidence and decisions. If you genuinely don't see one public opportunity worth chasing, we refund every penny. No hoops. We just ask that you actually use the tool — this filter exists to protect your bid time, not waste it.
         </p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -244,11 +244,11 @@ export function TrustCenterPage() {
             SCAN MY AREA FREE →
           </Link>
           <Link href="/pricing" className="jf-button bg-[var(--navy)] text-white">
-            LOCK YOUR PATCH — £39/MO →
+            START PILOT — £39/MO →
           </Link>
         </div>
-        <p className="mt-3 text-sm font-bold text-[var(--ink)]/70">No credit card required — 3 free scans every week. One job worth chasing covers 12+ months at £39.</p>
-        <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — one job worth chasing or we refund every penny. No quibbles.</p>
+        <p className="mt-3 text-sm font-bold text-[var(--ink)]/70">No credit card required — scan the current feed free first. Check coverage fits your trade and region before paying.</p>
+        <p className="mt-2 text-sm font-black text-[var(--ink)]/80 uppercase">30-DAY MONEY-BACK GUARANTEE — one opportunity worth chasing or we refund every penny. No quibbles.</p>
       </section>
 
       {/* 7. Contact */}
