@@ -12,13 +12,18 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
 
   useEffect(() => {
     const outward = postcode.trim().split(' ')[0].toUpperCase();
-    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
+    const controller = new AbortController();
+    setStats(null);
+    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
         if (data.ok && data.wonCount > 0) setStats(data);
         else setStats(null);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (err.name !== 'AbortError') setStats(null);
+      });
+    return () => controller.abort();
   }, [postcode]);
 
   if (!stats) return null;
