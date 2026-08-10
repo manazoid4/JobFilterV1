@@ -49,9 +49,8 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is public and free. The £39/mo pays for qualification, evidence, and the next-action workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Results vary by trade and region.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -67,10 +66,10 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          body="Public tender qualification built for smaller contractors. See whether each notice fits your trade, region and delivery model — before you spend time bidding."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>

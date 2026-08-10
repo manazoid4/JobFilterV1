@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans used. Upgrade to see buyer details — £39/mo.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} userTrade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +862,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} userTrade={trade} />
             ))}
           </div>
         )}
@@ -890,10 +890,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">READY TO SCAN?</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">FIND JOBS WORTH PRICING NEAR YOU.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode and tap your trade. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
@@ -915,22 +915,109 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORD_LABELS: Record<string, string> = {
+  'ev charger': 'EV CHARGER INSTALL',
+  'electric vehicle': 'EV CHARGING',
+  'rewire': 'FULL REWIRE',
+  'rewiring': 'FULL REWIRE',
+  'consumer unit': 'FUSEBOARD / CU',
+  'fuse board': 'FUSEBOARD UPGRADE',
+  'eicr': 'EICR CERT REQUIRED',
+  'pat test': 'PAT TESTING',
+  'fire alarm': 'FIRE ALARM',
+  'rcd': 'RCD UPGRADE',
+  'solar pv': 'SOLAR PV',
+  'solar': 'SOLAR INSTALL',
+  'battery storage': 'BATTERY STORAGE',
+  'electrical installation': 'ELECTRICAL INSTALL',
+  'boiler': 'BOILER WORK',
+  'bathroom': 'BATHROOM FIT',
+  'central heating': 'CENTRAL HEATING',
+  'hot water': 'HOT WATER SYSTEM',
+  'gas safe': 'GAS SAFE JOB',
+  'heat pump': 'HEAT PUMP',
+  'combi': 'COMBI BOILER',
+  'radiator': 'RADIATORS',
+  'pipework': 'PIPEWORK',
+  'unvented': 'UNVENTED CYLINDER',
+  'flat roof': 'FLAT ROOF',
+  're-roof': 'FULL REROOF',
+  'gutter': 'GUTTERING',
+  'fascia': 'FASCIA / SOFFIT',
+  'soffit': 'FASCIA / SOFFIT',
+  'slate': 'SLATE ROOFING',
+  'velux': 'VELUX WINDOW',
+  'lead flashing': 'LEAD FLASHING',
+  'extension': 'EXTENSION',
+  'loft conversion': 'LOFT CONVERSION',
+  'new build': 'NEW BUILD',
+  'structural': 'STRUCTURAL WORK',
+  'groundwork': 'GROUNDWORK',
+  'foundation': 'FOUNDATIONS',
+  'renovation': 'RENOVATION',
+  'refurbishment': 'REFURB',
+  'paving': 'BLOCK PAVING',
+  'driveway': 'DRIVEWAY',
+  'landscape': 'LANDSCAPING',
+  'decking': 'DECKING',
+  'fencing': 'FENCING',
+  'turf': 'TURFING / LAWN',
+  'carpentry': 'CARPENTRY',
+  'joinery': 'JOINERY',
+  'staircase': 'STAIRCASE',
+  'wood floor': 'WOOD FLOORING',
+  'fitted wardrob': 'FITTED WARDROBES',
+  'paint': 'DECORATING',
+  'decorat': 'DECORATING',
+  'plaster': 'PLASTERING',
+  'render': 'RENDERING',
+  'tiling': 'TILING',
+  'tile': 'TILING',
+  'air conditioning': 'AIR CON',
+  'ventilation': 'VENTILATION',
+  'mvhr': 'MVHR SYSTEM',
+  'air source': 'AIR SOURCE HP',
+  'ashp': 'ASHP',
+  'gshp': 'GROUND SOURCE HP',
+  'scaffolding': 'SCAFFOLDING',
+  'scaffold': 'SCAFFOLDING',
+};
+
+const TRADE_FALLBACK_LABELS: Record<string, string> = {
+  electrical: 'ELECTRICAL CONTRACT',
+  plumbing: 'PLUMBING / GAS WORK',
+  roofing: 'ROOFING CONTRACT',
+  building: 'BUILDING WORK',
+  carpentry: 'CARPENTRY / JOINERY',
+  painting: 'DECORATING / PLASTERING',
+  hvac: 'HEATING / HVAC',
+  landscaping: 'LANDSCAPING / GROUNDS',
+  scaffolding: 'SCAFFOLDING CONTRACT',
+};
+
+function humaniseTradeKeyword(kw: string): string {
+  const k = kw.toLowerCase().trim();
+  return TRADE_KEYWORD_LABELS[k] ?? kw.toUpperCase();
+}
+
+function parseTradeReasons(raw: string[], userTrade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim()).slice(0, 3).forEach(k => {
+        out.push({ label: `${humaniseTradeKeyword(k)} — YOUR TRADE`, highlight: true });
+      });
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: humaniseTradeKeyword(tradeTeaser[1].trim()), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => k.trim()).slice(0, 2).forEach(k => out.push({ label: humaniseTradeKeyword(k), highlight: false }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
@@ -944,11 +1031,12 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      intent[1].split(',').map(k => k.trim()).slice(0, 2).forEach(k => out.push({ label: humaniseTradeKeyword(k), highlight: false }));
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  const fallback = TRADE_FALLBACK_LABELS[userTrade ?? ''] ?? 'VERIFIED SIGNAL';
+  return out.length > 0 ? out.slice(0, 5) : [{ label: fallback, highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1140,9 +1228,9 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, userTrade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; userTrade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, userTrade ?? String(lead.trade ?? ''));
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
