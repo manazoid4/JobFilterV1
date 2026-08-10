@@ -148,6 +148,27 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── COMPETITOR COMPARISON ─────────────────────── */}
+      <section className="border-b-2 border-[var(--line)] bg-white">
+        <div className="page-shell py-8">
+          <p className="micro-label text-[var(--muted)]">WHY NOT JUST USE BUILDALERT OR PLANNING PIPE?</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--orange)]">BuildAlert / Planning Pipe</p>
+              <p className="mt-2 text-sm font-black text-[var(--ink)]">Raw planning data with no firm-aware filter. You still read every notice to work out if it fits your trade, region, and contract size.</p>
+            </div>
+            <div className="border-2 border-[var(--line)] bg-[var(--paper)] p-4">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--orange)]">FTS Direct Search</p>
+              <p className="mt-2 text-sm font-black text-[var(--ink)]">Free but blind. CPV codes are inconsistent and there is no check on whether your firm actually fits the scope, location, or delivery model.</p>
+            </div>
+            <div className="border-2 border-[var(--yellow)] bg-[var(--yellow)] p-4 shadow-[4px_4px_0_var(--line)]">
+              <p className="text-xs font-black uppercase tracking-widest text-[var(--ink)]">JobFilter</p>
+              <p className="mt-2 text-sm font-black text-[var(--ink)]">Current FTS notices compared against your firm — trade, region, contract range, and delivery model. BID, WATCH, SUBCONTRACT or SKIP before you spend bid time.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── NEW: FREE TRADE PAGE LAUNCH ───────────────── */}
       <section className="border-b-4 border-[var(--line)] bg-[var(--navy)] text-white">
         <div className="page-shell grid gap-5 py-8 md:grid-cols-[1fr_auto] md:items-center">

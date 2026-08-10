@@ -428,15 +428,21 @@ export function LeadDetailPage() {
         {lead.score >= 80 ? (
           <div className="mt-4 border-l-4 border-[var(--yellow)] bg-[var(--yellow)]/15 px-4 py-3">
             <p className="text-sm font-bold text-[var(--ink)]">GOLD — first-mover window open. Most trades won't see this for 24–48h. Send a WhatsApp now — five minutes costs nothing. Losing the job to someone faster costs everything.</p>
-            {quickWaUrl && (
-              <a
-                href={quickWaUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
-              >
-                {waPhone ? 'OPEN BUYER WHATSAPP →' : 'SEND WHATSAPP NOW →'}
-              </a>
+            {waPhone ? (
+              quickWaUrl && (
+                <a
+                  href={quickWaUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block border-2 border-[var(--ink)] bg-[var(--ink)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--yellow)] shadow-[2px_2px_0_var(--yellow)]"
+                >
+                  OPEN BUYER WHATSAPP →
+                </a>
+              )
+            ) : (
+              <Link href="/pricing" className="mt-2 inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-4 py-2 text-xs font-black uppercase tracking-wider text-[var(--ink)] shadow-[2px_2px_0_var(--ink)]">
+                GET BUYER&apos;S NUMBER — £39/MO →
+              </Link>
             )}
           </div>
         ) : lead.score >= 50 ? (
@@ -596,14 +602,20 @@ export function LeadDetailPage() {
         {filledMessage && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
-            <a
-              className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
-            </a>
+            {waPhone ? (
+              <a
+                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                href={`https://wa.me/${waPhone}?text=${encodeURIComponent(filledMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OPEN WHATSAPP CHAT →
+              </a>
+            ) : (
+              <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+                GET BUYER&apos;S NUMBER TO SEND — £39/MO →
+              </Link>
+            )}
           </div>
         )}
         <div className="mt-4 border-t-2 border-[var(--line)] pt-4">
@@ -628,14 +640,20 @@ export function LeadDetailPage() {
           {aiDraftState === 'ready' && aiDraft && (
             <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{aiDraft}</p>
-              <a
-                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-                href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(aiDraft)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
-              </a>
+              {waPhone ? (
+                <a
+                  className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                  href={`https://wa.me/${waPhone}?text=${encodeURIComponent(aiDraft)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OPEN WHATSAPP CHAT →
+                </a>
+              ) : (
+                <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]">
+                  GET BUYER&apos;S NUMBER TO SEND — £39/MO →
+                </Link>
+              )}
             </div>
           )}
         </div>
