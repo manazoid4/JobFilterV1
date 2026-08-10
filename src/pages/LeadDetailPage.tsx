@@ -91,21 +91,20 @@ function downloadIcs(lead: LeadDecision) {
 function CalendarCopyLink({ lead }: { lead: LeadDecision }) {
   const [copied, setCopied] = useState(false);
 
-  // Include client's local date (YYYYMMDD) so the server computes "tomorrow"
-  // relative to the recipient's timezone, not the UTC deployment clock.
-  const localYMD = new Date().toLocaleDateString('sv-SE').replace(/-/g, '');
-  const calendarUrl = `/api/leads/calendar.ics?${new URLSearchParams({
-    leadId: lead.id,
-    jobType: lead.jobType,
-    postcode: lead.postcode,
-    area: lead.area,
-    score: String(lead.score),
-    urgency: lead.urgency,
-    date: localYMD,
-    ...(lead.details ? { details: lead.details } : {}),
-  }).toString()}`;
-
   function copyLink() {
+    // Compute date at click time so a page open across midnight still encodes
+    // the correct local date rather than yesterday.
+    const localYMD = new Date().toLocaleDateString('sv-SE').replace(/-/g, '');
+    const calendarUrl = `/api/leads/calendar.ics?${new URLSearchParams({
+      leadId: lead.id,
+      jobType: lead.jobType,
+      postcode: lead.postcode,
+      area: lead.area,
+      score: String(lead.score),
+      urgency: lead.urgency,
+      date: localYMD,
+      ...(lead.details ? { details: lead.details } : {}),
+    }).toString()}`;
     const fullUrl = window.location.origin + calendarUrl;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setCopied(true);
