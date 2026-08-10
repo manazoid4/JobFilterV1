@@ -80,9 +80,15 @@ export async function GET(req: NextRequest) {
       .eq('postcode_outward', outward)
       .limit(5_000);
 
-    totalValue = valueError
-      ? 0
-      : (valueRows ?? []).reduce((sum, row) => sum + (row.won_value ?? 0), 0);
+    if (!valueError && valueRows) {
+      // Guard against sparse recording: suppress value unless at least 3 rows
+      // carry a non-null won_value. A cohort of 3 total wins where only one
+      // has a value still exposes a single contractor's private outcome.
+      const nonNullRows = valueRows.filter((r) => r.won_value != null);
+      if (nonNullRows.length >= 3) {
+        totalValue = nonNullRows.reduce((sum, r) => sum + r.won_value, 0);
+      }
+    }
   }
 
   const totalValueFormatted = totalValue > 0 ? formatValue(totalValue) : '';

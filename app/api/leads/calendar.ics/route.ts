@@ -18,6 +18,30 @@ function escapeIcsText(raw: string): string {
     .replace(/\r\n|\r|\n/g, '\\n');
 }
 
+/**
+ * RFC 5545 §3.1 line folding: no content line may exceed 75 octets (UTF-8).
+ * Continuation lines are prefixed with a single space (1 octet), so each
+ * continuation chunk carries at most 74 octets of content.
+ */
+function foldLine(line: string): string {
+  const encoder = new TextEncoder();
+  const bytes = encoder.encode(line);
+  if (bytes.length <= 75) return line;
+  const decoder = new TextDecoder('utf-8');
+  const parts: string[] = [];
+  let offset = 0;
+  let limit = 75;
+  while (offset < bytes.length) {
+    let end = Math.min(offset + limit, bytes.length);
+    // Walk back to a UTF-8 codepoint boundary (skip continuation bytes 10xxxxxx).
+    while (end > offset && (bytes[end] & 0xc0) === 0x80) end--;
+    parts.push(decoder.decode(bytes.slice(offset, end)));
+    offset = end;
+    limit = 74; // leading space on continuation lines counts as 1 octet
+  }
+  return parts.join('\r\n ');
+}
+
 /** Format a Date as a DATE-only value (YYYYMMDD) — timezone-agnostic. */
 function fmtDate(d: Date): string {
   return d.toISOString().slice(0, 10).replace(/-/g, '');
@@ -79,7 +103,7 @@ function buildIcs(params: {
     'END:VCALENDAR',
   ];
 
-  return lines.join('\r\n');
+  return lines.map(foldLine).join('\r\n');
 }
 
 export async function GET(req: NextRequest) {
