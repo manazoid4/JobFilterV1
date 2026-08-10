@@ -15,7 +15,7 @@ function escapeIcsText(raw: string): string {
     .replace(/\\/g, '\\\\')   // \ → \\  (must be first)
     .replace(/;/g, '\\;')
     .replace(/,/g, '\\,')
-    .replace(/\r?\n/g, '\\n');
+    .replace(/\r\n|\r|\n/g, '\\n');
 }
 
 /** Format a Date as a DATE-only value (YYYYMMDD) — timezone-agnostic. */

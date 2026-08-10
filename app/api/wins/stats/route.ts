@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
 import { getOutward } from '../../../../leadEngine/postcode';
+import { rateLimitNext } from '../../../../server/lib/nextRateLimit';
 
 function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
@@ -24,6 +25,9 @@ function buildMessage(wonCount: number, totalValue: number, outward: string): st
 }
 
 export async function GET(req: NextRequest) {
+  const limited = rateLimitNext(req, 20);
+  if (limited) return limited;
+
   const { searchParams } = new URL(req.url);
   const raw = searchParams.get('postcode') || '';
   if (!raw) {
@@ -51,7 +55,7 @@ export async function GET(req: NextRequest) {
     .from('lead_outcomes')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'won')
-    .or(`won_at.gte.${since},won_at.is.null`)
+    .or(`won_at.gte.${since},and(won_at.is.null,created_at.gte.${since})`)
     .eq('postcode_outward', outward);
 
   if (countError) {
@@ -68,7 +72,7 @@ export async function GET(req: NextRequest) {
     .from('lead_outcomes')
     .select('won_value')
     .eq('status', 'won')
-    .or(`won_at.gte.${since},won_at.is.null`)
+    .or(`won_at.gte.${since},and(won_at.is.null,created_at.gte.${since})`)
     .eq('postcode_outward', outward)
     .limit(5_000);
 
