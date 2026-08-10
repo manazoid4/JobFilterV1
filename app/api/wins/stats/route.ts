@@ -66,19 +66,24 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, wonCount: 0 });
   }
 
-  // Fetch won_values to sum — limit is generous; a realistic 90-day district
-  // count rarely exceeds a few hundred even at full scale.
-  const { data: valueRows, error: valueError } = await supabase
-    .from('lead_outcomes')
-    .select('won_value')
-    .eq('status', 'won')
-    .or(`won_at.gte.${since},and(won_at.is.null,created_at.gte.${since})`)
-    .eq('postcode_outward', outward)
-    .limit(5_000);
+  // Suppress the value for small cohorts: a single-win district publishing
+  // an exact value alongside a postcode could let someone with prior knowledge
+  // of a contractor confirm a private outcome. The count alone is safely aggregate.
+  // Only fetch and expose the value sum once three or more wins exist.
+  let totalValue = 0;
+  if (wonCount >= 3) {
+    const { data: valueRows, error: valueError } = await supabase
+      .from('lead_outcomes')
+      .select('won_value')
+      .eq('status', 'won')
+      .or(`won_at.gte.${since},and(won_at.is.null,created_at.gte.${since})`)
+      .eq('postcode_outward', outward)
+      .limit(5_000);
 
-  const totalValue = valueError
-    ? 0
-    : (valueRows ?? []).reduce((sum, row) => sum + (row.won_value ?? 0), 0);
+    totalValue = valueError
+      ? 0
+      : (valueRows ?? []).reduce((sum, row) => sum + (row.won_value ?? 0), 0);
+  }
 
   const totalValueFormatted = totalValue > 0 ? formatValue(totalValue) : '';
   const message = buildMessage(wonCount, totalValue, outward);
