@@ -1,6 +1,6 @@
 /**
  * GET /api/wins/stats?postcode=B14
- * Returns anonymised win counts for nearby tradespeople.
+ * Returns anonymised win counts for jobs recorded near a postcode.
  * Reads from lead_outcomes table — no PII, no names, no phone numbers.
  */
 
@@ -17,8 +17,7 @@ function areaPrefix(outward: string): string {
   return m ? m[1] : outward.slice(0, 2);
 }
 
-function formatValue(pence: number): string {
-  const pounds = Math.round(pence);
+function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
   if (pounds >= 1_000) return `£${Math.round(pounds / 1_000)}k`;
   return `£${pounds}`;
@@ -28,9 +27,9 @@ function buildMessage(wonCount: number, totalValue: number, outward: string): st
   if (wonCount === 0) return '';
   const area = outward.toUpperCase();
   const valueStr = totalValue > 0 ? ` worth ${formatValue(totalValue)}` : '';
-  if (wonCount === 1) return `1 tradesperson near ${area} won a job${valueStr} through JobFilter.`;
-  if (wonCount < 5) return `${wonCount} tradespeople near ${area} won jobs${valueStr} through JobFilter.`;
-  return `${wonCount}+ tradespeople near ${area} are winning work${valueStr} through JobFilter.`;
+  if (wonCount === 1) return `1 job near ${area} won through JobFilter${valueStr}.`;
+  if (wonCount < 5) return `${wonCount} jobs near ${area} won through JobFilter${valueStr}.`;
+  return `${wonCount}+ jobs near ${area} won through JobFilter${valueStr}.`;
 }
 
 export async function GET(req: NextRequest) {
@@ -48,27 +47,39 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'service unavailable' }, { status: 503 });
   }
 
-  // Look for wins within 90 days, in same postcode district or area prefix
+  // Look for wins within 90 days, in same postcode district or area prefix.
   const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+  const filter = `postcode_outward.ilike.${outward}%,postcode_outward.ilike.${prefix}%`;
 
-  const { data, error } = await supabase
+  // Exact count via HEAD request — no row limit, accurate at any scale.
+  const { count: wonCount, error: countError } = await supabase
     .from('lead_outcomes')
-    .select('won_value, postcode_outward')
+    .select('*', { count: 'exact', head: true })
     .eq('status', 'won')
     .gte('won_at', since)
-    .or(`postcode_outward.ilike.${outward}%,postcode_outward.ilike.${prefix}%`)
-    .limit(200);
+    .or(filter);
 
-  if (error) {
+  if (countError) {
     return NextResponse.json({ ok: false, error: 'query error' }, { status: 500 });
   }
 
-  const wonCount = data?.length ?? 0;
-  const totalValue = (data ?? []).reduce((sum, row) => sum + (row.won_value ?? 0), 0);
-
-  if (wonCount === 0) {
+  if (!wonCount || wonCount === 0) {
     return NextResponse.json({ ok: false, wonCount: 0 });
   }
+
+  // Fetch won_values to sum — limit is generous; a realistic 90-day area
+  // count rarely exceeds a few hundred even at full scale.
+  const { data: valueRows, error: valueError } = await supabase
+    .from('lead_outcomes')
+    .select('won_value')
+    .eq('status', 'won')
+    .gte('won_at', since)
+    .or(filter)
+    .limit(5_000);
+
+  const totalValue = valueError
+    ? 0
+    : (valueRows ?? []).reduce((sum, row) => sum + (row.won_value ?? 0), 0);
 
   const totalValueFormatted = totalValue > 0 ? formatValue(totalValue) : '';
   const message = buildMessage(wonCount, totalValue, outward);

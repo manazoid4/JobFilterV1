@@ -9,7 +9,22 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 
-function fmt(d: Date): string {
+/** RFC 5545 §3.3.11 text escaping for TEXT property values. */
+function escapeIcsText(raw: string): string {
+  return raw
+    .replace(/\\/g, '\\\\')   // \ → \\  (must be first)
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+
+/** Format a Date as a DATE-only value (YYYYMMDD) — timezone-agnostic. */
+function fmtDate(d: Date): string {
+  return d.toISOString().slice(0, 10).replace(/-/g, '');
+}
+
+/** Format a Date as DTSTAMP / UTC datetime. */
+function fmtDtstamp(d: Date): string {
   return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
@@ -23,22 +38,24 @@ function buildIcs(params: {
   details?: string;
 }): string {
   const now = new Date();
-  const start = new Date(now);
-  start.setDate(start.getDate() + 1);
-  start.setHours(9, 0, 0, 0);
-  const end = new Date(start);
-  end.setHours(10, 0, 0, 0);
+  // Use DATE-only (all-day event) so the reminder is always "tomorrow"
+  // in the recipient's local calendar — no server-UTC/BST mismatch.
+  const startDate = new Date(now);
+  startDate.setDate(startDate.getDate() + 1);
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + 1); // DTEND exclusive for DATE events
 
   const descParts = [
-    `Area: ${params.area || params.postcode}`,
-    `Urgency: ${params.urgency}`,
-    `Score: ${params.score}/100`,
-    params.details ? `Details: ${params.details}` : '',
+    `Area: ${escapeIcsText(params.area || params.postcode)}`,
+    `Urgency: ${escapeIcsText(params.urgency)}`,
+    `Score: ${escapeIcsText(params.score)}/100`,
+    params.details ? `Details: ${escapeIcsText(params.details)}` : '',
   ].filter(Boolean);
 
   const description = descParts.join('\\n');
-  const summary = `Follow up: ${params.jobType} – ${params.postcode}`;
-  const uid = `jf-lead-${params.leadId}@jobfilter.co.uk`;
+  const summary = escapeIcsText(`Follow up: ${params.jobType} – ${params.postcode}`);
+  const location = escapeIcsText(params.postcode);
+  const uid = `jf-lead-${escapeIcsText(params.leadId)}@jobfilter.co.uk`;
 
   const lines = [
     'BEGIN:VCALENDAR',
@@ -47,13 +64,13 @@ function buildIcs(params: {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `DTSTART:${fmt(start)}`,
-    `DTEND:${fmt(end)}`,
-    `DTSTAMP:${fmt(now)}`,
+    `DTSTART;VALUE=DATE:${fmtDate(startDate)}`,
+    `DTEND;VALUE=DATE:${fmtDate(endDate)}`,
+    `DTSTAMP:${fmtDtstamp(now)}`,
     `UID:${uid}`,
     `SUMMARY:${summary}`,
     `DESCRIPTION:${description}`,
-    `LOCATION:${params.postcode}`,
+    `LOCATION:${location}`,
     'END:VEVENT',
     'END:VCALENDAR',
   ];
