@@ -6,10 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
-
-function normaliseOutward(raw: string): string {
-  return raw.trim().toUpperCase().split(/\s+/)[0];
-}
+import { getOutward } from '../../../../leadEngine/postcode';
 
 function formatValue(pounds: number): string {
   if (pounds >= 1_000_000) return `£${(pounds / 1_000_000).toFixed(1)}m`;
@@ -33,7 +30,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'postcode required' }, { status: 400 });
   }
 
-  const outward = normaliseOutward(raw);
+  const outward = getOutward(raw);
+  if (!outward) {
+    return NextResponse.json({ ok: false, error: 'invalid postcode' }, { status: 400 });
+  }
 
   const supabase = getSupabaseServiceClient();
   if (!supabase) {
@@ -46,12 +46,13 @@ export async function GET(req: NextRequest) {
   const since = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
 
   // Exact count via HEAD request — no row limit, accurate at any scale.
+  // won_at.is.null covers wins recorded before the column was added (no backfill).
   const { count: wonCount, error: countError } = await supabase
     .from('lead_outcomes')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'won')
-    .gte('won_at', since)
-    .ilike('postcode_outward', `${outward}%`);
+    .or(`won_at.gte.${since},won_at.is.null`)
+    .eq('postcode_outward', outward);
 
   if (countError) {
     return NextResponse.json({ ok: false, error: 'query error' }, { status: 500 });
@@ -67,8 +68,8 @@ export async function GET(req: NextRequest) {
     .from('lead_outcomes')
     .select('won_value')
     .eq('status', 'won')
-    .gte('won_at', since)
-    .ilike('postcode_outward', `${outward}%`)
+    .or(`won_at.gte.${since},won_at.is.null`)
+    .eq('postcode_outward', outward)
     .limit(5_000);
 
   const totalValue = valueError
