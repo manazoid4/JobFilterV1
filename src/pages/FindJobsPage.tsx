@@ -964,7 +964,8 @@ function getTradeJobHints(lead: Lead, trade: Trade): string[] {
   const kws = TRADE_JOB_KEYWORDS[trade];
   if (!kws?.length) return [];
   const text = `${lead.title ?? ''} ${lead.description ?? ''}`.toUpperCase();
-  const matched = kws.filter(kw => text.includes(kw));
+  const matchKw = (kw: string) => new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(text);
+  const matched = kws.filter(matchKw);
   // Prefer specificity: drop any match that is a substring of another matched keyword
   const deduped = matched.filter(kw => !matched.some(other => other !== kw && other.includes(kw)));
   return deduped.slice(0, 2);
