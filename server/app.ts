@@ -18,6 +18,7 @@ import { registerSubscriptionStatusRoute } from './routes/subscriptionStatus';
 import { registerSourceConfigRoute } from './routes/sourceConfig';
 import { registerLeadEmailChaseRoute } from './routes/leadEmailChase';
 import { registerReadinessRoute } from './routes/readiness';
+import { registerAlertsRoute } from './routes/alerts';
 
 export async function createApp() {
   const app = express();
@@ -55,6 +56,7 @@ export async function createApp() {
   registerSourceConfigRoute(app);
   registerLeadEmailChaseRoute(app);
   registerReadinessRoute(app);
+  registerAlertsRoute(app);
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, service: 'jobfilter', source: 'lead_engine', ts: new Date().toISOString() });

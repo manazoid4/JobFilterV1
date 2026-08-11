@@ -7,11 +7,11 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
-  'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'BID, WATCH, SUBCONTRACT or SKIP — clear recommendation per notice',
+  'Buyer, published value, deadline and official response route in one view',
+  'Evidence found and missing requirements before you commit a day to bid prep',
+  'Matched to your trade, delivery region and contract range',
+  'Outcome tracking so your qualification sharpens over time',
 ];
 
 const objections = [
@@ -58,19 +58,19 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
+          body="Check what's live on Find a Tender for your trade and area before you commit a penny. Official notices stay public — we never sell access to public inventory."
+          items={['Current Find a Tender results', 'Trade and region fit summary', 'Official source link on every match', 'Honest empty result when nothing fits']}
+          cta={<><Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link><p className="mt-2 text-xs font-black text-[var(--muted)]">No card. No commitment. Cancellable anytime.</p></>}
           order="order-last lg:order-none"
         />
         <PlanCard
-          title="Pilot"
+          title="Full Access"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan free first — pay only if the coverage fits your firm."
+          body="Full qualification for every notice that matches your trade. Buyer, value, deadline and submission route in one view. Stop wasting days on bids that were never going to stick."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START FULL ACCESS — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to scan free first.</p></>}
           order="order-first lg:order-none"
         />
       </section>
@@ -168,7 +168,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
 
   return (
     <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
-      <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
+      <p className="micro-label text-[var(--orange)]">{featured ? 'FULL ACCESS' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
       <p className="mt-3 font-bold text-[var(--muted)]">{body}</p>

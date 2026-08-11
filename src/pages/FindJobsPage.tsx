@@ -436,8 +436,8 @@ export function FindJobsPage() {
               {weeklyScansRemaining > 0
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
-                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                  : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week — resets Monday`
+                : `Free scans used this week. Buyer details and submission route unlock with Full Access.`}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
