@@ -510,6 +510,12 @@ export function FindJobsPage() {
           </button>
         </form>
 
+        {postcodeRequired && (
+          <p id="scan-postcode-error" role="alert" aria-live="assertive" className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
+            Enter your postcode above to scan
+          </p>
+        )}
+
         {/* Recent Scans */}
         {scanHistory.length > 0 && (
           <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -531,44 +537,6 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Trade presets — tap to scan by trade once postcode is entered */}
-        <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-            {TRADE_PRESETS.map((preset) => (
-              <button
-                key={preset.trade}
-                type="button"
-                aria-pressed={trade === preset.trade}
-                disabled={loading || fillWeekLoading}
-                onClick={() => {
-                  if (!postcode.trim()) {
-                    setPostcodeRequired(true);
-                    postcodeRef.current?.focus();
-                    postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    return;
-                  }
-                  setPostcodeRequired(false);
-                  setTrade(preset.trade);
-                  void submit(undefined, { trade: preset.trade });
-                }}
-                className={`flex items-center justify-center gap-2 px-3 py-2 text-sm font-black disabled:opacity-60 border-2 border-[var(--navy)] transition ${
-                  trade === preset.trade
-                    ? 'bg-[var(--yellow)] text-[var(--ink)]'
-                    : 'bg-[var(--ink)] text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)]'
-                }`}
-              >
-                {preset.icon}
-                {preset.label}
-              </button>
-            ))}
-          </div>
-          {postcodeRequired && (
-            <p id="scan-postcode-error" role="alert" aria-live="assertive" className="mt-2 border-2 border-[var(--orange)] bg-[var(--orange)]/10 px-3 py-2 text-sm font-black text-[var(--orange)]">
-              ↑ Enter your postcode above — then tap your trade to scan
-            </p>
-          )}
-        </div>
       </section>
 
       {/* ── WIN STATS ──────────────────────────────────────────────── */}
@@ -893,7 +861,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--yellow)]">READY?</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode, pick your trade and hit Scan. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {

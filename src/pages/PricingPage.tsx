@@ -46,12 +46,11 @@ export function PricingPage() {
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
+          <CheckoutButton tier="founding" billing="monthly" label="START NOW — £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--green)]/90">✓ 30-day money-back guarantee — if you don't find one job worth chasing, we refund every penny.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No contract. Cancel anytime. Free scan available before you commit.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -66,21 +65,22 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="30-day money-back guarantee. No contract."
+          body="Firm-aware qualification for public works contracts. Know which opportunities fit your firm, which are worth watching, and which to skip — before you commit bid time."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START NOW — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
 
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
-        <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
+        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">TRY IT RISK-FREE.</h2>
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
+          Use JobFilter for 30 days. If you don't find one contract worth pursuing, we refund every penny. No hoops, no quibbles. One good opportunity pays for a year of access.
         </p>
+        <p className="mt-3 text-sm font-black text-[var(--muted)]">Results vary by trade and region. Run a free scan first if you want to check current coverage before committing.</p>
       </section>
 
       <section className="ops-panel bg-white p-7">
@@ -139,14 +139,16 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">READY TO START?</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">ONE CONTRACT PAYS FOR THE YEAR.</h2>
+        <p className="mt-3 max-w-xl text-lg font-bold text-[var(--ink)]/80">
+          £39/month. No contract. Cancel anytime. 30-day money-back guarantee.
+        </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
+          <CheckoutButton tier="founding" billing="monthly" label="START NOW — £39/MO →" className="bg-[var(--ink)] text-white" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/60">Official tenders are public. You pay for qualification, evidence and workflow — not exclusive access.</p>
       </section>
     </main>
   );
