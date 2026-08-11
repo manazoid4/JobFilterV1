@@ -43,7 +43,7 @@ export function PricingPage() {
           MOST CONTRACTORS BID ON 5 TENDERS TO WIN 1. KNOW WHICH ONE BEFORE YOU START.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          JobFilter checks current Find a Tender notices against your trade, region and delivery model. You get a BID, WATCH, SUBCONTRACT or SKIP verdict in seconds — not after 8 hours of reading PDFs.
+          JobFilter checks current Find a Tender notices against your trade and region. You get a BID, WATCH, SUBCONTRACT or SKIP verdict in seconds — not after 8 hours of reading PDFs.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
