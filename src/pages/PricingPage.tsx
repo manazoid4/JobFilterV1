@@ -40,7 +40,7 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
         <p className="micro-label text-[var(--yellow)]">PUBLIC WORKS QUALIFICATION — £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          MOST CONTRACTORS BID ON 5 TENDERS TO WIN 1. KNOW WHICH ONE BEFORE YOU START.
+          MOST CONTRACTORS BID ON MULTIPLE TENDERS TO WIN ONE. KNOW WHICH ONE BEFORE YOU START.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           JobFilter checks current Find a Tender notices against your trade and region. You get a BID, WATCH, SUBCONTRACT or SKIP verdict in seconds — not after 8 hours of reading PDFs.
