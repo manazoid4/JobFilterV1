@@ -49,7 +49,7 @@ export function PricingPage() {
           <CheckoutButton tier="founding" billing="monthly" label="START NOW — £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--green)]/90">✓ 30-day money-back guarantee — browse 10 leads, don't find one worth pursuing, email us for a same-day refund.</p>
+        <p className="mt-4 text-sm font-black text-[var(--green)]/90">✓ 30-day money-back guarantee — set up territory and WhatsApp alerts, browse 10 leads, find nothing worth pursuing, email us for a same-day refund.</p>
         <p className="mt-1 text-sm font-black text-white/60">No contract. Cancel anytime. Free scan available before you commit.</p>
       </section>
 
@@ -78,7 +78,7 @@ export function PricingPage() {
         <p className="micro-label text-[var(--green)]">30-DAY MONEY-BACK GUARANTEE</p>
         <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">TRY IT RISK-FREE.</h2>
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Use JobFilter for 30 days. Set up your territory and browse at least 10 scored leads. If you don't see a single contract worth pursuing — email us and we refund the same day. No forms, no argument. One good opportunity pays for a year of access.
+          Use JobFilter for 30 days. Set up your territory and WhatsApp alerts. Browse at least 10 scored leads. If you don't see a single contract worth pursuing — email us and we refund the same day. No forms, no argument. One good opportunity pays for a year of access.
         </p>
         <p className="mt-3 text-sm font-black text-[var(--muted)]">Results vary by trade and region. Run a free scan first if you want to check current coverage before committing.</p>
       </section>
