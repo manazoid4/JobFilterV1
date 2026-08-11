@@ -266,10 +266,10 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'Trade and area match', body: 'Set your trade, region and contract range. Only notices that fit your firm come through — not a raw feed you filter yourself.' },
+              { icon: ShieldCheck, title: 'Trade and area match', body: 'Set your trade, region and contract range. Notices are scored against your profile — best-fit results surface first, not a raw feed you have to filter yourself.' },
               { icon: Target, title: 'Decision in seconds', body: 'Every opportunity gets a clear recommendation: BID, WATCH, SUBCONTRACT or SKIP. No ambiguity, no wasted read time.' },
               { icon: FileText, title: 'Missing requirements shown', body: 'See exactly what the notice proves and what your team still needs before committing bid time. Saves hours per opportunity.' },
-              { icon: Zap, title: 'Tied to the official source', body: 'Buyer, value, deadline and response route come from the original public notice — always linkable, never paraphrased.' },
+              { icon: Zap, title: 'Tied to the official source', body: 'Buyer, deadline and response route come from the original public notice — no invented leads, no paraphrased summaries.' },
               { icon: TrendingUp, title: 'Track your outcomes', body: 'Mark BID, WON or LOST. Future qualification improves as JobFilter learns which signals actually convert for your firm.' },
               { icon: Radio, title: 'Honest empty results', body: 'No notices matching your trade and area today? You see an empty result — not fabricated inventory to fill the page.' },
               { icon: Clock, title: 'How long you have left', body: 'Published deadlines and bid stages are extracted and shown plainly so you know if there is time to respond.' },
