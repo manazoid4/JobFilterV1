@@ -880,7 +880,7 @@ export function FindJobsPage() {
           <p className="micro-label text-[var(--yellow)]">CURRENT PUBLIC-TENDER FEED</p>
           <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">OTHER CONTRACTORS ARE BIDDING ON WORK IN YOUR AREA RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Enter your postcode. Pick your trade. See what&apos;s live — buyer, value, urgency scored. Takes 10 seconds. No credit card required.
+            Enter your postcode. Pick your trade. See what&apos;s live — trade fit, value band, urgency scored. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <button onClick={() => {
@@ -964,7 +964,10 @@ function getTradeJobHints(lead: Lead, trade: Trade): string[] {
   const kws = TRADE_JOB_KEYWORDS[trade];
   if (!kws?.length) return [];
   const text = `${lead.title ?? ''} ${lead.description ?? ''}`.toUpperCase();
-  return kws.filter(kw => text.includes(kw)).slice(0, 2);
+  const matched = kws.filter(kw => text.includes(kw));
+  // Prefer specificity: drop any match that is a substring of another matched keyword
+  const deduped = matched.filter(kw => !matched.some(other => other !== kw && other.includes(kw)));
+  return deduped.slice(0, 2);
 }
 
 function extractTopJobTypes(leads: Lead[]): string[] {
