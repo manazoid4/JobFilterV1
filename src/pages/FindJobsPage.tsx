@@ -171,6 +171,7 @@ export function FindJobsPage() {
   const [trade, setTrade] = useState<Trade>(getSavedTrade);
   const [radiusMiles, setRadiusMiles] = useState(getSavedRadius);
   const [result, setResult] = useState<LeadSearchResponse | null>(null);
+  const [resultTrade, setResultTrade] = useState<Trade | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
@@ -289,6 +290,7 @@ export function FindJobsPage() {
     setErrorText('');
     setLoading(true);
     setResult(null);
+    setResultTrade(null);
     setHasScanned(true);
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
@@ -307,6 +309,7 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      setResultTrade(effectiveTrade);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
@@ -318,6 +321,7 @@ export function FindJobsPage() {
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     } catch {
       setErrorText('Network error. Retry the scan.');
+      setResultTrade(effectiveTrade);
       setResult({
         ok: false,
         source: 'lead_engine',
@@ -727,7 +731,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={resultTrade ?? trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -878,7 +882,7 @@ export function FindJobsPage() {
       {!hasScanned && !loading && !fillWeekLoading && (
         <section className="jf-box bg-[var(--navy)] p-6 text-white">
           <p className="micro-label text-[var(--yellow)]">CURRENT PUBLIC-TENDER FEED</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">OTHER CONTRACTORS ARE BIDDING ON WORK IN YOUR AREA RIGHT NOW.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">LIVE PUBLIC TENDERS ARE OPEN IN YOUR AREA RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
             Enter your postcode. Pick your trade. See what&apos;s live — trade fit, value band, urgency scored. Takes 10 seconds. No credit card required.
           </p>
@@ -964,7 +968,7 @@ function getTradeJobHints(lead: Lead, trade: Trade): string[] {
   const kws = TRADE_JOB_KEYWORDS[trade];
   if (!kws?.length) return [];
   const text = `${lead.title ?? ''} ${lead.description ?? ''}`.toUpperCase();
-  const matchKw = (kw: string) => new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(text);
+  const matchKw = (kw: string) => new RegExp(`\\b${kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}S?\\b`).test(text);
   const matched = kws.filter(matchKw);
   // Prefer specificity: drop any match that is a substring of another matched keyword
   const deduped = matched.filter(kw => !matched.some(other => other !== kw && other.includes(kw)));
