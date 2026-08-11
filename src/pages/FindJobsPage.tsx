@@ -659,13 +659,13 @@ export function FindJobsPage() {
 
           <SourceHealthStrip sources={result.sources} />
           {result.count === 0 ? (
-            <EmptyScanReport
+            result.ok ? <EmptyScanReport
               trade={trade}
               radiusMiles={radiusMiles}
               result={result}
               lastUpdated={lastUpdated}
               onWiden={widenAndScan}
-            />
+            /> : null
           ) : (
             <div className="grid gap-4">
               {/* Access banners — dev/unlimited only (not paywall; paywall shown after leads) */}
@@ -926,7 +926,7 @@ const TRADE_WORK_TYPES: Record<string, string[]> = {
   landscaping: ['FENCING', 'PAVING', 'DRAINAGE', 'GROUNDWORK'],
 };
 
-function parseTradeReasons(raw: string[], leadTrade?: string): Array<{ label: string; highlight: boolean }> {
+function parseTradeReasons(raw: string[], leadTrade?: string, leadText?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   let hasTradeSpecific = false;
   for (const r of raw) {
@@ -963,11 +963,21 @@ function parseTradeReasons(raw: string[], leadTrade?: string): Array<{ label: st
   }
   if (out.length > 0 && !hasTradeSpecific && leadTrade) {
     const hints = TRADE_WORK_TYPES[leadTrade];
-    if (hints) out.unshift({ label: `${hints[0]} · ${hints[1]}`, highlight: true });
+    if (hints && leadText) {
+      const textUpper = leadText.toUpperCase();
+      const matched = hints.filter(h => textUpper.includes(h));
+      if (matched.length >= 2) out.unshift({ label: `${matched[0]} · ${matched[1]}`, highlight: true });
+      else if (matched.length === 1) out.unshift({ label: matched[0], highlight: true });
+    }
   }
   if (out.length === 0 && leadTrade) {
     const hints = TRADE_WORK_TYPES[leadTrade];
-    if (hints) return [{ label: `${hints[0]} · ${hints[1]}`, highlight: true }, { label: 'Verified signal', highlight: false }];
+    if (hints && leadText) {
+      const textUpper = leadText.toUpperCase();
+      const matched = hints.filter(h => textUpper.includes(h));
+      if (matched.length >= 2) return [{ label: `${matched[0]} · ${matched[1]}`, highlight: true }, { label: 'Verified signal', highlight: false }];
+      if (matched.length === 1) return [{ label: matched[0], highlight: true }, { label: 'Verified signal', highlight: false }];
+    }
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
@@ -1163,7 +1173,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || '').toLowerCase());
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || '').toLowerCase(), `${lead.title} ${lead.description ?? ''}`);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
