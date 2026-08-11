@@ -915,12 +915,25 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_WORK_TYPES: Record<string, string[]> = {
+  electrical:  ['EV CHARGER', 'REWIRE', 'CONSUMER UNIT', 'EICR', 'SOLAR PV'],
+  plumbing:    ['BOILER', 'BATHROOM', 'HEATING', 'DRAINAGE', 'HEAT PUMP'],
+  roofing:     ['FLAT ROOF', 'PITCHED ROOF', 'GUTTERING', 'RIDGE TILES'],
+  building:    ['EXTENSION', 'LOFT CONVERSION', 'RENOVATION', 'GROUNDWORK'],
+  carpentry:   ['JOINERY', 'FLOORING', 'FITTED FURNITURE', 'WINDOWS'],
+  painting:    ['DECORATING', 'EXTERIOR PAINT', 'PLASTERING', 'DAMP PROOFING'],
+  hvac:        ['VENTILATION', 'AIR CON', 'HEAT PUMP', 'MECHANICAL SERVICES'],
+  landscaping: ['FENCING', 'PAVING', 'DRAINAGE', 'GROUNDWORK'],
+};
+
+function parseTradeReasons(raw: string[], leadTrade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
+  let hasTradeSpecific = false;
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
       tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      hasTradeSpecific = true;
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -944,9 +957,17 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => { out.push({ label: k, highlight: false }); hasTradeSpecific = true; });
       continue;
     }
+  }
+  if (out.length > 0 && !hasTradeSpecific && leadTrade) {
+    const hints = TRADE_WORK_TYPES[leadTrade];
+    if (hints) out.unshift({ label: `${hints[0]} · ${hints[1]}`, highlight: true });
+  }
+  if (out.length === 0 && leadTrade) {
+    const hints = TRADE_WORK_TYPES[leadTrade];
+    if (hints) return [{ label: `${hints[0]} · ${hints[1]}`, highlight: true }, { label: 'Verified signal', highlight: false }];
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
@@ -1142,7 +1163,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || '').toLowerCase());
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
@@ -1559,19 +1580,16 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
       </div>
       <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
       <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+      <p className="mt-3 max-w-xl font-bold text-[var(--muted)]">
+        An empty result is honest — it means no verified public notices matched your trade and area today. Buyers don&apos;t publish constantly. Try a wider radius or a related trade, and check back tomorrow.
+      </p>
       <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
-        </Link>
-      </div>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>
           WIDEN TO {nextRadius} MILES
         </button>
@@ -1579,9 +1597,15 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
           INCLUDE REGIONAL JOBS
         </button>
       </div>
-      <Link className="jf-button mt-4 bg-[var(--ink)] text-white text-sm" href={`/find-jobs?trade=${encodeURIComponent(adjacentTrade)}`}>
-        SCAN {adjacentTrade.toUpperCase()} JOBS IN THIS AREA →
+      <Link className="jf-button mt-3 bg-[var(--ink)] text-white text-sm" href={`/find-jobs?trade=${encodeURIComponent(adjacentTrade)}`}>
+        SCAN {adjacentTrade.toUpperCase()} JOBS INSTEAD →
       </Link>
+      <div className="mt-4 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
+        <p className="text-sm font-black text-[var(--ink)]">Want alerts when jobs appear in your patch?</p>
+        <Link className="jf-button mt-2 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
+          SEE COVERAGE & PRICING — NO CARD NEEDED
+        </Link>
+      </div>
     </section>
   );
 }

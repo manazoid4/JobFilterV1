@@ -266,14 +266,14 @@ export function HomePage() {
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: ShieldCheck, title: 'Firm-aware fit', body: 'Services, region, contract range and delivery model shape every qualification.' },
-              { icon: Target, title: 'Decision first', body: 'Every reviewed opportunity leads to BID, WATCH, SUBCONTRACT or SKIP.' },
-              { icon: FileText, title: 'Requirement gaps', body: 'See what the notice proves and what your team still needs to verify.' },
-              { icon: Zap, title: 'Official evidence', body: 'Buyer, scope, value, deadline and response route stay tied to the public source.' },
-              { icon: TrendingUp, title: 'Outcome tracking', body: 'Record decisions and outcomes so future qualification can improve.' },
-              { icon: Radio, title: 'Source health', body: 'Live source results stay separate from sample data, with empty and partial coverage reported honestly.' },
-              { icon: Clock, title: 'Deadline context', body: 'Published deadlines and stages make the available response time visible.' },
-              { icon: CheckCircle, title: 'Subcontract route', body: 'Flag opportunities that fit better through a principal contractor than a direct bid.' },
+              { icon: ShieldCheck, title: 'Trade and area match', body: 'Set your trade, region and contract range. Only notices that fit your firm come through — not a raw feed you filter yourself.' },
+              { icon: Target, title: 'Decision in seconds', body: 'Every opportunity gets a clear recommendation: BID, WATCH, SUBCONTRACT or SKIP. No ambiguity, no wasted read time.' },
+              { icon: FileText, title: 'Missing requirements shown', body: 'See exactly what the notice proves and what your team still needs before committing bid time. Saves hours per opportunity.' },
+              { icon: Zap, title: 'Tied to the official source', body: 'Buyer, value, deadline and response route come from the original public notice — always linkable, never paraphrased.' },
+              { icon: TrendingUp, title: 'Track your outcomes', body: 'Mark BID, WON or LOST. Future qualification improves as JobFilter learns which signals actually convert for your firm.' },
+              { icon: Radio, title: 'Honest empty results', body: 'No notices matching your trade and area today? You see an empty result — not fabricated inventory to fill the page.' },
+              { icon: Clock, title: 'How long you have left', body: 'Published deadlines and bid stages are extracted and shown plainly so you know if there is time to respond.' },
+              { icon: CheckCircle, title: 'Subcontract flag', body: 'Not every tender suits a direct bid. JobFilter flags when a subcontract route fits better so you don’t price a job you can’t win outright.' },
             ].map(({ icon: Icon, title, body }) => (
               <div key={title} className="jf-box bg-white p-5">
                 <Icon size={22} strokeWidth={3} className="text-[var(--green)]" />
@@ -294,9 +294,9 @@ export function HomePage() {
               <p className="text-sm font-black uppercase text-[var(--ink)]">Built for small UK contractors evaluating public works</p>
             </div>
             <div className="flex flex-wrap gap-4 text-xs font-black uppercase text-[var(--muted)]">
-              <span>✓ Buyer and deadline context</span>
-              <span>✓ Official source links</span>
-              <span>✓ Coverage checked first</span>
+              <span>✓ Scan free before paying</span>
+              <span>✓ Real buyer and deadline shown</span>
+              <span>✓ Not Checkatrade. Not MyBuilder. Public tenders.</span>
             </div>
           </div>
         </div>
