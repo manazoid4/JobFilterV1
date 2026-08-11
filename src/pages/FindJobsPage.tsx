@@ -915,6 +915,11 @@ export function FindJobsPage() {
   );
 }
 
+function phraseIn(textUpper: string, phrase: string): boolean {
+  const escaped = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`(?<![A-Z0-9])${escaped}(?![A-Z0-9])`).test(textUpper);
+}
+
 const TRADE_WORK_TYPES: Record<string, string[]> = {
   electrical:  ['EV CHARGER', 'REWIRE', 'CONSUMER UNIT', 'EICR', 'SOLAR PV'],
   plumbing:    ['BOILER', 'BATHROOM', 'HEATING', 'DRAINAGE', 'HEAT PUMP'],
@@ -965,7 +970,7 @@ function parseTradeReasons(raw: string[], leadTrade?: string, leadText?: string)
     const hints = TRADE_WORK_TYPES[leadTrade];
     if (hints && leadText) {
       const textUpper = leadText.toUpperCase();
-      const matched = hints.filter(h => textUpper.includes(h));
+      const matched = hints.filter(h => phraseIn(textUpper, h));
       if (matched.length >= 2) out.unshift({ label: `${matched[0]} · ${matched[1]}`, highlight: true });
       else if (matched.length === 1) out.unshift({ label: matched[0], highlight: true });
     }
@@ -974,7 +979,7 @@ function parseTradeReasons(raw: string[], leadTrade?: string, leadText?: string)
     const hints = TRADE_WORK_TYPES[leadTrade];
     if (hints && leadText) {
       const textUpper = leadText.toUpperCase();
-      const matched = hints.filter(h => textUpper.includes(h));
+      const matched = hints.filter(h => phraseIn(textUpper, h));
       if (matched.length >= 2) return [{ label: `${matched[0]} · ${matched[1]}`, highlight: true }, { label: 'Verified signal', highlight: false }];
       if (matched.length === 1) return [{ label: matched[0], highlight: true }, { label: 'Verified signal', highlight: false }];
     }
