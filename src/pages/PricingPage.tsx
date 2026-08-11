@@ -59,7 +59,7 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="Check what's live on Find a Tender for your trade and area before you commit a penny. Official notices stay public — we never sell access to public inventory."
-          items={['Current Find a Tender results', 'Trade and region fit summary', 'Official source link on every match', 'Honest empty result when nothing fits']}
+          items={['Current Find a Tender results', 'Trade and region fit summary', 'Coverage confirmed — source links and buyer details unlock with Full Access', 'Honest empty result when nothing fits']}
           cta={<><Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link><p className="mt-2 text-xs font-black text-[var(--muted)]">No card. No commitment. Cancellable anytime.</p></>}
           order="order-last lg:order-none"
         />
