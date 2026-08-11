@@ -271,7 +271,7 @@ export function HomePage() {
               { icon: FileText, title: 'Missing requirements shown', body: 'See exactly what the notice proves and what your team still needs before committing bid time. Saves hours per opportunity.' },
               { icon: Zap, title: 'Tied to the official source', body: 'Buyer, deadline and response route come from the original public notice — no invented leads, no paraphrased summaries.' },
               { icon: TrendingUp, title: 'Track your outcomes', body: 'Mark BID, WON or LOST. Future qualification improves as JobFilter learns which signals actually convert for your firm.' },
-              { icon: Radio, title: 'Honest empty results', body: 'No notices matching your trade and area today? You see an empty result — not fabricated inventory to fill the page.' },
+              { icon: Radio, title: 'Honest empty results', body: 'The result always reflects what is actually available — no fabricated inventory when genuine matches are scarce.' },
               { icon: Clock, title: 'How long you have left', body: 'Published deadlines and bid stages are extracted and shown plainly so you know if there is time to respond.' },
               { icon: CheckCircle, title: 'Subcontract flag', body: 'Not every tender suits a direct bid. JobFilter flags when a subcontract route fits better so you don’t price a job you can’t win outright.' },
             ].map(({ icon: Icon, title, body }) => (

@@ -659,7 +659,7 @@ export function FindJobsPage() {
 
           <SourceHealthStrip sources={result.sources} />
           {result.count === 0 ? (
-            result.ok ? <EmptyScanReport
+            result.ok && !result.errors?.length ? <EmptyScanReport
               trade={trade}
               radiusMiles={radiusMiles}
               result={result}
@@ -962,7 +962,7 @@ function parseTradeReasons(raw: string[], leadTrade?: string, leadText?: string)
     if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => { out.push({ label: k, highlight: false }); hasTradeSpecific = true; });
+      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
       continue;
     }
   }
