@@ -283,7 +283,7 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
-      const keywords = m[1].split(',').map((k) => k.trim()).sort((a, b) => b.length - a.length).slice(0, 2);
+      const keywords = m[1].split(',').map((k) => k.trim()).sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2);
       return keywords.map((k) => `Trade teaser: ${k}`);
     }
   }
