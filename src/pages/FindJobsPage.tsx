@@ -14,7 +14,7 @@ import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
-import { saveStoredLead, clearStoredLeads } from '../lib/leadStore';
+import { saveStoredLead } from '../lib/leadStore';
 import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 import { useAuth } from '../components/AuthProvider';
@@ -195,7 +195,7 @@ export function FindJobsPage() {
   const { user, session, loading: authLoading } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const [isPaidAccess, setIsPaidAccess] = useState(false);
+  const [isPaidAccess, setIsPaidAccess] = useState(() => typeof window !== 'undefined' && localStorage.getItem('jobfilter.paid_access') === 'true');
   const unlimitedTester = devUnlocked || isOwner || isPaidAccess;
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
@@ -263,8 +263,6 @@ export function FindJobsPage() {
     setIsPaidAccess(false);
     setResult(null);
     setFillWeekResult(null);
-    clearStoredLeads();
-    if (typeof window !== 'undefined') localStorage.removeItem('jobfilter.find.tracked');
     setTrackedLeads(new Set());
   }, [session]);
 
@@ -346,7 +344,12 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
-      setIsPaidAccess(data.accessMode === 'paid' || data.accessMode === 'full-test-access');
+      const newPaidAccess = data.accessMode === 'paid' || data.accessMode === 'full-test-access';
+      setIsPaidAccess(newPaidAccess);
+      if (typeof window !== 'undefined') {
+        if (newPaidAccess) localStorage.setItem('jobfilter.paid_access', 'true');
+        else localStorage.removeItem('jobfilter.paid_access');
+      }
       if (session?.access_token && typeof data.scansUsed === 'number') {
         syncWeeklyScanCount(data.scansUsed);
         setWeeklyScansUsed(data.scansUsed);
