@@ -14,7 +14,7 @@ import { WinStatsBanner } from '../components/WinStatsBanner';
 import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
-import { saveStoredLead } from '../lib/leadStore';
+import { saveStoredLead, clearStoredLeads } from '../lib/leadStore';
 import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 import { useAuth } from '../components/AuthProvider';
@@ -255,6 +255,9 @@ export function FindJobsPage() {
       setIsPaidAccess(false);
       setResult(null);
       setFillWeekResult(null);
+      clearStoredLeads();
+      if (typeof window !== 'undefined') localStorage.removeItem('jobfilter.find.tracked');
+      setTrackedLeads(new Set());
     }
   }, [session]);
 

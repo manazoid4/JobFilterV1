@@ -21,6 +21,10 @@ export function updateStoredLead(id: string, patch: Partial<LeadDecision>) {
   (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(KEY, JSON.stringify(next));
 }
 
+export function clearStoredLeads() {
+  (typeof window !== "undefined" ? localStorage : { removeItem: () => {} }).removeItem(KEY);
+}
+
 export function countTodayLeads() {
   const today = new Date().toISOString().slice(0, 10);
   return getStoredLeads().filter((lead) => lead.createdAt.startsWith(today)).length;
