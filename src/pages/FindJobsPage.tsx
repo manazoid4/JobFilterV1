@@ -781,15 +781,15 @@ export function FindJobsPage() {
                   <p className="micro-label text-[var(--ink)]">BUYER DETAILS LOCKED — FULL ACCESS UNLOCKS THEM.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER, DEADLINE WHERE PUBLISHED AND BID ROUTE.`
-                      : 'SEE THE BUYER, DEADLINE WHERE PUBLISHED AND OFFICIAL BID ROUTE ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER, DEADLINE WHERE PUBLISHED AND RESPONSE ROUTE.`
+                      : 'SEE THE BUYER, DEADLINE WHERE PUBLISHED AND RESPONSE ROUTE ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FULL ACCESS — £39/MO →</Link>
                     <span className="text-xs font-black text-[var(--ink)]/70">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full access shows buyer, published value where available, deadline and the official submission route. These are public notices — other suppliers may bid. JobFilter charges for qualification, not exclusive access.
+                    Full access shows buyer, published value where available, deadline and the response route. These are public notices — other suppliers may bid. JobFilter charges for qualification, not exclusive access.
                   </p>
                 </section>
               )}
