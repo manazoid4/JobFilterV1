@@ -70,7 +70,10 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<>
+            <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />
+            <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required for the free scan. Check coverage fits your firm before paying.</p>
+          </>}
           order="order-first lg:order-none"
         />
       </section>
@@ -139,14 +142,14 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">SCAN FREE. THEN DECIDE.</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CHECK WHICH TENDERS FIT YOUR FIRM BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not exclusive access to a notice.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required to scan. Coverage varies by trade and region — an empty result is a valid outcome.</p>
       </section>
     </main>
   );

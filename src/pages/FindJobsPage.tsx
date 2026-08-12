@@ -778,18 +778,18 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">BUYER DETAILS LOCKED — FULL ACCESS UNLOCKS THEM.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE THE BUYER, DEADLINE AND BID ROUTE.`
+                      : 'SEE THE BUYER, DEADLINE AND OFFICIAL BID ROUTE ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK FULL ACCESS — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/70">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full access shows buyer, published value, deadline and the official submission route. These are public notices — other suppliers may bid. JobFilter charges for qualification, not exclusive access.
                   </p>
                 </section>
               )}
@@ -1210,7 +1210,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+            className="mt-1 min-h-[36px] min-w-[44px] px-2 py-1 text-[10px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
           >
             {showScoreReasons ? 'HIDE' : 'WHY?'}
           </button>
