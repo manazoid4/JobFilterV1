@@ -789,7 +789,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/70">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full access shows buyer, published value, deadline and the official submission route. These are public notices — other suppliers may bid. JobFilter charges for qualification, not exclusive access.
+                    Full access shows buyer, published value where available, deadline and the official submission route. These are public notices — other suppliers may bid. JobFilter charges for qualification, not exclusive access.
                   </p>
                 </section>
               )}
@@ -1210,7 +1210,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 min-h-[36px] min-w-[44px] px-2 py-1 text-[10px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+            className="mt-1 min-h-[44px] min-w-[44px] px-2 py-1 text-[10px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
           >
             {showScoreReasons ? 'HIDE' : 'WHY?'}
           </button>
