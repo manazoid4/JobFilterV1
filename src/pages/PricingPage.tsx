@@ -45,13 +45,11 @@ export function PricingPage() {
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="text-sm font-black text-white/80 underline underline-offset-4" href="#pilot">ALREADY DECIDED? SEE PILOT →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-white/70">Free scan. No card needed. One contract win typically covers a year at this price.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -64,13 +62,14 @@ export function PricingPage() {
           order="order-last lg:order-none"
         />
         <PlanCard
+          id="pilot"
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
+          priceNote="One contract win typically covers a year at this price."
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
@@ -98,6 +97,10 @@ export function PricingPage() {
               <p className="mt-2 text-sm font-black text-[var(--muted)]">{body}</p>
             </article>
           ))}
+        </div>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
+          <Link className="jf-button bg-[var(--paper)] text-[var(--ink)] border-2 border-[var(--line)]" href="#pilot">SEE PILOT PLAN →</Link>
         </div>
       </section>
 
@@ -139,20 +142,22 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <p className="micro-label text-[var(--ink)]">FREE SCAN FIRST</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SCAN FREE FIRST. THEN DECIDE.</h2>
+        <div className="mt-6 flex flex-col items-start gap-3">
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</Link>
+          <span className="text-sm font-black text-[var(--ink)]/70">
+            SEEN ENOUGH —{' '}
+            <CheckoutButton tier="founding" billing="monthly" label="START PILOT £39/MO →" className="text-sm font-black text-[var(--ink)] underline underline-offset-4" />
+          </span>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
       </section>
     </main>
   );
 }
 
-function PlanCard({ title, price, priceNote, body, items, cta, featured = false, order = '' }: {
+function PlanCard({ id, title, price, priceNote, body, items, cta, featured = false, order = '' }: {
+  id?: string;
   title: string;
   price: string;
   priceNote?: string;
@@ -167,7 +172,7 @@ function PlanCard({ title, price, priceNote, body, items, cta, featured = false,
     : 'bg-[var(--paper)] text-[var(--ink)]';
 
   return (
-    <section className={`ops-panel p-6 ${wrapClass} ${order}`}>
+    <section id={id} className={`ops-panel p-6 ${wrapClass} ${order}`}>
       <p className="micro-label text-[var(--orange)]">{featured ? 'PILOT SUBSCRIPTION' : title}</p>
       <h2 className="headline mt-3 text-5xl">{price}</h2>
       {priceNote && <p className="mt-1 text-sm font-black text-[var(--green)]">{priceNote}</p>}
