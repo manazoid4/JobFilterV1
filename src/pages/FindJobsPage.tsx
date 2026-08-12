@@ -789,7 +789,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full access shows the buyer, deadline and official response route. Unlike Checkatrade or Bark, you are not competing in a shared quote auction — one lead, one route, no five-trade blast.
                   </p>
                 </section>
               )}
@@ -798,7 +798,7 @@ export function FindJobsPage() {
               {displayedLeads.length > 0 && (
                 <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
                   <p className="text-sm font-black text-[var(--muted)]">
-                    Showing {displayedLeads.length} lead{displayedLeads.length > 1 ? 's' : ''}{commercialOnly ? ' — COMMERCIAL ONLY' : ''} in your area. Results update daily.
+                    {displayedLeads.length} verified signal{displayedLeads.length > 1 ? 's' : ''} within {radiusMiles} miles of {(result?.outward || postcode.trim().split(' ')[0]).toUpperCase()}{commercialOnly ? ' — COMMERCIAL ONLY' : ''}. Updated today.
                   </p>
                 </div>
               )}
@@ -890,10 +890,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">FREE — NO CARD NEEDED</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">YOUR TRADE. YOUR PATCH. FIND JOBS WORTH PRICING.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode, pick your trade. 10 seconds. No credit card. No shared auctions.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
