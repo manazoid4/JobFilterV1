@@ -75,6 +75,12 @@ function recordWeeklyScan(): number {
   return next;
 }
 
+function syncWeeklyScanCount(serverCount: number): void {
+  try {
+    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, String(serverCount));
+  } catch { /* ignore */ }
+}
+
 const SCAN_HISTORY_KEY = 'jf-scan-history';
 type ScanHistoryEntry = { postcode: string; trade: Trade };
 
@@ -310,11 +316,17 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      if (session?.access_token && typeof data.scansUsed === 'number') {
+        syncWeeklyScanCount(data.scansUsed);
+        setWeeklyScansUsed(data.scansUsed);
+      }
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
       } else {
-        const used = recordWeeklyScan();
-        setWeeklyScansUsed(used);
+        if (!session?.access_token) {
+          const used = recordWeeklyScan();
+          setWeeklyScansUsed(used);
+        }
         saveScanHistory(effectivePostcode, effectiveTrade);
         setScanHistory(getScanHistory());
       }
