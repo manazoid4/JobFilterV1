@@ -283,7 +283,9 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
-      const keywords = m[1].split(',').map((k) => k.trim()).sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2);
+      const rawKw = m[1].split(',').map((k) => k.trim());
+      const dedupedKw = rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
+      const keywords = dedupedKw.sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2);
       return keywords.map((k) => `Trade teaser: ${k}`);
     }
   }
