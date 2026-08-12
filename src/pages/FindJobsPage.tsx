@@ -545,7 +545,7 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+          <button type="submit" disabled={loading || fillWeekLoading || authLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
             {loading ? 'SCANNING...' : 'SCAN NOW →'}
           </button>
@@ -559,7 +559,7 @@ export function FindJobsPage() {
               <button
                 key={`${entry.postcode}-${entry.trade}`}
                 type="button"
-                disabled={loading}
+                disabled={loading || authLoading}
                 onClick={() => {
                   setPostcode(entry.postcode);
                   setTrade(entry.trade);
@@ -582,7 +582,7 @@ export function FindJobsPage() {
                 key={preset.trade}
                 type="button"
                 aria-pressed={trade === preset.trade}
-                disabled={loading || fillWeekLoading}
+                disabled={loading || fillWeekLoading || authLoading}
                 onClick={() => {
                   if (!postcode.trim()) {
                     setPostcodeRequired(true);
@@ -862,7 +862,7 @@ export function FindJobsPage() {
           </div>
           <button
             type="button"
-            disabled={fillWeekLoading || loading}
+            disabled={fillWeekLoading || loading || authLoading}
             onClick={fillMyWeek}
             className="jf-button bg-[var(--ink)] text-white disabled:opacity-60 shrink-0"
           >
