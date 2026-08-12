@@ -333,9 +333,7 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
-      if (data.accessMode === 'paid' || data.accessMode === 'full-test-access') {
-        setIsPaidAccess(true);
-      }
+      setIsPaidAccess(data.accessMode === 'paid' || data.accessMode === 'full-test-access');
       if (session?.access_token && typeof data.scansUsed === 'number') {
         syncWeeklyScanCount(data.scansUsed);
         setWeeklyScansUsed(data.scansUsed);
@@ -960,7 +958,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).sort((a, b) => b.length - a.length).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
