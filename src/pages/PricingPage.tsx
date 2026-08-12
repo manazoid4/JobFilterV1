@@ -144,13 +144,10 @@ export function PricingPage() {
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">FREE SCAN FIRST</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SCAN FREE FIRST. THEN DECIDE.</h2>
-        <div className="mt-6 flex flex-col items-start gap-3">
+        <div className="mt-6">
           <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN MY AREA FREE →</Link>
-          <span className="text-sm font-black text-[var(--ink)]/70">
-            SEEN ENOUGH —{' '}
-            <CheckoutButton tier="founding" billing="monthly" label="START PILOT £39/MO →" className="text-sm font-black text-[var(--ink)] underline underline-offset-4" />
-          </span>
         </div>
+        <p className="mt-3 text-sm font-black text-[var(--ink)]/70">Already decided? <a href="#pilot" className="underline underline-offset-2">Scroll up to activate the pilot.</a></p>
       </section>
     </main>
   );
