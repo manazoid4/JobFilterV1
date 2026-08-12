@@ -176,6 +176,7 @@ export function FindJobsPage() {
   const [lastUpdated, setLastUpdated] = useState('');
   const [whatsappSent, setWhatsappSent] = useState<Record<string, boolean>>({});
   const [hasScanned, setHasScanned] = useState(false);
+  const [scannedRadiusMiles, setScannedRadiusMiles] = useState(getSavedRadius);
   const [weeklyScansUsed, setWeeklyScansUsed] = useState(getWeeklyScansUsed);
   const [trackedLeads, setTrackedLeads] = useState<Set<string>>(() => {
     const leads = JSON.parse((typeof window !== "undefined" ? localStorage : {getItem:()=>null}).getItem('jobfilter.find.tracked') || '[]') as string[];
@@ -293,6 +294,8 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
     const effectiveTrade = overrides?.trade ?? trade;
+    const effectiveRadius = overrides?.radiusMiles ?? radiusMiles;
+    setScannedRadiusMiles(effectiveRadius);
     try {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
@@ -301,7 +304,7 @@ export function FindJobsPage() {
         body: JSON.stringify({
           postcode: effectivePostcode,
           trade: effectiveTrade,
-          radiusMiles: overrides?.radiusMiles ?? radiusMiles,
+          radiusMiles: effectiveRadius,
           mode: scanMode,
         }),
       });
@@ -798,7 +801,7 @@ export function FindJobsPage() {
               {displayedLeads.length > 0 && (
                 <div className="jf-box bg-[var(--bg-main)] p-5 text-center">
                   <p className="text-sm font-black text-[var(--muted)]">
-                    {displayedLeads.length} verified signal{displayedLeads.length > 1 ? 's' : ''} within {radiusMiles} miles of {(result?.outward || postcode.trim().split(' ')[0]).toUpperCase()}{commercialOnly ? ' — COMMERCIAL ONLY' : ''}. Updated today.
+                    {displayedLeads.length} verified signal{displayedLeads.length > 1 ? 's' : ''} within {scannedRadiusMiles} miles of {(result?.outward || postcode.trim().split(' ')[0]).toUpperCase()}{commercialOnly ? ' — COMMERCIAL ONLY' : ''}. Updated today.
                   </p>
                 </div>
               )}
