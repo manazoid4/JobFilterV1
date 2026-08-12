@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Free scans used. Full buyer detail and next actions locked — upgrade for unlimited scans.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -1228,6 +1228,20 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
+          {/* Trade signal badge — top matching keyword shown at a glance */}
+          {parsedReasons.length > 0 && parsedReasons[0].label !== 'Verified signal' && (() => {
+            const top = parsedReasons.find(r => r.highlight) ?? parsedReasons[0];
+            const keyword = top.label.replace(' — YOUR TRADE', '');
+            return (
+              <span className={`inline-flex items-center border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${
+                top.highlight
+                  ? 'border-[var(--yellow)] bg-[var(--yellow)] text-[var(--ink)]'
+                  : 'border-[var(--line)] bg-white text-[var(--muted)]'
+              }`}>
+                {keyword}
+              </span>
+            );
+          })()}
           {lead.source && !isCompaniesHouse && (
             <span className="inline-flex items-center gap-1 border-2 border-[var(--line)] bg-white px-2 py-1 text-xs font-black uppercase">
               {getSourceIcon(lead.source)}
