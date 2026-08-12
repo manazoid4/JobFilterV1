@@ -210,7 +210,7 @@ export function FindJobsPage() {
   const resultsRef = useRef<HTMLElement>(null);
   const scanAbortRef = useRef<AbortController | null>(null);
   const isSubmittingRef = useRef(false);
-  const hadSessionRef = useRef(false);
+  const prevSessionUserIdRef = useRef<string | null>(null);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -252,14 +252,26 @@ export function FindJobsPage() {
   }, [loading, result]);
 
   useEffect(() => {
-    if (session) {
-      hadSessionRef.current = true;
+    const currentUserId = session?.user?.id ?? null;
+    const prevUserId = prevSessionUserIdRef.current;
+
+    if (currentUserId !== null) {
+      const isAccountSwitch = prevUserId !== null && prevUserId !== currentUserId;
+      prevSessionUserIdRef.current = currentUserId;
+      if (!isAccountSwitch) return;
+      // Different user identity without a SIGNED_OUT event (e.g. account switch via another tab).
+      scanAbortRef.current?.abort();
+      setIsPaidAccess(false);
+      setResult(null);
+      setFillWeekResult(null);
+      setTrackedLeads(new Set());
       return;
     }
-    // Skip the initial null that arrives while AuthProvider is hydrating.
-    if (!hadSessionRef.current) return;
+
+    // session is null — skip the initial null during auth hydration.
+    if (prevUserId === null) return;
     // Actual sign-out: was authenticated, now null.
-    hadSessionRef.current = false;
+    prevSessionUserIdRef.current = null;
     scanAbortRef.current?.abort();
     setIsPaidAccess(false);
     setResult(null);
@@ -371,11 +383,13 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
-      const newPaidAccess = data.accessMode === 'paid' || data.accessMode === 'full-test-access';
-      setIsPaidAccess(newPaidAccess);
-      if (typeof window !== 'undefined') {
-        if (newPaidAccess) localStorage.setItem('jobfilter.paid_access', 'true');
-        else localStorage.removeItem('jobfilter.paid_access');
+      if (data.accessMode) {
+        const newPaidAccess = data.accessMode === 'paid' || data.accessMode === 'full-test-access';
+        setIsPaidAccess(newPaidAccess);
+        if (typeof window !== 'undefined') {
+          if (newPaidAccess) localStorage.setItem('jobfilter.paid_access', 'true');
+          else localStorage.removeItem('jobfilter.paid_access');
+        }
       }
       if (session?.access_token && typeof data.scansUsed === 'number') {
         syncWeeklyScanCount(data.scansUsed);
@@ -981,13 +995,13 @@ export function FindJobsPage() {
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
-            }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+            }} disabled={loading || authLoading} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
               SCAN MY AREA →
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               setTrade('building'); void submit(undefined, { trade: 'building' });
-            }} className="jf-button bg-white text-[var(--ink)]">
+            }} disabled={loading || authLoading} className="jf-button bg-white text-[var(--ink)]">
               SCAN BUILDING WORK
             </button>
           </div>

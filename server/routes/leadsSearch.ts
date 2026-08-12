@@ -99,6 +99,7 @@ export function registerLeadSearchRoute(app: Express) {
     res.once('close', abortOnDisconnect);
 
     let resolvedScansUsed: number | undefined;
+    let resolvedAccessMode: string | undefined;
     try {
       const postcode = parseUkPostcode(req.body?.postcode);
       const trade = sanitizeTrade(req.body?.trade);
@@ -106,6 +107,7 @@ export function registerLeadSearchRoute(app: Express) {
 
       const accessCtx = await resolveAccessContext(req);
       resolvedScansUsed = accessCtx.scansUsed;
+      resolvedAccessMode = accessCtx.tier === 'full' ? 'paid' : 'free-preview';
 
       // Resolve entitlement and quota before starting any source work.
       if (accessCtx.scanLimitExceeded) {
@@ -170,6 +172,7 @@ export function registerLeadSearchRoute(app: Express) {
         leads: [],
         errors: [message === 'This operation was aborted' ? 'lead engine request timed out' : message],
         ...(resolvedScansUsed !== undefined ? { scansUsed: resolvedScansUsed } : {}),
+        ...(resolvedAccessMode !== undefined ? { accessMode: resolvedAccessMode } : {}),
       });
     } finally {
       req.off('aborted', abortOnDisconnect);
