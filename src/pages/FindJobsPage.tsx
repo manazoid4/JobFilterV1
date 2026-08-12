@@ -209,6 +209,7 @@ export function FindJobsPage() {
   const resultsRef = useRef<HTMLElement>(null);
   const scanAbortRef = useRef<AbortController | null>(null);
   const isSubmittingRef = useRef(false);
+  const hadSessionRef = useRef(false);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -250,15 +251,21 @@ export function FindJobsPage() {
   }, [loading, result]);
 
   useEffect(() => {
-    if (!session) {
-      scanAbortRef.current?.abort();
-      setIsPaidAccess(false);
-      setResult(null);
-      setFillWeekResult(null);
-      clearStoredLeads();
-      if (typeof window !== 'undefined') localStorage.removeItem('jobfilter.find.tracked');
-      setTrackedLeads(new Set());
+    if (session) {
+      hadSessionRef.current = true;
+      return;
     }
+    // Skip the initial null that arrives while AuthProvider is hydrating.
+    if (!hadSessionRef.current) return;
+    // Actual sign-out: was authenticated, now null.
+    hadSessionRef.current = false;
+    scanAbortRef.current?.abort();
+    setIsPaidAccess(false);
+    setResult(null);
+    setFillWeekResult(null);
+    clearStoredLeads();
+    if (typeof window !== 'undefined') localStorage.removeItem('jobfilter.find.tracked');
+    setTrackedLeads(new Set());
   }, [session]);
 
   const trackLead = (lead: Lead) => {
