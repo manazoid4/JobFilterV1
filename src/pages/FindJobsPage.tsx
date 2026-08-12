@@ -1287,7 +1287,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
           {/* Trade signal badge — only shown when a trade-specific keyword is available */}
           {(() => {
-            const top = parsedReasons.find(r => r.highlight && r.isTradeSignal) ?? parsedReasons.find(r => r.isTradeSignal && !r.highlight);
+            const top = [...parsedReasons.filter(r => r.isTradeSignal)].sort((a, b) => kwSpecificitySort(a.label.replace(' — YOUR TRADE', ''), b.label.replace(' — YOUR TRADE', '')))[0] ?? null;
             if (!top) return null;
             const keyword = top.label.replace(' — YOUR TRADE', '');
             return (

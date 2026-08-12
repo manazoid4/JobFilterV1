@@ -290,14 +290,13 @@ function kwSpecificitySort(a: string, b: string): number {
 
 function buildPreviewReasons(lead: Lead): string[] {
   const real = lead.scoreReasons ?? [];
+  const tradeCandidates: string[] = [];
   const tradeMatchReason = real.find((r) => r.startsWith('Trade match:'));
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
       const rawKw = m[1].split(',').map((k) => k.trim());
-      const dedupedKw = rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      const keywords = dedupedKw.sort(kwSpecificitySort).slice(0, 2);
-      return keywords.map((k) => `Trade teaser: ${k}`);
+      tradeCandidates.push(...rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase()))));
     }
   }
   const relatedReason = real.find((r) => r.startsWith('Related:'));
@@ -305,10 +304,13 @@ function buildPreviewReasons(lead: Lead): string[] {
     const m = relatedReason.match(/^Related: (.+?) \(/);
     if (m) {
       const rawRelated = m[1].split(',').map((k) => k.trim());
-      const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      const k = dedupedRelated.sort(kwSpecificitySort)[0] ?? rawRelated[0];
-      return [`Trade teaser: ${k}`];
+      tradeCandidates.push(...rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase()))));
     }
+  }
+  if (tradeCandidates.length > 0) {
+    const crossDeduped = tradeCandidates.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
+    const keywords = crossDeduped.sort(kwSpecificitySort).slice(0, 2);
+    return keywords.map((k) => `Trade teaser: ${k}`);
   }
   const intentReason = real.find((r) => r.startsWith('High intent keywords:'));
   if (intentReason) {
