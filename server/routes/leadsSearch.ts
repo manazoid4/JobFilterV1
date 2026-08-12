@@ -277,6 +277,17 @@ function titleCase(value: string) {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
+const GENERIC_TRADE_TERMS = new Set(['roof', 'roofing', 'electrical', 'plumbing', 'painting', 'carpentry', 'building', 'hvac', 'landscaping', 'heating']);
+
+function kwSpecificitySort(a: string, b: string): number {
+  const wa = a.split(' ').length; const wb = b.split(' ').length;
+  if (wb !== wa) return wb - wa;
+  const ga = GENERIC_TRADE_TERMS.has(a.toLowerCase()) ? 1 : 0;
+  const gb = GENERIC_TRADE_TERMS.has(b.toLowerCase()) ? 1 : 0;
+  if (ga !== gb) return ga - gb;
+  return b.length - a.length;
+}
+
 function buildPreviewReasons(lead: Lead): string[] {
   const real = lead.scoreReasons ?? [];
   const tradeMatchReason = real.find((r) => r.startsWith('Trade match:'));
@@ -285,7 +296,7 @@ function buildPreviewReasons(lead: Lead): string[] {
     if (m) {
       const rawKw = m[1].split(',').map((k) => k.trim());
       const dedupedKw = rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      const keywords = dedupedKw.sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2);
+      const keywords = dedupedKw.sort(kwSpecificitySort).slice(0, 2);
       return keywords.map((k) => `Trade teaser: ${k}`);
     }
   }
@@ -295,7 +306,7 @@ function buildPreviewReasons(lead: Lead): string[] {
     if (m) {
       const rawRelated = m[1].split(',').map((k) => k.trim());
       const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      const k = dedupedRelated.sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; })[0] ?? rawRelated[0];
+      const k = dedupedRelated.sort(kwSpecificitySort)[0] ?? rawRelated[0];
       return [`Trade teaser: ${k}`];
     }
   }

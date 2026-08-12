@@ -953,6 +953,19 @@ export function FindJobsPage() {
   );
 }
 
+// Trade-category words that are too generic to be informative as a badge — prefer
+// specific terms (e.g. "slate", "rewire") when a more specific match is present.
+const GENERIC_TRADE_TERMS = new Set(['roof', 'roofing', 'electrical', 'plumbing', 'painting', 'carpentry', 'building', 'hvac', 'landscaping', 'heating']);
+
+function kwSpecificitySort(a: string, b: string): number {
+  const wa = a.split(' ').length; const wb = b.split(' ').length;
+  if (wb !== wa) return wb - wa;
+  const ga = GENERIC_TRADE_TERMS.has(a.toLowerCase()) ? 1 : 0;
+  const gb = GENERIC_TRADE_TERMS.has(b.toLowerCase()) ? 1 : 0;
+  if (ga !== gb) return ga - gb;
+  return b.length - a.length;
+}
+
 function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> {
   const out: Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> = [];
   for (const r of raw) {
@@ -960,7 +973,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (tradeMatch) {
       const rawKw = tradeMatch[1].split(',').map(k => k.trim());
       const dedupedKw = rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      dedupedKw.map(k => k.toUpperCase()).sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
+      dedupedKw.map(k => k.toUpperCase()).sort(kwSpecificitySort).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
@@ -974,7 +987,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (related) {
       const rawRelated = related[1].split(',').map(k => k.trim());
       const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
-      dedupedRelated.map(k => k.toUpperCase()).sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
+      dedupedRelated.map(k => k.toUpperCase()).sort(kwSpecificitySort).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
