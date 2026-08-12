@@ -208,6 +208,7 @@ export function FindJobsPage() {
   const postcodeRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
   const scanAbortRef = useRef<AbortController | null>(null);
+  const isSubmittingRef = useRef(false);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -305,6 +306,8 @@ export function FindJobsPage() {
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade; postcode?: string }) {
     event?.preventDefault();
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
     setErrorText('');
     setLoading(true);
     setResult(null);
@@ -362,6 +365,7 @@ export function FindJobsPage() {
         errors: ['Network error. Retry the scan.'],
       });
     } finally {
+      isSubmittingRef.current = false;
       setLoading(false);
     }
   }
