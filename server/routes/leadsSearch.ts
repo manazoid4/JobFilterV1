@@ -283,7 +283,7 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
-      const keywords = m[1].split(',').map((k) => k.trim()).slice(0, 2);
+      const keywords = m[1].split(',').map((k) => k.trim()).sort((a, b) => b.length - a.length).slice(0, 2);
       return keywords.map((k) => `Trade teaser: ${k}`);
     }
   }
@@ -300,7 +300,7 @@ function buildPreviewReasons(lead: Lead): string[] {
     const m = intentReason.match(/^High intent keywords: (.+?) \(/);
     if (m) {
       const k = m[1].split(',')[0].trim();
-      return [`Trade teaser: ${k}`];
+      return [`High intent teaser: ${k}`];
     }
   }
   if (real.some((r) => r.startsWith('Commercial project'))) {
