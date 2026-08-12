@@ -293,7 +293,9 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (relatedReason) {
     const m = relatedReason.match(/^Related: (.+?) \(/);
     if (m) {
-      const k = m[1].split(',')[0].trim();
+      const rawRelated = m[1].split(',').map((k) => k.trim());
+      const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
+      const k = dedupedRelated.sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; })[0] ?? rawRelated[0];
       return [`Trade teaser: ${k}`];
     }
   }

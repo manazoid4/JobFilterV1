@@ -972,7 +972,9 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
+      const rawRelated = related[1].split(',').map(k => k.trim());
+      const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
+      dedupedRelated.map(k => k.toUpperCase()).sort((a, b) => { const wa = a.split(' ').length; const wb = b.split(' ').length; return wb !== wa ? wb - wa : a.length - b.length; }).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
