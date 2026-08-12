@@ -207,6 +207,7 @@ export function FindJobsPage() {
   const [postcodeRequired, setPostcodeRequired] = useState(false);
   const postcodeRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
+  const scanAbortRef = useRef<AbortController | null>(null);
 
   const weeklyLimit = unlimitedTester ? 999 : WEEKLY_SCAN_LIMIT;
   const weeklyScansRemaining = Math.max(0, weeklyLimit - weeklyScansUsed);
@@ -249,6 +250,7 @@ export function FindJobsPage() {
 
   useEffect(() => {
     if (!session) {
+      scanAbortRef.current?.abort();
       setIsPaidAccess(false);
       setResult(null);
       setFillWeekResult(null);
@@ -310,9 +312,13 @@ export function FindJobsPage() {
     setCommercialOnly(false);
     const effectivePostcode = overrides?.postcode ?? postcode;
     const effectiveTrade = overrides?.trade ?? trade;
+    const ac = new AbortController();
+    scanAbortRef.current?.abort();
+    scanAbortRef.current = ac;
     try {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
+        signal: ac.signal,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -345,7 +351,8 @@ export function FindJobsPage() {
         setScanHistory(getScanHistory());
       }
       setLastUpdated(new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-    } catch {
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
       setErrorText('Network error. Retry the scan.');
       setResult({
         ok: false,
@@ -947,40 +954,40 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
-  const out: Array<{ label: string; highlight: boolean }> = [];
+function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> {
+  const out: Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false, isTradeSignal: true });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      related[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
       continue;
     }
     if (r.startsWith('Not your trade')) continue;
     if (r.match(/^Source (confidence|class)/)) continue;
     if (r.match(/^Proximity fit/)) continue;
-    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false }); continue; }
-    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false }); continue; }
-    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false }); continue; }
-    if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false }); continue; }
-    if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false }); continue; }
-    if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false }); continue; }
+    if (r.startsWith('Urgent timeline')) { out.push({ label: 'URGENT', highlight: false, isTradeSignal: false }); continue; }
+    if (r.startsWith('Medium urgency')) { out.push({ label: 'THIS WEEK', highlight: false, isTradeSignal: false }); continue; }
+    if (r.includes('pay-worthy range')) { out.push({ label: 'GOOD VALUE', highlight: false, isTradeSignal: false }); continue; }
+    if (r.includes('value acceptable')) { out.push({ label: 'DECENT VALUE', highlight: false, isTradeSignal: false }); continue; }
+    if (r.startsWith('Fresh lead')) { out.push({ label: 'JUST POSTED', highlight: false, isTradeSignal: false }); continue; }
+    if (r.startsWith('Strong contact')) { out.push({ label: 'CONTACT READY', highlight: false, isTradeSignal: false }); continue; }
     const intent = r.match(/^High intent keywords: (.+?) \(/);
     if (intent) {
-      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
+      intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: false }));
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false, isTradeSignal: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1262,8 +1269,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
           {/* Trade signal badge — only shown when a trade-specific keyword is available */}
           {(() => {
-            const NON_TRADE = new Set(['URGENT', 'THIS WEEK', 'GOOD VALUE', 'DECENT VALUE', 'JUST POSTED', 'CONTACT READY', 'Verified signal', 'COMMERCIAL JOB', 'URGENT TIMELINE']);
-            const top = parsedReasons.find(r => r.highlight) ?? parsedReasons.find(r => !NON_TRADE.has(r.label));
+            const top = parsedReasons.find(r => r.highlight && r.isTradeSignal) ?? parsedReasons.find(r => r.isTradeSignal && !r.highlight);
             if (!top) return null;
             const keyword = top.label.replace(' — YOUR TRADE', '');
             return (
