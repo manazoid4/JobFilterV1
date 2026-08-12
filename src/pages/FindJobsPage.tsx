@@ -77,7 +77,9 @@ function recordWeeklyScan(): number {
 
 function syncWeeklyScanCount(serverCount: number): void {
   try {
-    (typeof window !== "undefined" ? localStorage : {setItem:()=>{}}).setItem(SCAN_COUNT_KEY, String(serverCount));
+    const ls = typeof window !== "undefined" ? localStorage : { setItem: () => {} };
+    ls.setItem(SCAN_WEEK_KEY, getMondayKey());
+    ls.setItem(SCAN_COUNT_KEY, String(serverCount));
   } catch { /* ignore */ }
 }
 
@@ -193,7 +195,8 @@ export function FindJobsPage() {
   const { user, session } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
-  const unlimitedTester = devUnlocked || isOwner;
+  const [isPaidAccess, setIsPaidAccess] = useState(false);
+  const unlimitedTester = devUnlocked || isOwner || isPaidAccess;
   const [scanHistory, setScanHistory] = useState<ScanHistoryEntry[]>(getScanHistory);
   const [scanMode, setScanMode] = useState<ScanMode>('all');
 
@@ -316,6 +319,9 @@ export function FindJobsPage() {
       });
       const data = await response.json() as LeadSearchResponse;
       setResult(data);
+      if (data.accessMode === 'paid' || data.accessMode === 'full-test-access') {
+        setIsPaidAccess(true);
+      }
       if (session?.access_token && typeof data.scansUsed === 'number') {
         syncWeeklyScanCount(data.scansUsed);
         setWeeklyScansUsed(data.scansUsed);
@@ -745,7 +751,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner || isPaidAccess} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -880,7 +886,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner || isPaidAccess} />
             ))}
           </div>
         )}
@@ -1248,7 +1254,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
           {/* Trade signal badge — only shown when a trade-specific keyword is available */}
           {(() => {
-            const NON_TRADE = new Set(['URGENT', 'THIS WEEK', 'GOOD VALUE', 'DECENT VALUE', 'JUST POSTED', 'CONTACT READY', 'Verified signal']);
+            const NON_TRADE = new Set(['URGENT', 'THIS WEEK', 'GOOD VALUE', 'DECENT VALUE', 'JUST POSTED', 'CONTACT READY', 'Verified signal', 'COMMERCIAL JOB', 'URGENT TIMELINE']);
             const top = parsedReasons.find(r => r.highlight) ?? parsedReasons.find(r => !NON_TRADE.has(r.label));
             if (!top) return null;
             const keyword = top.label.replace(' — YOUR TRADE', '');
