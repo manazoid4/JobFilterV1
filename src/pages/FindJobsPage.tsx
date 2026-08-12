@@ -15,6 +15,7 @@ import type { DocumentSearchResult } from '../lib/documentSearch';
 import type { Lead, LeadDecision, LeadSearchResponse, Trade } from '../lib/types';
 import { importLeadToChase, isLeadTracked } from '../lib/chaseStore';
 import { saveStoredLead } from '../lib/leadStore';
+import { supabase } from '../lib/supabase';
 import { markWon } from '../lib/winStore';
 import { QuickResponseKit } from '../components/QuickResponseKit';
 import { useAuth } from '../components/AuthProvider';
@@ -265,6 +266,32 @@ export function FindJobsPage() {
     setFillWeekResult(null);
     setTrackedLeads(new Set());
   }, [session]);
+
+  // When a session arrives and there is no cached paid status, verify against the
+  // subscriptions table so a user who just subscribed sees their entitlement
+  // immediately without needing to complete a scan first.
+  useEffect(() => {
+    if (!session || !supabase) return;
+    if (typeof window !== 'undefined' && localStorage.getItem('jobfilter.paid_access') === 'true') return;
+    void (async () => {
+      try {
+        const { data } = await supabase
+          .from('subscriptions')
+          .select('active, status')
+          .eq('user_id', session.user.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+        if (data?.active || data?.status === 'active') {
+          setIsPaidAccess(true);
+          if (typeof window !== 'undefined') localStorage.setItem('jobfilter.paid_access', 'true');
+        }
+      } catch {
+        // best-effort — scan response will correct entitlement if this fails
+      }
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.id]);
 
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;

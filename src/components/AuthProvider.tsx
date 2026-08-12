@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { clearStoredLeads } from '../lib/leadStore';
@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const prevUserIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!supabase) { setLoading(false); return; }
@@ -27,17 +28,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setUser(data.session?.user ?? null);
+      prevUserIdRef.current = data.session?.user?.id ?? null;
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      const incomingUserId = session?.user?.id ?? null;
       setSession(session);
       setUser(session?.user ?? null);
-      if (event === 'SIGNED_OUT' && typeof window !== 'undefined') {
-        clearStoredLeads();
-        localStorage.removeItem('jobfilter.find.tracked');
-        localStorage.removeItem('jobfilter.paid_access');
+      if (typeof window !== 'undefined') {
+        if (event === 'SIGNED_OUT') {
+          clearStoredLeads();
+          localStorage.removeItem('jobfilter.find.tracked');
+          localStorage.removeItem('jobfilter.paid_access');
+        } else if (event === 'SIGNED_IN' && prevUserIdRef.current !== null && prevUserIdRef.current !== incomingUserId) {
+          // Account switch without an intervening SIGNED_OUT — clear previous user's paid data.
+          clearStoredLeads();
+          localStorage.removeItem('jobfilter.find.tracked');
+          localStorage.removeItem('jobfilter.paid_access');
+        }
       }
+      prevUserIdRef.current = incomingUserId;
     });
 
     return () => subscription.unsubscribe();
