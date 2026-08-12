@@ -16,8 +16,8 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['How is this different from Checkatrade, Bark, or MyBuilder?', 'Those are homeowner lead platforms — you compete in a shared auction against 3–5 other trades per job. JobFilter is qualification for official public tenders: you find the opportunity yourself, nobody else is sent the same alert.'],
-  ['Who is JobFilter for?', '5–25-person contractors already considering public or B2B work. Not homeowners looking for domestic trades, and not sole-traders at capacity.'],
+  ['How is this different from Checkatrade, Bark, or MyBuilder?', 'Those are homeowner lead platforms — you compete in a shared quote auction against 3–5 other trades per job. JobFilter is qualification for official public tenders from official sources. There is no paid lead blast, no auction, and no middleman deciding who sees the opportunity.'],
+  ['Who is JobFilter for?', '5–25-person contractors already considering public or B2B work. Not homeowners looking for domestic trades.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never for privileged access to a notice.'],
   ['Can I check coverage before paying?', 'Yes — and you should. Run a free check first. Coverage varies by service, region and timing. An empty scan is a valid outcome. No card required.'],
 ];
@@ -71,7 +71,7 @@ export function PricingPage() {
           body="Qualification for public opportunities — evidence, next action, and outcome tracking in one view. Run a free check first; activation follows once coverage and fit are confirmed."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="SCAN FREE — THEN START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START PILOT — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
