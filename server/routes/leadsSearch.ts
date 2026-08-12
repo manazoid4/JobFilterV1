@@ -122,6 +122,7 @@ export function registerLeadSearchRoute(app: Express) {
           scanLimitExceeded: true,
           scansUsed: accessCtx.scansUsed,
           weeklyLimit: FREE_WEEKLY_SCAN_LIMIT,
+          accessMode: resolvedAccessMode,
         });
       }
 

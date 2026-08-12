@@ -285,18 +285,22 @@ export function FindJobsPage() {
   useEffect(() => {
     if (!session || !supabase) return;
     if (typeof window !== 'undefined' && localStorage.getItem('jobfilter.paid_access') === 'true') return;
+    const queriedUserId = session.user.id;
     void (async () => {
       try {
         const { data } = await supabase
           .from('subscriptions')
           .select('active, status')
-          .eq('user_id', session.user.id)
+          .eq('user_id', queriedUserId)
           .order('created_at', { ascending: false })
           .limit(1)
           .single();
         if (data?.active || data?.status === 'active') {
-          setIsPaidAccess(true);
-          if (typeof window !== 'undefined') localStorage.setItem('jobfilter.paid_access', 'true');
+          // Discard if the session identity changed while the query was in flight.
+          if (prevSessionUserIdRef.current === queriedUserId) {
+            setIsPaidAccess(true);
+            if (typeof window !== 'undefined') localStorage.setItem('jobfilter.paid_access', 'true');
+          }
         }
       } catch {
         // best-effort — scan response will correct entitlement if this fails
