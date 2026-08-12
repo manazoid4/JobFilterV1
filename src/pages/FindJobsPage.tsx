@@ -476,7 +476,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Free scans used. Full buyer detail and next actions locked — upgrade for unlimited scans.'}
+                : 'Free scan limit reached. Buyer details and contact actions need a subscription.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -557,12 +557,13 @@ export function FindJobsPage() {
               <button
                 key={`${entry.postcode}-${entry.trade}`}
                 type="button"
+                disabled={loading}
                 onClick={() => {
                   setPostcode(entry.postcode);
                   setTrade(entry.trade);
                   void submit(undefined, { postcode: entry.postcode, trade: entry.trade });
                 }}
-                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors"
+                className="border-2 border-[var(--line)] bg-[var(--paper)] px-3 py-1 text-xs font-black text-[var(--ink)] uppercase hover:bg-[var(--yellow)] hover:border-[var(--ink)] transition-colors disabled:opacity-60"
               >
                 {entry.postcode} · {entry.trade.toUpperCase()}
               </button>
@@ -748,7 +749,7 @@ export function FindJobsPage() {
                       COMMERCIAL ONLY ({commercialCount})
                     </button>
                   </div>
-                  {commercialOnly && !OPEN_ACCESS && (
+                  {commercialOnly && !unlimitedTester && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-3 text-white">
                       <p className="text-xs font-black text-[var(--yellow)] uppercase">Commercial signals — buyer details in Full Access</p>
                       <p className="mt-1 text-sm font-black text-white/90">
@@ -964,7 +965,9 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false, isTradeSignal: true });
+      const teaserKey = tradeTeaser[1].toLowerCase();
+      const isTradeSignal = teaserKey !== 'commercial job' && teaserKey !== 'urgent timeline';
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false, isTradeSignal });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
