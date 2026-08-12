@@ -958,7 +958,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).sort((a, b) => b.length - a.length).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
+      tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).sort((a, b) => b.length - a.length).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
       continue;
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
