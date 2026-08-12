@@ -6,8 +6,8 @@ const pricing = fs.readFileSync('src/pages/PricingPage.tsx', 'utf8');
 
 // Homepage must describe the truthful public-opportunity qualification product.
 for (const text of [
-  'JobFilter scans current Find a Tender notices',
-  'Every result remains a public opportunity that other suppliers may pursue',
+  'JobFilter reads current Find a Tender notices',
+  'Every opportunity remains available through its official Find a Tender route.',
   'SPEND BID TIME ON THE RIGHT OPPORTUNITIES',
 ]) {
   assert.ok(home.includes(text), `homepage missing: ${text}`);

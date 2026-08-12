@@ -1385,7 +1385,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           ))}
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          {parsedReasons.map((r) => (
+          {parsedReasons.slice(0, 5).map((r) => (
             <span
               key={r.label}
               className={`badge font-black ${r.highlight ? 'bg-[var(--yellow)] text-[var(--ink)] border border-[var(--ink)]' : 'bg-[var(--bg-main)] text-[var(--ink)]'}`}
