@@ -247,6 +247,14 @@ export function FindJobsPage() {
     if (!loading && result) resultsRef.current?.focus();
   }, [loading, result]);
 
+  useEffect(() => {
+    if (!session) {
+      setIsPaidAccess(false);
+      setResult(null);
+      setFillWeekResult(null);
+    }
+  }, [session]);
+
   const trackLead = (lead: Lead) => {
     if (trackedLeads.has(lead.id) || isLeadTracked(lead.id)) return;
     importLeadToChase({
@@ -1306,7 +1314,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
-        {!OPEN_ACCESS && (
+        {!cardOpenAccess && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
               UNLOCK FULL LEAD →
