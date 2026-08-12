@@ -192,7 +192,7 @@ export function FindJobsPage() {
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
-  const { user, session } = useAuth();
+  const { user, session, loading: authLoading } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
   const [isPaidAccess, setIsPaidAccess] = useState(false);
@@ -306,7 +306,7 @@ export function FindJobsPage() {
 
   async function submit(event?: FormEvent, overrides?: { radiusMiles?: number; trade?: Trade; postcode?: string }) {
     event?.preventDefault();
-    if (isSubmittingRef.current) return;
+    if (authLoading || isSubmittingRef.current) return;
     isSubmittingRef.current = true;
     setErrorText('');
     setLoading(true);
