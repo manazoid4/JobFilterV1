@@ -184,7 +184,7 @@ export function FindJobsPage() {
   const [docSearchResults, setDocSearchResults] = useState<DocumentSearchResult[]>([]);
   const [docSearchQuery, setDocSearchQuery] = useState('');
   const [showDocSearch, setShowDocSearch] = useState(false);
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const isOwner = isOwnerEmail(user?.email);
   const [devUnlocked] = useState(() => OPEN_ACCESS || hasDevUnlock());
   const unlimitedTester = devUnlocked || isOwner;
@@ -297,7 +297,10 @@ export function FindJobsPage() {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           postcode: effectivePostcode,
           trade: effectiveTrade,
@@ -381,7 +384,10 @@ export function FindJobsPage() {
       const endpoint = '/api/leads/search';
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           postcode,
           trade,
@@ -1228,9 +1234,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-2">
           {isCompaniesHouse ? <CompaniesHouseSourceBadge title={lead.title} /> : <Tag label={tierLabel(lead.score)} />}
-          {/* Trade signal badge — top matching keyword shown at a glance */}
-          {parsedReasons.length > 0 && parsedReasons[0].label !== 'Verified signal' && (() => {
-            const top = parsedReasons.find(r => r.highlight) ?? parsedReasons[0];
+          {/* Trade signal badge — only shown when a trade-specific keyword is available */}
+          {(() => {
+            const NON_TRADE = new Set(['URGENT', 'THIS WEEK', 'GOOD VALUE', 'DECENT VALUE', 'JUST POSTED', 'CONTACT READY', 'Verified signal']);
+            const top = parsedReasons.find(r => r.highlight) ?? parsedReasons.find(r => !NON_TRADE.has(r.label));
+            if (!top) return null;
             const keyword = top.label.replace(' — YOUR TRADE', '');
             return (
               <span className={`inline-flex items-center border-2 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider ${
