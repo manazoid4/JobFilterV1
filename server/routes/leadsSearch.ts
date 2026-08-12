@@ -288,6 +288,16 @@ function kwSpecificitySort(a: string, b: string): number {
   return b.length - a.length;
 }
 
+const STEM_NORMALIZE: Record<string, string> = {
+  'plumb': 'plumbing',
+  'decorat': 'decorating',
+  'landscap': 'landscaping',
+  'fitted wardrob': 'fitted wardrobe',
+};
+function normalizeKw(k: string): string {
+  return STEM_NORMALIZE[k.toLowerCase()] ?? k;
+}
+
 function buildPreviewReasons(lead: Lead): string[] {
   const real = lead.scoreReasons ?? [];
   const tradeCandidates: string[] = [];
@@ -295,7 +305,7 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
-      const rawKw = m[1].split(',').map((k) => k.trim());
+      const rawKw = m[1].split(',').map((k) => normalizeKw(k.trim()));
       tradeCandidates.push(...rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase()))));
     }
   }
@@ -303,7 +313,7 @@ function buildPreviewReasons(lead: Lead): string[] {
   if (relatedReason) {
     const m = relatedReason.match(/^Related: (.+?) \(/);
     if (m) {
-      const rawRelated = m[1].split(',').map((k) => k.trim());
+      const rawRelated = m[1].split(',').map((k) => normalizeKw(k.trim()));
       tradeCandidates.push(...rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase()))));
     }
   }

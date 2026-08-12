@@ -966,12 +966,23 @@ function kwSpecificitySort(a: string, b: string): number {
   return b.length - a.length;
 }
 
+// Scorer intentionally stores substring stems; map them to display-safe labels.
+const STEM_NORMALIZE: Record<string, string> = {
+  'plumb': 'plumbing',
+  'decorat': 'decorating',
+  'landscap': 'landscaping',
+  'fitted wardrob': 'fitted wardrobe',
+};
+function normalizeKw(k: string): string {
+  return STEM_NORMALIZE[k.toLowerCase()] ?? k;
+}
+
 function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> {
   const out: Array<{ label: string; highlight: boolean; isTradeSignal: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
     if (tradeMatch) {
-      const rawKw = tradeMatch[1].split(',').map(k => k.trim());
+      const rawKw = tradeMatch[1].split(',').map(k => normalizeKw(k.trim()));
       const dedupedKw = rawKw.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
       dedupedKw.map(k => k.toUpperCase()).sort(kwSpecificitySort).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true, isTradeSignal: true }));
       continue;
@@ -985,7 +996,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const related = r.match(/^Related: (.+?) \(/);
     if (related) {
-      const rawRelated = related[1].split(',').map(k => k.trim());
+      const rawRelated = related[1].split(',').map(k => normalizeKw(k.trim()));
       const dedupedRelated = rawRelated.filter((k, i, arr) => !arr.some((other, j) => i !== j && other.toLowerCase().includes(k.toLowerCase())));
       dedupedRelated.map(k => k.toUpperCase()).sort(kwSpecificitySort).slice(0, 2).forEach(k => out.push({ label: k, highlight: false, isTradeSignal: true }));
       continue;
@@ -1005,7 +1016,9 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false, isTradeSignal: false }];
+  // Return full list so badge selection (isTradeSignal filter) sees all trade signals;
+  // callers that need a display cap should slice after receiving the array.
+  return out.length > 0 ? out : [{ label: 'Verified signal', highlight: false, isTradeSignal: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1275,7 +1288,7 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         {showScoreReasons && (
           <div className="mt-2 w-36 border border-[var(--line)] bg-[var(--bg-main)] p-2">
             <ul className="grid gap-0.5">
-              {parsedReasons.map((r, i) => (
+              {parsedReasons.slice(0, 5).map((r, i) => (
                 <li key={i} className={`text-[9px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
               ))}
             </ul>
