@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 free scans done — buyer name and response link locked until you upgrade.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -1266,12 +1266,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
-        {!OPEN_ACCESS && (
+        {!cardOpenAccess && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
-              UNLOCK FULL LEAD →
+              UNLOCK FULL LEAD — £39/MO →
             </Link>
-            <p className="text-center text-xs font-black text-[var(--muted)]">Public tender · access is not exclusive</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">No card for the free scan · public tender</p>
           </div>
         )}
         {(lead.whyThisIsAJob || lead.contactPath?.reason) && (
@@ -1342,9 +1342,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
         ) : (
           <div className="hidden lg:grid gap-1">
             <Link href="/pricing" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)]">
-              UNLOCK FULL LEAD →
+              UNLOCK FULL LEAD — £39/MO →
             </Link>
-            <p className="text-center text-xs font-black text-[var(--muted)]">Public tender · access is not exclusive</p>
+            <p className="text-center text-xs font-black text-[var(--muted)]">No card for free scan · public tender</p>
           </div>
         )}
         <QuickResponseKit

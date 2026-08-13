@@ -11,7 +11,7 @@ const planBullets = [
   'Evidence found and missing requirements shown before you commit bid time',
   'Buyer, value, deadline and official response route in one view',
   'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'Every BID or SKIP logged — your qualification sharpens with each run',
 ];
 
 const objections = [
@@ -66,11 +66,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan free first — no card needed until coverage is confirmed."
+          body="Know which public works opportunities fit your firm — and which to skip. Run a free scan first; activate only when the evidence fits your services, region and contract range."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO — CANCEL ANYTIME →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>

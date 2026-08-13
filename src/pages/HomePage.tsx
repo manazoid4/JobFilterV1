@@ -137,12 +137,12 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Built for 5–25-person construction and maintenance firms that can bid or subcontract
+                For builders, electricians, roofers, plumbers and groundworkers bidding on public contracts
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">Coverage checked before paid activation</p>
+              <p className="text-sm font-black text-[var(--ink)]">Scan free — 3 scans per week, no card required</p>
             </div>
           </div>
         </div>
