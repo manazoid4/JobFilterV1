@@ -17,7 +17,7 @@ const planBullets = [
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
   ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
-  ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
+  ['What do I get that others don\'t?', 'Your firm profile, qualified results and decision record are private to your account. Public tenders on Find a Tender stay accessible to any supplier — you pay for the qualification layer that filters what actually fits your trade, region and contract size. One qualifying bid win covers months of subscription.'],
   ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
 ];
 
