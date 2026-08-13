@@ -565,7 +565,8 @@ export function CompareCheckatradePage() {
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
             <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
           </div>
-          <p className="mt-6 text-sm font-black text-white/85">
+          <p className="mt-3 text-sm font-black text-[var(--yellow)]/80">No credit card required. 30-day money-back if you pay and it doesn't deliver.</p>
+          <p className="mt-4 text-sm font-black text-white/60">
             BUILT FOR TRADES. NO CONTRACTS. FAIR SYSTEM.
           </p>
         </div>
