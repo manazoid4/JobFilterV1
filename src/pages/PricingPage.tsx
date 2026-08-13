@@ -11,7 +11,7 @@ const planBullets = [
   'Evidence found and missing requirements shown before you commit bid time',
   'Buyer, value, deadline and official response route in one view',
   'Fit against your services, region, contract range and delivery model',
-  'Outcome tracking — log BID, WATCH, SUBCONTRACT or SKIP decisions to build your firm\'s history',
+  'Lead tracking and outcome history — record each opportunity from first scan to final result',
 ];
 
 const objections = [
