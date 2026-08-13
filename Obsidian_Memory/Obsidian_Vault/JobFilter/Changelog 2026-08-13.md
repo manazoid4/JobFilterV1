@@ -37,11 +37,19 @@ All Tier 1 features from the roadmap were found to be already implemented:
 - Resolved: `nanoid < 3.3.17` (HIGH — GHSA-2v37-7h3g-55p8)
 - Resolved: `postcss <= 8.5.22` (MODERATE — GHSA-fxqj-rqcc-2cmp)
 
+### Codex Review Corrections (commits 1d1e8cd + 9395622)
+
+Three P2 review comments arrived from chatgpt-codex-connector; all addressed:
+
+1. **FindJobsPage.tsx line 440** — Scan limit message implied lock was newly applied at scan 3. Fixed to: "3 of 3 free scans used this week — upgrade to view buyer name and response link." (lock was always present via `toFreePreviewLead`)
+2. **PricingPage.tsx plan bullet** — "sharpens with each run" implied per-scan learning. Fixed to: "Outcome tracking — log BID, WATCH, SUBCONTRACT or SKIP decisions to build your firm's history" (`warmOutcomeLearningCache` requires 10+ `lead_outcomes` rows, not per scan)
+3. **PricingPage.tsx priceNote** — "no card needed until coverage is confirmed" implied a coverage gate before Stripe checkout (none exists). Fixed to: "Run a free scan before you pay — no card required for the coverage check."
+
 ### PR
 - **#465** — `nightly/2026-08-13-copy-polish`
 - Vercel preview: DEPLOYED
-- Meticulous: 0 visual differences across 169 screens
-- CI `check`: pending (audit fix pushed)
+- Meticulous: 0 visual differences across 169 screens (on commit 0fd217b; re-running on latest)
+- CI `check`: in_progress (latest commit 9395622)
 
 ---
 
