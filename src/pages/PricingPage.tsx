@@ -11,7 +11,7 @@ const planBullets = [
   'Evidence found and missing requirements shown before you commit bid time',
   'Buyer, value, deadline and official response route in one view',
   'Fit against your services, region, contract range and delivery model',
-  'Every BID or SKIP logged — your qualification sharpens with each run',
+  'Outcome tracking — log BID, WATCH, SUBCONTRACT or SKIP decisions to build your firm\'s history',
 ];
 
 const objections = [
@@ -66,7 +66,7 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Scan free first — no card needed until coverage is confirmed."
+          priceNote="Run a free scan before you pay — no card required for the coverage check."
           body="Know which public works opportunities fit your firm — and which to skip. Run a free scan first; activate only when the evidence fits your services, region and contract range."
           items={planBullets}
           featured
