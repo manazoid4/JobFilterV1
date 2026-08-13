@@ -142,7 +142,7 @@ export function HomePage() {
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} strokeWidth={3} className="text-[var(--orange)]" />
-              <p className="text-sm font-black text-[var(--ink)]">Scan free — 3 scans per week, no card required</p>
+              <p className="text-sm font-black text-[var(--ink)]">Scan free — no card required</p>
             </div>
           </div>
         </div>
