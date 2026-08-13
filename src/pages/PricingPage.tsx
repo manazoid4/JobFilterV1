@@ -50,7 +50,7 @@ export function PricingPage() {
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">30-day money-back guarantee. No contract. No hidden fees.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No contract. Cancel anytime. No hidden fees.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -145,7 +145,7 @@ export function PricingPage() {
           <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No contract. Cancel anytime. 30-day money-back guarantee.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No contract. Cancel anytime. No hidden fees.</p>
       </section>
     </main>
   );
