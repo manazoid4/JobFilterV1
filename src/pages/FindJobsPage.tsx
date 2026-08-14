@@ -778,18 +778,21 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">NOT CHECKATRADE. NOT BARK. NOT A SHARED AUCTION.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      : 'SEE BUYER DETAILS — NO CREDIT CARD REQUIRED.'}
                   </h2>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
+                    One lead. One trade. No five-trade blast. Unlike Checkatrade, MyBuilder or Bark, JobFilter shows you the buyer before anyone else calls them.
+                  </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full Access adds buyer contact, published value where available, deadline and official response route. Find a Tender notices are public — other suppliers may bid.
                   </p>
                 </section>
               )}
@@ -915,7 +918,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_TITLE_KEYWORDS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR', 'ELECTRIC', 'LIGHTING', 'FUSE BOARD', 'CERTIFICATION'],
+  plumbing: ['BOILER', 'BATHROOM', 'HEATING', 'RADIATOR', 'PIPES', 'LEAK', 'DRAINAGE', 'HOT WATER', 'CYLINDER', 'UNVENTED', 'GAS'],
+  roofing: ['FLAT ROOF', 'ROOF', 'GUTTERING', 'FASCIA', 'SOFFIT', 'LEADWORK', 'TILES', 'SLATES', 'CHIMNEY', 'POINTING', 'RIDGE'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'REFURBISHMENT', 'RENOVATION', 'CONVERSION', 'GROUNDWORK', 'FOUNDATION', 'UNDERPINNING', 'BRICKWORK', 'GARAGE CONVERSION'],
+  carpentry: ['FLOORING', 'DOORS', 'WINDOWS', 'STAIRCASE', 'KITCHEN FIT', 'FITTED', 'JOINERY', 'TIMBER', 'DECKING', 'FENCING'],
+  painting: ['DECORATING', 'PAINTING', 'PLASTERING', 'DRY LINING', 'RENDERING', 'COVING', 'EXTERIOR PAINT', 'INTERIOR'],
+  hvac: ['HEAT PUMP', 'HVAC', 'AIR CON', 'VENTILATION', 'BOILER', 'HEATING SYSTEM', 'UNDERFLOOR HEATING', 'HEAT RECOVERY'],
+  landscaping: ['DRIVEWAY', 'PATIO', 'GARDEN', 'PAVING', 'FENCING', 'DECKING', 'GROUNDWORK', 'TURFING', 'LANDSCAPING', 'BLOCK PAVING'],
+};
+
+function parseTradeReasons(raw: string[], trade?: string | null, title?: string | null): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,7 +962,16 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  if (out.length > 0) return out.slice(0, 5);
+  // Fallback: extract trade-specific keywords from the lead title
+  const tradeKey = String(trade ?? '').toLowerCase();
+  const tradeKws = TRADE_TITLE_KEYWORDS[tradeKey] ?? [];
+  const titleUpper = String(title ?? '').toUpperCase();
+  const found = tradeKws.filter(kw => titleUpper.includes(kw)).slice(0, 2);
+  if (found.length > 0) {
+    return found.map((kw, i) => ({ label: i === 0 ? `${kw} — YOUR TRADE` : kw, highlight: i === 0 }));
+  }
+  return [{ label: 'Verified signal', highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1142,7 +1165,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead.trade || lead.tradeMatch, lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
@@ -1210,9 +1233,9 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+            className="mt-1 px-2 py-1 text-[10px] font-black uppercase border-2 border-[var(--navy)] bg-white text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white transition-colors"
           >
-            {showScoreReasons ? 'HIDE' : 'WHY?'}
+            {showScoreReasons ? 'HIDE' : 'WHY THIS?'}
           </button>
         )}
         {showScoreReasons && (

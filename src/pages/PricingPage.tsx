@@ -138,15 +138,36 @@ export function PricingPage() {
         </div>
       </section>
 
+      {/* ── COMPETITOR COMPARISON ─────────────────── */}
+      <section className="ops-panel bg-[var(--ink)] p-7 text-white">
+        <p className="micro-label text-[var(--yellow)]">NOT CHECKATRADE. NOT BARK. NOT MYBUILDER.</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">NO AUCTION. NO FIVE-TRADE BLAST. NO LEAD FEE.</h2>
+        <p className="mt-4 max-w-2xl text-base font-black text-white/80">
+          On Checkatrade, MyBuilder and Bark, five trades chase the same job and the buyer picks on price. You spend time quoting jobs already half-lost. JobFilter shows you verified public opportunities — one at a time, scored for your trade and patch — before the other five call.
+        </p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            ['Checkatrade / Bark / MyBuilder', 'Shared auction. 5 trades contact the same buyer. Lead fee per quote sent.', false],
+            ['BuildAlert / Planning Pipe', 'Raw planning data. You find the lead — no scoring, no buyer contact, no fit check.', false],
+            ['JobFilter', 'Official tenders scored for your trade and patch. One lead, one trade, buyer detail in full access.', true],
+          ].map(([name, desc, highlight]) => (
+            <div key={String(name)} className={`border-2 p-4 ${highlight ? 'border-[var(--yellow)] bg-[var(--yellow)]' : 'border-white/20 bg-white/5'}`}>
+              <p className={`text-xs font-black uppercase tracking-wider ${highlight ? 'text-[var(--ink)]' : 'text-white/50'}`}>{String(name)}</p>
+              <p className={`mt-2 text-sm font-black ${highlight ? 'text-[var(--ink)]' : 'text-white/70'}`}>{String(desc)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD NEEDED →</Link>
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required for the free coverage check.</p>
       </section>
     </main>
   );
