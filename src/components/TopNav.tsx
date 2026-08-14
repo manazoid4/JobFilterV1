@@ -5,11 +5,10 @@ import { useState } from 'react';
 import { useAuth } from './AuthProvider';
 
 const publicLinks = [
-  { to: '/find-jobs', label: 'Find Opportunities' },
+  { to: '/find-jobs', label: 'Find Jobs' },
   { to: '/microsite', label: 'Free Trade Page' },
-  { to: '/methodology', label: 'How It Works' },
   { to: '/pricing', label: 'Pricing' },
-  { to: '/trust', label: 'Trust' },
+  { to: '/methodology', label: 'How It Works' },
 ];
 
 const memberLinks = [
@@ -69,7 +68,7 @@ export function TopNav() {
                 Sign in
               </Link>
               <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-                CHECK FTS FREE
+                FIND JOBS FREE
               </Link>
             </>
           )}
@@ -91,8 +90,8 @@ export function TopNav() {
         <div id="mobile-menu" className="lg:hidden flex max-h-[calc(100svh-72px)] flex-col overflow-hidden border-t-2 border-[var(--line)] bg-white">
           <div className="grid grid-cols-2 border-b border-[var(--line)] bg-[var(--bg-main)]">
             <Link href="/find-jobs" onClick={() => setMenuOpen(false)} className="border-r border-[var(--line)] px-3 py-3 text-center">
-              <p className="text-[10px] font-black text-[var(--muted)]">PUBLIC SOURCE</p>
-              <p className="text-base font-black text-[var(--ink)]">CHECK FTS</p>
+              <p className="text-[10px] font-black text-[var(--muted)]">FREE SCAN</p>
+              <p className="text-base font-black text-[var(--ink)]">FIND JOBS</p>
             </Link>
             <Link href={isLoggedIn ? '/dashboard' : '/pricing'} onClick={() => setMenuOpen(false)} className="px-3 py-3 text-center">
               <p className="text-[10px] font-black text-[var(--muted)]">{isLoggedIn ? 'MEMBER' : 'PILOT'}</p>
@@ -138,7 +137,7 @@ export function TopNav() {
                 onClick={() => setMenuOpen(false)}
                 className="bg-[var(--yellow)] px-4 py-4 text-sm font-black uppercase text-[var(--ink)] text-center min-h-[44px] flex items-center justify-center"
               >
-                CHECK FIND A TENDER FREE
+                FIND JOBS FREE →
               </Link>
             </>
           )}
