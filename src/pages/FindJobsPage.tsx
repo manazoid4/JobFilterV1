@@ -426,8 +426,8 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
+        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS · NO CREDIT CARD EVER</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND REAL JOBS IN YOUR PATCH</h1>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -576,7 +576,7 @@ export function FindJobsPage() {
 
       {/* ── STATS BAR ────────────────────────────────────────────────── */}
       {result && result.count > 0 && (
-        <section className="grid grid-cols-3 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
+        <section className="grid grid-cols-4 gap-0 border-2 border-[var(--line)] bg-[var(--ink)]">
           <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{result.count}</p>
             <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">MATCHES</p>
@@ -585,8 +585,12 @@ export function FindJobsPage() {
             <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{goldCount}</p>
             <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">GOLD</p>
           </div>
+          <div className="border-r-2 border-[var(--line)] p-3 sm:p-4 text-center">
+            <p className="headline text-2xl sm:text-4xl text-white">{silverCount}</p>
+            <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">SILVER</p>
+          </div>
           <div className="p-3 sm:p-4 text-center">
-            <p className="headline text-2xl sm:text-4xl text-[var(--yellow)]">{contractCount}</p>
+            <p className="headline text-2xl sm:text-4xl text-white/70">{contractCount}</p>
             <p className="micro-label text-[9px] sm:text-[10px] text-white/80 mt-1">CONTRACTS</p>
           </div>
         </section>
@@ -727,7 +731,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} searchedTrade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +866,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} searchedTrade={trade} />
             ))}
           </div>
         )}
@@ -890,10 +894,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">QUIET WEEK?</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">SEE WHAT JOBS ARE LIVE NEAR YOU RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Checkatrade and Bark charge per lead. This is free. Takes 10 seconds. No credit card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
@@ -960,6 +964,74 @@ const TITLE_KEYWORDS = [
   'INSULATION', 'REWIRING', 'VENTILATION', 'GARAGE CONVERSION',
   'GARAGE', 'ROOFING', 'SCAFFOLDING', 'GROUNDWORK',
 ];
+
+const TRADE_SCORE_HINTS: Record<string, Array<{ kw: string; label: string }>> = {
+  electrical: [
+    { kw: 'EV CHARG', label: 'EV CHARGER FIT' },
+    { kw: 'REWIR', label: 'REWIRE NEEDED' },
+    { kw: 'CONSUMER UNIT', label: 'CONSUMER UNIT' },
+    { kw: 'EICR', label: 'EICR TEST' },
+    { kw: 'SOLAR', label: 'SOLAR PV' },
+    { kw: 'STORAGE HEATER', label: 'STORAGE HEATER' },
+    { kw: 'ELECTRIC', label: 'ELECTRICAL WORK' },
+  ],
+  plumbing: [
+    { kw: 'BOILER', label: 'BOILER WORK' },
+    { kw: 'BATHROOM', label: 'BATHROOM FIT' },
+    { kw: 'HEAT PUMP', label: 'HEAT PUMP' },
+    { kw: 'DRAINAGE', label: 'DRAINAGE' },
+    { kw: 'GAS', label: 'GAS WORK' },
+    { kw: 'COMBI', label: 'COMBI BOILER' },
+    { kw: 'SANIT', label: 'SANITARY WORK' },
+  ],
+  roofing: [
+    { kw: 'FLAT ROOF', label: 'FLAT ROOF' },
+    { kw: 'ROOF', label: 'ROOF REPAIR' },
+    { kw: 'GUTTER', label: 'GUTTERING' },
+    { kw: 'FASCIA', label: 'FASCIA/SOFFIT' },
+    { kw: 'VELUX', label: 'VELUX' },
+    { kw: 'SLAT', label: 'SLATING' },
+  ],
+  building: [
+    { kw: 'EXTENSION', label: 'EXTENSION' },
+    { kw: 'LOFT', label: 'LOFT CONVERSION' },
+    { kw: 'GARAGE', label: 'GARAGE CONVERSION' },
+    { kw: 'REFURBISH', label: 'REFURBISHMENT' },
+    { kw: 'STRUCTUR', label: 'STRUCTURAL WORK' },
+    { kw: 'RENOVATION', label: 'RENOVATION' },
+    { kw: 'GROUNDWORK', label: 'GROUNDWORKS' },
+  ],
+  carpentry: [
+    { kw: 'FLOORING', label: 'FLOORING' },
+    { kw: 'KITCHEN', label: 'KITCHEN FIT' },
+    { kw: 'WARDROBE', label: 'FITTED WARDROBES' },
+    { kw: 'STAIRCASE', label: 'STAIRCASE' },
+    { kw: 'DECKING', label: 'DECKING' },
+    { kw: 'JOINERY', label: 'JOINERY' },
+  ],
+  painting: [
+    { kw: 'DECORAT', label: 'DECORATION' },
+    { kw: 'RENDER', label: 'RENDERING' },
+    { kw: 'PLASTER', label: 'PLASTERING' },
+    { kw: 'EXTERIOR', label: 'EXTERIOR PAINT' },
+    { kw: 'INTERIOR', label: 'INTERIOR PAINT' },
+  ],
+  hvac: [
+    { kw: 'HEAT PUMP', label: 'HEAT PUMP' },
+    { kw: 'AIR CON', label: 'AIR CONDITIONING' },
+    { kw: 'VENTILAT', label: 'VENTILATION' },
+    { kw: 'BOILER', label: 'BOILER SYSTEM' },
+    { kw: 'UNDERFLOOR', label: 'UNDERFLOOR HEATING' },
+  ],
+  landscaping: [
+    { kw: 'DRIVEWAY', label: 'DRIVEWAY' },
+    { kw: 'PATIO', label: 'PATIO' },
+    { kw: 'GARDEN', label: 'GARDEN WORKS' },
+    { kw: 'FENCING', label: 'FENCING' },
+    { kw: 'DRAINAGE', label: 'DRAINAGE' },
+    { kw: 'GROUNDWORK', label: 'GROUNDWORKS' },
+  ],
+};
 
 function extractTopJobTypes(leads: Lead[]): string[] {
   const counts: Record<string, number> = {};
@@ -1140,9 +1212,23 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, searchedTrade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; searchedTrade?: Trade }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = (() => {
+    const base = parseTradeReasons(rawReasons);
+    const effectiveTrade = searchedTrade ?? (lead.trade as Trade | undefined) ?? (lead.tradeMatch as Trade | undefined);
+    const isGeneric = base.length === 1 && base[0].label === 'Verified signal';
+    if (!isGeneric || !effectiveTrade) return base;
+    const hints = TRADE_SCORE_HINTS[effectiveTrade] ?? [];
+    const title = (lead.title ?? '').toUpperCase();
+    const matches: Array<{ label: string; highlight: boolean }> = [];
+    for (const h of hints) {
+      if (title.includes(h.kw) && matches.length < 4) {
+        matches.push({ label: h.label, highlight: true });
+      }
+    }
+    return matches.length > 0 ? matches : base;
+  })();
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
