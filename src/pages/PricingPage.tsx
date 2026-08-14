@@ -58,28 +58,28 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
+          body="Check current public notices before you commit. No credit card required. The official source remains visible and accessible — JobFilter does not sell access to public inventory."
+          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly', 'No credit card required']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Run the free scan first. Activate when the coverage fits your firm."
+          body="Firm-aware qualification for public opportunities. Set your services, delivery patch and contract range — JobFilter scores every current notice against your firm and shows what you still need to verify before you commit bid time."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
 
       <section className="jf-box border-4 border-[var(--green)] bg-[var(--green)]/5 p-7">
         <p className="micro-label text-[var(--green)]">COVERAGE BEFORE COMMITMENT</p>
-        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">SCAN THE CURRENT FEED BEFORE YOU PAY.</h2>
+        <h2 className="headline mt-3 text-3xl leading-none text-[var(--green)] sm:text-4xl">CHECK THE FEED BEFORE YOU PAY. NO CARD NEEDED.</h2>
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
-          Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
+          Results depend on what buyers have published for your trade and delivery region. A free scan takes two minutes. If current coverage is thin, we will tell you — an honest empty result beats a fabricated one.
         </p>
       </section>
 
@@ -140,13 +140,13 @@ export function PricingPage() {
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SCAN FIRST. PAY IF IT FITS.</h2>
+        <p className="mt-3 max-w-xl font-bold text-[var(--ink)]/75">Official tenders are public. You pay for firm-aware qualification, evidence and next-action workflow. Run the free scan first — no card, two minutes.</p>
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-xs font-black text-[var(--ink)]/60">Free check uses real current notices. Empty results are reported honestly.</p>
       </section>
     </main>
   );

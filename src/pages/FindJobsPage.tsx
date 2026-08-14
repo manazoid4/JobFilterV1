@@ -408,7 +408,6 @@ export function FindJobsPage() {
   }
 
   const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
-  const firstGoldIdx = (!unlimitedTester && !DEV_MODE) ? displayedLeads.findIndex(l => l.score >= 80) : -1;
   const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
@@ -533,7 +532,7 @@ export function FindJobsPage() {
 
         {/* Trade presets — tap to scan by trade once postcode is entered */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">{postcode.trim() ? 'QUICK TRADE SCAN →' : 'ENTER POSTCODE ABOVE, THEN TAP A TRADE'}</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -725,22 +724,8 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {displayedLeads.map((lead, idx) => (
-                <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
-                  {idx === firstGoldIdx && (
-                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
-                      <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
-                      </p>
-                      <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
+              {displayedLeads.map((lead) => (
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
               ))}
 
 
@@ -915,7 +900,84 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_SIGNALS: Record<string, { kw: string[]; label: string }[]> = {
+  electrical: [
+    { kw: ['EV CHARGER', 'EV CHARGING', 'ELECTRIC VEHICLE CHARGER', 'ELECTRIC CAR CHARGER'], label: 'EV CHARGER INSTALL' },
+    { kw: ['REWIRE', 'REWIRING', 'FULL REWIRE', 'PART REWIRE'], label: 'REWIRE' },
+    { kw: ['CONSUMER UNIT', 'FUSEBOARD', 'FUSE BOARD', 'FUSE BOX', 'CU UPGRADE'], label: 'CONSUMER UNIT UPGRADE' },
+    { kw: ['EICR', 'ELECTRICAL INSPECTION', 'PERIODIC INSPECTION', 'CONDITION REPORT'], label: 'EICR REQUIRED' },
+    { kw: ['SOLAR PV', 'SOLAR PANEL', 'SOLAR INSTALLATION', 'SOLAR INVERTER'], label: 'SOLAR PV CONNECTION' },
+    { kw: ['HEAT PUMP', 'ASHP', 'AIR SOURCE'], label: 'HEAT PUMP ELECTRICS' },
+    { kw: ['LIGHTING', 'DOWNLIGHTS', 'LED LIGHTING', 'LIGHTING CIRCUIT'], label: 'LIGHTING INSTALL' },
+    { kw: ['SMART METER', 'STORAGE HEATER', 'ELECTRIC HEATING'], label: 'ELECTRIC HEATING' },
+  ],
+  plumbing: [
+    { kw: ['BOILER', 'COMBI BOILER', 'BOILER REPLACEMENT', 'BOILER INSTALL', 'NEW BOILER'], label: 'BOILER REPLACEMENT' },
+    { kw: ['BATHROOM', 'ENSUITE', 'WET ROOM', 'SHOWER ROOM', 'SHOWER'], label: 'BATHROOM FIT-OUT' },
+    { kw: ['KITCHEN'], label: 'KITCHEN PLUMBING' },
+    { kw: ['HEAT PUMP', 'ASHP', 'AIR SOURCE HEAT PUMP', 'GROUND SOURCE'], label: 'HEAT PUMP PLUMBING' },
+    { kw: ['DRAINAGE', 'BLOCKED DRAIN', 'DRAINS', 'SOAKAWAY'], label: 'DRAINAGE WORK' },
+    { kw: ['CENTRAL HEATING', 'RADIATOR', 'UNDERFLOOR HEATING', 'UFH'], label: 'HEATING SYSTEM' },
+    { kw: ['HOT WATER', 'CYLINDER', 'UNVENTED', 'MEGAFLO', 'HOT WATER TANK'], label: 'HOT WATER SYSTEM' },
+    { kw: ['BURST PIPE', 'LEAK', 'LEAKING PIPE', 'EMERGENCY PLUMBING'], label: 'EMERGENCY PLUMBING' },
+  ],
+  roofing: [
+    { kw: ['FLAT ROOF', 'FELT ROOF', 'GRP ROOF', 'FIBREGLASS ROOF'], label: 'FLAT ROOF' },
+    { kw: ['GUTTERING', 'GUTTER', 'FASCIA', 'SOFFIT', 'ROOFLINE', 'BARGEBOARDS'], label: 'GUTTERING & ROOFLINE' },
+    { kw: ['CHIMNEY', 'CHIMNEY POINTING', 'CHIMNEY POT', 'CHIMNEY STACK'], label: 'CHIMNEY WORK' },
+    { kw: ['SKYLIGHT', 'VELUX', 'ROOF WINDOW', 'ROOF LIGHT'], label: 'SKYLIGHT INSTALL' },
+    { kw: ['EXTENSION', 'REAR EXTENSION', 'SIDE EXTENSION'], label: 'EXTENSION ROOF' },
+    { kw: ['SOLAR', 'SOLAR PANEL', 'SOLAR PV'], label: 'SOLAR PANEL MOUNT' },
+    { kw: ['SLATE', 'TILING', 'RE-TILE', 'RETILE', 'REPLACE TILES'], label: 'TILE & SLATE WORK' },
+    { kw: ['LEAK', 'LEAKING ROOF', 'ROOF REPAIR'], label: 'ROOF REPAIR' },
+  ],
+  building: [
+    { kw: ['EXTENSION', 'REAR EXTENSION', 'SIDE EXTENSION', 'SINGLE STOREY', 'DOUBLE STOREY'], label: 'EXTENSION BUILD' },
+    { kw: ['LOFT CONVERSION', 'DORMER', 'LOFT ROOM', 'HIP TO GABLE'], label: 'LOFT CONVERSION' },
+    { kw: ['GARAGE CONVERSION', 'OUTBUILDING CONVERSION'], label: 'GARAGE CONVERSION' },
+    { kw: ['DAMP', 'DAMP PROOFING', 'RISING DAMP', 'DAMP TREATMENT'], label: 'DAMP TREATMENT' },
+    { kw: ['UNDERPINNING', 'SUBSIDENCE', 'STRUCTURAL REPAIR'], label: 'STRUCTURAL WORK' },
+    { kw: ['COMMERCIAL', 'OFFICE FIT', 'SHOP FIT', 'RETAIL FIT-OUT'], label: 'COMMERCIAL BUILD' },
+    { kw: ['RENOVATION', 'REFURBISHMENT', 'REFURB', 'FULL REFURB'], label: 'FULL REFURBISHMENT' },
+  ],
+  hvac: [
+    { kw: ['HEAT PUMP', 'ASHP', 'AIR SOURCE HEAT PUMP', 'GSHP', 'GROUND SOURCE'], label: 'HEAT PUMP INSTALL' },
+    { kw: ['AIR CONDITIONING', 'AIR CON', 'AC UNIT', 'SPLIT SYSTEM', 'MULTI SPLIT', 'DAIKIN', 'MITSUBISHI'], label: 'AIR CON INSTALL' },
+    { kw: ['VENTILATION', 'MVHR', 'HEAT RECOVERY', 'EXTRACT FAN', 'MEV'], label: 'VENTILATION SYSTEM' },
+    { kw: ['BOILER', 'GAS BOILER', 'BOILER REPLACEMENT', 'GAS HEATING'], label: 'GAS HEATING SYSTEM' },
+    { kw: ['REFRIGERATION', 'COLD ROOM', 'WALK-IN FRIDGE', 'COOL ROOM'], label: 'REFRIGERATION WORK' },
+    { kw: ['COMMERCIAL HVAC', 'COMMERCIAL HEATING', 'OFFICE HVAC', 'COMMERCIAL AC'], label: 'COMMERCIAL HVAC' },
+  ],
+  carpentry: [
+    { kw: ['KITCHEN FITTING', 'KITCHEN UNITS', 'KITCHEN INSTALLATION', 'FITTED KITCHEN'], label: 'KITCHEN FIT' },
+    { kw: ['FLOORING', 'LAMINATE', 'HARDWOOD', 'ENGINEERED WOOD', 'OAK FLOOR', 'SOLID WOOD FLOOR'], label: 'FLOORING INSTALL' },
+    { kw: ['BESPOKE', 'FITTED WARDROBE', 'ALCOVE UNITS', 'BUILT-IN', 'JOINERY'], label: 'BESPOKE JOINERY' },
+    { kw: ['DECKING', 'GARDEN DECKING', 'COMPOSITE DECKING'], label: 'DECKING BUILD' },
+    { kw: ['WINDOWS', 'WINDOW REPLACEMENT', 'SASH WINDOW', 'BIFOLD', 'BIFOLD DOORS'], label: 'WINDOWS & DOORS' },
+    { kw: ['STAIRCASE', 'STAIRS', 'BALUSTRADE', 'STAIR RENOVATION'], label: 'STAIRCASE WORK' },
+    { kw: ['FASCIA', 'SOFFIT', 'CLADDING', 'WEATHERBOARD', 'TIMBER CLADDING'], label: 'EXTERNAL CLADDING' },
+  ],
+  painting: [
+    { kw: ['EXTERIOR', 'EXTERNAL PAINT', 'OUTSIDE PAINT', 'RENDER PAINT'], label: 'EXTERIOR PAINT' },
+    { kw: ['INTERIOR', 'INTERNAL', 'WALLS AND CEILINGS', 'WHOLE HOUSE PAINT'], label: 'INTERIOR DECOR' },
+    { kw: ['WALLPAPER', 'WALLPAPERING', 'PAPER HANGING'], label: 'WALLPAPERING' },
+    { kw: ['COMMERCIAL', 'OFFICE DECORATION', 'SHOP PAINT', 'COMMERCIAL DECOR'], label: 'COMMERCIAL DECOR' },
+    { kw: ['RENDER', 'RENDERED WALL', 'K-REND', 'SILICONE RENDER'], label: 'RENDER COATING' },
+    { kw: ['EXTENSION', 'NEW BUILD', 'LOFT CONVERSION'], label: 'NEW BUILD DECOR' },
+  ],
+  landscaping: [
+    { kw: ['DECKING', 'GARDEN DECKING', 'COMPOSITE DECKING'], label: 'DECKING BUILD' },
+    { kw: ['PATIO', 'PAVING', 'FLAGS', 'PAVING SLABS', 'PORCELAIN PAVING'], label: 'PATIO LAYING' },
+    { kw: ['FENCING', 'FENCE PANELS', 'CLOSE BOARD FENCE', 'GARDEN FENCE'], label: 'FENCING' },
+    { kw: ['LAWN', 'TURF', 'TURFING', 'ARTIFICIAL GRASS'], label: 'LAWN & TURF' },
+    { kw: ['DRAINAGE', 'SOAKAWAY', 'FRENCH DRAIN', 'GARDEN DRAINAGE'], label: 'GARDEN DRAINAGE' },
+    { kw: ['TREE', 'TREE SURGERY', 'HEDGE TRIMMING', 'TREE REMOVAL', 'STUMP REMOVAL'], label: 'TREE WORK' },
+    { kw: ['DRIVEWAY', 'BLOCK PAVING', 'TARMAC', 'RESIN DRIVEWAY', 'GRAVEL DRIVEWAY'], label: 'DRIVEWAY LAYING' },
+    { kw: ['GARDEN DESIGN', 'LANDSCAPE DESIGN', 'HARD LANDSCAPING'], label: 'DESIGN PROJECT' },
+  ],
+};
+
+function parseTradeReasons(raw: string[], trade?: string, title?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -946,6 +1008,18 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (intent) {
       intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
       continue;
+    }
+  }
+  // Inject trade-specific label from the job title when raw reasons didn't produce a highlighted match
+  const hasTradeHighlight = out.some(r => r.highlight);
+  if (!hasTradeHighlight && trade && title) {
+    const signals = TRADE_SIGNALS[trade] ?? [];
+    const titleUp = title.toUpperCase();
+    for (const sig of signals) {
+      if (sig.kw.some(k => titleUp.includes(k))) {
+        out.unshift({ label: sig.label, highlight: true });
+        break;
+      }
     }
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
@@ -1142,7 +1216,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || ''), lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);

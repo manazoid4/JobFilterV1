@@ -596,14 +596,20 @@ export function LeadDetailPage() {
         {filledMessage && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
-            <a
-              className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
-            </a>
+            {waPhone ? (
+              <a
+                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                href={`https://wa.me/${waPhone}?text=${encodeURIComponent(filledMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OPEN WHATSAPP CHAT →
+              </a>
+            ) : (
+              <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--navy)] text-white">
+                GET BUYER NUMBER TO SEND →
+              </Link>
+            )}
           </div>
         )}
         <div className="mt-4 border-t-2 border-[var(--line)] pt-4">
@@ -628,14 +634,20 @@ export function LeadDetailPage() {
           {aiDraftState === 'ready' && aiDraft && (
             <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{aiDraft}</p>
-              <a
-                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-                href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(aiDraft)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
-              </a>
+              {waPhone ? (
+                <a
+                  className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                  href={`https://wa.me/${waPhone}?text=${encodeURIComponent(aiDraft)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OPEN WHATSAPP CHAT →
+                </a>
+              ) : (
+                <Link href="/pricing" className="jf-button mt-4 inline-block bg-[var(--navy)] text-white">
+                  GET BUYER NUMBER TO SEND →
+                </Link>
+              )}
             </div>
           )}
         </div>

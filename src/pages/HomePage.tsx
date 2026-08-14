@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              Stop spending bid days on contracts that were never going to fit. JobFilter checks the current Find a Tender feed against your firm and tells you which ones to BID, WATCH, subcontract, or SKIP — in two minutes.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -91,7 +91,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Scan the current feed before deciding whether the coverage fits your firm.
+              No credit card required. Free scan uses real current notices.
             </p>
           </div>
 
@@ -124,9 +124,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
-          <span>Qualified by evidence, firm fit, region, value, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Real Find a Tender notices — your trade, delivery patch, contract range</span>
+          <span>Bid, Watch, Subcontract or Skip — not a ranked list, a real decision</span>
+          <span>Empty scan means no verified match — that is honest, not a bug</span>
         </div>
       </section>
 
@@ -137,7 +137,7 @@ export function HomePage() {
             <div className="flex items-center gap-3">
               <Users size={20} strokeWidth={3} className="text-[var(--ink)]" />
               <p className="text-sm font-black text-[var(--ink)]">
-                Built for 5–25-person construction and maintenance firms that can bid or subcontract
+                Built for 5–25-person UK contractors that bid directly or take subcontract routes on public works
               </p>
             </div>
             <div className="flex items-center gap-2">
