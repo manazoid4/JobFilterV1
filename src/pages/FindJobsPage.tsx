@@ -27,6 +27,17 @@ const SHOW_FILL_MY_WEEK = false;
 
 const trades: Trade[] = ['electrical', 'plumbing', 'roofing', 'building', 'carpentry', 'painting', 'hvac', 'landscaping'];
 
+const TRADE_SPECIFIC_SIGNALS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'SOLAR PV', 'SOLAR PANEL', 'DISTRIBUTION BOARD', 'LIGHTING UPGRADE', 'ELECTRIC VEHICLE'],
+  plumbing: ['BOILER', 'BATHROOM', 'HEAT PUMP', 'KITCHEN', 'CENTRAL HEATING', 'HOT WATER', 'DRAINAGE', 'PIPEWORK', 'WET ROOM', 'SHOWER'],
+  roofing: ['FLAT ROOF', 'PITCHED ROOF', 'GUTTERING', 'ROOF TILES', 'FELT', 'LEADWORK', 'SKYLIGHT', 'FASCIA', 'SOFFIT', 'CHIMNEY'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'CONSERVATORY', 'GARAGE CONVERSION', 'REFURBISHMENT', 'BRICKWORK', 'PLASTERING', 'GROUNDWORK', 'UNDERPINNING'],
+  painting: ['DECORATING', 'PAINTING', 'EXTERIOR PAINT', 'INTERIOR DECOR', 'WALLPAPER', 'RENDERING', 'GLOSS WORK'],
+  hvac: ['BOILER', 'HEAT PUMP', 'VENTILATION', 'INSULATION', 'AIR CONDITIONING', 'UNDERFLOOR HEATING', 'HEATING SYSTEM', 'HVAC', 'RETROFIT'],
+  landscaping: ['DRIVEWAY', 'FENCING', 'PATIO', 'DRAINAGE', 'GROUNDWORK', 'TURFING', 'DECKING', 'LANDSCAPING', 'GARDEN WALL'],
+  carpentry: ['WINDOWS', 'DOORS', 'STAIRCASE', 'KITCHEN FIT', 'JOINERY', 'FLOORING', 'WARDROBE', 'TIMBER FRAME', 'SASH WINDOW'],
+};
+
 const RADIUS_OPTIONS = [5, 10, 15, 25, 50];
 type ScanMode = 'all' | 'start_now';
 
@@ -727,7 +738,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} activeTrade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +873,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} activeTrade={trade} />
             ))}
           </div>
         )}
@@ -915,7 +926,7 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+function parseTradeReasons(raw: string[], activeTrade?: string, leadTitle?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -946,6 +957,14 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     if (intent) {
       intent[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 2).forEach(k => out.push({ label: k, highlight: false }));
       continue;
+    }
+  }
+  if (out.length === 0 && leadTitle && activeTrade) {
+    const keywords = TRADE_SPECIFIC_SIGNALS[activeTrade] ?? [];
+    const titleUpper = leadTitle.toUpperCase();
+    const matched = keywords.filter(kw => titleUpper.includes(kw)).slice(0, 3);
+    if (matched.length > 0) {
+      return matched.map((label, i) => ({ label, highlight: i === 0 }));
     }
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
@@ -1140,9 +1159,9 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, activeTrade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; activeTrade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, activeTrade, lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
