@@ -101,10 +101,10 @@ export function SignupPage() {
   return (
     <main className="page-shell grid gap-6 py-10">
       <section className="ops-panel bg-[var(--ink)] p-8 text-white">
-        <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
-        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
+        <p className="micro-label text-[var(--yellow)]">ONE STEP AWAY FROM YOUR PATCH</p>
+        <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">LOCK YOUR TRADE. LOCK YOUR PATCH.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
+          {planLabel}. 90 seconds to set up. Gold leads for your trade and area from day one — before Checkatrade, Bark, or MyBuilder list the same job. No card until you confirm your email.
         </p>
       </section>
 
