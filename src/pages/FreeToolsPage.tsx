@@ -71,7 +71,7 @@ export function FreeToolsPage() {
         <p className="micro-label text-[var(--yellow)]">FREE TOOLS — NO LOGIN</p>
         <h1 className="headline mt-4 text-4xl leading-none sm:text-5xl md:text-7xl">USEFUL BEFORE YOU PAY.</h1>
         <p className="mt-4 max-w-2xl text-lg font-bold text-white/90">
-          Price cleaner. Spot time-wasters. Protect your week. Checkatrade, Bark, and MyBuilder charge for these — we give them away. Leads are the paid part.
+          Price cleaner. Spot time-wasters. Protect your margin. Free calculators for UK tradesmen — no login, no signup, no cost. The public tender qualification is the paid part.
         </p>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <div className="inline-flex items-center gap-2 border-2 border-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--yellow)]">
@@ -246,13 +246,12 @@ export function FreeToolsPage() {
                 ['Tyre-Kicker lead scorer', '✓', '✓'],
                 ['Travel Cost calculator', '✓', '✓'],
                 ['Time-Waster cost', '✓', '✓'],
-                ['Smart Quote starter', 'Preview', 'Full version'],
-                ['Live lead scanner', '3 free/wk', '✓'],
-                ['WhatsApp lead alerts', '', '✓'],
-                ['Saved leads', '', '✓'],
-                ['Full lead details (buyer, deadline, score)', '', '✓'],
-                ['Vantage bid decks', '', '✓'],
-                ['Vicinity proof generator', '', '✓'],
+                ['Smart Quote starter', '✓', '✓'],
+                ['FTS opportunity scan', '3 free/wk', 'Unlimited'],
+                ['Firm-aware qualification (BID/WATCH/SKIP)', '—', '✓'],
+                ['Evidence and requirement gaps shown', '—', '✓'],
+                ['Outcome tracking', '—', '✓'],
+                ['Buyer, deadline and official source link', '—', '✓'],
               ].map(([feature, free, paid], i) => (
                 <tr key={i} className="border-b border-[var(--line)]/30">
                   <td className="py-2.5 text-[var(--ink)]">{feature}</td>
@@ -268,7 +267,7 @@ export function FreeToolsPage() {
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN MY AREA FREE →</Link>
               <span className="text-xs font-black text-[var(--muted)] uppercase">No credit card required</span>
             </div>
-            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO →</Link>
+            <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">SEE PILOT PRICING — £39/MO →</Link>
           </div>
       </section>
 
@@ -469,7 +468,7 @@ function TyreKickerTool() {
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
         <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FOR REAL LEADS →</Link>
-        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">LOCK MY PATCH — £39/MO →</Link>
+        <Link className="jf-button bg-[var(--navy)] text-white" href="/pricing">SEE PILOT PRICING — £39/MO →</Link>
       </div>
     </section>
   );
@@ -522,7 +521,7 @@ function TimeWasterTool() {
         <NumberField label="Bad visits/week" value={badVisits} onChange={setBadVisits} />
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">STOP THE BLEED — FROM £39/MO →</Link>
+        <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/pricing">SEE PILOT PRICING — FROM £39/MO →</Link>
       </div>
       <p className="mt-3 text-sm font-black text-[var(--muted)] uppercase">30-DAY MONEY-BACK GUARANTEE — One job worth chasing or we refund every penny. No quibbles.</p>
     </section>

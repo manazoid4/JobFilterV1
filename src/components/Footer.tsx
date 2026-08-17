@@ -10,12 +10,12 @@ export function Footer() {
         {/* CTA bar */}
         <div className="mb-8 md:mb-12 grid gap-4 md:gap-6 md:grid-cols-[1fr_auto] md:items-center">
           <div>
-            <p className="micro-label text-[var(--yellow)]">READY?</p>
-            <p className="headline mt-2 text-3xl sm:text-4xl">START FILTERING TODAY. FREE SCAN. NO SIGNUP.</p>
+            <p className="micro-label text-[var(--yellow)]">START HERE</p>
+            <p className="headline mt-2 text-3xl sm:text-4xl">CHECK THE CURRENT FTS FEED. FREE. NO CARD NEEDED.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SCAN MY AREA FREE →</Link>
-            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">CHECK FTS FREE →</Link>
+            <Link href="/pricing" className="jf-button bg-white text-[var(--ink)]">SEE PILOT PRICING →</Link>
           </div>
         </div>
 
@@ -28,13 +28,11 @@ export function Footer() {
           <div>
             <p className="micro-label text-[var(--yellow)] mb-4">FIND WORK</p>
             <div className="grid gap-1.5 md:gap-2.5 text-xs md:text-sm font-black uppercase text-white/90">
-              <Link href="/find-jobs" className="hover:text-[var(--yellow)]">Scan My Area</Link>
+              <Link href="/find-jobs" className="hover:text-[var(--yellow)]">Find Opportunities</Link>
               <Link href="/microsite" className="hover:text-[var(--yellow)]">Free Trade Page</Link>
-              <Link href="/signals" className="hover:text-[var(--yellow)]">Live Signals</Link>
-              <Link href="/epc" className="hover:text-[var(--yellow)]">Retrofit Leads</Link>
               <Link href="/free-tools" className="hover:text-[var(--yellow)]">Free Tools</Link>
-              <Link href="/for-your-trade" className="hover:text-[var(--yellow)]">By Trade</Link>
-              <Link href="/blueprint" className="hover:text-[var(--yellow)]">How It Works</Link>
+              <Link href="/signals" className="hover:text-[var(--yellow)]">Signals</Link>
+              <Link href="/methodology" className="hover:text-[var(--yellow)]">How It Works</Link>
               <Link href="/pricing" className="hover:text-[var(--yellow)]">Pricing</Link>
             </div>
           </div>
@@ -57,9 +55,9 @@ export function Footer() {
               Not a London startup guessing. Built by people who know how trades work.
             </p>
             <div className="mt-4 grid gap-2 text-xs font-black text-white/85">
-              <p>Local knowledge baked into every signal score.</p>
-              <p>Delivery setup is checked before paid activation.</p>
-              <p>Pilot price: £39/month after coverage review.</p>
+              <p>Public Works Qualification — not a domestic lead directory.</p>
+              <p>Coverage and firm fit checked before paid activation.</p>
+              <p>Pilot: £39/month. No contract. Cancel anytime.</p>
             </div>
             <div className="mt-4 border-2 border-[var(--green)]/40 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)]">
               30-DAY MONEY-BACK GUARANTEE
