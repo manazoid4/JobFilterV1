@@ -15,10 +15,10 @@ const planBullets = [
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Are the public tenders free?', 'Yes. Official public tender notices, search and alerts are free. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome tracking.'],
+  ['Who is JobFilter for?', '5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades, and not a shared-lead auction like Checkatrade, MyBuilder or Bark.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Can I check coverage before paying?', 'Yes — no credit card required for the free scan. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
 ];
 
 export function PricingPage() {
@@ -43,14 +43,14 @@ export function PricingPage() {
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          For 5–25-person contractors evaluating public works. JobFilter turns official tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions — no shared auction, no five-trade blast.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CREDIT CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Public tenders are free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Current results can be sparse or empty — you'll see it as it is.</p>
         <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
       </section>
 
@@ -59,8 +59,8 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
-          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
+          items={['Current official tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
+          cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CREDIT CARD REQUIRED →</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
@@ -143,10 +143,10 @@ export function PricingPage() {
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CREDIT CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow — not for another shared-lead auction.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required for the free current-coverage check.</p>
       </section>
     </main>
   );

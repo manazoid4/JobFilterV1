@@ -661,6 +661,7 @@ export function FindJobsPage() {
           {result.count === 0 ? (
             <EmptyScanReport
               trade={trade}
+              postcode={postcode}
               radiusMiles={radiusMiles}
               result={result}
               lastUpdated={lastUpdated}
@@ -1266,6 +1267,22 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
+        {parsedReasons.some(r => r.highlight) && (
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] font-black uppercase tracking-widest text-[var(--muted)]">FIT FOR YOUR TRADE:</span>
+            {parsedReasons
+              .filter(r => r.highlight)
+              .slice(0, 3)
+              .map((r, i) => (
+                <span
+                  key={i}
+                  className="inline-flex items-center border-2 border-[var(--ink)] bg-[var(--yellow)] px-2 py-0.5 text-[10px] font-black uppercase text-[var(--ink)]"
+                >
+                  {r.label.replace(/ — YOUR TRADE$/, '')}
+                </span>
+              ))}
+          </div>
+        )}
         {!OPEN_ACCESS && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
@@ -1526,8 +1543,9 @@ function CompaniesHouseSourceBadge({ title }: { title: string }) {
   );
 }
 
-function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
+function EmptyScanReport({ trade, postcode, radiusMiles, result, lastUpdated, onWiden }: {
   trade: Trade;
+  postcode: string;
   radiusMiles: number;
   result: LeadSearchResponse;
   lastUpdated: string;
@@ -1565,11 +1583,8 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
-        </Link>
+      <div className="mt-6">
+        <AlertQuickSetup trade={trade} postcode={postcode} />
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>

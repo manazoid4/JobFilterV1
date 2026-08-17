@@ -5,7 +5,7 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
+  'Official public tenders — free and public',
   'Firm-aware evidence and requirement checks',
   'BID, WATCH, SUBCONTRACT or SKIP',
   'No verified fit means an honest empty result',
@@ -25,7 +25,7 @@ const decisionChecks = [
   ['Bid or subcontract route', 'NEXT ACTION', '04'],
 ] as const;
 
-const trustedCities = ['Find a Tender', 'Official buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Official source link'];
+const trustedCities = ['Official source', 'Named buyer', 'CPV trade codes', 'Delivery evidence', 'Published deadline', 'Source link'];
 
 function DecisionBadge({ decision }: { decision: string }) {
   return (
@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              JobFilter scans current official tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Public tenders are free. Every result remains a public opportunity that other suppliers may pursue — no shared auction, no five-trade blast.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -78,7 +78,7 @@ export function HomePage() {
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)] text-lg px-8 py-4" href="/find-jobs">
-                SCAN FREE — NO CARD NEEDED
+                SCAN FREE — NO CREDIT CARD REQUIRED
               </Link>
               <div className="flex flex-wrap gap-4">
                 <Link className="text-sm font-black text-white/80 underline underline-offset-2 hover:text-[var(--yellow)]" href="/methodology">
@@ -148,6 +148,32 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* ── COMPETITOR CONTRAST STRIP ─────────────────── */}
+      <section className="border-b-4 border-[var(--line)] bg-white">
+        <div className="page-shell py-10">
+          <p className="micro-label text-[var(--orange)]">WHY JOBFILTER — VS. THE ALTERNATIVES</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">GOLD LEADS ARE CONTROLLED BY TRADE, PATCH, AND TIMING — NO SHARED AUCTION, NO FIVE-TRADE BLAST.</h2>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            {[
+              { name: 'Checkatrade', pain: 'Directory subscription + shared homeowner leads.', href: '/vs/checkatrade' },
+              { name: 'MyBuilder', pain: 'Buy credits to unlock jobs already shown to five other trades.', href: '/vs/mybuilder' },
+              { name: 'Bark', pain: 'Pay-per-lead auctions that quote you before the customer replies.', href: '/vs/bark' },
+            ].map(({ name, pain, href }) => (
+              <Link
+                key={name}
+                href={href}
+                className="jf-box block bg-[var(--paper)] p-4 transition-colors hover:border-[var(--yellow)]"
+              >
+                <p className="micro-label text-[var(--muted)]">VS.</p>
+                <p className="headline mt-2 text-2xl leading-none text-[var(--ink)]">{name}</p>
+                <p className="mt-2 text-sm font-black text-[var(--muted)]">{pain}</p>
+                <p className="mt-3 text-xs font-black uppercase tracking-wider text-[var(--ink)]">SEE THE DIFFERENCE →</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── NEW: FREE TRADE PAGE LAUNCH ───────────────── */}
       <section className="border-b-4 border-[var(--line)] bg-[var(--navy)] text-white">
         <div className="page-shell grid gap-5 py-8 md:grid-cols-[1fr_auto] md:items-center">
@@ -178,7 +204,7 @@ export function HomePage() {
               </span>
             ))}
           </div>
-          <p className="mt-4 text-sm font-bold text-[var(--muted)]">UK-wide coverage depends on what buyers publish in the current Find a Tender feed.</p>
+          <p className="mt-4 text-sm font-bold text-[var(--muted)]">UK-wide coverage depends on what buyers publish in the current official tender feed.</p>
         </div>
       </section>
 
@@ -231,7 +257,7 @@ export function HomePage() {
                 SEE THE METHOD →
               </Link>
               <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">
-                SCAN FREE — NO CARD NEEDED
+                SCAN FREE — NO CREDIT CARD REQUIRED
               </Link>
             </div>
           </div>
@@ -318,10 +344,10 @@ export function HomePage() {
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE FIRM PROFILE.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
             </h2>
-            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Find a Tender is a free public source. JobFilter compares current notices with your firm before you decide where bid time belongs.</p>
+            <p className="mt-3 text-lg font-bold text-white/70 max-w-lg">Official public tenders are a free source. JobFilter compares current notices with your firm before you decide where bid time belongs.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
-                ['Public source', 'Every opportunity remains available through its official Find a Tender route.'],
+                ['Public source', 'Every opportunity stays visible through its own official route.'],
                 ['No fake results', 'Internal samples are blocked from live scans. Weak evidence can produce an honest empty result.'],
                 ['Decision first', 'Review fit, evidence and gaps before choosing BID, WATCH, SUBCONTRACT or SKIP.'],
               ].map(([title, body]) => (
