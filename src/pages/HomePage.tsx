@@ -91,7 +91,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Scan the current feed before deciding whether the coverage fits your firm.
+              No card needed. Check what&apos;s live near you before you commit a penny.
             </p>
           </div>
 
@@ -313,7 +313,7 @@ export function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 border-2 border-[var(--orange)] bg-[var(--orange)]/15 px-3 py-1.5">
               <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--orange)]" />
-              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Coverage-first activation</span>
+              <span className="font-mono text-xs font-black uppercase text-[var(--orange)]">Check before you commit</span>
             </div>
             <h2 className="headline mt-5 text-5xl leading-none md:text-7xl">
               ONE FIRM PROFILE.<br />CLEAR EVIDENCE.<br />BETTER BID DECISIONS.
@@ -341,7 +341,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No fabricated live jobs and no promised volume. Pilot activation follows a real source-coverage and firm-fit check.
+              No fake jobs, no promised volume. A free scan shows what&apos;s live in your area before you commit to a subscription.
             </p>
             <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               CHECK PILOT FIT & PRICING →
