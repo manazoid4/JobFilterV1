@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : '3 scans done this week. Scanning is still free — buyer and deadline details need Full Access.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -789,7 +789,7 @@ export function FindJobsPage() {
                     <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                    Full Access shows who to call, the deadline, and how to respond officially. These are public tenders — other firms may bid too. You pay for the qualification, not exclusive access.
                   </p>
                 </section>
               )}
