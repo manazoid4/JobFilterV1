@@ -301,14 +301,20 @@ export function LeadListPage() {
 
                 {/* Actions */}
                 <div className="flex flex-col gap-3 p-5 sm:flex-row">
-                  <a
-                    href={`https://wa.me/${lead.phone ? lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '') : ''}?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="jf-button flex-1 bg-[var(--yellow)] text-[var(--ink)]"
-                  >
-                    {lead.phone ? 'OPEN WHATSAPP CHAT' : getWaButtonLabel(chaseStageMap.get(lead.id))}
-                  </a>
+                  {lead.phone ? (
+                    <a
+                      href={`https://wa.me/${lead.phone.replace(/\D/g, '').replace(/^0/, '44').replace(/^\+/, '')}?text=${encodeURIComponent(fillTemplate(getWaTemplate(chaseStageMap.get(lead.id)), { job_type: lead.jobType, area: lead.area }))}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="jf-button flex-1 bg-[var(--yellow)] text-[var(--ink)]"
+                    >
+                      OPEN WHATSAPP CHAT
+                    </a>
+                  ) : (
+                    <Link href="/pricing" className="jf-button flex-1 bg-[var(--yellow)] text-[var(--ink)]">
+                      GET BUYER NUMBER — £39/MO →
+                    </Link>
+                  )}
                   <Link href={`/leads/${lead.id}`} className="jf-button shrink-0 bg-[var(--navy)] text-white">
                     VIEW →
                   </Link>
