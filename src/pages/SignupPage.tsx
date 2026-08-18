@@ -92,7 +92,7 @@ export function SignupPage() {
           <p className="mt-3 max-w-2xl text-sm font-bold text-[var(--ink)]/70">
             Check your spam folder if you don&apos;t see it within 2 minutes.
           </p>
-          <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">BROWSE LIVE LEADS →</Link>
+          <Link href="/find-jobs" className="jf-button mt-6 inline-block bg-[var(--ink)] text-white">SCAN CURRENT TENDERS →</Link>
         </section>
       </main>
     );
@@ -104,7 +104,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Gold leads for your trade and patch start coming through from day one.
+          {planLabel}. Fill in your details below and confirm your email. You'll then run firm-aware qualification against current Find a Tender notices — coverage depends on what buyers have published for your trade and region.
         </p>
       </section>
 
