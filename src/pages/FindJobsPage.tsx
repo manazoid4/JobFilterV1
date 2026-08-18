@@ -426,8 +426,8 @@ export function FindJobsPage() {
 
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
-        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
+        <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS — NO CREDIT CARD REQUIRED</p>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND PUBLIC WORK WORTH BIDDING ON</h1>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -778,19 +778,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">BUYER DETAILS LOCKED — FULL ACCESS UNLOCKS THEM</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
-                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — WHO&apos;S THE BUYER? WHAT&apos;S THE DEADLINE?`
+                      : 'THESE LEADS HAVE BUYERS. SEE WHO TO CONTACT BEFORE ANOTHER CONTRACTOR DOES.'}
                   </h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
-                  </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/80">
+                    Full access shows: buyer name, published value where available, submission deadline, and the official response route. One job won at £2,000+ covers 4 years at £39/mo.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK BUYER DETAILS — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan · public tender · not exclusive</span>
+                  </div>
                 </section>
               )}
 
@@ -890,10 +890,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">3 FREE SCANS — NO CARD</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">FIND OUT IF THERE&apos;S PUBLIC WORK NEAR YOU RIGHT NOW.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode. Pick your trade. 10 seconds to see what&apos;s live in your patch today.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
