@@ -7,7 +7,7 @@ const tips = [
   ['Charge for detailed site surveys', "A paid survey weeds out tyre-kickers instantly. Credit it against the job if they proceed. If they won't pay £50 for a proper look, they won't pay your rate either."],
   ['Never quote without photos', "Photos catch surprises before they eat your margin. If they can't send three photos, the job isn't ready. Let someone else find that out the expensive way."],
   ['Quote the risk, not just the job', "If you can't see behind the wall, price what you can see and write a variation clause. Don't absorb unknowns into a fixed price."],
-  ['Avoid shared lead sites', 'If five tradesmen get the same lead, the buyer wins on price and you lose on margin. Official sources do not share. Job boards do.'],
+  ['Avoid Checkatrade, Bark, and MyBuilder for new work', 'If five tradesmen get the same lead, the buyer wins on price and you lose on margin. Bark sells the same enquiry to four competitors. Checkatrade charges £180/month for shared auctions. Official sources — planning, tenders, compliance — do not share. Find those instead.'],
   ['Send a WhatsApp confirmation after every call', "One message: job type, date agreed, what's included. No dispute later. Takes 30 seconds."],
   ['Only do urgent jobs on a written basis', 'Emergency callouts are where margins get squeezed hardest. Set your emergency rate, put it in writing before you arrive, stick to it.'],
   ['Follow up every quote within 48 hours', "Auto-chase on quotes lifts close rate by 20-30%. Most tradesmen don't follow up at all. One WhatsApp message beats silence every time."],
@@ -23,7 +23,7 @@ export function TipsPage() {
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">TIPS FOR TRADESMEN</p>
         <h1 className="headline mt-4 text-5xl leading-none sm:text-6xl md:text-8xl">KEEP YOUR EVENINGS.</h1>
-        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers.</p>
+        <p className="mt-4 max-w-xl text-lg font-black text-[var(--muted)]">Practical rules for avoiding tyre-kickers, price-shoppers, and shared-lead auctions.</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2">
         {tips.map(([title, body]) => (

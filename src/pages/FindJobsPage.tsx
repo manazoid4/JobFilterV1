@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : "3 scans used — upgrade to see who to call and their direct details."}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -1566,10 +1566,11 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Nothing live right now doesn&apos;t mean nothing coming. Set up WhatsApp alerts — next match lands straight on your phone. No logging in.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
+          SET UP WHATSAPP ALERTS — £39/MO →
         </Link>
+        <p className="mt-2 text-xs font-black text-[var(--navy)]/60">No credit card for the free scan.</p>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <button className="jf-button bg-[var(--yellow)] text-[var(--ink)]" onClick={() => onWiden(nextRadius)}>

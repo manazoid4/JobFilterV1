@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useState, type MouseEvent } from 'react';
+import { useRef, useState, type MouseEvent, type FormEvent } from 'react';
 
 import { Clock } from 'lucide-react';
 import type { DecisionFlag } from '../lib/types';
@@ -50,13 +50,24 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
   });
   const [whatsappSending, setWhatsappSending] = useState(false);
   const [whatsappDone, setWhatsappDone] = useState(false);
+  const [whatsappOpen, setWhatsappOpen] = useState(false);
+  const [whatsappPhone, setWhatsappPhone] = useState('');
+  const [whatsappError, setWhatsappError] = useState('');
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  async function handleSendWhatsApp(event: MouseEvent) {
+  function handleWhatsAppButtonClick(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
-    const phone = prompt('Enter your WhatsApp number (e.g. +447700900000):');
+    setWhatsappOpen(true);
+    setTimeout(() => phoneInputRef.current?.focus(), 50);
+  }
+
+  async function handleSendWhatsApp(event: FormEvent) {
+    event.preventDefault();
+    const phone = whatsappPhone.trim();
     if (!phone) return;
     setWhatsappSending(true);
+    setWhatsappError('');
     try {
       const res = await fetch('/api/leads/whatsapp', {
         method: 'POST',
@@ -66,11 +77,12 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
       const data = await res.json();
       if (data.ok) {
         setWhatsappDone(true);
+        setWhatsappOpen(false);
       } else {
-        alert(data.error ?? 'WhatsApp delivery failed');
+        setWhatsappError(data.error ?? 'WhatsApp delivery failed');
       }
     } catch {
-      alert('WhatsApp delivery failed');
+      setWhatsappError('WhatsApp delivery failed — check your number and try again');
     } finally {
       setWhatsappSending(false);
     }
@@ -128,15 +140,48 @@ export function LeadCard({ id, title, score, tags, cta = 'OPEN', to, href, meta,
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <span className="jf-button bg-[var(--navy)] text-white">{cta}</span>
-          {showWhatsApp && (
+          {showWhatsApp && !whatsappOpen && (
             <button
               type="button"
-              onClick={handleSendWhatsApp}
-              disabled={whatsappSending || whatsappDone}
+              onClick={handleWhatsAppButtonClick}
+              disabled={whatsappDone}
               className="border-2 border-[var(--green)] bg-[var(--green)]/10 px-3 py-1.5 text-xs font-black uppercase text-[var(--green)] min-h-[44px] hover:bg-[var(--green)]/20 disabled:opacity-50"
             >
-              {whatsappDone ? 'SENT ✓' : whatsappSending ? 'SENDING…' : 'SEND TO WHATSAPP'}
+              {whatsappDone ? 'SENT ✓' : 'SEND TO WHATSAPP'}
             </button>
+          )}
+          {showWhatsApp && whatsappOpen && (
+            <form
+              onSubmit={handleSendWhatsApp}
+              onClick={(e) => e.stopPropagation()}
+              className="mt-1 flex w-full flex-col gap-2"
+            >
+              <input
+                ref={phoneInputRef}
+                type="tel"
+                value={whatsappPhone}
+                onChange={(e) => setWhatsappPhone(e.target.value)}
+                placeholder="+447700900000"
+                className="border-2 border-[var(--line)] px-3 py-2 text-sm font-black text-[var(--ink)] focus:border-[var(--green)] focus:outline-none w-full"
+              />
+              {whatsappError && <p className="text-xs font-black text-[var(--orange)]">{whatsappError}</p>}
+              <div className="flex gap-2">
+                <button
+                  type="submit"
+                  disabled={whatsappSending}
+                  className="border-2 border-[var(--green)] bg-[var(--green)] px-3 py-1.5 text-xs font-black uppercase text-white disabled:opacity-50"
+                >
+                  {whatsappSending ? 'SENDING…' : 'SEND →'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setWhatsappOpen(false); setWhatsappError(''); }}
+                  className="border-2 border-[var(--line)] px-3 py-1.5 text-xs font-black uppercase text-[var(--muted)]"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
           )}
         </div>
         {showStatus && id && (
