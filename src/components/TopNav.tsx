@@ -69,7 +69,7 @@ export function TopNav() {
                 Sign in
               </Link>
               <Link href="/find-jobs" className="jf-button bg-[var(--yellow)] px-4 text-sm text-[var(--ink)]">
-                CHECK FTS FREE
+                SCAN FREE — NO CARD
               </Link>
             </>
           )}
