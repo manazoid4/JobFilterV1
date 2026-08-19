@@ -596,14 +596,22 @@ export function LeadDetailPage() {
         {filledMessage && (
           <div className="mt-3 border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
             <p className="text-sm font-bold text-[var(--ink)] leading-relaxed whitespace-pre-wrap">{filledMessage}</p>
-            <a
-              className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
-              href={`https://wa.me/${waPhone ?? ''}?text=${encodeURIComponent(filledMessage)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {waPhone ? 'OPEN WHATSAPP CHAT →' : 'SEND WHATSAPP'}
-            </a>
+            {waPhone ? (
+              <a
+                className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]"
+                href={`https://wa.me/${waPhone}?text=${encodeURIComponent(filledMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OPEN WHATSAPP CHAT →
+              </a>
+            ) : (
+              <div className="mt-4 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-3">
+                <p className="text-sm font-black text-[var(--ink)]">Buyer phone number locked — Full Access required to send directly.</p>
+                <Link href="/pricing" className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)]">UNLOCK BUYER CONTACT — £39/MO →</Link>
+                <p className="mt-2 text-xs font-black text-[var(--muted)]">No credit card required to browse · cancel anytime</p>
+              </div>
+            )}
           </div>
         )}
         <div className="mt-4 border-t-2 border-[var(--line)] pt-4">
