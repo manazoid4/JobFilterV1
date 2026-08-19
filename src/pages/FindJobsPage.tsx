@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -862,7 +862,7 @@ export function FindJobsPage() {
               </p>
             </div>
             {fillWeekResult.leads.map((lead) => (
-              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+              <LeadResultCard key={`fw-${lead.id}`} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} trade={trade} />
             ))}
           </div>
         )}
@@ -890,10 +890,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">YOUR PATCH. YOUR TRADE. RIGHT NOW.</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">FIND JOBS WORTH QUOTING — BEFORE CHECKATRADE LISTS THEM.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Enter your postcode, tap your trade. Results in under 10 seconds. No credit card, no contract.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
@@ -1140,7 +1140,81 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+const TRADE_JOB_HINTS: Record<string, Array<{ keywords: string[]; hint: string }>> = {
+  electrical: [
+    { keywords: ['ev charger', 'electric vehicle', 'ev charging', 'ev point'], hint: 'EV CHARGER — QUOTE PARTS & INSTALL' },
+    { keywords: ['rewire', 'rewiring', 're-wire', 'full re-wire'], hint: 'FULL REWIRE — CHECK CONSUMER UNIT TOO' },
+    { keywords: ['consumer unit', 'fuse board', 'fuse box', 'cu upgrade'], hint: 'CONSUMER UNIT UPGRADE' },
+    { keywords: ['eicr', 'electrical inspection certificate', 'electrical inspection'], hint: 'EICR — QUICK TURNAROUND JOB' },
+    { keywords: ['solar pv', 'solar panel', 'battery storage', 'inverter'], hint: 'SOLAR/BATTERY — HIGHER VALUE INSTALL' },
+    { keywords: ['fire alarm', 'smoke detector', 'addressable alarm'], hint: 'FIRE ALARM — COMMERCIAL LIKELY' },
+    { keywords: ['data cabling', 'network cabling', 'cat6'], hint: 'DATA CABLING — QUOTE FULL RUN' },
+  ],
+  plumbing: [
+    { keywords: ['boiler replacement', 'new boiler', 'boiler install', 'combi boiler'], hint: 'BOILER SWAP — SUPPLY & FIT' },
+    { keywords: ['bathroom', 'bathroom suite', 'ensuite', 'wetroom'], hint: 'BATHROOM FIT-OUT — QUOTE IN FULL' },
+    { keywords: ['central heating', 'heating system', 'radiator'], hint: 'HEATING SYSTEM — CHECK FULL SCOPE' },
+    { keywords: ['heat pump', 'air source heat pump', 'ground source'], hint: 'HEAT PUMP — HIGHER VALUE INSTALL' },
+    { keywords: ['hot water', 'unvented cylinder', 'water heater'], hint: 'HOT WATER SYSTEM — PART L JOB' },
+    { keywords: ['gas safe', 'gas installation', 'gas pipework'], hint: 'GAS WORK — NEEDS GAS SAFE CERT' },
+    { keywords: ['kitchen plumbing', 'kitchen fit'], hint: 'KITCHEN — PLUMBING PACKAGE JOB' },
+  ],
+  roofing: [
+    { keywords: ['flat roof', 'felt roof', 'epdm roof', 'grp roof'], hint: 'FLAT ROOF — QUOTE STRIP & RELAY' },
+    { keywords: ['slate', 'slating', 'slate repair'], hint: 'SLATE REPAIR — CHECK BATTENS TOO' },
+    { keywords: ['guttering', 'gutter repair', 'fascia', 'soffit'], hint: 'GUTTERS/FASCIAS — UPSELL OPPORTUNITY' },
+    { keywords: ['roof leak', 'roof repair'], hint: 'LEAK REPAIR — INSPECT FULL ROOF' },
+    { keywords: ['chimney', 'flashing', 'chimney stack'], hint: 'CHIMNEY/FLASHING — INSPECT NEARBY TILES' },
+  ],
+  building: [
+    { keywords: ['single storey extension', 'rear extension', 'side extension'], hint: 'EXTENSION — QUOTE FOUNDATIONS TO FINISH' },
+    { keywords: ['loft conversion', 'loft room', 'dormer'], hint: 'LOFT CONVERSION — HIGH VALUE JOB' },
+    { keywords: ['garage conversion', 'garage to room'], hint: 'GARAGE CONVERSION — GOOD MARGIN JOB' },
+    { keywords: ['refurbishment', 'full refurb', 'renovation'], hint: 'REFURB — FULL SCOPE JOB' },
+    { keywords: ['basement conversion', 'underpinning'], hint: 'BASEMENT — SPECIALIST JOB, HIGH MARGIN' },
+    { keywords: ['knock through', 'wall removal', 'steel beam', 'rsj'], hint: 'STRUCTURAL WORK — CHECK BUILDING REGS' },
+  ],
+  hvac: [
+    { keywords: ['air source heat pump', 'ground source heat pump', 'ashp'], hint: 'HEAT PUMP — BUS GRANT ELIGIBLE' },
+    { keywords: ['commercial boiler', 'boiler service'], hint: 'COMMERCIAL BOILER — SERVICE CONTRACT?' },
+    { keywords: ['mvhr', 'mechanical ventilation', 'heat recovery'], hint: 'MVHR INSTALL — BUILDING REGS JOB' },
+    { keywords: ['air conditioning', 'ac system', 'split unit'], hint: 'AC SYSTEM — QUOTE FULL INSTALL' },
+    { keywords: ['underfloor heating', 'ufh'], hint: 'UNDERFLOOR HEATING — QUOTE LOOPS + MANIFOLD' },
+  ],
+  carpentry: [
+    { keywords: ['bespoke joinery', 'fitted wardrobes', 'fitted furniture'], hint: 'BESPOKE JOINERY — HIGH MARGIN JOB' },
+    { keywords: ['hardwood flooring', 'engineered floor', 'wood floor'], hint: 'FLOORING — QUOTE SUPPLY & FIT' },
+    { keywords: ['door frame', 'door hanging', 'internal doors'], hint: 'DOORS — QUOTE HANGING & TRIM' },
+    { keywords: ['staircase', 'stair renovation', 'stair balustrade'], hint: 'STAIRS — QUOTE BALUSTRADE TOO' },
+    { keywords: ['sash window', 'window frame repair'], hint: 'WINDOWS — CHECK PLANNING REGS' },
+  ],
+  painting: [
+    { keywords: ['full redecorate', 'full decoration', 'full paint'], hint: 'FULL DECORATE — QUOTE ROOM COUNT' },
+    { keywords: ['exterior painting', 'external decoration', 'outside walls'], hint: 'EXTERIOR PAINT — CHECK SURFACE PREP' },
+    { keywords: ['commercial decorating', 'office decoration'], hint: 'COMMERCIAL DECORATE — QUOTE DAYS NOT ROOMS' },
+    { keywords: ['wallpaper', 'wallpapering', 'feature wall'], hint: 'WALLPAPERING — CHECK WALL CONDITION' },
+  ],
+  landscaping: [
+    { keywords: ['patio laying', 'paving', 'block paving'], hint: 'PATIO/PAVING — QUOTE PREP + MATERIALS' },
+    { keywords: ['fence installation', 'fencing', 'gate installation'], hint: 'FENCING — QUOTE POST REPLACE TOO' },
+    { keywords: ['driveway', 'tarmac', 'resin drive'], hint: 'DRIVEWAY — QUOTE BASE COURSE TOO' },
+    { keywords: ['garden design', 'full landscaping'], hint: 'GARDEN — FULL SCOPE JOB' },
+    { keywords: ['decking', 'composite deck'], hint: 'DECKING — QUOTE FRAME & BOARDS' },
+    { keywords: ['soakaway', 'french drain', 'drainage'], hint: 'DRAINAGE — QUOTE GROUNDWORK TOO' },
+  ],
+};
+
+function getTradeInsight(trade: string, lead: Lead): string | null {
+  const hints = TRADE_JOB_HINTS[trade];
+  if (!hints) return null;
+  const haystack = `${lead.title ?? ''} ${lead.description ?? ''} ${lead.trade ?? ''} ${lead.tradeMatch ?? ''}`.toLowerCase();
+  for (const { keywords, hint } of hints) {
+    if (keywords.some((k) => haystack.includes(k))) return hint;
+  }
+  return null;
+}
+
+function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner, trade }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean; trade?: string }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
@@ -1299,7 +1373,12 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
             <Stat key={label} label={label} value={value} />
           ))}
         </div>
-        <div className="mt-4 flex flex-wrap gap-2">
+        {trade && getTradeInsight(trade, lead) && (
+          <p className="mt-3 text-xs font-black uppercase tracking-wide text-[var(--navy)] border-l-4 border-[var(--yellow)] pl-2">
+            {getTradeInsight(trade, lead)}
+          </p>
+        )}
+        <div className="mt-3 flex flex-wrap gap-2">
           {parsedReasons.map((r) => (
             <span
               key={r.label}
@@ -1566,9 +1645,9 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Set a weekly alert and we email you when new jobs appear near your postcode. No missed leads when you are busy on site.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
+          SET UP WEEKLY ALERTS — £39/MO →
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">

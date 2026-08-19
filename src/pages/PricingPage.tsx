@@ -38,20 +38,19 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">PILOT SUBSCRIPTION — £39/MO, PRICE LOCKED</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING DAYS ON TENDERS THAT NEVER FIT YOUR FIRM.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          For 5–25-person contractors tired of bidding blind. JobFilter reads current Find a Tender notices and gives you a BID, WATCH, SUBCONTRACT or SKIP decision — with the evidence to back it.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. You pay for the qualification layer — evidence, fit checks, and the next action.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Check current coverage for your trade and region before you activate. Sparse results are an honest outcome.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -81,6 +80,10 @@ export function PricingPage() {
         <p className="mt-3 max-w-2xl text-lg font-bold text-[var(--muted)]">
           Results depend on what buyers have published for your services and region. Confirm that the evidence and current coverage fit your firm before activation.
         </p>
+        <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-center">
+          <Link className="jf-button bg-[var(--green)] text-white" href="/find-jobs">SCAN FREE → NO CARD NEEDED</Link>
+          <span className="text-sm font-black text-[var(--muted)]">Takes 10 seconds — results are honest even when sparse</span>
+        </div>
       </section>
 
       <section className="ops-panel bg-white p-7">
