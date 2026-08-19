@@ -408,7 +408,6 @@ export function FindJobsPage() {
   }
 
   const goldCount = result?.leads.filter(l => l.score >= 80).length ?? 0;
-  const firstGoldIdx = (!unlimitedTester && !DEV_MODE) ? displayedLeads.findIndex(l => l.score >= 80) : -1;
   const silverCount = result?.leads.filter(l => l.score >= 50 && l.score < 80).length ?? 0;
   const epcCount = result?.leads.filter(l => l.source?.toLowerCase().includes('epc')).length ?? 0;
   const planningCount = result?.leads.filter(l => l.source?.toLowerCase().includes('planning')).length ?? 0;
@@ -504,10 +503,13 @@ export function FindJobsPage() {
               {RADIUS_OPTIONS.map((miles) => <option key={miles} value={miles}>{miles} miles</option>)}
             </select>
           </label>
-          <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
-            <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
-            {loading ? 'SCANNING...' : 'SCAN NOW →'}
-          </button>
+          <div className="self-end grid gap-1">
+            <button type="submit" disabled={loading || fillWeekLoading} className="jf-button bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
+              <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
+              {loading ? 'SCANNING...' : 'SCAN NOW →'}
+            </button>
+            <p className="text-center text-[10px] font-black text-[var(--muted)]">No credit card required</p>
+          </div>
         </form>
 
         {/* Recent Scans */}
@@ -725,22 +727,8 @@ export function FindJobsPage() {
                 </div>
               )}
 
-              {displayedLeads.map((lead, idx) => (
-                <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
-                  {idx === firstGoldIdx && (
-                    <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
-                      <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
-                      <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
-                      </p>
-                      <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
-                      </div>
-                    </div>
-                  )}
-                </React.Fragment>
+              {displayedLeads.map((lead) => (
+                <LeadResultCard key={lead.id} lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
               ))}
 
 
@@ -778,19 +766,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">NO SHARED AUCTION. NO FIVE-TRADE BLAST.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      : 'SEE THE BUYER — KNOW BEFORE YOU QUOTE.'}
                   </h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
-                  </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/70">
+                    Gold leads show the buyer, published value, deadline and official submission route. Controlled by trade, patch and timing — not shared across 5 competing tradespeople like Bark or Checkatrade.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE THE BUYER — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · public opportunity</span>
+                  </div>
                 </section>
               )}
 
@@ -949,6 +937,57 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
   }
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+}
+
+const TRADE_LABEL_MAP: Record<string, string> = {
+  'ev charger': 'EV charger install',
+  'rewire': 'full rewire',
+  'consumer unit': 'consumer unit upgrade',
+  'fuse board': 'fuse board upgrade',
+  'eicr': 'EICR inspection',
+  'solar pv': 'solar PV install',
+  'solar': 'solar install',
+  'fire alarm': 'fire alarm system',
+  'lighting': 'lighting works',
+  'boiler': 'boiler replacement',
+  'bathroom': 'bathroom fit-out',
+  'central heating': 'central heating',
+  'hot water': 'hot water system',
+  'heat pump': 'heat pump install',
+  'flat roof': 'flat roof repair',
+  'roof': 'roofing works',
+  'gutter': 'guttering',
+  'extension': 'extension build',
+  'loft conversion': 'loft conversion',
+  'loft': 'loft works',
+  'kitchen': 'kitchen fit-out',
+  'damp': 'damp treatment',
+  'plaster': 'plastering',
+  'tile': 'tiling',
+  'decorat': 'decorating',
+  'scaffold': 'scaffolding',
+  'hvac': 'HVAC install',
+  'air conditioning': 'air con install',
+  'air source': 'air source heat pump',
+  'landscap': 'landscaping',
+  'paving': 'paving',
+  'driveway': 'driveway work',
+  'carpentry': 'carpentry',
+  'joinery': 'joinery',
+};
+
+function getTradeMatchLine(parsedReasons: Array<{ label: string; highlight: boolean }>): string | null {
+  const highlighted = parsedReasons
+    .filter(r => r.highlight)
+    .map(r => {
+      const clean = r.label.replace(/\s*—\s*YOUR TRADE$/i, '').trim().toLowerCase();
+      for (const [key, label] of Object.entries(TRADE_LABEL_MAP)) {
+        if (clean.includes(key)) return label;
+      }
+      return clean;
+    });
+  if (!highlighted.length) return null;
+  return highlighted.slice(0, 2).join(' + ');
 }
 
 const TITLE_KEYWORDS = [
@@ -1143,6 +1182,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
   const parsedReasons = parseTradeReasons(rawReasons);
+  const tradeMatchLine = getTradeMatchLine(parsedReasons);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
@@ -1266,6 +1306,11 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           </p>
         )}
         <h2 className="mt-3 text-2xl font-black leading-tight">{lead.title}</h2>
+        {tradeMatchLine && (
+          <p className="mt-2 border-l-4 border-[var(--yellow)] pl-3 text-sm font-black text-[var(--ink)]">
+            Your trade: {tradeMatchLine}
+          </p>
+        )}
         {!OPEN_ACCESS && (
           <div className="mt-3 lg:hidden grid gap-1">
             <Link href="/pricing" className="flex items-center justify-center gap-2 border-2 border-[var(--ink)] bg-[var(--yellow)] px-4 py-2 text-sm font-black text-[var(--ink)] uppercase hover:opacity-80 transition">
