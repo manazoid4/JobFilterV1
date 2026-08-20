@@ -923,13 +923,15 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       tradeMatch[1].split(',').map(k => k.trim().toUpperCase()).slice(0, 3).forEach(k => out.push({ label: `${k} — YOUR TRADE`, highlight: true }));
       continue;
     }
+    const tradeMatchTeaser = r.match(/^Trade match teaser: (.+)/);
+    if (tradeMatchTeaser) {
+      out.push({ label: tradeMatchTeaser[1].toUpperCase() + ' — YOUR TRADE', highlight: true });
+      continue;
+    }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      const teaserText = tradeTeaser[1];
-      // Only highlight as "YOUR TRADE" when the teaser came from a confirmed trade keyword,
-      // not from generic signals (commercial project, urgent timeline, paid preview).
-      const isGeneric = /^(commercial job|urgent timeline|paid preview)/i.test(teaserText);
-      out.push({ label: teaserText.toUpperCase() + (isGeneric ? '' : ' — YOUR TRADE'), highlight: !isGeneric });
+      // Related/intent signals — show without YOUR TRADE highlight.
+      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);

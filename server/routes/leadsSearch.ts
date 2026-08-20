@@ -281,7 +281,8 @@ function buildPreviewReasons(lead: Lead): string[] {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
     if (m) {
       const keywords = m[1].split(',').map((k) => k.trim()).slice(0, 2);
-      return keywords.map((k) => `Trade teaser: ${k}`);
+      // "Trade match teaser" signals a confirmed trade keyword — frontend highlights these.
+      return keywords.map((k) => `Trade match teaser: ${k}`);
     }
   }
   const relatedReason = real.find((r) => r.startsWith('Related:'));
@@ -289,6 +290,7 @@ function buildPreviewReasons(lead: Lead): string[] {
     const m = relatedReason.match(/^Related: (.+?) \(/);
     if (m) {
       const k = m[1].split(',')[0].trim();
+      // "Trade teaser" without "match" = related signal, not a confirmed trade keyword.
       return [`Trade teaser: ${k}`];
     }
   }
