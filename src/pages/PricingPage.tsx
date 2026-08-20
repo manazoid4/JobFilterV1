@@ -7,18 +7,18 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
+  'BID, WATCH, SUBCONTRACT or SKIP — one clear decision per opportunity',
+  'Buyer, published value, deadline and official response route in one view',
   'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'Fit check against your trade, region, contract range and delivery model',
+  'Not a shared auction. Not a five-trade blast. You see it, you decide.',
 ];
 
 const objections = [
-  ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['Is Find a Tender free?', 'Yes. Find a Tender notices are free and public. JobFilter charges for firm-aware qualification — it shows the evidence, missing requirements and the official response route so you decide faster.'],
+  ['How is this different from Checkatrade or MyBuilder?', 'Checkatrade and MyBuilder sell domestic lead referrals to multiple trades. JobFilter qualifies public construction tenders from official sources — no shared auction, no five-trade blast.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Can I check coverage before paying?', 'Yes — and you should. Run a free scan against current Find a Tender notices. Coverage varies by trade, region and timing. An empty scan is a valid outcome.'],
 ];
 
 export function PricingPage() {
@@ -38,20 +38,19 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FOUNDER PRICE — LOCKED AT £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING BID TIME ON JOBS THAT DON'T FIT.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          JobFilter qualifies current public construction tenders against your trade, patch and firm size — and shows the buyer, value and official response route. One decision: BID, WATCH, SUBCONTRACT or SKIP.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Not Checkatrade. Not MyBuilder. No shared auction, no domestic referrals — official public tenders only.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Check coverage before paying. An empty scan means no verified match right now — not a broken tool.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -70,7 +69,7 @@ export function PricingPage() {
           body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)]">Coverage and fit check included before activation</p></>}
           order="order-first lg:order-none"
         />
       </section>
@@ -127,7 +126,7 @@ export function PricingPage() {
 
       <section className="ops-panel bg-white p-7">
         <p className="micro-label text-[var(--orange)]">STRAIGHT ANSWERS</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">CLEAR SOURCE. CLEAR FIT. CLEAR NEXT ACTION.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-5xl">QUICK QUESTIONS. STRAIGHT ANSWERS.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           {objections.map(([q, a]) => (
             <article key={q} className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
@@ -139,14 +138,13 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+        <p className="micro-label text-[var(--ink)]">SCAN FREE BEFORE YOU PAY</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">CHECK YOUR PATCH FIRST. PAY ONLY IF IT FITS.</h2>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CREDIT CARD →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">No credit card required for the free scan. Official public tenders only — not a domestic lead marketplace.</p>
       </section>
     </main>
   );

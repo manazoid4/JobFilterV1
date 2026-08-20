@@ -5,10 +5,10 @@ import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, Ch
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Not Checkatrade. Not MyBuilder. Official public tenders only.',
+  'Evidence and requirement checks — buyer, value, deadline, fit',
+  'BID, WATCH, SUBCONTRACT or SKIP — one clear decision',
+  'Empty scan = no verified match. Never a made-up job.',
 ];
 
 const signalRows = [
@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              JobFilter scans current public construction tenders and shows the evidence, missing requirements and next action — BID, WATCH, SUBCONTRACT or SKIP. Not Checkatrade. Not Bark. No shared auction, no domestic referrals. Official verified sources only.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -91,7 +91,7 @@ export function HomePage() {
             </div>
             <p className="mt-3 text-sm font-black text-white/80">
               <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Scan the current feed before deciding whether the coverage fits your firm.
+              No credit card required. Scan the current feed before deciding whether coverage fits your firm.
             </p>
           </div>
 
@@ -124,9 +124,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
-          <span>Qualified by evidence, firm fit, region, value, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Official public tenders — not Checkatrade or MyBuilder</span>
+          <span>Evidence, trade fit, buyer, value and deadline in one view</span>
+          <span>Empty scan = no verified match right now. Never a made-up lead.</span>
         </div>
       </section>
 

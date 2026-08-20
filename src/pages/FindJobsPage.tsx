@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Buyer name and contact details locked — upgrade to see who to call. Scanning remains free, no credit card required.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -531,9 +531,9 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Trade presets — tap to scan by trade once postcode is entered */}
+        {/* Trade presets — shown always pre-scan as entry, post-scan as rescan shortcut */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">{hasScanned ? 'RESCAN A DIFFERENT TRADE' : 'TAP A TRADE TO SCAN INSTANTLY'}</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -925,7 +925,7 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase(), highlight: false });
+      out.push({ label: tradeTeaser[1].toUpperCase() + ' — YOUR TRADE', highlight: true });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
