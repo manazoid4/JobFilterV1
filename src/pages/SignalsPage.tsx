@@ -143,7 +143,7 @@ export function SignalsPage() {
             FILTER THE WORK WORTH CHASING.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Public tender notices qualified for your trade, region and firm size. Current live source: Find a Tender. Additional signal types in development.
+            Public tender notices qualified for your trade and region. Current live source: Find a Tender. Additional signal types in development.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
@@ -208,7 +208,7 @@ export function SignalsPage() {
       <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
           <p className="text-base font-black text-[var(--ink)]">
-            All 10 signals included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
+            FTS qualification included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Additional signal types in development. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
             <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">SCAN FREE →</Link>
@@ -256,9 +256,9 @@ export function SignalsPage() {
           <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">KNOW WHICH JOBS FIT. SKIP THE REST.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
-              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each result includes the official source link, buyer, deadline and your firm\'s fit evidence. No noise — only what matches your trade and region.'],
+              ['STEP 1', 'NOTICE DETECTED', 'A current Find a Tender notice is matched to your trade and delivery region. Contract value, buyer, CPV codes and deadline are extracted.'],
+              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade, region and contract range. Requirements you meet and those you are missing are listed before you spend time on a bid.'],
+              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each qualified result shows your fit against the notice. Buyer, deadline and source link included on the paid plan. No noise — only what matches your trade and region.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
