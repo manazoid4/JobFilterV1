@@ -16,7 +16,7 @@ const signals = [
     source: 'SIGNAL 2 · CONTRACTS',
     name: 'COUNCIL WORK. NO BIDDING WAR.',
     description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
+    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'LIVE TENDER',
     isLive: true,
   },
