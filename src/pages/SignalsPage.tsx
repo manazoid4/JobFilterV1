@@ -138,16 +138,16 @@ export function SignalsPage() {
       {/* 1. Hero */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
+          <p className="micro-label text-[var(--yellow)]">PUBLIC WORKS SIGNALS</p>
           <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            JOBS BEFORE THEY GET POSTED.
+            FILTER THE WORK WORTH CHASING.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
+            Public tender notices qualified for your trade, region and firm size. Current live source: Find a Tender. Additional signal types in development.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">START £39/MO →</Link>
           </div>
           <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. Founder price £39/mo. One job covers 12+ months.</p>
         </div>
@@ -253,12 +253,12 @@ export function SignalsPage() {
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">KNOW WHICH JOBS FIT. SKIP THE REST.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
               ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
-              ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
+              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each result includes the official source link, buyer, deadline and your firm\'s fit evidence. No noise — only what matches your trade and region.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
@@ -268,7 +268,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xl font-bold text-[var(--muted)]">
-            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
+            Every scan checks current public notices against your trade and region. Results are scored. You only act on what fits.
           </p>
         </div>
       </section>
@@ -277,15 +277,19 @@ export function SignalsPage() {
       <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
         <div className="page-shell py-5">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            {['PLANNING', 'CONTRACTS', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
-              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
-                {src}
+            <span className="flex items-center gap-2 text-sm font-black uppercase text-white">
+              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
+              CONTRACTS (FTS) <span className="ml-1 text-[10px] text-[var(--yellow)]">LIVE</span>
+            </span>
+            {['PLANNING', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
+              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white/40">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                {src} <span className="ml-1 text-[10px] text-white/30">COMING</span>
               </span>
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
+            LIVE: FIND A TENDER · FURTHER SOURCES IN DEVELOPMENT
           </p>
         </div>
       </section>

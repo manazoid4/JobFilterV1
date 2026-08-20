@@ -21,8 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           {/* ── Site-wide announcement bar ── */}
           <Link href="/find-jobs" className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors group">
-            <span className="h-2 w-2 rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
-            <span>Find a Tender is free and public · JobFilter helps contractors decide <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">BID, WATCH, SUBCONTRACT or SKIP</span> · Official source links included</span>
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
+            <span>FTS LIVE · Public contracts for your trade — <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">60-second check. No card. No signup.</span></span>
           </Link>
           <TopNav />
           {children}
