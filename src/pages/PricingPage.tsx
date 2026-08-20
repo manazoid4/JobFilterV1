@@ -15,6 +15,7 @@ const planBullets = [
 ];
 
 const objections = [
+  ['Who is JobFilter for?', 'Contractors and subcontractors who can price and deliver public construction or maintenance contracts — typically 5–25 person firms with the capacity to meet buyer requirements. Check the free scan first; an empty result means no verified match right now.'],
   ['Is Find a Tender free?', 'Yes. Find a Tender notices are free and public. JobFilter charges for firm-aware qualification — it shows the evidence, missing requirements and the official response route so you decide faster.'],
   ['How is this different from Checkatrade or MyBuilder?', 'Checkatrade and MyBuilder sell domestic lead referrals to multiple trades. JobFilter qualifies public construction tenders from official sources — no shared auction, no five-trade blast.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],

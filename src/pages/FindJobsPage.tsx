@@ -925,7 +925,11 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
     }
     const tradeTeaser = r.match(/^Trade teaser: (.+)/);
     if (tradeTeaser) {
-      out.push({ label: tradeTeaser[1].toUpperCase() + ' — YOUR TRADE', highlight: true });
+      const teaserText = tradeTeaser[1];
+      // Only highlight as "YOUR TRADE" when the teaser came from a confirmed trade keyword,
+      // not from generic signals (commercial project, urgent timeline, paid preview).
+      const isGeneric = /^(commercial job|urgent timeline|paid preview)/i.test(teaserText);
+      out.push({ label: teaserText.toUpperCase() + (isGeneric ? '' : ' — YOUR TRADE'), highlight: !isGeneric });
       continue;
     }
     const related = r.match(/^Related: (.+?) \(/);
