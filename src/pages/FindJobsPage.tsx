@@ -427,7 +427,7 @@ export function FindJobsPage() {
       {/* ── SCANNER ──────────────────────────────────────────────── */}
       <section className="jf-box bg-white p-7">
         <p className="micro-label text-[var(--orange)]">LIVE SCANNER — 3 FREE SCANS, NO CARD</p>
-        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND JOBS WORTH PRICING</h1>
+        <h1 className="headline mt-2 text-3xl leading-none sm:text-4xl">FIND PUBLIC TENDERS NEAR YOU</h1>
 
         {!unlimitedTester && (
           <div className={`mt-3 flex items-center gap-3 border-2 px-4 py-2.5 ${weeklyScansRemaining === 0 ? 'border-[var(--orange)] bg-[var(--orange)]/10' : weeklyScansRemaining === 1 ? 'border-[var(--orange)] bg-[var(--orange)]/5' : 'border-[var(--green)] bg-[var(--green)]/10'}`}>
@@ -915,7 +915,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_TYPICAL_JOBS: Record<string, string[]> = {
+  electrical: ['EV CHARGER', 'REWIRE', 'CONSUMER UNIT', 'EICR', 'SOLAR PV'],
+  plumbing: ['BOILER', 'BATHROOM', 'HEAT PUMP', 'DRAINAGE', 'HEATING'],
+  roofing: ['FLAT ROOF', 'GUTTERING', 'RE-ROOF', 'FASCIA', 'SCAFFOLDING'],
+  building: ['EXTENSION', 'REFURBISHMENT', 'GROUNDWORK', 'LOFT CONVERSION', 'CONVERSION'],
+  carpentry: ['FLOORING', 'KITCHEN FIT', 'WINDOWS', 'DOORS', 'CLADDING'],
+  painting: ['DECORATING', 'PLASTERING', 'RENDER', 'EXTERNAL PAINTING'],
+  hvac: ['HEATING', 'VENTILATION', 'HEAT PUMP', 'INSULATION', 'BOILER'],
+  landscaping: ['FENCING', 'DRAINAGE', 'GROUNDWORK', 'TURFING', 'PAVING'],
+};
+
+function parseTradeReasons(raw: string[], tradeHint?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,7 +959,13 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  if (out.length > 0) return out.slice(0, 5);
+  // Fallback: show typical job types for this trade so the card is never empty
+  const typicalJobs = tradeHint ? (TRADE_TYPICAL_JOBS[tradeHint] ?? []) : [];
+  if (typicalJobs.length > 0) {
+    return typicalJobs.slice(0, 3).map(k => ({ label: k, highlight: false }));
+  }
+  return [{ label: 'Verified signal', highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1142,7 +1159,8 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const tradeHint = String(lead.trade || lead.tradeMatch || '');
+  const parsedReasons = parseTradeReasons(rawReasons, tradeHint);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);

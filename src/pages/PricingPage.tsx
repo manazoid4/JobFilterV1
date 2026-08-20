@@ -58,7 +58,7 @@ export function PricingPage() {
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
+          body="See what's live on Find a Tender for your trade and area. Buyer detail, deadline, and bid route are in the paid tier — but you can check coverage for free, no card needed."
           items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
@@ -67,10 +67,10 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          body="Scan current Find a Tender notices. See the buyer, deadline, and whether to BID, WATCH, subcontract, or SKIP — before you spend a day on a bid that was never going to fit."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<><CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" /><p className="mt-2 text-xs font-black text-[var(--muted)] uppercase">No credit card required to scan first</p></>}
           order="order-first lg:order-none"
         />
       </section>
