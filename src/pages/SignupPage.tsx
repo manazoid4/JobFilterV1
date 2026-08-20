@@ -104,7 +104,7 @@ export function SignupPage() {
         <p className="micro-label text-[var(--yellow)]">CREATE YOUR JOBFILTER ACCOUNT</p>
         <h1 className="headline mt-3 text-5xl leading-none text-white md:text-7xl">CREATE YOUR ACCOUNT.</h1>
         <p className="mt-4 max-w-2xl text-xl font-bold text-white/80">
-          {planLabel}. Fill in your details below. Confirm your email. Qualified public-tender matches for your trade and area start from day one.
+          {planLabel}. Fill in your details below. Confirm your email. Scan and qualify public-tender opportunities for your trade and area from day one — empty results are shown honestly.
         </p>
       </section>
 
