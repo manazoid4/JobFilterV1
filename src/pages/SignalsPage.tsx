@@ -115,11 +115,11 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
   { trade: 'Electrician', active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Retrofit Grants'] },
   { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
   { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
-  { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
+  { trade: 'Roofer',      active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
   { trade: 'HEATING',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
   { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
-  { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
+  { trade: 'Carpenter',   active: ['Planning', 'Contracts', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
+  { trade: 'Painter',     active: ['Planning', 'Contracts', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
 ];
 
 const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
