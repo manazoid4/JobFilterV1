@@ -185,16 +185,16 @@ export function SignalsPage() {
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visibleSignals.map((s) => (
-              <article key={s.name} className={`jf-box relative p-6 flex flex-col gap-4 ${s.isLive ? 'bg-white' : 'bg-[var(--paper)]'}`}>
-                {!s.isLive && (
-                  <span className="absolute top-3 right-3 bg-[var(--muted)] px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wider text-white">
-                    COMING SOON
-                  </span>
-                )}
-                <div>
+              <article key={s.name} className={`jf-box p-6 flex flex-col gap-4 ${s.isLive ? 'bg-white' : 'bg-[var(--paper)]'}`}>
+                <div className="flex items-start justify-between gap-2">
                   <span className={`inline-block px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white ${s.isLive ? 'bg-[var(--navy)]' : 'bg-[var(--muted)]'}`}>
                     {s.source}
                   </span>
+                  {!s.isLive && (
+                    <span className="shrink-0 bg-[var(--muted)] px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wider text-white">
+                      COMING SOON
+                    </span>
+                  )}
                 </div>
                 <h3 className={`headline text-4xl leading-none ${s.isLive ? '' : 'text-[var(--muted)]'}`}>{s.name}</h3>
                 <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
@@ -278,7 +278,7 @@ export function SignalsPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'NOTICE DETECTED', 'A current Find a Tender notice is matched to your trade and delivery region. Contract value, buyer, CPV codes and deadline are extracted.'],
-              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade and region. Requirements you meet and those you are missing are listed before you spend time on a bid.'],
+              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade and region. A fit summary is returned before you spend time on a bid.'],
               ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each qualified result shows your fit against the notice. Full qualification detail available on the paid plan. No noise — only what matches your trade and region.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
