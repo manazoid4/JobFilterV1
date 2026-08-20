@@ -257,8 +257,8 @@ export function SignalsPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
               ['STEP 1', 'NOTICE DETECTED', 'A current Find a Tender notice is matched to your trade and delivery region. Contract value, buyer, CPV codes and deadline are extracted.'],
-              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade, region and contract range. Requirements you meet and those you are missing are listed before you spend time on a bid.'],
-              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each qualified result shows your fit against the notice. Buyer, deadline and source link included on the paid plan. No noise — only what matches your trade and region.'],
+              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade and region. Requirements you meet and those you are missing are listed before you spend time on a bid.'],
+              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each qualified result shows your fit against the notice. Full qualification detail available on the paid plan. No noise — only what matches your trade and region.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
