@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current public construction tenders and shows the evidence, missing requirements and next action — BID, WATCH, SUBCONTRACT or SKIP. Not Checkatrade. Not Bark. No shared auction, no domestic referrals. Official verified sources only.
+              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action — BID, WATCH, SUBCONTRACT or SKIP. Notices are public; other suppliers may pursue the same opportunities. Not Checkatrade. Not Bark. Official sources only — no domestic referrals.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
