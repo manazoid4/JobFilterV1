@@ -7,9 +7,10 @@ const signals = [
   {
     source: 'SIGNAL 1 · PLANNING',
     name: 'PLANNING APPROVED. BUILDER NOT PICKED.',
-    description: 'A 4-bed extension approved this morning in your postcode. The homeowner hasn\'t called anyone yet. You get the alert. They don\'t.',
+    description: 'Planning approvals matched to your trade and postcode. Alerts when a decision lands near you. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'BEFORE THE CALL',
+    isLive: false,
   },
   {
     source: 'SIGNAL 2 · CONTRACTS',
@@ -17,62 +18,71 @@ const signals = [
     description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
     signalType: 'LIVE TENDER',
+    isLive: true,
   },
   {
     source: 'SIGNAL 3 · ENERGY',
     name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
-    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
+    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act. Source in development — not yet live.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
+    isLive: false,
   },
   {
     source: 'SIGNAL 4 · PROPERTY SALES',
     name: 'JUST BOUGHT IT. HASN\'T CALLED ANYONE.',
-    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just cleared.',
+    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'FRESH PURCHASE',
+    isLive: false,
   },
   {
     source: 'SIGNAL 5 · NEW BUSINESS',
     name: 'NEW COMPANY. NEEDS A FIT-OUT.',
-    description: 'New company registered in your postcode in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
+    description: 'New companies registered in sectors that need premises work — restaurant, clinic, gym, office, retail. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'NEW BUSINESS',
+    isLive: false,
   },
   {
     source: 'SIGNAL 6 · HMO LICENSING',
     name: 'LANDLORD HAS TO BRING THE PROPERTY UP TO STANDARD.',
-    description: 'HMO licence activity points to fire doors, alarms, electrics, plumbing, ventilation, repairs and compliance work before the landlord starts ringing round.',
+    description: 'HMO licence activity pointing to fire doors, alarms, electrics, plumbing and compliance work. Source in development — not yet live.',
     trades: ['Electrical', 'Plumbing', 'Building', 'Carpentry', 'Painting'],
     signalType: 'COMPLIANCE WORK',
+    isLive: false,
   },
   {
     source: 'SIGNAL 7 · BUILDING CONTROL',
     name: 'WORK HAS MOVED FROM IDEA TO SITE.',
-    description: 'Building control notices show projects that are past planning talk and closer to actual work: extensions, structural work, conversions, roof changes and inspections.',
+    description: 'Building control notices showing projects past planning talk and closer to actual work: extensions, structural work, conversions, roof changes. Source in development — not yet live.',
     trades: ['Building', 'Roofing', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'SITE MOVEMENT',
+    isLive: false,
   },
   {
     source: 'SIGNAL 8 · AUCTION PROPERTY',
     name: 'NEW OWNER NEEDS A FAST TURNAROUND.',
-    description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Good trades get in before the new owner starts searching.',
+    description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Roofing', 'Painting', 'Carpentry'],
     signalType: 'FAST TURNAROUND',
+    isLive: false,
   },
   {
     source: 'SIGNAL 9 · INSOLVENCY / VOID WORKS',
     name: 'SITES AND PREMISES NEED SOMEONE TO STEP IN.',
-    description: 'Business distress, empty premises and interrupted projects can create urgent make-safe, refit, repair and takeover work for local trades.',
+    description: 'Business distress, empty premises and interrupted projects creating urgent make-safe, refit, repair and takeover work. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Security', 'Carpentry'],
     signalType: 'URGENT TAKEOVER',
+    isLive: false,
   },
   {
     source: 'SIGNAL 10 · RETROFIT GRANTS',
     name: 'FUNDING CREATES THE DEADLINE.',
-    description: 'Grant windows, local retrofit schemes and funded upgrade programmes create timed demand for insulation, heating, solar, ventilation and electrical work.',
+    description: 'Grant windows, local retrofit schemes and funded upgrade programmes creating timed demand for insulation, heating, solar, ventilation and electrical work. Source in development — not yet live.',
     trades: ['Insulation', 'HVAC', 'Electrical', 'Roofing', 'Building'],
     signalType: 'FUNDED UPGRADE',
+    isLive: false,
   },
 ] as const;
 
@@ -175,13 +185,18 @@ export function SignalsPage() {
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visibleSignals.map((s) => (
-              <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
+              <article key={s.name} className={`jf-box relative p-6 flex flex-col gap-4 ${s.isLive ? 'bg-white' : 'bg-[var(--paper)]'}`}>
+                {!s.isLive && (
+                  <span className="absolute top-3 right-3 bg-[var(--muted)] px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wider text-white">
+                    COMING SOON
+                  </span>
+                )}
                 <div>
-                  <span className="inline-block bg-[var(--navy)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">
+                  <span className={`inline-block px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white ${s.isLive ? 'bg-[var(--navy)]' : 'bg-[var(--muted)]'}`}>
                     {s.source}
                   </span>
                 </div>
-                <h3 className="headline text-4xl leading-none">{s.name}</h3>
+                <h3 className={`headline text-4xl leading-none ${s.isLive ? '' : 'text-[var(--muted)]'}`}>{s.name}</h3>
                 <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {s.trades.map((t) => (
@@ -194,9 +209,15 @@ export function SignalsPage() {
                   ))}
                 </div>
                 <div className="mt-auto pt-3 border-t-2 border-[var(--line)]">
-                  <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
-                    {s.signalType}
-                  </span>
+                  {s.isLive ? (
+                    <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
+                      {s.signalType}
+                    </span>
+                  ) : (
+                    <span className="inline-block px-3 py-1 text-xs font-black uppercase tracking-wider bg-[var(--bg-main)] text-[var(--muted)] border border-[var(--line)]">
+                      IN DEVELOPMENT
+                    </span>
+                  )}
                 </div>
               </article>
             ))}
