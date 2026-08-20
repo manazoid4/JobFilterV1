@@ -7,72 +7,82 @@ const signals = [
   {
     source: 'SIGNAL 1 · PLANNING',
     name: 'PLANNING APPROVED. BUILDER NOT PICKED.',
-    description: 'A 4-bed extension approved this morning in your postcode. The homeowner hasn\'t called anyone yet. You get the alert. They don\'t.',
+    description: 'Planning approvals matched to your trade and postcode. Alerts when a decision lands near you. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'BEFORE THE CALL',
+    isLive: false,
   },
   {
     source: 'SIGNAL 2 · CONTRACTS',
     name: 'COUNCIL WORK. NO BIDDING WAR.',
     description: 'Council and government contracts for your trade, in your area, before the closing date. No directory. No middleman. Official notice, straight to your scan.',
-    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Landscaping'],
+    trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'LIVE TENDER',
+    isLive: true,
   },
   {
     source: 'SIGNAL 3 · ENERGY',
     name: 'LEGALLY FORCED TO UPGRADE. THEY NEED YOU.',
-    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act — JobFilter identifies them before they post anywhere. First trade to call wins.',
+    description: 'Low-rated rental properties legally required to upgrade before they can be let. Landlords must act. Source in development — not yet live.',
     trades: ['Electrical', 'Plumbing', 'HVAC', 'Building', 'Roofing'],
     signalType: 'LEGAL TRIGGER',
+    isLive: false,
   },
   {
     source: 'SIGNAL 4 · PROPERTY SALES',
     name: 'JUST BOUGHT IT. HASN\'T CALLED ANYONE.',
-    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. No other tradesman knows yet — the sale only just cleared.',
+    description: 'Property sold in your area in the last 30 days. New owner, likely renovation. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'HVAC', 'Roofing', 'Carpentry', 'Landscaping', 'Painting'],
     signalType: 'FRESH PURCHASE',
+    isLive: false,
   },
   {
     source: 'SIGNAL 5 · NEW BUSINESS',
     name: 'NEW COMPANY. NEEDS A FIT-OUT.',
-    description: 'New company registered in your postcode in a sector that needs premises work — restaurant, clinic, gym, office, retail. Before they\'ve searched for a tradesman.',
+    description: 'New companies registered in sectors that need premises work — restaurant, clinic, gym, office, retail. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'NEW BUSINESS',
+    isLive: false,
   },
   {
     source: 'SIGNAL 6 · HMO LICENSING',
     name: 'LANDLORD HAS TO BRING THE PROPERTY UP TO STANDARD.',
-    description: 'HMO licence activity points to fire doors, alarms, electrics, plumbing, ventilation, repairs and compliance work before the landlord starts ringing round.',
+    description: 'HMO licence activity pointing to fire doors, alarms, electrics, plumbing and compliance work. Source in development — not yet live.',
     trades: ['Electrical', 'Plumbing', 'Building', 'Carpentry', 'Painting'],
     signalType: 'COMPLIANCE WORK',
+    isLive: false,
   },
   {
     source: 'SIGNAL 7 · BUILDING CONTROL',
     name: 'WORK HAS MOVED FROM IDEA TO SITE.',
-    description: 'Building control notices show projects that are past planning talk and closer to actual work: extensions, structural work, conversions, roof changes and inspections.',
+    description: 'Building control notices showing projects past planning talk and closer to actual work: extensions, structural work, conversions, roof changes. Source in development — not yet live.',
     trades: ['Building', 'Roofing', 'Electrical', 'Plumbing', 'Carpentry'],
     signalType: 'SITE MOVEMENT',
+    isLive: false,
   },
   {
     source: 'SIGNAL 8 · AUCTION PROPERTY',
     name: 'NEW OWNER NEEDS A FAST TURNAROUND.',
-    description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Good trades get in before the new owner starts searching.',
+    description: 'Auction wins often mean refurb, clearance, roof, damp, electrics, heating and resale/rental deadlines. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Roofing', 'Painting', 'Carpentry'],
     signalType: 'FAST TURNAROUND',
+    isLive: false,
   },
   {
     source: 'SIGNAL 9 · INSOLVENCY / VOID WORKS',
     name: 'SITES AND PREMISES NEED SOMEONE TO STEP IN.',
-    description: 'Business distress, empty premises and interrupted projects can create urgent make-safe, refit, repair and takeover work for local trades.',
+    description: 'Business distress, empty premises and interrupted projects creating urgent make-safe, refit, repair and takeover work. Source in development — not yet live.',
     trades: ['Building', 'Electrical', 'Plumbing', 'Security', 'Carpentry'],
     signalType: 'URGENT TAKEOVER',
+    isLive: false,
   },
   {
     source: 'SIGNAL 10 · RETROFIT GRANTS',
     name: 'FUNDING CREATES THE DEADLINE.',
-    description: 'Grant windows, local retrofit schemes and funded upgrade programmes create timed demand for insulation, heating, solar, ventilation and electrical work.',
+    description: 'Grant windows, local retrofit schemes and funded upgrade programmes creating timed demand for insulation, heating, solar, ventilation and electrical work. Source in development — not yet live.',
     trades: ['Insulation', 'HVAC', 'Electrical', 'Roofing', 'Building'],
     signalType: 'FUNDED UPGRADE',
+    isLive: false,
   },
 ] as const;
 
@@ -105,11 +115,11 @@ const tradeSignals: Array<{ trade: string; active: string[] }> = [
   { trade: 'Electrician', active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Retrofit Grants'] },
   { trade: 'Plumber',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
   { trade: 'Builder',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'] },
-  { trade: 'Roofer',      active: ['Planning', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
+  { trade: 'Roofer',      active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'Building Control', 'Auction', 'Retrofit Grants'] },
   { trade: 'HEATING',     active: ['Planning', 'Contracts', 'Energy', 'Property Sales', 'HMO', 'Retrofit Grants'] },
   { trade: 'Landscaper',  active: ['Planning', 'Contracts', 'Property Sales', 'Auction'] },
-  { trade: 'Carpenter',   active: ['Planning', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
-  { trade: 'Painter',     active: ['Planning', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
+  { trade: 'Carpenter',   active: ['Planning', 'Contracts', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction'] },
+  { trade: 'Painter',     active: ['Planning', 'Contracts', 'Property Sales', 'HMO', 'Auction', 'Insolvency'] },
 ];
 
 const allSignalLabels = ['Planning', 'Contracts', 'Energy', 'Property Sales', 'New Business', 'HMO', 'Building Control', 'Auction', 'Insolvency', 'Retrofit Grants'];
@@ -138,16 +148,16 @@ export function SignalsPage() {
       {/* 1. Hero */}
       <section className="bg-[var(--navy)] border-b-4 border-[var(--line)]">
         <div className="page-shell section-pad">
-          <p className="micro-label text-[var(--yellow)]">WHAT LANDS IN YOUR WHATSAPP</p>
+          <p className="micro-label text-[var(--yellow)]">PUBLIC WORKS SIGNALS</p>
           <h1 className="headline mt-5 max-w-4xl text-[clamp(2.25rem,8vw,7rem)] leading-[0.88] text-[var(--yellow)]">
-            JOBS BEFORE THEY GET POSTED.
+            FILTER THE WORK WORTH CHASING.
           </h1>
           <p className="mt-6 max-w-2xl text-xl font-bold leading-snug text-white/85">
-            Ten data sources. Planning, energy, council tenders, property sales. You get the WhatsApp alert before the job hits any board.
+            Public tender notices qualified for your trade and region. Current live source: Find a Tender. Additional signal types in development.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
-            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">LOCK YOUR PATCH — £39/MO →</Link>
+            <Link className="jf-button bg-white text-[var(--ink)]" href="/pricing">START £39/MO →</Link>
           </div>
           <p className="mt-3 text-sm font-black text-white/60">3 free scans every week. Founder price £39/mo. One job covers 12+ months.</p>
         </div>
@@ -175,13 +185,18 @@ export function SignalsPage() {
           </div>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {visibleSignals.map((s) => (
-              <article key={s.name} className="jf-box bg-white p-6 flex flex-col gap-4">
-                <div>
-                  <span className="inline-block bg-[var(--navy)] px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white">
+              <article key={s.name} className={`jf-box p-6 flex flex-col gap-4 ${s.isLive ? 'bg-white' : 'bg-[var(--paper)]'}`}>
+                <div className="flex items-start justify-between gap-2">
+                  <span className={`inline-block px-2 py-1 text-[0.65rem] font-black tracking-widest uppercase text-white ${s.isLive ? 'bg-[var(--navy)]' : 'bg-[var(--muted)]'}`}>
                     {s.source}
                   </span>
+                  {!s.isLive && (
+                    <span className="shrink-0 bg-[var(--muted)] px-2 py-0.5 text-[0.6rem] font-black uppercase tracking-wider text-white">
+                      COMING SOON
+                    </span>
+                  )}
                 </div>
-                <h3 className="headline text-4xl leading-none">{s.name}</h3>
+                <h3 className={`headline text-4xl leading-none ${s.isLive ? '' : 'text-[var(--muted)]'}`}>{s.name}</h3>
                 <p className="font-bold text-[var(--muted)] leading-snug">{s.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {s.trades.map((t) => (
@@ -194,9 +209,15 @@ export function SignalsPage() {
                   ))}
                 </div>
                 <div className="mt-auto pt-3 border-t-2 border-[var(--line)]">
-                  <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
-                    {s.signalType}
-                  </span>
+                  {s.isLive ? (
+                    <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider ${signalTypeStyle[s.signalType]}`}>
+                      {s.signalType}
+                    </span>
+                  ) : (
+                    <span className="inline-block px-3 py-1 text-xs font-black uppercase tracking-wider bg-[var(--bg-main)] text-[var(--muted)] border border-[var(--line)]">
+                      IN DEVELOPMENT
+                    </span>
+                  )}
                 </div>
               </article>
             ))}
@@ -208,7 +229,7 @@ export function SignalsPage() {
       <section className="ops-strip border-y-4 border-[var(--line)] bg-[var(--yellow)]">
         <div className="page-shell flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
           <p className="text-base font-black text-[var(--ink)]">
-            All 10 signals included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Free scan first — no card needed.
+            FTS qualification included. One job worth chasing pays for 12+ months. Founder access from <span className="underline underline-offset-2">£39/month</span>. Additional signal types in development. Free scan first — no card needed.
           </p>
           <div className="flex shrink-0 gap-3">
             <Link className="jf-button bg-[var(--ink)] px-4 py-2 text-sm text-white" href="/find-jobs">SCAN FREE →</Link>
@@ -217,48 +238,16 @@ export function SignalsPage() {
         </div>
       </section>
 
-      {/* 2c. Works Starting Now */}
-      <section className="border-b-4 border-[var(--line)] bg-white">
-        <div className="page-shell section-pad">
-          <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-stretch">
-            <div>
-              <p className="micro-label text-[var(--orange)]">START SIGNAL MODE</p>
-              <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">WORKS STARTING NOW.</h2>
-              <p className="mt-4 max-w-3xl text-lg font-bold leading-tight text-[var(--ink)]/80">
-                Planning alone is often too early. Start Signal mode filters for jobs with stronger timing evidence: planning approval, building-control movement, energy rating changes, property sales and business fit-out signals.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {['READY = act now', 'MAYBE = verify source', 'WASTE = skip'].map((label) => (
-                  <span key={label} className="border-2 border-[var(--line)] bg-[var(--bg-main)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)]">
-                    {label}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="jf-box bg-[var(--ink)] p-5 text-white">
-              <p className="micro-label text-[var(--yellow)]">PAID MODE</p>
-              <h3 className="headline mt-2 text-3xl leading-none text-white">STOP CHASING PLANNING NOISE.</h3>
-              <p className="mt-3 text-sm font-bold text-white/85">
-                Use it inside Find Jobs to surface READY/MAYBE leads first. Every result carries source evidence and a verify-before-contact warning.
-              </p>
-              <Link className="jf-button mt-4 inline-block bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs?mode=start_now">
-                OPEN WORKS STARTING NOW →
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 3. How it combines */}
       <section className="bg-[var(--bg-main)] border-y-4 border-[var(--line)]">
         <div className="page-shell section-pad">
           <p className="micro-label text-[var(--orange)]">HOW IT WORKS</p>
-          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">YOU DON'T CHASE LEADS. THEY FIND YOU.</h2>
+          <h2 className="headline mt-3 text-5xl leading-none md:text-6xl">KNOW WHICH JOBS FIT. SKIP THE REST.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {[
-              ['STEP 1', 'SIGNAL DETECTED', 'One of ten signal classes flags activity in your postcode. Planning approval. Property sale. Legal retrofit trigger. Council contract. Compliance pressure.'],
-              ['STEP 2', 'SCORED INSTANTLY', 'Every signal gets a score. GOLD means act now. SILVER means worth watching. BRONZE goes on your quiet-week list. You only see what\'s worth your time.'],
-              ['STEP 3', 'STRAIGHT TO YOUR WHATSAPP', 'Gold leads hit your phone within minutes. Not an email. Not a dashboard you have to log into. Your WhatsApp. The job detail, the location, the source. Ready to act.'],
+              ['STEP 1', 'NOTICE DETECTED', 'A current Find a Tender notice is matched to your trade and delivery region. Contract value, buyer, CPV codes and deadline are extracted.'],
+              ['STEP 2', 'FIT CHECKED', 'The notice is checked against your trade and region. A fit summary is returned before you spend time on a bid.'],
+              ['STEP 3', 'DECISION IN SECONDS', 'BID, WATCH, SUBCONTRACT or SKIP. Each qualified result shows your fit against the notice. Full qualification detail available on the paid plan. No noise — only what matches your trade and region.'],
             ].map(([step, title, body]) => (
               <div key={step} className="jf-box bg-[var(--navy)] p-6 text-white">
                 <p className="micro-label text-[var(--yellow)]">{step}</p>
@@ -268,7 +257,7 @@ export function SignalsPage() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-xl font-bold text-[var(--muted)]">
-            Every scan runs all ten signals in parallel. Results are scored. GOLD hits your WhatsApp. You only act on what's worth your time.
+            Every scan checks current public notices against your trade and region. Results are scored. You only act on what fits.
           </p>
         </div>
       </section>
@@ -277,15 +266,19 @@ export function SignalsPage() {
       <section className="bg-[var(--ink)] border-b-4 border-[var(--line)]">
         <div className="page-shell py-5">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            {['PLANNING', 'CONTRACTS', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
-              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white">
-                <span className="h-2.5 w-2.5 rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
-                {src}
+            <span className="flex items-center gap-2 text-sm font-black uppercase text-white">
+              <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[var(--yellow)] shadow-[0_0_6px_var(--yellow)]" />
+              CONTRACTS (FTS) <span className="ml-1 text-[10px] text-[var(--yellow)]">LIVE</span>
+            </span>
+            {['PLANNING', 'ENERGY', 'PROPERTY SALES', 'NEW BUSINESS', 'HMO', 'BUILDING CONTROL', 'AUCTION', 'INSOLVENCY', 'RETROFIT'].map((src) => (
+              <span key={src} className="flex items-center gap-2 text-sm font-black uppercase text-white/40">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                {src} <span className="ml-1 text-[10px] text-white/30">COMING</span>
               </span>
             ))}
           </div>
           <p className="mt-3 text-xs font-black uppercase tracking-widest text-white/60">
-            10 SIGNAL SOURCES · NO SHARED LEADS · ONE TRADE PER PATCH
+            LIVE: FIND A TENDER · FURTHER SOURCES IN DEVELOPMENT
           </p>
         </div>
       </section>
