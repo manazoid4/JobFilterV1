@@ -785,7 +785,7 @@ export function FindJobsPage() {
                       : 'SEE BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/70">
-                    Unlike Checkatrade or Bark, Gold leads show one buyer — your trade, your patch, your timing. Full Access adds the buyer name, published value, deadline and official response route.
+                    Unlike Checkatrade or Bark, Gold leads show one buyer — your trade, your patch, your timing. Full Access adds the buyer name, published value where available, deadline and official response route.
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
@@ -1566,7 +1566,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <p className="font-black text-[var(--yellow)] text-sm uppercase tracking-wide">Get a weekly alert when new jobs come in</p>
         <p className="mt-1 text-sm font-black text-white/80">New verified jobs for your trade and area — delivered weekly. Upgrade for daily or instant alerts.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm" href="/pricing">
-          SET UP YOUR TRADE ALERT →
+          UNLOCK ALERTS — £39/MO →
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
