@@ -67,7 +67,7 @@ export function PricingPage() {
           title="Pilot"
           price="£39/mo"
           priceNote="Scan free first. Pay only if the coverage fits your firm."
-          body="Full qualification for every public notice that matches your trade and region. See what fits, what's missing, and the exact response route — before you commit any bid time."
+          body="Full qualification for every public notice that matches your trade and region. See what fits, what's missing, and the exact response route — before you commit any bid time. Feature unlock follows a brief coverage and account setup check after payment."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="GET STARTED — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
