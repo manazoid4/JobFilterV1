@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Buyer details locked — upgrade to see who to call, the value, and the deadline on every lead.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -778,19 +778,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">NO SHARED AUCTION. NO FIVE-TRADE BLAST.</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
                       : 'SEE BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/70">
+                    Unlike Checkatrade or Bark, Gold leads show one buyer — your trade, your patch, your timing. Full Access adds the buyer name, published value where available, deadline and official response route.
+                  </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse</span>
                   </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
-                  </p>
                 </section>
               )}
 
@@ -1538,37 +1538,35 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
 
   return (
     <section className="jf-box bg-white p-6">
-      {/* Empty state illustration */}
-      <div className="flex justify-center mb-4">
-        <svg viewBox="0 0 240 140" className="w-48 h-28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="10" y="10" width="220" height="120" rx="4" stroke="var(--line)" strokeWidth="2" strokeDasharray="8 4" />
-          {/* Empty map pins */}
-          <circle cx="70" cy="55" r="6" fill="var(--muted)" opacity="0.15" />
-          <circle cx="120" cy="70" r="6" fill="var(--muted)" opacity="0.15" />
-          <circle cx="170" cy="50" r="6" fill="var(--muted)" opacity="0.15" />
-          {/* Pin stems */}
-          <line x1="70" y1="61" x2="70" y2="85" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
-          <line x1="120" y1="76" x2="120" y2="100" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
-          <line x1="170" y1="56" x2="170" y2="80" stroke="var(--muted)" strokeWidth="1" opacity="0.15" />
-          {/* Magnifying glass with X */}
-          <circle cx="190" cy="35" r="14" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
-          <line x1="183" y1="28" x2="197" y2="42" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
-          <line x1="197" y1="28" x2="183" y2="42" stroke="var(--muted)" strokeWidth="2" opacity="0.3" />
-          <line x1="200" y1="45" x2="215" y2="60" stroke="var(--muted)" strokeWidth="2.5" opacity="0.3" strokeLinecap="round" />
-        </svg>
+      <div className="border-l-4 border-[var(--orange)] pl-4 mb-5">
+        <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
+        {result.errors.length > 0 ? (
+          <>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO MATCHES THIS SCAN.</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+              The scan completed with errors on some sources — results may be incomplete. Try again or widen the search.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+              Bark and Checkatrade sell you a lead whether it&apos;s real or not. Here, no match means there&apos;s genuinely nothing verified for your trade and area right now — check back tomorrow or widen the search.
+            </p>
+          </>
+        )}
       </div>
-      <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
-      <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
-      <div className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
         <Stat label="Trade" value={titleCase(trade)} />
         <Stat label="Radius" value={`${radiusMiles} miles`} />
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
-      <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Alert delivery is available only after the selected provider and account configuration have been verified.</p>
-        <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
-          CHECK ALERT CONFIGURATION & PRICING
+      <div className="mt-6 border-2 border-[var(--ink)] bg-[var(--ink)] p-4 text-white">
+        <p className="font-black text-[var(--yellow)] text-sm uppercase tracking-wide">Get a weekly alert when new jobs come in</p>
+        <p className="mt-1 text-sm font-black text-white/80">New verified jobs for your trade and area — delivered weekly. Upgrade for daily or instant alerts.</p>
+        <Link className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm" href="/pricing">
+          UNLOCK ALERTS — £39/MO →
         </Link>
       </div>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">

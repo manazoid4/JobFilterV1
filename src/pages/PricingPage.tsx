@@ -16,9 +16,9 @@ const planBullets = [
 
 const objections = [
   ['Is Find a Tender free?', 'Yes. Find a Tender notices, search and alerts are free and public. JobFilter charges for firm-aware qualification, evidence, next-action workflow and outcome learning.'],
-  ['Who is JobFilter for?', 'The pilot is designed for 5–25-person contractors already considering business-to-business or public works — not homeowners looking for domestic trades.'],
+  ['How is this different from Checkatrade or Bark?', 'Checkatrade and Bark charge per lead whether it suits you or not — shared with 5+ other trades. JobFilter shows one buyer per notice, qualified to your trade and patch. You pay for qualification and workflow, never a shared auction.'],
   ['Are opportunities exclusive?', 'No. Official tenders are public and other suppliers may pursue them. You pay for qualification and workflow, never privileged access to a notice.'],
-  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome.'],
+  ['Can I check coverage before paying?', 'Yes. Run a free check against current Find a Tender notices. Coverage varies by service, region and timing, and an empty result is a valid outcome. No credit card required.'],
 ];
 
 export function PricingPage() {
@@ -38,12 +38,12 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FULL ACCESS — £39/MO</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
           KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          For electricians, plumbers, roofers and builders who want to quote public work — without wading through procurement jargon.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />

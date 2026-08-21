@@ -301,7 +301,7 @@ export function DashboardPage() {
     <main className="page-shell grid gap-6 py-8 pb-24">
       {/* Header */}
       <section className="jf-box bg-[var(--ink)] p-6 text-white">
-        <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS DECISION TRACKER</p>
+        <p className="micro-label text-[var(--yellow)]">YOUR JOB PIPELINE</p>
         <h1 className="headline mt-2 text-3xl leading-none sm:text-5xl">YOUR OPPORTUNITIES. YOUR DECISIONS.</h1>
         <p className="mt-3 max-w-2xl font-bold text-white/90">
           Review current public Find a Tender notices against your firm. Track BID, WATCH, SUBCONTRACT or SKIP decisions, the evidence behind them, and eventual outcomes.
@@ -310,7 +310,7 @@ export function DashboardPage() {
           <div className="inline-flex items-center gap-2 border-2 border-white/20 bg-white/10 px-3 py-1.5">
             <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--green)]" />
             <span className="font-mono text-xs font-black uppercase text-white/80">
-              FIND A TENDER: FREE + PUBLIC
+              LIVE PUBLIC JOB FEED
             </span>
           </div>
           <p className="text-sm font-bold text-[var(--yellow)]">
@@ -601,7 +601,7 @@ export function DashboardPage() {
           <p className="micro-label text-[var(--yellow)]">QUICK ACTIONS</p>
           <div className="mt-4 grid gap-3">
             <Link href="/find-jobs" className="jf-button w-full bg-[var(--yellow)] text-[var(--ink)] text-center text-sm">
-              CHECK CURRENT FTS OPPORTUNITIES →
+              SCAN FOR JOBS NEAR YOU →
             </Link>
             {isEmpty ? (
               <Link href="/pricing" className="jf-button w-full bg-white text-[var(--ink)] text-center">
