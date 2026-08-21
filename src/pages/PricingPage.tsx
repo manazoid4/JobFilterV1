@@ -10,7 +10,7 @@ const planBullets = [
   'BID, WATCH, SUBCONTRACT or SKIP — clear decision, not a list of links',
   'Evidence found and missing requirements shown before you waste a day on a bid',
   'Buyer, value, deadline and official response route — all in one view',
-  'Filtered to your trade, region and contract size — no wrong-trade noise',
+  'Trade and region matched — contract value shown for each notice so you can assess fit before bidding',
   'Track bids, wins and skips — stop chasing the same dead ends twice',
 ];
 
