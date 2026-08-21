@@ -19,8 +19,10 @@
 
 ## Next Run Priorities
 
-1. **Compare pages consistency audit** — CompareCheckatradePage references "territory-routed" and "GOLD/SILVER/BRONZE" from the old domestic product model. The current product is FTS/public-tender qualified. Need to audit all 6 compare pages (bark, buildalert, checkatrade, mybuilder, rated-people, trustatrader) to check whether the comparison table rows still match the actual product.
+1. **Wire paid subscription entitlement** (Codex P1 — pre-existing architectural gap): `FindJobsPage.submit` sends `/api/leads/search` with no bearer token, so `resolveAccessContext` always returns free preview for paying users too. `LeadResultCard` unlocks via `isOwnerEmail` only. Need to: (a) send auth token in search request, (b) check paid tier in `resolveAccessContext`, (c) pass that through to `cardOpenAccess` in `LeadResultCard`. This is the core monetisation unlock.
 
-2. **Pricing page "Pilot" body text** — Still says "Pilot access follows a coverage and fit check; delivery features activate only when..." — this is overly qualified/lawyerly. Consider a single concrete sentence about what you get.
+2. **Enforce three-scan limit server-side** (Codex P2 — pre-existing): Client localStorage counter is cosmetic — the server applies a rate limiter (20 req/min) but no weekly quota for anon users. Fix: add an IP-keyed weekly counter (resets Monday midnight) in the search route, return 429 with `scansExhausted: true` after scan 3 for unauthenticated requests.
 
-3. **FindJobsPage empty-state UX** — When a scan returns no results, the empty state needs to be more useful: show what to try next (different trade, wider radius, or explain that FTS coverage varies by region/timing). Currently unclear if empty means "no match" or "scan failed".
+3. **Compare pages consistency audit** — CompareCheckatradePage references "territory-routed" and "GOLD/SILVER/BRONZE" from the old domestic product model. Current product is FTS/public-tender qualified. Audit all 6 compare pages (bark, buildalert, checkatrade, mybuilder, rated-people, trustatrader) for accuracy.
+
+4. **FindJobsPage empty-state UX** — When a scan returns no results, show what to try next (different trade, wider radius, explain FTS coverage varies by region/timing). Currently ambiguous whether empty = no match or scan failed.
