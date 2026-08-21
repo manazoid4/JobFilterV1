@@ -1,14 +1,14 @@
 "use client";
 import Link from 'next/link';
 
-import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, Lock, FileText, Zap } from 'lucide-react';
+import { AlertTriangle, Radio, ShieldCheck, Target, Users, Clock, TrendingUp, CheckCircle, FileText, Zap } from 'lucide-react';
 import { WaitlistForm } from '../components/WaitlistForm';
 
 const proofPoints = [
-  'Find a Tender remains free and public',
-  'Firm-aware evidence and requirement checks',
-  'BID, WATCH, SUBCONTRACT or SKIP',
-  'No verified fit means an honest empty result',
+  'Live notices from Find a Tender — updated as buyers publish',
+  'Buyer, value, deadline and evidence in one view before you decide',
+  'BID, WATCH, SUBCONTRACT or SKIP — clear next action every time',
+  'Empty scan = no verified fit — never a made-up lead to fill the screen',
 ];
 
 const signalRows = [
@@ -89,9 +89,8 @@ export function HomePage() {
                 </Link>
               </div>
             </div>
-            <p className="mt-3 text-sm font-black text-white/80">
-              <Lock size={12} strokeWidth={3} className="inline mr-1" />
-              Scan the current feed before deciding whether the coverage fits your firm.
+            <p className="mt-3 text-sm font-black text-white/60">
+              No credit card required. 3 free scans weekly. Founder rate locks in at £39/mo.
             </p>
           </div>
 

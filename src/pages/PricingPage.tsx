@@ -7,11 +7,11 @@ import { Check } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 
 const planBullets = [
-  'BID, WATCH, SUBCONTRACT or SKIP recommendation',
-  'Evidence found and missing requirements shown before you commit bid time',
-  'Buyer, value, deadline and official response route in one view',
-  'Fit against your services, region, contract range and delivery model',
-  'Decision and outcome tracking so qualification improves over time',
+  'BID, WATCH, SUBCONTRACT or SKIP — clear decision, not a list of links',
+  'Evidence found and missing requirements shown before you waste a day on a bid',
+  'Buyer, value, deadline and official response route — all in one view',
+  'Filtered to your trade, region and contract size — no wrong-trade noise',
+  'Track bids, wins and skips — stop chasing the same dead ends twice',
 ];
 
 const objections = [
@@ -66,11 +66,11 @@ export function PricingPage() {
         <PlanCard
           title="Pilot"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Scan free first. Pay only if the coverage fits your firm."
+          body="Full qualification for every public notice that matches your trade and region. See what fits, what's missing, and the exact response route — before you commit any bid time."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="GET STARTED — £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
