@@ -437,10 +437,13 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Your 3 free scans are done. Buyer details, how to apply and BID/SKIP verdict are locked.'}
             </p>
             {weeklyScansRemaining === 0 ? (
-              <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
+              <div className="ml-auto flex shrink-0 flex-col items-end gap-1">
+                <Link href="/pricing" className="border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
+                <span className="text-[10px] font-black text-[var(--muted)] whitespace-nowrap">Free resets Monday</span>
+              </div>
             ) : weeklyScansUsed > 0 ? (
               <span className="ml-auto text-xs font-black text-[var(--muted)] whitespace-nowrap">Resets Monday</span>
             ) : null}

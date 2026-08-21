@@ -148,25 +148,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── NEW: FREE TRADE PAGE LAUNCH ───────────────── */}
-      <section className="border-b-4 border-[var(--line)] bg-[var(--navy)] text-white">
-        <div className="page-shell grid gap-5 py-8 md:grid-cols-[1fr_auto] md:items-center">
-          <div>
-            <span className="inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
-              NEW
-            </span>
-            <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">GET YOUR OWN FREE TRADE PAGE.</h2>
-            <p className="mt-3 max-w-2xl text-base font-bold text-white/90">
-              A clean, shareable page for your firm in under a minute. Put it on quotes, WhatsApp, your van QR
-              and socials — no login, no cost.
-            </p>
-          </div>
-          <Link href="/microsite" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-            BUILD MY PAGE FREE →
-          </Link>
-        </div>
-      </section>
-
       {/* ── TRUSTED BY ────────────────────────────────── */}
       <section className="border-b-2 border-[var(--line)] bg-white">
         <div className="page-shell py-8 text-center">
@@ -282,6 +263,25 @@ export function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── FREE TRADE PAGE ──────────────────────────── */}
+      <section className="border-b-4 border-[var(--line)] bg-[var(--navy)] text-white">
+        <div className="page-shell grid gap-5 py-8 md:grid-cols-[1fr_auto] md:items-center">
+          <div>
+            <span className="inline-block border-2 border-[var(--yellow)] bg-[var(--yellow)] px-2 py-1 text-xs font-black uppercase text-[var(--ink)]">
+              FREE
+            </span>
+            <h2 className="headline mt-3 text-3xl leading-none sm:text-4xl">GET YOUR OWN FREE TRADE PAGE.</h2>
+            <p className="mt-3 max-w-2xl text-base font-bold text-white/90">
+              A clean, shareable page for your firm in under a minute. Put it on quotes, WhatsApp, your van QR
+              and socials — no login, no cost.
+            </p>
+          </div>
+          <Link href="/microsite" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
+            BUILD MY PAGE FREE →
+          </Link>
         </div>
       </section>
 
