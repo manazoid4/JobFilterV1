@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Your 3 free scans are done. Buyer details, how to apply and BID/SKIP verdict are locked.'}
+                : '3 free scans done this week. Buyer name, deadline and submission link are locked on top matches — scanning stays free.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <div className="ml-auto flex shrink-0 flex-col items-end gap-1">
