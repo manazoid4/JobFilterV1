@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Free scans used — buyer details and bid guidance unlock with Full Access.'}
+                : 'Weekly scans used — scanning still works, buyer details unlock with Full Access.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -785,7 +785,7 @@ export function FindJobsPage() {
                       : 'SEE BUYER, DEADLINE AND BID ROUTE ON EVERY LEAD.'}
                   </h2>
                   <p className="mt-2 text-sm font-black text-[var(--ink)]/70">
-                    Full Access shows the buyer, published value, deadline and official response route. One job covers 12 months at £39.
+                    Full Access shows the buyer, published value where available, deadline and official response route. One job covers 12 months at £39.
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK BUYER DETAILS — £39/MO →</Link>
