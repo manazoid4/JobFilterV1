@@ -139,14 +139,17 @@ export function PricingPage() {
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
-        <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <p className="micro-label text-[var(--ink)]">CHECK BEFORE YOU PAY</p>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SCAN YOUR PATCH FREE. PAY ONLY IF IT FITS.</h2>
+        <p className="mt-3 max-w-2xl font-black text-[var(--ink)]/70">
+          See what&apos;s live in your trade and area right now — no card, no signup. If the coverage fits your firm, activate at £39/mo. One job won covers 12 months.
+        </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="ACTIVATE — £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]">30-day money-back guarantee — one job worth chasing or we refund every penny. No quibbles.</p>
       </section>
     </main>
   );
