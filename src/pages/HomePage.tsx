@@ -8,7 +8,7 @@ const proofPoints = [
   'Live notices from Find a Tender — updated as buyers publish',
   'Buyer, value, deadline and evidence in one view before you decide',
   'BID, WATCH, SUBCONTRACT or SKIP — clear next action every time',
-  'Empty scan = no verified fit — never a made-up lead to fill the screen',
+  'Empty scan = no match found in the current feed — never a made-up lead to fill the screen',
 ];
 
 const signalRows = [
