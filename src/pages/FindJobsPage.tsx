@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Free scans used up — upgrade to see who to call, the value, and the deadline on every lead.'}
+                : 'Buyer details locked — upgrade to see who to call, the value, and the deadline on every lead.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -1540,10 +1540,21 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
     <section className="jf-box bg-white p-6">
       <div className="border-l-4 border-[var(--orange)] pl-4 mb-5">
         <p className="micro-label text-[var(--orange)]">SCAN REPORT</p>
-        <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
-        <p className="mt-2 text-sm font-black text-[var(--muted)]">
-          Bark and Checkatrade sell you a lead whether it&apos;s real or not. Here, no match means there&apos;s genuinely nothing verified for your trade and area right now — check back tomorrow or widen the search.
-        </p>
+        {result.errors.length > 0 ? (
+          <>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO MATCHES THIS SCAN.</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+              The scan completed with errors on some sources — results may be incomplete. Try again or widen the search.
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">NO LIVE MATCHES. NO FAKE LEADS.</h2>
+            <p className="mt-2 text-sm font-black text-[var(--muted)]">
+              Bark and Checkatrade sell you a lead whether it&apos;s real or not. Here, no match means there&apos;s genuinely nothing verified for your trade and area right now — check back tomorrow or widen the search.
+            </p>
+          </>
+        )}
       </div>
       <div className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Engine checked" value={result.source === 'lead_engine' ? 'JobFilter' : 'Verified'} />
@@ -1552,8 +1563,8 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--ink)] bg-[var(--ink)] p-4 text-white">
-        <p className="font-black text-[var(--yellow)] text-sm uppercase tracking-wide">Get notified the moment new jobs come in</p>
-        <p className="mt-1 text-sm font-black text-white/80">New verified jobs for your trade and area — sent straight to you. No missed first-mover window. No credit card required.</p>
+        <p className="font-black text-[var(--yellow)] text-sm uppercase tracking-wide">Get a weekly alert when new jobs come in</p>
+        <p className="mt-1 text-sm font-black text-white/80">New verified jobs for your trade and area — delivered weekly. Upgrade for daily or instant alerts.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--yellow)] text-[var(--ink)] text-sm" href="/pricing">
           SET UP YOUR TRADE ALERT →
         </Link>
