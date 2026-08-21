@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'Weekly scans used — scanning still works, buyer details unlock with Full Access.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -778,19 +778,19 @@ export function FindJobsPage() {
               {/* Free tier upgrade nudge — shown after leads so users see value before the ask */}
               {!DEV_MODE && !unlimitedTester && displayedLeads.length > 0 && (
                 <section className="jf-box bg-[var(--yellow)] p-5">
-                  <p className="micro-label text-[var(--ink)]">REAL JOBS. BUYER DETAILS IN FULL ACCESS.</p>
+                  <p className="micro-label text-[var(--ink)]">THESE ARE REAL JOBS — BUYER DETAILS LOCKED</p>
                   <h2 className="headline mt-2 text-3xl leading-none sm:text-4xl">
                     {goldCount > 0
                       ? `${goldCount} GOLD LEAD${goldCount !== 1 ? 'S' : ''} NEAR ${result?.outward || postcode.trim().split(' ')[0].toUpperCase()} — SEE WHO TO CALL.`
-                      : 'SEE BUYER DETAILS ON EVERY LEAD.'}
+                      : 'SEE BUYER, DEADLINE AND BID ROUTE ON EVERY LEAD.'}
                   </h2>
-                  <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
-                  </div>
-                  <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
-                    Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
+                  <p className="mt-2 text-sm font-black text-[var(--ink)]/70">
+                    Full Access shows the buyer, published value where available, deadline and official response route. One job covers 12 months at £39.
                   </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">UNLOCK BUYER DETAILS — £39/MO →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to browse · 30-day money back</span>
+                  </div>
                 </section>
               )}
 
@@ -1210,16 +1210,16 @@ function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, is
           <button
             type="button"
             onClick={() => setShowScoreReasons(v => !v)}
-            className="mt-1 px-1.5 py-0.5 text-[9px] font-black uppercase border border-[var(--line)] bg-[var(--bg-main)] text-[var(--muted)] hover:border-[var(--ink)] hover:text-[var(--ink)] transition-colors"
+            className="mt-1 px-2 py-1 text-[11px] font-black uppercase border-2 border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] hover:border-[var(--ink)] hover:bg-[var(--yellow)] transition-colors"
           >
-            {showScoreReasons ? 'HIDE' : 'WHY?'}
+            {showScoreReasons ? 'HIDE' : 'WHY THIS SCORE?'}
           </button>
         )}
         {showScoreReasons && (
-          <div className="mt-2 w-36 border border-[var(--line)] bg-[var(--bg-main)] p-2">
-            <ul className="grid gap-0.5">
+          <div className="mt-2 w-40 border-2 border-[var(--line)] bg-white p-2 shadow-[2px_2px_0_var(--line)]">
+            <ul className="grid gap-1">
               {parsedReasons.map((r, i) => (
-                <li key={i} className={`text-[9px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
+                <li key={i} className={`text-[10px] font-black leading-tight ${r.highlight ? 'text-[var(--ink)]' : 'text-[var(--muted)]'}`}>{r.label}</li>
               ))}
             </ul>
           </div>
