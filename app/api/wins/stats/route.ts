@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Gracefully degrade when aggregates are disabled (PGRST123) — show count, omit value.
-  const hasSumValue = !sumRes.error && sumRes.data != null;
+  const hasSumValue = !sumRes.error && (sumRes.data as any)?.sum != null;
   const totalValue = hasSumValue ? Number((sumRes.data as any)?.sum ?? 0) : 0;
   const totalFormatted = formatValue(totalValue);
 
