@@ -66,7 +66,7 @@ export function PricingPage() {
           title="Pilot — £39/mo"
           price="£39/mo"
           priceNote="Locked at founder rate. Cancel any month."
-          body="Full evidence, buyer, value, deadline and response route. BID, WATCH, SUBCONTRACT or SKIP decision on every match. 30-day money-back, no contract, no renewal sting."
+          body="Full evidence, buyer, value, deadline and response route. BID, WATCH, SUBCONTRACT or SKIP decision on every match. Cancel any month, no contract, no renewal sting."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}

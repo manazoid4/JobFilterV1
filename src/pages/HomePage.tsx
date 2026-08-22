@@ -341,7 +341,7 @@ export function HomePage() {
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              Run the free scan. If you see opportunities your firm can win, the pilot is £39/month — cancel any time. No contract. No fabricated results. No five-trade blast.
+              Run the free scan. If you see opportunities worth pursuing, the pilot is £39/month — cancel any time. No contract. No fabricated results. No five-trade blast.
             </p>
             <Link href="/find-jobs" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
               SCAN MY AREA FREE →
