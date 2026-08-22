@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
+import { outwardFromPostcode } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -170,7 +171,7 @@ function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: 
     title: body.title ?? 'Unknown job',
     trade: body.trade ?? null,
     location: body.location ?? null,
-    postcode_outward: body.postcodeOutward ?? body.postcode ?? null,
+    postcode_outward: outwardFromPostcode(body.postcodeOutward ?? body.postcode ?? '') || null,
     status,
     won_value: toMoneyInt(body.wonValue ?? body.value),
     lost_reason: status === 'lost' ? body.lostReason ?? null : null,
