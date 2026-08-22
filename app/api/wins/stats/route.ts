@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
+  const now = new Date().toISOString();
   const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
   const base = { status: 'won' as const, won_at: ninetyDaysAgo, postcode_outward: outward };
 
@@ -31,12 +32,14 @@ export async function GET(request: NextRequest) {
       .select('*', { count: 'exact', head: true })
       .eq('status', base.status)
       .gte('won_at', base.won_at)
+      .lte('won_at', now)
       .eq('postcode_outward', base.postcode_outward),
     supabase
       .from('lead_outcomes')
       .select('won_value.sum()')
       .eq('status', base.status)
       .gte('won_at', base.won_at)
+      .lte('won_at', now)
       .eq('postcode_outward', base.postcode_outward)
       .single(),
   ]);
