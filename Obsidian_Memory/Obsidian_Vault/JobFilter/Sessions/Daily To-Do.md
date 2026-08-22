@@ -17,6 +17,11 @@
 - [x] Codex P2 fix (round 3): AbortController in WinStatsBanner; jobs-won message copy
 - [x] Codex P2 fix (round 4): foldLine() per RFC 5545 §3.1 applied to ICS join; "logged work" not "verified work"
 - [x] All CI green on commit 6fa98b5: GitHub Actions ✅ Vercel ✅ Meticulous ✅ (0 diffs / 169 screens)
+- [x] Codex P2 fix (round 5): normalize postcode_outward at write time in buildOutcomeRow()
+- [x] Codex P2 fix (round 6): omit totalValueFormatted for wonCount < 2; add VTIMEZONE to ICS
+- [x] Codex P2 fix (round 7): pin nanoid override to <4; use exact count for wins/stats
+- [x] Regenerated package-lock.json after nanoid override change (commit 97eddd4)
+- [x] All CI green on commit 97eddd4: GitHub Actions ✅ Vercel ✅ — all 18 Codex P2 threads replied
 
 ---
 
