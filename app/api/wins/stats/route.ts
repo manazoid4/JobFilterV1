@@ -23,23 +23,34 @@ export async function GET(request: NextRequest) {
   }
 
   const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
+  const base = { status: 'won' as const, won_at: ninetyDaysAgo, postcode_outward: outward };
 
-  const { data, count, error } = await supabase
-    .from('lead_outcomes')
-    .select('won_value', { count: 'exact' })
-    .eq('status', 'won')
-    .gte('won_at', ninetyDaysAgo)
-    .eq('postcode_outward', outward);
-  if (error) {
+  const [countRes, sumRes] = await Promise.all([
+    supabase
+      .from('lead_outcomes')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', base.status)
+      .gte('won_at', base.won_at)
+      .eq('postcode_outward', base.postcode_outward),
+    supabase
+      .from('lead_outcomes')
+      .select('won_value.sum()')
+      .eq('status', base.status)
+      .gte('won_at', base.won_at)
+      .eq('postcode_outward', base.postcode_outward)
+      .single(),
+  ]);
+
+  if (countRes.error || sumRes.error) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const wonCount = count ?? 0;
+  const wonCount = countRes.count ?? 0;
   if (wonCount === 0) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const totalValue = (data ?? []).reduce((s, r) => s + Number(r.won_value ?? 0), 0);
+  const totalValue = Number((sumRes.data as any)?.sum ?? 0);
   const totalFormatted = formatValue(totalValue);
 
   const message =
