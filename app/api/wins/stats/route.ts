@@ -10,9 +10,9 @@ function formatValue(total: number): string {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const postcode = searchParams.get('postcode')?.trim().toUpperCase() ?? '';
-  const areaPrefix = postcode.slice(0, 2);
+  const outward = postcode.split(' ')[0]; // full outward code e.g. B14, SW1A
 
-  if (!areaPrefix) {
+  if (outward.length < 2) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     .select('postcode_outward, won_value')
     .eq('status', 'won')
     .gte('won_at', ninetyDaysAgo)
-    .ilike('postcode_outward', `${areaPrefix}%`)
+    .eq('postcode_outward', outward)
     .limit(500);
   if (error) {
     return Response.json({ ok: true, wonCount: 0 });
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
   const totalValue = rows.reduce((s, r) => s + Number(r.won_value ?? 0), 0);
   const totalFormatted = formatValue(totalValue);
-  const area = postcode || 'your area';
+  const area = outward || 'your area';
 
   const message =
     wonCount === 1

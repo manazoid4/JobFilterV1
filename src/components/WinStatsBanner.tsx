@@ -11,11 +11,12 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
 
   useEffect(() => {
+    setStats(null);
     const outward = postcode.trim().split(' ')[0].toUpperCase();
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.ok && data.wonCount > 0) setStats(data);
+        setStats(data.ok && data.wonCount > 0 ? data : null);
       })
       .catch(() => {});
   }, [postcode]);

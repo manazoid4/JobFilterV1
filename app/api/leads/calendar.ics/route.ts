@@ -4,17 +4,34 @@ function fmtUtc(d: Date): string {
   return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
-function fmtLocal(d: Date): string {
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
-}
-
 function escIcs(text: string): string {
   return text
     .replace(/\\/g, '\\\\')
     .replace(/;/g, '\\;')
     .replace(/,/g, '\\,')
     .replace(/\r\n|\r|\n/g, '\\n');
+}
+
+function tomorrowLondonDate(): string {
+  const londonFmt = (d: Date) =>
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).formatToParts(d);
+  const today = londonFmt(new Date());
+  const y = Number(today.find(x => x.type === 'year')!.value);
+  const mo = Number(today.find(x => x.type === 'month')!.value);
+  const d = Number(today.find(x => x.type === 'day')!.value);
+  // Construct noon UTC on London's tomorrow to avoid DST edges in intermediate Date
+  const next = new Date(Date.UTC(y, mo - 1, d + 1, 12, 0, 0));
+  const tp = londonFmt(next);
+  return (
+    tp.find(x => x.type === 'year')!.value +
+    tp.find(x => x.type === 'month')!.value +
+    tp.find(x => x.type === 'day')!.value
+  );
 }
 
 function buildIcs(params: {
@@ -27,11 +44,7 @@ function buildIcs(params: {
   details?: string;
 }): string {
   const now = new Date();
-  const start = new Date(now);
-  start.setDate(start.getDate() + 1);
-  start.setHours(9, 0, 0, 0);
-  const end = new Date(start);
-  end.setHours(10, 0, 0, 0);
+  const dateStr = tomorrowLondonDate();
 
   const descParts = [
     params.area ? `Area: ${escIcs(params.area)}` : '',
@@ -48,8 +61,8 @@ function buildIcs(params: {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `DTSTART;TZID=Europe/London:${fmtLocal(start)}`,
-    `DTEND;TZID=Europe/London:${fmtLocal(end)}`,
+    `DTSTART;TZID=Europe/London:${dateStr}T090000`,
+    `DTEND;TZID=Europe/London:${dateStr}T100000`,
     `DTSTAMP:${fmtUtc(now)}`,
     `UID:jf-lead-${params.leadId}@jobfilter.co.uk`,
     `SUMMARY:${escIcs(`Follow up: ${params.jobType} – ${params.postcode}`)}`,
