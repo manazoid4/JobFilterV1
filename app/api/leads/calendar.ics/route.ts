@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
   }
 
   const ics = buildIcs({ leadId, jobType, postcode, area, score, urgency, details });
-  const filename = `jobfilter-lead-${postcode.replace(/\s+/g, '')}.ics`;
+  const filename = `jobfilter-lead-${postcode.replace(/[^A-Za-z0-9]/g, '')}.ics`;
 
   return new Response(ics, {
     headers: {

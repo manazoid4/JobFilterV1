@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       .single(),
   ]);
 
-  if (countRes.error || sumRes.error) {
+  if (countRes.error) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
@@ -50,15 +50,17 @@ export async function GET(request: NextRequest) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const totalValue = Number((sumRes.data as any)?.sum ?? 0);
+  // Gracefully degrade when aggregates are disabled (PGRST123) — show count, omit value.
+  const hasSumValue = !sumRes.error && sumRes.data != null;
+  const totalValue = hasSumValue ? Number((sumRes.data as any)?.sum ?? 0) : 0;
   const totalFormatted = formatValue(totalValue);
 
   const message =
-    wonCount === 1
-      ? `1 job won near ${outward} in the last 90 days via JobFilter`
+    wonCount === 1 || !hasSumValue
+      ? `${wonCount} job${wonCount === 1 ? '' : 's'} won near ${outward} in the last 90 days via JobFilter`
       : `${wonCount} jobs won near ${outward} in the last 90 days — ${totalFormatted} in logged work`;
 
   const payload: Record<string, unknown> = { ok: true, wonCount, message };
-  if (wonCount >= 2) payload.totalValueFormatted = totalFormatted;
+  if (hasSumValue && wonCount >= 2) payload.totalValueFormatted = totalFormatted;
   return Response.json(payload);
 }
