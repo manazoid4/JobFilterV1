@@ -22,6 +22,8 @@
 - [x] Codex P2 fix (round 7): pin nanoid override to <4; use exact count for wins/stats
 - [x] Regenerated package-lock.json after nanoid override change (commit 97eddd4)
 - [x] All CI green on commit 97eddd4: GitHub Actions ✅ Vercel ✅ — all 18 Codex P2 threads replied
+- [x] Codex P2 fix (round 8): server-side won_value.sum() to avoid row-cap partial totals; postcode backfill migration
+- [x] All CI green on commit 45a8db4: GitHub Actions ✅ Vercel ✅ — all 20 Codex P2 threads replied
 
 ---
 
