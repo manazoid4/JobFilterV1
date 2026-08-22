@@ -49,5 +49,7 @@ export async function GET(request: NextRequest) {
       ? `1 job won near ${outward} in the last 90 days via JobFilter`
       : `${wonCount} jobs won near ${outward} in the last 90 days — ${totalFormatted} in logged work`;
 
-  return Response.json({ ok: true, wonCount, totalValueFormatted: totalFormatted, message });
+  const payload: Record<string, unknown> = { ok: true, wonCount, message };
+  if (wonCount >= 2) payload.totalValueFormatted = totalFormatted;
+  return Response.json(payload);
 }
