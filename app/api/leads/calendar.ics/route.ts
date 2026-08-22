@@ -1,7 +1,20 @@
 import { NextRequest } from 'next/server';
 
-function fmt(d: Date): string {
+function fmtUtc(d: Date): string {
   return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+}
+
+function fmtLocal(d: Date): string {
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}T${p(d.getHours())}${p(d.getMinutes())}${p(d.getSeconds())}`;
+}
+
+function escIcs(text: string): string {
+  return text
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r\n|\r|\n/g, '\\n');
 }
 
 function buildIcs(params: {
@@ -21,10 +34,10 @@ function buildIcs(params: {
   end.setHours(10, 0, 0, 0);
 
   const descParts = [
-    params.area ? `Area: ${params.area}` : '',
-    params.score ? `Score: ${params.score}/100` : '',
-    params.urgency ? `Urgency: ${params.urgency}` : '',
-    params.details ? `Details: ${params.details}` : '',
+    params.area ? `Area: ${escIcs(params.area)}` : '',
+    params.score ? `Score: ${escIcs(params.score)}/100` : '',
+    params.urgency ? `Urgency: ${escIcs(params.urgency)}` : '',
+    params.details ? `Details: ${escIcs(params.details)}` : '',
     'Sent by JobFilter — jobfilter.co.uk',
   ].filter(Boolean);
 
@@ -35,13 +48,13 @@ function buildIcs(params: {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `DTSTART:${fmt(start)}`,
-    `DTEND:${fmt(end)}`,
-    `DTSTAMP:${fmt(now)}`,
+    `DTSTART;TZID=Europe/London:${fmtLocal(start)}`,
+    `DTEND;TZID=Europe/London:${fmtLocal(end)}`,
+    `DTSTAMP:${fmtUtc(now)}`,
     `UID:jf-lead-${params.leadId}@jobfilter.co.uk`,
-    `SUMMARY:Follow up: ${params.jobType} – ${params.postcode}`,
+    `SUMMARY:${escIcs(`Follow up: ${params.jobType} – ${params.postcode}`)}`,
     `DESCRIPTION:${descParts.join('\\n')}`,
-    `LOCATION:${params.postcode}`,
+    `LOCATION:${escIcs(params.postcode)}`,
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n');

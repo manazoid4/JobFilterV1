@@ -12,6 +12,10 @@ export async function GET(request: NextRequest) {
   const postcode = searchParams.get('postcode')?.trim().toUpperCase() ?? '';
   const areaPrefix = postcode.slice(0, 2);
 
+  if (!areaPrefix) {
+    return Response.json({ ok: true, wonCount: 0 });
+  }
+
   const supabase = getSupabaseServiceClient();
   if (!supabase) {
     return Response.json({ ok: true, wonCount: 0 });
@@ -19,17 +23,13 @@ export async function GET(request: NextRequest) {
 
   const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
 
-  let query = supabase
+  const { data, error } = await supabase
     .from('lead_outcomes')
     .select('postcode_outward, won_value')
     .eq('status', 'won')
-    .gte('won_at', ninetyDaysAgo);
-
-  if (areaPrefix) {
-    query = query.ilike('postcode_outward', `${areaPrefix}%`);
-  }
-
-  const { data, error } = await query.limit(500);
+    .gte('won_at', ninetyDaysAgo)
+    .ilike('postcode_outward', `${areaPrefix}%`)
+    .limit(500);
   if (error) {
     return Response.json({ ok: true, wonCount: 0 });
   }
