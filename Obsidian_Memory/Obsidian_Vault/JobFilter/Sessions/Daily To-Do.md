@@ -8,9 +8,14 @@ Last updated: 2026-08-22 (NightlyBuildAgent)
 - [x] HomePage hero copy — fear→proof→control, competitor names in ops strip
 - [x] PricingPage CTAs — removed "START AFTER COVERAGE CHECK" friction, clear pricing
 - [x] PR #499 opened — nightly/2026-08-22-copy-polish
+- [x] Codex P1 (30-day money-back vs LegalPage) — removed refund promise (commit 29b59c8)
+- [x] Codex P2 (can win overstatement) — changed to "worth pursuing" (commit 29b59c8)
+- [x] Codex P1 round-2 (pilot promises ungated features) — restored activation caveat (commit 0ac934d)
+- [x] Codex P2 round-2 (empty result too categorical) — qualified for partial feed failure (commit 0ac934d)
+- [x] All 4 Codex review threads replied to on PR #499
 
 ## In Progress
-- [ ] PR #499 — awaiting CI "check" status to pass before merge
+- [ ] PR #499 — awaiting CI "check" status on commit 0ac934d before merge
 
 ## Next Run Priorities
 1. Copy polish: ForYourTradePage.tsx — trade-specific fear hooks and competitor callouts
