@@ -126,7 +126,7 @@ export function HomePage() {
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
           <span>Wrong trade. Wrong region. Wrong deadline. Checkatrade, MyBuilder and Bark cannot tell you that.</span>
           <span>Qualified by evidence, firm fit, region, value, and timing — against official verified signals</span>
-          <span>Empty result means nothing matched your firm — never a made-up job</span>
+          <span>Empty result means nothing matched — or coverage was unavailable at scan time. Never a made-up job</span>
         </div>
       </section>
 
