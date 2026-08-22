@@ -12,6 +12,25 @@ function escIcs(text: string): string {
     .replace(/\r\n|\r|\n/g, '\\n');
 }
 
+function foldLine(line: string): string {
+  // RFC 5545 §3.1: fold at 75 octets; continuation lines prefixed with a space
+  const buf = Buffer.from(line, 'utf8');
+  if (buf.length <= 75) return line;
+  const chunks: string[] = [];
+  let offset = 0;
+  let first = true;
+  while (offset < buf.length) {
+    const limit = first ? 75 : 74; // leading space on continuation consumes 1 octet
+    let end = Math.min(offset + limit, buf.length);
+    // Walk back to a safe UTF-8 boundary (avoid splitting multi-byte sequences)
+    while (end < buf.length && (buf[end] & 0xc0) === 0x80) end--;
+    chunks.push((first ? '' : ' ') + buf.slice(offset, end).toString('utf8'));
+    offset = end;
+    first = false;
+  }
+  return chunks.join('\r\n');
+}
+
 function tomorrowLondonDate(): string {
   const londonFmt = (d: Date) =>
     new Intl.DateTimeFormat('en-GB', {
@@ -70,7 +89,7 @@ function buildIcs(params: {
     `LOCATION:${escIcs(params.postcode)}`,
     'END:VEVENT',
     'END:VCALENDAR',
-  ].join('\r\n');
+  ].map(foldLine).join('\r\n');
 }
 
 export async function GET(request: NextRequest) {
