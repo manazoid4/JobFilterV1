@@ -1,26 +1,5 @@
 import { NextRequest } from 'next/server';
-import fs from 'node:fs';
-import path from 'node:path';
-
-interface Outcome {
-  postcode_outward: string;
-  trade: string;
-  value: number;
-  wonAt: string;
-}
-
-function readOutcomes(): Outcome[] {
-  try {
-    const file = path.join(process.cwd(), 'data', 'outcomes.jsonl');
-    if (!fs.existsSync(file)) return [];
-    const lines = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean);
-    return lines
-      .map((l) => { try { return JSON.parse(l) as Outcome; } catch { return null; } })
-      .filter((o): o is Outcome => !!o);
-  } catch {
-    return [];
-  }
-}
+import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
 
 function formatValue(total: number): string {
   if (total >= 1_000_000) return `£${(total / 1_000_000).toFixed(1)}m`;
@@ -31,25 +10,37 @@ function formatValue(total: number): string {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const postcode = searchParams.get('postcode')?.trim().toUpperCase() ?? '';
+  const areaPrefix = postcode.slice(0, 2);
 
-  const outcomes = readOutcomes();
+  const supabase = getSupabaseServiceClient();
+  if (!supabase) {
+    return Response.json({ ok: true, wonCount: 0 });
+  }
 
-  const nineDaysAgo = Date.now() - 90 * 24 * 60 * 60 * 1000;
-  const recent = outcomes.filter((o) => {
-    const t = Date.parse(o.wonAt);
-    return !isNaN(t) && t >= nineDaysAgo;
-  });
+  const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
 
-  const nearby = postcode
-    ? recent.filter((o) => o.postcode_outward.startsWith(postcode.slice(0, 2)))
-    : recent;
+  let query = supabase
+    .from('lead_outcomes')
+    .select('postcode_outward, won_value')
+    .eq('status', 'won')
+    .gte('won_at', ninetyDaysAgo);
 
-  const wonCount = nearby.length;
+  if (areaPrefix) {
+    query = query.ilike('postcode_outward', `${areaPrefix}%`);
+  }
+
+  const { data, error } = await query.limit(500);
+  if (error) {
+    return Response.json({ ok: true, wonCount: 0 });
+  }
+
+  const rows = data ?? [];
+  const wonCount = rows.length;
   if (wonCount === 0) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const totalValue = nearby.reduce((s, o) => s + (o.value || 0), 0);
+  const totalValue = rows.reduce((s, r) => s + Number(r.won_value ?? 0), 0);
   const totalFormatted = formatValue(totalValue);
   const area = postcode || 'your area';
 
