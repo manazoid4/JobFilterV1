@@ -46,8 +46,8 @@ export async function GET(request: NextRequest) {
 
   const message =
     wonCount === 1
-      ? `1 trade won a job near ${outward} in the last 90 days via JobFilter`
-      : `${wonCount} trades won jobs near ${outward} in the last 90 days — ${totalFormatted} in verified work`;
+      ? `1 job won near ${outward} in the last 90 days via JobFilter`
+      : `${wonCount} jobs won near ${outward} in the last 90 days — ${totalFormatted} in verified work`;
 
   return Response.json({ ok: true, wonCount, totalValueFormatted: totalFormatted, message });
 }
