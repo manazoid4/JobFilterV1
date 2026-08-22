@@ -67,7 +67,7 @@ export function HomePage() {
               <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              JobFilter scans current Find a Tender notices and shows the evidence, missing requirements and next action: BID, WATCH, pursue a SUBCONTRACT route, or SKIP. Find a Tender is free. Every result remains a public opportunity that other suppliers may pursue.
+              Stop reading tender notices that are the wrong trade, wrong region, or already closed. JobFilter checks each opportunity against your firm and tells you — BID, WATCH, SUBCONTRACT, or SKIP. Takes seconds. No credit card required.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
@@ -124,9 +124,9 @@ export function HomePage() {
       {/* ── OPS STRIP ─────────────────────────────────── */}
       <section className="ops-strip">
         <div className="page-shell grid gap-3 py-4 text-sm font-black uppercase tracking-[0.08em] text-[var(--ink)] md:grid-cols-3">
-          <span>Live coverage starts with official public opportunities</span>
-          <span>Qualified by evidence, firm fit, region, value, and timing</span>
-          <span>Empty scan means no verified match — never a made-up job</span>
+          <span>Wrong trade. Wrong region. Wrong deadline. Checkatrade, MyBuilder and Bark cannot tell you that.</span>
+          <span>Qualified by evidence, firm fit, region, value, and timing — against official verified signals</span>
+          <span>Empty result means nothing matched your firm — never a made-up job</span>
         </div>
       </section>
 
@@ -336,16 +336,17 @@ export function HomePage() {
             <div className="flex items-center gap-3 border-b-2 border-[var(--line)] pb-4">
               <AlertTriangle size={28} strokeWidth={3} />
               <div>
-                <p className="micro-label text-[var(--orange)]">FOUNDER-ASSISTED PILOT</p>
-                <h3 className="headline text-3xl">Check fit before payment.</h3>
+                <p className="micro-label text-[var(--orange)]">SCAN FREE FIRST — NO CARD</p>
+                <h3 className="headline text-3xl">See real results before you pay.</h3>
               </div>
             </div>
             <p className="mt-4 text-base font-black text-[var(--muted)]">
-              No fabricated live jobs and no promised volume. Pilot activation follows a real source-coverage and firm-fit check.
+              Run the free scan. If you see opportunities your firm can win, the pilot is £39/month — cancel any time. No contract. No fabricated results. No five-trade blast.
             </p>
-            <Link href="/pricing" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
-              CHECK PILOT FIT & PRICING →
+            <Link href="/find-jobs" className="jf-button mt-5 block text-center bg-[var(--yellow)] text-[var(--ink)]">
+              SCAN MY AREA FREE →
             </Link>
+            <p className="mt-2 text-center text-xs font-black text-[var(--muted)]">No credit card required</p>
             <div className="mt-4 border-2 border-[var(--green)]/50 bg-[var(--green)]/10 px-4 py-3 text-sm font-black text-[var(--green)] text-center">
               ✓ PUBLIC OPPORTUNITIES — ACCESS IS NOT EXCLUSIVE
             </div>

@@ -47,30 +47,29 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for firm-aware qualification, evidence and decision workflow.</p>
+        <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Run it first — if coverage is thin, the free tier stays open.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
         <PlanCard
           title="Free Scan"
           price="£0"
-          body="Check current public notices before you commit. The official source remains visible and accessible; JobFilter does not sell access to public inventory."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty results shown honestly']}
+          body="Run the scanner before you commit. See real current notices, trade fit and official source links. Empty means there is nothing to hide — just no match in the current feed."
+          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Honest empty result when no match exists']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
           order="order-last lg:order-none"
         />
         <PlanCard
-          title="Pilot"
+          title="Pilot — £39/mo"
           price="£39/mo"
-          priceNote="Paid activation follows coverage and delivery checks."
-          body="Firm-aware qualification for public opportunities. Pilot access follows a coverage and fit check; delivery features activate only when the relevant account and provider setup is ready."
+          priceNote="Locked at founder rate. Cancel any month."
+          body="Full evidence, buyer, value, deadline and response route. BID, WATCH, SUBCONTRACT or SKIP decision on every match. 30-day money-back, no contract, no renewal sting."
           items={planBullets}
           featured
-          cta={<CheckoutButton tier="founding" billing="monthly" label="START AFTER COVERAGE CHECK →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
+          cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
           order="order-first lg:order-none"
         />
       </section>
