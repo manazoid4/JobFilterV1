@@ -12,26 +12,26 @@
 - [x] TopNav copy — replaced "CHECK FTS FREE" jargon with "SCAN FREE →"
 - [x] Build passes (122 pages, 0 errors) after all changes
 - [x] PR #496 opened: https://github.com/manazoid4/JobFilterV1/pull/496
+- [x] Codex P2 fix (round 1): ilike→eq on postcode_outward; outward code from split not slice
+- [x] Codex P2 fix (round 2): compact postcode parsing via outwardFromPostcode(); escIcs() for ICS injection; tomorrowLondonDate() for BST-safe date
+- [x] Codex P2 fix (round 3): AbortController in WinStatsBanner; jobs-won message copy
+- [x] Codex P2 fix (round 4): foldLine() per RFC 5545 §3.1 applied to ICS join; "logged work" not "verified work"
+- [x] All CI green on commit 6fa98b5: GitHub Actions ✅ Vercel ✅ Meticulous ✅ (0 diffs / 169 screens)
 
 ---
 
 ## Next Run Priorities
 
-### Priority 1 — Populate `data/outcomes.jsonl`
-When real tradespeople mark jobs as won (via the win engine / markWon()), write their anonymised outcomes to `data/outcomes.jsonl`. The WinStatsBanner will then show social proof automatically on FindJobsPage. Format: `{"postcode_outward":"B14","trade":"electrical","value":2500,"wonAt":"2026-08-20T10:00:00Z"}` one per line.
+### Priority 1 — Populate `lead_outcomes` via markWon()
+Wire the win-tracking flow: when a user marks a job as won in WinEngine, POST to a new `/api/wins/record` endpoint that writes an anonymised row (postcode_outward, trade, value, date — no personal data) to Supabase `lead_outcomes`. This closes the loop: WinStatsBanner reads from `lead_outcomes`; `markWon()` now needs to write to it.
 
 ### Priority 2 — Trade-specific scoring UX
 The `parseTradeReasons()` function in FindJobsPage extracts generic reasons. Make scoring reason tags more specific per trade: electrician sees EV CHARGER, REWIRE, CONSUMER UNIT, EICR; plumber sees BOILER, HEAT PUMP, BATHROOM; roofer sees FLAT ROOF, GUTTERING, SKYLIGHTS. Map trade → keyword set and show the most relevant signal tags prominently.
 
-### Priority 3 — Add ICS "ADD TO CALENDAR" link on LeadDetailPage
+### Priority 3 — ADD TO CALENDAR button on LeadDetailPage
 The `downloadIcs()` function already exists client-side in LeadDetailPage. Add a visible "ADD TO CALENDAR" button next to the WhatsApp and track buttons (currently the link exists only via `CalendarCopyLink` which is copy-to-clipboard). Should trigger the client-side `downloadIcs()` directly for a simpler UX.
-
-### Priority 4 — Wire `data/outcomes.jsonl` writes from markWon()
-When a user marks a job as won in the WinEngine, write an anonymised entry (no personal data, just postcode outward + trade + value + date) to the server-side outcomes file via a new `POST /api/wins/record` endpoint. This closes the loop between WinStatsBanner (reads) and the win tracking flow (writes).
 
 ---
 
 ## Known Issues
-- PR requires "check" status check to pass before merge to main — normal CI gate
-- `data/` directory is gitignored (correct for runtime data)
 - `Obsidian_Memory/` directory is new in repo — needs to be tracked going forward
