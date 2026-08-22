@@ -38,20 +38,19 @@ export function PricingPage() {
         </section>
       )}
       <section className="ops-panel bg-[var(--ink)] p-7 text-white">
-        <p className="micro-label text-[var(--yellow)]">FOUNDER-ASSISTED PILOT</p>
+        <p className="micro-label text-[var(--yellow)]">FROM £39/MO — NO CONTRACT, CANCEL ANYTIME</p>
         <h1 className="headline mt-3 max-w-4xl text-5xl leading-none text-white md:text-7xl">
-          KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM — AND WHICH TO SKIP.
+          STOP WASTING HOURS ON THE FTS PORTAL. GET THE BID/SKIP ANSWER IN SECONDS.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-white/85">
-          For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
+          BuildAlert and Planning Pipe push raw alerts. JobFilter scores every current notice against your trade, area, and capacity — then tells you whether to BID, WATCH, pursue a SUBCONTRACT route, or SKIP.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CREDIT CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free. The subscription pays for firm-aware qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-white/60">No card required for the free check. Current results can be sparse or empty.</p>
-        <p className="mt-1 text-sm font-black text-[var(--yellow)]/80">Check source coverage and firm fit before paid activation.</p>
+        <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender stays free and public. You pay for qualification — not access.</p>
+        <p className="mt-1 text-sm font-black text-white/60">Run a free scan first. Empty result is an honest answer, not a fault.</p>
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
@@ -135,18 +134,26 @@ export function PricingPage() {
               <p className="mt-2 font-bold text-[var(--muted)]">{a}</p>
             </article>
           ))}
+          <article className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
+            <h3 className="headline text-xl">How is this different from BuildAlert or Planning Pipe?</h3>
+            <p className="mt-2 font-bold text-[var(--muted)]">BuildAlert and Planning Pipe push raw planning alerts — you still have to read every one and decide if it fits. JobFilter qualifies each notice against your trade codes, delivery area, contract range, and capacity before you see it. You get a BID, WATCH, SUBCONTRACT or SKIP verdict, not a raw feed to filter.</p>
+          </article>
+          <article className="border-2 border-[var(--line)] bg-[var(--paper)] p-5">
+            <h3 className="headline text-xl">I use Checkatrade, MyBuilder, or Bark for leads — is this the same?</h3>
+            <p className="mt-2 font-bold text-[var(--muted)]">No. Checkatrade, MyBuilder, and Bark sell domestic job introductions — you pay per lead or per year for homeowner enquiries. JobFilter is for public procurement: councils, housing associations, and government buyers posting contracts on Find a Tender. Different buyer, different scale, no per-lead fee.</p>
+          </article>
         </div>
       </section>
 
       <section className="ops-panel bg-[var(--yellow)] p-7 text-[var(--ink)]">
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
-        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
+        <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">SCAN YOUR AREA NOW — THEN DECIDE.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO — NO CONTRACT →" className="bg-[var(--ink)] text-white" />
+          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CREDIT CARD →</Link>
         </div>
-        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
-        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
+        <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Find a Tender is public. You pay for qualification — buyer, deadline, fit verdict — not access to notices.</p>
+        <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No credit card required to scan. Cancel the subscription anytime.</p>
       </section>
     </main>
   );
