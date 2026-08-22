@@ -24,24 +24,22 @@ export async function GET(request: NextRequest) {
 
   const ninetyDaysAgo = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString();
 
-  const { data, error } = await supabase
+  const { data, count, error } = await supabase
     .from('lead_outcomes')
-    .select('postcode_outward, won_value')
+    .select('won_value', { count: 'exact' })
     .eq('status', 'won')
     .gte('won_at', ninetyDaysAgo)
-    .eq('postcode_outward', outward)
-    .limit(500);
+    .eq('postcode_outward', outward);
   if (error) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const rows = data ?? [];
-  const wonCount = rows.length;
+  const wonCount = count ?? 0;
   if (wonCount === 0) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
-  const totalValue = rows.reduce((s, r) => s + Number(r.won_value ?? 0), 0);
+  const totalValue = (data ?? []).reduce((s, r) => s + Number(r.won_value ?? 0), 0);
   const totalFormatted = formatValue(totalValue);
 
   const message =
