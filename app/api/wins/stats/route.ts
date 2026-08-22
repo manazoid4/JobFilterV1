@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { outwardFromPostcode } from '../../../../server/utils/postcode';
 
 function formatValue(total: number): string {
   if (total >= 1_000_000) return `£${(total / 1_000_000).toFixed(1)}m`;
@@ -9,10 +10,10 @@ function formatValue(total: number): string {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const postcode = searchParams.get('postcode')?.trim().toUpperCase() ?? '';
-  const outward = postcode.split(' ')[0]; // full outward code e.g. B14, SW1A
+  const postcode = searchParams.get('postcode')?.trim() ?? '';
+  const outward = outwardFromPostcode(postcode); // handles "B14 7QH" and compact "B147QH"
 
-  if (outward.length < 2) {
+  if (!outward) {
     return Response.json({ ok: true, wonCount: 0 });
   }
 
@@ -42,12 +43,11 @@ export async function GET(request: NextRequest) {
 
   const totalValue = rows.reduce((s, r) => s + Number(r.won_value ?? 0), 0);
   const totalFormatted = formatValue(totalValue);
-  const area = outward || 'your area';
 
   const message =
     wonCount === 1
-      ? `1 trade won a job near ${area} in the last 90 days via JobFilter`
-      : `${wonCount} trades won jobs near ${area} in the last 90 days — ${totalFormatted} in verified work`;
+      ? `1 trade won a job near ${outward} in the last 90 days via JobFilter`
+      : `${wonCount} trades won jobs near ${outward} in the last 90 days — ${totalFormatted} in verified work`;
 
   return Response.json({ ok: true, wonCount, totalValueFormatted: totalFormatted, message });
 }

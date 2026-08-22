@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
   const score = searchParams.get('score')?.trim() ?? '';
   const urgency = searchParams.get('urgency')?.trim() ?? '';
   const details = searchParams.get('details')?.trim() ?? '';
-  const leadId = searchParams.get('leadId')?.trim() || String(Date.now());
+  const leadId = (searchParams.get('leadId')?.trim() || String(Date.now())).replace(/[^\w-]/g, '');
 
   if (!jobType || !postcode) {
     return new Response('jobType and postcode are required', { status: 400 });
