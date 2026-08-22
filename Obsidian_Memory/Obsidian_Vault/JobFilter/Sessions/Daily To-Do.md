@@ -15,7 +15,7 @@ Last updated: 2026-08-22 (NightlyBuildAgent)
 - [x] All 4 Codex review threads replied to on PR #499
 
 ## In Progress
-- [ ] PR #499 — awaiting CI "check" status on commit 0ac934d before merge
+- [x] PR #499 — MERGED to main (squash commit 9df30ec, 2026-08-22 20:56 UTC)
 
 ## Next Run Priorities
 1. Copy polish: ForYourTradePage.tsx — trade-specific fear hooks and competitor callouts
