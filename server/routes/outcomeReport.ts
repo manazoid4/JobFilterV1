@@ -68,21 +68,7 @@ export function registerOutcomeReportRoute(app: Express) {
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
 
-      const baseQuery = supabase
-        .from('lead_outcomes')
-        .select('count(), won_value.sum()')
-        .eq('status', 'won');
-
-      const { data, error } = areaPrefix
-        ? await baseQuery.ilike('postcode_outward', `${areaPrefix}%`)
-        : await baseQuery;
-
-      if (error) throw new Error(error.message);
-
-      // Aggregate query returns exactly one row; values arrive as numbers from PostgREST
-      const row = (data as Array<Record<string, unknown>>)[0] ?? {};
-      const totalWonCount = Number(row['count'] ?? 0);
-      const totalValue = Number(row['sum'] ?? 0);
+      const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, areaPrefix);
 
       return res.json({
         ok: true,
@@ -171,6 +157,47 @@ export function registerOutcomeReportRoute(app: Express) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Summary failed.') });
     }
   });
+}
+
+async function fetchWonAreaStats(
+  db: typeof supabase,
+  areaPrefix: string
+): Promise<{ count: number; totalValue: number }> {
+  if (!db) return { count: 0, totalValue: 0 };
+
+  // Prefer a single server-side aggregate (PostgREST 12+ with db-aggregates-enabled).
+  // If the setting is off, the query returns an error — fall through to paginated fetch.
+  try {
+    const base = db.from('lead_outcomes').select('count(), won_value.sum()').eq('status', 'won');
+    const { data, error } = areaPrefix
+      ? await base.ilike('postcode_outward', `${areaPrefix}%`)
+      : await base;
+    if (!error && data) {
+      const row = (data as Array<Record<string, unknown>>)[0] ?? {};
+      return { count: Number(row['count'] ?? 0), totalValue: Number(row['sum'] ?? 0) };
+    }
+  } catch {
+    // aggregate functions disabled — fall through
+  }
+
+  // Paginated fallback: iterate all matching rows in 1,000-row pages.
+  let count = 0;
+  let totalValue = 0;
+  let from = 0;
+  const PAGE = 1000;
+  for (;;) {
+    const base = db.from('lead_outcomes').select('won_value').eq('status', 'won').range(from, from + PAGE - 1);
+    const { data, error } = areaPrefix
+      ? await base.ilike('postcode_outward', `${areaPrefix}%`)
+      : await base;
+    if (error) throw new Error(error.message);
+    const rows = data ?? [];
+    count += rows.length;
+    totalValue += rows.reduce((s: number, o: { won_value: unknown }) => s + Number(o.won_value ?? 0), 0);
+    if (rows.length < PAGE) break;
+    from += PAGE;
+  }
+  return { count, totalValue };
 }
 
 function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: string) {
