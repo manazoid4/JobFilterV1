@@ -727,7 +727,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} scanTrade={trade} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
@@ -736,7 +736,7 @@ export function FindJobsPage() {
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
                         <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK THIS LEAD →</Link>
-                        <span className="text-xs font-black text-white/50">30-day money-back · no contract</span>
+                        <span className="text-xs font-black text-white/50">No contract · cancel any time</span>
                       </div>
                     </div>
                   )}
@@ -786,7 +786,7 @@ export function FindJobsPage() {
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">START £39/MO — NO CONTRACT →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan · 30-day money-back</span>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan · cancel any time</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
                     Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
@@ -1165,9 +1165,9 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
     .join(' · ');
 }
 
-function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
+function LeadResultCard({ lead, scanTrade, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; scanTrade?: string; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || ''), lead.title);
+  const parsedReasons = parseTradeReasons(rawReasons, scanTrade ?? String(lead.trade || lead.tradeMatch || ''), lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
