@@ -61,15 +61,25 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
-      const rows = await readOutcomeRows();
+      if (!supabase) {
+        return res.json({ ok: false, error: 'Outcome storage is not configured.' });
+      }
+
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = rows.filter((o) => {
-        if (o.status !== 'won') return false;
-        if (!areaPrefix || !o.postcode_outward) return true;
-        return String(o.postcode_outward).toUpperCase().startsWith(areaPrefix);
-      });
 
+      const baseQuery = supabase
+        .from('lead_outcomes')
+        .select('won_value, postcode_outward')
+        .eq('status', 'won');
+
+      const { data, error } = areaPrefix
+        ? await baseQuery.ilike('postcode_outward', `${areaPrefix}%`)
+        : await baseQuery;
+
+      if (error) throw new Error(error.message);
+
+      const won = data ?? [];
       const totalWonCount = won.length;
       const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
 
