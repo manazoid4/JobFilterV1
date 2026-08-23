@@ -57,11 +57,20 @@ All Tier 1 features already built (confirmed in 2026-08-22 changelog). No new Ti
 
 Both threads replied to and resolved.
 
+## Phase 6 — Codex Round 15 (commit e1924ad)
+
+### Findings (both P2, both fixed)
+1. **Legacy full-postcode rows missed by exact ILIKE**: `normaliseOutwardCode()` only normalises future writes; rows like `B14 7QH` written before b001c10 still existed unchanged and were missed by `ILIKE 'B14'`. Fixed: `fetchWonAreaStats` now builds an OR filter (`postcode_outward.ilike.B14,postcode_outward.ilike.B14 %`) covering both normalised and legacy-format rows.
+2. **BZ1 prefix leakage in postcode utility**: `regionFromArea('BZ')` unanchored-matched `B` in `/^(B|CV|DY|WS|WV)/`, so `parseUkPostcode('BZ1')` accepted an invalid area. Fixed: end-anchored all 12 `REGION_BY_PREFIX` patterns in `server/utils/postcode.ts`.
+
+Both threads replied to and resolved (Round 15 = threads 24 and 25 of 25).
+
 ## Final CI Status
-- `check`: success on aa61bec (awaiting run for new push)
-- All 9 Codex review threads: resolved
+- `check`: success on e1924ad
+- All 25 Codex review threads: resolved
+- PR #500: green and mergeable
 
 ## Next Run — Top 3 Priorities
-1. VERIFY aa61bec CI — confirm "check" passes; PR #500 ready to merge when green
+1. Merge PR #500 (already green — merge when ready)
 2. COPY POLISH: LeadDetailPage — "ADD TO CALENDAR" link UX + stronger fear hook on lead detail ("This lead closes in X days")
 3. FEATURE: Trade-specific scoring labels on lead cards — electrician-specific tags like "EV CHARGER — YOUR TRADE" vs generic "Trade match" labels for clarity

@@ -1,6 +1,6 @@
 # Daily To-Do — JobFilter
 
-Last updated: 2026-08-23 (NightlyBuildAgent — Round 2)
+Last updated: 2026-08-23 (NightlyBuildAgent — Round 3)
 
 ## Completed This Run
 - [x] npm run build — green
@@ -10,14 +10,15 @@ Last updated: 2026-08-23 (NightlyBuildAgent — Round 2)
 - [x] ForYourTradePage third why-card — "Your patch. Your timing." replaces abstract "Gold lands. Noise stays out."
 - [x] WinStatsBanner placeholder — shows nudge when area has no wins logged yet
 - [x] PR #500 opened — nightly/2026-08-23-copy-health
-- [x] Codex Round 4 P2s fixed (aa61bec): Supabase-unavailable false zero state + 1,000-row truncation in wins/stats route
-- [x] All 9 Codex review threads replied to and resolved
+- [x] Codex Rounds 4–15 all fixed and resolved (25 threads total)
+- [x] Round 15 fixes (e1924ad): OR-filter for legacy full-postcode rows; end-anchor REGION_BY_PREFIX patterns
+- [x] PR #500 — CI "check" green on e1924ad; all 25 threads resolved; ready to merge
 
 ## In Progress
-- [ ] PR #500 — awaiting CI "check" on aa61bec; merge when green
+- [ ] PR #500 — awaiting merge (green, all threads resolved)
 
 ## Next Run Priorities
-1. Verify aa61bec CI — merge PR #500 if green
+1. Merge PR #500 if not yet merged
 2. COPY POLISH: LeadDetailPage — stronger fear hook on closing deadline, "ADD TO CALENDAR" CTA prominence
 3. FEATURE CHECK: Trade-specific scoring labels — confirm electrician-specific tags ("EV CHARGER — YOUR TRADE") are rendering; if not, wire from parseTradeReasons to LeadCard tag display
 
