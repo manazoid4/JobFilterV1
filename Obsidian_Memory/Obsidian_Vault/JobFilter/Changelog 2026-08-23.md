@@ -65,9 +65,17 @@ Both threads replied to and resolved.
 
 Both threads replied to and resolved (Round 15 = threads 24 and 25 of 25).
 
+## Phase 7 — Codex Round 16 (commit 198fff9)
+
+### Findings (P1 + P2, both fixed)
+1. **P1 — Valid areas blocked by end-anchored region map**: `BH`, `ME`, `WR`, `WD`, and ~22 other valid Royal Mail areas were absent from `REGION_BY_PREFIX`. End-anchoring (Round 15) made them fall through to `'United Kingdom'` → throw, breaking the core scan for users in those areas. Fixed: replaced region-map validity check with `VALID_AREA_CODES` — an exhaustive Set of all 109 Royal Mail area codes. `REGION_BY_PREFIX` retained for display-only region grouping.
+2. **P2 — Compact legacy postcodes (`B147QH`) not matched**: OR filter only covered exact `B14` and spaced `B14 %`. Rows stored before normalisation as compact `B147QH` still omitted. Fixed: added third ILIKE condition `B14___` (3 underscore wildcards = exactly 3-char inward).
+
+Both threads replied to and resolved (Rounds 16 = threads 26 and 27 of 27).
+
 ## Final CI Status
-- `check`: success on e1924ad
-- All 25 Codex review threads: resolved
+- `check`: success on 198fff9
+- All 27 Codex review threads: resolved
 - PR #500: green and mergeable
 
 ## Next Run — Top 3 Priorities

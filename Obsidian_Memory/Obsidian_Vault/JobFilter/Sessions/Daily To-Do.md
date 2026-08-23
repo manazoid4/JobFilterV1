@@ -13,6 +13,8 @@ Last updated: 2026-08-23 (NightlyBuildAgent — Round 3)
 - [x] Codex Rounds 4–15 all fixed and resolved (25 threads total)
 - [x] Round 15 fixes (e1924ad): OR-filter for legacy full-postcode rows; end-anchor REGION_BY_PREFIX patterns
 - [x] PR #500 — CI "check" green on e1924ad; all 25 threads resolved; ready to merge
+- [x] Codex Rounds 16 fixed (198fff9): VALID_AREA_CODES whitelist replaces region-map validity check; compact legacy ILIKE filter added
+- [x] PR #500 — CI "check" green on 198fff9; all 27 threads resolved; ready to merge
 
 ## In Progress
 - [ ] PR #500 — awaiting merge (green, all threads resolved)
