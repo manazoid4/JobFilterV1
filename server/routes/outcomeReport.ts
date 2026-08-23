@@ -73,9 +73,11 @@ export function registerOutcomeReportRoute(app: Express) {
       if (!/^[A-Z]{1,2}[0-9]/.test(postcodePrefix)) {
         return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
-      const areaPrefix = postcodePrefix.match(/^[A-Z]{1,2}/)?.[0] ?? '';
 
-      const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, areaPrefix);
+      // Use the full outward code (e.g. B14, SW17) as the ILIKE prefix so
+      // single-letter areas (B%) don't accidentally match unrelated two-letter
+      // areas (BA, BB, BD…). ILIKE 'B14%' is exact at the district level.
+      const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, postcodePrefix);
 
       return res.json({
         ok: true,
