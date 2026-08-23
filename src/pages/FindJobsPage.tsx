@@ -891,7 +891,7 @@ export function FindJobsPage() {
             </svg>
           </div>
           <p className="micro-label text-[var(--yellow)]">LIVE NOW</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">JOBS PRICING RIGHT NOW — BEFORE CHECKATRADE SEES THEM.</h2>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">LIVE JOB LEADS. PRICE THEM BEFORE YOUR PATCH GOES COLD.</h2>
           <p className="mt-3 font-black text-white/70">
             Every week you skip a scan, a competitor is pricing those jobs. Takes 10 seconds. No card required.
           </p>
