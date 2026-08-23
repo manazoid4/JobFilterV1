@@ -61,13 +61,13 @@ export function HomePage() {
 
         <div className="page-shell relative grid gap-8 py-10 md:py-14 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
-            <p className="micro-label text-[var(--yellow)]">TRADE LEADS — BEFORE BARK, CHECKATRADE, OR MYBUILDER</p>
+            <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
               JOBS IN YOUR PATCH —{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>BEFORE YOUR COMPETITORS SEE THEM.</span>
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>SCORED BEFORE YOUR COMPETITORS PRICE THEM.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Electricians, plumbers, roofers, and builders win jobs from JobFilter 3–5 days before Checkatrade or Bark lists them. Scan your postcode free. No credit card required.
+              Scan current public opportunities. JobFilter checks each one against your trade and your patch — tells you BID, WATCH, SUBCONTRACT, or SKIP. Takes seconds. No credit card required.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (

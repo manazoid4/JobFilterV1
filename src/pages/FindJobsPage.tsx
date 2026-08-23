@@ -960,12 +960,13 @@ function parseTradeReasons(raw: string[], trade?: string, title?: string): Array
     }
   }
 
-  // If no trade-specific highlights found yet, scan the title for trade keywords
+  // If no trade-specific highlights found yet, scan the title for trade keywords (word boundaries only)
   if (trade && title && !out.some(r => r.highlight)) {
     const titleUpper = title.toUpperCase();
     const keywords = TRADE_KEYWORDS[trade as Trade] ?? [];
     for (const kw of keywords) {
-      if (titleUpper.includes(kw)) {
+      const escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (new RegExp(`\\b${escaped}\\b`).test(titleUpper)) {
         out.unshift({ label: `${kw} — YOUR TRADE`, highlight: true });
         break;
       }
