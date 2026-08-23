@@ -276,6 +276,9 @@ function titleCase(value: string) {
 
 function buildPreviewReasons(lead: Lead): string[] {
   const real = lead.scoreReasons ?? [];
+  if (real.some((r) => r.startsWith('Not your trade'))) {
+    return ['Not your trade'];
+  }
   const tradeMatchReason = real.find((r) => r.startsWith('Trade match:'));
   if (tradeMatchReason) {
     const m = tradeMatchReason.match(/^Trade match: (.+?) \(/);
