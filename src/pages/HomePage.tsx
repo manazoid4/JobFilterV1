@@ -63,11 +63,11 @@ export function HomePage() {
           <div>
             <p className="micro-label text-[var(--yellow)]">PUBLIC-WORKS QUALIFICATION FOR 5–25-PERSON CONTRACTORS</p>
             <h1 className="headline mt-4 max-w-5xl text-[clamp(3rem,9vw,106px)] leading-[0.88] text-white break-words">
-              KNOW WHICH PUBLIC WORKS OPPORTUNITIES FIT YOUR FIRM —{' '}
-              <span style={{ color: 'var(--yellow)', display: 'inline' }}>AND WHICH TO SKIP.</span>
+              JOBS IN YOUR PATCH —{' '}
+              <span style={{ color: 'var(--yellow)', display: 'inline' }}>KNOW WHICH TO BID, WATCH, OR SKIP.</span>
             </h1>
             <p className="mt-5 max-w-2xl text-xl font-black leading-tight text-white/90 md:text-2xl">
-              Stop reading tender notices that are the wrong trade, wrong region, or already closed. JobFilter checks each opportunity against your firm and tells you — BID, WATCH, SUBCONTRACT, or SKIP. Takes seconds. No credit card required.
+              Scan current public opportunities. JobFilter checks each one against your trade and your patch — tells you BID, WATCH, SUBCONTRACT, or SKIP. Takes seconds. No credit card required.
             </p>
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {proofPoints.map((point) => (
