@@ -890,23 +890,23 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">LIVE NOW</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">JOBS PRICING RIGHT NOW — BEFORE CHECKATRADE SEES THEM.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Every week you skip a scan, a competitor is pricing those jobs. Takes 10 seconds. No card required.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
             }} className="jf-button bg-[var(--yellow)] text-[var(--ink)]">
-              SCAN MY AREA →
+              SCAN MY PATCH FREE →
             </button>
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               setTrade('building'); void submit(undefined, { trade: 'building' });
             }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
+              SEE BUILDING JOBS →
             </button>
           </div>
         </section>
