@@ -14,6 +14,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   useEffect(() => {
     const outward = postcode.trim().split(' ')[0].toUpperCase();
     if (outward.length < 2) return;
+    setStats(null);
     setFetched(false);
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
       .then((r) => r.json())
@@ -21,7 +22,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
         if (data.ok && data.wonCount > 0) setStats(data);
         setFetched(true);
       })
-      .catch(() => { setFetched(true); });
+      .catch(() => { /* leave fetched false — don't claim zero wins on a failed request */ });
   }, [postcode]);
 
   const outward = postcode.trim().split(' ')[0].toUpperCase();
