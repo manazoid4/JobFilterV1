@@ -56,9 +56,26 @@
 - YES: Hero now speaks to the fear that drives purchase (competitors winning first)
 - YES: "30-day money-back · no contract" on inline CTA removes the main objection
 
-## Commit
+## Phase 5 — Codex Rounds 5 & 6 (This Session Continuation)
+
+### Round 5 — commit fbf0ea5
+- **FindJobsPage**: removed `RENDER` from building TRADE_KEYWORDS (`scorer.ts` classifies render/rendering under `painting.high`)
+- **ForYourTradePage**: data-cabling fearHook and signals field — removed "3–5 days earlier" unverifiable timing claim; replaced with "before any directory lists them"
+
+### Round 6 — commit 225a4e6
+- **ForYourTradePage**: electrical fearHook — removed "before Checkatrade even knows the job exists" ordering claim; replaced with verified public procurement behavior (commercial rewires, landlord compliance frameworks, EV charging tenders)
+- **FindJobsPage**: `parseTradeReasons` title-keyword fallback now skips when backend supplies a `Not your trade` reason — prevents `LEAK — YOUR TRADE` badge on a roofing lead during a plumbing scan
+
+### CI Final State (commit 225a4e6)
+- `check` (GitHub Actions): ✅ success
+- Vercel: ✅ success (deployed)
+- Meticulous Tests: ✅ 0 visual differences across 169 screens
+- PR #503: ready for merge
+
+## Commits
 - Branch: nightly/2026-08-23-trade-scoring-copy
 - PR: https://github.com/manazoid4/JobFilterV1/pull/503
+- Head commit: 225a4e6 (9 commits total this run)
 
 ## Next Run — Top 3 Priorities
 1. **Empty-state mobile fix**: embed a minimal postcode input inline in the "no scan yet" section so tapping SCAN MY AREA doesn't teleport the user to the top of the page

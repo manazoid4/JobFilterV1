@@ -11,9 +11,20 @@ Last updated: 2026-08-23 (NightlyBuildAgent)
 - [x] HomePage hero — rewrote 18-word jargon headline to "JOBS IN YOUR PATCH — BEFORE YOUR COMPETITORS SEE THEM"
 - [x] FindJobsPage duplicate CTAs — differentiated: "UNLOCK THIS LEAD →" (inline) vs "START £39/MO — NO CONTRACT →" (post-results)
 - [x] PR #503 opened — nightly/2026-08-23-trade-scoring-copy
+- [x] Codex rounds 3–6 — all findings fixed (9 commits total):
+  - Word-boundary regex for keyword matching (no TILE→TEXTILE false positives)
+  - TILE→TILE ROOF taxonomy fix (scorer.ts alignment)
+  - RENDER removed from building TRADE_KEYWORDS (scorer.ts classifies under painting)
+  - Planning-data-gated fearHooks rewritten for all affected trades (roofing, building, decorating, scaffolding, ev-charger, groundworkers, structural, solar, heat-pump)
+  - Data-cabling "3–5 days earlier" timing claim removed
+  - Electrical "before Checkatrade even knows" ordering claim removed
+  - scanResultTrade state — frozen at scan time, prevents reclassification between scans
+  - Not-your-trade guard — title fallback skipped when backend supplies negative trade evidence
+- [x] CI check ✅, Vercel ✅, Meticulous 0 diffs ✅ on commit 225a4e6
+- [x] PR #503 ready for merge
 
 ## In Progress
-- [ ] PR #503 — awaiting CI "check" status before merge
+- [ ] PR #503 — awaiting owner merge
 
 ## Next Run Priorities
 1. **Empty-state mobile fix**: embed a minimal postcode input inline in the "no scan yet" section (`FindJobsPage.tsx:878-913`) so tapping "SCAN MY AREA →" on mobile doesn't teleport user to top of page — add an inline `<input>` + submit button directly inside that section
