@@ -22,6 +22,15 @@ Last updated: 2026-08-23 (NightlyBuildAgent)
   - Not-your-trade guard — title fallback skipped when backend supplies negative trade evidence
 - [x] CI check ✅, Vercel ✅, Meticulous 0 diffs ✅ on commit 225a4e6
 - [x] PR #503 ready for merge
+- [x] Codex rounds 7–9 — all findings fixed (3 additional commits):
+  - CCTV fearHook — removed unavailable planning/tenancy sources (commit f8fd7fe)
+  - buildPreviewReasons — preserve Not-your-trade in free-preview path (commit 8cd0658)
+  - Fire-safety fearHook — removed unavailable building-regs tracking claim (commit 3f593ad)
+  - Roofing fearHook — removed "first to respond wins" procurement claim (commit 3f593ad)
+  - buildPreviewReasons — guard against discarding positive Trade match when both reasons present (commit 3f593ad)
+- [x] CI check ✅, Vercel ✅ on commit 3f593ad
+- [x] Codex round 10: silent pass (no findings on 3f593ad)
+- [x] PR #503 fully green — 12 commits total
 
 ## In Progress
 - [ ] PR #503 — awaiting owner merge

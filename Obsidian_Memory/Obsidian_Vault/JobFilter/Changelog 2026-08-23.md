@@ -72,10 +72,29 @@
 - Meticulous Tests: ✅ 0 visual differences across 169 screens
 - PR #503: ready for merge
 
+## Phase 6 — Codex Rounds 7–9 (Session Continuation)
+
+### Round 7 — commit f8fd7fe
+- **ForYourTradePage**: CCTV fearHook — removed "tracks planning conditions and commercial tenancies" (both unavailable); replaced with "surfaces public CCTV and security procurement contracts before any directory lists the same job"
+
+### Round 8 — commit 8cd0658
+- **leadsSearch.ts `buildPreviewReasons`**: added `Not your trade` preservation as first guard — when backend supplies negative trade evidence, preview reasons now pass it through so client-side badge guard fires in free-scanner path
+
+### Round 9 — commit 3f593ad
+- **ForYourTradePage fire-safety**: removed "tracks public building regs" (BuildingControl source never registered in production); replaced with "surfaces public fire safety and compliance procurement contracts"
+- **ForYourTradePage roofing**: removed "the first firm to respond wins" (Find a Tender tenders evaluated on merit, not first response); replaced with "missing the deadline means no chance to quote"
+- **leadsSearch.ts `buildPreviewReasons`**: `Not your trade` early return now guards with `&& !real.some(r => r.startsWith('Trade match:'))` — when both positive and negative reasons exist, positive trade teasers flow through instead of being discarded
+
+### CI Final State (commit 3f593ad)
+- `check` (GitHub Actions): ✅ success
+- Vercel: ✅ success (deployed)
+- Codex round 10: no findings (silent pass — 17+ min with no inline comments)
+- PR #503: fully green, ready for owner merge
+
 ## Commits
 - Branch: nightly/2026-08-23-trade-scoring-copy
 - PR: https://github.com/manazoid4/JobFilterV1/pull/503
-- Head commit: 225a4e6 (9 commits total this run)
+- Head commit: 3f593ad (12 commits total this run)
 
 ## Next Run — Top 3 Priorities
 1. **Empty-state mobile fix**: embed a minimal postcode input inline in the "no scan yet" section so tapping SCAN MY AREA doesn't teleport the user to the top of the page
