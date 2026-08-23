@@ -963,7 +963,7 @@ function parseTradeReasons(raw: string[], trade?: string, title?: string): Array
   }
 
   // If no trade-specific highlights found yet, scan the title for trade keywords (word boundaries only)
-  if (trade && title && !out.some(r => r.highlight)) {
+  if (trade && title && !out.some(r => r.highlight) && !raw.some(r => r.startsWith('Not your trade'))) {
     const titleUpper = title.toUpperCase();
     const keywords = TRADE_KEYWORDS[trade as Trade] ?? [];
     for (const kw of keywords) {
