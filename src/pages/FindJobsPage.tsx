@@ -1566,7 +1566,7 @@ function EmptyScanReport({ trade, radiusMiles, result, lastUpdated, onWiden }: {
         <Stat label="Checked" value={lastUpdated || 'N/A'} />
       </div>
       <div className="mt-6 border-2 border-[var(--navy)] bg-[var(--navy)]/5 p-4">
-        <p className="font-black text-[var(--navy)] text-sm">Set an alert and we&apos;ll ping you the moment a matching lead lands — straight to WhatsApp or email, before Bark or Checkatrade list it.</p>
+        <p className="font-black text-[var(--navy)] text-sm">Set an alert and we&apos;ll email you when a matching lead lands — before Bark or Checkatrade list it.</p>
         <Link className="jf-button mt-3 inline-block bg-[var(--navy)] text-white text-sm" href="/pricing">
           GET ALERTS — £39/MO →
         </Link>

@@ -39,7 +39,7 @@ export function ForYourTradePage() {
           JOBS FOR YOUR TRADE. BEFORE ANYONE ELSE SEES THEM.
         </h1>
         <p className="mt-5 max-w-2xl text-xl font-bold text-[var(--ink)]">
-          Right now, a job in your patch is getting priced — by someone who saw it on Checkatrade before you did. JobFilter shows you the same lead 3–5 days earlier, from verified official sources. First call wins.
+          Right now, a job in your patch is getting priced — by someone who found it on Checkatrade or Bark. JobFilter scans the same verified official sources before the directories pick them up and list them. First call wins.
         </p>
       </section>
 
@@ -96,9 +96,9 @@ export function ForYourTradePage() {
         <p className="micro-label text-[var(--orange)]">WHY {selected.label.toUpperCase()} TRADESMEN USE JOBFILTER</p>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {[
-            ['First in. Not fifth.', 'Checkatrade, Bark, and MyBuilder see the same job 3–5 days after it hits our verified feed. By then, two or three competitors have already called. We show you the lead before they do.'],
+            ['First in. Not fifth.', 'Checkatrade, Bark, and MyBuilder list the same jobs — after they\'ve been published publicly. JobFilter scans the verified source before the directories pick it up. By the time your competitor finds it, you\'ve already called.'],
             ['Proof, not promises.', 'Every signal links to a verified source — planning ref, tender number, or official record. Not a form fill from someone price-shopping on MyBuilder.'],
-            ['Your patch. Your leads.', 'Gold leads are locked to one tradesperson per patch. No shared auction. No five-trade blast. While Bark sends the same job to six people in your street, we send it to you alone.'],
+            ['Your patch. Your leads.', 'Gold leads reach a small number of subscribers per patch — not blasted to every tradesperson who paid Bark £5. No shared auction. No five-trade blast.'],
           ].map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h3 className="headline text-2xl">{title}</h3>
