@@ -173,10 +173,10 @@ async function fetchWonAreaStats(
 ): Promise<{ count: number; totalValue: number }> {
   if (!db) return { count: 0, totalValue: 0 };
 
-  // Match outward-only values (e.g. "B14") AND legacy full-postcode values (e.g. "B14 7QH")
-  // that were stored before write-normalisation was added.
+  // Match outward-only values (e.g. "B14"), legacy spaced full postcodes (e.g. "B14 7QH"),
+  // and legacy compact full postcodes (e.g. "B147QH") stored before write-normalisation.
   const postcodeFilter = areaPrefix
-    ? `postcode_outward.ilike.${areaPrefix},postcode_outward.ilike.${areaPrefix} %`
+    ? `postcode_outward.ilike.${areaPrefix},postcode_outward.ilike.${areaPrefix} %,postcode_outward.ilike.${areaPrefix}___`
     : null;
 
   // Prefer a single server-side aggregate (PostgREST 12+ with db-aggregates-enabled).

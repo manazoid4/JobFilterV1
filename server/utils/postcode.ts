@@ -2,6 +2,32 @@ const UK_POSTCODE =
   /^([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})$/i;
 const UK_OUTWARD = /^([A-Z]{1,2}\d[A-Z\d]?)$/i;
 
+// Exhaustive list of valid Royal Mail postcode area codes.
+const VALID_AREA_CODES = new Set([
+  'AB','AL','B','BA','BB','BD','BH','BL','BN','BR','BS','BT',
+  'CA','CB','CF','CH','CM','CO','CR','CT','CV','CW',
+  'DA','DD','DE','DG','DH','DL','DN','DT','DY',
+  'E','EC','EH','EN','EX',
+  'FK','FY',
+  'G','GL','GU','GY',
+  'HA','HD','HG','HP','HR','HS','HU','HX',
+  'IG','IM','IP','IV',
+  'JE',
+  'KA','KT','KW','KY',
+  'L','LA','LD','LE','LL','LN','LS','LU',
+  'M','ME','MK','ML',
+  'N','NE','NG','NN','NP','NR','NW',
+  'OL','OX',
+  'PA','PE','PH','PL','PO','PR',
+  'RG','RH','RM',
+  'S','SA','SE','SG','SK','SL','SM','SN','SO','SP','SR','SS','ST','SW','SY',
+  'TA','TD','TF','TN','TQ','TR','TS','TW',
+  'UB',
+  'W','WA','WC','WD','WF','WN','WR','WS','WV',
+  'YO',
+  'ZE',
+]);
+
 const REGION_BY_PREFIX: Array<[RegExp, string]> = [
   [/^(BT)$/, 'Northern Ireland'],
   [/^(B|CV|DY|WS|WV)$/, 'West Midlands'],
@@ -39,11 +65,11 @@ export function parseUkPostcode(input: unknown): PostcodeInfo {
   const inward = fullMatch?.[2] ?? '';
   const postcode = inward ? `${outward} ${inward}` : outward;
   const area = outward.match(/^[A-Z]+/)?.[0] ?? outward;
-  const region = regionFromArea(area);
-  if (region === 'United Kingdom') {
+  if (!VALID_AREA_CODES.has(area)) {
     throw new Error('valid UK postcode required');
   }
 
+  const region = regionFromArea(area);
   return { postcode, outward, region };
 }
 
