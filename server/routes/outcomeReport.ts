@@ -67,8 +67,10 @@ export function registerOutcomeReportRoute(app: Express) {
 
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
-      if (!areaPrefix) {
-        return res.status(400).json({ ok: false, error: 'postcode query parameter required.' });
+      // Require a plausible UK outward prefix (1–2 letters then a digit) to prevent
+      // wildcard injection (e.g. ?postcode=%%) from reaching the ILIKE filter.
+      if (!/^[A-Z]{1,2}[0-9]/.test(areaPrefix)) {
+        return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
 
       const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, areaPrefix);
@@ -197,8 +199,10 @@ async function fetchWonAreaStats(
     const rows = data ?? [];
     count += rows.length;
     totalValue += rows.reduce((s: number, o: { won_value: unknown }) => s + Number(o.won_value ?? 0), 0);
-    if (rows.length < PAGE) break;
-    from += PAGE;
+    // Advance by rows received (not the fixed PAGE constant) so a server-configured
+    // max-rows cap below 1,000 doesn't cause a premature early exit.
+    if (rows.length === 0) break;
+    from += rows.length;
   }
   return { count, totalValue };
 }
