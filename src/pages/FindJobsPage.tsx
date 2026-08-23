@@ -171,6 +171,7 @@ export function FindJobsPage() {
   const [trade, setTrade] = useState<Trade>(getSavedTrade);
   const [radiusMiles, setRadiusMiles] = useState(getSavedRadius);
   const [result, setResult] = useState<LeadSearchResponse | null>(null);
+  const [scanResultTrade, setScanResultTrade] = useState<Trade | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [lastUpdated, setLastUpdated] = useState('');
@@ -306,6 +307,7 @@ export function FindJobsPage() {
         }),
       });
       const data = await response.json() as LeadSearchResponse;
+      setScanResultTrade(effectiveTrade);
       setResult(data);
       if (!response.ok || !data.ok) {
         setErrorText(data.errors?.[0] ?? 'Scan failed. Retry the scan.');
@@ -727,7 +729,7 @@ export function FindJobsPage() {
 
               {displayedLeads.map((lead, idx) => (
                 <React.Fragment key={lead.id}>
-                  <LeadResultCard lead={lead} scanTrade={trade} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
+                  <LeadResultCard lead={lead} scanTrade={scanResultTrade ?? trade} onWhatsapp={() => sendWhatsApp(lead)} whatsappSent={!!whatsappSent[lead.id]} isTracked={trackedLeads.has(lead.id)} onTrack={() => trackLead(lead)} isOwner={isOwner} />
                   {idx === firstGoldIdx && (
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
