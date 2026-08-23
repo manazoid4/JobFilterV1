@@ -732,11 +732,11 @@ export function FindJobsPage() {
                     <div className="border-2 border-[var(--ink)] bg-[var(--ink)] p-4">
                       <p className="micro-label text-[10px] text-[var(--yellow)]">THIS JOB HAS A BUYER — MEMBERS ONLY</p>
                       <p className="mt-2 font-bold text-white">
-                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Review the buyer, deadline and official submission route before deciding whether to bid.
+                        {lead.estimatedValue ? `Published value: ${lead.estimatedValue}. ` : ''}Buyer name, deadline, and official submission route are unlocked for paid subscribers.
                       </p>
                       <div className="mt-3 flex flex-wrap items-center gap-3">
-                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">SEE BUYER DETAILS — £39/MO →</Link>
-                        <span className="text-xs font-black text-white/50">Public tender · other suppliers may bid</span>
+                        <Link href="/pricing" className="jf-button bg-[var(--yellow)] text-[var(--ink)]">UNLOCK THIS LEAD →</Link>
+                        <span className="text-xs font-black text-white/50">30-day money-back · no contract</span>
                       </div>
                     </div>
                   )}
@@ -785,8 +785,8 @@ export function FindJobsPage() {
                       : 'SEE BUYER DETAILS ON EVERY LEAD.'}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">SEE BUYER DETAILS — £39/MO →</Link>
-                    <span className="text-xs font-black text-[var(--ink)]/60">Official source evidence · public opportunity</span>
+                    <Link href="/pricing" className="jf-button bg-[var(--ink)] text-white">START £39/MO — NO CONTRACT →</Link>
+                    <span className="text-xs font-black text-[var(--ink)]/60">No credit card required to scan · 30-day money-back</span>
                   </div>
                   <p className="mt-2 text-sm font-bold text-[var(--ink)]/60">
                     Full Access adds buyer, published value where available, deadline, fit reasoning and the official response route. Find a Tender notices are public and may be pursued by other suppliers; JobFilter sells qualification, not exclusivity.
@@ -890,10 +890,10 @@ export function FindJobsPage() {
               <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
             </svg>
           </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
+          <p className="micro-label text-[var(--yellow)]">YOUR PATCH. RIGHT NOW.</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">EVERY WEEK YOU DON&apos;T SCAN, YOUR COMPETITORS ARE PRICING THESE JOBS.</h2>
           <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+            Pick your trade. Enter your postcode. Takes 10 seconds. Checkatrade and Bark won&apos;t show you these.
           </p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <button onClick={() => {
@@ -915,7 +915,18 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+const TRADE_KEYWORDS: Partial<Record<Trade, string[]>> = {
+  electrical: ['EV CHARGER', 'EV CHARGING', 'REWIRE', 'REWIRING', 'CONSUMER UNIT', 'EICR', 'ELECTRICAL', 'SOLAR PV', 'LANDLORD COMPLIANCE', 'SMART METER'],
+  plumbing: ['BOILER', 'BATHROOM', 'WET ROOM', 'UNDERFLOOR HEATING', 'LEAK', 'CYLINDER', 'UNVENTED', 'DRAINAGE', 'MAINS WATER'],
+  roofing: ['FLAT ROOF', 'PITCHED ROOF', 'GUTTERING', 'FASCIA', 'SLATE', 'TILE', 'RE-ROOF', 'DORMER', 'VELUX', 'LEADWORK'],
+  building: ['EXTENSION', 'LOFT CONVERSION', 'GARAGE CONVERSION', 'GROUNDWORK', 'FOUNDATIONS', 'BRICKWORK', 'RENDER', 'DEMOLITION', 'UNDERPINNING'],
+  hvac: ['HEAT PUMP', 'AIR CON', 'AIR SOURCE', 'GROUND SOURCE', 'VENTILATION', 'HVAC', 'MECHANICAL', 'DUCTING', 'REFRIGERATION'],
+  landscaping: ['LANDSCAPING', 'PAVING', 'DECKING', 'FENCING', 'DRIVEWAY', 'GROUNDWORKS', 'GARDEN', 'IRRIGATION', 'TURFING'],
+  carpentry: ['FLOORING', 'HARDWOOD', 'SKIRTING', 'STAIRCASE', 'FITTED WARDROBES', 'KITCHEN FIT', 'JOINERY', 'TIMBER FRAME'],
+  painting: ['PAINTING', 'DECORATING', 'PLASTERING', 'DAMP PROOF', 'COVING', 'CORNICING', 'EXTERIOR PAINT', 'RENDERING'],
+};
+
+function parseTradeReasons(raw: string[], trade?: string, title?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -948,6 +959,19 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
+
+  // If no trade-specific highlights found yet, scan the title for trade keywords
+  if (trade && title && !out.some(r => r.highlight)) {
+    const titleUpper = title.toUpperCase();
+    const keywords = TRADE_KEYWORDS[trade as Trade] ?? [];
+    for (const kw of keywords) {
+      if (titleUpper.includes(kw)) {
+        out.unshift({ label: `${kw} — YOUR TRADE`, highlight: true });
+        break;
+      }
+    }
+  }
+
   return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
 }
 
@@ -1142,7 +1166,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, String(lead.trade || lead.tradeMatch || ''), lead.title);
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
