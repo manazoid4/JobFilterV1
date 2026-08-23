@@ -173,12 +173,18 @@ async function fetchWonAreaStats(
 ): Promise<{ count: number; totalValue: number }> {
   if (!db) return { count: 0, totalValue: 0 };
 
+  // Match outward-only values (e.g. "B14") AND legacy full-postcode values (e.g. "B14 7QH")
+  // that were stored before write-normalisation was added.
+  const postcodeFilter = areaPrefix
+    ? `postcode_outward.ilike.${areaPrefix},postcode_outward.ilike.${areaPrefix} %`
+    : null;
+
   // Prefer a single server-side aggregate (PostgREST 12+ with db-aggregates-enabled).
   // If the setting is off, the query returns an error — fall through to paginated fetch.
   try {
     const base = db.from('lead_outcomes').select('count(), won_value.sum()').eq('status', 'won');
-    const { data, error } = areaPrefix
-      ? await base.ilike('postcode_outward', areaPrefix)
+    const { data, error } = postcodeFilter
+      ? await base.or(postcodeFilter)
       : await base;
     if (!error && data) {
       const row = (data as Array<Record<string, unknown>>)[0] ?? {};
@@ -195,8 +201,8 @@ async function fetchWonAreaStats(
   const PAGE = 1000;
   for (;;) {
     const base = db.from('lead_outcomes').select('won_value').eq('status', 'won').range(from, from + PAGE - 1);
-    const { data, error } = areaPrefix
-      ? await base.ilike('postcode_outward', areaPrefix)
+    const { data, error } = postcodeFilter
+      ? await base.or(postcodeFilter)
       : await base;
     if (error) throw new Error(error.message);
     const rows = data ?? [];

@@ -3,18 +3,18 @@ const UK_POSTCODE =
 const UK_OUTWARD = /^([A-Z]{1,2}\d[A-Z\d]?)$/i;
 
 const REGION_BY_PREFIX: Array<[RegExp, string]> = [
-  [/^(BT)/, 'Northern Ireland'],
-  [/^(B|CV|DY|WS|WV)/, 'West Midlands'],
-  [/^(M|OL|BL|SK|WA|WN|L|CH|PR|FY)/, 'North West'],
-  [/^(BS|BA|GL|SN|TA|EX|PL|TQ)/, 'South West'],
-  [/^(E|EC|N|NW|SE|SW|W|WC|BR|CR|DA|EN|HA|IG|KT|RM|SM|TW|UB)/, 'London'],
-  [/^(LS|BD|HD|HX|WF|YO|S$)/, 'Yorkshire'],
-  [/^(NE|SR|DH|DL|TS)/, 'North East'],
-  [/^(NG|DE|LE|LN|PE)/, 'East Midlands'],
-  [/^(CB|CM|CO|IP|LU|MK|NR|SG|SS)/, 'East of England'],
-  [/^(BN|GU|HP|OX|PO|RG|RH|SL|SO|TN)/, 'South East'],
-  [/^(CF|LD|LL|NP|SA|SY)/, 'Wales'],
-  [/^(AB|DD|DG|EH|FK|G|HS|IV|KA|KW|KY|ML|PA|PH|TD|ZE)/, 'Scotland'],
+  [/^(BT)$/, 'Northern Ireland'],
+  [/^(B|CV|DY|WS|WV)$/, 'West Midlands'],
+  [/^(M|OL|BL|SK|WA|WN|L|CH|PR|FY)$/, 'North West'],
+  [/^(BS|BA|GL|SN|TA|EX|PL|TQ)$/, 'South West'],
+  [/^(E|EC|N|NW|SE|SW|W|WC|BR|CR|DA|EN|HA|IG|KT|RM|SM|TW|UB)$/, 'London'],
+  [/^(LS|BD|HD|HX|WF|YO|S)$/, 'Yorkshire'],
+  [/^(NE|SR|DH|DL|TS)$/, 'North East'],
+  [/^(NG|DE|LE|LN|PE)$/, 'East Midlands'],
+  [/^(CB|CM|CO|IP|LU|MK|NR|SG|SS)$/, 'East of England'],
+  [/^(BN|GU|HP|OX|PO|RG|RH|SL|SO|TN)$/, 'South East'],
+  [/^(CF|LD|LL|NP|SA|SY)$/, 'Wales'],
+  [/^(AB|DD|DG|EH|FK|G|HS|IV|KA|KW|KY|ML|PA|PH|TD|ZE)$/, 'Scotland'],
 ];
 
 export type PostcodeInfo = {
