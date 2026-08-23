@@ -29,8 +29,10 @@ Last updated: 2026-08-23 (NightlyBuildAgent)
   - Roofing fearHook — removed "first to respond wins" procurement claim (commit 3f593ad)
   - buildPreviewReasons — guard against discarding positive Trade match when both reasons present (commit 3f593ad)
 - [x] CI check ✅, Vercel ✅ on commit 3f593ad
-- [x] Codex round 10: silent pass (no findings on 3f593ad)
-- [x] PR #503 fully green — 12 commits total
+- [x] Codex round 10: scaffolding fearHook — removed unavailable scaffolding-specific scan claim (commit 283e90a)
+- [x] CI check ✅, Vercel ✅ on commit 283e90a
+- [x] Codex usage limit reached — no further automated reviews
+- [x] PR #503 fully green — 13 commits total
 
 ## In Progress
 - [ ] PR #503 — awaiting owner merge

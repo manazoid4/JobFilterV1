@@ -91,10 +91,20 @@
 - Codex round 10: no findings (silent pass — 17+ min with no inline comments)
 - PR #503: fully green, ready for owner merge
 
+### Round 10 — commit 283e90a
+- **ForYourTradePage scaffolding**: removed "surfaces scaffolding contracts" capability claim — `scaffolding` is not in `TRADE_KEYS`, so `validateTrade` rejects it and the CTA lands on a default trade scan. Rewritten to describe general procurement tender access only: "Public procurement tenders for commercial refurbs, social housing works, and large construction frameworks are published before the main contractor starts hiring trades."
+- **Note**: Codex hit its usage limit after this review — no further automated reviews will fire on this PR
+
+### CI Final State (commit 283e90a)
+- `check` (GitHub Actions): ✅ success
+- Vercel: ✅ success (deployed)
+- Codex: usage limit reached — no further reviews
+- PR #503: fully green, ready for owner merge
+
 ## Commits
 - Branch: nightly/2026-08-23-trade-scoring-copy
 - PR: https://github.com/manazoid4/JobFilterV1/pull/503
-- Head commit: 3f593ad (12 commits total this run)
+- Head commit: 283e90a (13 commits total this run)
 
 ## Next Run — Top 3 Priorities
 1. **Empty-state mobile fix**: embed a minimal postcode input inline in the "no scan yet" section so tapping SCAN MY AREA doesn't teleport the user to the top of the page
