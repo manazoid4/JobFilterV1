@@ -12,17 +12,26 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
-    const outward = postcode.trim().split(' ')[0].toUpperCase();
-    if (outward.length < 2) return;
+    // Reset before length guard so short/cleared postcodes don't leave stale state visible
     setStats(null);
     setFetched(false);
-    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
+
+    const outward = postcode.trim().split(' ')[0].toUpperCase();
+    if (outward.length < 2) return;
+
+    const controller = new AbortController();
+    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
-        if (data.ok && data.wonCount > 0) setStats(data);
+        if (!data.ok) return; // server-side error — don't show placeholder
+        if (data.wonCount > 0) setStats(data);
         setFetched(true);
       })
-      .catch(() => { /* leave fetched false — don't claim zero wins on a failed request */ });
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return; // obsolete request — ignore
+        /* other network failures: leave fetched false, don't claim zero wins */
+      });
+    return () => controller.abort();
   }, [postcode]);
 
   const outward = postcode.trim().split(' ')[0].toUpperCase();
