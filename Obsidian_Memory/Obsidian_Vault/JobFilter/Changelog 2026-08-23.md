@@ -49,7 +49,19 @@ All Tier 1 features already built (confirmed in 2026-08-22 changelog). No new Ti
 - Branch: nightly/2026-08-23-copy-health
 - PR: https://github.com/manazoid4/JobFilterV1/pull/500
 
+## Phase 5 — Codex Round 4 (commit aa61bec)
+
+### Findings (both P2, both fixed)
+1. **Supabase unavailable → false zero state**: `readOutcomeRows()` returned `[]` when Supabase not configured; `/api/wins/stats` responded `{ ok: true, wonCount: 0 }` → WinStatsBanner showed placeholder. Fixed: early `if (!supabase) return res.json({ ok: false })` in the wins/stats handler.
+2. **1,000-row truncation**: `readOutcomeRows().limit(1000)` + in-memory filter could miss older area wins → false "No wins logged". Fixed: replaced with targeted Supabase query (`status='won'` + `.ilike('postcode_outward', prefix%)`) — no row cap, all area wins counted.
+
+Both threads replied to and resolved.
+
+## Final CI Status
+- `check`: success on aa61bec (awaiting run for new push)
+- All 9 Codex review threads: resolved
+
 ## Next Run — Top 3 Priorities
-1. CHECK PR #500 CI — if "check" passes, merge to main
+1. VERIFY aa61bec CI — confirm "check" passes; PR #500 ready to merge when green
 2. COPY POLISH: LeadDetailPage — "ADD TO CALENDAR" link UX + stronger fear hook on lead detail ("This lead closes in X days")
 3. FEATURE: Trade-specific scoring labels on lead cards — electrician-specific tags like "EV CHARGER — YOUR TRADE" vs generic "Trade match" labels for clarity
