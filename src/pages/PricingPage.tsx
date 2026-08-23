@@ -58,14 +58,14 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="Run the scanner before you commit. See real current notices, trade fit and official source links. Empty means no match found, or coverage was unavailable for your trade at scan time."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty result when no match or no coverage']}
+          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Honest coverage check — thin result means no match at scan time']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
         />
         <PlanCard
           title="Pilot — £39/mo"
           price="£39/mo"
           priceNote="Locked at founder rate. Cancel any month."
-          body="Full evidence, buyer, value, deadline and response route — available after firm profile activation. BID, WATCH, SUBCONTRACT or SKIP recommendation on every matched notice. Cancel any month, no contract, no renewal sting."
+          body="Full evidence, buyer, value, deadline and response route — available after firm profile activation (takes under 2 minutes). BID, WATCH, SUBCONTRACT or SKIP recommendation on every matched notice. Cancel any month, no contract, no renewal sting."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
