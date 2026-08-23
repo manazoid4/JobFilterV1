@@ -67,6 +67,9 @@ export function registerOutcomeReportRoute(app: Express) {
 
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
+      if (!areaPrefix) {
+        return res.status(400).json({ ok: false, error: 'postcode query parameter required.' });
+      }
 
       const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, areaPrefix);
 
