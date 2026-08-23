@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
+import { parseUkPostcode } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -61,17 +62,21 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
-      const rows = await readOutcomeRows();
-      const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = rows.filter((o) => {
-        if (o.status !== 'won') return false;
-        if (!areaPrefix || !o.postcode_outward) return true;
-        return String(o.postcode_outward).toUpperCase().startsWith(areaPrefix);
-      });
+      if (!supabase) {
+        return res.json({ ok: false, error: 'Outcome storage is not configured.' });
+      }
 
-      const totalWonCount = won.length;
-      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
+      // Use the shared postcode parser: validates structure, strips inward suffix,
+      // and rejects unrecognised area prefixes (e.g. X10, ZZ99).
+      let postcodePrefix: string;
+      try {
+        postcodePrefix = parseUkPostcode(String(req.query.postcode || '')).outward;
+      } catch {
+        return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
+      }
+
+      // Exact match on postcode_outward — no % suffix so B1 does not match B10/B11/…/B19.
+      const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, postcodePrefix);
 
       return res.json({
         ok: true,
@@ -162,6 +167,55 @@ export function registerOutcomeReportRoute(app: Express) {
   });
 }
 
+async function fetchWonAreaStats(
+  db: typeof supabase,
+  areaPrefix: string
+): Promise<{ count: number; totalValue: number }> {
+  if (!db) return { count: 0, totalValue: 0 };
+
+  // Match outward-only values (e.g. "B14"), legacy spaced full postcodes (e.g. "B14 7QH"),
+  // and legacy compact full postcodes (e.g. "B147QH") stored before write-normalisation.
+  const postcodeFilter = areaPrefix
+    ? `postcode_outward.ilike.${areaPrefix},postcode_outward.ilike.${areaPrefix} %,postcode_outward.ilike.${areaPrefix}___`
+    : null;
+
+  // Prefer a single server-side aggregate (PostgREST 12+ with db-aggregates-enabled).
+  // If the setting is off, the query returns an error — fall through to paginated fetch.
+  try {
+    const base = db.from('lead_outcomes').select('count(), won_value.sum()').eq('status', 'won');
+    const { data, error } = postcodeFilter
+      ? await base.or(postcodeFilter)
+      : await base;
+    if (!error && data) {
+      const row = (data as Array<Record<string, unknown>>)[0] ?? {};
+      return { count: Number(row['count'] ?? 0), totalValue: Number(row['sum'] ?? 0) };
+    }
+  } catch {
+    // aggregate functions disabled — fall through
+  }
+
+  // Paginated fallback: iterate all matching rows in 1,000-row pages.
+  let count = 0;
+  let totalValue = 0;
+  let from = 0;
+  const PAGE = 1000;
+  for (;;) {
+    const base = db.from('lead_outcomes').select('won_value').eq('status', 'won').range(from, from + PAGE - 1);
+    const { data, error } = postcodeFilter
+      ? await base.or(postcodeFilter)
+      : await base;
+    if (error) throw new Error(error.message);
+    const rows = data ?? [];
+    count += rows.length;
+    totalValue += rows.reduce((s: number, o: { won_value: unknown }) => s + Number(o.won_value ?? 0), 0);
+    // Advance by rows received (not the fixed PAGE constant) so a server-configured
+    // max-rows cap below 1,000 doesn't cause a premature early exit.
+    if (rows.length === 0) break;
+    from += rows.length;
+  }
+  return { count, totalValue };
+}
+
 function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: string) {
   return {
     lead_id: String(body.leadId),
@@ -170,7 +224,7 @@ function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: 
     title: body.title ?? 'Unknown job',
     trade: body.trade ?? null,
     location: body.location ?? null,
-    postcode_outward: body.postcodeOutward ?? body.postcode ?? null,
+    postcode_outward: normaliseOutwardCode(body.postcodeOutward ?? body.postcode),
     status,
     won_value: toMoneyInt(body.wonValue ?? body.value),
     lost_reason: status === 'lost' ? body.lostReason ?? null : null,
@@ -219,6 +273,17 @@ async function readOutcomeRows() {
     .limit(1000);
   if (error) throw new Error(error.message);
   return data ?? [];
+}
+
+function normaliseOutwardCode(value: unknown): string | null {
+  if (value === undefined || value === null || value === '') return null;
+  const s = String(value).toUpperCase().trim();
+  // Full postcode with or without space (e.g. "B14 7QH" or "B147QH") → extract outward part.
+  const full = s.match(/^([A-Z]{1,2}[0-9][0-9A-Z]?)\s*[0-9][A-Z]{2}$/);
+  if (full) return full[1];
+  // Already a valid outward code.
+  if (/^[A-Z]{1,2}[0-9][0-9A-Z]?$/.test(s)) return s;
+  return null;
 }
 
 function toMoneyInt(value: unknown) {

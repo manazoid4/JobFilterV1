@@ -98,7 +98,7 @@ export function ForYourTradePage() {
           {[
             ['First in. Not fifth.', 'You see jobs 3–5 days before they appear on Checkatrade, Bark, or MyBuilder. The first call wins.'],
             ['Proof, not promises.', 'Every signal links to a verified source — planning ref, tender number, or official record. Not a form fill from someone price-shopping.'],
-            ['Gold lands. Noise stays out.', 'Gold leads go straight to your WhatsApp. Bronze signals stay off your phone until your diary has space for them.'],
+            ['Your patch. Your timing.', 'Scan your patch and Gold leads appear in seconds. One tap sends to WhatsApp. No five-trade blast, no shared auction. Pilot patches are limited — one trade per area, qualification checked.'],
           ].map(([title, body]) => (
             <article key={title} className="border-2 border-[var(--line)] bg-[var(--bg-main)] p-4">
               <h3 className="headline text-2xl">{title}</h3>
