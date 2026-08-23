@@ -70,7 +70,7 @@ export function registerOutcomeReportRoute(app: Express) {
 
       const baseQuery = supabase
         .from('lead_outcomes')
-        .select('won_value, postcode_outward')
+        .select('count(), won_value.sum()')
         .eq('status', 'won');
 
       const { data, error } = areaPrefix
@@ -79,9 +79,10 @@ export function registerOutcomeReportRoute(app: Express) {
 
       if (error) throw new Error(error.message);
 
-      const won = data ?? [];
-      const totalWonCount = won.length;
-      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
+      // Aggregate query returns exactly one row; values arrive as numbers from PostgREST
+      const row = (data as Array<Record<string, unknown>>)[0] ?? {};
+      const totalWonCount = Number(row['count'] ?? 0);
+      const totalValue = Number(row['sum'] ?? 0);
 
       return res.json({
         ok: true,
