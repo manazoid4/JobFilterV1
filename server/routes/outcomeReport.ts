@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
+import { parseUkPostcode } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -65,14 +66,12 @@ export function registerOutcomeReportRoute(app: Express) {
         return res.json({ ok: false, error: 'Outcome storage is not configured.' });
       }
 
-      const rawPostcode = String(req.query.postcode || '').toUpperCase().trim();
-      // If a compact full postcode arrived without a space (e.g. B147QH → B14),
-      // strip the 3-char inward suffix first so we query the correct outward code.
-      const fullPostcodeMatch = rawPostcode.match(/^([A-Z]{1,2}[0-9][0-9A-Z]?)\s*[0-9][A-Z]{2}$/);
-      const postcodePrefix = fullPostcodeMatch ? fullPostcodeMatch[1] : rawPostcode.slice(0, 4);
-      // Require a complete, valid UK outward code (1–2 letters + 1–2 digits/alphanums, end-anchored)
-      // to reject injected wildcards (e.g. B1%% passes a start-only regex but fails this one).
-      if (!/^[A-Z]{1,2}[0-9][0-9A-Z]?$/.test(postcodePrefix)) {
+      // Use the shared postcode parser: validates structure, strips inward suffix,
+      // and rejects unrecognised area prefixes (e.g. X10, ZZ99).
+      let postcodePrefix: string;
+      try {
+        postcodePrefix = parseUkPostcode(String(req.query.postcode || '')).outward;
+      } catch {
         return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
 
