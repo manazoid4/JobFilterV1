@@ -70,9 +70,9 @@ export function registerOutcomeReportRoute(app: Express) {
       // strip the 3-char inward suffix first so we query the correct outward code.
       const fullPostcodeMatch = rawPostcode.match(/^([A-Z]{1,2}[0-9][0-9A-Z]?)\s*[0-9][A-Z]{2}$/);
       const postcodePrefix = fullPostcodeMatch ? fullPostcodeMatch[1] : rawPostcode.slice(0, 4);
-      // Require a plausible UK outward code (1–2 letters then a digit) to prevent
-      // wildcard injection (e.g. ?postcode=%%) reaching the filter.
-      if (!/^[A-Z]{1,2}[0-9]/.test(postcodePrefix)) {
+      // Require a complete, valid UK outward code (1–2 letters + 1–2 digits/alphanums, end-anchored)
+      // to reject injected wildcards (e.g. B1%% passes a start-only regex but fails this one).
+      if (!/^[A-Z]{1,2}[0-9][0-9A-Z]?$/.test(postcodePrefix)) {
         return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
 
@@ -219,7 +219,7 @@ function buildOutcomeRow(body: any, status: OutcomeStatus, now: string, userId: 
     title: body.title ?? 'Unknown job',
     trade: body.trade ?? null,
     location: body.location ?? null,
-    postcode_outward: body.postcodeOutward ?? body.postcode ?? null,
+    postcode_outward: normaliseOutwardCode(body.postcodeOutward ?? body.postcode),
     status,
     won_value: toMoneyInt(body.wonValue ?? body.value),
     lost_reason: status === 'lost' ? body.lostReason ?? null : null,
@@ -268,6 +268,17 @@ async function readOutcomeRows() {
     .limit(1000);
   if (error) throw new Error(error.message);
   return data ?? [];
+}
+
+function normaliseOutwardCode(value: unknown): string | null {
+  if (value === undefined || value === null || value === '') return null;
+  const s = String(value).toUpperCase().trim();
+  // Full postcode with or without space (e.g. "B14 7QH" or "B147QH") → extract outward part.
+  const full = s.match(/^([A-Z]{1,2}[0-9][0-9A-Z]?)\s*[0-9][A-Z]{2}$/);
+  if (full) return full[1];
+  // Already a valid outward code.
+  if (/^[A-Z]{1,2}[0-9][0-9A-Z]?$/.test(s)) return s;
+  return null;
 }
 
 function toMoneyInt(value: unknown) {
