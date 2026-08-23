@@ -65,18 +65,18 @@ export function registerOutcomeReportRoute(app: Express) {
         return res.json({ ok: false, error: 'Outcome storage is not configured.' });
       }
 
-      const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
+      const rawPostcode = String(req.query.postcode || '').toUpperCase().trim();
+      // If a compact full postcode arrived without a space (e.g. B147QH → B14),
+      // strip the 3-char inward suffix first so we query the correct outward code.
+      const fullPostcodeMatch = rawPostcode.match(/^([A-Z]{1,2}[0-9][0-9A-Z]?)\s*[0-9][A-Z]{2}$/);
+      const postcodePrefix = fullPostcodeMatch ? fullPostcodeMatch[1] : rawPostcode.slice(0, 4);
       // Require a plausible UK outward code (1–2 letters then a digit) to prevent
-      // wildcard injection (e.g. ?postcode=%%) reaching the ILIKE filter.
-      // Test postcodePrefix, not a 2-char slice — two-letter areas (SW17, LS1, BS4)
-      // have their digit at position 2 or 3, not within the first 2 chars.
+      // wildcard injection (e.g. ?postcode=%%) reaching the filter.
       if (!/^[A-Z]{1,2}[0-9]/.test(postcodePrefix)) {
         return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
 
-      // Use the full outward code (e.g. B14, SW17) as the ILIKE prefix so
-      // single-letter areas (B%) don't accidentally match unrelated two-letter
-      // areas (BA, BB, BD…). ILIKE 'B14%' is exact at the district level.
+      // Exact match on postcode_outward — no % suffix so B1 does not match B10/B11/…/B19.
       const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, postcodePrefix);
 
       return res.json({
@@ -179,7 +179,7 @@ async function fetchWonAreaStats(
   try {
     const base = db.from('lead_outcomes').select('count(), won_value.sum()').eq('status', 'won');
     const { data, error } = areaPrefix
-      ? await base.ilike('postcode_outward', `${areaPrefix}%`)
+      ? await base.ilike('postcode_outward', areaPrefix)
       : await base;
     if (!error && data) {
       const row = (data as Array<Record<string, unknown>>)[0] ?? {};
@@ -197,7 +197,7 @@ async function fetchWonAreaStats(
   for (;;) {
     const base = db.from('lead_outcomes').select('won_value').eq('status', 'won').range(from, from + PAGE - 1);
     const { data, error } = areaPrefix
-      ? await base.ilike('postcode_outward', `${areaPrefix}%`)
+      ? await base.ilike('postcode_outward', areaPrefix)
       : await base;
     if (error) throw new Error(error.message);
     const rows = data ?? [];
