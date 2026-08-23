@@ -66,12 +66,14 @@ export function registerOutcomeReportRoute(app: Express) {
       }
 
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const areaPrefix = postcodePrefix.slice(0, 2);
-      // Require a plausible UK outward prefix (1–2 letters then a digit) to prevent
-      // wildcard injection (e.g. ?postcode=%%) from reaching the ILIKE filter.
-      if (!/^[A-Z]{1,2}[0-9]/.test(areaPrefix)) {
+      // Require a plausible UK outward code (1–2 letters then a digit) to prevent
+      // wildcard injection (e.g. ?postcode=%%) reaching the ILIKE filter.
+      // Test postcodePrefix, not a 2-char slice — two-letter areas (SW17, LS1, BS4)
+      // have their digit at position 2 or 3, not within the first 2 chars.
+      if (!/^[A-Z]{1,2}[0-9]/.test(postcodePrefix)) {
         return res.status(400).json({ ok: false, error: 'Valid UK postcode required.' });
       }
+      const areaPrefix = postcodePrefix.match(/^[A-Z]{1,2}/)?.[0] ?? '';
 
       const { count: totalWonCount, totalValue } = await fetchWonAreaStats(supabase, areaPrefix);
 
