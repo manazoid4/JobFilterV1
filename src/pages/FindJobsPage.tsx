@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'All 3 free scans used — contact details and job value locked until Monday.'}
+                : 'All 3 free scans used — upgrade to unlock contact details and full lead value.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -498,7 +498,7 @@ export function FindJobsPage() {
           </label>
           <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
-            {loading ? 'SCANNING...' : 'SCAN NOW →'}
+            {loading ? 'SCANNING...' : `SCAN ${titleCase(trade).toUpperCase()} NOW →`}
           </button>
         </form>
 
