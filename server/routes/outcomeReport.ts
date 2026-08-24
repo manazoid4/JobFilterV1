@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
+import { outwardFromPostcode } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -61,13 +62,13 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
-      const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const areaPrefix = postcodePrefix.slice(0, 2);
+      const outward = outwardFromPostcode(String(req.query.postcode || ''));
+      const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
       const { wonCount: totalWonCount, totalValue } = await readWonStatsByArea(areaPrefix);
 
       return res.json({
         ok: true,
-        postcodeArea: postcodePrefix || 'UK',
+        postcodeArea: areaPrefix || 'UK',
         wonCount: totalWonCount,
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
