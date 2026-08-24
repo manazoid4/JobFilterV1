@@ -237,7 +237,8 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
     .select('won_count:count(), won_value_sum:won_value.sum()')
     .eq('status', 'won')
     .filter('postcode_outward', 'imatch', areaFilter)
-    .not('user_id', 'is', null);
+    .not('user_id', 'is', null)
+    .not('won_value', 'is', null);
 
   if (aggError) throw new Error(aggError.message);
   const row = (aggData as any)?.[0] ?? {};
@@ -257,6 +258,7 @@ async function countDistinctContributors(areaFilter: string, target: number): Pr
       .eq('status', 'won')
       .filter('postcode_outward', 'imatch', areaFilter)
       .not('user_id', 'is', null)
+      .not('won_value', 'is', null)
       .limit(1);
     if (seen.length > 0) {
       query = query.not('user_id', 'in', `(${seen.join(',')})`);
