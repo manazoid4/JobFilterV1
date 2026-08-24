@@ -210,7 +210,7 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
     .select('won_count:count(), won_value_sum:won_value.sum()')
     .eq('status', 'won');
   if (areaPrefix) {
-    query = query.ilike('postcode_outward', `${areaPrefix}%`);
+    query = query.filter('postcode_outward', 'imatch', `^${areaPrefix}[0-9]`);
   }
   const { data, error } = await query;
   if (error) throw new Error(error.message);
