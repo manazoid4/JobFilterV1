@@ -44,6 +44,9 @@ jobs:
       - name: Lead quality regression
         run: npx tsx tests/regression/lead-engine-quality-regression.mjs
 
+      - name: Revenue Rescue demo contract
+        run: npm run test:v2-demo
+
       - name: Find a Tender OCDS regression
         run: npm run test:fts
 
