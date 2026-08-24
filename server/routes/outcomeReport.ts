@@ -236,7 +236,8 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
     .from('lead_outcomes')
     .select('won_count:count(), won_value_sum:won_value.sum()')
     .eq('status', 'won')
-    .filter('postcode_outward', 'imatch', areaFilter);
+    .filter('postcode_outward', 'imatch', areaFilter)
+    .not('user_id', 'is', null);
 
   if (aggError) throw new Error(aggError.message);
   const row = (aggData as any)?.[0] ?? {};
