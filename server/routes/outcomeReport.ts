@@ -63,10 +63,7 @@ export function registerOutcomeReportRoute(app: Express) {
     try {
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = await readWonRowsByArea(areaPrefix);
-
-      const totalWonCount = won.length;
-      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
+      const { wonCount: totalWonCount, totalValue } = await readWonStatsByArea(areaPrefix);
 
       return res.json({
         ok: true,
@@ -205,18 +202,22 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
   return data?.user_id === userId;
 }
 
-async function readWonRowsByArea(areaPrefix: string) {
-  if (!supabase) return [] as any[];
-  let query = supabase
+async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number }> {
+  if (!supabase) return { wonCount: 0, totalValue: 0 };
+  let query = (supabase as any)
     .from('lead_outcomes')
-    .select('won_value, postcode_outward')
+    .select('count(), won_value.sum()')
     .eq('status', 'won');
   if (areaPrefix) {
     query = query.ilike('postcode_outward', `${areaPrefix}%`);
   }
   const { data, error } = await query;
   if (error) throw new Error(error.message);
-  return data ?? [];
+  const row = (data as any)?.[0] ?? {};
+  return {
+    wonCount: Number(row.count ?? 0),
+    totalValue: Number(row.won_value_sum ?? 0),
+  };
 }
 
 async function readOutcomeRows() {
