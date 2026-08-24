@@ -61,14 +61,9 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
-      const rows = await readOutcomeRows();
       const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
       const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = rows.filter((o) => {
-        if (o.status !== 'won') return false;
-        if (!areaPrefix || !o.postcode_outward) return true;
-        return String(o.postcode_outward).toUpperCase().startsWith(areaPrefix);
-      });
+      const won = await readWonRowsByArea(areaPrefix);
 
       const totalWonCount = won.length;
       const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
@@ -208,6 +203,20 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
   if (!supabase) return false;
   const { data } = await supabase.from('leads').select('user_id').eq('id', leadId).maybeSingle();
   return data?.user_id === userId;
+}
+
+async function readWonRowsByArea(areaPrefix: string) {
+  if (!supabase) return [] as any[];
+  let query = supabase
+    .from('lead_outcomes')
+    .select('won_value, postcode_outward')
+    .eq('status', 'won');
+  if (areaPrefix) {
+    query = query.ilike('postcode_outward', `${areaPrefix}%`);
+  }
+  const { data, error } = await query;
+  if (error) throw new Error(error.message);
+  return data ?? [];
 }
 
 async function readOutcomeRows() {
