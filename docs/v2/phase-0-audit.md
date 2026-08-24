@@ -36,7 +36,7 @@ No production configuration, database, subscription, message or deployment was c
 
 | Severity | Verification | Finding | Required action |
 |---|---|---|---|
-| CRITICAL | VERIFIED in source | WhatsApp webhook authentication is optional when `WHATSAPP_APP_SECRET` is missing. It also logs sender/message PII and treats a failed outbound fetch as success. | Keep WhatsApp disabled. Before enablement, require the signature secret, use constant-time comparison, deduplicate inbound IDs, persist delivery attempts and remove message-body logs. |
+| CRITICAL | VERIFIED in source; contained on this branch | WhatsApp webhook authentication was optional when `WHATSAPP_APP_SECRET` was missing. It also logged sender/message PII and treated a failed outbound fetch as success. | This branch makes inbound WhatsApp disabled by default, requires the secret, uses constant-time signature comparison, removes message-body logs and surfaces delivery failure. Durable inbound deduplication/outbox work is still required before enablement. |
 | CRITICAL | UNVERIFIABLE remotely | The repository has user-scoped RLS migrations, but the applied remote schema and two-user isolation were not tested. | Link a non-production Supabase branch and run an adversarial two-user suite before any V2 tenant data is applied. |
 | HIGH | VERIFIED in schema | The current model is user-owned, not organisation-owned. There are no organisation or membership tables for multi-user firms. | Design organisations/memberships now; apply physical tables only after the commercial gate. |
 | HIGH | VERIFIED in source | Public intake uses service-role writes and stores phone, postcode and IP. Rate limiting depends on the database insert/count/delete path and fails open when Supabase is unavailable. | Replace with an atomic database function or durable rate-limit boundary before live acquisition traffic. |
@@ -57,4 +57,3 @@ Gate 0 is **not fully passed**. The local build/security baseline is verified, b
 5. Vercel and Supabase plan/backup confirmation.
 
 Safe work may continue on synthetic, no-send, no-payment sales demonstrations and documentation. Live messaging, production migrations, pricing replacement and customer-data writes remain gated.
-

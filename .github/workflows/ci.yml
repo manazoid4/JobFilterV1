@@ -47,6 +47,9 @@ jobs:
       - name: Revenue Rescue demo contract
         run: npm run test:v2-demo
 
+      - name: WhatsApp webhook security regression
+        run: npm run test:whatsapp-security
+
       - name: Find a Tender OCDS regression
         run: npm run test:fts
 

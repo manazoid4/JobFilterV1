@@ -11,6 +11,7 @@
     "clean": "rm -rf .next dist",
     "lint": "tsc --noEmit",
     "test:v2-demo": "tsx tests/regression/revenue-rescue-demo-regression.mjs",
+    "test:whatsapp-security": "tsx tests/regression/whatsapp-webhook-security-regression.mjs",
     "test:fts": "tsx tests/regression/fts-ocds-regression.mjs",
     "benchmark:fts": "tsx scripts/fts-benchmark.ts",
     "gate:fts": "tsx scripts/fts-coverage-gate.ts",
