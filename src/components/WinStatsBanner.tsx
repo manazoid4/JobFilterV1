@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TrendingUp } from 'lucide-react';
 
 interface WinStats {
@@ -12,15 +12,16 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
   const [loaded, setLoaded] = useState(false);
 
+  const outward = useMemo(() => postcode.trim().split(' ')[0].toUpperCase(), [postcode]);
+
   useEffect(() => {
-    if (!postcode.trim()) {
+    if (!outward) {
       setStats(null);
       setLoaded(false);
       return;
     }
     setStats(null);
     setLoaded(false);
-    const outward = postcode.trim().split(' ')[0].toUpperCase();
     const controller = new AbortController();
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
       .then((r) => r.json())
@@ -32,7 +33,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
         if (err instanceof Error && err.name !== 'AbortError') setLoaded(true);
       });
     return () => controller.abort();
-  }, [postcode]);
+  }, [outward]);
 
   if (!loaded || !stats) return null;
 
