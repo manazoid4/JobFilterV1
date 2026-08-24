@@ -17,6 +17,8 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
       setLoaded(false);
       return;
     }
+    setStats(null);
+    setLoaded(false);
     const outward = postcode.trim().split(' ')[0].toUpperCase();
     const controller = new AbortController();
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
