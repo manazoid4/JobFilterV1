@@ -882,7 +882,7 @@ export function FindJobsPage() {
             EVERY WEEK YOU DON&apos;T SCAN IS WORK YOUR COMPETITORS ARE PRICING.
           </h2>
           <p className="mt-4 font-black text-white/75">
-            Planning approvals, energy ratings, contract notices — scored for your trade before Checkatrade, Bark, or MyBuilder list the same job.
+            Planning approvals, energy ratings, contract notices — scored for your trade from official sources, before the job reaches the quote sites.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => {
