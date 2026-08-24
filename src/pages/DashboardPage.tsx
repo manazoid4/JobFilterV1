@@ -122,9 +122,9 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
   return (
     <section className="jf-box bg-white p-5">
       <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
-      <h2 className="headline mt-1 text-2xl leading-none">WATCH FOR MATCHING PUBLIC OPPORTUNITIES</h2>
+      <h2 className="headline mt-1 text-2xl leading-none">GET ALERTED WHEN JOBS HIT YOUR AREA</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Save a trade, outward postcode, radius and preferred check frequency. Alerts report matching public notices when configured; availability and delivery depend on the current source and account setup.
+        Save your trade and area. When matching jobs appear in official sources, you get an alert — before Checkatrade, Bark, or MyBuilder list the same work.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
@@ -192,7 +192,7 @@ const LOST_REASON_TIPS: Record<LostReason, string> = {
   competition: 'Use published award information and incumbent history, where available, to sharpen the next decision.',
   not_interested: 'Record why the opportunity stopped fitting your firm so similar notices can be qualified more accurately.',
   went_elsewhere: 'Review the award notice or buyer feedback when available, then record what changed the outcome.',
-  other: 'Keep logging the reason behind each outcome — more decision evidence makes the next review more useful.',
+  other: 'Keep logging why each job was won or lost — the more you track, the clearer your win rate gets.',
 };
 
 export function DashboardPage() {
@@ -549,13 +549,13 @@ export function DashboardPage() {
           <p className="headline mt-3 text-2xl leading-none">YOUR ACTIVE OPPORTUNITIES</p>
           <div className="mt-4 grid gap-3 text-sm">
             <Row label="Active" value={`${activeChase} decisions`} />
-            <Row label="Not actioned" value={`${notContacted} need review`} />
+            <Row label="Not called yet" value={`${notContacted} need a call`} />
             <Row label="Won" value={`${chaseWons} closed`} />
             {overdueCount > 0 && <Row label="Overdue" value={`${overdueCount} need attention`} />}
           </div>
           {activeChase === 0 && (
             <p className="mt-3 border-t border-[var(--line)] pt-3 text-xs font-black text-[var(--muted)]">
-              Track an opportunity from Find Opportunities so its decision evidence and next action stay visible here.
+              Run a scan on Find Jobs and click TRACK THIS LEAD — it appears here so you can log calls, set reminders, and mark won or lost.
             </p>
           )}
         </section>
