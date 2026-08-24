@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import crypto from 'crypto';
 import { getSupabaseServiceClient } from '../../../../src/lib/supabase/server';
+import { isValidMetaSignature } from '../../../../src/lib/whatsappSignature';
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
@@ -15,15 +16,19 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (process.env.WHATSAPP_INBOUND_ENABLED !== 'true') {
+    return new NextResponse('WhatsApp inbound is disabled', { status: 503 });
+  }
+
   const raw = await request.text();
   const appSecret = process.env.WHATSAPP_APP_SECRET;
 
-  if (appSecret) {
-    const signature = request.headers.get('x-hub-signature-256');
-    const expected = `sha256=${crypto.createHmac('sha256', appSecret).update(raw).digest('hex')}`;
-    if (!signature || signature !== expected) {
-      return new NextResponse('Invalid signature', { status: 403 });
-    }
+  if (!appSecret) {
+    return new NextResponse('WhatsApp signature verification is not configured', { status: 503 });
+  }
+
+  if (!isValidMetaSignature(raw, request.headers.get('x-hub-signature-256'), appSecret)) {
+    return new NextResponse('Invalid signature', { status: 403 });
   }
 
   const body = (() => { try { return JSON.parse(raw); } catch { return null; } })();
@@ -35,8 +40,6 @@ export async function POST(request: NextRequest) {
     
     // Ignore status updates
     if (!text) return NextResponse.json({ ok: true });
-    
-    console.log(`[whatsapp/webhook] incoming from ${fromPhone}: ${text}`);
     
     // Simple Rule-Based Receptionist
     const postcodeRegex = /[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}/i;
@@ -68,7 +71,7 @@ export async function POST(request: NextRequest) {
         replyText = "Hi! I'm the automated receptionist. To help us get you a quote quickly, please reply with:\n1. The type of work you need\n2. Your postcode\n3. When you need it done";
       }
       
-      await fetch(`https://graph.facebook.com/v21.0/${phoneId}/messages`, {
+      const response = await fetch(`https://graph.facebook.com/v21.0/${phoneId}/messages`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -80,8 +83,18 @@ export async function POST(request: NextRequest) {
             to: fromPhone,
             type: 'text',
             text: { preview_url: false, body: replyText }
-          })
-      }).catch(console.error);
+          }),
+          signal: AbortSignal.timeout(8_000),
+      }).catch(() => null);
+
+      if (!response?.ok) {
+        console.error('[whatsapp/webhook] outbound reply failed', { status: response?.status ?? 0 });
+        // The intake row may already exist. A retriable response here would let Meta
+        // repeat the event and duplicate side effects until a durable inbox/outbox is live.
+        return NextResponse.json({ received: true, replyDelivered: false });
+      }
+    } else {
+      return NextResponse.json({ ok: false, error: 'WhatsApp delivery is not configured' }, { status: 503 });
     }
   }
 
