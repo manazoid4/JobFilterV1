@@ -64,7 +64,16 @@ export function registerOutcomeReportRoute(app: Express) {
     try {
       const outward = outwardFromPostcode(String(req.query.postcode || ''));
       const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
-      const { wonCount: totalWonCount, totalValue } = await readWonStatsByArea(areaPrefix);
+      const { wonCount: totalWonCount, totalValue, suppressed } = await readWonStatsByArea(areaPrefix);
+
+      let message: string;
+      if (suppressed) {
+        message = 'Wins logged in your area — details stay private until more trades track jobs. Be the next to log one.';
+      } else if (totalWonCount > 0) {
+        message = `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`;
+      } else {
+        message = 'Be the first trade in your area to log a win.';
+      }
 
       return res.json({
         ok: true,
@@ -72,9 +81,8 @@ export function registerOutcomeReportRoute(app: Express) {
         wonCount: totalWonCount,
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
-        message: totalWonCount > 0
-          ? `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`
-          : 'Be the first trade in your area to log a win.',
+        suppressed,
+        message,
       });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Stats failed.') });
@@ -205,9 +213,9 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
 
 const SMALL_AREA_PRIVACY_THRESHOLD = 3;
 
-async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number }> {
-  if (!supabase) return { wonCount: 0, totalValue: 0 };
-  if (!areaPrefix) return { wonCount: 0, totalValue: 0 };
+async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number; suppressed: boolean }> {
+  if (!supabase) return { wonCount: 0, totalValue: 0, suppressed: false };
+  if (!areaPrefix) return { wonCount: 0, totalValue: 0, suppressed: false };
 
   const { data, error } = await (supabase as any)
     .from('lead_outcomes')
@@ -220,9 +228,11 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   const wonCount = Number(row.won_count ?? 0);
   const totalValue = Number(row.won_value_sum ?? 0);
 
-  if (wonCount < SMALL_AREA_PRIVACY_THRESHOLD) return { wonCount: 0, totalValue: 0 };
+  if (wonCount > 0 && wonCount < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: true };
+  }
 
-  return { wonCount, totalValue };
+  return { wonCount, totalValue, suppressed: false };
 }
 
 async function readOutcomeRows() {

@@ -5,6 +5,7 @@ interface WinStats {
   wonCount: number;
   totalValueFormatted: string;
   message: string;
+  suppressed?: boolean;
 }
 
 export function WinStatsBanner({ postcode }: { postcode: string }) {
@@ -34,6 +35,15 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   }, [postcode]);
 
   if (!loaded || !stats) return null;
+
+  if (stats.suppressed) {
+    return (
+      <div className="flex items-center gap-3 border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
+        <TrendingUp className="w-5 h-5 shrink-0 text-[var(--muted)]" />
+        <p className="text-sm font-black text-[var(--muted)]">{stats.message}</p>
+      </div>
+    );
+  }
 
   if (stats.wonCount === 0) {
     return (
