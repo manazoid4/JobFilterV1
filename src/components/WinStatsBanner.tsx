@@ -12,7 +12,10 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const outward = useMemo(() => postcode.trim().split(' ')[0].toUpperCase(), [postcode]);
+  const outward = useMemo(() => {
+    const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(?:\d[A-Z]{2})?$/)?.[1] ?? '';
+  }, [postcode]);
 
   useEffect(() => {
     if (!outward) {
