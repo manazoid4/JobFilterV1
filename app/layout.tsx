@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* ── Site-wide announcement bar ── */}
           <Link href="/find-jobs" className="flex items-center justify-center gap-2 border-b-2 border-[var(--yellow)] bg-[var(--ink)] px-4 py-2 text-center text-xs font-black text-white hover:bg-[var(--yellow)] hover:text-[var(--ink)] transition-colors group">
             <span className="h-2 w-2 rounded-full bg-[var(--yellow)] group-hover:bg-[var(--ink)] shrink-0" aria-hidden="true" />
-            <span>Scan public works near your postcode — <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">free, no card needed</span> · Check if your firm qualifies before spending bid time</span>
+            <span>Scan live public works near your postcode — <span className="text-[var(--yellow)] group-hover:text-[var(--ink)]">free, no card needed</span> · See what's active for your trade before spending bid time</span>
           </Link>
           <TopNav />
           {children}
