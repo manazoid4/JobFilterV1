@@ -14,13 +14,17 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   useEffect(() => {
     if (!postcode.trim()) return;
     const outward = postcode.trim().split(' ')[0].toUpperCase();
-    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
+    const controller = new AbortController();
+    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
         if (data.ok) setStats(data);
         setLoaded(true);
       })
-      .catch(() => { setLoaded(true); });
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name !== 'AbortError') setLoaded(true);
+      });
+    return () => controller.abort();
   }, [postcode]);
 
   if (!loaded || !stats) return null;
