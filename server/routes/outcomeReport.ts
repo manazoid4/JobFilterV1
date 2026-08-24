@@ -206,7 +206,7 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   if (!supabase) return { wonCount: 0, totalValue: 0 };
   let query = (supabase as any)
     .from('lead_outcomes')
-    .select('count(), won_value.sum()')
+    .select('won_count:count(), won_value_sum:won_value.sum()')
     .eq('status', 'won');
   if (areaPrefix) {
     query = query.ilike('postcode_outward', `${areaPrefix}%`);
@@ -215,7 +215,7 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   if (error) throw new Error(error.message);
   const row = (data as any)?.[0] ?? {};
   return {
-    wonCount: Number(row.count ?? 0),
+    wonCount: Number(row.won_count ?? 0),
     totalValue: Number(row.won_value_sum ?? 0),
   };
 }
