@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
-import { outwardFromPostcode, regionFromOutward } from '../utils/postcode';
+import { outwardFromPostcode, isKnownUkArea } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -67,7 +67,7 @@ export function registerOutcomeReportRoute(app: Express) {
       }
       const outward = outwardFromPostcode(String(req.query.postcode || ''));
       const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
-      if (!areaPrefix || regionFromOutward(outward) === 'United Kingdom') {
+      if (!areaPrefix || !isKnownUkArea(areaPrefix)) {
         return res.json({ ok: true, available: false });
       }
       const { wonCount: totalWonCount, totalValue, suppressed } = await readWonStatsByArea(areaPrefix);
