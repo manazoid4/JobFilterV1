@@ -1,7 +1,7 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
-import { outwardFromPostcode } from '../utils/postcode';
+import { outwardFromPostcode, regionFromOutward } from '../utils/postcode';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -67,7 +67,7 @@ export function registerOutcomeReportRoute(app: Express) {
       }
       const outward = outwardFromPostcode(String(req.query.postcode || ''));
       const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
-      if (!areaPrefix) {
+      if (!areaPrefix || regionFromOutward(outward) === 'United Kingdom') {
         return res.json({ ok: true, available: false });
       }
       const { wonCount: totalWonCount, totalValue, suppressed } = await readWonStatsByArea(areaPrefix);
@@ -224,35 +224,50 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   const client = supabase!;
   const areaFilter = `^${areaPrefix}[0-9]`;
 
-  const [aggResult, userResult] = await Promise.all([
-    (client as any)
-      .from('lead_outcomes')
-      .select('won_count:count(), won_value_sum:won_value.sum()')
-      .eq('status', 'won')
-      .filter('postcode_outward', 'imatch', areaFilter),
-    client
+  const { data: aggData, error: aggError } = await (client as any)
+    .from('lead_outcomes')
+    .select('won_count:count(), won_value_sum:won_value.sum()')
+    .eq('status', 'won')
+    .filter('postcode_outward', 'imatch', areaFilter);
+
+  if (aggError) throw new Error(aggError.message);
+  const row = (aggData as any)?.[0] ?? {};
+  const wonCount = Number(row.won_count ?? 0);
+  const totalValue = Number(row.won_value_sum ?? 0);
+
+  if (wonCount === 0) {
+    return { wonCount: 0, totalValue: 0, suppressed: false };
+  }
+
+  const distinctUsers = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD);
+  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: true };
+  }
+
+  return { wonCount, totalValue, suppressed: false };
+}
+
+async function countDistinctContributors(areaFilter: string, target: number): Promise<number> {
+  const client = supabase!;
+  const seen: string[] = [];
+  for (let i = 0; i < target; i++) {
+    let query: any = (client as any)
       .from('lead_outcomes')
       .select('user_id')
       .eq('status', 'won')
       .filter('postcode_outward', 'imatch', areaFilter)
-      .limit(500),
-  ]);
-
-  if (aggResult.error) throw new Error(aggResult.error.message);
-  if (userResult.error) throw new Error(userResult.error.message);
-
-  const row = (aggResult.data as any)?.[0] ?? {};
-  const wonCount = Number(row.won_count ?? 0);
-  const totalValue = Number(row.won_value_sum ?? 0);
-  const distinctUsers = new Set(
-    (userResult.data ?? []).map((r: any) => r.user_id).filter(Boolean),
-  ).size;
-
-  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
-    return { wonCount: 0, totalValue: 0, suppressed: wonCount > 0 };
+      .not('user_id', 'is', null)
+      .limit(1);
+    if (seen.length > 0) {
+      query = query.not('user_id', 'in', `(${seen.join(',')})`);
+    }
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    const userId = (data as any)?.[0]?.user_id;
+    if (!userId) return seen.length;
+    seen.push(userId);
   }
-
-  return { wonCount, totalValue, suppressed: false };
+  return seen.length;
 }
 
 async function readOutcomeRows() {
