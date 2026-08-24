@@ -74,4 +74,3 @@ export function formatDemoMoney(minorUnits: number) {
     currency: REVENUE_RESCUE_DEMO.currency,
   }).format(minorUnits / 100);
 }
-

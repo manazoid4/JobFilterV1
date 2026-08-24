@@ -21,4 +21,3 @@
 - Keep provider diagnostics, raw event payloads and advanced settings out of the default operator view.
 - Show evidence for money and delivery claims: timestamps, provider state, quote version and attribution source.
 - At 320–430px, workflows become one column without horizontal scrolling or truncated action copy.
-

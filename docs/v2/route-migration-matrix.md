@@ -19,4 +19,3 @@ No route is deleted during the foundation slice. `KEEP` means the URL remains st
 | ADD | `/demo/revenue-rescue` | Synthetic, no-send sales walkthrough; `noindex` until the product gate passes |
 
 All existing API paths remain `KEEP` during the foundation slice. The App Router and legacy `/api/[[...path]]` Express catch-all require endpoint-by-endpoint ownership before consolidation.
-

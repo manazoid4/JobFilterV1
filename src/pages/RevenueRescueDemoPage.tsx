@@ -140,4 +140,3 @@ function SummaryRow({ term, value }: { term: string; value: string }) {
     </div>
   );
 }
-

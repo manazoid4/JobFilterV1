@@ -1,7 +1,9 @@
 # JobFilter V2 Phase 0 audit
 
-Date: 24 August 2026  
-Branch: `agents/jobfilter-v2-foundation`  
+Date: 24 August 2026
+
+Branch: `agents/jobfilter-v2-foundation`
+
 Base: `origin/main` at `5489192`
 
 ## Access statement

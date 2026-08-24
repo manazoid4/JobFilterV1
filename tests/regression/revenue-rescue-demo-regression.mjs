@@ -27,4 +27,3 @@ assert.ok(
 );
 
 console.log('revenue rescue demo regression passed');
-
