@@ -203,22 +203,26 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
   return data?.user_id === userId;
 }
 
+const SMALL_AREA_PRIVACY_THRESHOLD = 3;
+
 async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number }> {
   if (!supabase) return { wonCount: 0, totalValue: 0 };
-  let query = (supabase as any)
+  if (!areaPrefix) return { wonCount: 0, totalValue: 0 };
+
+  const { data, error } = await (supabase as any)
     .from('lead_outcomes')
     .select('won_count:count(), won_value_sum:won_value.sum()')
-    .eq('status', 'won');
-  if (areaPrefix) {
-    query = query.filter('postcode_outward', 'imatch', `^${areaPrefix}[0-9]`);
-  }
-  const { data, error } = await query;
+    .eq('status', 'won')
+    .filter('postcode_outward', 'imatch', `^${areaPrefix}[0-9]`);
+
   if (error) throw new Error(error.message);
   const row = (data as any)?.[0] ?? {};
-  return {
-    wonCount: Number(row.won_count ?? 0),
-    totalValue: Number(row.won_value_sum ?? 0),
-  };
+  const wonCount = Number(row.won_count ?? 0);
+  const totalValue = Number(row.won_value_sum ?? 0);
+
+  if (wonCount < SMALL_AREA_PRIVACY_THRESHOLD) return { wonCount: 0, totalValue: 0 };
+
+  return { wonCount, totalValue };
 }
 
 async function readOutcomeRows() {
