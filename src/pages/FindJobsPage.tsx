@@ -437,7 +437,7 @@ export function FindJobsPage() {
                 ? weeklyScansUsed === 0
                   ? `3 free scans this week — no credit card required`
                   : `${weeklyScansRemaining} free scan${weeklyScansRemaining === 1 ? '' : 's'} left this week`
-                : 'Buyer and submission context locked. Scanning remains free.'}
+                : 'All 3 free scans used — upgrade to unlock contact details and full lead value.'}
             </p>
             {weeklyScansRemaining === 0 ? (
               <Link href="/pricing" className="ml-auto shrink-0 border-2 border-[var(--ink)] bg-[var(--yellow)] px-3 py-1 text-xs font-black uppercase text-[var(--ink)] hover:opacity-90 transition whitespace-nowrap">UNLOCK — £39/MO →</Link>
@@ -484,19 +484,11 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Form — postcode + trade + radius so users always see their trade before scanning */}
-        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
+        {/* Form — postcode + radius; trade is selected via the preset buttons below */}
+        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-[1fr_auto_auto]">
           <label htmlFor="scan-postcode" className="field-label">
-            Postcode
+            Your postcode
             <input id="scan-postcode" name="postal-code" autoComplete="postal-code" ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} aria-invalid={postcodeRequired} aria-describedby={postcodeRequired ? 'scan-postcode-error' : undefined} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" required />
-          </label>
-          <label htmlFor="scan-trade" className="field-label">
-            Trade
-            <select id="scan-trade" name="trade" value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
-              {TRADE_PRESETS.map((p) => (
-                <option key={p.trade} value={p.trade}>{p.label}</option>
-              ))}
-            </select>
           </label>
           <label htmlFor="scan-radius" className="field-label">
             Radius
@@ -506,7 +498,7 @@ export function FindJobsPage() {
           </label>
           <button type="submit" disabled={loading || fillWeekLoading} className="jf-button self-end bg-[var(--yellow)] text-[var(--ink)] disabled:opacity-60">
             <Search aria-hidden="true" focusable="false" className="w-4 h-4 mr-2 inline-block" />
-            {loading ? 'SCANNING...' : 'SCAN NOW →'}
+            {loading ? 'SCANNING...' : `SCAN ${titleCase(trade).toUpperCase()} NOW →`}
           </button>
         </form>
 
@@ -531,9 +523,9 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Trade presets — tap to scan by trade once postcode is entered */}
+        {/* Trade presets — the primary way to select trade and start a scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">PICK YOUR TRADE</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
@@ -905,7 +897,7 @@ export function FindJobsPage() {
   );
 }
 
-function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boolean }> {
+function parseTradeReasons(raw: string[], title?: string, trade?: string): Array<{ label: string; highlight: boolean }> {
   const out: Array<{ label: string; highlight: boolean }> = [];
   for (const r of raw) {
     const tradeMatch = r.match(/^Trade match: (.+?) \(/);
@@ -938,7 +930,15 @@ function parseTradeReasons(raw: string[]): Array<{ label: string; highlight: boo
       continue;
     }
   }
-  return out.length > 0 ? out.slice(0, 5) : [{ label: 'Verified signal', highlight: false }];
+  if (out.length > 0) return out.slice(0, 5);
+  // Fallback: derive specific label from lead title or trade rather than generic "Verified signal"
+  const titleUpper = (title ?? '').toUpperCase();
+  for (const kw of TITLE_KEYWORDS) {
+    if (titleUpper.includes(kw)) return [{ label: kw, highlight: false }];
+  }
+  const tradeName = (trade ?? '').trim().toUpperCase();
+  if (tradeName) return [{ label: `${tradeName} JOB`, highlight: false }];
+  return [{ label: 'Verified signal', highlight: false }];
 }
 
 const TITLE_KEYWORDS = [
@@ -1132,7 +1132,7 @@ function getSourceMix(sources?: LeadSearchResponse['sources']): string {
 
 function LeadResultCard({ lead, onWhatsapp, whatsappSent, isTracked, onTrack, isOwner }: { key?: string; lead: Lead; onWhatsapp: () => void; whatsappSent: boolean; isTracked: boolean; onTrack: () => void; isOwner?: boolean }) {
   const rawReasons = lead.reasons?.length ? lead.reasons : [];
-  const parsedReasons = parseTradeReasons(rawReasons);
+  const parsedReasons = parseTradeReasons(rawReasons, lead.title, String(lead.trade || lead.tradeMatch || ''));
   const cardOpenAccess = OPEN_ACCESS || hasDevUnlock() || !!isOwner;
   const [showScoreReasons, setShowScoreReasons] = useState(false);
   const deadline = deadlineCountdown(lead.deadlineAt);
