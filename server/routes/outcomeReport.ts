@@ -2,6 +2,7 @@ import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
 import { outwardFromPostcode, isKnownUkArea } from '../utils/postcode';
+import { rateLimit } from '../middleware/rateLimit';
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -60,7 +61,7 @@ export function registerOutcomeReportRoute(app: Express) {
     }
   });
 
-  app.get('/api/wins/stats', async (req: Request, res: Response) => {
+  app.get('/api/wins/stats', rateLimit, async (req: Request, res: Response) => {
     try {
       if (!supabase) {
         return res.status(503).json({ ok: false, error: 'Supabase is not configured; stats are unavailable.' });

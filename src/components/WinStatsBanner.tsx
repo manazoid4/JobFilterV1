@@ -12,13 +12,13 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const outward = useMemo(() => {
+  const area = useMemo(() => {
     const cleaned = postcode.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    return cleaned.match(/^([A-Z]{1,2}\d[A-Z\d]?)(?:\d[A-Z]{2})?$/)?.[1] ?? '';
+    return cleaned.match(/^([A-Z]{1,2})(?=\d)/)?.[1] ?? '';
   }, [postcode]);
 
   useEffect(() => {
-    if (!outward) {
+    if (!area) {
       setStats(null);
       setLoaded(false);
       return;
@@ -26,7 +26,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
     setStats(null);
     setLoaded(false);
     const controller = new AbortController();
-    fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
+    fetch(`/api/wins/stats?postcode=${encodeURIComponent(`${area}1`)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
         if (data.ok && data.available !== false) setStats(data);
@@ -36,7 +36,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
         if (err instanceof Error && err.name !== 'AbortError') setLoaded(true);
       });
     return () => controller.abort();
-  }, [outward]);
+  }, [area]);
 
   if (!loaded || !stats) return null;
 
