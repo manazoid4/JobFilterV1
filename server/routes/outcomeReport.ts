@@ -224,6 +224,14 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   const client = supabase!;
   const areaFilter = `^${areaPrefix}[0-9]`;
 
+  const distinctUsers = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD);
+  if (distinctUsers === 0) {
+    return { wonCount: 0, totalValue: 0, suppressed: false };
+  }
+  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: true };
+  }
+
   const { data: aggData, error: aggError } = await (client as any)
     .from('lead_outcomes')
     .select('won_count:count(), won_value_sum:won_value.sum()')
@@ -234,15 +242,6 @@ async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: numbe
   const row = (aggData as any)?.[0] ?? {};
   const wonCount = Number(row.won_count ?? 0);
   const totalValue = Number(row.won_value_sum ?? 0);
-
-  if (wonCount === 0) {
-    return { wonCount: 0, totalValue: 0, suppressed: false };
-  }
-
-  const distinctUsers = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD);
-  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
-    return { wonCount: 0, totalValue: 0, suppressed: true };
-  }
 
   return { wonCount, totalValue, suppressed: false };
 }
