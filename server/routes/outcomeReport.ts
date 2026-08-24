@@ -1,6 +1,10 @@
 import type { Express, Request, Response } from 'express';
 import { supabase } from '../lib/supabase';
 import { resolveRequestAccess, type RequestAccess } from '../lib/requestAuth';
+import { outwardFromPostcode, isKnownUkArea } from '../utils/postcode';
+import { rateLimit, makeRateLimit } from '../middleware/rateLimit';
+
+const rateLimitStats = makeRateLimit(60);
 
 const OUTCOME_STATUSES = new Set([
   'delivered',
@@ -59,29 +63,39 @@ export function registerOutcomeReportRoute(app: Express) {
     }
   });
 
-  app.get('/api/wins/stats', async (req: Request, res: Response) => {
+  app.get('/api/wins/stats', rateLimitStats, async (req: Request, res: Response) => {
     try {
-      const rows = await readOutcomeRows();
-      const postcodePrefix = String(req.query.postcode || '').toUpperCase().slice(0, 4).trim();
-      const areaPrefix = postcodePrefix.slice(0, 2);
-      const won = rows.filter((o) => {
-        if (o.status !== 'won') return false;
-        if (!areaPrefix || !o.postcode_outward) return true;
-        return String(o.postcode_outward).toUpperCase().startsWith(areaPrefix);
-      });
+      if (!supabase) {
+        return res.status(503).json({ ok: false, error: 'Supabase is not configured; stats are unavailable.' });
+      }
+      const outward = outwardFromPostcode(String(req.query.postcode || ''));
+      const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
+      if (!areaPrefix || !isKnownUkArea(areaPrefix)) {
+        return res.json({ ok: true, available: false });
+      }
+      const { wonCount: totalWonCount, totalValue, suppressed, valueSuppressed } = await readWonStatsByArea(areaPrefix);
 
-      const totalWonCount = won.length;
-      const totalValue = won.reduce((sum, o) => sum + Number(o.won_value ?? 0), 0);
+      let message: string;
+      if (suppressed) {
+        message = 'Wins logged in your area — details stay private until more trades track jobs. Be the next to log one.';
+      } else if (totalWonCount > 0 && !valueSuppressed && totalValue > 0) {
+        message = `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`;
+      } else if (totalWonCount > 0) {
+        message = `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area logged wins via JobFilter`;
+      } else {
+        message = 'Be the first trade in your area to log a win.';
+      }
 
       return res.json({
         ok: true,
-        postcodeArea: postcodePrefix || 'UK',
+        available: true,
+        postcodeArea: areaPrefix,
         wonCount: totalWonCount,
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
-        message: totalWonCount > 0
-          ? `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`
-          : 'Be the first trade in your area to log a win.',
+        suppressed,
+        valueSuppressed,
+        message,
       });
     } catch (error: any) {
       return res.status(500).json({ ok: false, error: String(error?.message ?? 'Stats failed.') });
@@ -208,6 +222,74 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
   if (!supabase) return false;
   const { data } = await supabase.from('leads').select('user_id').eq('id', leadId).maybeSingle();
   return data?.user_id === userId;
+}
+
+const SMALL_AREA_PRIVACY_THRESHOLD = 3;
+
+async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number; suppressed: boolean; valueSuppressed: boolean }> {
+  const client = supabase!;
+  const areaFilter = `^${areaPrefix}[0-9]`;
+
+  const distinctWinContributors = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD, { requireValue: false });
+  if (distinctWinContributors === 0) {
+    return { wonCount: 0, totalValue: 0, suppressed: false, valueSuppressed: false };
+  }
+  if (distinctWinContributors < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: true, valueSuppressed: true };
+  }
+
+  const distinctValueContributors = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD, { requireValue: true });
+  const valueSuppressed = distinctValueContributors < SMALL_AREA_PRIVACY_THRESHOLD;
+
+  const { data: countData, error: countError } = await (client as any)
+    .from('lead_outcomes')
+    .select('won_count:count()')
+    .eq('status', 'won')
+    .filter('postcode_outward', 'imatch', areaFilter)
+    .not('user_id', 'is', null);
+  if (countError) throw new Error(countError.message);
+  const wonCount = Number((countData as any)?.[0]?.won_count ?? 0);
+
+  let totalValue = 0;
+  if (!valueSuppressed) {
+    const { data: sumData, error: sumError } = await (client as any)
+      .from('lead_outcomes')
+      .select('won_value_sum:won_value.sum()')
+      .eq('status', 'won')
+      .filter('postcode_outward', 'imatch', areaFilter)
+      .not('user_id', 'is', null)
+      .gt('won_value', 0);
+    if (sumError) throw new Error(sumError.message);
+    totalValue = Number((sumData as any)?.[0]?.won_value_sum ?? 0);
+  }
+
+  return { wonCount, totalValue, suppressed: false, valueSuppressed };
+}
+
+async function countDistinctContributors(areaFilter: string, target: number, opts: { requireValue: boolean }): Promise<number> {
+  const client = supabase!;
+  const seen: string[] = [];
+  for (let i = 0; i < target; i++) {
+    let query: any = (client as any)
+      .from('lead_outcomes')
+      .select('user_id')
+      .eq('status', 'won')
+      .filter('postcode_outward', 'imatch', areaFilter)
+      .not('user_id', 'is', null)
+      .limit(1);
+    if (opts.requireValue) {
+      query = query.gt('won_value', 0);
+    }
+    if (seen.length > 0) {
+      query = query.not('user_id', 'in', `(${seen.join(',')})`);
+    }
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+    const userId = (data as any)?.[0]?.user_id;
+    if (!userId) return seen.length;
+    seen.push(userId);
+  }
+  return seen.length;
 }
 
 async function readOutcomeRows() {

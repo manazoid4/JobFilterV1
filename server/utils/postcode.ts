@@ -2,6 +2,35 @@ const UK_POSTCODE =
   /^([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})$/i;
 const UK_OUTWARD = /^([A-Z]{1,2}\d[A-Z\d]?)$/i;
 
+const KNOWN_UK_AREAS = new Set<string>([
+  'AB', 'AL', 'B', 'BA', 'BB', 'BD', 'BF', 'BH', 'BL', 'BN', 'BR', 'BS', 'BT',
+  'CA', 'CB', 'CF', 'CH', 'CM', 'CO', 'CR', 'CT', 'CV', 'CW',
+  'DA', 'DD', 'DE', 'DG', 'DH', 'DL', 'DN', 'DT', 'DY',
+  'E', 'EC', 'EH', 'EN', 'EX',
+  'FK', 'FY',
+  'G', 'GL', 'GU', 'GY',
+  'HA', 'HD', 'HG', 'HP', 'HR', 'HS', 'HU', 'HX',
+  'IG', 'IM', 'IP', 'IV',
+  'JE',
+  'KA', 'KT', 'KW', 'KY',
+  'L', 'LA', 'LD', 'LE', 'LL', 'LN', 'LS', 'LU',
+  'M', 'ME', 'MK', 'ML',
+  'N', 'NE', 'NG', 'NN', 'NP', 'NR', 'NW',
+  'OL', 'OX',
+  'PA', 'PE', 'PH', 'PL', 'PO', 'PR',
+  'RG', 'RH', 'RM',
+  'S', 'SA', 'SE', 'SG', 'SK', 'SL', 'SM', 'SN', 'SO', 'SP', 'SR', 'SS', 'ST', 'SW', 'SY',
+  'TA', 'TD', 'TF', 'TN', 'TQ', 'TR', 'TS', 'TW',
+  'UB',
+  'W', 'WA', 'WC', 'WD', 'WF', 'WN', 'WR', 'WS', 'WV',
+  'YO',
+  'ZE',
+]);
+
+export function isKnownUkArea(area: string) {
+  return KNOWN_UK_AREAS.has(area.toUpperCase());
+}
+
 const REGION_BY_PREFIX: Array<[RegExp, string]> = [
   [/^(BT)/, 'Northern Ireland'],
   [/^(B|CV|DY|WS|WV)/, 'West Midlands'],
