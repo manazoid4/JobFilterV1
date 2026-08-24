@@ -12,7 +12,11 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!postcode.trim()) return;
+    if (!postcode.trim()) {
+      setStats(null);
+      setLoaded(false);
+      return;
+    }
     const outward = postcode.trim().split(' ')[0].toUpperCase();
     const controller = new AbortController();
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
