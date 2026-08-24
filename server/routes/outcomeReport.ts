@@ -70,13 +70,15 @@ export function registerOutcomeReportRoute(app: Express) {
       if (!areaPrefix || !isKnownUkArea(areaPrefix)) {
         return res.json({ ok: true, available: false });
       }
-      const { wonCount: totalWonCount, totalValue, suppressed } = await readWonStatsByArea(areaPrefix);
+      const { wonCount: totalWonCount, totalValue, suppressed, valueSuppressed } = await readWonStatsByArea(areaPrefix);
 
       let message: string;
       if (suppressed) {
         message = 'Wins logged in your area — details stay private until more trades track jobs. Be the next to log one.';
-      } else if (totalWonCount > 0) {
+      } else if (totalWonCount > 0 && !valueSuppressed && totalValue > 0) {
         message = `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area won jobs worth £${totalValue.toLocaleString()} via JobFilter`;
+      } else if (totalWonCount > 0) {
+        message = `${totalWonCount} trade${totalWonCount === 1 ? '' : 's'} in your area logged wins via JobFilter`;
       } else {
         message = 'Be the first trade in your area to log a win.';
       }
@@ -89,6 +91,7 @@ export function registerOutcomeReportRoute(app: Express) {
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
         suppressed,
+        valueSuppressed,
         message,
       });
     } catch (error: any) {
@@ -220,35 +223,47 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
 
 const SMALL_AREA_PRIVACY_THRESHOLD = 3;
 
-async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number; suppressed: boolean }> {
+async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number; suppressed: boolean; valueSuppressed: boolean }> {
   const client = supabase!;
   const areaFilter = `^${areaPrefix}[0-9]`;
 
-  const distinctUsers = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD);
-  if (distinctUsers === 0) {
-    return { wonCount: 0, totalValue: 0, suppressed: false };
+  const distinctWinContributors = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD, { requireValue: false });
+  if (distinctWinContributors === 0) {
+    return { wonCount: 0, totalValue: 0, suppressed: false, valueSuppressed: false };
   }
-  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
-    return { wonCount: 0, totalValue: 0, suppressed: true };
+  if (distinctWinContributors < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: true, valueSuppressed: true };
   }
 
-  const { data: aggData, error: aggError } = await (client as any)
+  const distinctValueContributors = await countDistinctContributors(areaFilter, SMALL_AREA_PRIVACY_THRESHOLD, { requireValue: true });
+  const valueSuppressed = distinctValueContributors < SMALL_AREA_PRIVACY_THRESHOLD;
+
+  const { data: countData, error: countError } = await (client as any)
     .from('lead_outcomes')
-    .select('won_count:count(), won_value_sum:won_value.sum()')
+    .select('won_count:count()')
     .eq('status', 'won')
     .filter('postcode_outward', 'imatch', areaFilter)
-    .not('user_id', 'is', null)
-    .not('won_value', 'is', null);
+    .not('user_id', 'is', null);
+  if (countError) throw new Error(countError.message);
+  const wonCount = Number((countData as any)?.[0]?.won_count ?? 0);
 
-  if (aggError) throw new Error(aggError.message);
-  const row = (aggData as any)?.[0] ?? {};
-  const wonCount = Number(row.won_count ?? 0);
-  const totalValue = Number(row.won_value_sum ?? 0);
+  let totalValue = 0;
+  if (!valueSuppressed) {
+    const { data: sumData, error: sumError } = await (client as any)
+      .from('lead_outcomes')
+      .select('won_value_sum:won_value.sum()')
+      .eq('status', 'won')
+      .filter('postcode_outward', 'imatch', areaFilter)
+      .not('user_id', 'is', null)
+      .not('won_value', 'is', null);
+    if (sumError) throw new Error(sumError.message);
+    totalValue = Number((sumData as any)?.[0]?.won_value_sum ?? 0);
+  }
 
-  return { wonCount, totalValue, suppressed: false };
+  return { wonCount, totalValue, suppressed: false, valueSuppressed };
 }
 
-async function countDistinctContributors(areaFilter: string, target: number): Promise<number> {
+async function countDistinctContributors(areaFilter: string, target: number, opts: { requireValue: boolean }): Promise<number> {
   const client = supabase!;
   const seen: string[] = [];
   for (let i = 0; i < target; i++) {
@@ -258,8 +273,10 @@ async function countDistinctContributors(areaFilter: string, target: number): Pr
       .eq('status', 'won')
       .filter('postcode_outward', 'imatch', areaFilter)
       .not('user_id', 'is', null)
-      .not('won_value', 'is', null)
       .limit(1);
+    if (opts.requireValue) {
+      query = query.not('won_value', 'is', null);
+    }
     if (seen.length > 0) {
       query = query.not('user_id', 'in', `(${seen.join(',')})`);
     }
