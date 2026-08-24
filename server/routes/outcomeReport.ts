@@ -62,8 +62,14 @@ export function registerOutcomeReportRoute(app: Express) {
 
   app.get('/api/wins/stats', async (req: Request, res: Response) => {
     try {
+      if (!supabase) {
+        return res.status(503).json({ ok: false, error: 'Supabase is not configured; stats are unavailable.' });
+      }
       const outward = outwardFromPostcode(String(req.query.postcode || ''));
       const areaPrefix = outward.match(/^[A-Z]+/)?.[0] ?? '';
+      if (!areaPrefix) {
+        return res.json({ ok: true, available: false });
+      }
       const { wonCount: totalWonCount, totalValue, suppressed } = await readWonStatsByArea(areaPrefix);
 
       let message: string;
@@ -77,7 +83,8 @@ export function registerOutcomeReportRoute(app: Express) {
 
       return res.json({
         ok: true,
-        postcodeArea: areaPrefix || 'UK',
+        available: true,
+        postcodeArea: areaPrefix,
         wonCount: totalWonCount,
         totalValue,
         totalValueFormatted: `£${totalValue.toLocaleString()}`,
@@ -214,22 +221,35 @@ async function leadIsOwnedBy(leadId: string, userId: string) {
 const SMALL_AREA_PRIVACY_THRESHOLD = 3;
 
 async function readWonStatsByArea(areaPrefix: string): Promise<{ wonCount: number; totalValue: number; suppressed: boolean }> {
-  if (!supabase) return { wonCount: 0, totalValue: 0, suppressed: false };
-  if (!areaPrefix) return { wonCount: 0, totalValue: 0, suppressed: false };
+  const client = supabase!;
+  const areaFilter = `^${areaPrefix}[0-9]`;
 
-  const { data, error } = await (supabase as any)
-    .from('lead_outcomes')
-    .select('won_count:count(), won_value_sum:won_value.sum()')
-    .eq('status', 'won')
-    .filter('postcode_outward', 'imatch', `^${areaPrefix}[0-9]`);
+  const [aggResult, userResult] = await Promise.all([
+    (client as any)
+      .from('lead_outcomes')
+      .select('won_count:count(), won_value_sum:won_value.sum()')
+      .eq('status', 'won')
+      .filter('postcode_outward', 'imatch', areaFilter),
+    client
+      .from('lead_outcomes')
+      .select('user_id')
+      .eq('status', 'won')
+      .filter('postcode_outward', 'imatch', areaFilter)
+      .limit(500),
+  ]);
 
-  if (error) throw new Error(error.message);
-  const row = (data as any)?.[0] ?? {};
+  if (aggResult.error) throw new Error(aggResult.error.message);
+  if (userResult.error) throw new Error(userResult.error.message);
+
+  const row = (aggResult.data as any)?.[0] ?? {};
   const wonCount = Number(row.won_count ?? 0);
   const totalValue = Number(row.won_value_sum ?? 0);
+  const distinctUsers = new Set(
+    (userResult.data ?? []).map((r: any) => r.user_id).filter(Boolean),
+  ).size;
 
-  if (wonCount > 0 && wonCount < SMALL_AREA_PRIVACY_THRESHOLD) {
-    return { wonCount: 0, totalValue: 0, suppressed: true };
+  if (distinctUsers < SMALL_AREA_PRIVACY_THRESHOLD) {
+    return { wonCount: 0, totalValue: 0, suppressed: wonCount > 0 };
   }
 
   return { wonCount, totalValue, suppressed: false };

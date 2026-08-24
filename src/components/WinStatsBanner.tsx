@@ -25,7 +25,7 @@ export function WinStatsBanner({ postcode }: { postcode: string }) {
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((data) => {
-        if (data.ok) setStats(data);
+        if (data.ok && data.available !== false) setStats(data);
         setLoaded(true);
       })
       .catch((err: unknown) => {
