@@ -484,19 +484,11 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Form — postcode + trade + radius so users always see their trade before scanning */}
-        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_auto]">
+        {/* Form — postcode + radius; trade is selected via the preset buttons below */}
+        <form onSubmit={submit} aria-busy={loading || fillWeekLoading} className="mt-5 grid gap-3 grid-cols-1 sm:grid-cols-[1fr_auto_auto]">
           <label htmlFor="scan-postcode" className="field-label">
-            Postcode
+            Your postcode
             <input id="scan-postcode" name="postal-code" autoComplete="postal-code" ref={postcodeRef} value={postcode} onChange={(event) => { setPostcode(event.target.value.toUpperCase()); setPostcodeRequired(false); }} aria-invalid={postcodeRequired} aria-describedby={postcodeRequired ? 'scan-postcode-error' : undefined} className={`field-input ${postcodeRequired ? 'border-[var(--orange)] ring-2 ring-[var(--orange)]/30' : ''}`} placeholder="e.g. B14 7QH" required />
-          </label>
-          <label htmlFor="scan-trade" className="field-label">
-            Trade
-            <select id="scan-trade" name="trade" value={trade} onChange={(event) => setTrade(event.target.value as Trade)} className="field-input">
-              {TRADE_PRESETS.map((p) => (
-                <option key={p.trade} value={p.trade}>{p.label}</option>
-              ))}
-            </select>
           </label>
           <label htmlFor="scan-radius" className="field-label">
             Radius
@@ -531,9 +523,9 @@ export function FindJobsPage() {
           </div>
         )}
 
-        {/* Trade presets — tap to scan by trade once postcode is entered */}
+        {/* Trade presets — the primary way to select trade and start a scan */}
         <div className="mt-4">
-          <p className="micro-label text-[var(--muted)]">TAP A TRADE TO SCAN INSTANTLY</p>
+          <p className="micro-label text-[var(--muted)]">PICK YOUR TRADE</p>
           <div className="mt-2 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {TRADE_PRESETS.map((preset) => (
               <button
