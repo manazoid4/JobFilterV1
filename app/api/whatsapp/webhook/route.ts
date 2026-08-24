@@ -89,7 +89,9 @@ export async function POST(request: NextRequest) {
 
       if (!response?.ok) {
         console.error('[whatsapp/webhook] outbound reply failed', { status: response?.status ?? 0 });
-        return NextResponse.json({ ok: false, error: 'Outbound reply failed' }, { status: 502 });
+        // The intake row may already exist. A retriable response here would let Meta
+        // repeat the event and duplicate side effects until a durable inbox/outbox is live.
+        return NextResponse.json({ received: true, replyDelivered: false });
       }
     } else {
       return NextResponse.json({ ok: false, error: 'WhatsApp delivery is not configured' }, { status: 503 });

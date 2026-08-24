@@ -19,5 +19,7 @@ assert.match(routeSource, /if \(!appSecret\)/);
 assert.match(routeSource, /isValidMetaSignature/);
 assert.doesNotMatch(routeSource, /incoming from/);
 assert.match(routeSource, /response\?\.ok/);
+assert.match(routeSource, /received: true, replyDelivered: false/);
+assert.doesNotMatch(routeSource, /Outbound reply failed' \}, \{ status: 502/);
 
 console.log('whatsapp webhook security regression passed');
