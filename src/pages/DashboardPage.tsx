@@ -124,7 +124,7 @@ function AlertSetupWidget({ scanTrade, scanPostcode }: { scanTrade: string | nul
       <p className="micro-label text-[var(--muted)]">OPPORTUNITY ALERTS</p>
       <h2 className="headline mt-1 text-2xl leading-none">GET ALERTED WHEN JOBS HIT YOUR AREA</h2>
       <p className="mt-2 text-sm font-bold text-[var(--muted)]">
-        Save your trade and area. When matching jobs appear in official sources, you get an alert — before Checkatrade, Bark, or MyBuilder list the same work.
+        Save your trade and area. When your alerts are active, matching jobs from official sources are flagged to you — before Checkatrade, Bark, or MyBuilder list the same work.
       </p>
 
       <form onSubmit={e => void create(e)} className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-end">
