@@ -9,18 +9,30 @@ interface WinStats {
 
 export function WinStatsBanner({ postcode }: { postcode: string }) {
   const [stats, setStats] = useState<WinStats | null>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (!postcode.trim()) return;
     const outward = postcode.trim().split(' ')[0].toUpperCase();
     fetch(`/api/wins/stats?postcode=${encodeURIComponent(outward)}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.ok && data.wonCount > 0) setStats(data);
+        if (data.ok) setStats(data);
+        setLoaded(true);
       })
-      .catch(() => {});
+      .catch(() => { setLoaded(true); });
   }, [postcode]);
 
-  if (!stats) return null;
+  if (!loaded || !stats) return null;
+
+  if (stats.wonCount === 0) {
+    return (
+      <div className="flex items-center gap-3 border-2 border-[var(--line)] bg-[var(--paper)] px-4 py-3">
+        <TrendingUp className="w-5 h-5 shrink-0 text-[var(--muted)]" />
+        <p className="text-sm font-black text-[var(--muted)]">No wins logged in your area yet — be the first to track a job won.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-3 border-2 border-[var(--green)] bg-[var(--green)]/10 px-4 py-3">

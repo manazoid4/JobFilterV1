@@ -876,26 +876,15 @@ export function FindJobsPage() {
 
       {/* ── NO SCAN YET — PROMPT ───────────────────────────────────── */}
       {!hasScanned && !loading && !fillWeekLoading && (
-        <section className="jf-box bg-[var(--navy)] p-6 text-center text-white" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1.5\' fill=\'%23E3B72A\' opacity=\'0.2\'/%3E%3C/svg%3E")' }}>
-          {/* Empty map illustration */}
-          <div className="flex justify-center mb-4">
-            <svg viewBox="0 0 200 120" className="w-40 h-24 opacity-40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="10" y="10" width="180" height="100" rx="4" stroke="#E3B72A" strokeWidth="1.5" strokeDasharray="6 4" />
-              <circle cx="60" cy="45" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="100" cy="60" r="3" fill="#E3B72A" opacity="0.3" />
-              <circle cx="140" cy="40" r="3" fill="#E3B72A" opacity="0.3" />
-              <line x1="60" y1="48" x2="60" y2="70" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="100" y1="63" x2="100" y2="85" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <line x1="140" y1="43" x2="140" y2="65" stroke="#E3B72A" strokeWidth="1" opacity="0.3" />
-              <text x="100" y="105" textAnchor="middle" fill="#E3B72A" fontSize="10" fontFamily="Barlow Condensed, sans-serif" fontWeight="700" opacity="0.5">NO SIGNALS YET</text>
-            </svg>
-          </div>
-          <p className="micro-label text-[var(--yellow)]">READY?</p>
-          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">CHECK THE CURRENT PUBLIC-TENDER FEED.</h2>
-          <p className="mt-3 font-black text-white/70">
-            Tap a trade above or enter your postcode. Takes 10 seconds. No credit card required.
+        <section className="jf-box bg-[var(--navy)] p-6 text-white">
+          <p className="micro-label text-[var(--yellow)]">YOUR PATCH RIGHT NOW</p>
+          <h2 className="headline mt-3 text-3xl leading-none sm:text-5xl">
+            EVERY WEEK YOU DON&apos;T SCAN IS WORK YOUR COMPETITORS ARE PRICING.
+          </h2>
+          <p className="mt-4 font-black text-white/75">
+            Planning approvals, energy ratings, contract notices — scored for your trade before Checkatrade, Bark, or MyBuilder list the same job.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               void submit();
@@ -906,9 +895,10 @@ export function FindJobsPage() {
               if (!postcode.trim()) { setPostcodeRequired(true); postcodeRef.current?.focus(); postcodeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
               setTrade('building'); void submit(undefined, { trade: 'building' });
             }} className="jf-button bg-white text-[var(--ink)]">
-              SCAN BUILDING WORK
+              SCAN BUILDING JOBS
             </button>
           </div>
+          <p className="mt-3 text-xs font-black text-white/50 uppercase">Takes 10 seconds · No credit card required</p>
         </section>
       )}
     </main>

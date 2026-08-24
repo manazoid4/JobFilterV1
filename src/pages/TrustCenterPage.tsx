@@ -52,8 +52,8 @@ const privacyPoints = [
 ];
 
 const guaranteeFeatures = [
-  'One exclusive territory lock — your patch, nobody else in it',
-  'Unlimited lead alerts within locked territory',
+  'Your scan is private — other trades scanning the same postcode see nothing of yours',
+  'Unlimited lead alerts within your patch',
   'Unlimited WhatsApp alerts',
   'Letter drop scripts for every lead — print and post in minutes',
   'Full lead scoring + lead readiness markers',
