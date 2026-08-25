@@ -46,8 +46,8 @@ export function PricingPage() {
           For 5–25-person contractors evaluating public works. JobFilter turns current Find a Tender notices into evidence-led BID, WATCH, SUBCONTRACT or SKIP decisions.
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--yellow)] text-[var(--ink)]" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
+          <Link className="jf-button bg-[var(--yellow)] text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST — NO CARD →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
         <p className="mt-4 text-sm font-black text-[var(--yellow)]/80">Find a Tender is free and public. The subscription pays for firm-aware qualification, evidence and decision workflow.</p>
         <p className="mt-1 text-sm font-black text-white/60">No credit card required for the free scan. Run it first — if coverage is thin, the free tier stays open.</p>
@@ -58,19 +58,17 @@ export function PricingPage() {
           title="Free Scan"
           price="£0"
           body="Run the scanner before you commit. See real current notices, trade fit and official source links. Empty means no match found, or coverage was unavailable for your trade at scan time."
-          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Empty result when no match or no coverage']}
+          items={['Current Find a Tender results', 'Basic fit summary', 'Official source links', 'Honest coverage check — thin result means no match at scan time']}
           cta={<Link className="jf-button mt-5 inline-block bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE — NO CARD NEEDED →</Link>}
-          order="order-last lg:order-none"
         />
         <PlanCard
           title="Pilot — £39/mo"
           price="£39/mo"
           priceNote="Locked at founder rate. Cancel any month."
-          body="Full evidence, buyer, value, deadline and response route — available after firm profile activation. BID, WATCH, SUBCONTRACT or SKIP recommendation on every matched notice. Cancel any month, no contract, no renewal sting."
+          body="Full evidence, buyer, value, deadline and response route — available after firm profile activation (takes under 2 minutes). BID, WATCH, SUBCONTRACT or SKIP recommendation on every matched notice. Cancel any month, no contract, no renewal sting."
           items={planBullets}
           featured
           cta={<CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="mt-5 bg-[var(--yellow)] text-[var(--ink)]" />}
-          order="order-first lg:order-none"
         />
       </section>
 
@@ -141,8 +139,8 @@ export function PricingPage() {
         <p className="micro-label text-[var(--ink)]">CHECK CURRENT COVERAGE</p>
         <h2 className="headline mt-3 text-4xl leading-none md:text-6xl">VERIFY COVERAGE BEFORE YOU PAY.</h2>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-[var(--ink)] text-white" />
-          <Link className="jf-button bg-white text-[var(--ink)]" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <Link className="jf-button bg-[var(--ink)] text-white" href="/find-jobs">SCAN FREE FIRST →</Link>
+          <CheckoutButton tier="founding" billing="monthly" label="START £39/MO →" className="bg-white text-[var(--ink)]" />
         </div>
         <p className="mt-4 text-sm font-black text-[var(--ink)]/70">Official tenders are public. You pay for qualification, evidence and workflow.</p>
         <p className="mt-1 text-sm font-black text-[var(--ink)]/60">No card required for the free current-coverage check.</p>
